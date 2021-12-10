@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE Configuration [
+  <!ENTITY creeerZaak_Lk01 SYSTEM "./creeerZaak_Lk01/Translate_creeerZaak_Lk01.xml">
+  <!ENTITY geefZaakdetails_Lv01 SYSTEM "./geefZaakdetails_Lv01/Translate_geefZaakdetails_Lv01.xml">
+]>
+<Configuration name="Translate">
+  <!-- &creeerZaak_Lk01; -->
+  &geefZaakdetails_Lv01;
+</Configuration>
