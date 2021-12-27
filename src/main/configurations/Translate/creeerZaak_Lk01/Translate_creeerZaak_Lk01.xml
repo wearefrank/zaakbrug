@@ -1,14 +1,24 @@
 <Module
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">>
+  xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
   
   <Adapter name="Translate_creerZaak_Lk01">
-      <Receiver name="Translate_creerZaak_Lk01">
-          <JavaListener name="Translate_creerZaak_Lk01" />
-      </Receiver>
+	  <Receiver name="TranslateRouter_BeantwoordVraag__creerZaak_Lk01">
+			<WebServiceListener name="TranslateRouter_BeantwoordVraag__creerZaak_Lk01" address="translate/generic/zds/BeantwoordVraag" soap="true"/>
+		</Receiver>
       <Pipeline>
 
-            <EchoPipe name="tempHarcodedJwtToken" 
+			<PutInSessionPipe name="storeZdsZaak">
+				<Param name="zdsZaak" xpathExpression="/zakLk01/object[@entiteittype='ZAK']" type="xml"/>
+			</PutInSessionPipe>
+
+			<XsltPipe name="mapZdsZaakToZgwZaak" styleSheetName="creeerZaak_Lk01/xsl/to_zgwZaakPut.xsl" getInputFromSessionKey="zdsZaak" storeResultInSessionKey="zgwZaakPut">
+			<Param name="rsin" value="823288444"/>
+			</XsltPipe>
+
+			<Json2XmlValidatorPipe name="responseToJson" schema="creeerZaak_Lk01/xsd/zgwZaakPut.xsd" root="ZgwZaakPut" outputFormat="JSON" throwException="true" storeResultInSessionKey="zgwZaakPutJson"/>
+
+			<EchoPipe name="tempHarcodedJwtToken" 
                 storeResultInSessionKey="token" 
                 getInputFromFixedValue="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImNsaWVudF9pZGVudGlmaWVyIjoiRnJhbmsifQ.eyJpc3MiOiJGcmFuayIsImlhdCI6MTYzNzI0MDUzMiwiY2xpZW50X2lkIjoiRnJhbmsiLCJ1c2VyX2lkIjoiIiwidXNlcl9yZXByZXNlbnRhdGlvbiI6IiJ9.ub_zWemfV4a0gJFa8cIVfvUz_1EBl-PUBrc7qr0QDsI"
                 />
@@ -31,9 +41,9 @@
 
 			<JsonPipe name="ZaakTypeXml"/>
 
-			<PutParametersInSession name="storeZaakType">
+			<PutInSessionPipe name="storeZaakType">
 				<Param name="zaakType" xpathExpression="/root/results"/>
-			</PutParametersInSession>
+			</PutInSessionPipe>
 
 			<!--For each-->
 			<SenderPipe name="addZgwRolToZaak" getInputFromFixedValue="&lt;dummy/&gt;" storeResultInSessionKey="TODO:Keep id info for potential rollback">
