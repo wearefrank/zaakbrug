@@ -8,6 +8,13 @@
 		</Receiver>
       <Pipeline>
 
+		<FileSystemPipe 
+			name="retrieveMappingProfile" 
+			action="read" 
+			filename="TestProfile.json" 
+			storeResultInSessionKey="mappingProfile">
+		</FileSystemPipe>
+
 			<PutInSessionPipe name="storeZdsZaak">
 				<Param name="zdsZaak" xpathExpression="/zakLk01/object[@entiteittype='ZAK']" type="xml"/>
 			</PutInSessionPipe>
