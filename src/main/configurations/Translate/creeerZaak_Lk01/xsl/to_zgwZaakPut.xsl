@@ -10,12 +10,12 @@
 	</xsl:function>
 
     <xsl:function name="zgw:convertZdsDateToZgwDate" as="xs:string">
-    	<xsl:param name="zdsDate" as="xs:string"/>
+    	<xsl:param name="zdsDate" as="xs:date"/>
 		<xsl:value-of select="format-date($zdsDate, '[Y0001]-[M01]-[D01]')"/>
 	</xsl:function>
 
     <xsl:function name="zgw:convertZdsDatetimeToZgwDatetime" as="xs:string">
-    	<xsl:param name="zdsDate" as="xs:string"/>
+    	<xsl:param name="zdsDate" as="xs:dateTime"/>
 		<xsl:value-of select="format-dateTime($zdsDate, '[Y0001]-[M01]-[D01]T[H01]:[m01]:[s01]Z')"/>
 	</xsl:function>
 

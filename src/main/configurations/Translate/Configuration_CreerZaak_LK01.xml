@@ -1,0 +1,44 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+    <Adapter name="CreerZaak_Lk01"
+        active="${CreerZaak_Lk01.Active}"
+        description="">
+
+        <Receiver name="CreerZaak_Lk01">
+            <WebServiceListener name="CreerZaak_Lk01" address="${address.CreerZaak_LK01}"/>
+        </Receiver>
+
+        <Pipeline>
+            <SenderPipe
+                name="CallGetZgwZaaktype"
+                storeResultInSessionKey="GetZaaktypeResult">
+                <IbisLocalSender
+                    name="CallGetZgwZaaktypeSender"
+                    javaListener="GetZgwZaaktype">
+                    <Param name="Identificatie" xpathExpression="/root/identificatie"/>
+                </IbisLocalSender>
+                <forward name="success" path="CallGetZgwRoltype"/>
+            </SenderPipe>
+
+             <SenderPipe
+                name="CallGetZgwRoltype"
+                storeResultInSessionKey="GetRoltypeResult">
+                <IbisLocalSender
+                    name="CallGetZgwRoltypeSender"
+                    javaListener="GetZgwRoltype">
+                    <Param name="ZaaktypeUrl" xpathExpression="/root/results/url"/>
+                </IbisLocalSender>
+                <forward name="success" path="GetZgwRoltypeOmschrijving"/>
+            </SenderPipe>
+
+            <XsltPipe
+                name="GetZgwRoltypeOmschrijving"
+                styleSheetName="CreeerZaak_LK01/xsl/GetZgwRoltypeOmschrijving.xsl"
+                >
+                <Param name="Omschrijving" xpathExpression="/input/omschrijving"/>
+                <Forward name="success" path="EXIT"/>
+            </XsltPipe>
+
+            <Exit path="EXIT" state="success"/>
+        </Pipeline>
+    </Adapter>
+</Module>

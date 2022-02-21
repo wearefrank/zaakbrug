@@ -1,0 +1,36 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+    <Adapter name="GetZgwZaaktype"
+        active="${GetZgwZaaktype.Active}"
+        description="">
+
+        <Receiver name="GetZgwZaaktype">
+            <JavaListener name="GetZgwZaaktype"/>
+        </Receiver>
+
+        <Pipeline>   
+			<SenderPipe name="GetZgwZaaktypeByIdentificatie" 
+                getInputFromFixedValue="&lt;dummy/&gt;">
+				<HttpSender 
+					name="GetZgwZaaktypeByIdentificatieSender" 
+					methodType="GET"
+					headersParams="Authorization,Accept-Crs"
+					url="${zgw.baseurl}${zgw.endpoint.zaaktype}?identificatie=${Identificatie}&amp;status=${Status}"
+				/>
+                <Param name="Identificatie" sessionKey="Identificatie"/>
+                <Param name="Status" value="definitief"/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
+                    <Param name="Token" value="${JwtToken}" />
+                </Param>
+                <Forward name="success" path="JsonToXml" />
+			</SenderPipe>
+
+            <JsonPipe name="JsonToXml">
+                <forward name="success" path="EXIT"/>
+            </JsonPipe>
+
+            <Exit path="EXIT" state="success"/>
+            <Exit path="Exception" state="error"/>
+        </Pipeline>
+    </Adapter>
+</Module>
