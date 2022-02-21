@@ -1,0 +1,101 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+    <Adapter name="CreeerZaak_Lk01"
+        active="${CreeerZaak_Lk01.Active}"
+        description="">
+
+        <Receiver name="CreeerZaak_Lk01">
+            <WebServiceListener name="CreeerZaak_Lk01" address="${address.CreeerZaak_LK01}"/>
+        </Receiver>
+
+        <Pipeline>
+            <SenderPipe
+                name="CallGetZgwZaaktype"
+                storeResultInSessionKey="GetZaaktypeResult">
+                <IbisLocalSender
+                    name="CallGetZgwZaaktypeSender"
+                    javaListener="GetZgwZaaktype">
+                    <Param name="ZaaktypeCode" xpathExpression="/Envelope/Body/zakLk01/object/isVan/gerelateerde/code"/>
+                </IbisLocalSender>
+                <Forward name="success" path="GetRsin"/>
+            </SenderPipe>
+
+            <XsltPipe
+                name="GetRsin"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="GetRsinResult"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/GetRsin.xsl"
+                >
+                <Param name="heeftBetrekkingOp" xpathExpression="/Envelope/Body/zakLk01/object/heeftBetrekkingOp"/>
+                <Forward name="success" path="SetRoles"/>
+            </XsltPipe>
+
+            <XsltPipe
+                name="SetRoles"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="RolBody"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/SetRoles.xsl"
+                >
+                <Forward name="success" path="CreateZaakBody"/>
+            </XsltPipe>
+
+            <XsltPipe
+                name="CreateZaakBody"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="ZaakBody"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/PostZgwZaak.xsl"
+                >
+                <Param name="GetZaaktypeResult" sessionKey="GetZaaktypeResult" type="DOMDOC"/>
+                <Param name="GetRsinResult" sessionKey="GetRsinResult" type="DOMDOC"/>
+                <Forward name="success" path="XmlToJson"/>
+            </XsltPipe>
+
+            <JsonPipe name="XmlToJson"
+                direction="xml2json">
+                <forward name="success" path="PostZgwZaak"/>
+            </JsonPipe>
+
+            <SenderPipe name="PostZgwZaak">
+				<HttpSender 
+					name="PostZgwZaakSender" 
+					methodType="POST"
+					headersParams="Authorization,Accept-Crs"
+					url="${zgw.baseurl}${zgw.endpoint.zaak}"
+                    contentType="application/json"
+				/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Content-Crs"  value="EPSG:4326" />
+                <!-- <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
+                    <Param name="Token" value="${JwtToken}" />
+                </Param> -->
+                <Forward name="success" path="JsonToXml" />
+			</SenderPipe>
+
+            <JsonPipe name="JsonToXml"
+                storeResultInSessionKey="PostZgwZaakResult">
+                <forward name="success" path="RolMappingIterator"/>
+            </JsonPipe>
+
+            <ForEachChildElementPipe name="RolMappingIterator"
+                getInputFromSessionKey="RolBody"
+                elementXPathExpression="/roles/role">
+                <IbisLocalSender
+                    name="CallAddRolToZgw"
+                    javaListener="AddRolToZgw">
+                    <Param name="ZaaktypeUrl" xpathExpression="$GetZaaktypeResult/root/results/url">
+                        <Param name="GetZaaktypeResult" sessionKey="GetZaaktypeResult" type="DOMDOC"/>
+                    </Param>
+                    <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult"/>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+            </ForEachChildElementPipe>
+
+            <Exit path="EXIT" state="success"/>
+        </Pipeline>
+    </Adapter>
+</Module>

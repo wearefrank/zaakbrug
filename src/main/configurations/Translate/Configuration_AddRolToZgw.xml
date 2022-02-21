@@ -1,0 +1,70 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+    <Adapter name="AddRolToZgw"
+        active="${CreeerZaak_Lk01.Active}"
+        description="">
+
+        <Receiver name="AddRolToZgw">
+            <JavaListener name="AddRolToZgw"/>
+        </Receiver>
+
+        <Pipeline>
+            <XmlIfPipe
+                name="CheckForZdsGerelateerde"
+                xpathExpression="string-length(role/gerelateerde)>0"
+                thenForwardName="CallGetZgwRoltype"
+                elseForwardName="NotFound">
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="CallGetZgwRoltype"
+                storeResultInSessionKey="GetRoltypeResult">
+                <IbisLocalSender
+                    name="CallGetZgwRoltypeSender"
+                    javaListener="GetZgwRoltype">
+                    <Param name="ZaaktypeUrl" sessionKey="ZaaktypeUrl"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CreateRolBody"/>
+            </SenderPipe>
+
+            <XsltPipe
+                name="CreateRolBody"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="RolBody"
+                styleSheetName="CreeerZaak_LK01/xsl/PostZgwRol.xsl"
+                skipEmptyTags="true">
+                <Param name="GetRoltypeResult" sessionKey="GetRoltypeResult" type="DOMDOC"/>
+                <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
+                <Param name="RoltypeOmschrijving" xpathExpression="role/roltypeOmschrijving"/>
+                <Forward name="success" path="XmlToJson"/>
+            </XsltPipe>
+
+            <JsonPipe name="XmlToJson"
+                direction="xml2json">
+                <forward name="success" path="PostZgwRol"/>
+            </JsonPipe>
+
+            <SenderPipe name="PostZgwRol" 
+                storeResultInSessionKey="PostZgwRolResult">
+				<HttpSender 
+					name="PostZgwRolSender" 
+					methodType="POST"
+					headersParams="Authorization,Accept-Crs"
+					url="${zgw.baseurl}${zgw.endpoint.rol}"
+				/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <!-- <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
+                    <Param name="Token" value="${JwtToken}" />
+                </Param> -->
+                <Forward name="success" path="EXIT" />
+			</SenderPipe>
+
+            <FixedResultPipe name="NotFound"
+                returnString="zonder gerelateerde informatie"
+                >
+                <Forward name="success" path="EXIT"/>
+            </FixedResultPipe>
+
+            <Exit path="EXIT" state="success"/>
+        </Pipeline>
+    </Adapter>
+</Module>
