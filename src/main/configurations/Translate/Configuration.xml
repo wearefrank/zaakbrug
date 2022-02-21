@@ -1,14 +1,25 @@
 <!DOCTYPE configuration [
 
-  <!ENTITY Translate_CreeerZaak_Lk01                 SYSTEM "./Configuration_Translate_CreeerZaak_Lk01.xml"> 
-  <!ENTITY Translate_GeefZaakdetails_Lv01            SYSTEM "./Configuration_Translate_GeefZaakdetails_Lv01.xml"> 
+  <!-- <!ENTITY Translate_CreeerZaak_Lk01                 SYSTEM "./Configuration_Translate_CreeerZaak_Lk01.xml"> 
+  <!ENTITY Translate_GeefZaakdetails_Lv01            SYSTEM "./Configuration_Translate_GeefZaakdetails_Lv01.xml">  -->
   <!ENTITY ImportFromLocalFS                         SYSTEM "./Configuration_ImportFromLocalFS.xml"> 
+  <!ENTITY TestAdapter               SYSTEM "./Configuration_CreeerZaak.xml"> 
+  <!ENTITY AddRolToZgw               SYSTEM "./Configuration_AddRolToZgw.xml">
+  <!ENTITY CreeerZaak_Lk01               SYSTEM "./Configuration_CreeerZaak_Lk01.xml">
+  <!ENTITY GetZgwRoltype               SYSTEM "./Configuration_GetZgwRoltype.xml">
+  <!ENTITY GetZgwZaaktype               SYSTEM "./Configuration_GetZgwZaaktype.xml">
 
 ]>
 
 <configuration name="translate">
 
-  &Translate_CreeerZaak_Lk01;
-  &Translate_GeefZaakdetails_Lv01;
+  <!-- &Translate_CreeerZaak_Lk01;
+  &Translate_GeefZaakdetails_Lv01; -->
   &ImportFromLocalFS;
+  &TestAdapter;
+  &AddRolToZgw;
+  &CreeerZaak_Lk01;
+  &GetZgwRoltype;
+  &GetZgwZaaktype;
+
 </configuration>
