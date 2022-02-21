@@ -1,43 +1,4 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
-    <Adapter name="TestAdapter"
-        description="">
-
-        <Receiver name="TestAdapter">
-            <JavaListener name="TestAdapter"/>
-        </Receiver>
-
-        <Pipeline> 
-            <XmlIfPipe name="CheckForHeeftBetrekkingOp"
-                xpathExpression="/SOAP-ENV:Envelope/SOAP-ENV:Body/ZKN:zakLk01/ZKN:object/ZKN:heeftBetrekkingOpAndere/ZKN:gerelateerde[@StUF:entiteittype ='ZAK']"
-                namespaceDefs="SOAP-ENV=http://schemas.xmlsoap.org/soap/envelope/ BG=http://www.egem.nl/StUF/sector/bg/0310 StUF=http://www.egem.nl/StUF/StUF0301 ZKN=http://www.egem.nl/StUF/sector/zkn/0310" xsltVersion="2"
-                thenForwardName="AndereZaakIterator"
-                elseForwardName="NotFound">
-            </XmlIfPipe>
-
-            <ForEachChildElementPipe name="AndereZaakIterator"
-                elementXPathExpression="/Envelope/Body/zakLk01/object/heeftBetrekkingOpAndere">
-                <IbisLocalSender
-                    name="CallAndereZaakAdapter"
-                    javaListener="AndereZaakAdapter">
-                </IbisLocalSender>
-                <Forward name="success" path="EchoPipe"/>
-            </ForEachChildElementPipe>
-
-            <FixedResultPipe name="NotFound"
-                returnString="heeftBetrekkingOp is not ZAK"
-                >
-                <Forward name="success" path="EXIT"/>
-            </FixedResultPipe>
-
-            <EchoPipe name="EchoPipe" >
-                 <Forward name="success" path="EXIT" />
-            </EchoPipe>
-
-            <Exit path="EXIT" state="success"/>
-            <Exit path="Exception" state="error"/>
-        </Pipeline>
-    </Adapter>
-
     <Adapter name="AndereZaakAdapter"
         description="Handle each AndereZaak">
 
@@ -87,7 +48,7 @@
                 name="CreatePatchAndereZaakBody"
                 styleSheetName="CreeerZaak_LK01/xsl/CreateZgwAndereZaakBody.xsl"
                 >
-                <Param name="Url" sessionKey="zaken/url"/> <!-- get zaken url & uuid after post zaak -->
+                <Param name="Url" sessionKey="ZaakUrl"/> <!-- get zaken url & uuid after post zaak -->
                 <Forward name="success" path="PatchAndereZaak"/>
             </XsltPipe>
 

@@ -11,20 +11,9 @@
             <XmlIfPipe
                 name="CheckForZdsGerelateerde"
                 xpathExpression="string-length(role/gerelateerde)>0"
-                thenForwardName="CallGetZgwRoltype"
+                thenForwardName="CreateRolBody"
                 elseForwardName="NotFound">
             </XmlIfPipe>
-
-            <SenderPipe
-                name="CallGetZgwRoltype"
-                storeResultInSessionKey="GetRoltypeResult">
-                <IbisLocalSender
-                    name="CallGetZgwRoltypeSender"
-                    javaListener="GetZgwRoltype">
-                    <Param name="ZaaktypeUrl" sessionKey="ZaaktypeUrl"/>
-                </IbisLocalSender>
-                <Forward name="success" path="CreateRolBody"/>
-            </SenderPipe>
 
             <XsltPipe
                 name="CreateRolBody"
@@ -50,8 +39,10 @@
 					methodType="POST"
 					headersParams="Authorization,Accept-Crs"
 					url="${zgw.baseurl}${zgw.endpoint.rol}"
+                    contentType="application/json"
 				/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Content-Crs"  value="EPSG:4326" />
                 <!-- <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
                     <Param name="Token" value="${JwtToken}" />
                 </Param> -->
