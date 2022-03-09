@@ -9,19 +9,19 @@
 
         <Pipeline>
             <LocalFileSystemPipe name="ReadFile" action="read">
-				<param name="filename" value="${FilePath}" />
+				<param name="filename" sessionKey="FileName" />
 				<forward name="success" path="JsonToXml" />
 			</LocalFileSystemPipe>
 
             <JsonPipe name="JsonToXml">
-                <forward name="success" path="FormatXml"/>
+                <forward name="success" path="EXIT"/>
             </JsonPipe>
 
-            <XsltPipe name="FormatXml" 
+            <!-- <XsltPipe name="FormatXml" 
                 styleSheetName="CreeerZaak_Lk01/xsl/FormateGlobal.xsl" 
                 storeResultInSessionKey="MappingGlobal">
                 <forward name="success" path="EXIT"/>
-			</XsltPipe>
+			</XsltPipe> -->
             
             <Exit path="EXIT" state="success"/>
             <Exit path="Exception" state="error"/>

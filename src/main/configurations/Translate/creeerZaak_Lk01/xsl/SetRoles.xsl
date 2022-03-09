@@ -22,49 +22,49 @@
     <xsl:template match="Envelope/Body/zakLk01/object/heeftBetrekkingOp">
 		<role>
             <xsl:apply-templates select="@*|node()"/>
-            <roltypeOmschrijving>BetrekkingOp</roltypeOmschrijving>
+            <typeRolOmschrijving>BetrekkingOp</typeRolOmschrijving>
         </role>
 	</xsl:template>
 
     <xsl:template match="Envelope/Body/zakLk01/object/heeftAlsBelanghebbende">
 		<role>
             <xsl:apply-templates select="@*|node()"/>
-            <roltypeOmschrijving>Belanghebbende</roltypeOmschrijving>
+            <typeRolOmschrijving>Belanghebbende</typeRolOmschrijving>
         </role>
 	</xsl:template>
 
     <xsl:template match="Envelope/Body/zakLk01/object/heeftAlsInitiator">
 		<role>
             <xsl:apply-templates select="@*|node()"/>
-            <roltypeOmschrijving>Initiator</roltypeOmschrijving>
+            <typeRolOmschrijving>Initiator</typeRolOmschrijving>
         </role>
 	</xsl:template>
 
     <xsl:template match="Envelope/Body/zakLk01/object/heeftAlsUitvoerende">
 		<role>
             <xsl:apply-templates select="@*|node()"/>
-            <roltypeOmschrijving>Uitvoerende</roltypeOmschrijving>
+            <typeRolOmschrijving>Uitvoerende</typeRolOmschrijving>
         </role>
 	</xsl:template>
 
     <xsl:template match="Envelope/Body/zakLk01/object/heeftAlsVerantwoordelijke">
 		<role>
             <xsl:apply-templates select="@*|node()"/>
-            <roltypeOmschrijving>Verantwoordelijke</roltypeOmschrijving>
+            <typeRolOmschrijving>Verantwoordelijke</typeRolOmschrijving>
         </role>
 	</xsl:template>
 
     <xsl:template match="Envelope/Body/zakLk01/object/heeftAlsGemachtigde">
 		<role>
             <xsl:apply-templates select="@*|node()"/>
-            <roltypeOmschrijving>Gemachtigde</roltypeOmschrijving>
+            <typeRolOmschrijving>Gemachtigde</typeRolOmschrijving>
         </role>
 	</xsl:template>
 
     <xsl:template match="Envelope/Body/zakLk01/object/heeftAlsOverigBetrokkene">
 		<role>
             <xsl:apply-templates select="@*|node()"/>
-            <roltypeOmschrijving>OverigeBetrokkene</roltypeOmschrijving>
+            <typeRolOmschrijving>OverigeBetrokkene</typeRolOmschrijving>
         </role>
 	</xsl:template>
 </xsl:stylesheet>

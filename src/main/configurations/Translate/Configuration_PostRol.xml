@@ -1,0 +1,45 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+    <Adapter name="PostRolAdapter"
+        active="${PostRolAdapter.Active}"
+        description="">
+
+        <Receiver name="PostRol">
+            <JavaListener name="PostRol"/>
+        </Receiver>
+
+        <Pipeline>   
+			<ReplacerPipe name="AddZaakUrl"
+                find="Placeholder_ZaakUrl" 
+                replace="$ZaakUrl"
+                >
+                <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
+                <Forward name="success" path="XmlToJson"/>
+            </ReplacerPipe>
+
+            <JsonPipe name="XmlToJson"
+                direction="xml2json">
+                <forward name="success" path="PostZgwRol"/>
+            </JsonPipe>
+
+            <SenderPipe name="PostZgwRol" 
+                storeResultInSessionKey="PostZgwRolResult">
+				<HttpSender 
+					name="PostZgwRolSender" 
+					methodType="POST"
+					headersParams="Authorization,Accept-Crs"
+					url="${zgw.baseurl}${zgw.endpoint.rol}"
+                    contentType="application/json"
+				/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Content-Crs"  value="EPSG:4326"/>
+                <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
+                    <Param name="Token" value="${JwtToken}" />
+                </Param>
+                <Forward name="success" path="EXIT" />
+			</SenderPipe>
+
+            <Exit path="EXIT" state="success"/>
+            <Exit path="Exception" state="error"/>
+        </Pipeline>
+    </Adapter>
+</Module>

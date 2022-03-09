@@ -1,0 +1,114 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+    <Adapter name="ZdsHeeftAdapter"
+        description="Handle each ZdsHeeft">
+
+        <Receiver name="ZdsHeeftReceiver">
+            <JavaListener name="ZdsHeeftListener"/>
+        </Receiver>
+
+        <Pipeline>
+            <XmlIfPipe name="CheckForOmschrijving"
+                xpathExpression="string-length(heeft/gerelateerde/omschrijving) > 0"
+                thenForwardName="CallGetStatusTypeByZaakTypeAndOmschrijving"
+                elseForwardName="success">
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="CallGetStatusTypeByZaakTypeAndOmschrijving"
+                storeResultInSessionKey="GetStatusTypeByZaakTypeAndOmschrijvingResult">
+                <IbisLocalSender
+                    name="CallGetStatusTypeByZaakTypeAndOmschrijvingSender"
+                    javaListener="GetStatusTypeByZaakTypeAndOmschrijving">
+                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
+                    <Param name="Omschrijving" xpathExpression="heeft/gerelateerde/omschrijving"/>
+                    <Param name="Volgnummer" xpathExpression="heeft/gerelateerde/volgnummer"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CreateStatusBody"/>
+            </SenderPipe>
+
+            <XsltPipe
+                name="CreateStatusBody"
+                storeResultInSessionKey="StatusBody"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/CreateStatusBody.xsl"
+                >
+                <Param name="StatusType" sessionKey="GetStatusTypeByZaakTypeAndOmschrijvingResult" type="DOMDOC"/>
+                <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
+                <Param name="Einddatum" sessionKey="Einddatum"/>
+                <Param name="ZdsStatusDatum" xpathExpression="heeft/datumStatusGezet"/>
+                <Forward name="success" path="SetBeeindigdIfIsEindstatus"/>
+            </XsltPipe>
+
+            <PutInSessionPipe name="SetBeeindigdIfIsEindstatus"
+                sessionKey="Beeindigd" 
+                value="true"
+                ifParam="isEindstatus"
+                ifValue="true">
+                <Param name="isEindstatus" xpathExpression="$GetStatusTypeByZaakTypeAndOmschrijvingResult/statusType/isEindstatus">
+                    <Param name="GetStatusTypeByZaakTypeAndOmschrijvingResult" sessionKey="GetStatusTypeByZaakTypeAndOmschrijvingResult" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="PutStatusExistsInSession" />
+            </PutInSessionPipe>
+
+            <PutInSessionPipe name="PutStatusExistsInSession"
+                sessionKey="StatusExists" 
+                value="false">
+                <Forward name="success" path="CheckForBeeindigd" />
+            </PutInSessionPipe> 
+
+            <XmlIfPipe name="CheckForBeeindigd"
+                xpathExpression="$Beeindigd = 'true'"
+                thenForwardName="SetStatusExists"
+                elseForwardName="CompareDatumStatusGezet">
+                <Param name="Beeindigd" sessionKey="Beeindigd"/>
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="SetStatusExists"
+                storeResultInSessionKey="StatusExists"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/SetStatusExists.xsl"
+                >
+                <Param name="StatusBody" sessionKey="StatusBody" type="DOMDOC"/>
+                <Param name="GetStatussenResult" sessionKey="GetStatussenResult" type="DOMDOC"/>
+                <Forward name="success" path="GetStatussenByZaakUrl"/>
+            </XsltPipe>
+
+            <XsltPipe
+                name="CompareDatumStatusGezet"
+                getInputFromSessionKey="GetStatussenResult"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/CompareDatumStatusGezet.xsl"
+                >
+                <Param name="StatusBody" sessionKey="StatusBody" type="DOMDOC"/>>
+                <Forward name="success" path="CheckForCompareResult"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForCompareResult"
+                xpathExpression="statusExists = 'true'"
+                thenForwardName="SetStatusExists"
+                elseForwardName="error">
+            </XmlIfPipe>
+
+            <XmlIfPipe name="CheckForStatusExists"
+                xpathExpression="$StatusExists = 'true'"
+                thenForwardName="success"
+                elseForwardName="AddToNewStatuses">
+                <Param name="StatusExists" sessionKey="StatusExists"/>
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="AddToNewStatuses"
+                getInputFromSessionKey="StatusBody"
+                storeResultInSessionKey="NewStatuses"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/AddToNewStatuses.xsl"
+                >
+                <Forward name="success" path="EXIT"/>
+            </XsltPipe>
+
+            <Exit path="EXIT" state="success"/>
+            <Exit path="Exception" state="error"/>
+        </Pipeline>
+    </Adapter>
+</Module>

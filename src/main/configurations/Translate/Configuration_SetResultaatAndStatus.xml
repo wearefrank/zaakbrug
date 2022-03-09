@@ -1,0 +1,356 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+    <Adapter name="SetResultaatAndStatus"
+        active="${SetResultaatAndStatus.Active}"
+        description="">
+
+        <Receiver name="SetResultaatAndStatus">
+            <JavaListener name="SetResultaatAndStatus"/>
+        </Receiver>
+
+        <Pipeline>
+            <SenderPipe
+                name="CallGetStatusTypeByZaakType"
+                storeResultInSessionKey="GetStatusTypesResult">
+                <IbisLocalSender
+                    name="CallGetStatusTypeByZaakTypeSender"
+                    javaListener="GetZgwStatusTypes">
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/root/results/url">
+                        <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="SetEndStatusType"/>
+            </SenderPipe>
+
+            <XsltPipe
+                name="SetEndStatusType"
+                storeResultInSessionKey="SetEndStatusTypeResult"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/SetEndStatusType.xsl"
+                >
+                <Forward name="success" path="CallGetStatussenByZaakUrl"/>
+            </XsltPipe>
+
+            <SenderPipe
+                name="CallGetStatussenByZaakUrl"
+                storeResultInSessionKey="GetStatussenResult">
+                <IbisLocalSender
+                    name="CallGetStatussenByZaakUrlSender"
+                    javaListener="GetStatussenByZaakUrl">
+                    <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
+                </IbisLocalSender>
+                <Forward name="success" path="PutBeeindigdInSession"/>
+            </SenderPipe>
+
+            <PutInSessionPipe name="PutBeeindigdInSession"
+                sessionKey="Beeindigd" 
+                value="false">
+                <forward name="success" path="SetBeeindigd" />
+            </PutInSessionPipe>
+
+            <XsltPipe name="SetBeeindigd"
+                getInputFromSessionKey="GetStatussenResult"
+                storeResultInSessionKey="SetBeeindigdResult"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/SetBeeindigd.xsl"
+                >
+                <Param name="SetEndStatusTypeResult" sessionKey="SetEndStatusTypeResult" type="DOMDOC"/>
+                <Forward name="success" path="ZdsHeeftIterator"/>
+            </XsltPipe>
+
+            <ForEachChildElementPipe name="ZdsHeeftIterator"
+                getInputFromSessionKey="originalMessage"
+                elementXPathExpression="/Envelope/Body/zakLk01/object/heeft">
+                <IbisLocalSender
+                    name="CallZdsHeeftAdapter"
+                    javaListener="ZdsHeeftAdapter">
+                    <Param name="GetStatussenResult" sessionKey="GetStatussenResult" type="DOMDOC"/>
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/root/results/url">
+                        <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
+                    </Param>
+                    <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/root/results/url">
+                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
+                    </Param>
+                    <Param name="Einddatum" xpathExpression="/Envelope/Body/zakLk01/object/einddatum" defaultValue="Undefined"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForResultaat"/>
+            </ForEachChildElementPipe>
+
+            <XmlIfPipe name="CheckForResultaat"
+                getInputFromSessionKey="originalMessage"
+                xpathExpression="string-length(/Envelope/Body/zakLk01/object/resultaat/omschrijving) > 0"
+                thenForwardName="CallGetResultaatTypeByZaakTypeAndOmschrijving_1"
+                elseForwardName="CheckForEndStatusType">
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="CallGetResultaatTypeByZaakTypeAndOmschrijving_1"
+                storeResultInSessionKey="GetResultaatTypeByZaakTypeAndOmschrijvingResult">
+                <IbisLocalSender
+                    name="CallGetZgwResultaatTypeByZaakTypeAndOmschrijvingSender"
+                    javaListener="GetZgwResultaatTypeByZaakTypeAndOmschrijving">
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/root/results/url">
+                        <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
+                    </Param>
+                    <Param name="Omschrijving" xpathExpression="/Envelope/Body/zakLk01/object/resultaat/omschrijving"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CallGetResultatenByZaakUrl_1"/>
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallGetResultatenByZaakUrl_1"
+                storeResultInSessionKey="GetResultatenByZaakUrlResult">
+                <IbisLocalSender
+                    name="CallGetZgwResultatenSender"
+                    javaListener="GetZgwResultatenByZaakUrl">
+                    <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/root/url">
+                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="ZgwResultatenIterator"/>
+            </SenderPipe>
+
+            <ForEachChildElementPipe name="ZgwResultatenIterator"
+                elementXPathExpression="/root/results">
+                <HttpSender
+                    name="DeleteZaakResultaatSender" 
+					methodType="DELETE"
+					headersParams="Authorization,Accept-Crs"
+					url="${zgw.baseurl}${zgw.endpoint.resultaTEN}?uuid=$Uuid"
+				>
+                    <Param name="Uuid" xpathExpression="root/results/uuid"/>
+                </HttpSender>
+                <Forward name="success" path="CallPostResultaat_1"/>
+            </ForEachChildElementPipe>
+
+            <SenderPipe
+                name="CallPostResultaat_1"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="PostResultaatResult">
+                <IbisLocalSender
+                    name="CallPostResultaatSender"
+                    javaListener="PostResultaatAdapter">
+                    <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/root/url">
+                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
+                    </Param>
+                    <Param name="ResultaatType" xpathExpression="$GetResultaatTypeByZaakTypeAndOmschrijvingResult/root/results/url">
+                        <Param name="GetResultaatTypeByZaakTypeAndOmschrijvingResult" sessionKey="GetResultaatTypeByZaakTypeAndOmschrijvingResult" type="DOMDOC"/>
+                    </Param>
+                    <Param name="Toelichting" xpathExpression="/Envelope/Body/zakLk01/object/resultaat/omschrijving"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForEndStatusType"/>
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForEndStatusType"
+                getInputFromSessionKey="SetEndStatusTypeResult"
+                xpathExpression="string-length(/statusType) > 0"
+                thenForwardName="SetNewEndStatus"
+                elseForwardName="CheckForNewEndStatus">
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="SetNewEndStatus"
+                storeResultInSessionKey="NewEndStatus"
+                styleSheetName="CreeerZaak_LK01/xsl/SetNewEndStatus.xsl"
+                >
+                <Forward name="success" path="CheckForNewEndStatus"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForNewEndStatus"
+                getInputFromSessionKey="NewEndStatus"
+                xpathExpression="string-length(/endStatus) > 0"
+                thenForwardName="CallGetResultatenByZaakUrl_2"
+                elseForwardName="CheckForEindDatum">
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="CallGetResultatenByZaakUrl_2"
+                storeResultInSessionKey="GetResultatenByZaakUrlResult">
+                <IbisLocalSender
+                    name="CallGetZgwResultatenSender"
+                    javaListener="GetZgwResultatenByZaakUrl">
+                    <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/root/url">
+                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForResultaten"/>
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForResultaten"
+                xpathExpression="root/count = 0"
+                thenForwardName="GetProfileDataFromLocalFS_1"
+                elseForwardName="CheckForEindDatum">
+                <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
+            </XmlIfPipe>
+
+            <SenderPipe name="GetProfileDataFromLocalFS_1">
+                <IbisLocalSender
+                    name="CallImportFromLocalFS"
+                    javaListener="ImportFromLocalFS">
+                    <Param name="FileName" value="${FilePath_2}"/>                   
+                </IbisLocalSender>
+                <Forward name="success" path="GetCoalesceResultaat_1"/>
+            </SenderPipe>
+
+            <XsltPipe
+                name="GetCoalesceResultaat_1"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/GetCoalesceResultaat.xsl"
+                >
+                <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult"/>
+                <Param name="Type" value="endDateAndResultLastStatus"/>
+                <Forward name="success" path="CheckForCoalesceResultaat_1"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForCoalesceResultaat_1"
+                xpathExpression="string-length(coalesceResultaat) > 0"
+                thenForwardName="CallGetResultaatTypeByZaakTypeAndOmschrijving_2"
+                elseForwardName="CheckForEindDatum">
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="CallGetResultaatTypeByZaakTypeAndOmschrijving_2"
+                storeResultInSessionKey="GetResultaatTypeByZaakTypeAndOmschrijvingResult">
+                <IbisLocalSender
+                    name="CallGetZgwResultaatTypeByZaakTypeAndOmschrijvingSender"
+                    javaListener="GetZgwResultaatTypeByZaakTypeAndOmschrijving">
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/root/results/url">
+                        <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
+                    </Param>
+                    <Param name="Omschrijving" xpathExpression="coalesceResultaat"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CallPostResultaat_2"/>
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallPostResultaat_2"
+                storeResultInSessionKey="PostResultaatResult">
+                <IbisLocalSender
+                    name="CallPostResultaatSender"
+                    javaListener="PostResultaatAdapter">
+                    <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/root/url">
+                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
+                    </Param>
+                    <Param name="ResultaatType" xpathExpression="/root/results/url"/>
+                    <Param name="Toelichting" xpathExpression="/root/results/omschrijving"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForEindDatum"/>
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForEindDatum"
+                getInputFromSessionKey="originalMessage"
+                xpathExpression="string-length(/Envelope/Body/zakLk01/object/einddatum) > 0 and $beeindigd='false'"
+                thenForwardName="GetProfileDataFromLocalFS_2"
+                elseForwardName="PostStatusIterator">
+            </XmlIfPipe>
+
+            <SenderPipe name="GetProfileDataFromLocalFS_2">
+                <IbisLocalSender
+                    name="CallImportFromLocalFS"
+                    javaListener="ImportFromLocalFS">
+                    <Param name="FileName" value="${FilePath_2}"/>                   
+                </IbisLocalSender>
+                <Forward name="success" path="GetCoalesceResultaat_2"/>
+            </SenderPipe>
+
+            <XsltPipe
+                name="GetCoalesceResultaat_2"
+                storeResultInSessionKey="CoalesceResultaat"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/GetCoalesceResultaat.xsl"
+                >
+                <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult"/>
+                <Param name="Type" value="endCaseEndDate"/>
+                <Forward name="success" path="CheckForCoalesceResultaat_2"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForCoalesceResultaat_2"
+                xpathExpression="string-length(coalesceResultaat) > 0"
+                thenForwardName="CallGetResultatenByZaakUrl_3"
+                elseForwardName="PostStatusIterator">
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="CallGetResultatenByZaakUrl_3"
+                storeResultInSessionKey="GetResultatenByZaakUrlResult">
+                <IbisLocalSender
+                    name="CallGetZgwResultatenSender"
+                    javaListener="GetZgwResultatenByZaakUrl">
+                    <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/root/url">
+                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForResultaten_2"/>
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForResultaten_2"
+                xpathExpression="root/count = 0"
+                thenForwardName="CallGetResultaatTypeByZaakTypeAndOmschrijving_3"
+                elseForwardName="CreateStatusBody">
+                <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="CallGetResultaatTypeByZaakTypeAndOmschrijving_3"
+                storeResultInSessionKey="GetResultaatTypeByZaakTypeAndOmschrijvingResult">
+                <IbisLocalSender
+                    name="CallGetZgwResultaatTypeByZaakTypeAndOmschrijvingSender"
+                    javaListener="GetZgwResultaatTypeByZaakTypeAndOmschrijving">
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/root/results/url">
+                        <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
+                    </Param>
+                    <Param name="Omschrijving" sessionKey="CoalesceResultaat"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CallPostResultaat_3"/>
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallPostResultaat_3"
+                storeResultInSessionKey="PostResultaatResult">
+                <IbisLocalSender
+                    name="CallPostResultaatSender"
+                    javaListener="PostResultaatAdapter">
+                    <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/root/url">
+                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
+                    </Param>
+                    <Param name="ResultaatType" xpathExpression="/root/results/url"/>
+                    <Param name="Toelichting" xpathExpression="/root/results/omschrijving"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CreateStatusBody"/>
+            </SenderPipe>
+
+            <XsltPipe
+                name="CreateStatusBody"
+                styleSheetName="CreeerZaak_LK01/xsl/CreateStatusBody.xsl"
+                >
+                <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/root/url">
+                    <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
+                </Param>
+                <Param name="StatusType" sessionKey="SetEndStatusTypeResult" type="DOMDOC"/>
+                <Param name="Einddatum" xpathExpression="/Envelope/Body/zakLk01/object/einddatum"/>
+                <Forward name="success" path="AddToNewStatuses"/>
+            </XsltPipe>
+
+            <XsltPipe
+                name="AddToNewStatuses"
+                storeResultInSessionKey="NewStatuses"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/AddToNewStatuses.xsl"
+                >
+                <Forward name="success" path="PostStatusIterator"/>
+            </XsltPipe>
+
+            <ForEachChildElementPipe name="PostStatusIterator"
+                getInputFromSessionKey="NewStatuses"
+                elementXPathExpression="newStatuses/status">
+                <IbisLocalSender
+                    name="CallPostStatusAdapter"
+                    javaListener="PostStatusAdapter">
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+            </ForEachChildElementPipe>
+
+            <Exit path="EXIT" state="success"/>
+            <Exit path="Exception" state="error"/>
+        </Pipeline>
+    </Adapter>
+</Module>

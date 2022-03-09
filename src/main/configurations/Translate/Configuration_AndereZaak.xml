@@ -7,6 +7,13 @@
         </Receiver>
 
         <Pipeline> 
+            <XmlIfPipe name="CheckForEntiteitType"
+                xpathExpression="string-length(heeftBetrekkingOpAndere/gerelateerde) > 0 and
+                                 heeftBetrekkingOpAndere/gerelateerde[@entiteittype ='ZAK']"
+                thenForwardName="CallGetZgwZaak"
+                elseForwardName="success">
+            </XmlIfPipe>
+
             <SenderPipe
                 name="CallGetZgwZaak"
                 storeResultInSessionKey="GetZaakResult">
@@ -15,58 +22,42 @@
                     javaListener="GetZgwZaak">
                     <Param name="Identificatie" xpathExpression="heeftBetrekkingOpAndere/gerelateerde/identificatie"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CreatePatchZaakBody"/>
+                <Forward name="success" path="CheckForGetZgwZaakResult"/>
             </SenderPipe>
 
-            <XsltPipe
-                name="CreatePatchZaakBody"
-                styleSheetName="CreeerZaak_LK01/xsl/CreateZgwAndereZaakBody.xsl"
-                >
-                <Param name="Url" sessionKey="results/url"/>
-                <Forward name="success" path="PatchZaak"/>
-            </XsltPipe>
+            <XmlIfPipe name="CheckForGetZgwZaakResult"
+                xpathExpression="string-length(root/results) > 0"
+                thenForwardName="CallPatchZaak"
+                elseForwardName="success">
+            </XmlIfPipe>
 
-            <SenderPipe name="PatchZaak">
-				<HttpSender 
-					name="PatchZaakSender" 
-					methodType="PATCH"
-					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.zaak}/$uuid"
-				/>
-                <Param name="uuid" xpathExpression="$GetZaakResult/results/uuid">
-                    <Param name="GetZaakResult" sessionKey="GetZaakResult"/>
-                </Param>
-                <Param name="Status" value="definitief"/>
-                <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
-                    <Param name="Token" value="${JwtToken}" />
-                </Param>
-                <Forward name="success" path="CreatePatchAndereZaakBody" />
-			</SenderPipe>
+            <SenderPipe
+                name="CallPatchZaak">
+                <IbisLocalSender
+                    name="CallPatchZaakSender"
+                    javaListener="PatchRelevanteAndereZaak">
+                    <Param name="Url" sessionKey="results/url"/>
+                    <Param name="uuid" xpathExpression="$GetZaakResult/results/uuid">
+                        <Param name="GetZaakResult" sessionKey="GetZaakResult"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="CallPatchAndereZaak"/>
+            </SenderPipe>
 
-            <XsltPipe
-                name="CreatePatchAndereZaakBody"
-                styleSheetName="CreeerZaak_LK01/xsl/CreateZgwAndereZaakBody.xsl"
-                >
-                <Param name="Url" sessionKey="ZaakUrl"/> <!-- get zaken url & uuid after post zaak -->
-                <Forward name="success" path="PatchAndereZaak"/>
-            </XsltPipe>
-
-            <SenderPipe name="PatchAndereZaak">
-				<HttpSender 
-					name="PatchAndereZaakSender" 
-					methodType="PATCH"
-					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.zaak}/$uuid"
-				/>
-                <Param name="uuid" xpathExpression="zaken/uuid"/>
-                <Param name="Status" value="definitief"/>
-                <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
-                    <Param name="Token" value="${JwtToken}" />
-                </Param>
-                <Forward name="success" path="EXIT" />
-			</SenderPipe>
+            <SenderPipe
+                name="CallPatchAndereZaak">
+                <IbisLocalSender
+                    name="CallPatchAndereZaakSender"
+                    javaListener="PatchRelevanteAndereZaak">
+                    <Param name="Url" xpathExpression="$PostZgwZaakResult/root/results/url">
+                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
+                    </Param>
+                    <Param name="uuid" xpathExpression="$PostZgwZaakResult/root/results/uuid">
+                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+            </SenderPipe>
 
             <Exit path="EXIT" state="success"/>
             <Exit path="Exception" state="error"/>

@@ -1,0 +1,48 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+    <Adapter name="PostResultaatAdapter"
+        active="${PostResultaatAdapter.Active}"
+        description="">
+
+        <Receiver name="PostResultaat">
+            <JavaListener name="PostResultaat"/>
+        </Receiver>
+
+        <Pipeline>
+            <XsltPipe
+                name="CreateResultaatBody"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/CreateResultaatBody.xsl"
+                >
+                <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
+                <Param name="ResultaatType" sessionKey="ResultaatType"/>
+                <Param name="Toelichting" sessionKey="Toelichting"/>
+                <Forward name="success" path="XmlToJson"/>
+            </XsltPipe>
+
+            <JsonPipe name="XmlToJson"
+                direction="xml2json">
+                <forward name="success" path="PostZgwResultaat"/>
+            </JsonPipe>
+
+            <SenderPipe name="PostZgwResultaat" 
+                storeResultInSessionKey="PostZgwResultaatResult">
+				<HttpSender 
+					name="PostZgwResultaatSender" 
+					methodType="POST"
+					headersParams="Authorization,Accept-Crs"
+					url="${zgw.baseurl}${zgw.endpoint.resultaat}"
+                    contentType="application/json"
+				/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Content-Crs"  value="EPSG:4326"/>
+                <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
+                    <Param name="Token" value="${JwtToken}" />
+                </Param>
+                <Forward name="success" path="EXIT" />
+			</SenderPipe>
+
+            <Exit path="EXIT" state="success"/>
+            <Exit path="Exception" state="error"/>
+        </Pipeline>
+    </Adapter>
+</Module>

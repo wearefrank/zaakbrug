@@ -1,23 +1,22 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
-    <Adapter name="GetZgwZaak"
-        active="${GetZgwZaak.Active}"
+    <Adapter name="GetZgwStatusTypes"
+        active="${GetZgwStatusTypes.Active}"
         description="">
 
-        <Receiver name="GetZgwZaak">
-            <JavaListener name="GetZgwZaak"/>
+        <Receiver name="GetZgwStatusTypes">
+            <JavaListener name="GetZgwStatusTypes"/>
         </Receiver>
 
         <Pipeline>   
-			<SenderPipe name="GetZgwZaakByIdentificatie" 
+			<SenderPipe name="GetStatusTypesByZaaktype" 
                 getInputFromFixedValue="&lt;dummy/&gt;">
 				<HttpSender 
-					name="GetZgwZaakByIdentificatieSender" 
+					name="GetStatusTypesByZaakTypeSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.zaak}?identificatie=$Identificatie"
+					url="${zgw.baseurl}${zgw.endpoint.statustype}?zaaktype=$ZaakTypeUrl"
 				/>
-                <Param name="Identificatie" sessionKey="Identificatie"/>
-                <Param name="Status" value="definitief"/>
+                <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl" />
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
                     <Param name="Token" value="${JwtToken}" />
@@ -26,15 +25,8 @@
 			</SenderPipe>
 
             <JsonPipe name="JsonToXml">
-                <forward name="success" path="RemoveEmptyTags"/>
+                <forward name="success" path="EXIT"/>
             </JsonPipe>
-
-            <XsltPipe name="RemoveEmptyTags" 
-                skipEmptyTags="true"
-                styleSheetName="CreeerZaak_Lk01/xsl/RemoveEmptyTags.xsl" 
-                >
-                <Forward name="success" path="EXIT"/>
-			</XsltPipe>
 
             <Exit path="EXIT" state="success"/>
             <Exit path="Exception" state="error"/>

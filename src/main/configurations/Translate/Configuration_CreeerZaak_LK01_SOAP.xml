@@ -1,0 +1,15 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+    <Adapter name="CreeerZaak_Lk01_SOAP"
+        active="${CreeerZaak_Lk01_SOAP.Active}"
+        description="">
+
+        <Receiver name="CreeerZaak_Lk01_SOAP">
+            <WebServiceListener name="CreeerZaak_Lk01_SOAP" address="${address.CreeerZaak_LK01}"/>
+        </Receiver>
+
+        <Pipeline>
+           
+            <Exit path="EXIT" state="success"/>
+        </Pipeline>
+    </Adapter>
+</Module>

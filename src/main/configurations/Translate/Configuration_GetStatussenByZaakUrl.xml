@@ -1,22 +1,22 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
-    <Adapter name="GetZgwRoltype"
-        active="${GetZgwRoltype.Active}"
+    <Adapter name="GetStatussenByZaakUrl"
+        active="${GetStatussenByZaakUrl.Active}"
         description="">
 
-        <Receiver name="GetZgwRoltype">
-            <JavaListener name="GetZgwRoltype"/>
+        <Receiver name="GetStatussenByZaakUrl">
+            <JavaListener name="GetStatussenByZaakUrl"/>
         </Receiver>
 
         <Pipeline>   
-			<SenderPipe name="GetZgwRoltypeById" 
+			<SenderPipe name="GetStatussenByZaakUrl" 
                 getInputFromFixedValue="&lt;dummy/&gt;">
 				<HttpSender 
-					name="GetZgwRoltypeByIdSender" 
+					name="GetStatussenByZaakUrlSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.roltype}?zaaktype=$ZaaktypeUrl"
+					url="${zgw.baseurl}${zgw.endpoint.statussen}?zaak=$ZaakUrl"
 				/>
-                <Param name="ZaaktypeUrl" sessionKey="ZaaktypeUrl" />
+                <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
                     <Param name="Token" value="${JwtToken}" />

@@ -1,22 +1,22 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
-    <Adapter name="GetZgwZaaktype"
-        active="${GetZgwZaaktype.Active}"
+    <Adapter name="GetZgwZaakType"
+        active="${GetZgwZaakType.Active}"
         description="">
 
-        <Receiver name="GetZgwZaaktype">
-            <JavaListener name="GetZgwZaaktype"/>
+        <Receiver name="GetZgwZaakType">
+            <JavaListener name="GetZgwZaakType"/>
         </Receiver>
 
         <Pipeline>   
-			<SenderPipe name="GetZgwZaaktypeByIdentificatie" 
+			<SenderPipe name="GetZgwZaakTypeByIdentificatie" 
                 getInputFromFixedValue="&lt;dummy/&gt;">
 				<HttpSender 
-					name="GetZgwZaaktypeByIdentificatieSender" 
+					name="GetZgwZaakTypeByIdentificatieSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.zaaktype}?identificatie=$ZaaktypeCode&amp;status=$Status"
+					url="${zgw.baseurl}${zgw.endpoint.zaaktype}?identificatie=$ZaakTypeCode&amp;status=$Status"
 				/>
-                <Param name="ZaaktypeCode" sessionKey="ZaaktypeCode"/>
+                <Param name="ZaakTypeCode" sessionKey="ZaakTypeCode"/>
                 <Param name="Status" value="definitief"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
@@ -26,8 +26,21 @@
 			</SenderPipe>
 
             <JsonPipe name="JsonToXml">
-                <forward name="success" path="EXIT"/>
+                <forward name="success" path="SetZgwZaakType"/>
             </JsonPipe>
+
+            <XsltPipe
+                name="SetZgwZaakType"
+                styleSheetName="CreeerZaak_LK01/xsl/SetZgwZaakType.xsl"
+                >
+                <Forward name="success" path="CheckForSetZgwZaakTypeResult"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForSetZgwZaakTypeResult"
+                xpathExpression="count(zgwZaakType/ZaakType) > 1"
+                thenForwardName="error"
+                elseForwardName="success">
+            </XmlIfPipe>
 
             <Exit path="EXIT" state="success"/>
             <Exit path="Exception" state="error"/>

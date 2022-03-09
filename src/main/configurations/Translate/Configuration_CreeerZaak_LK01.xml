@@ -9,12 +9,27 @@
 
         <Pipeline>
             <SenderPipe
-                name="CallGetZgwZaaktype"
-                storeResultInSessionKey="GetZaaktypeResult">
+                name="CallGetZgwZaakType"
+                storeResultInSessionKey="GetZaakTypeResult">
                 <IbisLocalSender
-                    name="CallGetZgwZaaktypeSender"
-                    javaListener="GetZgwZaaktype">
-                    <Param name="ZaaktypeCode" xpathExpression="/Envelope/Body/zakLk01/object/isVan/gerelateerde/code"/>
+                    name="CallGetZgwZaakTypeSender"
+                    javaListener="GetZgwZaakType">
+                    <Param name="ZaakTypeCode" xpathExpression="/Envelope/Body/zakLk01/object/isVan/gerelateerde/code"/>
+                </IbisLocalSender>
+                <Forward name="success" path="GetRsin"/>
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForGetZgwZaakTypeResult"
+                xpathExpression="count(zgwZaakType/ZaakType) = 0"
+                thenForwardName="error"
+                elseForwardName="GetRsinFromLocalFS">
+            </XmlIfPipe>
+
+            <SenderPipe name="GetRsinFromLocalFS">
+                <IbisLocalSender
+                    name="CallImportFromLocalFS"
+                    javaListener="ImportFromLocalFS">
+                    <Param name="FileName" value="${FilePath_1}"/>                   
                 </IbisLocalSender>
                 <Forward name="success" path="GetRsin"/>
             </SenderPipe>
@@ -28,17 +43,19 @@
                 styleSheetName="CreeerZaak_LK01/xsl/GetRsin.xsl"
                 >
                 <Param name="heeftBetrekkingOp" xpathExpression="/Envelope/Body/zakLk01/object/heeftBetrekkingOp"/>
-                <Forward name="success" path="CallGetZgwRoltype"/>
+                <Forward name="success" path="CallGetZgwRolType"/>
             </XsltPipe>
 
+            
+
             <SenderPipe
-                name="CallGetZgwRoltype"
-                storeResultInSessionKey="GetRoltypeResult">
+                name="CallGetZgwRolType"
+                storeResultInSessionKey="GetRolTypeResult">
                 <IbisLocalSender
-                    name="CallGetZgwRoltypeSender"
-                    javaListener="GetZgwRoltype">
-                    <Param name="ZaaktypeUrl" xpathExpression="$GetZaaktypeResult/root/results/url">
-                        <Param name="GetZaaktypeResult" sessionKey="GetZaaktypeResult" type="DOMDOC"/>
+                    name="CallGetZgwRolTypeSender"
+                    javaListener="GetZgwRolTypeByZaakType">
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/root/results/url">
+                        <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="SetRoles"/>
@@ -52,23 +69,37 @@
                 skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/SetRoles.xsl"
                 >
-                <Forward name="success" path="CreateZaakBody"/>
+                <Forward name="success" path="RolMappingIterator"/>
             </XsltPipe>
 
+            <ForEachChildElementPipe name="RolMappingIterator"
+                storeResultInSessionKey="RolMappingResults"
+                elementXPathExpression="/roles/role">
+                <IbisLocalSender
+                    name="CallAddRolToZgw"
+                    javaListener="AddRolToZgw">
+                    <Param name="GetRolTypeResult" sessionKey="GetRolTypeResult" type="DOMDOC"/>
+                    <Param name="ZaaktypeUrl" xpathExpression="$GetZaaktypeResult/root/results/url">
+                        <Param name="GetZaaktypeResult" sessionKey="GetZaaktypeResult" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="CreateZaakBody"/>
+            </ForEachChildElementPipe>
+<!-- Post zaak -->
             <XsltPipe
                 name="CreateZaakBody"
                 getInputFromSessionKey="originalMessage"
                 storeResultInSessionKey="ZaakBody"
                 removeNamespaces="true"
                 skipEmptyTags="true"
-                styleSheetName="CreeerZaak_LK01/xsl/PostZgwZaak.xsl"
+                styleSheetName="CreeerZaak_LK01/xsl/CreateZaakBody.xsl"
                 >
-                <Param name="GetZaaktypeResult" sessionKey="GetZaaktypeResult" type="DOMDOC"/>
+                <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                 <Param name="GetRsinResult" sessionKey="GetRsinResult" type="DOMDOC"/>
-                <Forward name="success" path="XmlToJson"/>
+                <Forward name="success" path="ConvertZaakBody"/>
             </XsltPipe>
 
-            <JsonPipe name="XmlToJson"
+            <JsonPipe name="ConvertZaakBody"
                 direction="xml2json">
                 <forward name="success" path="PostZgwZaak"/>
             </JsonPipe>
@@ -86,31 +117,32 @@
                 <!-- <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
                     <Param name="Token" value="${JwtToken}" />
                 </Param> -->
-                <Forward name="success" path="JsonToXml" />
+                <Forward name="success" path="ConvertPostZaakResult" />
 			</SenderPipe>
 
-            <JsonPipe name="JsonToXml"
+            <JsonPipe name="ConvertPostZaakResult"
                 storeResultInSessionKey="PostZgwZaakResult">
-                <forward name="success" path="RolMappingIterator"/>
+                <forward name="success" path="PostRolIterator"/>
             </JsonPipe>
-
-            <ForEachChildElementPipe name="RolMappingIterator"
-                getInputFromSessionKey="RolBody"
-                elementXPathExpression="/roles/role">
+<!-- Post zaak end -->
+            <ForEachChildElementPipe name="PostRolIterator"
+                getInputFromSessionKey="RolMappingResults"
+                elementXPathExpression="/results/result">
                 <IbisLocalSender
-                    name="CallAddRolToZgw"
-                    javaListener="AddRolToZgw">
-                    <Param name="GetRoltypeResult" sessionKey="GetRoltypeResult" type="DOMDOC"/>
-                    <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult"/>
+                    name="CallPostRol"
+                    javaListener="PostRolAdapter">
+                    <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/root/results/url">
+                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
+                    </Param>
                 </IbisLocalSender>
-                <Forward name="success" path="CheckForHeeftBetrekkingOp"/>
+                <Forward name="success" path="CheckForHeeftBetrekkingOpAndere"/>
             </ForEachChildElementPipe>
 
-            <XmlIfPipe name="CheckForHeeftBetrekkingOp"
+            <XmlIfPipe name="CheckForHeeftBetrekkingOpAndere"
                 getInputFromSessionKey="originalMessage"
-                xpathExpression="/Envelope/Body/zakLk01/object/heeftBetrekkingOpAndere/gerelateerde[@entiteittype ='ZAK']"
+                xpathExpression="string-length(/Envelope/Body/zakLk01/object/heeftBetrekkingOpAndere) > 0"
                 thenForwardName="AndereZaakIterator"
-                elseForwardName="NotFound">
+                elseForwardName="GetStatusTypesByZaakType">
             </XmlIfPipe>
 
             <ForEachChildElementPipe name="AndereZaakIterator"
@@ -119,20 +151,28 @@
                 <IbisLocalSender
                     name="CallAndereZaakAdapter"
                     javaListener="AndereZaakAdapter">
-                    <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/root/results/url">
+                    <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CallSetResultaatAndStatus"/>
+            </ForEachChildElementPipe>
+
+            <SenderPipe
+                name="CallSetResultaatAndStatus"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="SetResultaatAndStatusResult">
+                <IbisLocalSender
+                    name="CallSetResultaatAndStatusSender"
+                    javaListener="SetResultaatAndStatus">
+                    <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>                   
+                    <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/root/url">
                         <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
-            </ForEachChildElementPipe>
-
-            <FixedResultPipe name="NotFound"
-                returnString="heeftBetrekkingOp is not ZAK"
-                >
-                <Forward name="success" path="EXIT"/>
-            </FixedResultPipe>
+            </SenderPipe>
 
             <Exit path="EXIT" state="success"/>
+            <Exit path="Exception" state="error"/>
         </Pipeline>
     </Adapter>
 </Module>

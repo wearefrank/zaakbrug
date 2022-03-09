@@ -4,16 +4,10 @@
     <xsl:variable name="gemeenteCode"><xsl:value-of select="/Envelope/Body/zakLk01/stuurgegevens/zender/organisatie"/></xsl:variable>
 
     <xsl:template match="/">
-		<xsl:choose>
-            <xsl:when test="$gemeenteCode = '1900'">
-                <rsin>823288444</rsin>
-            </xsl:when>
-            <xsl:when test="$gemeenteCode = '0392'">
-                <rsin>001005650</rsin>
-            </xsl:when>
-            <xsl:when test="$gemeenteCode = '0478'">
-                <rsin>001509962</rsin>
-            </xsl:when>
-        </xsl:choose>
+        <xsl:for-each select="organizations/gemeenteCode">
+            <xsl:if test="current() = $gemeenteCode">
+                <rsin><xsl:value-of select="../RSIN"/></rsin>
+            </xsl:if>
+        </xsl:for-each>
 	</xsl:template>
 </xsl:stylesheet>
