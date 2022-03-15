@@ -29,6 +29,8 @@
 					headersParams="Authorization,Accept-Crs"
 					url="${zgw.baseurl}${zgw.endpoint.zaak}/$uuid"
                     contentType="application/json"
+                    timeout="${creeerZaak.timeout}"
+                    maxExecuteRetries="5"
 				/>
                 <Param name="uuid" sessionKey="uuid"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>

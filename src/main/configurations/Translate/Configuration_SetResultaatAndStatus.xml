@@ -116,6 +116,7 @@
 					methodType="DELETE"
 					headersParams="Authorization,Accept-Crs"
 					url="${zgw.baseurl}${zgw.endpoint.resultaTEN}?uuid=$Uuid"
+                    timeout="${creeerZaak.timeout}"
 				>
                     <Param name="Uuid" xpathExpression="root/results/uuid"/>
                 </HttpSender>

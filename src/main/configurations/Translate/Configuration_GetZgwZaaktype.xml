@@ -15,6 +15,7 @@
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
 					url="${zgw.baseurl}${zgw.endpoint.zaaktype}?identificatie=$ZaakTypeCode&amp;status=$Status"
+                    timeout="${creeerZaak.timeout}"
 				/>
                 <Param name="ZaakTypeCode" sessionKey="ZaakTypeCode"/>
                 <Param name="Status" value="definitief"/>

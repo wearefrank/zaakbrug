@@ -29,6 +29,8 @@
 					headersParams="Authorization,Accept-Crs"
 					url="${zgw.baseurl}${zgw.endpoint.rol}"
                     contentType="application/json"
+                    timeout="${creeerZaak.timeout}"
+                    maxExecuteRetries="5"
 				/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Content-Crs"  value="EPSG:4326"/>

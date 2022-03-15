@@ -46,8 +46,6 @@
                 <Forward name="success" path="CallGetZgwRolType"/>
             </XsltPipe>
 
-            
-
             <SenderPipe
                 name="CallGetZgwRolType"
                 storeResultInSessionKey="GetRolTypeResult">
@@ -96,34 +94,18 @@
                 >
                 <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                 <Param name="GetRsinResult" sessionKey="GetRsinResult" type="DOMDOC"/>
-                <Forward name="success" path="ConvertZaakBody"/>
+                <Forward name="success" path="CallPostZaak"/>
             </XsltPipe>
 
-            <JsonPipe name="ConvertZaakBody"
-                direction="xml2json">
-                <forward name="success" path="PostZgwZaak"/>
-            </JsonPipe>
-
-            <SenderPipe name="PostZgwZaak">
-				<HttpSender 
-					name="PostZgwZaakSender" 
-					methodType="POST"
-					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.zaak}"
-                    contentType="application/json"
-				/>
-                <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Content-Crs"  value="EPSG:4326" />
-                <!-- <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
-                    <Param name="Token" value="${JwtToken}" />
-                </Param> -->
-                <Forward name="success" path="ConvertPostZaakResult" />
-			</SenderPipe>
-
-            <JsonPipe name="ConvertPostZaakResult"
+            <SenderPipe
+                name="CallPostZaak"
                 storeResultInSessionKey="PostZgwZaakResult">
-                <forward name="success" path="PostRolIterator"/>
-            </JsonPipe>
+                <IbisLocalSender
+                    name="CallPostZaakSender"
+                    javaListener="PostZaakAdapter">
+                </IbisLocalSender>
+                <Forward name="success" path="PostRolIterator"/>
+            </SenderPipe> 
 <!-- Post zaak end -->
             <ForEachChildElementPipe name="PostRolIterator"
                 getInputFromSessionKey="RolMappingResults"

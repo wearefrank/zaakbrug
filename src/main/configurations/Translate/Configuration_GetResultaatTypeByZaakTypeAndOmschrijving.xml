@@ -15,6 +15,7 @@
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
 					url="${zgw.baseurl}${zgw.endpoint.resultaattype}?zaaktype=$ZaakTypeUrl"
+                    timeout="${creeerZaak.timeout}"
 				/>
                 <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl" />
                 <Param name="Accept-Crs" value="EPSG:4326"/>

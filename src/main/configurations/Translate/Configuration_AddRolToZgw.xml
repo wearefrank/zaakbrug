@@ -51,28 +51,6 @@
                 elseForwardName="error">
             </XmlIfPipe>
 
-            <!-- <JsonPipe name="XmlToJson"
-                direction="xml2json">
-                <forward name="success" path="PostZgwRol"/>
-            </JsonPipe>
-
-            <SenderPipe name="PostZgwRol" 
-                storeResultInSessionKey="PostZgwRolResult">
-				<HttpSender 
-					name="PostZgwRolSender" 
-					methodType="POST"
-					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.rol}"
-                    contentType="application/json"
-				/>
-                <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Content-Crs"  value="EPSG:4326" />
-                <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
-                    <Param name="Token" value="${JwtToken}" />
-                </Param>
-                <Forward name="success" path="EXIT" />
-			</SenderPipe> -->
-
             <Exit path="EXIT" state="success"/>
             <Exit path="Exception" state="error"/>
         </Pipeline>
