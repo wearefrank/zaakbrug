@@ -1,16 +1,18 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
     <Adapter name="ZdsHeeftAdapter"
+        active="${ZdsHeeftAdapter.Active}"
         description="Handle each ZdsHeeft">
 
-        <Receiver name="ZdsHeeftReceiver">
-            <JavaListener name="ZdsHeeftListener"/>
+        <Receiver name="ZdsHeeftAdapter">
+            <JavaListener name="ZdsHeeftAdapter"/>
         </Receiver>
 
         <Pipeline>
             <XmlIfPipe name="CheckForOmschrijving"
                 xpathExpression="string-length(heeft/gerelateerde/omschrijving) > 0"
-                thenForwardName="CallGetStatusTypeByZaakTypeAndOmschrijving"
-                elseForwardName="success">
+                >
+                <Forward name="then" path="CallGetStatusTypeByZaakTypeAndOmschrijving"/>
+                <Forward name="else" path="EXIT"/>
             </XmlIfPipe>
 
             <SenderPipe
@@ -29,6 +31,7 @@
             <XsltPipe
                 name="CreateStatusBody"
                 storeResultInSessionKey="StatusBody"
+                getInputFromSessionKey="originalMessage"
                 skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/CreateStatusBody.xsl"
                 >
@@ -71,7 +74,7 @@
                 >
                 <Param name="StatusBody" sessionKey="StatusBody" type="DOMDOC"/>
                 <Param name="GetStatussenResult" sessionKey="GetStatussenResult" type="DOMDOC"/>
-                <Forward name="success" path="GetStatussenByZaakUrl"/>
+                <Forward name="success" path="CheckForCompareResult"/>
             </XsltPipe>
 
             <XsltPipe
@@ -80,21 +83,23 @@
                 skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/CompareDatumStatusGezet.xsl"
                 >
-                <Param name="StatusBody" sessionKey="StatusBody" type="DOMDOC"/>>
+                <Param name="StatusBody" sessionKey="StatusBody" type="DOMDOC"/>
                 <Forward name="success" path="CheckForCompareResult"/>
             </XsltPipe>
 
             <XmlIfPipe name="CheckForCompareResult"
                 xpathExpression="statusExists = 'true'"
-                thenForwardName="SetStatusExists"
-                elseForwardName="error">
+                >
+                <Forward name="then" path="SetStatusExists"/>
+                <Forward name="else" path="Exception"/>
             </XmlIfPipe>
 
             <XmlIfPipe name="CheckForStatusExists"
                 xpathExpression="$StatusExists = 'true'"
-                thenForwardName="success"
-                elseForwardName="AddToNewStatuses">
+                >
                 <Param name="StatusExists" sessionKey="StatusExists"/>
+                <Forward name="then" path="EXIT"/>
+                <Forward name="else" path="AddToNewStatuses"/>
             </XmlIfPipe>
 
             <XsltPipe

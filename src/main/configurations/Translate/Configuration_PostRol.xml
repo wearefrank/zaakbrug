@@ -3,11 +3,11 @@
         active="${PostRolAdapter.Active}"
         description="">
 
-        <Receiver name="PostRol">
-            <JavaListener name="PostRol"/>
+        <Receiver name="PostRolAdapter">
+            <JavaListener name="PostRolAdapter"/>
         </Receiver>
 
-        <Pipeline>   
+        <Pipeline>
 			<ReplacerPipe name="AddZaakUrl"
                 find="Placeholder_ZaakUrl" 
                 replace="$ZaakUrl"
@@ -18,7 +18,7 @@
 
             <JsonPipe name="XmlToJson"
                 direction="xml2json">
-                <forward name="success" path="PostZgwRol"/>
+                <Forward name="success" path="PostZgwRol"/>
             </JsonPipe>
 
             <SenderPipe name="PostZgwRol" 
@@ -34,9 +34,9 @@
 				/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Content-Crs"  value="EPSG:4326"/>
-                <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
+                <!-- <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
                     <Param name="Token" value="${JwtToken}" />
-                </Param>
+                </Param> -->
                 <Forward name="success" path="EXIT" />
 			</SenderPipe>
 

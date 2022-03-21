@@ -9,59 +9,59 @@
     
 	<xsl:template match="/">
 		<roles>
-            <xsl:apply-templates select="Envelope/Body/zakLk01/object/heeftBetrekkingOp"/>
-            <xsl:apply-templates select="Envelope/Body/zakLk01/object/heeftAlsBelanghebbende"/>
-            <xsl:apply-templates select="Envelope/Body/zakLk01/object/heeftAlsInitiator"/>
-            <xsl:apply-templates select="Envelope/Body/zakLk01/object/heeftAlsUitvoerende"/>
-            <xsl:apply-templates select="Envelope/Body/zakLk01/object/heeftAlsVerantwoordelijke"/>
-            <xsl:apply-templates select="Envelope/Body/zakLk01/object/heeftAlsGemachtigde"/>
-            <xsl:apply-templates select="Envelope/Body/zakLk01/object/heeftAlsOverigBetrokkene"/>
+            <xsl:apply-templates select="zakLk01/object/heeftBetrekkingOp"/>
+            <xsl:apply-templates select="zakLk01/object/heeftAlsBelanghebbende"/>
+            <xsl:apply-templates select="zakLk01/object/heeftAlsInitiator"/>
+            <xsl:apply-templates select="zakLk01/object/heeftAlsUitvoerende"/>
+            <xsl:apply-templates select="zakLk01/object/heeftAlsVerantwoordelijke"/>
+            <xsl:apply-templates select="zakLk01/object/heeftAlsGemachtigde"/>
+            <xsl:apply-templates select="zakLk01/object/heeftAlsOverigBetrokkene"/>
         </roles>
 	</xsl:template>
 
-    <xsl:template match="Envelope/Body/zakLk01/object/heeftBetrekkingOp">
+    <xsl:template match="zakLk01/object/heeftBetrekkingOp">
 		<role>
             <xsl:apply-templates select="@*|node()"/>
             <typeRolOmschrijving>BetrekkingOp</typeRolOmschrijving>
         </role>
 	</xsl:template>
 
-    <xsl:template match="Envelope/Body/zakLk01/object/heeftAlsBelanghebbende">
+    <xsl:template match="zakLk01/object/heeftAlsBelanghebbende">
 		<role>
             <xsl:apply-templates select="@*|node()"/>
             <typeRolOmschrijving>Belanghebbende</typeRolOmschrijving>
         </role>
 	</xsl:template>
 
-    <xsl:template match="Envelope/Body/zakLk01/object/heeftAlsInitiator">
+    <xsl:template match="zakLk01/object/heeftAlsInitiator">
 		<role>
             <xsl:apply-templates select="@*|node()"/>
             <typeRolOmschrijving>Initiator</typeRolOmschrijving>
         </role>
 	</xsl:template>
 
-    <xsl:template match="Envelope/Body/zakLk01/object/heeftAlsUitvoerende">
+    <xsl:template match="zakLk01/object/heeftAlsUitvoerende">
 		<role>
             <xsl:apply-templates select="@*|node()"/>
             <typeRolOmschrijving>Uitvoerende</typeRolOmschrijving>
         </role>
 	</xsl:template>
 
-    <xsl:template match="Envelope/Body/zakLk01/object/heeftAlsVerantwoordelijke">
+    <xsl:template match="zakLk01/object/heeftAlsVerantwoordelijke">
 		<role>
             <xsl:apply-templates select="@*|node()"/>
             <typeRolOmschrijving>Verantwoordelijke</typeRolOmschrijving>
         </role>
 	</xsl:template>
 
-    <xsl:template match="Envelope/Body/zakLk01/object/heeftAlsGemachtigde">
+    <xsl:template match="zakLk01/object/heeftAlsGemachtigde">
 		<role>
             <xsl:apply-templates select="@*|node()"/>
             <typeRolOmschrijving>Gemachtigde</typeRolOmschrijving>
         </role>
 	</xsl:template>
 
-    <xsl:template match="Envelope/Body/zakLk01/object/heeftAlsOverigBetrokkene">
+    <xsl:template match="zakLk01/object/heeftAlsOverigBetrokkene">
 		<role>
             <xsl:apply-templates select="@*|node()"/>
             <typeRolOmschrijving>OverigeBetrokkene</typeRolOmschrijving>

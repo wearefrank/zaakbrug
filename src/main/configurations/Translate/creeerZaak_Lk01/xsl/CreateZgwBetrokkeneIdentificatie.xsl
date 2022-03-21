@@ -21,7 +21,7 @@
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:value-of select="concat($TypeRolOmschrijving, ':', identificatie)"/>
-                <xsl:otherwise>
+                </xsl:otherwise>
             </xsl:choose>
         </roltoelichting>
         <betrokkeneIdentificatie>
@@ -115,7 +115,7 @@
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:value-of select="'overig_privaatrechtelijke_rechtspersoon'"/>
-                    <xsl:otherwise>
+                    </xsl:otherwise>
                 </xsl:choose>
             </innRechtsvorm>
         </betrokkeneIdentificatie>

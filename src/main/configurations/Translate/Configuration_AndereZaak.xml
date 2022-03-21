@@ -1,5 +1,6 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
     <Adapter name="AndereZaakAdapter"
+        active="${AndereZaakAdapter.Active}"
         description="Handle each AndereZaak">
 
         <Receiver name="AndereZaakReceiver">
@@ -10,8 +11,9 @@
             <XmlIfPipe name="CheckForEntiteitType"
                 xpathExpression="string-length(heeftBetrekkingOpAndere/gerelateerde) > 0 and
                                  heeftBetrekkingOpAndere/gerelateerde[@entiteittype ='ZAK']"
-                thenForwardName="CallGetZgwZaak"
-                elseForwardName="success">
+                >
+                <Forward name="then" path="CallGetZgwZaak"/>
+                <Forward name="else" path="EXIT"/>
             </XmlIfPipe>
 
             <SenderPipe
@@ -27,8 +29,9 @@
 
             <XmlIfPipe name="CheckForGetZgwZaakResult"
                 xpathExpression="string-length(root/results) > 0"
-                thenForwardName="CallPatchZaak"
-                elseForwardName="success">
+                >
+                <Forward name="then" path="CallPatchZaak"/>
+                <Forward name="else" path="EXIT"/>
             </XmlIfPipe>
 
             <SenderPipe

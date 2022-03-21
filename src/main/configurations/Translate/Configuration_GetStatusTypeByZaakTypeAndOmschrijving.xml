@@ -30,8 +30,9 @@
 
             <XmlIfPipe name="CheckForGetStatusTypeResult"
                 xpathExpression="string-length(statusType) > 0"
-                thenForwardName="success"
-                elseForwardName="error">
+                >
+                <Forward name="then" path="EXIT"/>
+                <Forward name="else" path="Exception"/>
             </XmlIfPipe>
 
             <Exit path="EXIT" state="success"/>

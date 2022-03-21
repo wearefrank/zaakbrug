@@ -38,7 +38,7 @@
                 <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
                     <Param name="Token" value="${JwtToken}" />
                 </Param>
-                <Forward name="success" path="CreatePatchAndereZaakBody" />
+                <Forward name="success" path="EXIT" />
 			</SenderPipe>
 
             <Exit path="EXIT" state="success"/>

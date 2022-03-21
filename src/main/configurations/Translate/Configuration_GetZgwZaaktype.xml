@@ -39,8 +39,9 @@
 
             <XmlIfPipe name="CheckForSetZgwZaakTypeResult"
                 xpathExpression="count(zgwZaakType/ZaakType) > 1"
-                thenForwardName="error"
-                elseForwardName="success">
+                >
+                <Forward name="then" path="Exception"/>
+                <Forward name="else" path="EXIT"/>
             </XmlIfPipe>
 
             <Exit path="EXIT" state="success"/>

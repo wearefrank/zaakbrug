@@ -14,6 +14,6 @@
                     <xsl:apply-templates select="@*|node()"/>
                 </xsl:if>
             </xsl:for-each> 
-        </endStatusType>
+        </endStatus>
 	</xsl:template>
 </xsl:stylesheet>

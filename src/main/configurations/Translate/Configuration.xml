@@ -1,25 +1,50 @@
 <!DOCTYPE configuration [
 
-  <!-- <!ENTITY Translate_CreeerZaak_Lk01                 SYSTEM "./Configuration_Translate_CreeerZaak_Lk01.xml"> 
-  <!ENTITY Translate_GeefZaakdetails_Lv01            SYSTEM "./Configuration_Translate_GeefZaakdetails_Lv01.xml">  -->
-  <!ENTITY ImportFromLocalFS                         SYSTEM "./Configuration_ImportFromLocalFS.xml"> 
-  <!ENTITY AndereZaak               SYSTEM "./Configuration_AndereZaak.xml"> 
   <!ENTITY AddRolToZgw               SYSTEM "./Configuration_AddRolToZgw.xml">
+  <!ENTITY AndereZaak               SYSTEM "./Configuration_AndereZaak.xml"> 
+  <!ENTITY CreeerZaak_Lk01_SOAP               SYSTEM "./Configuration_CreeerZaak_Lk01_SOAP.xml">
   <!ENTITY CreeerZaak_Lk01               SYSTEM "./Configuration_CreeerZaak_Lk01.xml">
-  <!ENTITY GetZgwRoltype               SYSTEM "./Configuration_GetZgwRoltype.xml">
-  <!ENTITY GetZgwZaaktype               SYSTEM "./Configuration_GetZgwZaaktype.xml">
+  <!ENTITY GetResultaatTypeByZaakTypeAndOmschrijving              SYSTEM "./Configuration_GetResultaatTypeByZaakTypeAndOmschrijving.xml">
+  <!ENTITY GetResultatenByZaakUrl               SYSTEM "./Configuration_GetResultatenByZaakUrl.xml">
+  <!-- <!ENTITY GetRolTypeByZaakTypeAndOmschrijving               SYSTEM "./Configuration_GetRolTypeByZaakTypeAndOmschrijving.xml"> -->
+  <!ENTITY GetStatussenByZaakUrl               SYSTEM "./Configuration_GetStatussenByZaakUrl.xml">
+  <!ENTITY GetStatusTypeByZaakTypeAndOmschrijving               SYSTEM "./Configuration_GetStatusTypeByZaakTypeAndOmschrijving.xml">
+  <!ENTITY GetStatusTypes               SYSTEM "./Configuration_GetStatusTypes.xml">
+  <!ENTITY GetZgwRolTypeByZaakType               SYSTEM "./Configuration_GetZgwRolTypeByZaakType.xml">
+  <!ENTITY GetZgwZaak               SYSTEM "./Configuration_GetZgwZaak.xml">
+  <!ENTITY GetZgwZaakType               SYSTEM "./Configuration_GetZgwZaakType.xml">
+  <!ENTITY ImportFromLocalFS                         SYSTEM "./Configuration_ImportFromLocalFS.xml"> 
+  <!ENTITY PatchRelevanteAndereZaak               SYSTEM "./Configuration_PatchRelevanteAndereZaak.xml">
+  <!ENTITY PostResultaat               SYSTEM "./Configuration_PostResultaat.xml">
+  <!ENTITY PostRol               SYSTEM "./Configuration_PostRol.xml">
+  <!ENTITY PostStatus               SYSTEM "./Configuration_PostStatus.xml">
+  <!ENTITY PostZaak               SYSTEM "./Configuration_PostZaak.xml">
+  <!ENTITY SetResultaatAndStatus               SYSTEM "./Configuration_SetResultaatAndStatus.xml">
+  <!ENTITY ZdsHeeft               SYSTEM "./Configuration_ZdsHeeft.xml">
 
 ]>
 
 <configuration name="translate">
 
-  <!-- &Translate_CreeerZaak_Lk01;
-  &Translate_GeefZaakdetails_Lv01; -->
-  &ImportFromLocalFS;
   &AndereZaak;
   &AddRolToZgw;
+  &CreeerZaak_Lk01_SOAP;
   &CreeerZaak_Lk01;
-  &GetZgwRoltype;
-  &GetZgwZaaktype;
+  &GetResultaatTypeByZaakTypeAndOmschrijving;
+  &GetResultatenByZaakUrl;
+  &GetStatussenByZaakUrl;
+  &GetStatusTypeByZaakTypeAndOmschrijving;
+  &GetStatusTypes;
+  &GetZgwRolTypeByZaakType;
+  &GetZgwZaak;
+  &GetZgwZaakType;
+  &ImportFromLocalFS;
+  &PatchRelevanteAndereZaak;
+  &PostResultaat;
+  &PostRol;
+  &PostStatus;
+  &PostZaak;
+  &SetResultaatAndStatus;
+  &ZdsHeeft;
 
 </configuration>

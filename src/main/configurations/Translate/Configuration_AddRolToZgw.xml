@@ -11,8 +11,9 @@
             <XmlIfPipe
                 name="CheckForZdsGerelateerde"
                 xpathExpression="string-length(role/gerelateerde)>0"
-                thenForwardName="CreateZgwBetrokkeneIdentificatie"
-                elseForwardName="success">
+                >
+                <Forward name="then" path="CreateZgwBetrokkeneIdentificatie"/>
+                <Forward name="else" path="EXIT"/>
             </XmlIfPipe>
 
             <XsltPipe
@@ -28,8 +29,9 @@
             <XmlIfPipe
                 name="CheckForZgwBetrokkeneIdentificatie"
                 xpathExpression="string-length(zgwRol/betrokkeneIdentificatie)>0"
-                thenForwardName="CreateRolBody"
-                elseForwardName="success">
+                >
+                <Forward name="then" path="CreateRolBody"/>
+                <Forward name="else" path="EXIT"/>
             </XmlIfPipe>
 
             <XsltPipe
@@ -41,14 +43,15 @@
                 <Param name="GetRolTypeResult" sessionKey="GetRolTypeResult" type="DOMDOC"/>
                 <Param name="ZgwBetrokkeneIdentificatie" sessionKey="ZgwBetrokkeneIdentificatie" type="DOMDOC"/>
                 <Param name="TypeRolOmschrijving" xpathExpression="role/typeRolOmschrijving"/>
-                <Forward name="success" path="XmlToJson"/>
+                <Forward name="success" path="CheckForZgwRolType"/>
             </XsltPipe>
 
             <XmlIfPipe
                 name="CheckForZgwRolType"
                 xpathExpression="string-length(zgwRol/roltype)>0"
-                thenForwardName="success"
-                elseForwardName="error">
+                >
+                <Forward name="then" path="EXIT"/>
+                <Forward name="else" path="Exception"/>
             </XmlIfPipe>
 
             <Exit path="EXIT" state="success"/>

@@ -12,7 +12,7 @@
 		<zgwResultaat>
             <zaak><xsl:value-of select="$PostZgwZaakResult/root/url"/></zaak>
             <resultaattype><xsl:value-of select="$GetResultaatTypeByZaakTypeAndOmschrijvingResult/results/url"/></resultaattype>
-            <toelichting><xsl:value-of select="Envelope/Body/zakLk01/object/resultaat/omschrijving"/></toelichting>
+            <toelichting><xsl:value-of select="zakLk01/object/resultaat/omschrijving"/></toelichting>
         </zgwResultaat>
 	</xsl:template>
 </xsl:stylesheet>

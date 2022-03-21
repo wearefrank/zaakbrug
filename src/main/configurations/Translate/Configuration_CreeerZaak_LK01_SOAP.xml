@@ -5,9 +5,85 @@
 
         <Receiver name="CreeerZaak_Lk01_SOAP">
             <WebServiceListener name="CreeerZaak_Lk01_SOAP" address="${address.CreeerZaak_LK01}"/>
+            <!-- <JdbcErrorStorage
+                name="JdbcErrorStorage"
+                datasourceName="jdbc/openZaakBrug"
+                slotId="${instance.name}/creeerZaak"/> -->
         </Receiver>
 
         <Pipeline>
+            <!-- <EsbSoapInputValidator
+                name="InputValidator"
+                schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 CreeerZaak_LK01/xsd/zkn0310/mutatie/zkn0310_msg_mutatie.xsd"
+                reasonSessionKey="errorMsg"
+                ignoreUnknownNamespaces="true"
+                deepSearch="true"
+                >
+                <Forward name="failure" path="InvalidXml"/>
+                <Forward name="parserError" path="NotWellFormed"/>
+            </EsbSoapInputValidator> -->
+
+            <EsbSoapWrapperPipe
+                name="UnwrapMessage"
+                storeResultInSessionKey="UnwrapMessageResult"
+                cmhVersion="2"
+                direction="unwrap"
+                removeOutputNamespaces="true">
+                <Forward name="success" path="CallCreeerZaak"/>
+            </EsbSoapWrapperPipe>
+
+            <SenderPipe
+                name="CallCreeerZaak">
+                <IbisLocalSender
+                    name="CreeerZaakSender"
+                    javaListener="CreeerZaak_Lk01">
+                </IbisLocalSender>
+                <Forward name="success" path="CreateResponse" />
+                <Forward name="exception" path="BackEndError" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="CreateResponse"
+                getInputFromSessionKey="UnwrapMessageResult"
+                styleSheetName="CreeerZaak_LK01/xsl/CreateResponse.xsl"
+                skipEmptyTags="true">              
+                <Forward name="success" path="WrapMessage"/>
+            </XsltPipe>
+           
+            <EsbSoapWrapperPipe
+                name="WrapMessage"
+                cmhVersion="2"
+                removeOutputNamespaces="true">
+                <Param name="errorCode"   sessionKey="errorCode"/>
+                <Param name="errorReason" sessionKey="errorReason"/>
+                <Param name="destination" value="${CreeerZaak_LK01.Destination}" />
+                <Forward name="success" path="EXIT"/>
+            </EsbSoapWrapperPipe>
+
+            <!-- ERRORS -->
+
+            <PutParametersInSessionPipe name="InvalidXml">
+                <Param name="errorCode" value="INVALID_XML"/>
+                <Param name="errorReason" value="XML was invalid"/>
+                <Forward name="success" path="errorResponse" />
+            </PutParametersInSessionPipe>
+
+            <PutParametersInSessionPipe name="NotWellFormed">
+                <Param name="errorCode" value="NOT_WELL_FORMED_XML"/>
+                <Param name="errorReason" value="XML was not according to xsd"/>                
+                <Forward name="success" path="errorResponse"/>
+            </PutParametersInSessionPipe>
+
+            <PutParametersInSessionPipe name="BackEndError">
+                <Param name="errorCode"   value="BackendError"/>
+                <Param name="errorReason" value="BackendError"/>                
+                <Forward name="success" path="errorResponse"/>
+            </PutParametersInSessionPipe>
+
+            <FixedResultPipe name="errorResponse"
+                returnString="&lt;CreeerZaak_Response/&gt;">
+                <forward name="success"  path="WrapMessage"/>
+            </FixedResultPipe>
            
             <Exit path="EXIT" state="success"/>
         </Pipeline>

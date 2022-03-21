@@ -1,0 +1,53 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+    <Adapter name="PostZaakAdapter"
+        active="${PostZaakAdapter.Active}"
+        description="">
+
+        <Receiver name="PostZaakAdapter">
+            <JavaListener name="PostZaakAdapter"/>
+        </Receiver>
+
+        <Pipeline>
+            <JsonPipe name="XmlToJson"
+                direction="xml2json">
+                <forward name="success" path="PostZgwZaak"/>
+            </JsonPipe>
+
+            <!-- <Json2XmlInputValidator
+                name="ValidatePostBody"
+                schema="CreeerZaak_LK01/xsd/zgwZaakPut.xsd"
+                root="ZgwZaakPut"
+                outputFormat="JSON"
+                deepSearch="true"
+                throwException="true">
+                <Forward name="success" path="PostZgwZaak"/>
+            </Json2XmlInputValidator> -->
+
+            <SenderPipe name="PostZgwZaak">
+				<HttpSender 
+					name="PostZgwZaakSender" 
+					methodType="POST"
+					headersParams="Authorization,Accept-Crs"
+					url="${zgw.baseurl}${zgw.endpoint.zaak}"
+                    contentType="application/json"
+                    timeout="${creeerZaak.timeout}"
+                    maxExecuteRetries="5"
+				/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Content-Crs"  value="EPSG:4326" />
+                <!-- <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
+                    <Param name="Token" value="${JwtToken}" />
+                </Param> -->
+                <Forward name="success" path="JsonToXml" />
+			</SenderPipe>
+
+            <JsonPipe name="JsonToXml"
+                storeResultInSessionKey="PostZgwZaakResult">
+                <forward name="success" path="EXIT"/>
+            </JsonPipe> 
+
+            <Exit path="EXIT" state="success"/>
+            <Exit path="Exception" state="error"/>
+        </Pipeline>
+    </Adapter>
+</Module>
