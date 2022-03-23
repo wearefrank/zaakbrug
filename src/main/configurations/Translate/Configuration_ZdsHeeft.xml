@@ -3,7 +3,7 @@
         active="${ZdsHeeftAdapter.Active}"
         description="Handle each ZdsHeeft">
 
-        <Receiver name="ZdsHeeftAdapter">
+        <Receiver name="ZdsHeeftAdapter" returnedSessionKeys="NewStatuses">
             <JavaListener name="ZdsHeeftAdapter"/>
         </Receiver>
 
@@ -44,7 +44,7 @@
 
             <PutInSessionPipe name="SetBeeindigdIfIsEindstatus"
                 sessionKey="Beeindigd" 
-                value="true"
+                value="&lt;beeindigd&gt;true&lt;/beeindigd&gt;"
                 ifParam="isEindstatus"
                 ifValue="true">
                 <Param name="isEindstatus" xpathExpression="$GetStatusTypeByZaakTypeAndOmschrijvingResult/statusType/isEindstatus">
@@ -55,15 +55,15 @@
 
             <PutInSessionPipe name="PutStatusExistsInSession"
                 sessionKey="StatusExists" 
-                value="false">
+                value="&lt;statusExists&gt;false&lt;/statusExists&gt;">
                 <Forward name="success" path="CheckForBeeindigd" />
             </PutInSessionPipe> 
 
             <XmlIfPipe name="CheckForBeeindigd"
-                xpathExpression="$Beeindigd = 'true'"
+                getInputFromSessionKey="Beeindigd"
+                xpathExpression="/beeindigd = 'true'"
                 thenForwardName="SetStatusExists"
                 elseForwardName="CompareDatumStatusGezet">
-                <Param name="Beeindigd" sessionKey="Beeindigd"/>
             </XmlIfPipe>
 
             <XsltPipe
@@ -74,13 +74,13 @@
                 >
                 <Param name="StatusBody" sessionKey="StatusBody" type="DOMDOC"/>
                 <Param name="GetStatussenResult" sessionKey="GetStatussenResult" type="DOMDOC"/>
-                <Forward name="success" path="CheckForCompareResult"/>
+                <Forward name="success" path="CheckForStatusExists"/>
             </XsltPipe>
 
             <XsltPipe
                 name="CompareDatumStatusGezet"
                 getInputFromSessionKey="GetStatussenResult"
-                skipEmptyTags="true"
+                storeResultInSessionKey="StatusExists"
                 styleSheetName="CreeerZaak_LK01/xsl/CompareDatumStatusGezet.xsl"
                 >
                 <Param name="StatusBody" sessionKey="StatusBody" type="DOMDOC"/>
@@ -88,16 +88,17 @@
             </XsltPipe>
 
             <XmlIfPipe name="CheckForCompareResult"
-                xpathExpression="statusExists = 'true'"
+                preserveInput="true"
+                xpathExpression="exists(exception)"
                 >
-                <Forward name="then" path="SetStatusExists"/>
-                <Forward name="else" path="Exception"/>
+                <Forward name="then" path="Exception"/>
+                <Forward name="else" path="CheckForStatusExists"/>
             </XmlIfPipe>
 
             <XmlIfPipe name="CheckForStatusExists"
-                xpathExpression="$StatusExists = 'true'"
+                emptyInputReplacement="&lt;statusExists&gt;false&lt;/statusExists&gt;"
+                xpathExpression="/statusExists = 'true'"
                 >
-                <Param name="StatusExists" sessionKey="StatusExists"/>
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="AddToNewStatuses"/>
             </XmlIfPipe>

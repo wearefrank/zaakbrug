@@ -14,11 +14,11 @@
         <Pipeline>
             <!-- <EsbSoapInputValidator
                 name="InputValidator"
-                schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 CreeerZaak_LK01/xsd/zkn0310/mutatie/zkn0310_msg_mutatie.xsd"
+                schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 CreeerZaak_LK01/xsd/zkn0310_msg_zs-dms_resolved2017.xsd"
                 reasonSessionKey="errorMsg"
                 ignoreUnknownNamespaces="true"
                 deepSearch="true"
-                >
+                cmhVersion="2">
                 <Forward name="failure" path="InvalidXml"/>
                 <Forward name="parserError" path="NotWellFormed"/>
             </EsbSoapInputValidator> -->
@@ -44,9 +44,9 @@
 
             <XsltPipe
                 name="CreateResponse"
-                getInputFromSessionKey="UnwrapMessageResult"
                 styleSheetName="CreeerZaak_LK01/xsl/CreateResponse.xsl"
-                skipEmptyTags="true">              
+                skipEmptyTags="true">  
+                <Param name="UnwrapMessageResult"   sessionKey="UnwrapMessageResult" type="DOMDOC"/>            
                 <Forward name="success" path="WrapMessage"/>
             </XsltPipe>
            
@@ -56,7 +56,7 @@
                 removeOutputNamespaces="true">
                 <Param name="errorCode"   sessionKey="errorCode"/>
                 <Param name="errorReason" sessionKey="errorReason"/>
-                <Param name="destination" value="${CreeerZaak_LK01.Destination}" />
+                <!-- <Param name="destination" value="${CreeerZaak_LK01.Destination}" /> -->
                 <Forward name="success" path="EXIT"/>
             </EsbSoapWrapperPipe>
 

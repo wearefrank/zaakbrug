@@ -43,7 +43,7 @@
 
             <PutInSessionPipe name="PutBeeindigdInSession"
                 sessionKey="Beeindigd" 
-                value="false">
+                value="&lt;beeindigd&gt;true&lt;/beeindigd&gt;">
                 <Forward name="success" path="SetBeeindigd" />
             </PutInSessionPipe>
 
@@ -62,7 +62,8 @@
                 elementXPathExpression="/zakLk01/object/heeft">
                 <IbisLocalSender
                     name="CallZdsHeeftAdapter"
-                    javaListener="ZdsHeeftAdapter">
+                    javaListener="ZdsHeeftAdapter"
+                    returnedSessionKeys="NewStatuses">
                     <Param name="GetStatussenResult" sessionKey="GetStatussenResult" type="DOMDOC"/>
                     <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/zgwZaakType/ZaakType/url">
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
@@ -230,10 +231,10 @@
 
             <XmlIfPipe name="CheckForEindDatum"
                 getInputFromSessionKey="originalMessage"
-                xpathExpression="string-length(/zakLk01/object/einddatum) > 0 and $Beeindigd='false'"
+                xpathExpression="string-length(/zakLk01/object/einddatum) > 0 and $Beeindigd/beeindigd='false'"
                 thenForwardName="GetProfileDataFromLocalFS_2"
                 elseForwardName="PostStatusIterator">
-                <Param name="Beeindigd" sessionKey="Beeindigd"/>
+                <Param name="Beeindigd" sessionKey="Beeindigd" type="DOMDOC"/>
             </XmlIfPipe>
 
             <SenderPipe name="GetProfileDataFromLocalFS_2">

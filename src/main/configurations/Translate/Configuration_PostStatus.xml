@@ -3,8 +3,8 @@
         active="${PostStatusAdapter.Active}"
         description="">
 
-        <Receiver name="PostStatus">
-            <JavaListener name="PostStatus"/>
+        <Receiver name="PostStatusAdapter">
+            <JavaListener name="PostStatusAdapter"/>
         </Receiver>
 
         <Pipeline>
@@ -26,9 +26,7 @@
 				/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Content-Crs"  value="EPSG:4326"/>
-                <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
-                    <Param name="Token" value="${JwtToken}" />
-                </Param>
+                <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="EXIT" />
 			</SenderPipe>
 

@@ -1,0 +1,31 @@
+{
+    "count":3,
+    "next":null,
+    "previous":null,
+    "results":[
+        {
+            "url":"http://localhost:8000/zaken/api/v1/statussen/dbca8b0d-c305-4fb6-a82c-a25a1fe6494a",
+            "uuid":"dbca8b0d-c305-4fb6-a82c-a25a1fe6494a",
+            "zaak":"http://localhost:8000/zaken/api/v1/zaken/c3e8b5e7-46bb-40bb-8d25-bade2ab13d14",
+            "statustype":"http://localhost:8000/catalogi/api/v1/statustypen/6cbd5d70-9da8-4481-8503-014578f0a34e",
+            "datumStatusGezet":"2022-02-09T11:33:45.110000Z",
+            "statustoelichting":"Afgehandeld"
+        },
+        {
+            "url":"http://localhost:8000/zaken/api/v1/statussen/eeaa94fd-9548-4432-b054-4b60edebb5d0",
+            "uuid":"eeaa94fd-9548-4432-b054-4b60edebb5d0",
+            "zaak":"http://localhost:8000/zaken/api/v1/zaken/c3e8b5e7-46bb-40bb-8d25-bade2ab13d14",
+            "statustype":"http://localhost:8000/catalogi/api/v1/statustypen/d5bf25ba-00c3-4ae5-b273-0b2826474ef2",
+            "datumStatusGezet":"2022-01-06T11:55:44.120000Z",
+            "statustoelichting":"Besluitvorming afgerond"
+        },
+        {
+            "url":"http://localhost:8000/zaken/api/v1/statussen/3f7fe511-4912-4a1a-bd02-2953fd90e705",
+            "uuid":"3f7fe511-4912-4a1a-bd02-2953fd90e705",
+            "zaak":"http://localhost:8000/zaken/api/v1/zaken/c3e8b5e7-46bb-40bb-8d25-bade2ab13d14",
+            "statustype":"http://localhost:8000/catalogi/api/v1/statustypen/5cce8bb5-1c75-4847-807a-5359dd3e8a71",
+            "datumStatusGezet":"2022-01-06T11:55:39.680000Z",
+            "statustoelichting":"Ontvangen"
+        }
+    ]
+}

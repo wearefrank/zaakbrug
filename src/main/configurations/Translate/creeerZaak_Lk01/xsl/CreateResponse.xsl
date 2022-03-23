@@ -3,7 +3,7 @@
     <xsl:param name="UnwrapMessageResult"/>
    
 	<xsl:template match="/">
-        <status>OK</status>
+        <!-- <status>OK</status> -->
         <Bv03Bericht>
             <stuurgegevens>
                 <berichtcode>Bv03</berichtcode>

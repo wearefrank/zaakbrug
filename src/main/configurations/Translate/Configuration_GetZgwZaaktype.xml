@@ -20,9 +20,7 @@
                 <Param name="ZaakTypeCode" sessionKey="ZaakTypeCode"/>
                 <Param name="Status" value="definitief"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Authorization" xpathExpression="concat('Bearer ', $Token)" >
-                    <Param name="Token" value="${JwtToken}" />
-                </Param>
+                <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="JsonToXml" />
 			</SenderPipe>
 
