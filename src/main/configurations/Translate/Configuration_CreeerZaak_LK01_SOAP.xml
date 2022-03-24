@@ -23,6 +23,14 @@
                 <Forward name="parserError" path="NotWellFormed"/>
             </EsbSoapInputValidator> -->
 
+            <!-- <WsdlXmlInputValidator 
+                name="InputValidator" 
+				soapBody="zakLk01" soapHeader="Header"
+				wsdl="CreeerZaak_LK01/xsd/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl">
+				<Forward name="failure" path="InvalidXml"/>
+                <Forward name="parserError" path="NotWellFormed"/>
+			</WsdlXmlInputValidator> -->
+
             <EsbSoapWrapperPipe
                 name="UnwrapMessage"
                 storeResultInSessionKey="UnwrapMessageResult"

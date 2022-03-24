@@ -3,8 +3,8 @@
         active="${AndereZaakAdapter.Active}"
         description="Handle each AndereZaak">
 
-        <Receiver name="AndereZaakReceiver">
-            <JavaListener name="AndereZaakListener"/>
+        <Receiver name="AndereZaakAdapter">
+            <JavaListener name="AndereZaakAdapter"/>
         </Receiver>
 
         <Pipeline> 
