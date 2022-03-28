@@ -174,7 +174,6 @@
                 xpathExpression="root/count = 0"
                 thenForwardName="GetProfileDataFromLocalFS_1"
                 elseForwardName="CheckForEindDatum">
-                <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
             </XmlIfPipe>
 
             <SenderPipe name="GetProfileDataFromLocalFS_1">
@@ -278,7 +277,6 @@
                 xpathExpression="root/count = 0"
                 thenForwardName="CallGetResultaatTypeByZaakTypeAndOmschrijving_3"
                 elseForwardName="CreateStatusBody">
-                <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
             </XmlIfPipe>
 
             <SenderPipe

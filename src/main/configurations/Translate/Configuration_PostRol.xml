@@ -8,13 +8,37 @@
         </Receiver>
 
         <Pipeline>
-			<ReplacerPipe name="AddZaakUrl"
+            <XsltPipe
+                name="AddZaakUrl"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/AddZaakUrl.xsl"
+                >
+                <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
+                <Forward name="success" path="XmlToJson"/>
+            </XsltPipe>
+            <!-- <FixedResultPipe name="PutPlaceholder_ZaakUrl"
+                substituteVars="true"
+                returnString="test">
+                <Param name="ZaakUrl"/>
+                <forward name="success" path="XmlToJson"/>
+            </FixedResultPipe> -->
+
+            <!-- <PutInSessionPipe name="PutPlaceholder_ZaakUrl"
+               >
+                <Param name="Url">
+                   <Param name="Placeholder_ZaakUrl" sessionKey="ZaakUrl"/>
+                </Param>
+                <Forward name="success" path="XmlToJson" />
+            </PutInSessionPipe> -->
+
+			<!-- <ReplacerPipe name="AddZaakUrl"
                 find="Placeholder_ZaakUrl" 
                 replace="$ZaakUrl"
                 >
                 <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                 <Forward name="success" path="XmlToJson"/>
-            </ReplacerPipe>
+            </ReplacerPipe> -->
 
             <JsonPipe name="XmlToJson"
                 direction="xml2json">

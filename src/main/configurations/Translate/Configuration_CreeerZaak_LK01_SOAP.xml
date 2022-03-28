@@ -12,7 +12,7 @@
         </Receiver>
 
         <Pipeline>
-            <!-- <EsbSoapInputValidator
+            <!-- <SoapInputValidator
                 name="InputValidator"
                 schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 CreeerZaak_LK01/xsd/zkn0310_msg_zs-dms_resolved2017.xsd"
                 reasonSessionKey="errorMsg"
@@ -21,7 +21,7 @@
                 cmhVersion="2">
                 <Forward name="failure" path="InvalidXml"/>
                 <Forward name="parserError" path="NotWellFormed"/>
-            </EsbSoapInputValidator> -->
+            </SoapInputValidator> -->
 
             <!-- <WsdlXmlInputValidator 
                 name="InputValidator" 

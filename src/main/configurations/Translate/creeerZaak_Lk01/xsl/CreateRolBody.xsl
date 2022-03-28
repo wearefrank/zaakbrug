@@ -7,7 +7,6 @@
     <xsl:template match="/">
         <zgwRol>
             <!-- <betrokkene><xsl:value-of select=""/></betrokkene> -->
-            <zaak>Placeholder_ZaakUrl</zaak>
             <betrokkeneType><xsl:value-of select="$ZgwBetrokkeneIdentificatie/zgwRol/betrokkeneType"/></betrokkeneType>
             <xsl:for-each select="$GetRolTypeResult/root/results">
                 <xsl:if test="omschrijving = $TypeRolOmschrijving">
