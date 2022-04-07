@@ -89,7 +89,7 @@
 
             <XmlIfPipe name="CheckForCompareResult"
                 preserveInput="true"
-                xpathExpression="exists(exception)"
+                xpathExpression="exists(/result/exception)"
                 >
                 <Forward name="then" path="Exception"/>
                 <Forward name="else" path="CheckForStatusExists"/>

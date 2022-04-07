@@ -3,18 +3,20 @@
     <xsl:param name="StatusBody"/>
 
     <xsl:template match="/">
-        <xsl:for-each select="root/results">
-            <xsl:if test="zgw:convertZdsDatetimeToZgwDatetime(datumStatusGezet) = zgw:convertZdsDatetimeToZgwDatetime($StatusBody/status/datumStatusGezet)">
-                <xsl:choose>
-                    <xsl:when test="statustype != $StatusBody/status/statustype">
-                        <exception>ConverterException</exception>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <statusExists>true</statusExists>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </xsl:if>
-        </xsl:for-each>
+        <result>
+            <xsl:for-each select="root/results">
+                <xsl:if test="zgw:convertZdsDatetimeToZgwDatetime(datumStatusGezet) = zgw:convertZdsDatetimeToZgwDatetime($StatusBody/status/datumStatusGezet)">
+                    <xsl:choose>
+                        <xsl:when test="statustype != $StatusBody/status/statustype">
+                            <exception>ConverterException</exception>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <statusExists>true</statusExists>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:if>
+            </xsl:for-each>
+        </result>
     </xsl:template>
 
     <xsl:function name="zgw:convertZdsDatetimeToZgwDatetime" as="xs:dateTime">

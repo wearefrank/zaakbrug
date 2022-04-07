@@ -1,0 +1,63 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+    <Adapter name="ActualiseerZaakStatus"
+        active="${ActualiseerZaakStatus.Active}"
+        description="">
+
+        <Receiver name="ActualiseerZaakStatus">
+            <JavaListener name="ActualiseerZaakStatus"/>
+        </Receiver>
+
+        <Pipeline>   
+			<SenderPipe
+                name="CallGetZgwZaak"
+                storeResultInSessionKey="GetZaakResult">
+                <IbisLocalSender
+                    name="CallGetZgwZaakSender"
+                    javaListener="GetZgwZaak">
+                    <Param name="Identificatie" xpathExpression="ZdsZaak/identificatie"/>
+                </IbisLocalSender>
+                <Forward name="success" path="GetZgwZaakTypeByZaak"/>
+            </SenderPipe>
+
+            <SenderPipe name="GetZgwZaakTypeByZaak" 
+                getInputFromFixedValue="&lt;dummy/&gt;">
+				<HttpSender 
+					name="GetZgwZaakTypeByZaakSender" 
+					methodType="GET"
+					headersParams="Authorization,Accept-Crs"
+					url="$Url"
+                    timeout="${creeerZaak.timeout}"
+				/>
+                <Param name="Url" xpathExpression="$GetZaakResult/results/zaaktype">
+                    <Param name="GetZaakResult" sessionKey="GetZaakResult"/>
+                </Param>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Forward name="success" path="JsonToXml" />
+			</SenderPipe>
+
+            <JsonPipe name="JsonToXml"
+                storeResultInSessionKey="GetZaakTypeResult">
+                <forward name="success" path="CallSetResultaatAndStatus"/>
+            </JsonPipe>
+
+            <SenderPipe
+                name="CallSetResultaatAndStatus"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="SetResultaatAndStatusResult">
+                <IbisLocalSender
+                    name="CallSetResultaatAndStatusSender"
+                    javaListener="SetResultaatAndStatus">S
+                    <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>                   
+                    <Param name="ZaakUrl" xpathExpression="$GetZaakResult/results/url">
+                        <Param name="GetZaakResult" sessionKey="GetZaakResult" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+            </SenderPipe>
+
+            <Exit path="EXIT" state="success"/>
+            <Exit path="Exception" state="error"/>
+        </Pipeline>
+    </Adapter>
+</Module>

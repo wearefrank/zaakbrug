@@ -24,7 +24,6 @@
             <XsltPipe
                 name="SetEndStatusType"
                 storeResultInSessionKey="SetEndStatusTypeResult"
-                skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/SetEndStatusType.xsl"
                 >
                 <Forward name="success" path="CallGetStatussenByZaakUrl"/>
@@ -43,7 +42,7 @@
 
             <PutInSessionPipe name="PutBeeindigdInSession"
                 sessionKey="Beeindigd" 
-                value="&lt;beeindigd&gt;true&lt;/beeindigd&gt;">
+                value="&lt;beeindigd&gt;false&lt;/beeindigd&gt;">
                 <Forward name="success" path="SetBeeindigd" />
             </PutInSessionPipe>
 
@@ -59,6 +58,7 @@
 
             <ForEachChildElementPipe name="ZdsHeeftIterator"
                 getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="ZdsHeeftResult"
                 elementXPathExpression="/zakLk01/object/heeft">
                 <IbisLocalSender
                     name="CallZdsHeeftAdapter"
@@ -129,12 +129,12 @@
                     name="CallPostResultaatSender"
                     javaListener="PostResultaatAdapter">
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
-                    <Param name="ResultaatType" xpathExpression="$GetResultaatTypeByZaakTypeAndOmschrijvingResult/root/results/url">
+                    <Param name="ResultaatType" xpathExpression="$GetResultaatTypeByZaakTypeAndOmschrijvingResult/resultaatType/url">
                         <Param name="GetResultaatTypeByZaakTypeAndOmschrijvingResult" sessionKey="GetResultaatTypeByZaakTypeAndOmschrijvingResult" type="DOMDOC"/>
                     </Param>
                     <Param name="Toelichting" xpathExpression="/zakLk01/object/resultaat/omschrijving"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CheckForEndStatusType"/>
+                <Forward name="success" path="PostStatusIterator"/>
             </SenderPipe>
 
             <XmlIfPipe name="CheckForEndStatusType"
@@ -146,14 +146,14 @@
 
             <XsltPipe
                 name="SetNewEndStatus"
-                storeResultInSessionKey="NewEndStatus"
+                getInputFromSessionKey="ZdsHeeftResult"
                 styleSheetName="CreeerZaak_LK01/xsl/SetNewEndStatus.xsl"
                 >
+                <Param name="EndStatusType" sessionKey="SetEndStatusTypeResult" type="DOMDOC"/>
                 <Forward name="success" path="CheckForNewEndStatus"/>
             </XsltPipe>
 
             <XmlIfPipe name="CheckForNewEndStatus"
-                getInputFromSessionKey="NewEndStatus"
                 xpathExpression="string-length(/endStatus) > 0"
                 thenForwardName="CallGetResultatenByZaakUrl_2"
                 elseForwardName="CheckForEindDatum">
@@ -187,7 +187,6 @@
 
             <XsltPipe
                 name="GetCoalesceResultaat_1"
-                skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/GetCoalesceResultaat.xsl"
                 >
                 <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
@@ -196,7 +195,7 @@
             </XsltPipe>
 
             <XmlIfPipe name="CheckForCoalesceResultaat_1"
-                xpathExpression="string-length(coalesceResultaat) > 0"
+                xpathExpression="string-length(/result/coalesceResultaat) > 0"
                 thenForwardName="CallGetResultaatTypeByZaakTypeAndOmschrijving_2"
                 elseForwardName="CheckForEindDatum">
             </XmlIfPipe>
@@ -248,7 +247,6 @@
             <XsltPipe
                 name="GetCoalesceResultaat_2"
                 storeResultInSessionKey="CoalesceResultaat"
-                skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/GetCoalesceResultaat.xsl"
                 >
                 <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
@@ -257,7 +255,7 @@
             </XsltPipe>
 
             <XmlIfPipe name="CheckForCoalesceResultaat_2"
-                xpathExpression="string-length(coalesceResultaat) > 0"
+                xpathExpression="string-length(/result/coalesceResultaat) > 0"
                 thenForwardName="CallGetResultatenByZaakUrl_3"
                 elseForwardName="PostStatusIterator">
             </XmlIfPipe>

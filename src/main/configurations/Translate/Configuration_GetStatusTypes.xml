@@ -8,7 +8,7 @@
         </Receiver>
 
         <Pipeline>   
-			<SenderPipe name="GetStatusTypesByZaaktype" 
+			<SenderPipe name="GetStatusTypesByZaakType" 
                 getInputFromFixedValue="&lt;dummy/&gt;">
 				<HttpSender 
 					name="GetStatusTypesByZaakTypeSender" 

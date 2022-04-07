@@ -4,21 +4,23 @@
     <xsl:param name="Type"/>
 
     <xsl:template match="/">
-        <xsl:choose>
-            <xsl:when test="$Type = 'endCaseEndDate'">
-                <xsl:for-each select="root/profile/endCaseEndDate">
-                    <xsl:if test="../zaakTypeIdentificatie = $GetZaakTypeResult/zgwZaakType/ZaakType/identificatie">
-                        <coalesceResultaat><xsl:value-of select="coalesceResultaat"/></coalesceResultaat>
-                    </xsl:if>
-                </xsl:for-each>
-            </xsl:when>
-            <xsl:when test="$Type = 'endDateAndResultLastStatus'">
-                <xsl:for-each select="root/profile/endDateAndResultLastStatus">
-                    <xsl:if test="../zaakTypeIdentificatie = $GetZaakTypeResult/zgwZaakType/ZaakType/identificatie">
-                        <coalesceResultaat><xsl:value-of select="coalesceResultaat"/></coalesceResultaat>
-                    </xsl:if>
-                </xsl:for-each>
-            </xsl:when>
-        </xsl:choose>
+        <result>
+            <xsl:choose>
+                <xsl:when test="$Type = 'endCaseEndDate'">
+                    <xsl:for-each select="root/profile/endCaseEndDate">
+                        <xsl:if test="../zaakTypeIdentificatie = $GetZaakTypeResult/zgwZaakType/ZaakType/identificatie">
+                            <coalesceResultaat><xsl:value-of select="coalesceResultaat"/></coalesceResultaat>
+                        </xsl:if>
+                    </xsl:for-each>
+                </xsl:when>
+                <xsl:when test="$Type = 'endDateAndResultLastStatus'">
+                    <xsl:for-each select="root/profile/endDateAndResultLastStatus">
+                        <xsl:if test="../zaakTypeIdentificatie = $GetZaakTypeResult/zgwZaakType/ZaakType/identificatie">
+                            <coalesceResultaat><xsl:value-of select="coalesceResultaat"/></coalesceResultaat>
+                        </xsl:if>
+                    </xsl:for-each>
+                </xsl:when>
+            </xsl:choose>
+        </result>
 	</xsl:template>
 </xsl:stylesheet>
