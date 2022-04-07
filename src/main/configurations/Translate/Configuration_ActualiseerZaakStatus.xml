@@ -19,27 +19,18 @@
                 <Forward name="success" path="GetZgwZaakTypeByZaak"/>
             </SenderPipe>
 
-            <SenderPipe name="GetZgwZaakTypeByZaak" 
-                getInputFromFixedValue="&lt;dummy/&gt;">
-				<HttpSender 
-					name="GetZgwZaakTypeByZaakSender" 
-					methodType="GET"
-					headersParams="Authorization,Accept-Crs"
-					url="$Url"
-                    timeout="${creeerZaak.timeout}"
-				/>
-                <Param name="Url" xpathExpression="$GetZaakResult/results/zaaktype">
-                    <Param name="GetZaakResult" sessionKey="GetZaakResult"/>
-                </Param>
-                <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Authorization" value="Bearer ${JwtToken}"/>
-                <Forward name="success" path="JsonToXml" />
-			</SenderPipe>
-
-            <JsonPipe name="JsonToXml"
+            <SenderPipe
+                name="CallGetZaakTypeByZaak"
                 storeResultInSessionKey="GetZaakTypeResult">
-                <forward name="success" path="CallSetResultaatAndStatus"/>
-            </JsonPipe>
+                <IbisLocalSender
+                    name="CallGetZaakTypeByZaakSender"
+                    javaListener="GetZaakTypeByZaak">
+                    <Param name="ZaakUrl" xpathExpression="$GetZaakResult/results/zaaktype">
+                        <Param name="GetZaakResult" sessionKey="GetZaakResult"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="CallSetResultaatAndStatus"/>
+            </SenderPipe>
 
             <SenderPipe
                 name="CallSetResultaatAndStatus"
