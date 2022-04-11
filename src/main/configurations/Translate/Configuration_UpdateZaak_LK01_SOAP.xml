@@ -1,10 +1,10 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="CreeerZaak_Lk01_SOAP"
-        active="${CreeerZaak_Lk01_SOAP.Active}"
+    <Adapter name="UpdateZaak_Lk01_SOAP"
+        active="${UpdateZaak_Lk01_SOAP.Active}"
         description="">
 
-        <Receiver name="CreeerZaak_Lk01_SOAP">
-            <WebServiceListener name="CreeerZaak_Lk01_SOAP" address="${address.CreeerZaak_LK01}" soap="false"/>
+        <Receiver name="UpdateZaak_Lk01_SOAP">
+            <WebServiceListener name="UpdateZaak_Lk01_SOAP" address="${address.UpdateZaak_LK01}" soap="false"/>
             <!-- <JdbcErrorStorage
                 name="JdbcErrorStorage"
                 datasourceName="jdbc/openZaakBrug"
@@ -12,6 +12,10 @@
         </Receiver>
 
         <Pipeline>
+            <Exits>
+                <Exit path="EXIT" state="SUCCESS"/>
+                <Exit path="EXCEPTION" state="ERROR"/>
+            </Exits>
             <!-- <SoapInputValidator
                 name="InputValidator"
                 schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 CreeerZaak_LK01/xsd/zkn0310_msg_zs-dms_resolved2017.xsd"
@@ -36,14 +40,14 @@
                 storeResultInSessionKey="UnwrapMessageResult"
                 direction="UNWRAP"
                 removeOutputNamespaces="true">
-                <Forward name="success" path="CallCreateZaak"/>
+                <Forward name="success" path="CallUpdateZaak"/>
             </SoapWrapperPipe>
 
             <SenderPipe
-                name="CallCreeerZaak">
+                name="CallUpdateZaak">
                 <IbisLocalSender
-                    name="CreeerZaakSender"
-                    javaListener="CreeerZaak_Lk01">
+                    name="UpdateZaakSender"
+                    javaListener="UpdateZaak_Lk01">
                 </IbisLocalSender>
                 <Forward name="success" path="WrapBv03Response" />
                 <Forward name="exception" path="BackEndError" />

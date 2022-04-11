@@ -1,4 +1,4 @@
-<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="ImportFromLocalFS"
         active="${ImportFromLocalFS.Active}"
         description="">
@@ -8,13 +8,18 @@
         </Receiver>
 
         <Pipeline>
+            <Exits>
+                <Exit path="EXIT" state="SUCCESS"/>
+                <Exit path="EXCEPTION" state="ERROR"/>
+            </Exits>
+
             <LocalFileSystemPipe name="ReadFile" action="read">
-				<param name="filename" sessionKey="FileName" />
-				<forward name="success" path="JsonToXml" />
+				<Param name="filename" sessionKey="FileName" />
+				<Forward name="success" path="JsonToXml" />
 			</LocalFileSystemPipe>
 
             <JsonPipe name="JsonToXml">
-                <forward name="success" path="EXIT"/>
+                <Forward name="success" path="EXIT"/>
             </JsonPipe>
 
             <!-- <XsltPipe name="FormatXml" 
@@ -22,9 +27,6 @@
                 storeResultInSessionKey="MappingGlobal">
                 <forward name="success" path="EXIT"/>
 			</XsltPipe> -->
-            
-            <Exit path="EXIT" state="success"/>
-            <Exit path="Exception" state="error"/>
         </Pipeline>
     </Adapter>
 </Module>

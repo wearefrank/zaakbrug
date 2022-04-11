@@ -1,4 +1,4 @@
-<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="PostRolAdapter"
         active="${PostRolAdapter.Active}"
         description="">
@@ -8,6 +8,11 @@
         </Receiver>
 
         <Pipeline>
+            <Exits>
+                <Exit path="EXIT" state="SUCCESS"/>
+                <Exit path="EXCEPTION" state="ERROR"/>
+            </Exits>
+
             <XsltPipe
                 name="AddZaakUrl"
                 removeNamespaces="true"
@@ -41,7 +46,7 @@
             </ReplacerPipe> -->
 
             <JsonPipe name="XmlToJson"
-                direction="xml2json">
+                direction="XML2JSON">
                 <Forward name="success" path="PostZgwRol"/>
             </JsonPipe>
 
@@ -61,9 +66,6 @@
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="EXIT" />
 			</SenderPipe>
-
-            <Exit path="EXIT" state="success"/>
-            <Exit path="Exception" state="error"/>
         </Pipeline>
     </Adapter>
 </Module>

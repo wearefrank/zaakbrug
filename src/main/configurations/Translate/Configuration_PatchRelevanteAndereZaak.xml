@@ -1,4 +1,4 @@
-<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="PatchRelevanteAndereZaak"
         active="${PatchRelevanteAndereZaak.Active}"
         description="">
@@ -7,7 +7,12 @@
             <JavaListener name="PatchRelevanteAndereZaak"/>
         </Receiver>
 
-        <Pipeline>   
+        <Pipeline>
+            <Exits>
+                <Exit path="EXIT" state="SUCCESS"/>
+                <Exit path="EXCEPTION" state="ERROR"/>
+            </Exits>
+
 			<XsltPipe
                 name="CreatePatchZaakBody"
                 skipEmptyTags="true"
@@ -18,8 +23,8 @@
             </XsltPipe>
 
             <JsonPipe name="XmlToJson"
-                direction="xml2json">
-                <forward name="success" path="PatchZaak"/>
+                direction="XML2JSON">
+                <Forward name="success" path="PatchZaak"/>
             </JsonPipe>
 
             <SenderPipe name="PatchZaak">
@@ -38,9 +43,6 @@
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="EXIT" />
 			</SenderPipe>
-
-            <Exit path="EXIT" state="success"/>
-            <Exit path="Exception" state="error"/>
         </Pipeline>
     </Adapter>
 </Module>

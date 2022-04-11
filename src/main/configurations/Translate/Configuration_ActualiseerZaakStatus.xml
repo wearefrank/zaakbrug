@@ -1,14 +1,19 @@
-<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="ActualiseerZaakStatus"
-        active="${ActualiseerZaakStatus.Active}"
-        description="">
-
-        <Receiver name="ActualiseerZaakStatus">
-            <JavaListener name="ActualiseerZaakStatus"/>
-        </Receiver>
-
-        <Pipeline>   
-			<SenderPipe
+    active="${ActualiseerZaakStatus.Active}"
+    description="">
+    
+    <Receiver name="ActualiseerZaakStatus">
+        <JavaListener name="ActualiseerZaakStatus"/>
+    </Receiver>
+    
+    <Pipeline>   
+        <Exits>
+            <Exit path="EXIT" state="SUCCESS"/>
+            <Exit path="EXCEPTION" state="ERROR"/>
+        </Exits>
+        
+        <SenderPipe
                 name="CallGetZgwZaak"
                 storeResultInSessionKey="GetZaakResult">
                 <IbisLocalSender
@@ -38,7 +43,7 @@
                 storeResultInSessionKey="SetResultaatAndStatusResult">
                 <IbisLocalSender
                     name="CallSetResultaatAndStatusSender"
-                    javaListener="SetResultaatAndStatus">S
+                    javaListener="SetResultaatAndStatus">
                     <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>                   
                     <Param name="ZaakUrl" xpathExpression="$GetZaakResult/results/url">
                         <Param name="GetZaakResult" sessionKey="GetZaakResult" type="DOMDOC"/>
@@ -46,9 +51,6 @@
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
             </SenderPipe>
-
-            <Exit path="EXIT" state="success"/>
-            <Exit path="Exception" state="error"/>
         </Pipeline>
     </Adapter>
 </Module>

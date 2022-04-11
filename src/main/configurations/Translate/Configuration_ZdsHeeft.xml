@@ -1,4 +1,4 @@
-<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="ZdsHeeftAdapter"
         active="${ZdsHeeftAdapter.Active}"
         description="Handle each ZdsHeeft">
@@ -8,6 +8,11 @@
         </Receiver>
 
         <Pipeline>
+            <Exits>
+                <Exit path="EXIT" state="SUCCESS"/>
+                <Exit path="EXCEPTION" state="ERROR"/>
+            </Exits>
+
             <XmlIfPipe name="CheckForOmschrijving"
                 xpathExpression="string-length(heeft/gerelateerde/omschrijving) > 0"
                 >
@@ -112,9 +117,6 @@
                 >
                 <Forward name="success" path="EXIT"/>
             </XsltPipe>
-
-            <Exit path="EXIT" state="success"/>
-            <Exit path="Exception" state="error"/>
         </Pipeline>
     </Adapter>
 </Module>
