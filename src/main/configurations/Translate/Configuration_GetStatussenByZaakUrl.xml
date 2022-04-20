@@ -14,7 +14,7 @@
 					name="GetStatussenByZaakUrlSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.statussen}?zaak=$ZaakUrl"
+					url="${zgw.baseurl}${zgw.endpoint.status}?zaak=$ZaakUrl"
                     timeout="${creeerZaak.timeout}"
 				/>
                 <Param name="ZaakUrl" sessionKey="ZaakUrl"/>

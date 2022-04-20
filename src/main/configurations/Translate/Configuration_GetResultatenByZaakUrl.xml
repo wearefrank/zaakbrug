@@ -14,7 +14,7 @@
 					name="GetZgwRoltypeByIdSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.resultaten}?zaak=$ZaakUrl"
+					url="${zgw.baseurl}${zgw.endpoint.resultaat}?zaak=$ZaakUrl"
                     timeout="${creeerZaak.timeout}"
 				/>
                 <Param name="ZaakUrl" sessionKey="ZaakUrl" />
