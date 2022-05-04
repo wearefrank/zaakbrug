@@ -1,7 +1,4 @@
-<Module
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
-  
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
   <Adapter name="Translate_CreerZaak_Lk01"
   		active="${Translate_CreerZaak_Lk01.Active}"
 		description="">
@@ -9,17 +6,22 @@
 	  <Receiver name="TranslateRouter_BeantwoordVraag__CreerZaak_Lk01">
 			<WebServiceListener name="TranslateRouter_BeantwoordVraag__CreerZaak_Lk01" address="translate/generic/zds/BeantwoordVraag" soap="true"/>
 		</Receiver>
-      <Pipeline>
 
-		<FileSystemPipe 
+      <Pipeline>
+		<Exits>
+			<Exit path="EXIT" state="SUCCESS"/>
+			<Exit path="EXCEPTION" state="ERROR"/>
+		</Exits>
+
+		<LocalFileSystemPipe 
 			name="retrieveMappingProfile" 
 			action="read" 
 			filename="TestProfile.json" 
 			storeResultInSessionKey="mappingProfile">
-		</FileSystemPipe>
+		</LocalFileSystemPipe>
 
 			<PutInSessionPipe name="storeZdsZaak">
-				<Param name="zdsZaak" xpathExpression="/zakLk01/object[@entiteittype='ZAK']" type="xml"/>
+				<Param name="zdsZaak" xpathExpression="/zakLk01/object[@entiteittype='ZAK']" type="XML"/>
 			</PutInSessionPipe>
 
 			<XsltPipe name="mapZdsZaakToZgwZaak" styleSheetName="CreeerZaak_Lk01/xsl/to_zgwZaakPut.xsl" getInputFromSessionKey="zdsZaak" storeResultInSessionKey="zgwZaakPut">
@@ -137,8 +139,6 @@
 			</XsltPipe>
 
 			<JsonPipe name="responseToJson" direction="XML2JSON"/> -->
-
-			<Exit path="EXIT" state="success"/>
 		</Pipeline>
   </Adapter>
 </Module>

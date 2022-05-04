@@ -1,4 +1,4 @@
-<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="GetZgwStatusTypes"
         active="${GetZgwStatusTypes.Active}"
         description="">
@@ -7,7 +7,12 @@
             <JavaListener name="GetZgwStatusTypes"/>
         </Receiver>
 
-        <Pipeline>   
+        <Pipeline>
+            <Exits>
+                <Exit path="EXIT" state="SUCCESS"/>
+                <Exit path="EXCEPTION" state="ERROR"/>
+            </Exits>
+
 			<SenderPipe name="GetStatusTypesByZaakType" 
                 getInputFromFixedValue="&lt;dummy/&gt;">
 				<HttpSender 
@@ -24,11 +29,8 @@
 			</SenderPipe>
 
             <JsonPipe name="JsonToXml">
-                <forward name="success" path="EXIT"/>
+                <Forward name="success" path="EXIT"/>
             </JsonPipe>
-
-            <Exit path="EXIT" state="success"/>
-            <Exit path="Exception" state="error"/>
         </Pipeline>
     </Adapter>
 </Module>

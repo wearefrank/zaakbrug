@@ -1,4 +1,4 @@
-<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="GetZgwResultaatTypeByZaakTypeAndOmschrijving"
         active="${GetZgwResultaatTypeByZaakTypeAndOmschrijving.Active}"
         description="">
@@ -8,6 +8,11 @@
         </Receiver>
 
         <Pipeline>   
+            <Exits>
+                <Exit path="EXIT" state="SUCCESS"/>
+                <Exit path="EXCEPTION" state="ERROR"/>
+            </Exits>
+
 			<SenderPipe name="GetResultaatTypesByZaakType" 
                 getInputFromFixedValue="&lt;dummy/&gt;">
 				<HttpSender 
@@ -24,7 +29,7 @@
 			</SenderPipe>
 
             <JsonPipe name="JsonToXml">
-                <forward name="success" path="GetZgwResultaatTypeByOmschrijving"/>
+                <Forward name="success" path="GetZgwResultaatTypeByOmschrijving"/>
             </JsonPipe>
 
             <XsltPipe
@@ -39,11 +44,8 @@
                 xpathExpression="string-length(resultaatType) > 0"
                 >
                 <Forward name="then" path="EXIT"/>
-                <Forward name="else" path="Exception"/>
+                <Forward name="else" path="EXCEPTION"/>
             </XmlIfPipe>
-
-            <Exit path="EXIT" state="success"/>
-            <Exit path="Exception" state="error"/>
         </Pipeline>
     </Adapter>
 </Module>

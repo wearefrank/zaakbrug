@@ -1,4 +1,4 @@
-<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="UpdateZaak_Lk01"
         active="${UpdateZaak_Lk01.Active}"
         description="">
@@ -8,10 +8,36 @@
         </Receiver>
 
         <Pipeline>
- 
-            
-            <Exit path="EXIT" state="success"/>
-            <Exit path="Exception" state="error"/>
+            <Exits>
+                <Exit path="EXIT" state="SUCCESS"/>
+                <Exit path="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <!-- Retrieve was-->
+            <SenderPipe
+                name="CallGetZgwZaak"
+                storeResultInSessionKey="GetWasZgwZaakResult">
+                <IbisLocalSender
+                    name="CallGetZgwZaakSender"
+                    javaListener="GetZgwZaak">
+                    <Param name="Identificatie" xpathExpression="/zakLk01/object[1]/identificatie"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForGetWasZgwZaakNoResult"/>
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForGetWasZgwZaakNoResult"
+                xpathExpression="string-length(root/results) = 0"
+                >
+                <Forward name="then" path="EXCEPTION"/>
+                <Forward name="else" path="CheckForInputZaakObjectCount"/>
+            </XmlIfPipe>
+
+            <XmlIfPipe name="CheckForInputZaakObjectCount"
+                xpathExpression="count(/zakLk01/object) = 2"
+                >
+                <Forward name="then" path="EXIT"/>
+                <Forward name="else" path="EXIT"/>
+            </XmlIfPipe>
         </Pipeline>
     </Adapter>
 </Module>

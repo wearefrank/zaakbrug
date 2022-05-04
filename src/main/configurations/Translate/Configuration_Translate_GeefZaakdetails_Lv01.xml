@@ -1,7 +1,4 @@
-<Module
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
-  
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
   <Adapter name="Translate_GeefZaakdetails_Lv01"
   		active="${Translate_GeefZaakdetails_Lv01.Active}"
 		description="">
@@ -11,6 +8,11 @@
       </Receiver>
 
       <Pipeline>
+		<Exits>
+			<Exit path="EXIT" state="SUCCESS"/>
+			<Exit path="EXCEPTION" state="ERROR"/>
+		</Exits>
+
             <EchoPipe name="tempHarcodedJwtToken" 
                 storeResultInSessionKey="token" 
                 getInputFromFixedValue="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImNsaWVudF9pZGVudGlmaWVyIjoiemFrZW5icnVnLTAwMTkwMDY2MyJ9.eyJpc3MiOiJ6YWtlbmJydWctMDAxOTAwNjYzIiwiaWF0IjoxNjQxNTQ3NTYxLCJjbGllbnRfaWQiOiJ6YWtlbmJydWctMDAxOTAwNjYzIiwidXNlcl9pZCI6IiIsInVzZXJfcmVwcmVzZW50YXRpb24iOiIifQ.wLTfh4BcBN2IUa2IjOpEKaQYcXkjjDp-vXPBah7_Fg4"
@@ -34,7 +36,7 @@
 			<JsonPipe name="toZaakXml"/>
 
 			<PutInSessionPipe name="storeZaakXml">
-				<Param name="zaakXml" xpathExpression="/root/results" type="xml"/>
+				<Param name="zaakXml" xpathExpression="/root/results" type="XML"/>
 			</PutInSessionPipe>
 
 			<SenderPipe name="getZaakTypeByUrl" storeResultInSessionKey="zaakTypeJson">
@@ -147,8 +149,6 @@
 			</XsltPipe>
 
 			<JsonPipe name="responseToJson" direction="XML2JSON"/> -->
-
-			<Exit path="EXIT" state="success"/>
 		</Pipeline>
   </Adapter>
 </Module>

@@ -1,13 +1,18 @@
-<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="AddRolToZgw"
-        active="${AddRolToZgw.Active}"
-        description="">
+    active="${AddRolToZgw.Active}"
+    description="">
+    
+    <Receiver name="AddRolToZgw">
+        <JavaListener name="AddRolToZgw"/>
+    </Receiver>
+    
+    <Pipeline>
+            <Exits>
+                <Exit path="EXIT" state="SUCCESS"/>
+                <Exit path="EXCEPTION" state="ERROR"/>
+            </Exits>
 
-        <Receiver name="AddRolToZgw">
-            <JavaListener name="AddRolToZgw"/>
-        </Receiver>
-
-        <Pipeline>
             <XmlIfPipe
                 name="CheckForZdsGerelateerde"
                 xpathExpression="string-length(role/gerelateerde)>0"
@@ -51,11 +56,8 @@
                 xpathExpression="string-length(zgwRol/roltype)>0"
                 >
                 <Forward name="then" path="EXIT"/>
-                <Forward name="else" path="Exception"/>
-            </XmlIfPipe>
-
-            <Exit path="EXIT" state="success"/>
-            <Exit path="Exception" state="error"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </XmlIfPipe>   
         </Pipeline>
     </Adapter>
 </Module>
