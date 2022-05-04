@@ -1,35 +1,34 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="GetZaakTypeByZaak"
-        active="${GetZaakTypeByZaak.Active}"
+    <Adapter name="GetZgwRolesByZaakUrl"
+        active="${GetZgwRolesByZaakUrl.Active}"
         description="">
 
-        <Receiver name="GetZaakTypeByZaak">
-            <JavaListener name="GetZaakTypeByZaak"/>
+        <Receiver name="GetZgwRolesByZaakUrl">
+            <JavaListener name="GetZgwRolesByZaakUrl"/>
         </Receiver>
 
-        <Pipeline>
+        <Pipeline>  
             <Exits>
-                <Exit path="EXIT" state="SUCCESS"/>
-                <Exit path="EXCEPTION" state="ERROR"/>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-			<SenderPipe name="GetZgwZaakTypeByZaak" 
+			<SenderPipe name="GetZgwResultatenByZaakUrl" 
                 getInputFromFixedValue="&lt;dummy/&gt;">
 				<HttpSender 
-					name="GetZgwZaakTypeByZaakSender" 
+					name="GetZgwRoltypeByIdSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="$ZaakUrl"
+					url="${zgw.baseurl}${zgw.endpoint.rol}"
                     timeout="${creeerZaak.timeout}"
 				/>
-                <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
+                <Param name="zaak" sessionKey="ZaakUrl" />
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="JsonToXml" />
 			</SenderPipe>
 
-            <JsonPipe name="JsonToXml"
-                storeResultInSessionKey="GetZaakTypeResult">
+            <JsonPipe name="JsonToXml">
                 <Forward name="success" path="EXIT"/>
             </JsonPipe>
         </Pipeline>

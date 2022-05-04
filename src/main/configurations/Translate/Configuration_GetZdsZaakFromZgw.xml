@@ -1,0 +1,136 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="GetZdsZaakFromZgw"
+        active="${GetZdsZaakFromZgw.Active}"
+        description="">
+    
+        <Receiver name="GetZdsZaakFromZgw">
+            <JavaListener name="GetZdsZaakFromZgw"/>
+        </Receiver>
+    
+        <Pipeline>   
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+            
+            <!-- <XsltPipe name="RemoveNullNodesZgwZaak" 
+                getInputFromSessionKey="ZgwZaak"
+                storeResultInSessionKey="ZgwZaak"
+                skipEmptyTags="true"
+                styleSheetName="Common/xsl/RemoveNullNodes.xslt"
+                outputType="XML"
+                >
+                <Forward name="success" path="MapZdsZaakFromZgwZaak"/>
+			</XsltPipe> -->
+
+            <XsltPipe name="MapZdsZaakFromZgwZaak"
+                storeResultInSessionKey="ZdsZaak"
+                skipEmptyTags="true"
+                styleSheetName="Common/xsl/GetZdsZaakFromZgwZaak.xslt"
+                >
+                <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
+                <Forward name="success" path="GetGlobalConfigFromLocalFS"/>
+            </XsltPipe>
+
+            <SenderPipe name="GetGlobalConfigFromLocalFS">
+                <IbisLocalSender
+                    name="CallImportFromLocalFS"
+                    javaListener="ImportFromLocalFS">
+                    <Param name="FileName" value="${FilePath_1}"/>
+                </IbisLocalSender>
+                <Forward name="success" path="StoreRolMappingFromConfig"/>
+            </SenderPipe>
+
+            <PutInSessionPipe name="StoreRolMappingFromConfig">
+				<Param name="RolMapping" xpathExpression="/root/rolMapping" type="DOMDOC"/>
+                <Forward name="success" path="GetZgwRolesByZaakUrl"/>
+			</PutInSessionPipe>
+
+            <SenderPipe name="GetZgwRolesByZaakUrl">
+                <IbisLocalSender
+                    name="GetZgwRolesByZaakUrlSender"
+                    javaListener="GetZgwRolesByZaakUrl">
+                    <Param name="ZaakUrl" xpathExpression="$ZgwZaak/root/url" type="STRING">
+                        <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="MapZdsRolFromZgwRolIterator"/>
+            </SenderPipe>
+           
+            <ForEachChildElementPipe name="MapZdsRolFromZgwRolIterator"
+                elementXPathExpression="/root/results"
+                storeResultInSessionKey="Rollen">
+                <IbisLocalSender
+                    name="CallMapZdsRolFromZgwRol"
+                    javaListener="MapZdsRolFromZgwRol">
+                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC"/>
+                </IbisLocalSender>
+                <Forward name="success" path="EnrichZdsZaakWithRol"/>
+            </ForEachChildElementPipe>
+
+            <XsltPipe
+                name="EnrichZdsZaakWithRol"
+                getInputFromSessionKey="ZdsZaak"
+                storeResultInSessionKey="ZdsZaak"
+                skipEmptyTags="true"
+                styleSheetName="Common/xsl/EnrichEntity_ForEachPipeWrapped.xslt"
+                >
+                <Param name="With" sessionKey="Rollen" type="DOMDOC"/>
+                <Forward name="success" path="CreateZdsIsVan"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <XsltPipe name="CreateZdsIsVan"
+                storeResultInSessionKey="ZdsIsVan"
+                skipEmptyTags="true"
+                styleSheetName="creeerZaak_Lk01/xsl/CreateZdsIsVan.xslt"
+                >
+                <Param name="ZgwZaakType" sessionKey="ZgwZaaktype" type="DOMDOC"/>
+                <Forward name="success" path="EnrichZdsZaakWithZdsIsVan"/>
+            </XsltPipe>
+
+            <XsltPipe
+                name="EnrichZdsZaakWithZdsIsVan"
+                getInputFromSessionKey="ZdsZaak"
+                storeResultInSessionKey="ZdsZaak"
+                skipEmptyTags="true"
+                styleSheetName="Common/xsl/EnrichEntity.xslt"
+                >
+                <Param name="With" sessionKey="ZdsIsVan" type="DOMDOC"/>
+                <Forward name="success" path="ZgwZaakHasHoofzaak"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="ZgwZaakHasHoofzaak"
+                getInputFromSessionKey="ZgwZaak"
+                xpathExpression="string-length(/root/hoofdzaak) > 4"
+                >
+                <Forward name="then" path="GetZgwHoofdzaak"/>
+                <Forward name="else" path="EXIT"/>
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="GetZgwHoofdzaak"
+                storeResultInSessionKey="ZgwHoofdzaak">
+                <IbisLocalSender
+                    name="GetZgwHoofdzaakSender"
+                    javaListener="GetZgwZaakByUrl">
+                    <Param name="Url" xpathExpression="$ZgwZaak/root/hoofdzaak">
+                        <Param name="ZgwZaak" sessionKey="ZgwZaak"></Param>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="CreateZgwHoofdzaak"/>
+            </SenderPipe>
+
+            <XsltPipe name="CreateZgwHoofdzaak"
+                storeResultInSessionKey="ZgwHoofdzaak"
+                skipEmptyTags="true"
+                styleSheetName="creeerZaak_Lk01/xsl/CreateZdsIsVan.xslt"
+                >
+                <Param name="ZgwZaak" sessionKey="ZgwHoofdzaak" type="DOMDOC"/>
+                <Forward name="success" path="EXIT"/>
+            </XsltPipe>
+            
+        </Pipeline>
+    </Adapter>
+</Module>

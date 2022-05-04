@@ -9,8 +9,8 @@
 
         <Pipeline>  
             <Exits>
-                <Exit path="EXIT" state="SUCCESS"/>
-                <Exit path="EXCEPTION" state="ERROR"/>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
 			<SenderPipe name="GetZgwResultatenByZaakUrl" 

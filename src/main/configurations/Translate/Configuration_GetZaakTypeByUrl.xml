@@ -1,40 +1,39 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="GetZgwZaak"
-        active="${GetZgwZaak.Active}"
+    <Adapter name="GetZaakTypeByUrl"
+        active="${GetZaakTypeByUrl.Active}"
         description="">
 
-        <Receiver name="GetZgwZaak">
-            <JavaListener name="GetZgwZaak"/>
+        <Receiver name="GetZaakTypeByUrl">
+            <JavaListener name="GetZaakTypeByUrl"/>
         </Receiver>
 
         <Pipeline>
             <Exits>
-                <Exit name="EXIT" state="SUCCESS" />
-                <Exit name="Exception" state="ERROR" />
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-			<SenderPipe name="GetZgwZaakByIdentificatie" 
-                getInputFromFixedValue="&lt;dummy/&gt;">
+			<SenderPipe name="GetZgwZaakTypeByUrlSender">
 				<HttpSender 
-					name="GetZgwZaakByIdentificatieSender" 
+					name="GetZgwZaakTypeByUrlHttpSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.zaak}"
                     timeout="${creeerZaak.timeout}"
 				/>
-                <Param name="identificatie" sessionKey="Identificatie"/>
+                <Param name="url" sessionKey="ZaakUrl"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="JsonToXml" />
 			</SenderPipe>
 
-            <JsonPipe name="JsonToXml">
-                <Forward name="success" path="RemoveEmptyTags"/>
+            <JsonPipe name="JsonToXml"
+                storeResultInSessionKey="GetZaakTypeXmlResult">
+                <Forward name="success" path="RemoveNullNodes"/>
             </JsonPipe>
 
-            <XsltPipe name="RemoveEmptyTags" 
+            <XsltPipe name="RemoveNullNodes" 
                 skipEmptyTags="true"
-                styleSheetName="CreeerZaak_Lk01/xsl/RemoveEmptyTags.xsl" 
+                styleSheetName="Common/xsl/RemoveNullNodes.xslt" 
                 >
                 <Forward name="success" path="EXIT"/>
 			</XsltPipe>

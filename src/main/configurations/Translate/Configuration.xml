@@ -1,5 +1,6 @@
 <!DOCTYPE configuration [
   <!ENTITY AddRolToZgw                                    SYSTEM "./Configuration_AddRolToZgw.xml">
+  <!ENTITY MapZdsRolFromZgwRol                            SYSTEM "./Configuration_MapZdsRolFromZgwRol.xml">
   <!ENTITY AndereZaak                                     SYSTEM "./Configuration_AndereZaak.xml"> 
   <!ENTITY CreeerZaak_Lk01_SOAP                           SYSTEM "./Configuration_CreeerZaak_Lk01_SOAP.xml">
   <!ENTITY UpdateZaak_Lk01_SOAP                           SYSTEM "./Configuration_UpdateZaak_Lk01_SOAP.xml">
@@ -12,8 +13,12 @@
   <!ENTITY GetStatusTypeByZaakTypeAndOmschrijving         SYSTEM "./Configuration_GetStatusTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetStatusTypes                                 SYSTEM "./Configuration_GetStatusTypes.xml">
   <!ENTITY GetZgwRolTypeByZaakType                        SYSTEM "./Configuration_GetZgwRolTypeByZaakType.xml">
+  <!ENTITY GetZgwRolTypeByUrl                             SYSTEM "./Configuration_GetZgwRolTypeByUrl.xml">
+  <!ENTITY GetZgwRolesByZaakUrl                           SYSTEM "./Configuration_GetZgwRolesByZaakUrl.xml">
   <!ENTITY GetZgwZaak                                     SYSTEM "./Configuration_GetZgwZaak.xml">
+  <!ENTITY GetZgwZaakByUrl                                SYSTEM "./Configuration_GetZgwZaakByUrl.xml">
   <!ENTITY GetZgwZaakType                                 SYSTEM "./Configuration_GetZgwZaakType.xml">
+  <!ENTITY GetZaakTypeByUrl                               SYSTEM "./Configuration_GetZaakTypeByUrl.xml">
   <!ENTITY ImportFromLocalFS                              SYSTEM "./Configuration_ImportFromLocalFS.xml"> 
   <!ENTITY PatchRelevanteAndereZaak                       SYSTEM "./Configuration_PatchRelevanteAndereZaak.xml">
   <!ENTITY PostResultaat                                  SYSTEM "./Configuration_PostResultaat.xml">
@@ -22,11 +27,14 @@
   <!ENTITY PostZaak                                       SYSTEM "./Configuration_PostZaak.xml">
   <!ENTITY SetResultaatAndStatus                          SYSTEM "./Configuration_SetResultaatAndStatus.xml">
   <!ENTITY ZdsHeeft                                       SYSTEM "./Configuration_ZdsHeeft.xml">
-]>
+  <!ENTITY GetZdsZaakFromZgw                              SYSTEM "./Configuration_GetZdsZaakFromZgw.xml">
+  <!ENTITY MapZdsDeelzakenFromZgwDeelzaken                SYSTEM "./Configuration_MapZdsDeelzakenFromZgwDeelzaken.xml">
+  ]>
 
 <configuration name="Translate">
   &AndereZaak;
   &AddRolToZgw;
+  &MapZdsRolFromZgwRol;
   &CreeerZaak_Lk01_SOAP;
   &UpdateZaak_Lk01_SOAP;
   &CreeerZaak_Lk01;
@@ -37,8 +45,12 @@
   &GetStatusTypeByZaakTypeAndOmschrijving;
   &GetStatusTypes;
   &GetZgwRolTypeByZaakType;
+  &GetZgwRolTypeByUrl;
+  &GetZgwRolesByZaakUrl;
   &GetZgwZaak;
+  &GetZgwZaakByUrl;
   &GetZgwZaakType;
+  &GetZaakTypeByUrl;
   &ImportFromLocalFS;
   &PatchRelevanteAndereZaak;
   &PostResultaat;
@@ -47,4 +59,6 @@
   &PostZaak;
   &SetResultaatAndStatus;
   &ZdsHeeft;
+  &GetZdsZaakFromZgw;
+  &MapZdsDeelzakenFromZgwDeelzaken;
 </configuration>
