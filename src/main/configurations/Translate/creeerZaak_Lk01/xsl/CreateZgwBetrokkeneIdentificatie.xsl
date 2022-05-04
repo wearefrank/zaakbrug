@@ -42,7 +42,7 @@
             <voornamen><xsl:value-of select="voornamen"/></voornamen>
             <geslachtsaanduiding><xsl:value-of select="lower-case(geslachtsaanduiding)"/></geslachtsaanduiding>
             <geboortedatum><xsl:value-of select="zgw:convertZdsDateToZgwDate(geboortedatum)"/></geboortedatum>
-            <xsl:if test="not(verblijfsadres/aoa.identificatie = '' or verblijfsadres/wpl.woonplaatsNaam = '' or verblijfsadres/gor.openbareRuimteNaam = '' and verblijfsadres/aoa.huisnummer = '')">
+            <xsl:if test="verblijfsadres/aoa.identificatie != '' and verblijfsadres/wpl.woonplaatsNaam != '' and verblijfsadres/gor.openbareRuimteNaam != '' and verblijfsadres/aoa.huisnummer != ''">
                 <xsl:apply-templates select="verblijfsadres"/>
             </xsl:if>
         </betrokkeneIdentificatie>
@@ -127,7 +127,7 @@
         <betrokkeneIdentificatie>
             <vestigingsNummer><xsl:value-of select="vestigingsNummer"/></vestigingsNummer>
             <handelsnaam><xsl:value-of select="handelsnaam"/></handelsnaam>
-            <xsl:if test="not(verblijfsadres/aoa.identificatie = '' or verblijfsadres/wpl.woonplaatsNaam = '' or verblijfsadres/gor.openbareRuimteNaam = '' and verblijfsadres/aoa.huisnummer = '')">
+            <xsl:if test="verblijfsadres/aoa.identificatie != '' and verblijfsadres/wpl.woonplaatsNaam != '' and verblijfsadres/gor.openbareRuimteNaam != '' and verblijfsadres/aoa.huisnummer != ''">
                 <xsl:apply-templates select="verblijfsadres"/>
             </xsl:if>
         </betrokkeneIdentificatie>

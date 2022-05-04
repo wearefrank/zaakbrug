@@ -325,7 +325,7 @@
 
             <ForEachChildElementPipe name="PostStatusIterator"
                 getInputFromSessionKey="NewStatuses"
-                elementXPathExpression="newStatuses/status">
+                elementXPathExpression="newStatuses/zgwStatus">
                 <IbisLocalSender
                     name="CallPostStatusAdapter"
                     javaListener="PostStatusAdapter">

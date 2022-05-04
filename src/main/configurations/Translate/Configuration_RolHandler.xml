@@ -1,0 +1,48 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+    <Adapter name="HandleRol"
+        active="${HandleRol.Active}"
+        description="">
+
+        <Receiver name="HandleRol">
+            <JavaListener name="HandleRol"/>
+        </Receiver>
+
+        <Pipeline>
+            <XsltPipe
+                name="SetRoles_1"
+                getInputFromSessionKey="zdsWasZaak"
+                storeResultInSessionKey="RolBody_1"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xsl"
+                >
+                <Forward name="success" path="SetRoles_2"/>
+            </XsltPipe>
+
+            <XsltPipe
+                name="SetRoles_2"
+                getInputFromSessionKey="zdsWordtZaak"
+                storeResultInSessionKey="RolBody_2"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xsl"
+                >
+                <Forward name="success" path="CallDetectRolChanges"/>
+            </XsltPipe>
+
+            <ForEachChildElementPipe name="CallDetectRolChanges"
+                elementXPathExpression="/roles/role"
+                storeResultInSessionKey="RolChangesResults">
+                <IbisLocalSender
+                    name="CallDetectRolChangesSender"
+                    javaListener="DetectRolChanges">
+                    <Param sessionKey="RolBody_1" type="DOMDOC"/>
+                </IbisLocalSender>
+                <Forward name="success" path=""/>
+            </ForEachChildElementPipe>
+            
+            <Exit path="EXIT" state="success"/>
+            <Exit path="Exception" state="error"/>
+        </Pipeline>
+    </Adapter>
+</Module>

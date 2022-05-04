@@ -5,7 +5,7 @@
     
 	<xsl:template match="/">
         <xsl:for-each select="$GetStatussenResult/root/results">
-            <xsl:if test="statustype = $StatusBody/status/statustype">
+            <xsl:if test="statustype = $StatusBody/zgwStatus/statustype">
                 <statusExists>true</statusExists>
             </xsl:if>
         </xsl:for-each>

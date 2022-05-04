@@ -5,9 +5,9 @@
     <xsl:template match="/">
         <result>
             <xsl:for-each select="root/results">
-                <xsl:if test="zgw:convertZdsDatetimeToZgwDatetime(datumStatusGezet) = zgw:convertZdsDatetimeToZgwDatetime($StatusBody/status/datumStatusGezet)">
+                <xsl:if test="zgw:convertZdsDatetimeToZgwDatetime(datumStatusGezet) = zgw:convertZdsDatetimeToZgwDatetime($StatusBody/zgwStatus/datumStatusGezet)">
                     <xsl:choose>
-                        <xsl:when test="statustype != $StatusBody/status/statustype">
+                        <xsl:when test="statustype != $StatusBody/zgwStatus/statustype">
                             <exception>ConverterException</exception>
                         </xsl:when>
                         <xsl:otherwise>

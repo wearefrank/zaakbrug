@@ -15,35 +15,18 @@
                 styleSheetName="CreeerZaak_LK01/xsl/AddZaakUrl.xsl"
                 >
                 <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
-                <Forward name="success" path="XmlToJson"/>
+                <Forward name="success" path="ValidatePostBody"/>
             </XsltPipe>
-            <!-- <FixedResultPipe name="PutPlaceholder_ZaakUrl"
-                substituteVars="true"
-                returnString="test">
-                <Param name="ZaakUrl"/>
-                <forward name="success" path="XmlToJson"/>
-            </FixedResultPipe> -->
 
-            <!-- <PutInSessionPipe name="PutPlaceholder_ZaakUrl"
-               >
-                <Param name="Url">
-                   <Param name="Placeholder_ZaakUrl" sessionKey="ZaakUrl"/>
-                </Param>
-                <Forward name="success" path="XmlToJson" />
-            </PutInSessionPipe> -->
-
-			<!-- <ReplacerPipe name="AddZaakUrl"
-                find="Placeholder_ZaakUrl" 
-                replace="$ZaakUrl"
-                >
-                <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
-                <Forward name="success" path="XmlToJson"/>
-            </ReplacerPipe> -->
-
-            <JsonPipe name="XmlToJson"
-                direction="xml2json">
+            <Json2XmlValidatorPipe
+                name="ValidatePostBody"
+                schema="CreeerZaak_LK01/xsd/ZgwRol.xsd"
+                root="zgwRol"
+                outputFormat="JSON"
+                deepSearch="true"
+                throwException="true">
                 <Forward name="success" path="PostZgwRol"/>
-            </JsonPipe>
+            </Json2XmlValidatorPipe>
 
             <SenderPipe name="PostZgwRol" 
                 storeResultInSessionKey="PostZgwRolResult">

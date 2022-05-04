@@ -8,10 +8,15 @@
         </Receiver>
 
         <Pipeline>
-            <JsonPipe name="XmlToJson"
-                direction="xml2json">
-                <forward name="success" path="PostZgwStatus"/>
-            </JsonPipe>
+            <Json2XmlInputValidator
+                name="ValidatePostBody"
+                schema="CreeerZaak_LK01/xsd/ZgwStatus.xsd"
+                root="zgwStatus"
+                outputFormat="JSON"
+                deepSearch="true"
+                throwException="true">
+                <Forward name="success" path="PostZgwStatus"/>
+            </Json2XmlInputValidator>
 
             <SenderPipe name="PostZgwStatus" 
                 storeResultInSessionKey="PostZgwStatusResult">

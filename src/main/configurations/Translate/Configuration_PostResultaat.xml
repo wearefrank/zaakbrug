@@ -16,13 +16,18 @@
                 <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                 <Param name="ResultaatType" sessionKey="ResultaatType"/>
                 <Param name="Toelichting" sessionKey="Toelichting"/>
-                <Forward name="success" path="XmlToJson"/>
+                <Forward name="success" path="ValidatePostBody"/>
             </XsltPipe>
 
-            <JsonPipe name="XmlToJson"
-                direction="xml2json">
-                <forward name="success" path="PostZgwResultaat"/>
-            </JsonPipe>
+            <Json2XmlValidatorPipe
+                name="ValidatePostBody"
+                schema="CreeerZaak_LK01/xsd/ZgwResultaat.xsd"
+                root="zgwResultaat"
+                outputFormat="JSON"
+                deepSearch="true"
+                throwException="true">
+                <Forward name="success" path="PostZgwResultaat"/>
+            </Json2XmlValidatorPipe>
 
             <SenderPipe name="PostZgwResultaat" 
                 storeResultInSessionKey="PostZgwResultaatResult">

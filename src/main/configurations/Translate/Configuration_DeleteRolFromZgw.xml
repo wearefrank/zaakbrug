@@ -1,0 +1,91 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+    <Adapter name="DeleteRolFromZgw"
+        active="${DeleteRolFromZgw.Active}"
+        description="">
+
+        <Receiver name="DeleteRolFromZgw">
+            <JavaListener name="DeleteRolFromZgw"/>
+        </Receiver>
+
+        <Pipeline>
+            <SenderPipe
+                name="CallGetZgwRolType"
+                storeResultInSessionKey="GetRolTypeResults">
+                <IbisLocalSender
+                    name="CallGetZgwRolTypeSender"
+                    javaListener="GetZgwRolTypeByZaakType"
+                    >
+                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
+                </IbisLocalSender>
+                <Forward name="success" path="GetRolTypeByOmschrijving"/>
+            </SenderPipe>
+
+            <XsltPipe
+                name="GetRolTypeByOmschrijving"
+                storeResultInSessionKey="GetRolTypeByOmschrijvingResult"
+                skipEmptyTags="true"
+                styleSheetName="UpdateZaak_LK01/xsl/GetZgwRolTypeByOmschrijving.xsl"
+                >
+                <Param name="Omschrijving" xpathExpression="$originalMessage/role/typeRolOmschrijving">
+                    <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="CheckForGetRolTypeResult"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForGetRolTypeResult"
+                xpathExpression="string-length(/rolType) > 0"
+                >
+                <Forward name="then" path="GetRolByZaakUrlAndRolTypeUrl"/>
+                <Forward name="else" path="EXIT"/>
+            </XmlIfPipe>
+
+            <SenderPipe name="GetRolByZaakUrlAndRolTypeUrl" 
+                getInputFromFixedValue="&lt;dummy/&gt;">
+				<HttpSender 
+					name="GetZgwZaakByIdentificatieSender" 
+					methodType="GET"
+					headersParams="Authorization,Accept-Crs"
+					url="${zgw.baseurl}${zgw.endpoint.rol}?zaak=$ZaakUrl&amp;roltype=$RolTypeUrl"
+                    timeout="${creeerZaak.timeout}"
+				/>
+                <Param name="ZaakUrl" xpathExpression="$ZgwZaak/root/results/url">
+                    <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
+                </Param>
+                <Param name="RolTypeUrl" xpathExpression="$GetRolTypeByOmschrijvingResult/rolType/url">
+                    <Param name="GetRolTypeByOmschrijvingResult" sessionKey="GetRolTypeByOmschrijvingResult" type="DOMDOC"/>
+                </Param>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Forward name="success" path="JsonToXml" />
+			</SenderPipe>
+
+            <JsonPipe name="JsonToXml">
+                <forward name="success" path="CheckForGetRolResult"/>
+            </JsonPipe>
+
+            <XmlIfPipe name="CheckForGetRolResult"
+                xpathExpression="string-length(/root/results) > 0"
+                >
+                <Forward name="then" path="DeleteRol"/>
+                <Forward name="else" path="EXIT"/>
+            </XmlIfPipe>
+
+            <SenderPipe 
+                name="DeleteRol">
+                <HttpSender
+                    name="DeleteRolSender" 
+					methodType="DELETE"
+					headersParams="Authorization,Accept-Crs"
+					url="${zgw.baseurl}${zgw.endpoint.rol}?uuid=$Uuid"
+                    timeout="${creeerZaak.timeout}"
+				>
+                    <Param name="Uuid" xpathExpression="root/results/uuid"/>
+                </HttpSender>
+                <Forward name="success" path="EXIT"/>
+            </SenderPipe>
+            
+            <Exit path="EXIT" state="success"/>
+            <Exit path="Exception" state="error"/>
+        </Pipeline>
+    </Adapter>
+</Module>
