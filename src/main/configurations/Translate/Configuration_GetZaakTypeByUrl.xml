@@ -1,10 +1,10 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="GetZgwRolTypeByZaakType"
-        active="${GetZgwRolTypeByZaakType.Active}"
+    <Adapter name="GetZaakTypeByUrl"
+        active="${GetZaakTypeByUrl.Active}"
         description="">
 
-        <Receiver name="GetZgwRolTypeByZaakType">
-            <JavaListener name="GetZgwRolTypeByZaakType"/>
+        <Receiver name="GetZaakTypeByUrl">
+            <JavaListener name="GetZaakTypeByUrl"/>
         </Receiver>
 
         <Pipeline>
@@ -13,24 +13,30 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-			<SenderPipe name="GetZgwRolTypeByZaakType" 
-                getInputFromFixedValue="&lt;dummy/&gt;">
+			<SenderPipe name="GetZgwZaakTypeByUrlSender">
 				<HttpSender 
-					name="GetZgwRolTypeByZaakTypeSender" 
+					name="GetZgwZaakTypeByUrlHttpSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.roltype}?zaaktype=$ZaakTypeUrl"
                     timeout="${creeerZaak.timeout}"
 				/>
-                <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl" />
+                <Param name="url" sessionKey="ZaakUrl"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="JsonToXml" />
 			</SenderPipe>
 
-            <JsonPipe name="JsonToXml">
-                <Forward name="success" path="EXIT"/>
+            <JsonPipe name="JsonToXml"
+                storeResultInSessionKey="GetZaakTypeXmlResult">
+                <Forward name="success" path="RemoveNullNodes"/>
             </JsonPipe>
+
+            <XsltPipe name="RemoveNullNodes" 
+                skipEmptyTags="true"
+                styleSheetName="Common/xsl/RemoveNullNodes.xslt" 
+                >
+                <Forward name="success" path="EXIT"/>
+			</XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>

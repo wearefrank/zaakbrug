@@ -19,11 +19,11 @@
 					name="GetZgwZaakTypeByIdentificatieSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.zaaktype}?identificatie=$ZaakTypeCode&amp;status=$Status"
+					url="${zgw.baseurl}${zgw.endpoint.zaaktype}"
                     timeout="${creeerZaak.timeout}"
 				/>
-                <Param name="ZaakTypeCode" sessionKey="ZaakTypeCode"/>
-                <Param name="Status" value="definitief"/>
+                <Param name="identificatie" sessionKey="ZaakTypeCode"/>
+                <Param name="status" value="definitief"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="JsonToXml" />

@@ -36,7 +36,7 @@
                 storeResultInSessionKey="UnwrapMessageResult"
                 direction="UNWRAP"
                 removeOutputNamespaces="true">
-                <Forward name="success" path="CallCreateZaak"/>
+                <Forward name="success" path="CallCreeerZaak"/>
             </SoapWrapperPipe>
 
             <SenderPipe
@@ -45,7 +45,7 @@
                     name="CreeerZaakSender"
                     javaListener="CreeerZaak_Lk01">
                 </IbisLocalSender>
-                <Forward name="success" path="WrapBv03Response" />
+                <Forward name="succes" path="WrapBv03Response" />
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>
            

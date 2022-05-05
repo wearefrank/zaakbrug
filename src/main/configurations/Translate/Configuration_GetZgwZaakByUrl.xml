@@ -1,10 +1,10 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="GetZgwZaak"
-        active="${GetZgwZaak.Active}"
+    <Adapter name="GetZgwZaakByUrl"
+        active="${GetZgwZaakByUrl.Active}"
         description="">
 
-        <Receiver name="GetZgwZaak">
-            <JavaListener name="GetZgwZaak"/>
+        <Receiver name="GetZgwZaakByUrl">
+            <JavaListener name="GetZgwZaakByUrl"/>
         </Receiver>
 
         <Pipeline>
@@ -13,16 +13,14 @@
                 <Exit name="Exception" state="ERROR" />
             </Exits>
 
-			<SenderPipe name="GetZgwZaakByIdentificatie" 
-                getInputFromFixedValue="&lt;dummy/&gt;">
+			<SenderPipe name="GetZgwZaakByUrl">
 				<HttpSender 
-					name="GetZgwZaakByIdentificatieSender" 
+					name="GetZgwZaakByUrlSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.zaak}"
                     timeout="${creeerZaak.timeout}"
 				/>
-                <Param name="identificatie" sessionKey="Identificatie"/>
+                <Param name="url" sessionKey="Url"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="JsonToXml" />

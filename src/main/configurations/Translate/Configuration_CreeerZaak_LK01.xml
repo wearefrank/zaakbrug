@@ -9,8 +9,8 @@
 
         <Pipeline>
             <Exits>
-                <Exit path="EXIT" state="SUCCESS"/>
-                <Exit path="EXCEPTION" state="ERROR"/>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
             <SenderPipe
@@ -28,10 +28,10 @@
                 xpathExpression="count(zgwZaakType/ZaakType) = 0"
                 >
                 <Forward name="then" path="EXCEPTION"/>
-                <Forward name="else" path="GetRsinFromLocalFS"/>
+                <Forward name="else" path="GetGlobalConfigFromLocalFS"/>
             </XmlIfPipe>
 
-            <SenderPipe name="GetRsinFromLocalFS">
+            <SenderPipe name="GetGlobalConfigFromLocalFS">
                 <IbisLocalSender
                     name="CallImportFromLocalFS"
                     javaListener="ImportFromLocalFS">
