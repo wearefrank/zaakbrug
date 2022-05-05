@@ -8,6 +8,11 @@
         </Receiver>
 
         <Pipeline>
+            <Exits>
+                <Exit path="EXIT" state="SUCCESS"/>
+                <Exit path="EXCEPTION" state="ERROR"/>
+            </Exits>
+
             <XsltPipe
                 name="SetRoles_1"
                 getInputFromSessionKey="zdsWasZaak"
@@ -38,11 +43,8 @@
                     javaListener="DetectRolChanges">
                     <Param sessionKey="RolBody_1" type="DOMDOC"/>
                 </IbisLocalSender>
-                <Forward name="success" path=""/>
+                <Forward name="success" path="EXIT"/>
             </ForEachChildElementPipe>
-            
-            <Exit path="EXIT" state="success"/>
-            <Exit path="Exception" state="error"/>
         </Pipeline>
     </Adapter>
 </Module>

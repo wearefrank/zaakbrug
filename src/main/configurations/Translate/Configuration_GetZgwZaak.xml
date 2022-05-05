@@ -10,7 +10,7 @@
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS" />
-                <Exit name="Exception" state="ERROR" />
+                <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
 			<SenderPipe name="GetZgwZaakByIdentificatie" 

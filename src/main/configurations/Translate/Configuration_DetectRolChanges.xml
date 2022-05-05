@@ -7,7 +7,12 @@
             <JavaListener name="DetectRolChanges"/>
         </Receiver>
 
-        <Pipeline>   
+        <Pipeline>
+            <Exits>
+                <Exit path="EXIT" state="SUCCESS"/>
+                <Exit path="EXCEPTION" state="ERROR"/>
+            </Exits>
+
 			<XmlSwitchPipe 
                 name="DetectRolChanges" 
                 styleSheetName="UpdateZaak_LK01/xsl/DetectRolChanges.xsl"
@@ -57,9 +62,6 @@
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
             </SenderPipe>
-
-            <Exit path="EXIT" state="success"/>
-            <Exit path="Exception" state="error"/>
         </Pipeline>
     </Adapter>
 </Module>

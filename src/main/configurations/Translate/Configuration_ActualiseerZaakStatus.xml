@@ -21,7 +21,7 @@
                     javaListener="GetZgwZaak">
                     <Param name="Identificatie" xpathExpression="ZdsZaak/identificatie"/>
                 </IbisLocalSender>
-                <Forward name="success" path="GetZgwZaakTypeByZaak"/>
+                <Forward name="success" path="CallGetZaakTypeByZaak"/>
             </SenderPipe>
 
             <SenderPipe

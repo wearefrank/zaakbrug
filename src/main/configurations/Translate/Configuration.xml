@@ -1,64 +1,79 @@
 <!DOCTYPE configuration [
+  <!ENTITY ActualiseerZaakStatus                          SYSTEM "./Configuration_ActualiseerZaakStatus.xml">
   <!ENTITY AddRolToZgw                                    SYSTEM "./Configuration_AddRolToZgw.xml">
-  <!ENTITY MapZdsRolFromZgwRol                            SYSTEM "./Configuration_MapZdsRolFromZgwRol.xml">
   <!ENTITY AndereZaak                                     SYSTEM "./Configuration_AndereZaak.xml"> 
   <!ENTITY CreeerZaak_Lk01_SOAP                           SYSTEM "./Configuration_CreeerZaak_Lk01_SOAP.xml">
-  <!ENTITY UpdateZaak_Lk01_SOAP                           SYSTEM "./Configuration_UpdateZaak_Lk01_SOAP.xml">
-  <!ENTITY UpdateZaak_Lk01                                SYSTEM "./Configuration_UpdateZaak_Lk01.xml">
   <!ENTITY CreeerZaak_Lk01                                SYSTEM "./Configuration_CreeerZaak_Lk01.xml">
+  <!ENTITY DeleteRolFromZgw                               SYSTEM "./Configuration_DeleteRolFromZgw.xml">
+  <!ENTITY DetectRolChanges                               SYSTEM "./Configuration_DetectRolChanges.xml">
+  <!ENTITY GenereerDocumentIdentificatie_SOAP             SYSTEM "./Configuration_GenereerDocumentIdentificatie_SOAP.xml">
+  <!ENTITY GenereerIdentificatieEmulator                  SYSTEM "./Configuration_GenereerIdentificatieEmulator.xml">
+  <!ENTITY GenereerZaakIdentificatie_SOAP                 SYSTEM "./Configuration_GenereerZaakIdentificatie_SOAP.xml">
   <!ENTITY GetResultaatTypeByZaakTypeAndOmschrijving      SYSTEM "./Configuration_GetResultaatTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetResultatenByZaakUrl                         SYSTEM "./Configuration_GetResultatenByZaakUrl.xml">
-  <!-- <!ENTITY GetRolTypeByZaakTypeAndOmschrijving               SYSTEM "./Configuration_GetRolTypeByZaakTypeAndOmschrijving.xml"> -->
   <!ENTITY GetStatussenByZaakUrl                          SYSTEM "./Configuration_GetStatussenByZaakUrl.xml">
   <!ENTITY GetStatusTypeByZaakTypeAndOmschrijving         SYSTEM "./Configuration_GetStatusTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetStatusTypes                                 SYSTEM "./Configuration_GetStatusTypes.xml">
-  <!ENTITY GetZgwRolTypeByZaakType                        SYSTEM "./Configuration_GetZgwRolTypeByZaakType.xml">
-  <!ENTITY GetZgwRolTypeByUrl                             SYSTEM "./Configuration_GetZgwRolTypeByUrl.xml">
+  <!ENTITY GetZaakTypeByUrl                               SYSTEM "./Configuration_GetZaakTypeByUrl.xml">
+  <!ENTITY GetZdsZaakFromZgw                              SYSTEM "./Configuration_GetZdsZaakFromZgw.xml">
   <!ENTITY GetZgwRolesByZaakUrl                           SYSTEM "./Configuration_GetZgwRolesByZaakUrl.xml">
+  <!ENTITY GetZgwRolTypeByUrl                             SYSTEM "./Configuration_GetZgwRolTypeByUrl.xml">
+  <!ENTITY GetZgwRolTypeByZaakType                        SYSTEM "./Configuration_GetZgwRolTypeByZaakType.xml">
   <!ENTITY GetZgwZaak                                     SYSTEM "./Configuration_GetZgwZaak.xml">
   <!ENTITY GetZgwZaakByUrl                                SYSTEM "./Configuration_GetZgwZaakByUrl.xml">
   <!ENTITY GetZgwZaakType                                 SYSTEM "./Configuration_GetZgwZaakType.xml">
-  <!ENTITY GetZaakTypeByUrl                               SYSTEM "./Configuration_GetZaakTypeByUrl.xml">
   <!ENTITY ImportFromLocalFS                              SYSTEM "./Configuration_ImportFromLocalFS.xml"> 
+  <!ENTITY MapZdsDeelzakenFromZgwDeelzaken                SYSTEM "./Configuration_MapZdsDeelzakenFromZgwDeelzaken.xml">
+  <!ENTITY MapZdsRolFromZgwRol                            SYSTEM "./Configuration_MapZdsRolFromZgwRol.xml">
   <!ENTITY PatchRelevanteAndereZaak                       SYSTEM "./Configuration_PatchRelevanteAndereZaak.xml">
   <!ENTITY PostResultaat                                  SYSTEM "./Configuration_PostResultaat.xml">
   <!ENTITY PostRol                                        SYSTEM "./Configuration_PostRol.xml">
   <!ENTITY PostStatus                                     SYSTEM "./Configuration_PostStatus.xml">
   <!ENTITY PostZaak                                       SYSTEM "./Configuration_PostZaak.xml">
+  <!ENTITY RolHandler                                     SYSTEM "./Configuration_RolHandler.xml">
   <!ENTITY SetResultaatAndStatus                          SYSTEM "./Configuration_SetResultaatAndStatus.xml">
+  <!ENTITY UpdateRolInZgw                                 SYSTEM "./Configuration_UpdateRolInZgw.xml">
+  <!ENTITY UpdateZaak_Lk01_SOAP                           SYSTEM "./Configuration_UpdateZaak_Lk01_SOAP.xml">
+  <!ENTITY UpdateZaak_Lk01                                SYSTEM "./Configuration_UpdateZaak_Lk01.xml">
   <!ENTITY ZdsHeeft                                       SYSTEM "./Configuration_ZdsHeeft.xml">
-  <!ENTITY GetZdsZaakFromZgw                              SYSTEM "./Configuration_GetZdsZaakFromZgw.xml">
-  <!ENTITY MapZdsDeelzakenFromZgwDeelzaken                SYSTEM "./Configuration_MapZdsDeelzakenFromZgwDeelzaken.xml">
   ]>
 
 <configuration name="Translate">
-  &AndereZaak;
+  &ActualiseerZaakStatus;
   &AddRolToZgw;
-  &MapZdsRolFromZgwRol;
+  &AndereZaak;
   &CreeerZaak_Lk01_SOAP;
-  &UpdateZaak_Lk01_SOAP;
   &CreeerZaak_Lk01;
-  &UpdateZaak_Lk01;
+  &DeleteRolFromZgw;
+  &DetectRolChanges;
+  &GenereerDocumentIdentificatie_SOAP;
+  &GenereerIdentificatieEmulator;
+  &GenereerZaakIdentificatie_SOAP;
   &GetResultaatTypeByZaakTypeAndOmschrijving;
   &GetResultatenByZaakUrl;
   &GetStatussenByZaakUrl;
   &GetStatusTypeByZaakTypeAndOmschrijving;
   &GetStatusTypes;
-  &GetZgwRolTypeByZaakType;
-  &GetZgwRolTypeByUrl;
+  &GetZaakTypeByUrl;
+  &GetZdsZaakFromZgw;
   &GetZgwRolesByZaakUrl;
+  &GetZgwRolTypeByUrl;
+  &GetZgwRolTypeByZaakType;
   &GetZgwZaak;
   &GetZgwZaakByUrl;
   &GetZgwZaakType;
-  &GetZaakTypeByUrl;
   &ImportFromLocalFS;
+  &MapZdsDeelzakenFromZgwDeelzaken;
+  &MapZdsRolFromZgwRol;
   &PatchRelevanteAndereZaak;
   &PostResultaat;
   &PostRol;
   &PostStatus;
   &PostZaak;
+  &RolHandler;
   &SetResultaatAndStatus;
+  &UpdateRolInZgw;
+  &UpdateZaak_Lk01_SOAP;
+  &UpdateZaak_Lk01;
   &ZdsHeeft;
-  &GetZdsZaakFromZgw;
-  &MapZdsDeelzakenFromZgwDeelzaken;
 </configuration>

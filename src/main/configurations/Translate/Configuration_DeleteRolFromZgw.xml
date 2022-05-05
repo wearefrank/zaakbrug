@@ -8,6 +8,11 @@
         </Receiver>
 
         <Pipeline>
+            <Exits>
+                <Exit path="EXIT" state="SUCCESS"/>
+                <Exit path="EXCEPTION" state="ERROR"/>
+            </Exits>
+
             <SenderPipe
                 name="CallGetZgwRolType"
                 storeResultInSessionKey="GetRolTypeResults">
@@ -83,9 +88,6 @@
                 </HttpSender>
                 <Forward name="success" path="EXIT"/>
             </SenderPipe>
-            
-            <Exit path="EXIT" state="success"/>
-            <Exit path="Exception" state="error"/>
         </Pipeline>
     </Adapter>
 </Module>
