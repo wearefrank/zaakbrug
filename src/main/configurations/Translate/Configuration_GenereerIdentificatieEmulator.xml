@@ -1,0 +1,69 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../FrankConfig.xsd">
+    <Adapter name="GenereerIdentificatieEmulator"
+        active="${GenereerIdentificatieEmulator.Active}"
+        description="">
+
+        <Receiver name="GenereerIdentificatieEmulator">
+            <JavaListener name="GenereerIdentificatieEmulator"/>
+        </Receiver>
+
+        <Pipeline>
+            <SenderPipe name="GetIdFromDB"
+                storeResultInSessionKey="GetIdResult">
+                <FixedQuerySender 
+                    query="SELECT IDENTIFICATIE FROM IDENTIFICATIE WHERE TYPE  = ?{IdentificatieType}" 
+                    queryType="select" 
+                    jmsRealm="jdbc"/>
+                    <Param name="IdentificatieType" sessionKey="IdentificatieType"/>
+                <Forward name="success" path="CheckForDBResult" />
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForDBResult"
+                xpathExpression="string-length(results/result/IDENTIFICATIE) > 0"
+                >
+                <Forward name="then" path="IncrementIndex"/>
+                <Forward name="else" path="InsertIdentificatie"/>
+            </XmlIfPipe>
+
+			<IncreaseIntegerPipe 
+                name="IncrementIndex"
+                sessionKey="Identificatie">
+                <Param name="Identificatie" xpathExpression="$GetIdResult/results/result/IDENTIFICATIE">
+                    <Param name="GetIdResult" sessionKey="GetIdResult" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="UpdateIdentificatie" />
+            </IncreaseIntegerPipe>
+
+            <SenderPipe name="UpdateIdentificatie">
+                <FixedQuerySender 
+                    query="UPDATE IDENTIFICATIE  SET IDENTIFICATIE=?{Identificatie} WHERE TYPE=?{IdentificatieType}"
+                    queryType="update" 
+                    jmsRealm="jdbc"/>
+                    <Param name="Identificatie" sessionKey="Identificatie"/>
+                    <Param name="IdentificatieType" sessionKey="IdentificatieType"/>
+                <Forward name="success" path="GenerateIdentificatie" />
+            </SenderPipe>
+
+            <SenderPipe name="InsertIdentificatie">
+                <FixedQuerySender 
+                    query="INSERT INTO IDENTIFICATIE (IDENTIFICATIE, TYPE) VALUES (1, ?{IdentificatieType})" 
+                    queryType="insert" 
+                    jmsRealm="jdbc"/>
+                    <Param name="IdentificatieType" sessionKey="IdentificatieType"/>
+                <Forward name="success" path="GenerateIdentificatie" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="GenerateIdentificatie"
+                xpathExpression="concat($Prefixparam, $Identificatie)"
+                >
+                <Param name="Identificatie" sessionKey="Identificatie"/>
+                <Param name="Prefixparam" value="${Prefixparam}"/>
+                <Forward name="success" path="EXIT"/>
+            </XsltPipe>
+
+            <Exit path="EXIT" state="success"/>
+            <Exit path="Exception" state="error"/>
+        </Pipeline>
+    </Adapter>
+</Module>
