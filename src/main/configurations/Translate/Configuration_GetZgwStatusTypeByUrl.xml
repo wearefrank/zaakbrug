@@ -1,0 +1,43 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="GetZgwStatusTypeByUrl"
+        active="${GetZgwStatusTypeByUrl.Active}"
+        description="">
+
+        <Receiver name="GetZgwStatusTypeByUrl">
+            <JavaListener name="GetZgwStatusTypeByUrl"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+			<SenderPipe name="GetZgwStatusTypeByUrlSender">
+				<HttpSender 
+					name="GetZgwStatusTypeByUrlLocalSender" 
+					methodType="GET"
+					headersParams="Authorization,Accept-Crs"
+                    timeout="${creeerZaak.timeout}"
+				/>
+                <Param name="url" sessionKey="Url" />
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Forward name="success" path="JsonToXml" />
+			</SenderPipe>
+
+            <JsonPipe name="JsonToXml">
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeWrapWithType"/>
+            </JsonPipe>
+
+            <XsltPipe
+                name="UnwrapOpenZaakApiEnvelopeWrapWithType"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeWrapWithType.xslt"
+                >
+                <Param name="Type" value="ZgwStatusType"/>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

@@ -29,7 +29,7 @@
                 storeResultInSessionKey="GetZaakTypeResult">
                 <IbisLocalSender
                     name="CallGetZaakTypeByZaakSender"
-                    javaListener="GetZaakTypeByZaak">
+                    javaListener="GetZaakTypeByUrl">
                     <Param name="ZaakUrl" xpathExpression="$GetZaakResult/results/zaaktype">
                         <Param name="GetZaakResult" sessionKey="GetZaakResult"/>
                     </Param>

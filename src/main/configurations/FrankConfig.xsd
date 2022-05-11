@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.8-20220426.180610">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.8-20220510.182853">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>The Configuration is the container of all configuration objects.</xs:documentation>
@@ -613,16 +613,19 @@
   </xs:element>
   <xs:element name="Forward">
     <xs:annotation>
-      <xs:documentation>Bean that knows a functional name of a Forward, to be referred by
- other Pipes and the PipeLine.
- &lt;br/&gt;
- The &lt;code&gt;name&lt;/code&gt; is the name which a Pipe may lookup to return
- to the PipeLine, indicating the next pipe to be executed. (this is done
- in the findForward()-method. The actual
- pipeName is defined in the &lt;code&gt;path&lt;/code&gt; property. The &lt;code&gt;path&lt;/code&gt; property
- can also reference an Exit when no other pipe should execute.&lt;br/&gt;&lt;br/&gt; 
- In this manner it is possible to influence the flow through the pipeline
- without affecting the Java-code. Simply change the forwarding-XML.&lt;br/&gt;</xs:documentation>
+      <xs:documentation>Appears inside a pipe and defines what pipe or exit to execute next. When the
+ execution of a pipe is done, the pipe looks up the next pipe or exit to execute.
+ This pipe or exit is searched based on a key that describes what happened during
+ pipe execution. For example a FixedResultPipe searches for key
+ &lt;code&gt;filenotfound&lt;/code&gt; if it tried to read a file that did not exist,
+ preventing it from producing the desired output message. If there was
+ no error, the FixedResultPipe searches for key &lt;code&gt;success&lt;/code&gt;.
+ &lt;br/&gt;&lt;br/&gt;
+ Each &lt;code&gt;&amp;lt;Forward&amp;gt;&lt;/code&gt; tag is used to link a search key (&lt;code&gt;name&lt;/code&gt; attribute)
+ to a pipe or exit to execute next (&lt;code&gt;path&lt;/code&gt; attribute). The forward's &lt;code&gt;path&lt;/code&gt;
+ attribute references the target pipe or exit by its &lt;code&gt;name&lt;/code&gt; attribute, see
+ AbstractPipe and PipeLineExit. For most pipes and most keys, the next
+ pipe is executed if no forward is found. By default, the pipes in a pipeline are executed consecutively.</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:attribute name="name" type="xs:string" use="required">
@@ -844,12 +847,12 @@
  When a Pipeline doesn't have an Exits element configured it will be initialized with one Exit having name READY and
  state SUCCESS.
  &lt;br/&gt;&lt;br/&gt;
- The name of an Exit can be referenced by the Forward of a Pipe.</xs:documentation>
+ The name of an Exit can be referenced by the &lt;code&gt;path&lt;/code&gt; attribute of a Forward within a Pipe.</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:attribute name="name" type="xs:string" use="required">
         <xs:annotation>
-          <xs:documentation>The name of the Exit that can be referenced by the Forward of a Pipe. When a Pipeline doesn't have an Exits
+          <xs:documentation>The name of the Exit that can be referenced by a PipeForward's &lt;code&gt;path&lt;/code&gt; attribute. When a Pipeline doesn't have an Exits
  element configured it will be initialized with one Exit having name READY (and state SUCCESS)</xs:documentation>
         </xs:annotation>
       </xs:attribute>
@@ -7460,21 +7463,6 @@
           </xs:complexContent>
         </xs:complexType>
       </xs:element>
-      <xs:element name="HttpListener">
-        <xs:annotation>
-          <xs:documentation>Implementation of a IPushingListener that enables a nl.nn.adapterframework.receivers.Receiver
- to receive messages from HTTP requests. If you are writing a new configuration, you are recommended to use
- an nl.nn.adapterframework.http.rest.ApiListener or a nl.nn.adapterframework.http.WebServiceListener
- instead.</xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-          <xs:complexContent>
-            <xs:extension base="HttpListenerType">
-              <xs:attribute name="elementRole" type="xs:string" fixed="listener" use="prohibited" />
-            </xs:extension>
-          </xs:complexContent>
-        </xs:complexType>
-      </xs:element>
       <xs:element name="IfsaProviderListener">
         <xs:annotation>
           <xs:documentation>Implementation of IPullingListener that acts as an IFSA-service.
@@ -7871,7 +7859,7 @@
  Prepends the configured URI pattern with &lt;code&gt;rest/&lt;/code&gt;. When you are writing a new Frank config, you are recommended
  to use an nl.nn.adapterframework.http.rest.ApiListener instead. You can find all serviced URI patterns
  in the Frank!Console: main menu item Webservice, heading Available REST Services.
- 
+
  &lt;p&gt;
  Note:
  Servlets' multipart configuration expects a Content-Type of &lt;code&gt;multipart/form-data&lt;/code&gt; (see http://docs.oracle.com/javaee/6/api/javax/servlet/annotation/MultipartConfig.html).
@@ -8113,7 +8101,7 @@
   <xs:attributeGroup name="PushingListenerAdapterDeclaredAttributeGroup">
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
-        <xs:documentation>name of the listener as known to the adapter</xs:documentation>
+        <xs:documentation>Name of the listener as known to the adapter</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="applicationFaultsAsExceptions" type="frankBoolean" />
@@ -8666,21 +8654,6 @@
   <xs:attributeGroup name="FxfListenerCumulativeAttributeGroup">
     <xs:attributeGroup ref="FxfListenerDeclaredAttributeGroup" />
     <xs:attributeGroup ref="EsbJmsListenerCumulativeAttributeGroup" />
-  </xs:attributeGroup>
-  <xs:complexType name="HttpListenerType">
-    <xs:attributeGroup ref="HttpListenerCumulativeAttributeGroup" />
-    <xs:attribute name="className" type="xs:string" fixed="nl.nn.adapterframework.http.HttpListener" use="prohibited" />
-  </xs:complexType>
-  <xs:attributeGroup name="HttpListenerDeclaredAttributeGroup">
-    <xs:attribute name="serviceName" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>name of the service that is provided by the adapter of this listener</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-  </xs:attributeGroup>
-  <xs:attributeGroup name="HttpListenerCumulativeAttributeGroup">
-    <xs:attributeGroup ref="HttpListenerDeclaredAttributeGroup" />
-    <xs:attributeGroup ref="PushingListenerAdapterDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="IfsaProviderListenerType">
     <xs:attributeGroup ref="PushingIfsaProviderListenerCumulativeAttributeGroup" />
@@ -11398,7 +11371,7 @@
   <xs:attributeGroup name="AbstractPipeDeclaredAttributeGroup">
     <xs:attribute name="name" type="xs:string" use="required">
       <xs:annotation>
-        <xs:documentation>The functional name of this pipe</xs:documentation>
+        <xs:documentation>The functional name of this pipe. Can be referenced by the &lt;code&gt;path&lt;/code&gt; attribute of a PipeForward.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="getInputFromSessionKey" type="xs:string">
@@ -11715,7 +11688,7 @@
     </xs:attribute>
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
-        <xs:documentation>The functional name of this pipe</xs:documentation>
+        <xs:documentation>The functional name of this pipe. Can be referenced by the &lt;code&gt;path&lt;/code&gt; attribute of a PipeForward.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attributeGroup ref="FixedForwardPipeDeclaredAttributeGroup" />
@@ -12028,7 +12001,7 @@
     </xs:attribute>
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
-        <xs:documentation>The functional name of this pipe</xs:documentation>
+        <xs:documentation>The functional name of this pipe. Can be referenced by the &lt;code&gt;path&lt;/code&gt; attribute of a PipeForward.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -12195,7 +12168,7 @@
     </xs:attribute>
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
-        <xs:documentation>The functional name of this pipe</xs:documentation>
+        <xs:documentation>The functional name of this pipe. Can be referenced by the &lt;code&gt;path&lt;/code&gt; attribute of a PipeForward.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -12881,7 +12854,7 @@
     </xs:attribute>
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
-        <xs:documentation>The functional name of this pipe</xs:documentation>
+        <xs:documentation>The functional name of this pipe. Can be referenced by the &lt;code&gt;path&lt;/code&gt; attribute of a PipeForward.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -16587,7 +16560,7 @@
     <xs:attributeGroup ref="FixedForwardPipeDeclaredAttributeGroup" />
     <xs:attribute name="name" type="xs:string" use="required">
       <xs:annotation>
-        <xs:documentation>The functional name of this pipe</xs:documentation>
+        <xs:documentation>The functional name of this pipe. Can be referenced by the &lt;code&gt;path&lt;/code&gt; attribute of a PipeForward.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="getInputFromSessionKey" type="xs:string">
@@ -17201,7 +17174,7 @@
     <xs:attribute name="className" type="xs:string" fixed="nl.nn.adapterframework.pipes.DomainTransformerPipe" use="prohibited" />
   </xs:complexType>
   <xs:attributeGroup name="DomainTransformerPipeDeclaredAttributeGroup">
-    <xs:attribute name="jmsRealm" type="xs:string" />
+    <xs:attribute name="datasourceName" type="xs:string" />
     <xs:attribute name="tableName" type="xs:string">
       <xs:annotation>
         <xs:documentation>the name of the table that contains the mapping Default: mapping</xs:documentation>
@@ -17720,7 +17693,7 @@
     <xs:attributeGroup ref="FixedForwardPipeDeclaredAttributeGroup" />
     <xs:attribute name="name" type="xs:string" use="required">
       <xs:annotation>
-        <xs:documentation>The functional name of this pipe</xs:documentation>
+        <xs:documentation>The functional name of this pipe. Can be referenced by the &lt;code&gt;path&lt;/code&gt; attribute of a PipeForward.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="getInputFromSessionKey" type="xs:string">
@@ -17891,7 +17864,7 @@
     <xs:attributeGroup ref="FixedForwardPipeDeclaredAttributeGroup" />
     <xs:attribute name="name" type="xs:string" use="required">
       <xs:annotation>
-        <xs:documentation>The functional name of this pipe</xs:documentation>
+        <xs:documentation>The functional name of this pipe. Can be referenced by the &lt;code&gt;path&lt;/code&gt; attribute of a PipeForward.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="getInputFromSessionKey" type="xs:string">

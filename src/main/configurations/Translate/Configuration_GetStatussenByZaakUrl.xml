@@ -9,20 +9,19 @@
 
         <Pipeline>  
             <Exits>
-                <Exit path="EXIT" state="SUCCESS"/>
-                <Exit path="EXCEPTION" state="ERROR"/>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-			<SenderPipe name="GetStatussenByZaakUrl" 
-                getInputFromFixedValue="&lt;dummy/&gt;">
+			<SenderPipe name="GetStatussenByZaakUrl">
 				<HttpSender 
 					name="GetStatussenByZaakUrlSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.status}?zaak=$ZaakUrl"
+					url="${zgw.baseurl}${zgw.endpoint.status}"
                     timeout="${creeerZaak.timeout}"
 				/>
-                <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
+                <Param name="zaak" sessionKey="ZaakUrl"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="JsonToXml" />

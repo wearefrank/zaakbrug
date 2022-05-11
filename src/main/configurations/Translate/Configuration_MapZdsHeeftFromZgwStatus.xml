@@ -1,0 +1,39 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="MapZdsHeeftFromZgwStatus"
+    active="${MapZdsHeeftFromZgwStatus.Active}"
+    description="">
+    
+    <Receiver name="MapZdsHeeftFromZgwStatus">
+        <JavaListener name="MapZdsHeeftFromZgwStatus"/>
+    </Receiver>
+    
+    <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                name="GetZgwStatusTypeSender"
+                storeResultInSessionKey="ZgwStatusType">
+                <IbisLocalSender
+                    name="GetZgwStatusTypeLocalSender"
+                    javaListener="GetZgwStatusTypeByUrl">
+                    <Param name="Url" xpathExpression="/ZgwStatus/statustype"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CreateZdsHeeft"/>
+            </SenderPipe>
+
+            <XsltPipe name="CreateZdsHeeft"
+                storeResultInSessionKey="ZdsHeeft"
+                styleSheetName="CreeerZaak_LK01/xsl/CreateZdsHeeft.xslt"
+                >
+                <Param name="ZgwStatusType" sessionKey="ZgwStatusType" type="DOMDOC"/>
+                <Param name="ZgwStatus" sessionKey="originalMessage" type="DOMDOC"/>
+                <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
+                <Forward name="success" path="EXIT"/>
+            </XsltPipe>
+
+        </Pipeline>
+    </Adapter>
+</Module>

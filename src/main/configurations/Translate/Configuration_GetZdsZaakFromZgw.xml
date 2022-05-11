@@ -68,8 +68,7 @@
                 <Forward name="success" path="EnrichZdsZaakWithRol"/>
             </ForEachChildElementPipe>
 
-            <XsltPipe
-                name="EnrichZdsZaakWithRol"
+            <XsltPipe name="EnrichZdsZaakWithRol"
                 getInputFromSessionKey="ZdsZaak"
                 storeResultInSessionKey="ZdsZaak"
                 skipEmptyTags="true"
@@ -89,46 +88,160 @@
                 <Forward name="success" path="EnrichZdsZaakWithZdsIsVan"/>
             </XsltPipe>
 
-            <XsltPipe
-                name="EnrichZdsZaakWithZdsIsVan"
+            <XsltPipe name="EnrichZdsZaakWithZdsIsVan"
                 getInputFromSessionKey="ZdsZaak"
                 storeResultInSessionKey="ZdsZaak"
                 skipEmptyTags="true"
                 styleSheetName="Common/xsl/EnrichEntity.xslt"
                 >
                 <Param name="With" sessionKey="ZdsIsVan" type="DOMDOC"/>
-                <Forward name="success" path="ZgwZaakHasHoofzaak"/>
+                <Forward name="success" path="ZgwZaakHasHoofdzaak"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
 
-            <XmlIfPipe name="ZgwZaakHasHoofzaak"
+            <XmlIfPipe name="ZgwZaakHasHoofdzaak"
                 getInputFromSessionKey="ZgwZaak"
                 xpathExpression="string-length(/root/hoofdzaak) > 4"
                 >
                 <Forward name="then" path="GetZgwHoofdzaak"/>
-                <Forward name="else" path="EXIT"/>
+                <Forward name="else" path="ZgwZaakHasDeelzaken"/>
             </XmlIfPipe>
 
-            <SenderPipe
-                name="GetZgwHoofdzaak"
+            <!-- not tested -->
+            <SenderPipe name="GetZgwHoofdzaak"
                 storeResultInSessionKey="ZgwHoofdzaak">
                 <IbisLocalSender
                     name="GetZgwHoofdzaakSender"
                     javaListener="GetZgwZaakByUrl">
                     <Param name="Url" xpathExpression="$ZgwZaak/root/hoofdzaak">
-                        <Param name="ZgwZaak" sessionKey="ZgwZaak"></Param>
+                        <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
-                <Forward name="success" path="CreateZgwHoofdzaak"/>
+                <Forward name="success" path="CreateZdsHeeftAlsHoofdzaak"/>
             </SenderPipe>
 
-            <XsltPipe name="CreateZgwHoofdzaak"
-                storeResultInSessionKey="ZgwHoofdzaak"
+            <!-- not tested -->
+            <XsltPipe name="CreateZdsHeeftAlsHoofdzaak"
+                storeResultInSessionKey="ZdsHeeftAlsHoofdzaak"
                 skipEmptyTags="true"
-                styleSheetName="creeerZaak_Lk01/xsl/CreateZdsIsVan.xslt"
+                styleSheetName="creeerZaak_Lk01/xsl/CreateZdsHeeftAlsHoofdzaak.xslt"
                 >
-                <Param name="ZgwZaak" sessionKey="ZgwHoofdzaak" type="DOMDOC"/>
+                <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
+                <Forward name="success" path="EnrichZdsZaakWithZdsHeeftAlsHoofdzaak"/>
+            </XsltPipe>
+
+            <XsltPipe name="EnrichZdsZaakWithZdsHeeftAlsHoofdzaak"
+                getInputFromSessionKey="ZdsZaak"
+                storeResultInSessionKey="ZdsZaak"
+                skipEmptyTags="true"
+                styleSheetName="Common/xsl/EnrichEntity.xslt"
+                >
+                <Param name="With" sessionKey="ZdsHeeftAlsHoofdzaak" type="DOMDOC"/>
+                <Forward name="success" path="ZgwZaakHasDeelzaken"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <!-- not tested -->
+            <XmlIfPipe name="ZgwZaakHasDeelzaken"
+                getInputFromSessionKey="ZgwZaak"
+                xpathExpression="string-length(/root/deelzaken) > 4"
+                >
+                <Forward name="then" path="MapZgwDeelzakenIterator"/>
+                <Forward name="else" path="ZgwZaakHasZdsRelevanteAndereZaken"/>
+            </XmlIfPipe>
+
+            <!-- not tested -->
+            <ForEachChildElementPipe name="MapZgwDeelzakenIterator"
+                elementXPathExpression="/root/deelzaken"
+                storeResultInSessionKey="ZgwDeelzaken">
+                <IbisLocalSender
+                    name="CallMapZdsDeelzakenFromZgwDeelzaken"
+                    javaListener="MapZdsDeelzakenFromZgwDeelzaken">
+                </IbisLocalSender>
+                <Forward name="success" path="EnrichZdsZaakWithZgwDeelzaken"/>
+            </ForEachChildElementPipe>
+
+            <XsltPipe name="EnrichZdsZaakWithZgwDeelzaken"
+                getInputFromSessionKey="ZdsZaak"
+                storeResultInSessionKey="ZdsZaak"
+                skipEmptyTags="true"
+                styleSheetName="Common/xsl/EnrichEntity.xslt"
+                >
+                <Param name="With" sessionKey="ZgwDeelzaken" type="DOMDOC"/>
+                <Forward name="success" path="ZgwZaakHasZdsRelevanteAndereZaken"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <!-- not tested -->
+            <XmlIfPipe name="ZgwZaakHasZdsRelevanteAndereZaken"
+                getInputFromSessionKey="ZgwZaak"
+                xpathExpression="string-length(/root/relevanteAndereZaken) > 4"
+                >
+                <Forward name="then" path="MapZdsRelevanteAndereZakenIterator"/>
+                <Forward name="else" path="GetZgwStatusByZaakUrlSender"/>
+            </XmlIfPipe>
+
+            <!-- not tested -->
+            <ForEachChildElementPipe name="MapZdsRelevanteAndereZakenIterator"
+                elementXPathExpression="/root/relevanteAndereZaken"
+                storeResultInSessionKey="ZdsRelevanteAndereZaken">
+                <IbisLocalSender
+                    name="CallMapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken"
+                    javaListener="MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken">
+                </IbisLocalSender>
+                <Forward name="success" path="EnrichZdsRelevanteAndereZaken"/>
+            </ForEachChildElementPipe>
+
+            <XsltPipe name="EnrichZdsRelevanteAndereZaken"
+                getInputFromSessionKey="ZdsZaak"
+                storeResultInSessionKey="ZdsZaak"
+                skipEmptyTags="true"
+                styleSheetName="Common/xsl/EnrichEntity.xslt"
+                >
+                <Param name="With" sessionKey="ZdsRelevanteAndereZaken" type="DOMDOC"/>
+                <Forward name="success" path="GetZgwStatusByZaakUrlSender"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <SenderPipe name="GetZgwStatusByZaakUrlSender">
+                <IbisLocalSender
+                    name="GetZgwStatusByZaakUrlLocalSender"
+                    javaListener="GetStatussenByZaakUrl">
+                    <Param name="ZaakUrl" xpathExpression="$ZgwZaak/root/url">
+                        <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeWrapWithType"/>
+            </SenderPipe>
+
+            <XsltPipe
+                name="UnwrapOpenZaakApiEnvelopeWrapWithType"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeWrapWithType.xslt"
+                >
+                <Param name="Type" value="ZgwStatus"/>
+                <Forward name="success" path="MapZdsHeeftIterator"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <ForEachChildElementPipe name="MapZdsHeeftIterator"
+                elementXPathExpression="/root/ZgwStatus"
+                storeResultInSessionKey="ZdsHeeft">
+                <IbisLocalSender
+                    name="ZdsHeeftLocalSender"
+                    javaListener="MapZdsHeeftFromZgwStatus">
+                </IbisLocalSender>
+                <Param name="ZgwZaakType" sessionKey="ZgwZaaktype" type="DOMDOC"/>
+                <Forward name="success" path="EnrichZdsZaakWithZdsHeeft"/>
+            </ForEachChildElementPipe>
+
+            <XsltPipe name="EnrichZdsZaakWithZdsHeeft"
+                getInputFromSessionKey="ZdsZaak"
+                storeResultInSessionKey="ZdsZaak"
+                styleSheetName="Common/xsl/EnrichEntity_ForEachPipeWrapped.xslt"
+                >
+                <Param name="With" sessionKey="ZdsHeeft" type="DOMDOC"/>
                 <Forward name="success" path="EXIT"/>
+                <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
             
         </Pipeline>
