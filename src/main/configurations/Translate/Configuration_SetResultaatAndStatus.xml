@@ -144,7 +144,7 @@
 
             <XmlIfPipe name="CheckForEndStatusType"
                 getInputFromSessionKey="SetEndStatusTypeResult"
-                xpathExpression="string-length(/statusType) > 0"
+                xpathExpression="string-length(/ZgwStatusType) > 0"
                 thenForwardName="SetNewEndStatus"
                 elseForwardName="CheckForNewEndStatus">
             </XmlIfPipe>

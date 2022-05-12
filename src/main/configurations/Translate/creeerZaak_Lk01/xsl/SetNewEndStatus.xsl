@@ -11,7 +11,7 @@
 	<xsl:template match="/">
 		<endStatus>
             <xsl:for-each select="results/result/newStatuses/zgwStatus">
-                <xsl:if test="statustype = $EndStatusType/statusType/url">
+                <xsl:if test="statustype = $EndStatusType/ZgwStatusType/url">
                     <xsl:apply-templates select="@*|node()"/>
                 </xsl:if>
             </xsl:for-each> 

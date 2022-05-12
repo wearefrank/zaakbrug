@@ -9,8 +9,8 @@
 
         <Pipeline>
             <Exits>
-                <Exit path="EXIT" state="SUCCESS"/>
-                <Exit path="EXCEPTION" state="ERROR"/>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
             <SenderPipe
@@ -26,7 +26,6 @@
     <!-- How to handle Volgnummer and if no statustype is found with the statusOmschrijving -->
             <XsltPipe
                 name="GetZgwStatusTypeByOmschrijving"
-                skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/GetZgwStatusTypeByOmschrijving.xsl"
                 >
                 <Param name="Omschrijving" sessionKey="Omschrijving"/>
@@ -34,7 +33,7 @@
             </XsltPipe>
 
             <XmlIfPipe name="CheckForGetStatusTypeResult"
-                xpathExpression="string-length(statusType) > 0"
+                xpathExpression="string-length(ZgwStatusTypes/ZgwStatusType) > 0"
                 >
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="EXCEPTION"/>

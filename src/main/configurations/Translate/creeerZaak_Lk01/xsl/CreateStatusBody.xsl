@@ -8,10 +8,10 @@
     <xsl:template match="/">
         <zgwStatus>
             <zaak><xsl:value-of select="$ZaakUrl"/></zaak>
-            <statustype><xsl:value-of select="$StatusType/statusType/url"/></statustype>
+            <statustype><xsl:value-of select="$StatusType/ZgwStatusType/url"/></statustype>
             <datumStatusGezet>
                 <xsl:choose>
-                    <xsl:when test="$StatusType/statusType/isEindstatus = 'true' and not($Einddatum = 'Undefined')">
+                    <xsl:when test="$StatusType/ZgwStatusType/isEindstatus = 'true' and not($Einddatum = 'Undefined')">
                         <xsl:value-of select="zgw:convertZdsDatetimeToZgwDatetime($Einddatum)"/>
                     </xsl:when>
                     <xsl:otherwise>
@@ -19,7 +19,7 @@
                     </xsl:otherwise>
                 </xsl:choose>
             </datumStatusGezet>
-            <statustoelichting><xsl:value-of select="$StatusType/statusType/omschrijving"/></statustoelichting>
+            <statustoelichting><xsl:value-of select="$StatusType/ZgwStatusType/omschrijving"/></statustoelichting>
         </zgwStatus>
     </xsl:template>
 

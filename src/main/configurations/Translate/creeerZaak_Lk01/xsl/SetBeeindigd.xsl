@@ -4,7 +4,7 @@
     
 	<xsl:template match="/">
         <xsl:for-each select="root/results">
-            <xsl:if test="statustype = $SetEndStatusTypeResult/statusType/url">
+            <xsl:if test="statustype = $SetEndStatusTypeResult/ZgwStatusType/url">
                 <beeindigd>true</beeindigd>
             </xsl:if>
         </xsl:for-each> 
