@@ -7,6 +7,9 @@
             <xsl:if test="statustype = $SetEndStatusTypeResult/ZgwStatusType/url">
                 <beeindigd>true</beeindigd>
             </xsl:if>
-        </xsl:for-each> 
+        </xsl:for-each>
+        <xsl:if test="root/results = 'null'">
+            <beeindigd>false</beeindigd>
+        </xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

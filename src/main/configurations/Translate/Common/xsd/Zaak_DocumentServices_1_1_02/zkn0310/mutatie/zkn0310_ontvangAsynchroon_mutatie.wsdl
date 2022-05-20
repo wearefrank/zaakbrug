@@ -1,0 +1,1404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsi="http://ws-i.org/schemas/conformanceClaim/" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="StUF-ZKN0310" targetNamespace="http://www.egem.nl/StUF/sector/zkn/0310" version="031003">
+	<import namespace="http://www.egem.nl/StUF/StUF0301" location="../../0301/stuf0301_types.wsdl"/>
+	<documentation>
+		<xs:documentation>
+			   Dit document definieert de webservices voor het portType OntvangAsynchroon voor het sectormodel Zaken 0310.
+		
+			   Versie 031001, wijzigingen vergeleken met versie 031000:
+			   - ERR206: Import gewijzigd n.a.v. naamwijziging van het bestand 'stuf0301.types.wsdl' in 'stuf0301_types.wsdl'.
+		
+			   Versie 031002 (patch 1-7-2012), wijzigingen vergeleken met versie 031001:
+			   - ERR226: Foutieve 'soapAcion' waarden  'http://www.egem.nl/StUF/sector/bg/0310/xxx' gewijzigd in 'http://www.egem.nl/StUF/sector/bg/0310/xxx'.
+		
+			   Versie 031003, wijzigingen  t.b.v. patch 21, 1-4-2015 vergeleken met versie 031002:
+			   - ERR276: Operation 'Bv01' toegevoegd.		
+			
+			   Versie 031004, wijzigingen t.b.v. patch 21 (1-4-2015) vergeleken met versie 031003 zijn de volgende wijzigingen doorgevoerd:			
+			   - ERR0353: Het documentation element is voorzien van een standaard 'appinfo' structuur met daarin informatie over het schema.
+			
+		</xs:documentation>
+		<xs:appinfo>
+			<StUF:onderdeel>http://www.egem.nl/StUF/sector/zkn/0310</StUF:onderdeel>
+			<StUF:patch>22</StUF:patch>
+			<StUF:patchdatum>20150701</StUF:patchdatum>
+			<StUF:schemaversie>4</StUF:schemaversie>
+		</xs:appinfo>
+	</documentation>
+	<types>
+		<xs:schema>
+			<xs:import namespace="http://www.egem.nl/StUF/sector/zkn/0310" schemaLocation="zkn0310_msg_mutatie.xsd"/>
+		</xs:schema>
+	</types>
+	<message name="bslLk01">
+		<part name="body" element="ZKN:bslLk01"/>
+	</message>
+	<message name="bslSa01">
+		<part name="body" element="ZKN:bslSa01"/>
+	</message>
+	<message name="bslSa03">
+		<part name="body" element="ZKN:bslSa03"/>
+	</message>
+	<message name="bslSh01">
+		<part name="body" element="ZKN:bslSh01"/>
+	</message>
+	<message name="bslSh03">
+		<part name="body" element="ZKN:bslSh03"/>
+	</message>
+	<message name="bstLk01">
+		<part name="body" element="ZKN:bstLk01"/>
+	</message>
+	<message name="bstSa01">
+		<part name="body" element="ZKN:bstSa01"/>
+	</message>
+	<message name="bstSa03">
+		<part name="body" element="ZKN:bstSa03"/>
+	</message>
+	<message name="bstSh01">
+		<part name="body" element="ZKN:bstSh01"/>
+	</message>
+	<message name="bstSh03">
+		<part name="body" element="ZKN:bstSh03"/>
+	</message>
+	<message name="ctpLk01">
+		<part name="body" element="ZKN:ctpLk01"/>
+	</message>
+	<message name="ctpSa01">
+		<part name="body" element="ZKN:ctpSa01"/>
+	</message>
+	<message name="ctpSa03">
+		<part name="body" element="ZKN:ctpSa03"/>
+	</message>
+	<message name="dctLk01">
+		<part name="body" element="ZKN:dctLk01"/>
+	</message>
+	<message name="dctSa01">
+		<part name="body" element="ZKN:dctSa01"/>
+	</message>
+	<message name="dctSa03">
+		<part name="body" element="ZKN:dctSa03"/>
+	</message>
+	<message name="dctSh01">
+		<part name="body" element="ZKN:dctSh01"/>
+	</message>
+	<message name="dctSh03">
+		<part name="body" element="ZKN:dctSh03"/>
+	</message>
+	<message name="dtgLk01">
+		<part name="body" element="ZKN:dtgLk01"/>
+	</message>
+	<message name="dtgSa01">
+		<part name="body" element="ZKN:dtgSa01"/>
+	</message>
+	<message name="dtgSa03">
+		<part name="body" element="ZKN:dtgSa03"/>
+	</message>
+	<message name="edcLk01">
+		<part name="body" element="ZKN:edcLk01"/>
+	</message>
+	<message name="edcSa01">
+		<part name="body" element="ZKN:edcSa01"/>
+	</message>
+	<message name="edcSa03">
+		<part name="body" element="ZKN:edcSa03"/>
+	</message>
+	<message name="edcSh01">
+		<part name="body" element="ZKN:edcSh01"/>
+	</message>
+	<message name="edcSh03">
+		<part name="body" element="ZKN:edcSh03"/>
+	</message>
+	<message name="mdwLk01">
+		<part name="body" element="ZKN:mdwLk01"/>
+	</message>
+	<message name="mdwSa01">
+		<part name="body" element="ZKN:mdwSa01"/>
+	</message>
+	<message name="mdwSa03">
+		<part name="body" element="ZKN:mdwSa03"/>
+	</message>
+	<message name="mdwSh01">
+		<part name="body" element="ZKN:mdwSh01"/>
+	</message>
+	<message name="mdwSh03">
+		<part name="body" element="ZKN:mdwSh03"/>
+	</message>
+	<message name="oehLk01">
+		<part name="body" element="ZKN:oehLk01"/>
+	</message>
+	<message name="oehSa01">
+		<part name="body" element="ZKN:oehSa01"/>
+	</message>
+	<message name="oehSa03">
+		<part name="body" element="ZKN:oehSa03"/>
+	</message>
+	<message name="oehSh01">
+		<part name="body" element="ZKN:oehSh01"/>
+	</message>
+	<message name="oehSh03">
+		<part name="body" element="ZKN:oehSh03"/>
+	</message>
+	<message name="sdcLk01">
+		<part name="body" element="ZKN:sdcLk01"/>
+	</message>
+	<message name="sdcSa01">
+		<part name="body" element="ZKN:sdcSa01"/>
+	</message>
+	<message name="sdcSa03">
+		<part name="body" element="ZKN:sdcSa03"/>
+	</message>
+	<message name="sdcSh01">
+		<part name="body" element="ZKN:sdcSh01"/>
+	</message>
+	<message name="sdcSh03">
+		<part name="body" element="ZKN:sdcSh03"/>
+	</message>
+	<message name="sttLk01">
+		<part name="body" element="ZKN:sttLk01"/>
+	</message>
+	<message name="sttSa01">
+		<part name="body" element="ZKN:sttSa01"/>
+	</message>
+	<message name="sttSa03">
+		<part name="body" element="ZKN:sttSa03"/>
+	</message>
+	<message name="sttSh01">
+		<part name="body" element="ZKN:sttSh01"/>
+	</message>
+	<message name="sttSh03">
+		<part name="body" element="ZKN:sttSh03"/>
+	</message>
+	<message name="vzoLk01">
+		<part name="body" element="ZKN:vzoLk01"/>
+	</message>
+	<message name="vzoSa01">
+		<part name="body" element="ZKN:vzoSa01"/>
+	</message>
+	<message name="vzoSa03">
+		<part name="body" element="ZKN:vzoSa03"/>
+	</message>
+	<message name="vzoSh01">
+		<part name="body" element="ZKN:vzoSh01"/>
+	</message>
+	<message name="vzoSh03">
+		<part name="body" element="ZKN:vzoSh03"/>
+	</message>
+	<message name="zakLk01">
+		<part name="body" element="ZKN:zakLk01"/>
+	</message>
+	<message name="zakSa01">
+		<part name="body" element="ZKN:zakSa01"/>
+	</message>
+	<message name="zakSa03">
+		<part name="body" element="ZKN:zakSa03"/>
+	</message>
+	<message name="zakSh01">
+		<part name="body" element="ZKN:zakSh01"/>
+	</message>
+	<message name="zakSh03">
+		<part name="body" element="ZKN:zakSh03"/>
+	</message>
+	<message name="zktLk01">
+		<part name="body" element="ZKN:zktLk01"/>
+	</message>
+	<message name="zktSa01">
+		<part name="body" element="ZKN:zktSa01"/>
+	</message>
+	<message name="zktSa03">
+		<part name="body" element="ZKN:zktSa03"/>
+	</message>
+	<message name="zktSh01">
+		<part name="body" element="ZKN:zktSh01"/>
+	</message>
+	<message name="zktSh03">
+		<part name="body" element="ZKN:zktSh03"/>
+	</message>
+	<message name="ztgLk01">
+		<part name="body" element="ZKN:ztgLk01"/>
+	</message>
+	<message name="ztgSa01">
+		<part name="body" element="ZKN:ztgSa01"/>
+	</message>
+	<message name="ztgSa03">
+		<part name="body" element="ZKN:ztgSa03"/>
+	</message>
+	<portType name="OntvangAsynchroon">
+		<documentation>
+		Dit portType ondersteunt als operaties alle asynchrone berichten gedefinieerd binnen het sectormodel
+	</documentation>
+		<operation name="Bv01">
+			<input message="StUF:Bv01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="Bv03">
+			<input message="StUF:Bv03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="Fo01">
+			<input message="StUF:Fo01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="Fo03">
+			<input message="StUF:Fo03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="bslLk01">
+			<input message="ZKN:bslLk01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="bslSa01">
+			<input message="ZKN:bslSa01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="bslSa03">
+			<input message="ZKN:bslSa03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="bslSh01">
+			<input message="ZKN:bslSh01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="bslSh03">
+			<input message="ZKN:bslSh03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="bstLk01">
+			<input message="ZKN:bstLk01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="bstSa01">
+			<input message="ZKN:bstSa01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="bstSa03">
+			<input message="ZKN:bstSa03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="bstSh01">
+			<input message="ZKN:bstSh01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="bstSh03">
+			<input message="ZKN:bstSh03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="ctpLk01">
+			<input message="ZKN:ctpLk01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="ctpSa01">
+			<input message="ZKN:ctpSa01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="ctpSa03">
+			<input message="ZKN:ctpSa03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="dctLk01">
+			<input message="ZKN:dctLk01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="dctSa01">
+			<input message="ZKN:dctSa01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="dctSa03">
+			<input message="ZKN:dctSa03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="dctSh01">
+			<input message="ZKN:dctSh01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="dctSh03">
+			<input message="ZKN:dctSh03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="dtgLk01">
+			<input message="ZKN:dtgLk01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="dtgSa01">
+			<input message="ZKN:dtgSa01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="dtgSa03">
+			<input message="ZKN:dtgSa03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="edcLk01">
+			<input message="ZKN:edcLk01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="edcSa01">
+			<input message="ZKN:edcSa01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="edcSa03">
+			<input message="ZKN:edcSa03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="edcSh01">
+			<input message="ZKN:edcSh01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="edcSh03">
+			<input message="ZKN:edcSh03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="mdwLk01">
+			<input message="ZKN:mdwLk01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="mdwSa01">
+			<input message="ZKN:mdwSa01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="mdwSa03">
+			<input message="ZKN:mdwSa03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="mdwSh01">
+			<input message="ZKN:mdwSh01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="mdwSh03">
+			<input message="ZKN:mdwSh03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="oehLk01">
+			<input message="ZKN:oehLk01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="oehSa01">
+			<input message="ZKN:oehSa01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="oehSa03">
+			<input message="ZKN:oehSa03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="oehSh01">
+			<input message="ZKN:oehSh01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="oehSh03">
+			<input message="ZKN:oehSh03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="sdcLk01">
+			<input message="ZKN:sdcLk01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="sdcSa01">
+			<input message="ZKN:sdcSa01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="sdcSa03">
+			<input message="ZKN:sdcSa03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="sdcSh01">
+			<input message="ZKN:sdcSh01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="sdcSh03">
+			<input message="ZKN:sdcSh03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="sttLk01">
+			<input message="ZKN:sttLk01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="sttSa01">
+			<input message="ZKN:sttSa01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="sttSa03">
+			<input message="ZKN:sttSa03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="sttSh01">
+			<input message="ZKN:sttSh01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="sttSh03">
+			<input message="ZKN:sttSh03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="vzoLk01">
+			<input message="ZKN:vzoLk01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="vzoSa01">
+			<input message="ZKN:vzoSa01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="vzoSa03">
+			<input message="ZKN:vzoSa03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="vzoSh01">
+			<input message="ZKN:vzoSh01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="vzoSh03">
+			<input message="ZKN:vzoSh03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="zakLk01">
+			<input message="ZKN:zakLk01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="zakSa01">
+			<input message="ZKN:zakSa01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="zakSa03">
+			<input message="ZKN:zakSa03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="zakSh01">
+			<input message="ZKN:zakSh01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="zakSh03">
+			<input message="ZKN:zakSh03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="zktLk01">
+			<input message="ZKN:zktLk01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="zktSa01">
+			<input message="ZKN:zktSa01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="zktSa03">
+			<input message="ZKN:zktSa03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="zktSh01">
+			<input message="ZKN:zktSh01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="zktSh03">
+			<input message="ZKN:zktSh03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="ztgLk01">
+			<input message="ZKN:ztgLk01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="ztgSa01">
+			<input message="ZKN:ztgSa01"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+		<operation name="ztgSa03">
+			<input message="ZKN:ztgSa03"/>
+			<output message="StUF:Bv03"/>
+			<fault name="fout" message="StUF:Fo03"/>
+		</operation>
+	</portType>
+	<binding name="SOAPOntvangAsynchroon" type="ZKN:OntvangAsynchroon">
+		<documentation>
+			Omdat de uit te wisselen berichten volledig gedefinieerd zijn in het sectormodel cq de StUF-standaard, kunnen we ze zonder verdere encoding (“literal”) opnemen in de body.
+Niet ondersteunde berichten kunnen uit de binding en portType worden verwijderd.
+		</documentation>
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+		<operation name="Bv01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/StUF0301/Bv01"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="Bv03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/StUF0301/Bv03"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="Fo01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/StUF0301/Fo01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="Fo03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/StUF0301/Fo03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="bslLk01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/bslLk01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="bslSa01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/bslSa01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="bslSa03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/bslSa03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="bslSh01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/bslSh01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="bslSh03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/bslSh03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="bstLk01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/bstLk01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="bstSa01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/bstSa01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="bstSa03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/bstSa03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="bstSh01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/bstSh01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="bstSh03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/bstSh03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="ctpLk01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/ctpLk01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="ctpSa01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/ctpSa01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="ctpSa03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/ctpSa03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="dctLk01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/dctLk01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="dctSa01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/dctSa01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="dctSa03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/dctSa03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="dctSh01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/dctSh01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="dctSh03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/dctSh03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="dtgLk01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/dtgLk01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="dtgSa01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/dtgSa01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="dtgSa03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/dtgSa03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="edcLk01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/edcLk01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="edcSa01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/edcSa01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="edcSa03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/edcSa03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="edcSh01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/edcSh01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="edcSh03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/edcSh03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="mdwLk01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/mdwLk01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="mdwSa01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/mdwSa01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="mdwSa03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/mdwSa03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="mdwSh01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/mdwSh01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="mdwSh03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/mdwSh03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="oehLk01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/oehLk01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="oehSa01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/oehSa01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="oehSa03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/oehSa03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="oehSh01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/oehSh01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="oehSh03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/oehSh03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="sdcLk01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/sdcLk01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="sdcSa01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/sdcSa01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="sdcSa03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/sdcSa03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="sdcSh01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/sdcSh01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="sdcSh03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/sdcSh03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="sttLk01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/sttLk01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="sttSa01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/sttSa01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="sttSa03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/sttSa03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="sttSh01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/sttSh01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="sttSh03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/sttSh03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="vzoLk01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/vzoLk01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="vzoSa01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/vzoSa01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="vzoSa03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/vzoSa03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="vzoSh01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/vzoSh01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="vzoSh03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/vzoSh03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="zakLk01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/zakLk01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="zakSa01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/zakSa01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="zakSa03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/zakSa03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="zakSh01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/zakSh01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="zakSh03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/zakSh03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="zktLk01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/zktLk01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="zktSa01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/zktSa01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="zktSa03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/zktSa03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="zktSh01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/zktSh01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="zktSh03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/zktSh03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="ztgLk01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/ztgLk01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="ztgSa01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/ztgSa01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="ztgSa03">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/zkn/0310/ztgSa03" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="OntvangAsynchroon">
+		<documentation>
+	Hieronder wordt de concreet aan te roepen service voor het ontvangen van asynchrone ZKN0310-berichten gedefinieerd. 
+		</documentation>
+		<port name="OntvangAsynchroon" binding="ZKN:SOAPOntvangAsynchroon">
+			<documentation>
+				<wsi:Claim xmlns:wsi="http://ws-i.org/schemas/conformanceClaim/" conformsTo="http://ws-i.org/profiles/basic/1.1"/>
+			</documentation>
+			<soap:address location="http://example.com/OntvangAsynchroon" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+		</port>
+	</service>
+</definitions>

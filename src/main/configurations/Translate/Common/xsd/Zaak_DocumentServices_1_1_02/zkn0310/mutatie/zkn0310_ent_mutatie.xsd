@@ -1,0 +1,2161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 rel. 2 sp2 (http://www.altova.com) by Robert Melskens (Kwaliteits Instituut Nederlandse Gemeenten) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" targetNamespace="http://www.egem.nl/StUF/sector/zkn/0310" elementFormDefault="qualified" attributeFormDefault="unqualified" version="031015">
+	<import namespace="http://www.egem.nl/StUF/StUF0301" schemaLocation="../../0301/stuf0301mtom.xsd"/>
+	<import namespace="http://www.egem.nl/StUF/sector/bg/0310" schemaLocation="../entiteiten/zkn0310_bg0310_ent.xsd"/>
+	<include schemaLocation="../entiteiten/zkn0310_ent_basis.xsd"/>
+	<annotation>
+		<documentation>
+			   Wijzigingen vergeleken met versie zkn0310.ent.xsd v031011:
+			   - Aangepast aan nieuwe opzet sectormodellen
+			
+			   Wijzigingen t.b.v. patch 17 (1-10-2013) vergeleken met versie zkn0310_ent_mutatie.xsd v031012:
+			   - ERR278: In de complexTypes 'BTR-kerngegevensKennisgeving', 'BTR-subtypeMDWOEH-kerngegevensKennisgeving' en 'OBJ-kerngegevensKennisgeving' het attribute 'fixed' verwijderd op de 
+							attributedeclaratie voor 'stuf:entiteittype'.
+
+			   Wijzigingen t.b.v. patch 19 (1-4-2014) vergeleken met versie 031013 zijn de volgende wijzigingen doorgevoerd:			
+			   - ERR313: Bij alle complexTypes is het 'final' attribute verwijderd.
+
+			   Wijzigingen t.b.v. patch 21 (1-4-2015) vergeleken met versie 031014 zijn de volgende wijzigingen doorgevoerd:			
+			   - ERR329 en ERR0339: Voor een groot aantal '-kennisgeving' complexTypes is een '-kennisgeving_Sh' variant aangemaakt op basis van het gerelateerde
+												  '-kennisgeving' complexType. Daarin is het attribute 'sleutelSynchronisatie' verplicht gemaakt. Dit is niet gedaan voor de '-kennisgeving' 
+												  complexTypes waarin dit attribute toch al niet voorkwam. Relaties binnen de '-kennisgeving_Sh' complexTypes verwijzen nu zelf ook naar '-kennisgeving_Sh' complexTypes.
+			   - ERR0353: Het schema is voorzien van de afgesproken structuur in 'appinfo'
+			
+        </documentation>
+		<appinfo>
+			<StUF:onderdeel>http://www.egem.nl/StUF/sector/zkn/0310</StUF:onderdeel>
+			<StUF:patch>22</StUF:patch>
+			<StUF:patchdatum>20150701</StUF:patchdatum>
+			<StUF:schemaversie>15</StUF:schemaversie>
+		</appinfo>
+	</annotation>
+	<!-- Entiteit definities -->
+	<complexType name="BSL-kennisgeving">
+		<complexContent>
+			<restriction base="ZKN:BSL-basis">
+				<sequence>
+					<element name="identificatie" type="ZKN:DocumentIdentificatie-e" nillable="true" minOccurs="0"/>
+					<element name="bst.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="datumBeslissing" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="ingangsdatumWerking" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="einddatumWerking" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="vervalreden" type="ZKN:Vervalreden-e" nillable="true" minOccurs="0"/>
+					<element name="datumPublicatie" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="datumVerzending" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="datumUiterlijkeReactie" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="isVastgelegdIn" type="ZKN:BSLEDC-kennisgeving" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="BSL"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="BSL-kennisgeving_Sh">
+		<complexContent>
+			<restriction base="ZKN:BSL-kennisgeving">
+				<sequence>
+					<element name="identificatie" type="ZKN:DocumentIdentificatie-e" nillable="true" minOccurs="0"/>
+					<element name="bst.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="datumBeslissing" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="ingangsdatumWerking" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="einddatumWerking" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="vervalreden" type="ZKN:Vervalreden-e" nillable="true" minOccurs="0"/>
+					<element name="datumPublicatie" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="datumVerzending" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="datumUiterlijkeReactie" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="isVastgelegdIn" type="ZKN:BSLEDC-kennisgeving_Sh" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="BSL"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="BSL-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:BSL-basis">
+				<sequence>
+					<element name="identificatie" type="ZKN:DocumentIdentificatie-e" nillable="true" minOccurs="0"/>
+					<element name="bst.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="datumBeslissing" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="BSL"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="BSLEDC-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde zijn zowel verwerkingssoort I als T toegestaan.
+			</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:BSLEDC-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:EDC-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="BSLEDC"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="BSLEDC-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde zijn zowel verwerkingssoort I als T toegestaan.
+			</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:BSLEDC-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:EDC-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="BSLEDC"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="BST-kennisgeving">
+		<complexContent>
+			<restriction base="ZKN:BST-basis">
+				<sequence>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijvingGeneriek" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="categorie" type="ZKN:OmschrijvingKort-e" nillable="true" minOccurs="0"/>
+					<element name="reactietermijn" type="ZKN:Termijn-e" nillable="true" minOccurs="0"/>
+					<element name="publicatieIndicatie" type="BG:Indicatie-e" nillable="true" minOccurs="0"/>
+					<element name="publicatieTekst" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="publicatieTermijn" type="ZKN:Termijn-e" nillable="true" minOccurs="0"/>
+					<element name="ingangsdatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+					<element name="einddatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="BST"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="BST-kennisgeving_Sh">
+		<complexContent>
+			<restriction base="ZKN:BST-kennisgeving">
+				<sequence>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijvingGeneriek" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="categorie" type="ZKN:OmschrijvingKort-e" nillable="true" minOccurs="0"/>
+					<element name="reactietermijn" type="ZKN:Termijn-e" nillable="true" minOccurs="0"/>
+					<element name="publicatieIndicatie" type="BG:Indicatie-e" nillable="true" minOccurs="0"/>
+					<element name="publicatieTekst" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="publicatieTermijn" type="ZKN:Termijn-e" nillable="true" minOccurs="0"/>
+					<element name="ingangsdatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+					<element name="einddatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="BST"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="BST-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:BST-basis">
+				<sequence>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijvingGeneriek" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="categorie" type="ZKN:OmschrijvingKort-e" nillable="true" minOccurs="0"/>
+					<element name="ingangsdatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="BST"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="BTR-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:BTR-basis">
+				<choice minOccurs="0">
+					<choice minOccurs="0">
+						<element name="medewerker" type="ZKN:MDW-kerngegevensKennisgeving" nillable="true"/>
+						<element name="organisatorischeEenheid" type="ZKN:OEH-kerngegevensKennisgeving" nillable="true"/>
+						<element name="natuurlijkPersoon" type="BG:NPS-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="nietNatuurlijkPersoon" type="BG:NNP-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="vestiging" type="BG:VES-zkn-kerngegevensKennisgeving"/>
+					</choice>
+				</choice>
+				<attribute ref="StUF:entiteittype" use="prohibited"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="BTR-subtypeMDWOEH-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:BTR-subtypeMDWOEH-basis">
+				<choice minOccurs="0">
+					<choice minOccurs="0">
+						<element name="medewerker" type="ZKN:MDW-kerngegevensKennisgeving" nillable="true"/>
+						<element name="organisatorischeEenheid" type="ZKN:OEH-kerngegevensKennisgeving" nillable="true"/>
+					</choice>
+				</choice>
+				<attribute ref="StUF:entiteittype" use="prohibited"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="CTP-kennisgeving">
+		<complexContent>
+			<restriction base="ZKN:CTP-basis">
+				<sequence>
+					<element name="identificatie" type="StUF:Sleutel-e" nillable="true" minOccurs="0"/>
+					<element name="naam" type="ZKN:ContactpersoonNaam-e" nillable="true" minOccurs="0"/>
+					<element name="functie" type="ZKN:FunctieMDW-e" nillable="true" minOccurs="0"/>
+					<element name="telefoonnummer" type="BG:Telefoonnummer-e" nillable="true" minOccurs="0"/>
+					<element name="emailadres" type="BG:Emailadres-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="isAanspreekpuntNamens" type="ZKN:CTPSUB-kennisgeving" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="CTP-kennisgeving_Sh">
+		<complexContent>
+			<restriction base="ZKN:CTP-kennisgeving">
+				<sequence>
+					<element name="identificatie" type="StUF:Sleutel-e" nillable="true" minOccurs="0"/>
+					<element name="naam" type="ZKN:ContactpersoonNaam-e" nillable="true" minOccurs="0"/>
+					<element name="functie" type="ZKN:FunctieMDW-e" nillable="true" minOccurs="0"/>
+					<element name="telefoonnummer" type="BG:Telefoonnummer-e" nillable="true" minOccurs="0"/>
+					<element name="emailadres" type="BG:Emailadres-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="isAanspreekpuntNamens" type="ZKN:CTPSUB-kennisgeving_Sh" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="CTPSUB-kennisgeving">
+		<annotation>
+			<documentation>Binnen de gerelateerde SUB zijn de verwerkingssoorten I en T toegestaan.
+			</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:CTPSUB-basis">
+				<sequence>
+					<element name="gerelateerde" type="BG:SUB-zkn-kerngegevensKennisgeving"/>
+				</sequence>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="CTPSUB-kennisgeving_Sh">
+		<annotation>
+			<documentation>Binnen de gerelateerde SUB zijn de verwerkingssoorten I en T toegestaan.
+			</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:CTPSUB-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="BG:SUB-zkn-kerngegevensKennisgeving"/>
+				</sequence>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="DCT-kennisgeving">
+		<complexContent>
+			<restriction base="ZKN:DCT-basis">
+				<sequence>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijvingGeneriek" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="categorie" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="trefwoord" type="ZKN:Trefwoord-e" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="ingangsdatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+					<element name="einddatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="DCT"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="DCT-kennisgeving_Sh">
+		<complexContent>
+			<restriction base="ZKN:DCT-kennisgeving">
+				<sequence>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijvingGeneriek" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="categorie" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="trefwoord" type="ZKN:Trefwoord-e" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="ingangsdatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+					<element name="einddatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="DCT"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="DCT-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:DCT-basis">
+				<sequence>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="categorie" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="ingangsdatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="DCT"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="DTG-kennisgeving">
+		<complexContent>
+			<restriction base="ZKN:DTG-tabel">
+				<sequence>
+					<element name="omschrijving" type="ZKN:Omschrijving-e"/>
+					<element name="ingangsdatumObject" type="StUF:DatumMetIndicator"/>
+					<element name="einddatumObject" type="StUF:DatumMetIndicator"/>
+				</sequence>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="EDC-kennisgeving">
+		<complexContent>
+			<restriction base="ZKN:EDC-basis">
+				<sequence>
+					<element name="identificatie" type="ZKN:DocumentIdentificatie-e" nillable="true" minOccurs="0"/>
+					<element name="dct.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="creatiedatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="ontvangstdatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="titel" type="ZKN:DocumentTitel-e" nillable="true" minOccurs="0"/>
+					<element name="beschrijving" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="formaat" type="ZKN:Bestandsformaat-e" nillable="true" minOccurs="0"/>
+					<element name="taal" type="ZKN:DocumentTaal-e" nillable="true" minOccurs="0"/>
+					<element name="versie" type="ZKN:DocumentVersie-e" nillable="true" minOccurs="0"/>
+					<element name="status" type="ZKN:DocumentStatus-e" nillable="true" minOccurs="0"/>
+					<element name="verzenddatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="vertrouwelijkAanduiding" type="ZKN:VertrouwelijkAanduiding-e" nillable="true" minOccurs="0"/>
+					<element name="auteur" type="ZKN:DocumentAuteur-e" nillable="true" minOccurs="0"/>
+					<element name="link" type="BG:Url-e" nillable="true" minOccurs="0"/>
+					<element name="inhoud" type="StUF:BinaireInhoud" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="isRelevantVoor" type="ZKN:EDCZAK-kennisgeving" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="EDC"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="EDC-kennisgeving_Sh">
+		<complexContent>
+			<restriction base="ZKN:EDC-kennisgeving">
+				<sequence>
+					<element name="identificatie" type="ZKN:DocumentIdentificatie-e" nillable="true" minOccurs="0"/>
+					<element name="dct.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="creatiedatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="ontvangstdatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="titel" type="ZKN:DocumentTitel-e" nillable="true" minOccurs="0"/>
+					<element name="beschrijving" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="formaat" type="ZKN:Bestandsformaat-e" nillable="true" minOccurs="0"/>
+					<element name="taal" type="ZKN:DocumentTaal-e" nillable="true" minOccurs="0"/>
+					<element name="versie" type="ZKN:DocumentVersie-e" nillable="true" minOccurs="0"/>
+					<element name="status" type="ZKN:DocumentStatus-e" nillable="true" minOccurs="0"/>
+					<element name="verzenddatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="vertrouwelijkAanduiding" type="ZKN:VertrouwelijkAanduiding-e" nillable="true" minOccurs="0"/>
+					<element name="auteur" type="ZKN:DocumentAuteur-e" nillable="true" minOccurs="0"/>
+					<element name="link" type="BG:Url-e" nillable="true" minOccurs="0"/>
+					<element name="inhoud" type="StUF:BinaireInhoud" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="isRelevantVoor" type="ZKN:EDCZAK-kennisgeving_Sh" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="EDC"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="EDC-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:EDC-basis">
+				<sequence>
+					<element name="identificatie" type="ZKN:DocumentIdentificatie-e" nillable="true" minOccurs="0"/>
+					<element name="dct.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="titel" type="ZKN:DocumentTitel-e" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="EDC"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="EDCZAK-kennisgeving">
+		<complexContent>
+			<restriction base="ZKN:EDCZAK-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:ZAK-kerngegevensKennisgeving" nillable="true"/>
+					<element name="titel" type="ZKN:DocumentTitel-e" nillable="true" minOccurs="0"/>
+					<element name="beschrijving" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="registratiedatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="stt.volgnummer" type="ZKN:Volgnummer-e" nillable="true" minOccurs="0"/>
+					<element name="stt.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="sta.datumStatusGezet" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="EDCZAK"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="EDCZAK-kennisgeving_Sh">
+		<complexContent>
+			<restriction base="ZKN:EDCZAK-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:ZAK-kerngegevensKennisgeving" nillable="true"/>
+					<element name="titel" type="ZKN:DocumentTitel-e" nillable="true" minOccurs="0"/>
+					<element name="beschrijving" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="registratiedatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="stt.volgnummer" type="ZKN:Volgnummer-e" nillable="true" minOccurs="0"/>
+					<element name="stt.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="sta.datumStatusGezet" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="EDCZAK"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="MDW-kennisgeving">
+		<complexContent>
+			<restriction base="ZKN:MDW-basis">
+				<sequence>
+					<element name="identificatie" type="ZKN:Identificatie-e" nillable="true" minOccurs="0"/>
+					<element name="achternaam" type="BG:Geslachtsnaam-e" nillable="true" minOccurs="0"/>
+					<element name="voorletters" type="BG:Voorletters-e" nillable="true" minOccurs="0"/>
+					<element name="voorvoegselAchternaam" type="BG:VoorvoegselGeslachtsnaam-e" nillable="true" minOccurs="0"/>
+					<element name="roepnaam" type="ZKN:RoepnaamMDW-e" nillable="true" minOccurs="0"/>
+					<element name="geslachtsaanduiding" type="BG:Geslachtsaanduiding-e" nillable="true" minOccurs="0"/>
+					<element name="functie" type="ZKN:FunctieMDW-e" nillable="true" minOccurs="0"/>
+					<element name="datumUitDienst" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="telefoonnummer" type="BG:Telefoonnummer-e" nillable="true" minOccurs="0"/>
+					<element name="emailadres" type="BG:Emailadres-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="hoortBij" type="ZKN:MDWOEHLID-kennisgeving" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="MDW"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="MDW-kennisgeving_Sh">
+		<complexContent>
+			<restriction base="ZKN:MDW-kennisgeving">
+				<sequence>
+					<element name="identificatie" type="ZKN:Identificatie-e" nillable="true" minOccurs="0"/>
+					<element name="achternaam" type="BG:Geslachtsnaam-e" nillable="true" minOccurs="0"/>
+					<element name="voorletters" type="BG:Voorletters-e" nillable="true" minOccurs="0"/>
+					<element name="voorvoegselAchternaam" type="BG:VoorvoegselGeslachtsnaam-e" nillable="true" minOccurs="0"/>
+					<element name="roepnaam" type="ZKN:RoepnaamMDW-e" nillable="true" minOccurs="0"/>
+					<element name="geslachtsaanduiding" type="BG:Geslachtsaanduiding-e" nillable="true" minOccurs="0"/>
+					<element name="functie" type="ZKN:FunctieMDW-e" nillable="true" minOccurs="0"/>
+					<element name="datumUitDienst" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="telefoonnummer" type="BG:Telefoonnummer-e" nillable="true" minOccurs="0"/>
+					<element name="emailadres" type="BG:Emailadres-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="hoortBij" type="ZKN:MDWOEHLID-kennisgeving_Sh" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="MDW"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="MDW-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:MDW-basis">
+				<sequence>
+					<element name="identificatie" type="ZKN:Identificatie-e" nillable="true" minOccurs="0"/>
+					<element name="achternaam" type="BG:Geslachtsnaam-e" nillable="true" minOccurs="0"/>
+					<element name="voorletters" type="BG:Voorletters-e" nillable="true" minOccurs="0"/>
+					<element name="voorvoegselAchternaam" type="BG:VoorvoegselGeslachtsnaam-e" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="MDW"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="MDWOEHLID-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde OEH zijn verwerkingssoort T en I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:MDWOEHLID-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:OEH-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="MDWOEHLID"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="MDWOEHLID-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde OEH zijn verwerkingssoort T en I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:MDWOEHLID-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:OEH-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="MDWOEHLID"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="OBJ-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:OBJ-basis">
+				<choice minOccurs="0">
+					<choice minOccurs="0">
+						<element name="adres" type="BG:AOA-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="besluit" type="ZKN:BSL-kerngegevensKennisgeving" nillable="true"/>
+						<element name="buurt" type="BG:BRT-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="enkelvoudigDocument" type="ZKN:EDC-kerngegevensKennisgeving" nillable="true"/>
+						<element name="gemeente" type="BG:GEM-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="gemeentelijkeOpenbareRuimte" type="BG:GOR-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="huishouden" type="BG:HHD-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="inrichtingselement" type="BG:IRE-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="kadastraleOnroerendeZaak" type="BG:KOZ-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="kunstwerkdeel" type="BG:KWD-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="maatschappelijkeActiviteit" type="BG:MAC-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="medewerker" type="ZKN:MDW-kerngegevensKennisgeving" nillable="true"/>
+						<element name="natuurlijkPersoon" type="BG:NPS-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="nietNatuurlijkPersoon" type="BG:NNP-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="openbareRuimte" type="BG:OPR-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="organisatorischeEenheid" type="ZKN:OEH-kerngegevensKennisgeving" nillable="true"/>
+						<element name="pand" type="BG:PND-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="samengesteldDocument" type="ZKN:SDC-kerngegevensKennisgeving"/>
+						<element name="spoorbaandeel" type="BG:SBD-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="status" type="ZKN:STA-kerngegevensKennisgeving" nillable="true"/>
+						<element name="terreindeel" type="BG:TDL-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="terreinGebouwdObject" type="BG:TGO-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="vestiging" type="BG:VES-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="waterdeel" type="BG:WDL-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="wegdeel" type="BG:WGD-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="wijk" type="BG:WYK-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="woonplaats" type="BG:WPL-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="wozDeelobject" type="BG:WDO-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="wozObject" type="BG:WOZ-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="wozWaarde" type="BG:WRD-zkn-kerngegevensKennisgeving" nillable="true"/>
+						<element name="zakelijkRecht" type="BG:ZKR-zkn-kerngegevensKennisgeving" nillable="true"/>
+					</choice>
+				</choice>
+				<attribute ref="StUF:entiteittype" use="prohibited"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="OEH-kennisgeving">
+		<complexContent>
+			<restriction base="ZKN:OEH-basis">
+				<sequence>
+					<element name="identificatie" type="ZKN:Identificatie-e" nillable="true" minOccurs="0"/>
+					<element name="naam" type="ZKN:NaamOEH-e" nillable="true" minOccurs="0"/>
+					<element name="naamVerkort" type="ZKN:NaamVerkortOEH-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="telefoonnummer" type="BG:Telefoonnummer-e" nillable="true" minOccurs="0"/>
+					<element name="faxnummer" type="BG:Telefoonnummer-e" nillable="true" minOccurs="0"/>
+					<element name="emailadres" type="BG:Emailadres-e" nillable="true" minOccurs="0"/>
+					<element name="ingangsdatumObject" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="einddatumObject" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="heeftAlsVerantwoordelijke" type="ZKN:OEHMDWVRA-kennisgeving" nillable="true" minOccurs="0"/>
+					<element name="heeftAlsContactpersoon" type="ZKN:OEHMDWCPR-kennisgeving" nillable="true" minOccurs="0"/>
+					<element name="isGehuisvestIn" type="ZKN:OEHVZO-kennisgeving" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="OEH"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="OEH-kennisgeving_Sh">
+		<complexContent>
+			<restriction base="ZKN:OEH-kennisgeving">
+				<sequence>
+					<element name="identificatie" type="ZKN:Identificatie-e" nillable="true" minOccurs="0"/>
+					<element name="naam" type="ZKN:NaamOEH-e" nillable="true" minOccurs="0"/>
+					<element name="naamVerkort" type="ZKN:NaamVerkortOEH-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="telefoonnummer" type="BG:Telefoonnummer-e" nillable="true" minOccurs="0"/>
+					<element name="faxnummer" type="BG:Telefoonnummer-e" nillable="true" minOccurs="0"/>
+					<element name="emailadres" type="BG:Emailadres-e" nillable="true" minOccurs="0"/>
+					<element name="ingangsdatumObject" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="einddatumObject" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="heeftAlsVerantwoordelijke" type="ZKN:OEHMDWVRA-kennisgeving_Sh" nillable="true" minOccurs="0"/>
+					<element name="heeftAlsContactpersoon" type="ZKN:OEHMDWCPR-kennisgeving_Sh" nillable="true" minOccurs="0"/>
+					<element name="isGehuisvestIn" type="ZKN:OEHVZO-kennisgeving_Sh" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="OEH"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="OEH-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:OEH-basis">
+				<sequence>
+					<element name="identificatie" type="ZKN:Identificatie-e" nillable="true" minOccurs="0"/>
+					<element name="naam" type="ZKN:NaamOEH-e" nillable="true" minOccurs="0"/>
+					<element name="isGehuisvestIn" type="ZKN:OEHVZO-kerngegevensKennisgeving" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="OEH"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="OEHMDWCPR-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde MDW is alleen verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:OEHMDWCPR-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:MDW-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="OEHMDWCPR"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="OEHMDWCPR-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde MDW is alleen verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:OEHMDWCPR-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:MDW-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="OEHMDWCPR"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="OEHMDWVRA-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde MDW is alleen verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:OEHMDWVRA-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:MDW-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="OEHMDWVRA"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="OEHMDWVRA-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde MDW is alleen verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:OEHMDWVRA-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:MDW-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="OEHMDWVRA"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="OEHVZO-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde VZO zijn de verwerkingssoort T en I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:OEHVZO-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:VZO-kerngegevensKennisgeving"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="OEHVZO"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="OEHVZO-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde VZO zijn de verwerkingssoort T en I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:OEHVZO-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:VZO-kerngegevensKennisgeving"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="OEHVZO"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="OEHVZO-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:OEHVZO-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:VZO-kerngegevensKennisgeving"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="OEHVZO"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="SDC-kennisgeving">
+		<complexContent>
+			<restriction base="ZKN:SDC-basis">
+				<sequence>
+					<element name="identificatie" type="ZKN:DocumentIdentificatie-e" nillable="true" minOccurs="0"/>
+					<element name="dct.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="creatiedatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="ontvangstdatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="titel" type="ZKN:DocumentTitel-e" nillable="true" minOccurs="0"/>
+					<element name="beschrijving" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="verzenddatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="vertrouwelijkAanduiding" type="ZKN:VertrouwelijkAanduiding-e" nillable="true" minOccurs="0"/>
+					<element name="auteur" type="ZKN:DocumentAuteur-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="omvat" type="ZKN:SDCEDC-kennisgeving" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="SDC"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="SDC-kennisgeving_Sh">
+		<complexContent>
+			<restriction base="ZKN:SDC-kennisgeving">
+				<sequence>
+					<element name="identificatie" type="ZKN:DocumentIdentificatie-e" nillable="true" minOccurs="0"/>
+					<element name="dct.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="creatiedatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="ontvangstdatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="titel" type="ZKN:DocumentTitel-e" nillable="true" minOccurs="0"/>
+					<element name="beschrijving" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="verzenddatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="vertrouwelijkAanduiding" type="ZKN:VertrouwelijkAanduiding-e" nillable="true" minOccurs="0"/>
+					<element name="auteur" type="ZKN:DocumentAuteur-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="omvat" type="ZKN:SDCEDC-kennisgeving_Sh" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="SDC"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="SDC-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:SDC-basis">
+				<sequence>
+					<element name="identificatie" type="ZKN:DocumentIdentificatie-e" nillable="true" minOccurs="0"/>
+					<element name="dct.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="titel" type="ZKN:DocumentTitel-e" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="SDC"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="SDCEDC-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde EDC is alleen verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:SDCEDC-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:EDC-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="SDCEDC"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="SDCEDC-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde EDC is alleen verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:SDCEDC-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:EDC-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="SDCEDC"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="STA-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:STA-basis">
+				<sequence>
+					<element name="stt.volgnummer" type="ZKN:Volgnummer-e" nillable="true" minOccurs="0"/>
+					<element name="datumStatusGezet" type="StUF:Tijdstip-e" nillable="true" minOccurs="0"/>
+					<element name="isVan" type="ZKN:STAZAK-kerngegevensKennisgeving" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="STA"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="STAZAK-kerngegevensKennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde is zowel verwerkingssoort I als T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:STAZAK-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:ZAK-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="STAZAK"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="STT-inZKT-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:STT-basis">
+				<sequence>
+					<element name="zkt.code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="zkt.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="volgnummer" type="ZKN:Volgnummer-e" nillable="true" minOccurs="0"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="ingangsdatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="STT"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="STT-kennisgeving">
+		<complexContent>
+			<restriction base="ZKN:STT-basis">
+				<sequence>
+					<element name="zkt.code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="zkt.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="volgnummer" type="ZKN:Volgnummer-e" nillable="true" minOccurs="0"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijvingGeneriek" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="doorlooptijd" type="ZKN:Doorlooptijd-e" nillable="true" minOccurs="0"/>
+					<element name="ingangsdatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+					<element name="einddatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="STT"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="STT-kennisgeving_Sh">
+		<complexContent>
+			<restriction base="ZKN:STT-kennisgeving">
+				<sequence>
+					<element name="zkt.code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="zkt.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="volgnummer" type="ZKN:Volgnummer-e" nillable="true" minOccurs="0"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijvingGeneriek" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="doorlooptijd" type="ZKN:Doorlooptijd-e" nillable="true" minOccurs="0"/>
+					<element name="ingangsdatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+					<element name="einddatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="STT"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="STT-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:STT-basis">
+				<sequence>
+					<element name="zkt.code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="zkt.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="volgnummer" type="ZKN:Volgnummer-e" nillable="true" minOccurs="0"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="ingangsdatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="STT"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="VZO-kennisgeving">
+		<complexContent>
+			<restriction base="ZKN:VZO-basis">
+				<sequence>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="isEen" type="ZKN:VZOVES-kennisgeving"/>
+				</sequence>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="prohibited"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="VZO-kennisgeving_Sh">
+		<complexContent>
+			<restriction base="ZKN:VZO-kennisgeving">
+				<sequence>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="isEen" type="ZKN:VZOVES-kennisgeving"/>
+				</sequence>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="VZO-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:VZO-basis">
+				<sequence>
+					<element name="isEen" type="ZKN:VZOVES-kerngegevensKennisgeving"/>
+				</sequence>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="VZOVES-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde zijn de verwerkingssoort I, T en W toegestaan. De gegevens van de gerelateerde mogen gewijzigd worden.
+			</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:VZOVES-basis">
+				<sequence>
+					<element name="gerelateerde" type="BG:VES-zkn-kerngegevensKennisgeving"/>
+				</sequence>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="VZOVES-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde zijn de verwerkingssoort I, T en W toegestaan. De gegevens van de gerelateerde mogen gewijzigd worden.
+			</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:VZOVES-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="BG:VES-zkn-kerngegevensKennisgeving"/>
+				</sequence>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="VZOVES-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:VZOVES-basis">
+				<sequence>
+					<element name="gerelateerde" type="BG:VES-zkn-kerngegevensKennisgeving"/>
+				</sequence>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAK-kennisgeving">
+		<complexContent>
+			<restriction base="ZKN:ZAK-basis">
+				<sequence>
+					<element name="identificatie" type="ZKN:ZaakIdentificatie-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="kenmerk" type="ZKN:KenmerkGrp" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="anderZaakObject" type="ZKN:ZaakobjectGrp" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="resultaat" type="ZKN:ResultaatGrp" nillable="true" minOccurs="0"/>
+					<element name="startdatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="registratiedatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="publicatiedatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="einddatumGepland" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="uiterlijkeEinddatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="einddatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="opschorting" type="ZKN:OpschortingGrp" nillable="true" minOccurs="0"/>
+					<element name="verlenging" type="ZKN:VerlengingGrp" nillable="true" minOccurs="0"/>
+					<element name="betalingsIndicatie" type="ZKN:BetalingsIndicatie-e" nillable="true" minOccurs="0"/>
+					<element name="laatsteBetaaldatum" type="StUF:Tijdstip-e" nillable="true" minOccurs="0"/>
+					<element name="archiefnominatie" type="BG:Indicatie-e" nillable="true" minOccurs="0"/>
+					<element name="datumVernietigingDossier" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="zaakniveau" type="ZKN:ZaakNiveau-e" nillable="true" minOccurs="0"/>
+					<element name="deelzakenIndicatie" type="BG:Indicatie-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="isVan" type="ZKN:ZAKZKT-kennisgeving" nillable="true" minOccurs="0"/>
+					<element name="heeftBetrekkingOp" type="ZKN:ZAKOBJ-kennisgeving" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsBelanghebbende" type="ZKN:ZAKBTRBLH-kennisgeving" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsGemachtigde" type="ZKN:ZAKBTRGMC-kennisgeving" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsInitiator" type="ZKN:ZAKBTRINI-kennisgeving" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsUitvoerende" type="ZKN:ZAKBTRUTV-kennisgeving" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsVerantwoordelijke" type="ZKN:ZAKBTRVRA-kennisgeving" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsOverigBetrokkene" type="ZKN:ZAKBTROVR-kennisgeving" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsDeelzaak" type="ZKN:ZAKZAKDEL-kennisgeving" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftBetrekkingOpAndere" type="ZKN:ZAKZAKBTR-kennisgeving" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeft" type="ZKN:ZAKSTT-kennisgeving" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="leidtTot" type="ZKN:ZAKBSL-kennisgeving" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAK"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAK-kennisgeving_Sh">
+		<complexContent>
+			<restriction base="ZKN:ZAK-kennisgeving">
+				<sequence>
+					<element name="identificatie" type="ZKN:ZaakIdentificatie-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="kenmerk" type="ZKN:KenmerkGrp" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="anderZaakObject" type="ZKN:ZaakobjectGrp" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="resultaat" type="ZKN:ResultaatGrp" nillable="true" minOccurs="0"/>
+					<element name="startdatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="registratiedatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="publicatiedatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="einddatumGepland" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="uiterlijkeEinddatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="einddatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="opschorting" type="ZKN:OpschortingGrp" nillable="true" minOccurs="0"/>
+					<element name="verlenging" type="ZKN:VerlengingGrp" nillable="true" minOccurs="0"/>
+					<element name="betalingsIndicatie" type="ZKN:BetalingsIndicatie-e" nillable="true" minOccurs="0"/>
+					<element name="laatsteBetaaldatum" type="StUF:Tijdstip-e" nillable="true" minOccurs="0"/>
+					<element name="archiefnominatie" type="BG:Indicatie-e" nillable="true" minOccurs="0"/>
+					<element name="datumVernietigingDossier" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="zaakniveau" type="ZKN:ZaakNiveau-e" nillable="true" minOccurs="0"/>
+					<element name="deelzakenIndicatie" type="BG:Indicatie-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="isVan" type="ZKN:ZAKZKT-kennisgeving_Sh" nillable="true" minOccurs="0"/>
+					<element name="heeftBetrekkingOp" type="ZKN:ZAKOBJ-kennisgeving_Sh" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsBelanghebbende" type="ZKN:ZAKBTRBLH-kennisgeving_Sh" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsGemachtigde" type="ZKN:ZAKBTRGMC-kennisgeving_Sh" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsInitiator" type="ZKN:ZAKBTRINI-kennisgeving_Sh" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsUitvoerende" type="ZKN:ZAKBTRUTV-kennisgeving_Sh" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsVerantwoordelijke" type="ZKN:ZAKBTRVRA-kennisgeving_Sh" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsOverigBetrokkene" type="ZKN:ZAKBTROVR-kennisgeving_Sh" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsDeelzaak" type="ZKN:ZAKZAKDEL-kennisgeving_Sh" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftBetrekkingOpAndere" type="ZKN:ZAKZAKBTR-kennisgeving_Sh" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeft" type="ZKN:ZAKSTT-kennisgeving_Sh" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="leidtTot" type="ZKN:ZAKBSL-kennisgeving_Sh" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAK"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAK-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:ZAK-basis">
+				<sequence>
+					<element name="identificatie" type="ZKN:ZaakIdentificatie-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="isVan" type="ZKN:ZAKZKT-kerngegevens" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAK"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBSL-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde is alleen verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBSL-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:BSL-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKBSL"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBSL-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde is alleen verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBSL-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:BSL-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKBSL"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRBLH-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRBLH-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:BTR-kerngegevensKennisgeving" nillable="true"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<choice minOccurs="0">
+						<element name="afwijkendCorrespondentieAdres" type="BG:CorrespondentieAdresGrp-basis" nillable="true" minOccurs="0"/>
+						<element name="afwijkendBuitenlandsCorrespondentieAdres" type="BG:VerblijfBuitenlandGrp" nillable="true" minOccurs="0"/>
+					</choice>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="heeftAlsAanspreekpunt" type="ZKN:ZAKBTRBLHCTP-kennisgeving" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKBTRBLH"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRBLH-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRBLH-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:BTR-kerngegevensKennisgeving" nillable="true"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<choice minOccurs="0">
+						<element name="afwijkendCorrespondentieAdres" type="BG:CorrespondentieAdresGrp-basis" nillable="true" minOccurs="0"/>
+						<element name="afwijkendBuitenlandsCorrespondentieAdres" type="BG:VerblijfBuitenlandGrp" nillable="true" minOccurs="0"/>
+					</choice>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="heeftAlsAanspreekpunt" type="ZKN:ZAKBTRBLHCTP-kennisgeving_Sh" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKBTRBLH"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRBLHCTP-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRBLHCTP-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:CTP-kennisgeving"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRBLHCTP-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRBLHCTP-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:CTP-kennisgeving"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRGMC-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRGMC-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:BTR-kerngegevensKennisgeving" nillable="true"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<choice minOccurs="0">
+						<element name="afwijkendCorrespondentieAdres" type="BG:CorrespondentieAdresGrp-basis" nillable="true" minOccurs="0"/>
+						<element name="afwijkendBuitenlandsCorrespondentieAdres" type="BG:VerblijfBuitenlandGrp" nillable="true" minOccurs="0"/>
+					</choice>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="heeftAlsAanspreekpunt" type="ZKN:ZAKBTRGMCCTP-kennisgeving" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKBTRGMC"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRGMC-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRGMC-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:BTR-kerngegevensKennisgeving" nillable="true"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<choice minOccurs="0">
+						<element name="afwijkendCorrespondentieAdres" type="BG:CorrespondentieAdresGrp-basis" nillable="true" minOccurs="0"/>
+						<element name="afwijkendBuitenlandsCorrespondentieAdres" type="BG:VerblijfBuitenlandGrp" nillable="true" minOccurs="0"/>
+					</choice>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="heeftAlsAanspreekpunt" type="ZKN:ZAKBTRGMCCTP-kennisgeving_Sh" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKBTRGMC"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRGMCCTP-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRGMCCTP-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:CTP-kennisgeving"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRGMCCTP-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRGMCCTP-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:CTP-kennisgeving"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRINI-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRINI-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:BTR-kerngegevensKennisgeving" nillable="true"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<choice minOccurs="0">
+						<element name="afwijkendCorrespondentieAdres" type="BG:CorrespondentieAdresGrp-basis" nillable="true" minOccurs="0"/>
+						<element name="afwijkendBuitenlandsCorrespondentieAdres" type="BG:VerblijfBuitenlandGrp" nillable="true" minOccurs="0"/>
+					</choice>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="heeftAlsAanspreekpunt" type="ZKN:ZAKBTRINICTP-kennisgeving" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKBTRINI"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRINI-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRINI-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:BTR-kerngegevensKennisgeving" nillable="true"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<choice minOccurs="0">
+						<element name="afwijkendCorrespondentieAdres" type="BG:CorrespondentieAdresGrp-basis" nillable="true" minOccurs="0"/>
+						<element name="afwijkendBuitenlandsCorrespondentieAdres" type="BG:VerblijfBuitenlandGrp" nillable="true" minOccurs="0"/>
+					</choice>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="heeftAlsAanspreekpunt" type="ZKN:ZAKBTRINICTP-kennisgeving_Sh" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKBTRINI"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRINICTP-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRINICTP-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:CTP-kennisgeving"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRINICTP-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRINICTP-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:CTP-kennisgeving"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTROVR-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTROVR-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:BTR-kerngegevensKennisgeving" nillable="true"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<choice minOccurs="0">
+						<element name="afwijkendCorrespondentieAdres" type="BG:CorrespondentieAdresGrp-basis" nillable="true" minOccurs="0"/>
+						<element name="afwijkendBuitenlandsCorrespondentieAdres" type="BG:VerblijfBuitenlandGrp" nillable="true" minOccurs="0"/>
+					</choice>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="heeftAlsAanspreekpunt" type="ZKN:ZAKBTROVRCTP-kennisgeving" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKBTROVR"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTROVR-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTROVR-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:BTR-kerngegevensKennisgeving" nillable="true"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<choice minOccurs="0">
+						<element name="afwijkendCorrespondentieAdres" type="BG:CorrespondentieAdresGrp-basis" nillable="true" minOccurs="0"/>
+						<element name="afwijkendBuitenlandsCorrespondentieAdres" type="BG:VerblijfBuitenlandGrp" nillable="true" minOccurs="0"/>
+					</choice>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="heeftAlsAanspreekpunt" type="ZKN:ZAKBTROVRCTP-kennisgeving_Sh" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKBTROVR"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTROVRCTP-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTROVRCTP-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:CTP-kennisgeving"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTROVRCTP-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTROVRCTP-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:CTP-kennisgeving"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRUTV-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRUTV-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:BTR-kerngegevensKennisgeving" nillable="true"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<choice minOccurs="0">
+						<element name="afwijkendCorrespondentieAdres" type="BG:CorrespondentieAdresGrp-basis" nillable="true" minOccurs="0"/>
+						<element name="afwijkendBuitenlandsCorrespondentieAdres" type="BG:VerblijfBuitenlandGrp" nillable="true" minOccurs="0"/>
+					</choice>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="heeftAlsAanspreekpunt" type="ZKN:ZAKBTRUTVCTP-kennisgeving" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKBTRUTV"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRUTV-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRUTV-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:BTR-kerngegevensKennisgeving" nillable="true"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<choice minOccurs="0">
+						<element name="afwijkendCorrespondentieAdres" type="BG:CorrespondentieAdresGrp-basis" nillable="true" minOccurs="0"/>
+						<element name="afwijkendBuitenlandsCorrespondentieAdres" type="BG:VerblijfBuitenlandGrp" nillable="true" minOccurs="0"/>
+					</choice>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="heeftAlsAanspreekpunt" type="ZKN:ZAKBTRUTVCTP-kennisgeving_Sh" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKBTRUTV"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRUTVCTP-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRUTVCTP-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:CTP-kennisgeving"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRUTVCTP-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRUTVCTP-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:CTP-kennisgeving"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRVRA-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRVRA-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:BTR-kerngegevensKennisgeving" nillable="true"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<choice minOccurs="0">
+						<element name="afwijkendCorrespondentieAdres" type="BG:CorrespondentieAdresGrp-basis" nillable="true" minOccurs="0"/>
+						<element name="afwijkendBuitenlandsCorrespondentieAdres" type="BG:VerblijfBuitenlandGrp" nillable="true" minOccurs="0"/>
+					</choice>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="heeftAlsAanspreekpunt" type="ZKN:ZAKBTRVRACTP-kennisgeving" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKBTRVRA"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRVRA-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRVRA-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:BTR-kerngegevensKennisgeving" nillable="true"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<choice minOccurs="0">
+						<element name="afwijkendCorrespondentieAdres" type="BG:CorrespondentieAdresGrp-basis" nillable="true" minOccurs="0"/>
+						<element name="afwijkendBuitenlandsCorrespondentieAdres" type="BG:VerblijfBuitenlandGrp" nillable="true" minOccurs="0"/>
+					</choice>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="heeftAlsAanspreekpunt" type="ZKN:ZAKBTRVRACTP-kennisgeving_Sh" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKBTRVRA"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRVRACTP-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRVRACTP-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:CTP-kennisgeving"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKBTRVRACTP-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKBTRVRACTP-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:CTP-kennisgeving"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKOBJ-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKOBJ-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:OBJ-kerngegevensKennisgeving" nillable="true"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKOBJ"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKOBJ-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKOBJ-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:OBJ-kerngegevensKennisgeving" nillable="true"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKOBJ"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKSTT-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde is alleen verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKSTT-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:STT-kerngegevensKennisgeving"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="datumStatusGezet" type="StUF:Tijdstip-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="isGezetDoor" type="ZKN:ZAKSTTBTR-kennisgeving" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKSTT"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKSTT-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde is alleen verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKSTT-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:STT-kerngegevensKennisgeving"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="datumStatusGezet" type="StUF:Tijdstip-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="isGezetDoor" type="ZKN:ZAKSTTBTR-kennisgeving_Sh" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKSTT"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKSTT-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:ZAKSTT-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:STT-kerngegevensKennisgeving"/>
+					<element name="datumStatusGezet" type="StUF:Tijdstip-e" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKSTT"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKSTTBTR-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKSTTBTR-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:BTR-subtypeMDWOEH-kerngegevensKennisgeving" nillable="true"/>
+					<element name="rolOmschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="rolomschrijvingGeneriek" type="ZKN:RolomschrijvingGeneriek-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKSTTBTR"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKSTTBTR-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde zijn verwerkingssoort I en T toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKSTTBTR-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:BTR-subtypeMDWOEH-kerngegevensKennisgeving" nillable="true"/>
+					<element name="rolOmschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="rolomschrijvingGeneriek" type="ZKN:RolomschrijvingGeneriek-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKSTTBTR"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKZAKBTR-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde is alleen verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKZAKBTR-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:ZAK-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKZAKBTR"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKZAKBTR-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde is alleen verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKZAKBTR-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:ZAK-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKZAKBTR"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKZAKDEL-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde is alleen verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKZAKDEL-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:ZAK-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKZAKDEL"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKZAKDEL-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde is alleen verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKZAKDEL-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:ZAK-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:tijdvakRelatie" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKZAKDEL"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKZKT-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde is alleen verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKZKT-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:ZKT-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKZKT"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAKZKT-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde is alleen verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZAKZKT-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:ZKT-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZAKZKT"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZKT-kennisgeving">
+		<complexContent>
+			<restriction base="ZKN:ZKT-basis">
+				<sequence>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijvingGeneriek" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="zaakcategorie" type="ZKN:ZaakCategorie-e" nillable="true" minOccurs="0"/>
+					<element name="trefwoord" type="ZKN:Trefwoord-e" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="doorlooptijd" type="ZKN:Doorlooptijd-e" nillable="true" minOccurs="0"/>
+					<element name="servicenorm" type="ZKN:Doorlooptijd-e" nillable="true" minOccurs="0"/>
+					<element name="archiefcode" type="ZKN:Archiefcode-e" nillable="true" minOccurs="0"/>
+					<element name="vertrouwelijkAanduiding" type="ZKN:VertrouwelijkAanduiding-e" nillable="true" minOccurs="0"/>
+					<element name="publicatieIndicatie" type="BG:Indicatie-e" nillable="true" minOccurs="0"/>
+					<element name="publicatietekst" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="ingangsdatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+					<element name="einddatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="heeftVerantwoordelijkeMDW" type="ZKN:ZKTMDW-kennisgeving" nillable="true" minOccurs="0"/>
+					<element name="heeftVerantwoordelijkeOEH" type="ZKN:ZKTOEH-kennisgeving" nillable="true" minOccurs="0"/>
+					<element name="heeft" type="ZKN:ZKTSTT-kennisgeving" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZKT"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZKT-kennisgeving_Sh">
+		<complexContent>
+			<restriction base="ZKN:ZKT-kennisgeving">
+				<sequence>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="omschrijvingGeneriek" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="zaakcategorie" type="ZKN:ZaakCategorie-e" nillable="true" minOccurs="0"/>
+					<element name="trefwoord" type="ZKN:Trefwoord-e" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="doorlooptijd" type="ZKN:Doorlooptijd-e" nillable="true" minOccurs="0"/>
+					<element name="servicenorm" type="ZKN:Doorlooptijd-e" nillable="true" minOccurs="0"/>
+					<element name="archiefcode" type="ZKN:Archiefcode-e" nillable="true" minOccurs="0"/>
+					<element name="vertrouwelijkAanduiding" type="ZKN:VertrouwelijkAanduiding-e" nillable="true" minOccurs="0"/>
+					<element name="publicatieIndicatie" type="BG:Indicatie-e" nillable="true" minOccurs="0"/>
+					<element name="publicatietekst" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="ingangsdatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+					<element name="einddatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="heeftVerantwoordelijkeMDW" type="ZKN:ZKTMDW-kennisgeving_Sh" nillable="true" minOccurs="0"/>
+					<element name="heeftVerantwoordelijkeOEH" type="ZKN:ZKTOEH-kennisgeving_Sh" nillable="true" minOccurs="0"/>
+					<element name="heeft" type="ZKN:ZKTSTT-kennisgeving_Sh" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZKT"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZKT-kerngegevensKennisgeving">
+		<complexContent>
+			<restriction base="ZKN:ZKT-basis">
+				<sequence>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="code" type="ZKN:Code-e" nillable="true" minOccurs="0"/>
+					<element name="ingangsdatumObject" type="StUF:DatumMetIndicator" nillable="true" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZKT"/>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZKTMDW-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde is uitsluitend verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZKTMDW-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:MDW-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZKTMDW"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZKTMDW-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde is uitsluitend verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZKTMDW-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:MDW-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZKTMDW"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZKTOEH-kennisgeving">
+		<annotation>
+			<documentation>In de gerelateerde is uitsluitend verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZKTOEH-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:OEH-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZKTOEH"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZKTOEH-kennisgeving_Sh">
+		<annotation>
+			<documentation>In de gerelateerde is uitsluitend verwerkingssoort I toegestaan</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="ZKN:ZKTOEH-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:OEH-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZKTOEH"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZKTSTT-kennisgeving">
+		<complexContent>
+			<restriction base="ZKN:ZKTSTT-basis">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:STT-inZKT-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZKTSTT"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZKTSTT-kennisgeving_Sh">
+		<complexContent>
+			<restriction base="ZKN:ZKTSTT-kennisgeving">
+				<sequence>
+					<element name="gerelateerde" type="ZKN:STT-inZKT-kerngegevensKennisgeving" nillable="true"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+				</sequence>
+				<attribute ref="StUF:entiteittype" use="required" fixed="ZKTSTT"/>
+				<attribute ref="StUF:sleutelSynchronisatie" use="required"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZTG-kennisgeving">
+		<complexContent>
+			<restriction base="ZKN:ZTG-tabel">
+				<sequence>
+					<element name="omschrijving" type="ZKN:Omschrijving-e"/>
+					<element name="ingangsdatumObject" type="StUF:DatumMetIndicator"/>
+					<element name="einddatumObject" type="StUF:DatumMetIndicator"/>
+				</sequence>
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:scope" use="prohibited"/>
+				<attribute ref="StUF:verwerkingssoort" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+</schema>

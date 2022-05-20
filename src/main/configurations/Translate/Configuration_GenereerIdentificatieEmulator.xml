@@ -9,42 +9,45 @@
 
         <Pipeline>
             <Exits>
-                <Exit path="EXIT" state="SUCCESS"/>
-                <Exit path="EXCEPTION" state="ERROR"/>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
             <SenderPipe name="GetIdFromDB"
                 storeResultInSessionKey="GetIdResult">
                 <FixedQuerySender 
                     query="SELECT IDENTIFICATIE FROM IDENTIFICATIE WHERE TYPE  = ?{IdentificatieType}" 
-                    queryType="select" 
-                    jmsRealm="jdbc"/>
+                    queryType="SELECT" 
+                    />
                     <Param name="IdentificatieType" sessionKey="IdentificatieType"/>
                 <Forward name="success" path="CheckForDBResult" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForDBResult"
-                xpathExpression="string-length(results/result/IDENTIFICATIE) > 0"
+                xpathExpression="string-length(result/rowset/row[@number='0']) > 0"
                 >
-                <Forward name="then" path="IncrementIndex"/>
+                <Forward name="then" path="StoreIdentificatie"/>
                 <Forward name="else" path="InsertIdentificatie"/>
             </XmlIfPipe>
 
+            <PutInSessionPipe name="StoreIdentificatie">
+				<Param name="LastIdentificatie" xpathExpression="result/rowset/row[@number='0']" type="INTEGER"/>
+				<Param name="NewIdentificatie" xpathExpression="result/rowset/row[@number='0']" type="INTEGER"/>
+                <Forward name="success" path="IncrementNewIdentificatie"/>
+			</PutInSessionPipe>
+
 			<IncreaseIntegerPipe 
-                name="IncrementIndex"
-                sessionKey="Identificatie">
-                <Param name="Identificatie" xpathExpression="$GetIdResult/results/result/IDENTIFICATIE">
-                    <Param name="GetIdResult" sessionKey="GetIdResult" type="DOMDOC"/>
-                </Param>
+                name="IncrementNewIdentificatie"
+                sessionKey="NewIdentificatie">
                 <Forward name="success" path="UpdateIdentificatie" />
             </IncreaseIntegerPipe>
 
             <SenderPipe name="UpdateIdentificatie">
                 <FixedQuerySender 
-                    query="UPDATE IDENTIFICATIE  SET IDENTIFICATIE=?{Identificatie} WHERE TYPE=?{IdentificatieType}"
-                    queryType="update" 
-                    jmsRealm="jdbc"/>
-                    <Param name="Identificatie" sessionKey="Identificatie"/>
+                    query="UPDATE IDENTIFICATIE  SET IDENTIFICATIE=?{NewIdentificatie} WHERE TYPE=?{IdentificatieType}"
+                    queryType="OTHER" 
+                    />
+                    <Param name="NewIdentificatie" sessionKey="NewIdentificatie"/>
                     <Param name="IdentificatieType" sessionKey="IdentificatieType"/>
                 <Forward name="success" path="GenerateIdentificatie" />
             </SenderPipe>
@@ -52,20 +55,33 @@
             <SenderPipe name="InsertIdentificatie">
                 <FixedQuerySender 
                     query="INSERT INTO IDENTIFICATIE (IDENTIFICATIE, TYPE) VALUES (1, ?{IdentificatieType})" 
-                    queryType="insert" 
-                    jmsRealm="jdbc"/>
+                    queryType="OTHER" 
+                    />
                     <Param name="IdentificatieType" sessionKey="IdentificatieType"/>
-                <Forward name="success" path="GenerateIdentificatie" />
+                <Forward name="success" path="StoreLastIdentification" />
             </SenderPipe>
+
+            <PutInSessionPipe name="StoreLastIdentification">
+				<Param name="LastIdentificatie" value="1" type="INTEGER"/>
+                <Forward name="success" path="GenerateIdentificatie"/>
+			</PutInSessionPipe>
 
             <XsltPipe
                 name="GenerateIdentificatie"
-                xpathExpression="concat($Prefixparam, $Identificatie)"
+                xpathExpression="concat($Prefixparam, $LastIdentificatie)"
+                storeResultInSessionKey="Identificatie"
                 >
-                <Param name="Identificatie" sessionKey="Identificatie"/>
+                <Param name="LastIdentificatie" sessionKey="LastIdentificatie"/>
                 <Param name="Prefixparam" value="${Prefixparam}"/>
-                <Forward name="success" path="EXIT"/>
+                <Forward name="success" path="SetExitMessage"/>
             </XsltPipe>
+
+            <PutInSessionPipe 
+                name="SetExitMessage"
+                getInputFromSessionKey="Identificatie"
+                >
+                <Forward name="success" path="EXIT"/>
+			</PutInSessionPipe>
         </Pipeline>
     </Adapter>
 </Module>

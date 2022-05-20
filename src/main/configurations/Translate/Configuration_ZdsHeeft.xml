@@ -9,16 +9,22 @@
 
         <Pipeline>
             <Exits>
-                <Exit path="EXIT" state="SUCCESS"/>
-                <Exit path="EXCEPTION" state="ERROR"/>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
             <XmlIfPipe name="CheckForOmschrijving"
                 xpathExpression="string-length(heeft/gerelateerde/omschrijving) > 0"
                 >
                 <Forward name="then" path="CallGetStatusTypeByZaakTypeAndOmschrijving"/>
-                <Forward name="else" path="EXIT"/>
+                <Forward name="else" path="PutEmptyNewStatussenInSession"/>
             </XmlIfPipe>
+
+            <PutInSessionPipe name="PutEmptyNewStatussenInSession"
+                sessionKey="NewStatuses" 
+                value="&lt;newStatuses&gt;&lt;/newStatuses&gt;">
+                <Forward name="success" path="EXIT" />
+            </PutInSessionPipe>
 
             <SenderPipe
                 name="CallGetStatusTypeByZaakTypeAndOmschrijving"

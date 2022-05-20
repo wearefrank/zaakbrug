@@ -36,9 +36,9 @@
             <SenderPipe name="PostZgwRol" 
                 storeResultInSessionKey="PostZgwRolResult">
 				<HttpSender 
-					name="PostZgwRolSender" 
+					name="PostZgwRolSender"
 					methodType="POST"
-					headersParams="Authorization,Accept-Crs"
+					headersParams="Authorization,Accept-Crs,Content-Crs"
 					url="${zgw.baseurl}${zgw.endpoint.rol}"
                     contentType="application/json"
                     timeout="${creeerZaak.timeout}"

@@ -1,0 +1,126 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="SoapEndpointRouter_BeantwoordVraag"
+        active="${SoapEndpointRouter_BeantwoordVraag.Active}"
+        description="">
+
+        <Receiver name="SoapEndpointRouter_BeantwoordVraag">
+            <WebServiceListener name="SoapEndpointRouter_BeantwoordVraag" address="${address.BeantwoordVraag}" soap="false"/>
+            <!-- <JdbcErrorStorage
+                name="JdbcErrorStorage"
+                datasourceName="jdbc/openZaakBrug"
+                slotId="${instance.name}/creeerZaak"/> -->
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+            <!-- <SoapInputValidator
+                name="InputValidator"
+                schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 CreeerZaak_LK01/xsd/zkn0310_msg_zs-dms_resolved2017.xsd"
+                reasonSessionKey="errorMsg"
+                ignoreUnknownNamespaces="true"
+                deepSearch="true"
+                cmhVersion="2">
+                <Forward name="failure" path="InvalidXml"/>
+                <Forward name="parserError" path="NotWellFormed"/>
+            </SoapInputValidator> -->
+
+            <SoapWrapperPipe
+                name="UnwrapMessage"
+                storeResultInSessionKey="UnwrapMessageResult"
+                direction="UNWRAP"
+                removeOutputNamespaces="true">
+                <Forward name="success" path="ActionSwitch"/>
+            </SoapWrapperPipe>
+
+            <XmlSwitchPipe name="ActionSwitch"
+				forwardNameSessionKey="SOAPAction"
+                />
+
+            <WsdlXmlValidatorPipe name="http://www.egem.nl/StUF/sector/zkn/0310/creeerZaak_Lk01"
+				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl"
+                soapBody="zakLk01"
+                ignoreUndeclaredElements="true"
+                ignoreUnknownNamespaces="true"
+                >
+				<Forward name="succes" path="CreeerZaakSender"/>
+				<Forward name="failure" path="InvalidXml"/>
+                <Forward name="parserError" path="NotWellFormed"/>
+			</WsdlXmlValidatorPipe>
+
+            <WsdlXmlValidatorPipe 
+                name="http://www.egem.nl/StUF/sector/zkn/0310/updateZaak_Lk01"
+				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl"
+                soapBody="zakLk01"
+                ignoreUndeclaredElements="true"
+                ignoreUnknownNamespaces="true"
+                >
+				<Forward name="succes" path="UpdateZaakSender"/>
+				<Forward name="failure" path="InvalidXml"/>
+                <Forward name="parserError" path="NotWellFormed"/>
+			</WsdlXmlValidatorPipe>
+
+            <SenderPipe
+                name="UpdateZaakSender">
+                <IbisLocalSender
+                    name="UpdateZaakLocalSender"
+                    javaListener="UpdateZaak_Lk01">
+                </IbisLocalSender>
+                <Forward name="success" path="WrapBv03Response" />
+                <Forward name="exception" path="BackEndError" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="CreeerZaakSender">
+                <IbisLocalSender
+                    name="CreeerZaakLocalSender"
+                    javaListener="CreeerZaak_Lk01">
+                </IbisLocalSender>
+                <Forward name="success" path="WrapBv03Response" />
+                <Forward name="exception" path="BackEndError" />
+            </SenderPipe>
+           
+            <SoapWrapperPipe
+                name="WrapBv03Response"
+                soapBodyStyleSheet="Common/xsl/CreateBv03Response.xslt"
+                >
+                <Param name="UnwrapMessageResult"   sessionKey="UnwrapMessageResult" type="DOMDOC"/>
+                <Forward name="success" path="EXIT"/>
+            </SoapWrapperPipe>
+
+            <!-- ERRORS -->
+
+            <PutInSessionPipe name="InvalidXml">
+                <Param name="errorCode" value="INVALID_XML"/>
+                <Param name="errorReason" value="XML was invalid"/>
+                <Forward name="success" path="WrapFo03Response" />
+            </PutInSessionPipe>
+
+            <PutInSessionPipe name="NotWellFormed">
+                <Param name="errorCode" value="NOT_WELL_FORMED_XML"/>
+                <Param name="errorReason" value="XML was not according to xsd"/>                
+                <Forward name="success" path="WrapFo03Response"/>
+            </PutInSessionPipe>
+
+            <PutInSessionPipe name="BackEndError">
+                <Param name="errorCode"   value="BackendError"/>
+                <Param name="errorReason" value="BackendError"/>                
+                <Forward name="success" path="WrapFo03Response"/>
+            </PutInSessionPipe>
+
+            <SoapWrapperPipe
+                name="WrapFo03Response"
+                soapBodyStyleSheet="Common/xsl/CreateFo03Response.xslt"
+                >
+                <Param name="UnwrapMessageResult" sessionKey="originalMessage" type="DOMDOC"/>
+                <Param name="errorCode"   sessionKey="errorCode"/>
+                <Param name="errorReason" sessionKey="errorReason"/>
+                <Param name="errorDetailText" value="''"/>
+                <Param name="errorDetailXML" value="''"/>
+                <Forward name="success" path="EXIT"/>
+            </SoapWrapperPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

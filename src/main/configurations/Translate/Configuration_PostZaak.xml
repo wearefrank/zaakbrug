@@ -13,27 +13,45 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <Json2XmlInputValidator
+            
+
+            <!-- <Json2XmlValidatorPipe
                 name="ValidatePostBody"
                 schema="CreeerZaak_LK01/xsd/ZgwZaak.xsd"
                 root="zgwZaak"
                 outputFormat="JSON"
                 deepSearch="true"
-                throwException="true">
+                throwException="true"
+                >
                 <Forward name="success" path="PostZgwZaak"/>
-            </Json2XmlInputValidator>
+            </Json2XmlValidatorPipe> -->
+
+            <!-- <XsltPipe
+                name="json"
+                styleSheetName="Common/xsl/ManualJson.xslt"
+                outputType="TEXT">
+                <Forward name="success" path="PostZgwZaak"/>
+            </XsltPipe> -->
+           
 
             <SenderPipe name="PostZgwZaak">
-				<HttpSender 
-					name="PostZgwZaakSender" 
+				<HttpSender name="PostZgwZaakSender" 
 					methodType="POST"
-					headersParams="Authorization,Accept-Crs"
+					headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
 					url="${zgw.baseurl}${zgw.endpoint.zaak}"
-                    contentType="application/json"
                     timeout="${creeerZaak.timeout}"
                     maxExecuteRetries="5"
+                    contentType="application/json"
 				/>
+                <Json2XmlInputValidator name="ValidatePost"
+                    schema="CreeerZaak_LK01/xsd/ZgwZaak.xsd"
+                    root="zgwZaak"
+                    outputFormat="JSON"
+                    deepSearch="true"
+                    throwException="true"
+                />
                 <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Accept" value="application/json"/>
                 <Param name="Content-Crs"  value="EPSG:4326" />
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="JsonToXml" />

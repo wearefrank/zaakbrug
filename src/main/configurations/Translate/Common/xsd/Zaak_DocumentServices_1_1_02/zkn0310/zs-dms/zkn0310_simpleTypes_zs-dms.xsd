@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) by Michiel Verhoef (Kwaliteits Instituut Nederlandse Gemeenten) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" targetNamespace="http://www.egem.nl/StUF/sector/zkn/0310" elementFormDefault="qualified" attributeFormDefault="unqualified" version="031001">
+	<annotation>
+		<documentation>
+			   Bestand bevat de simpleTypes voor het ZS-DMS koppelvlak.
+
+			   Wijzigingen t.b.v. patch 21 (1-4-2015) vergeleken met versie 031000 zijn de volgende wijzigingen doorgevoerd:			
+			   - ERR289: Het complexType 'ZaakIdentificatie-r' is verplaatst naar het schema 'zkn0310_simpleTypes.xsd'.
+			   - ERR0353: Het schema is voorzien van de afgesproken structuur in 'appinfo'
+			
+        </documentation>
+		<appinfo>
+			<StUF:onderdeel>http://www.egem.nl/StUF/sector/zkn/0310</StUF:onderdeel>
+			<StUF:patch>22</StUF:patch>
+			<StUF:patchdatum>20150701</StUF:patchdatum>
+			<StUF:schemaversie>1</StUF:schemaversie>
+		</appinfo>
+	</annotation>
+	<import namespace="http://www.egem.nl/StUF/StUF0301" schemaLocation="../../0301/stuf0301mtom.xsd"/>
+	<import namespace="http://www.w3.org/2005/05/xmlmime" schemaLocation="../../xmlmime/xmlmime.xsd"/>
+	<include schemaLocation="../../zkn0310/entiteiten/zkn0310_ent_basis.xsd"/>
+	<include schemaLocation="../../zkn0310/mutatie/zkn0310_ent_mutatie.xsd"/>
+	<include schemaLocation="../../zkn0310/vraagAntwoord/zkn0310_ent_vraagAntwoord.xsd"/>
+	<!-- ComplexTypes voor simpleContent. -->
+	<complexType name="DocumentIdentificatie-r">
+		<simpleContent>
+			<restriction base="ZKN:DocumentIdentificatie-e">
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:exact"/>
+			</restriction>
+		</simpleContent>
+	</complexType>
+	<complexType name="dct.omschrijving-r">
+		<simpleContent>
+			<restriction base="ZKN:Omschrijving-e">
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:exact"/>
+			</restriction>
+		</simpleContent>
+	</complexType>
+	<complexType name="DocumentTitel-r">
+		<simpleContent>
+			<restriction base="ZKN:DocumentTitel-e">
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:exact"/>
+			</restriction>
+		</simpleContent>
+	</complexType>
+	<complexType name="VertrouwelijkAanduiding-r">
+		<simpleContent>
+			<restriction base="ZKN:VertrouwelijkAanduiding-e">
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:exact"/>
+			</restriction>
+		</simpleContent>
+	</complexType>
+	<complexType name="DocumentAuteur-r">
+		<simpleContent>
+			<restriction base="ZKN:DocumentAuteur-e">
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:exact"/>
+			</restriction>
+		</simpleContent>
+	</complexType>
+	<complexType name="Bestandsformaat-r">
+		<simpleContent>
+			<restriction base="ZKN:Bestandsformaat-e">
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:exact"/>
+			</restriction>
+		</simpleContent>
+	</complexType>
+	<complexType name="DocumentTaal-r">
+		<simpleContent>
+			<restriction base="ZKN:DocumentTaal-e">
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:exact"/>
+			</restriction>
+		</simpleContent>
+	</complexType>
+	<!-- simpleTypes op alfabet -->
+	<simpleType name="checkedOutBy">
+		<restriction base="string"/>
+	</simpleType>
+	<simpleType name="checkedOutId">
+		<restriction base="string"/>
+	</simpleType>
+	<simpleType name="versioningState">
+		<restriction base="string">
+			<enumeration value="none"/>
+			<enumeration value="checkedout"/>
+			<enumeration value="major"/>
+			<enumeration value="minor"/>
+		</restriction>
+	</simpleType>
+</schema>

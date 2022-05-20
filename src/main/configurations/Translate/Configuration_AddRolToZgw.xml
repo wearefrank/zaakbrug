@@ -37,6 +37,7 @@
                 >
                 <Forward name="then" path="CreateRolBody"/>
                 <Forward name="else" path="EXIT"/>
+                <Forward name="exception" path="EXIT"/> <!-- Temporary solution for lack of adres processing -->
             </XmlIfPipe>
 
             <XsltPipe

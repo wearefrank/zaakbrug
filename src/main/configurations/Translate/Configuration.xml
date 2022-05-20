@@ -1,8 +1,7 @@
 <!DOCTYPE configuration [
   <!ENTITY ActualiseerZaakStatus                          SYSTEM "./Configuration_ActualiseerZaakStatus.xml">
   <!ENTITY AddRolToZgw                                    SYSTEM "./Configuration_AddRolToZgw.xml">
-  <!ENTITY AndereZaak                                     SYSTEM "./Configuration_AndereZaak.xml"> 
-  <!ENTITY CreeerZaak_Lk01_SOAP                           SYSTEM "./Configuration_CreeerZaak_Lk01_SOAP.xml">
+  <!ENTITY AndereZaak                                     SYSTEM "./Configuration_AndereZaak.xml">
   <!ENTITY CreeerZaak_Lk01                                SYSTEM "./Configuration_CreeerZaak_Lk01.xml">
   <!ENTITY DeleteRolFromZgw                               SYSTEM "./Configuration_DeleteRolFromZgw.xml">
   <!ENTITY DetectRolChanges                               SYSTEM "./Configuration_DetectRolChanges.xml">
@@ -35,8 +34,10 @@
   <!ENTITY PostZaak                                       SYSTEM "./Configuration_PostZaak.xml">
   <!ENTITY RolHandler                                     SYSTEM "./Configuration_RolHandler.xml">
   <!ENTITY SetResultaatAndStatus                          SYSTEM "./Configuration_SetResultaatAndStatus.xml">
+  <!ENTITY SoapEndpointRouter_BeantwoordVraag             SYSTEM "./Configuration_SoapEndpointRouter_BeantwoordVraag.xml">
+  <!ENTITY SoapEndpointRouter_OntvangAsynchroon           SYSTEM "./Configuration_SoapEndpointRouter_OntvangAsynchroon.xml">
+  <!ENTITY SoapEndpointRouter_VrijeBerichten              SYSTEM "./Configuration_SoapEndpointRouter_VrijeBerichten.xml">
   <!ENTITY UpdateRolInZgw                                 SYSTEM "./Configuration_UpdateRolInZgw.xml">
-  <!ENTITY UpdateZaak_Lk01_SOAP                           SYSTEM "./Configuration_UpdateZaak_Lk01_SOAP.xml">
   <!ENTITY UpdateZaak_Lk01                                SYSTEM "./Configuration_UpdateZaak_Lk01.xml">
   <!ENTITY ZdsHeeft                                       SYSTEM "./Configuration_ZdsHeeft.xml">
   ]>
@@ -45,7 +46,6 @@
   &ActualiseerZaakStatus;
   &AddRolToZgw;
   &AndereZaak;
-  &CreeerZaak_Lk01_SOAP;
   &CreeerZaak_Lk01;
   &DeleteRolFromZgw;
   &DetectRolChanges;
@@ -78,8 +78,10 @@
   &PostZaak;
   &RolHandler;
   &SetResultaatAndStatus;
+  &SoapEndpointRouter_BeantwoordVraag;
+  &SoapEndpointRouter_OntvangAsynchroon;
+  &SoapEndpointRouter_VrijeBerichten;
   &UpdateRolInZgw;
-  &UpdateZaak_Lk01_SOAP;
   &UpdateZaak_Lk01;
   &ZdsHeeft;
 </configuration>

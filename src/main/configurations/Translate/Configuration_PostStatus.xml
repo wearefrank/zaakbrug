@@ -8,11 +8,6 @@
         </Receiver>
 
         <Pipeline>
-            <Exits>
-                <Exit path="EXIT" state="SUCCESS"/>
-                <Exit path="EXCEPTION" state="ERROR"/>
-            </Exits>
-
             <Json2XmlInputValidator
                 name="ValidatePostBody"
                 schema="CreeerZaak_LK01/xsd/ZgwStatus.xsd"
@@ -23,12 +18,17 @@
                 <Forward name="success" path="PostZgwStatus"/>
             </Json2XmlInputValidator>
 
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
             <SenderPipe name="PostZgwStatus" 
                 storeResultInSessionKey="PostZgwStatusResult">
 				<HttpSender 
 					name="PostZgwStatusSender" 
 					methodType="POST"
-					headersParams="Authorization,Accept-Crs"
+					headersParams="Authorization,Accept-Crs,Content-Crs"
 					url="${zgw.baseurl}${zgw.endpoint.status}"
                     contentType="application/json"
                     timeout="${creeerZaak.timeout}"

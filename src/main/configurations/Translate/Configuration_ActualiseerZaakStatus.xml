@@ -9,8 +9,8 @@
     
     <Pipeline>   
         <Exits>
-            <Exit path="EXIT" state="SUCCESS"/>
-            <Exit path="EXCEPTION" state="ERROR"/>
+            <Exit name="EXIT" state="SUCCESS"/>
+            <Exit name="EXCEPTION" state="ERROR"/>
         </Exits>
         
         <SenderPipe
@@ -19,20 +19,19 @@
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
                     javaListener="GetZgwZaak">
-                    <Param name="Identificatie" xpathExpression="ZdsZaak/identificatie"/>
+                    <Param name="Identificatie" xpathExpression="zakLk01/object[2]/identificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallGetZaakTypeByZaak"/>
             </SenderPipe>
 
             <SenderPipe
                 name="CallGetZaakTypeByZaak"
+                getInputFromSessionKey="originalMessage"
                 storeResultInSessionKey="GetZaakTypeResult">
                 <IbisLocalSender
-                    name="CallGetZaakTypeByZaakSender"
-                    javaListener="GetZaakTypeByUrl">
-                    <Param name="ZaakUrl" xpathExpression="$GetZaakResult/results/zaaktype">
-                        <Param name="GetZaakResult" sessionKey="GetZaakResult"/>
-                    </Param>
+                    name="CallGetZgwZaakTypeSender"
+                    javaListener="GetZgwZaakType">
+                    <Param name="ZaakTypeCode" xpathExpression="zakLk01/object[2]/isVan/gerelateerde/code"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallSetResultaatAndStatus"/>
             </SenderPipe>
@@ -45,7 +44,7 @@
                     name="CallSetResultaatAndStatusSender"
                     javaListener="SetResultaatAndStatus">
                     <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>                   
-                    <Param name="ZaakUrl" xpathExpression="$GetZaakResult/results/url">
+                    <Param name="ZaakUrl" xpathExpression="$GetZaakResult/root/results/url">
                         <Param name="GetZaakResult" sessionKey="GetZaakResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
