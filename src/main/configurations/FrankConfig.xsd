@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.8-20220520.133033">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.8-20220520.181822">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>The Configuration is the container of all configuration objects.</xs:documentation>
@@ -2845,6 +2845,11 @@
         <xs:documentation>Charset to be used for read and write action</xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="deleteEmptyFolder" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>If set to true then the folder will be deleted if it is empty after processing the action. Works with actions delete, readDelete and move</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:attributeGroup>
   <xs:simpleType name="FileSystemActionAttributeValuesType">
     <xs:restriction base="xs:string">
@@ -2903,6 +2908,11 @@
         <xs:annotation>
           <xs:documentation>(only for filesystems that support 'append') append contents, specified by parameter &lt;code&gt;contents&lt;/code&gt; or input message, to a file, specified by attribute &lt;code&gt;filename&lt;/code&gt;, parameter &lt;code&gt;filename&lt;/code&gt; or input message.
   At least one of the parameters must be specified. The missing parameter defaults to the input message. For streaming operation, the parameter &lt;code&gt;filename&lt;/code&gt; must be specified.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="create">
+        <xs:annotation>
+          <xs:documentation>create empty file, specified by attribute &lt;code&gt;filename&lt;/code&gt;, parameter &lt;code&gt;filename&lt;/code&gt; or input message</xs:documentation>
         </xs:annotation>
       </xs:enumeration>
       <xs:enumeration value="rename">
@@ -6558,10 +6568,14 @@
         <xs:documentation>domain, in case the user account is bound to a domain</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="authType" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>Type of the authentication either 'NTLM' or 'SPNEGO'  Default: SPNEGO</xs:documentation>
-      </xs:annotation>
+    <xs:attribute name="authType">
+      <xs:simpleType>
+        <xs:union memberTypes="Samba2AuthTypeAttributeValuesType variableRef">
+          <xs:annotation>
+            <xs:documentation>Type of the authentication either 'NTLM' or 'SPNEGO'  Default: SPNEGO</xs:documentation>
+          </xs:annotation>
+        </xs:union>
+      </xs:simpleType>
     </xs:attribute>
     <xs:attribute name="kdc" type="xs:string">
       <xs:annotation>
@@ -6574,6 +6588,12 @@
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
+  <xs:simpleType name="Samba2AuthTypeAttributeValuesType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NTLM" />
+      <xs:enumeration value="SPNEGO" />
+    </xs:restriction>
+  </xs:simpleType>
   <xs:attributeGroup name="Samba2SenderCumulativeAttributeGroup">
     <xs:attributeGroup ref="Samba2SenderDeclaredAttributeGroup" />
     <xs:attributeGroup ref="FileSystemSenderCumulativeAttributeGroup" />
@@ -9105,10 +9125,14 @@
         <xs:documentation>domain, in case the user account is bound to a domain</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="authType" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>Type of the authentication either 'NTLM' or 'SPNEGO'  Default: SPNEGO</xs:documentation>
-      </xs:annotation>
+    <xs:attribute name="authType">
+      <xs:simpleType>
+        <xs:union memberTypes="Samba2AuthTypeAttributeValuesType variableRef">
+          <xs:annotation>
+            <xs:documentation>Type of the authentication either 'NTLM' or 'SPNEGO'  Default: SPNEGO</xs:documentation>
+          </xs:annotation>
+        </xs:union>
+      </xs:simpleType>
     </xs:attribute>
     <xs:attribute name="kdc" type="xs:string">
       <xs:annotation>
@@ -17957,6 +17981,11 @@
         <xs:documentation>Charset to be used for read and write action</xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="deleteEmptyFolder" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>If set to true then the folder will be deleted if it is empty after processing the action. Works with actions delete, readDelete and move</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:attributeGroup>
   <xs:attributeGroup name="FileSystemPipeCumulativeAttributeGroup">
     <xs:attributeGroup ref="FileSystemPipeDeclaredAttributeGroup" />
@@ -18445,10 +18474,14 @@
         <xs:documentation>domain, in case the user account is bound to a domain</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="authType" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>Type of the authentication either 'NTLM' or 'SPNEGO'  Default: SPNEGO</xs:documentation>
-      </xs:annotation>
+    <xs:attribute name="authType">
+      <xs:simpleType>
+        <xs:union memberTypes="Samba2AuthTypeAttributeValuesType variableRef">
+          <xs:annotation>
+            <xs:documentation>Type of the authentication either 'NTLM' or 'SPNEGO'  Default: SPNEGO</xs:documentation>
+          </xs:annotation>
+        </xs:union>
+      </xs:simpleType>
     </xs:attribute>
     <xs:attribute name="kdc" type="xs:string">
       <xs:annotation>

@@ -15,7 +15,7 @@
     </xsl:template>
     
 	<xsl:template match="zakLk01/object[@entiteittype='ZAK']">
-		<zgwZaak>
+		<ZgwZaak>
             <identificatie><xsl:value-of select="identificatie"/></identificatie>
             <bronorganisatie><xsl:value-of select="$GetRsinResult/rsin"/></bronorganisatie>
             <omschrijving><xsl:value-of select="omschrijving"/></omschrijving>
@@ -59,7 +59,7 @@
                 <archiefdatum><xsl:value-of select="zgw:convertZdsDateToZgwDate(datumVernietigingDossier)"/></archiefdatum>
             </xsl:if>
             <opdrachtgevendeOrganisatie><xsl:value-of select="opdrachtgevendeOrganisatie"/></opdrachtgevendeOrganisatie>
-        </zgwZaak>
+        </ZgwZaak>
 	</xsl:template>
     <xsl:template match="verlenging">
         <xsl:if test="string-length(reden) > 0">

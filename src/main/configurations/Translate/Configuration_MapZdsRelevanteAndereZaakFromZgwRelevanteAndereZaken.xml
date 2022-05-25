@@ -21,24 +21,11 @@
                     javaListener="GetZgwZaakByUrl">
                     <Param name="Url" sessionKey="Url" type="STRING"/>
                 </IbisLocalSender>
-                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeWrapWithType"/>
-            </SenderPipe>
-
-            <XsltPipe
-                name="UnwrapOpenZaakApiEnvelopeWrapWithType"
-                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeWrapWithType.xslt"
-                storeResultInSessionKey="ZgwRelevanteAndereZaak"
-                >
-                <Param name="Type" value="ZgwZaak"/>
                 <Forward name="success" path="CreateZdsHeeftBetrekkingOp"/>
-                <Forward name="error" path="EXCEPTION"/>
-            </XsltPipe>
+            </SenderPipe>
 
             <XsltPipe name="CreateZdsHeeftBetrekkingOp"
                 getInputFromSessionKey="ZgwRol"
-                storeResultInSessionKey="ZdsRol"
-                removeNamespaces="true"
-                skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/CreateZdsHeeftBetrekkingOp.xslt"
                 >
                 <Param name="ZgwZaak" sessionKey="ZgwRelevanteAndereZaak" type="DOMDOC"/>

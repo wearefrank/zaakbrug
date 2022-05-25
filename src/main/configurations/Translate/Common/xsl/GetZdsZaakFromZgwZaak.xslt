@@ -17,24 +17,24 @@
 	</xsl:function>
 
     <xsl:template match="/">
-        <root>
-            <identificatie><xsl:value-of select="$ZgwZaak/root/identificatie"/></identificatie>
-            <omschrijving><xsl:value-of select="$ZgwZaak/root/omschrijving"/></omschrijving>
-            <toelichting><xsl:value-of select="$ZgwZaak/root/toelichting"/></toelichting>
-            <startdatum><xsl:if test="$ZgwZaak/root/startdatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/root/startdatum)"/></xsl:if></startdatum>
-            <registratiedatum><xsl:if test="$ZgwZaak/root/registratiedatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/root/registratiedatum)"/></xsl:if></registratiedatum>
-            <archiefnominatie><xsl:value-of select="$ZgwZaak/root/archiefnominatie"/></archiefnominatie> <!-- convert -->
+        <object entiteittype="ZAK">
+            <identificatie><xsl:value-of select="$ZgwZaak/ZgwZaak/identificatie"/></identificatie>
+            <omschrijving><xsl:value-of select="$ZgwZaak/ZgwZaak/omschrijving"/></omschrijving>
+            <toelichting><xsl:value-of select="$ZgwZaak/ZgwZaak/toelichting"/></toelichting>
+            <startdatum><xsl:if test="$ZgwZaak/ZgwZaak/startdatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/startdatum)"/></xsl:if></startdatum>
+            <registratiedatum><xsl:if test="$ZgwZaak/ZgwZaak/registratiedatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/registratiedatum)"/></xsl:if></registratiedatum>
+            <archiefnominatie><xsl:value-of select="$ZgwZaak/ZgwZaak/archiefnominatie"/></archiefnominatie> <!-- convert -->
             <!-- <zaakniveau>1</zaakniveau> -->
             <!-- <deelzakenIndicatie>N</deelzakenIndicatie> -->
-            <publicatiedatum><xsl:if test="$ZgwZaak/root/publicatiedatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/root/publicatiedatum)"/></xsl:if></publicatiedatum> <!-- convert -->
-            <einddatumGepland><xsl:if test="$ZgwZaak/root/einddatumGepland"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/root/einddatumGepland)"/></xsl:if></einddatumGepland> <!-- convert -->
-            <uiterlijkeEinddatum><xsl:if test="$ZgwZaak/root/uiterlijkeEinddatumAfdoening"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/root/uiterlijkeEinddatumAfdoening)"/></xsl:if></uiterlijkeEinddatum> <!-- convert -->
-            <betalingsIndicatie><xsl:value-of select="$ZgwZaak/root/betalingsindicatie"/></betalingsIndicatie>
-            <laatsteBetaaldatum><xsl:value-of select="$ZgwZaak/root/laatsteBetaaldatum"/></laatsteBetaaldatum> <!-- convert -->
-            <xsl:apply-templates select="$ZgwZaak/root/verlenging"/>
-            <xsl:apply-templates select="$ZgwZaak/root/opschorting"/>
-            <xsl:apply-templates select="$ZgwZaak/root/kenmerken"/>
-        </root>
+            <publicatiedatum><xsl:if test="$ZgwZaak/ZgwZaak/publicatiedatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/publicatiedatum)"/></xsl:if></publicatiedatum> <!-- convert -->
+            <einddatumGepland><xsl:if test="$ZgwZaak/ZgwZaak/einddatumGepland"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/einddatumGepland)"/></xsl:if></einddatumGepland> <!-- convert -->
+            <uiterlijkeEinddatum><xsl:if test="$ZgwZaak/ZgwZaak/uiterlijkeEinddatumAfdoening"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/uiterlijkeEinddatumAfdoening)"/></xsl:if></uiterlijkeEinddatum> <!-- convert -->
+            <betalingsIndicatie><xsl:value-of select="$ZgwZaak/ZgwZaak/betalingsindicatie"/></betalingsIndicatie>
+            <laatsteBetaaldatum><xsl:value-of select="$ZgwZaak/ZgwZaak/laatsteBetaaldatum"/></laatsteBetaaldatum> <!-- convert -->
+            <xsl:apply-templates select="$ZgwZaak/ZgwZaak/verlenging"/>
+            <xsl:apply-templates select="$ZgwZaak/ZgwZaak/opschorting"/>
+            <xsl:apply-templates select="$ZgwZaak/ZgwZaak/kenmerken"/>
+        </object>
     </xsl:template>
 
     <xsl:template match="verlenging">

@@ -95,7 +95,7 @@
             <SoapWrapperPipe
                 name="WrapGenereerDocumentIdentificatie_Di02Response"
                 getInputFromSessionKey="originalMessage"
-                soapBodyStyleSheet="Common/xsl/CreateGenereerDocumentIdentificatie_Di02Response.xslt"
+                soapBodyStyleSheet="Common/xsl/CreateGenereerDocumentIdentificatie_Du02Response.xslt"
                 >
                 <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC" />
                 <Param name="Identificatie" sessionKey="Identificatie" type="STRING" />

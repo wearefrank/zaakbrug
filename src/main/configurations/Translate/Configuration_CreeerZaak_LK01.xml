@@ -120,7 +120,7 @@
                 <IbisLocalSender
                     name="CallPostRol"
                     javaListener="PostRolAdapter">
-                    <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/root/url">
+                    <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/ZgwZaak/url">
                         <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
@@ -153,7 +153,7 @@
                     name="CallSetResultaatAndStatusSender"
                     javaListener="SetResultaatAndStatus">
                     <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>                   
-                    <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/root/url">
+                    <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/ZgwZaak/url">
                         <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>

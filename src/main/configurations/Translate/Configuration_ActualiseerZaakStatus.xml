@@ -44,7 +44,7 @@
                     name="CallSetResultaatAndStatusSender"
                     javaListener="SetResultaatAndStatus">
                     <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>                   
-                    <Param name="ZaakUrl" xpathExpression="$GetZaakResult/root/results/url">
+                    <Param name="ZaakUrl" xpathExpression="$GetZaakResult/ZgwZaken/ZgwZaak/url">
                         <Param name="GetZaakResult" sessionKey="GetZaakResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>

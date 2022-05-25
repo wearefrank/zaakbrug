@@ -45,7 +45,7 @@
 				/>
                 <Json2XmlInputValidator name="ValidatePost"
                     schema="CreeerZaak_LK01/xsd/ZgwZaak.xsd"
-                    root="zgwZaak"
+                    root="ZgwZaak"
                     outputFormat="JSON"
                     deepSearch="true"
                     throwException="true"
@@ -59,8 +59,17 @@
 
             <JsonPipe name="JsonToXml"
                 storeResultInSessionKey="PostZgwZaakResult">
-                <Forward name="success" path="EXIT"/>
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToSingle"/>
             </JsonPipe> 
+
+            <XsltPipe
+                name="UnwrapOpenZaakApiEnvelopeToSingle"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToSingle.xslt"
+                >
+                <Param name="Type" value="ZgwZaak"/>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>

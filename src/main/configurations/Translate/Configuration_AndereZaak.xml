@@ -9,8 +9,8 @@
 
         <Pipeline> 
             <Exits> 
-                <Exit path="EXIT" state="SUCCESS"/>
-                <Exit path="EXCEPTION" state="ERROR"/>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
             
             <XmlIfPipe name="CheckForEntiteitType"
@@ -29,11 +29,19 @@
                     javaListener="GetZgwZaak">
                     <Param name="Identificatie" xpathExpression="heeftBetrekkingOpAndere/gerelateerde/identificatie"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CheckForGetZgwZaakResult"/>
+                <Forward name="success" path="GetSingleZgwZaakFromZgwZakenList"/>
             </SenderPipe>
 
+            <XsltPipe
+                name="GetSingleZgwZaakFromZgwZakenList"
+                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
+                >
+                <Forward name="success" path="CheckForGetZgwZaakResult"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
             <XmlIfPipe name="CheckForGetZgwZaakResult"
-                xpathExpression="string-length(root/results) > 0"
+                xpathExpression="string-length(ZgwZaak) > 0"
                 >
                 <Forward name="then" path="CallPatchZaak"/>
                 <Forward name="else" path="EXIT"/>
@@ -44,9 +52,11 @@
                 <IbisLocalSender
                     name="CallPatchZaakSender"
                     javaListener="PatchRelevanteAndereZaak">
-                    <Param name="Url" sessionKey="results/url"/>
-                    <Param name="uuid" xpathExpression="$GetZaakResult/results/uuid">
-                        <Param name="GetZaakResult" sessionKey="GetZaakResult"/>
+                    <Param name="AndereUrl" xpathExpression="$ZgwZaakResult/ZgwZaak/url">
+                        <Param name="ZgwZaakResult" sessionKey="ZgwZaakResult"/>
+                    </Param>
+                    <Param name="Url" xpathExpression="$PostZgwZaakResult/ZgwZaak/url">
+                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult"/>
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CallPatchAndereZaak"/>
@@ -57,11 +67,11 @@
                 <IbisLocalSender
                     name="CallPatchAndereZaakSender"
                     javaListener="PatchRelevanteAndereZaak">
-                    <Param name="Url" xpathExpression="$PostZgwZaakResult/root/results/url">
+                    <Param name="AndereUrl" xpathExpression="$PostZgwZaakResult/ZgwZaak/url">
                         <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
                     </Param>
-                    <Param name="uuid" xpathExpression="$PostZgwZaakResult/root/results/uuid">
-                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
+                    <Param name="Url" xpathExpression="$ZgwZaakResult/ZgwZaak/url">
+                        <Param name="ZgwZaakResult" sessionKey="ZgwZaakResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>

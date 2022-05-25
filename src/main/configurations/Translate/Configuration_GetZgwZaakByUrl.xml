@@ -27,15 +27,17 @@
 			</SenderPipe>
 
             <JsonPipe name="JsonToXml">
-                <Forward name="success" path="RemoveEmptyTags"/>
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToSingle"/>
             </JsonPipe>
 
-            <XsltPipe name="RemoveEmptyTags" 
-                skipEmptyTags="true"
-                styleSheetName="CreeerZaak_Lk01/xsl/RemoveEmptyTags.xsl" 
+            <XsltPipe
+                name="UnwrapOpenZaakApiEnvelopeToSingle"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToSingle.xslt"
                 >
+                <Param name="Type" value="ZgwZaak"/>
                 <Forward name="success" path="EXIT"/>
-			</XsltPipe>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>

@@ -53,10 +53,10 @@
 					url="${zgw.baseurl}${zgw.endpoint.rol}?zaak=$ZaakUrl&amp;roltype=$RolTypeUrl"
                     timeout="${creeerZaak.timeout}"
 				/>
-                <Param name="ZaakUrl" xpathExpression="$ZgwZaak/root/results/url">
+                <Param name="zaak" xpathExpression="$ZgwZaak/ZgwZaak/url">
                     <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
                 </Param>
-                <Param name="RolTypeUrl" xpathExpression="$GetRolTypeByOmschrijvingResult/rolType/url">
+                <Param name="roltype" xpathExpression="$GetRolTypeByOmschrijvingResult/rolType/url">
                     <Param name="GetRolTypeByOmschrijvingResult" sessionKey="GetRolTypeByOmschrijvingResult" type="DOMDOC"/>
                 </Param>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
@@ -81,11 +81,11 @@
                     name="DeleteRolSender" 
 					methodType="DELETE"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.rol}?uuid=$Uuid"
                     timeout="${creeerZaak.timeout}"
-				>
-                    <Param name="Uuid" xpathExpression="root/results/uuid"/>
-                </HttpSender>
+				/>
+                <Param name="url" xpathExpression="root/results/url"/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="EXIT"/>
             </SenderPipe>
         </Pipeline>

@@ -19,7 +19,7 @@
                 <IbisLocalSender
                     name="GetZgwDeelzaakLocalSender"
                     javaListener="GetZgwZaakByUrl">
-                    <Param name="Url" sessionKey="Url" type="STRING"/>
+                    <Param name="Url" sessionKey="Url"/>
                 </IbisLocalSender>
                 <Forward name="success" path="GetSingleResultFromZgwRolEnvelope"/>
             </SenderPipe>
@@ -28,7 +28,6 @@
                 name="GetSingleResultFromZgwRolEnvelope"
                 getInputFromSessionKey="originalMessage"
                 storeResultInSessionKey="ZgwRol"
-                skipEmptyTags="true"
                 styleSheetName="Common/xsl/GetSingleResultFromOpenZaakEnvelope.xslt"
                 >
                 <Forward name="success" path="MatchHeeftBetrekkingOpOmschrijving"/>
@@ -38,7 +37,7 @@
             <XmlIfPipe name="MatchHeeftBetrekkingOpOmschrijving"
                 xpathExpression="lower-case($lh)=lower-case($rh)"
                 >
-                <Param name="lh" xpathExpression="$RolMapping/rolMapping/heeftBetrekkingOp" type="STRING">
+                <Param name="lh" xpathExpression="$RolMapping/rolMapping/heeftBetrekkingOp">
                     <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC"/>
                 </Param>
                 <Param name="rh" xpathExpression="/root/omschrijving" type="STRING"/>
@@ -157,8 +156,6 @@
             <XsltPipe name="MapZdsRolFromZgwRol"
                 getInputFromSessionKey="ZgwRol"
                 storeResultInSessionKey="ZdsRol"
-                removeNamespaces="true"
-                skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/MapZdsRolFromZgwRol.xslt"
                 >
                 <Param name="RolNaam" sessionKey="RolNaam" type="STRING"/>

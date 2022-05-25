@@ -9,8 +9,8 @@
 
         <Pipeline>
             <Exits>
-                <Exit path="EXIT" state="SUCCESS"/>
-                <Exit path="EXCEPTION" state="ERROR"/>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
 			<XsltPipe
@@ -18,7 +18,7 @@
                 skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/CreateZgwAndereZaakBody.xsl"
                 >
-                <Param name="Url" sessionKey="Url"/>
+                <Param name="Url" sessionKey="AndereUrl"/>
                 <Forward name="success" path="XmlToJson"/>
             </XsltPipe>
 
@@ -31,13 +31,12 @@
 				<HttpSender 
 					name="PatchZaakSender" 
 					methodType="PATCH"
-					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.zaak}/$uuid"
+					headersParams="Authorization,Accept-Crs,Content-Crs"
                     contentType="application/json"
                     timeout="${creeerZaak.timeout}"
                     maxExecuteRetries="5"
 				/>
-                <Param name="uuid" sessionKey="uuid"/>
+                <Param name="url" sessionKey="Url"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Content-Crs"  value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>

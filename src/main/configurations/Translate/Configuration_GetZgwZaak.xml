@@ -13,8 +13,7 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-			<SenderPipe name="GetZgwZaakByIdentificatie" 
-                getInputFromFixedValue="&lt;dummy/&gt;">
+			<SenderPipe name="GetZgwZaakByIdentificatie">
 				<HttpSender 
 					name="GetZgwZaakByIdentificatieSender" 
 					methodType="GET"
@@ -29,15 +28,18 @@
 			</SenderPipe>
 
             <JsonPipe name="JsonToXml">
-                <Forward name="success" path="RemoveEmptyTags"/>
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList"/>
             </JsonPipe>
 
-            <XsltPipe name="RemoveEmptyTags" 
-                skipEmptyTags="true"
-                styleSheetName="CreeerZaak_Lk01/xsl/RemoveEmptyTags.xsl" 
+            <XsltPipe
+                name="UnwrapOpenZaakApiEnvelopeToList"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
                 >
+                <Param name="Type" value="ZgwZaak"/>
+                <Param name="List" value="ZgwZaken"/>
                 <Forward name="success" path="EXIT"/>
-			</XsltPipe>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>

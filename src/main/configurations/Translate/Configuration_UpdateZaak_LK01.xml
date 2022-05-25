@@ -22,22 +22,20 @@
                     javaListener="GetZgwZaak">
                     <Param name="Identificatie" xpathExpression="/zakLk01/object[1]/identificatie"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CheckForGetWasZgwZaakSingleResult"/>
+                <Forward name="success" path="CheckForGetZgwZaakResult"/>
             </SenderPipe>
-
-            <XmlIfPipe name="CheckForGetWasZgwZaakSingleResult"
-                xpathExpression="count(root/results) = 1"
+            
+            <XmlIfPipe name="CheckForGetZgwZaakResult"
+                xpathExpression="string-length(ZgwZaken) > 0"
                 >
-                <Forward name="then" path="GetSingleResultFromZgwZaakWasResult"/>
+                <Forward name="then" path="GetSingleZgwZaakFromZgwZakenList"/>
                 <Forward name="else" path="EXCEPTION"/>
             </XmlIfPipe>
-
+        
             <XsltPipe
-                name="GetSingleResultFromZgwZaakWasResult"
-                getInputFromSessionKey="GetWasZgwZaakResult"
+                name="GetSingleZgwZaakFromZgwZakenList"
+                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
                 storeResultInSessionKey="GetWasZgwZaakResult"
-                skipEmptyTags="true"
-                styleSheetName="Common/xsl/GetSingleResultFromOpenZaakEnvelope.xslt"
                 >
                 <Forward name="success" path="CallGetZgwZaaktypeByUrl"/>
                 <Forward name="error" path="EXCEPTION"/>
@@ -46,18 +44,16 @@
             <!-- Retrieve zgwZaaktype -->
             <SenderPipe
                 name="CallGetZgwZaaktypeByUrl"
+                getInputFromSessionKey="GetWasZgwZaakResult"
                 storeResultInSessionKey="GetZgwZaaktypeByUrlResult">
                 <IbisLocalSender
                     name="CallGetZgwZaaktypeByUrlSender"
                     javaListener="GetZaakTypeByUrl">
-                    <Param name="ZaakUrl" xpathExpression="$ZaakTypeCodeResultSessionKey/root/zaaktype" type="STRING">
-                        <Param name="ZaakTypeCodeResultSessionKey" sessionKey="GetWasZgwZaakResult" type="DOMDOC"/>
-                    </Param>
+                    <Param name="ZaakUrl" xpathExpression="/ZgwZaak/zaaktype" />
                 </IbisLocalSender>
                 <Forward name="success" path="CallGetZdsZaakFromZgw"/>
                 <Forward name="exception" path="EXCEPTION"/>
             </SenderPipe>
-
 
             <SenderPipe
                 name="CallGetZdsZaakFromZgw"

@@ -12,20 +12,9 @@
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
-            
-            <!-- <XsltPipe name="RemoveNullNodesZgwZaak" 
-                getInputFromSessionKey="ZgwZaak"
-                storeResultInSessionKey="ZgwZaak"
-                skipEmptyTags="true"
-                styleSheetName="Common/xsl/RemoveNullNodes.xslt"
-                outputType="XML"
-                >
-                <Forward name="success" path="MapZdsZaakFromZgwZaak"/>
-			</XsltPipe> -->
 
             <XsltPipe name="MapZdsZaakFromZgwZaak"
                 storeResultInSessionKey="ZdsZaak"
-                skipEmptyTags="true"
                 styleSheetName="Common/xsl/GetZdsZaakFromZgwZaak.xslt"
                 >
                 <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
@@ -50,7 +39,7 @@
                 <IbisLocalSender
                     name="GetZgwRolesByZaakUrlSender"
                     javaListener="GetZgwRolesByZaakUrl">
-                    <Param name="ZaakUrl" xpathExpression="$ZgwZaak/root/url" type="STRING">
+                    <Param name="ZaakUrl" xpathExpression="$ZgwZaak/ZgwZaak/url" type="STRING">
                         <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
@@ -71,7 +60,6 @@
             <XsltPipe name="EnrichZdsZaakWithRol"
                 getInputFromSessionKey="ZdsZaak"
                 storeResultInSessionKey="ZdsZaak"
-                skipEmptyTags="true"
                 styleSheetName="Common/xsl/EnrichEntity_ForEachPipeWrapped.xslt"
                 >
                 <Param name="With" sessionKey="Rollen" type="DOMDOC"/>
@@ -81,7 +69,6 @@
 
             <XsltPipe name="CreateZdsIsVan"
                 storeResultInSessionKey="ZdsIsVan"
-                skipEmptyTags="true"
                 styleSheetName="creeerZaak_Lk01/xsl/CreateZdsIsVan.xslt"
                 >
                 <Param name="ZgwZaakType" sessionKey="ZgwZaaktype" type="DOMDOC"/>
@@ -91,7 +78,6 @@
             <XsltPipe name="EnrichZdsZaakWithZdsIsVan"
                 getInputFromSessionKey="ZdsZaak"
                 storeResultInSessionKey="ZdsZaak"
-                skipEmptyTags="true"
                 styleSheetName="Common/xsl/EnrichEntity.xslt"
                 >
                 <Param name="With" sessionKey="ZdsIsVan" type="DOMDOC"/>
@@ -101,7 +87,7 @@
 
             <XmlIfPipe name="ZgwZaakHasHoofdzaak"
                 getInputFromSessionKey="ZgwZaak"
-                xpathExpression="string-length(/root/hoofdzaak) > 4"
+                xpathExpression="string-length(ZgwZaak/hoofdzaak) > 4"
                 >
                 <Forward name="then" path="GetZgwHoofdzaak"/>
                 <Forward name="else" path="ZgwZaakHasDeelzaken"/>
@@ -113,7 +99,7 @@
                 <IbisLocalSender
                     name="GetZgwHoofdzaakSender"
                     javaListener="GetZgwZaakByUrl">
-                    <Param name="Url" xpathExpression="$ZgwZaak/root/hoofdzaak">
+                    <Param name="Url" xpathExpression="$ZgwZaak/ZgwZaak/hoofdzaak">
                         <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
@@ -144,7 +130,7 @@
             <!-- not tested -->
             <XmlIfPipe name="ZgwZaakHasDeelzaken"
                 getInputFromSessionKey="ZgwZaak"
-                xpathExpression="string-length(/root/deelzaken) > 4"
+                xpathExpression="string-length(ZgwZaak/deelzaken) > 4"
                 >
                 <Forward name="then" path="MapZgwDeelzakenIterator"/>
                 <Forward name="else" path="ZgwZaakHasZdsRelevanteAndereZaken"/>
@@ -152,7 +138,7 @@
 
             <!-- not tested -->
             <ForEachChildElementPipe name="MapZgwDeelzakenIterator"
-                elementXPathExpression="/root/deelzaken"
+                elementXPathExpression="/ZgwZaak/deelzaken"
                 storeResultInSessionKey="ZgwDeelzaken">
                 <IbisLocalSender
                     name="CallMapZdsDeelzakenFromZgwDeelzaken"
@@ -175,7 +161,7 @@
             <!-- not tested -->
             <XmlIfPipe name="ZgwZaakHasZdsRelevanteAndereZaken"
                 getInputFromSessionKey="ZgwZaak"
-                xpathExpression="string-length(/root/relevanteAndereZaken) > 4"
+                xpathExpression="string-length(/ZgwZaak/relevanteAndereZaken) > 4"
                 >
                 <Forward name="then" path="MapZdsRelevanteAndereZakenIterator"/>
                 <Forward name="else" path="GetZgwStatusByZaakUrlSender"/>
@@ -183,7 +169,7 @@
 
             <!-- not tested -->
             <ForEachChildElementPipe name="MapZdsRelevanteAndereZakenIterator"
-                elementXPathExpression="/root/relevanteAndereZaken"
+                elementXPathExpression="/ZgwZaak/relevanteAndereZaken"
                 storeResultInSessionKey="ZdsRelevanteAndereZaken">
                 <IbisLocalSender
                     name="CallMapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken"
@@ -207,7 +193,7 @@
                 <IbisLocalSender
                     name="GetZgwStatusByZaakUrlLocalSender"
                     javaListener="GetStatussenByZaakUrl">
-                    <Param name="ZaakUrl" xpathExpression="$ZgwZaak/root/url">
+                    <Param name="ZaakUrl" xpathExpression="$ZgwZaak/ZgwZaak/url">
                         <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
