@@ -20,8 +20,8 @@
                 <xs:element name="betalingsindicatie" type="zgwbetalingsindicatie" minOccurs="0"/>
                 <xs:element name="laatsteBetaaldatum" type="xs:dateTime" minOccurs="0" nillable="true"/>
                 <!-- zaakgeometrie -->
-                <xs:element name="verlenging" type="zgwVerlenging" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-                <xs:element name="opschorting" type="zgwOpschorting" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+                <xs:element name="verlenging" type="zgwVerlenging" minOccurs="0" maxOccurs="1" nillable="true"/>
+                <xs:element name="opschorting" type="zgwOpschorting" minOccurs="0" maxOccurs="1" nillable="true"/>
                 <xs:element name="selectielijstklasse" type="zgwUri" minOccurs="0"/>
                 <xs:element name="hoofdzaak" type="zgwUri" minOccurs="0" nillable="true"/>
                 <xs:element name="relevanteAndereZaken" type="zgwRelevanteAndereZaken" minOccurs="0" maxOccurs="unbounded"/>
