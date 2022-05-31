@@ -20,12 +20,27 @@
                 styleSheetName="CreeerZaak_LK01/xsl/AddZaakUrl.xsl"
                 >
                 <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
-                <Forward name="success" path="ValidatePostBody"/>
+                <Forward name="success" path="BetrokkeneTypeSwitch"/>
             </XsltPipe>
 
+            <XmlSwitchPipe 
+                name="BetrokkeneTypeSwitch"
+				xpathExpression="/zgwRol/betrokkeneType"
+                />
+
             <Json2XmlValidatorPipe
-                name="ValidatePostBody"
-                schema="CreeerZaak_LK01/xsd/ZgwRol.xsd"
+                name="natuurlijk_persoon"
+                schema="CreeerZaak_LK01/xsd/ZgwRolNatuurlijkPersoon.xsd"
+                root="zgwRol"
+                outputFormat="JSON"
+                deepSearch="true"
+                throwException="true">
+                <Forward name="success" path="PostZgwRol"/>
+            </Json2XmlValidatorPipe>
+
+            <Json2XmlValidatorPipe
+                name="medewerker"
+                schema="CreeerZaak_LK01/xsd/ZgwRolMedewerker.xsd"
                 root="zgwRol"
                 outputFormat="JSON"
                 deepSearch="true"

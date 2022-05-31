@@ -9,10 +9,7 @@
                 <xs:element name="roltype" type="zgwUri"/>
                 <xs:element name="roltoelichting" type="zgwAN1000"/>
                 <xs:element name="indicatieMachtiging" type="zgwIndicatieMachtiging" minOccurs="0"/>
-                <xs:choice>
-                    <xs:element name="betrokkeneIdentificatie" type="zgwNatuurlijkPersoon" minOccurs="0"/>                    
-                    <xs:element name="betrokkeneIdentificatie" type="zgwMedewerker" minOccurs="0" />
-                </xs:choice>
+                <xs:element name="betrokkeneIdentificatie" type="zgwMedewerker" minOccurs="0"/>                    
             </xs:sequence>
         </xs:complexType>
     </xs:element>
