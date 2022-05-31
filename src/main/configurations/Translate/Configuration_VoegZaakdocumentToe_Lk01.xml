@@ -1,0 +1,29 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="VoegZaakdocumentToe_Lk01"
+        active="${VoegZaakdocumentToe_Lk01.Active}"
+        description="">
+
+        <Receiver name="VoegZaakdocumentToe_Lk01">
+            <JavaListener name="VoegZaakdocumentToe_Lk01"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                name="CallGetZgwZaak"
+                storeResultInSessionKey="GetZaakResult">
+                <IbisLocalSender
+                    name="CallGetZgwZaakSender"
+                    javaListener="GetZgwZaak">
+                    <Param name="Identificatie" xpathExpression="zakLk01/object[2]/identificatie"/>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+            </SenderPipe>
+
+        </Pipeline>
+    </Adapter>
+</Module>

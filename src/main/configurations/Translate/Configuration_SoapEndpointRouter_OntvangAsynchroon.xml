@@ -85,7 +85,7 @@
                 name="WrapBv03Response"
                 soapBodyStyleSheet="Common/xsl/CreateBv03Response.xslt"
                 >
-                <Param name="UnwrapMessageResult"   sessionKey="UnwrapMessageResult" type="DOMDOC"/>
+                <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC"/>
                 <Forward name="success" path="EXIT"/>
             </SoapWrapperPipe>
 
@@ -114,6 +114,36 @@
                 <IbisLocalSender
                     name="ActualiseerZaakstatus_Lk01LocalSender"
                     javaListener="ActualiseerZaakStatus"
+                    >
+                </IbisLocalSender>
+                <Forward name="success" path="WrapBv03Response" />
+                <Forward name="exception" path="BackEndError" />
+            </SenderPipe>
+
+            <!-- VoegZaakdocumentToe_Lk01 -->
+            <WsdlXmlValidatorPipe 
+                name="http://www.egem.nl/StUF/sector/zkn/0310/voegZaakdocumentToe_Lk01"
+                getInputFromSessionKey="originalMessage"
+				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
+                soapBody="edcLk01"
+                >
+				<Forward name="succes" path="UnwrapMessageForVoegZaakdocumentToe_Lk01"/>
+				<Forward name="failure" path="InvalidXml"/>
+			</WsdlXmlValidatorPipe>
+
+            <SoapWrapperPipe 
+                name="UnwrapMessageForVoegZaakdocumentToe_Lk01"
+                storeResultInSessionKey="UnwrapMessageResult"
+                direction="UNWRAP"
+                removeOutputNamespaces="true">
+                <Forward name="success" path="VoegZaakdocumentToe_Lk01Sender"/>
+            </SoapWrapperPipe>
+
+            <SenderPipe
+                name="VoegZaakdocumentToe_Lk01Sender">
+                <IbisLocalSender
+                    name="VoegZaakdocumentToe_Lk01LocalSender"
+                    javaListener="VoegZaakdocumentToe_Lk01"
                     >
                 </IbisLocalSender>
                 <Forward name="success" path="WrapBv03Response" />
