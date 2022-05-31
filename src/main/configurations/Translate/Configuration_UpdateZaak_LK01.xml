@@ -62,7 +62,7 @@
                     name="CallGetZdsZaakFromZgwSender"
                     javaListener="GetZdsZaakFromZgw">
                     <Param name="ZgwZaak" sessionKey="GetWasZgwZaakResult" type="DOMDOC"/>
-                    <Param name="ZgwZaaktype" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
+                    <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForInputZaakObjectCount"/>
             </SenderPipe>

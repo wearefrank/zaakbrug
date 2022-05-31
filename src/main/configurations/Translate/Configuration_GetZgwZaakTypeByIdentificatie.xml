@@ -1,20 +1,19 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="GetZgwZaakType"
-        active="${GetZgwZaakType.Active}"
+    <Adapter name="GetZgwZaakTypeByIdentificatie"
+        active="${GetZgwZaakTypeByIdentificatie.Active}"
         description="">
 
-        <Receiver name="GetZgwZaakType">
-            <JavaListener name="GetZgwZaakType"/>
+        <Receiver name="GetZgwZaakTypeByIdentificatie">
+            <JavaListener name="GetZgwZaakTypeByIdentificatie"/>
         </Receiver>
-
+        
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-			<SenderPipe name="GetZgwZaakTypeByIdentificatie" 
-                getInputFromFixedValue="&lt;dummy/&gt;">
+			<SenderPipe name="GetZgwZaakTypeByIdentificatie">
 				<HttpSender 
 					name="GetZgwZaakTypeByIdentificatieSender" 
 					methodType="GET"
@@ -30,22 +29,18 @@
 			</SenderPipe>
 
             <JsonPipe name="JsonToXml">
-                <Forward name="success" path="SetZgwZaakType"/>
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList"/>
             </JsonPipe>
 
             <XsltPipe
-                name="SetZgwZaakType"
-                styleSheetName="CreeerZaak_LK01/xsl/SetZgwZaakType.xsl"
+                name="UnwrapOpenZaakApiEnvelopeToList"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
                 >
-                <Forward name="success" path="CheckForSetZgwZaakTypeResult"/>
+                <Param name="Type" value="ZgwZaakType"/>
+                <Param name="List" value="ZgwZaakTypen"/>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
-
-            <XmlIfPipe name="CheckForSetZgwZaakTypeResult"
-                xpathExpression="count(zgwZaakType/ZaakType) > 1"
-                >
-                <Forward name="then" path="EXCEPTION"/>
-                <Forward name="else" path="EXIT"/>
-            </XmlIfPipe>
         </Pipeline>
     </Adapter>
 </Module>

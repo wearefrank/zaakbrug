@@ -18,14 +18,22 @@
                 storeResultInSessionKey="GetZaakTypeResult">
                 <IbisLocalSender
                     name="CallGetZgwZaakTypeSender"
-                    javaListener="GetZgwZaakType">
+                    javaListener="GetZgwZaakTypeByIdentificatie">
                     <Param name="ZaakTypeCode" xpathExpression="/zakLk01/object/isVan/gerelateerde/code"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CheckForGetZgwZaakTypeResult"/>
+                <Forward name="success" path="SetZgwZaakType"/>
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForGetZgwZaakTypeResult"
-                xpathExpression="count(zgwZaakType/ZaakType) = 0"
+            <XsltPipe
+                name="SetZgwZaakType"
+                styleSheetName="CreeerZaak_LK01/xsl/FilterZgwZaakTypenForGeldigheid.xslt"
+                storeResultInSessionKey="GetZaakTypeResult"
+                >
+                <Forward name="success" path="CheckForSetZgwZaakTypeResult"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForSetZgwZaakTypeResult"
+                xpathExpression="count(ZgwZaakTypen/ZgwZaakType) > 1"
                 >
                 <Forward name="then" path="EXCEPTION"/>
                 <Forward name="else" path="GetGlobalConfigFromLocalFS"/>
@@ -59,7 +67,7 @@
                 <IbisLocalSender
                     name="CallGetZgwRolTypeSender"
                     javaListener="GetZgwRolTypeByZaakType">
-                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/zgwZaakType/ZaakType/url">
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakType/url">
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
@@ -84,7 +92,7 @@
                     name="CallAddRolToZgw"
                     javaListener="AddRolToZgw">
                     <Param name="GetRolTypeResult" sessionKey="GetRolTypeResult" type="DOMDOC"/>
-                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/zgwZaakType/ZaakType/url">
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakType/url">
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>

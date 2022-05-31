@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.8-20220520.181822">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.8-20220530.175847">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>The Configuration is the container of all configuration objects.</xs:documentation>
@@ -12,7 +12,7 @@
   </xs:element>
   <xs:element name="Module">
     <xs:annotation>
-      <xs:documentation>Root element for XML files that contain multiple adapters and/or cron jobs and are included as entity reference in another XML file. It does not influence the behavior of your Frank config.</xs:documentation>
+      <xs:documentation>Wrapper element to help split up large configuration files into smaller valid XML files. It may be used as root tag when an XML file contains multiple adapters and/or jobs. The Module element itself does not influence the behavior of Frank configurations.</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group ref="ConfigurationDeclaredChildGroup" />
@@ -2782,12 +2782,12 @@
     </xs:attribute>
     <xs:attribute name="filename" type="xs:string">
       <xs:annotation>
-        <xs:documentation>filename to operate on. When not set, the parameter filename is used. When that is not set either, the input is used</xs:documentation>
+        <xs:documentation>Filename to operate on. If not set, the parameter filename is used. If that is not set either, the input is used</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="destination" type="xs:string">
       <xs:annotation>
-        <xs:documentation>destination for move, copy or rename. If not set, the parameter destination is used. When that is not set either, the input is used</xs:documentation>
+        <xs:documentation>Destination for move, copy or rename. If not set, the parameter destination is used. If that is not set either, the input is used</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="inputFolder" type="xs:string">
@@ -2797,27 +2797,27 @@
     </xs:attribute>
     <xs:attribute name="createFolder" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>when set to &lt;code&gt;true&lt;/code&gt;, the folder to move or copy to is created if it does not exist Default: false</xs:documentation>
+        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, the folder to move or copy to is created if it does not exist Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="overwrite" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>when set to &lt;code&gt;true&lt;/code&gt;, for actions move, copy or rename, the destination file is overwritten if it already exists Default: false</xs:documentation>
+        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, for actions move, copy or rename, the destination file is overwritten if it already exists Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="rotateDays" type="frankInt">
       <xs:annotation>
-        <xs:documentation>for action=append: when set to a positive number, the file is rotated each day, and this number of files is kept. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
+        <xs:documentation>For action=append: If set to a positive number, the file is rotated each day, and this number of files is kept. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="rotateSize" type="frankInt">
       <xs:annotation>
-        <xs:documentation>for action=append: when set to a positive number, the file is rotated when it has reached the specified size, and the number of files specified in numberOfBackups is kept. Size is specified in plain bytes, suffixes like 'K', 'M' or 'G' are not recognized. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
+        <xs:documentation>For action=append: If set to a positive number, the file is rotated when it has reached the specified size, and the number of files specified in numberOfBackups is kept. Size is specified in plain bytes, suffixes like 'K', 'M' or 'G' are not recognized. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="numberOfBackups" type="frankInt">
       <xs:annotation>
-        <xs:documentation>for the actions write and append, with rotateSize&gt;0: the number of backup files that is kept. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
+        <xs:documentation>For the actions write and append, with rotateSize&gt;0: the number of backup files that is kept. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="wildcard" type="xs:string">
@@ -2832,12 +2832,12 @@
     </xs:attribute>
     <xs:attribute name="removeNonEmptyFolder" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set to true then the folder and the content of the non empty folder will be deleted.</xs:documentation>
+        <xs:documentation>If set to &lt;code&gt;true&lt;/code&gt; then the folder and the content of the non empty folder will be deleted.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="writeLineSeparator" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set to true then the system specific line separator will be appended to the file after executing the action. Works with actions write and append Default: false</xs:documentation>
+        <xs:documentation>If set to &lt;code&gt;true&lt;/code&gt; then the system specific line separator will be appended to the file after executing the action. Works with actions write and append Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="charset" type="xs:string">
@@ -4483,15 +4483,15 @@
     </xs:attribute>
     <xs:attribute name="tokenEndpoint" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Endpoint to obtain OAuth accessToken. If &lt;code&gt;authAlias&lt;/code&gt; or &lt;code&gt;username&lt;/code&gt;( and &lt;code&gt;password&lt;/code&gt;) are specified, 
+        <xs:documentation>Endpoint to obtain OAuth accessToken. If &lt;code&gt;authAlias&lt;/code&gt; or &lt;code&gt;username&lt;/code&gt;( and &lt;code&gt;password&lt;/code&gt;) are specified,
  then a PasswordGrant is used, otherwise a ClientCredentials grant. The obtained accessToken will be added to the regular requests
  in an HTTP Header 'Authorization' with a 'Bearer' prefix.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="tokenExpiry" type="frankInt">
       <xs:annotation>
-        <xs:documentation>If set to a non-negative value, then determines the time (in seconds) after which the token will be refreshed. Otherwise the token 
- will be refreshed when it is half way its lifetime as defined by the &lt;code&gt;expires_in&lt;/code&gt; clause of the token response, 
+        <xs:documentation>If set to a non-negative value, then determines the time (in seconds) after which the token will be refreshed. Otherwise the token
+ will be refreshed when it is half way its lifetime as defined by the &lt;code&gt;expires_in&lt;/code&gt; clause of the token response,
  or when the regular server returns a 401 status with a challenge. Default: -1</xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -4552,7 +4552,7 @@
     </xs:attribute>
     <xs:attribute name="keystore" type="xs:string">
       <xs:annotation>
-        <xs:documentation>resource url to keystore or certificate to be used for authentication. If none specified, the JVMs default keystore will be used.</xs:documentation>
+        <xs:documentation>resource URL to keystore or certificate to be used for authentication. If none specified, the JVMs default keystore will be used.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="keystoreType">
@@ -4596,7 +4596,7 @@
     </xs:attribute>
     <xs:attribute name="truststore" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Resource url to truststore to be used for authenticating peer. If none specified, the JVMs default truststore will be used.</xs:documentation>
+        <xs:documentation>Resource URL to truststore to be used for authenticating peer. If none specified, the JVMs default truststore will be used.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="truststoreAuthAlias" type="xs:string">
@@ -4640,32 +4640,37 @@
     </xs:attribute>
     <xs:attribute name="headersParams" type="xs:string">
       <xs:annotation>
-        <xs:documentation>comma separated list of parameter names which should be set as http headers</xs:documentation>
+        <xs:documentation>Comma separated list of parameter names which should be set as HTTP headers</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="followRedirects" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>when true, a redirect request will be honoured, e.g. to switch to https Default: true</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, a redirect request will be honoured, e.g. to switch to HTTPS Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="staleChecking" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>controls whether connections checked to be stale, i.e. appear open, but are not. Default: true</xs:documentation>
+        <xs:documentation>Controls whether connections checked to be stale, i.e. appear open, but are not. Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="staleTimeout" type="frankInt">
       <xs:annotation>
-        <xs:documentation>Used when StaleChecking=true. Timeout when stale connections should be closed. Default: 5000</xs:documentation>
+        <xs:documentation>Used when StaleChecking=&lt;code&gt;true&lt;/code&gt;. Timeout when stale connections should be closed. Default: 5000 ms</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="connectionTimeToLive" type="frankInt">
+      <xs:annotation>
+        <xs:documentation>Maximum Time to Live for connections in the pool. No connection will be re-used past its timeToLive value. Default: 900 s</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="xhtml" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>when true, the html response is transformed to xhtml Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the HTML response is transformed to XHTML Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="styleSheetName" type="xs:string">
       <xs:annotation>
-        <xs:documentation>(only used when &lt;code&gt;xhtml=true&lt;/code&gt;) stylesheet to apply to the html response</xs:documentation>
+        <xs:documentation>(Only used when xHtml=&lt;code&gt;true&lt;/code&gt;) stylesheet to apply to the HTML response</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="protocol" type="xs:string">
@@ -4675,7 +4680,7 @@
     </xs:attribute>
     <xs:attribute name="resultStatusCodeSessionKey" type="xs:string">
       <xs:annotation>
-        <xs:documentation>if set, the status code of the http response is put in specified in the sessionkey and the (error or okay) response message is returned</xs:documentation>
+        <xs:documentation>If set, the status code of the HTTP response is put in specified in the sessionKey and the (error or okay) response message is returned</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -6224,15 +6229,15 @@
     </xs:attribute>
     <xs:attribute name="tokenEndpoint" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Endpoint to obtain OAuth accessToken. If &lt;code&gt;authAlias&lt;/code&gt; or &lt;code&gt;username&lt;/code&gt;( and &lt;code&gt;password&lt;/code&gt;) are specified, 
+        <xs:documentation>Endpoint to obtain OAuth accessToken. If &lt;code&gt;authAlias&lt;/code&gt; or &lt;code&gt;username&lt;/code&gt;( and &lt;code&gt;password&lt;/code&gt;) are specified,
  then a PasswordGrant is used, otherwise a ClientCredentials grant. The obtained accessToken will be added to the regular requests
  in an HTTP Header 'Authorization' with a 'Bearer' prefix.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="tokenExpiry" type="frankInt">
       <xs:annotation>
-        <xs:documentation>If set to a non-negative value, then determines the time (in seconds) after which the token will be refreshed. Otherwise the token 
- will be refreshed when it is half way its lifetime as defined by the &lt;code&gt;expires_in&lt;/code&gt; clause of the token response, 
+        <xs:documentation>If set to a non-negative value, then determines the time (in seconds) after which the token will be refreshed. Otherwise the token
+ will be refreshed when it is half way its lifetime as defined by the &lt;code&gt;expires_in&lt;/code&gt; clause of the token response,
  or when the regular server returns a 401 status with a challenge. Default: -1</xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -6293,7 +6298,7 @@
     </xs:attribute>
     <xs:attribute name="keystore" type="xs:string">
       <xs:annotation>
-        <xs:documentation>resource url to keystore or certificate to be used for authentication. If none specified, the JVMs default keystore will be used.</xs:documentation>
+        <xs:documentation>resource URL to keystore or certificate to be used for authentication. If none specified, the JVMs default keystore will be used.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="keystoreType">
@@ -6337,7 +6342,7 @@
     </xs:attribute>
     <xs:attribute name="truststore" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Resource url to truststore to be used for authenticating peer. If none specified, the JVMs default truststore will be used.</xs:documentation>
+        <xs:documentation>Resource URL to truststore to be used for authenticating peer. If none specified, the JVMs default truststore will be used.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="truststoreAuthAlias" type="xs:string">
@@ -6381,32 +6386,37 @@
     </xs:attribute>
     <xs:attribute name="headersParams" type="xs:string">
       <xs:annotation>
-        <xs:documentation>comma separated list of parameter names which should be set as http headers</xs:documentation>
+        <xs:documentation>Comma separated list of parameter names which should be set as HTTP headers</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="followRedirects" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>when true, a redirect request will be honoured, e.g. to switch to https Default: true</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, a redirect request will be honoured, e.g. to switch to HTTPS Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="staleChecking" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>controls whether connections checked to be stale, i.e. appear open, but are not. Default: true</xs:documentation>
+        <xs:documentation>Controls whether connections checked to be stale, i.e. appear open, but are not. Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="staleTimeout" type="frankInt">
       <xs:annotation>
-        <xs:documentation>Used when StaleChecking=true. Timeout when stale connections should be closed. Default: 5000</xs:documentation>
+        <xs:documentation>Used when StaleChecking=&lt;code&gt;true&lt;/code&gt;. Timeout when stale connections should be closed. Default: 5000 ms</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="connectionTimeToLive" type="frankInt">
+      <xs:annotation>
+        <xs:documentation>Maximum Time to Live for connections in the pool. No connection will be re-used past its timeToLive value. Default: 900 s</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="xhtml" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>when true, the html response is transformed to xhtml Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the HTML response is transformed to XHTML Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="styleSheetName" type="xs:string">
       <xs:annotation>
-        <xs:documentation>(only used when &lt;code&gt;xhtml=true&lt;/code&gt;) stylesheet to apply to the html response</xs:documentation>
+        <xs:documentation>(Only used when xHtml=&lt;code&gt;true&lt;/code&gt;) stylesheet to apply to the HTML response</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="protocol" type="xs:string">
@@ -6416,7 +6426,7 @@
     </xs:attribute>
     <xs:attribute name="resultStatusCodeSessionKey" type="xs:string">
       <xs:annotation>
-        <xs:documentation>if set, the status code of the http response is put in specified in the sessionkey and the (error or okay) response message is returned</xs:documentation>
+        <xs:documentation>If set, the status code of the HTTP response is put in specified in the sessionKey and the (error or okay) response message is returned</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attributeGroup ref="SenderBaseDeclaredAttributeGroup" />
@@ -6605,15 +6615,10 @@
   </xs:complexType>
   <xs:complexType name="SapSenderType">
     <xs:group ref="SapSenderBaseDeclaredChildGroup" />
-    <xs:attributeGroup ref="SapSender2CumulativeAttributeGroup" />
+    <xs:attributeGroup ref="SapSenderImplCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="nl.nn.adapterframework.extensions.sap.SapSender" use="prohibited" />
   </xs:complexType>
-  <xs:complexType name="SapSender2Type">
-    <xs:group ref="SapSenderBaseDeclaredChildGroup" />
-    <xs:attributeGroup ref="SapSender2CumulativeAttributeGroup" />
-    <xs:attribute name="className" type="xs:string" fixed="nl.nn.adapterframework.extensions.sap.jco3.SapSender" use="prohibited" />
-  </xs:complexType>
-  <xs:attributeGroup name="SapSender2DeclaredAttributeGroup">
+  <xs:attributeGroup name="SapSenderImplDeclaredAttributeGroup">
     <xs:attribute name="synchronous" type="frankBoolean">
       <xs:annotation>
         <xs:documentation>when &lt;code&gt;false&lt;/code&gt;, the sender operates in RR mode: the a reply is expected from SAP, and the sender does not participate in a transaction. When &lt;code&gt;false&lt;/code&gt;, the sender operates in FF mode: no reply is expected from SAP, and the sender joins the transaction, that must be present. The SAP transaction is committed right after the XA transaction is completed. Default: false</xs:documentation>
@@ -6630,8 +6635,8 @@
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
-  <xs:attributeGroup name="SapSender2CumulativeAttributeGroup">
-    <xs:attributeGroup ref="SapSender2DeclaredAttributeGroup" />
+  <xs:attributeGroup name="SapSenderImplCumulativeAttributeGroup">
+    <xs:attributeGroup ref="SapSenderImplDeclaredAttributeGroup" />
     <xs:attributeGroup ref="SapSenderBaseCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="SchedulerSenderType">
@@ -6718,7 +6723,7 @@
     </xs:attribute>
     <xs:attribute name="keystore" type="xs:string">
       <xs:annotation>
-        <xs:documentation>resource url to keystore or certificate to be used for authentication. If none specified, the JVMs default keystore will be used.</xs:documentation>
+        <xs:documentation>resource URL to keystore or certificate to be used for authentication. If none specified, the JVMs default keystore will be used.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="keystoreType">
@@ -6762,7 +6767,7 @@
     </xs:attribute>
     <xs:attribute name="truststore" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Resource url to truststore to be used for authenticating peer. If none specified, the JVMs default truststore will be used.</xs:documentation>
+        <xs:documentation>Resource URL to truststore to be used for authenticating peer. If none specified, the JVMs default truststore will be used.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="truststoreType">
@@ -6806,17 +6811,17 @@
     </xs:attribute>
     <xs:attribute name="followRedirects" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>when true, a redirect request will be honoured, e.g. to switch to https Default: true</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, a redirect request will be honoured, e.g. to switch to HTTPS Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="staleChecking" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>controls whether connections checked to be stale, i.e. appear open, but are not. Default: true</xs:documentation>
+        <xs:documentation>Controls whether connections checked to be stale, i.e. appear open, but are not. Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="staleTimeout" type="frankInt">
       <xs:annotation>
-        <xs:documentation>Used when StaleChecking=true. Timeout when stale connections should be closed. Default: 5000</xs:documentation>
+        <xs:documentation>Used when StaleChecking=&lt;code&gt;true&lt;/code&gt;. Timeout when stale connections should be closed. Default: 5000 ms</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="protocol" type="xs:string">
@@ -9154,14 +9159,10 @@
     <xs:attribute name="className" type="xs:string" fixed="nl.nn.adapterframework.receivers.SambaListener" use="prohibited" />
   </xs:complexType>
   <xs:complexType name="SapListenerType">
-    <xs:attributeGroup ref="SapListener2CumulativeAttributeGroup" />
+    <xs:attributeGroup ref="SapListenerImplCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="nl.nn.adapterframework.extensions.sap.SapListener" use="prohibited" />
   </xs:complexType>
-  <xs:complexType name="SapListener2Type">
-    <xs:attributeGroup ref="SapListener2CumulativeAttributeGroup" />
-    <xs:attribute name="className" type="xs:string" fixed="nl.nn.adapterframework.extensions.sap.jco3.SapListener" use="prohibited" />
-  </xs:complexType>
-  <xs:attributeGroup name="SapListener2DeclaredAttributeGroup">
+  <xs:attributeGroup name="SapListenerImplDeclaredAttributeGroup">
     <xs:attribute name="sapSystemName" type="xs:string" use="required">
       <xs:annotation>
         <xs:documentation>name of the SapSystem used by this object</xs:documentation>
@@ -9178,8 +9179,8 @@
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
-  <xs:attributeGroup name="SapListener2CumulativeAttributeGroup">
-    <xs:attributeGroup ref="SapListener2DeclaredAttributeGroup" />
+  <xs:attributeGroup name="SapListenerImplCumulativeAttributeGroup">
+    <xs:attributeGroup ref="SapListenerImplDeclaredAttributeGroup" />
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
         <xs:documentation>Name of the Ibis-object</xs:documentation>
@@ -12913,10 +12914,14 @@
     <xs:attribute name="className" type="xs:string" fixed="nl.nn.adapterframework.extensions.esb.EsbSoapWrapperPipe" use="prohibited" />
   </xs:complexType>
   <xs:attributeGroup name="EsbSoapWrapperPipeDeclaredAttributeGroup">
-    <xs:attribute name="mode" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>either &lt;code&gt;i2t&lt;/code&gt; (ifsa2tibco), &lt;code&gt;reg&lt;/code&gt; (regular) or &lt;code&gt;bis&lt;/code&gt; (Business Integration Services) Default: reg</xs:documentation>
-      </xs:annotation>
+    <xs:attribute name="mode">
+      <xs:simpleType>
+        <xs:union memberTypes="ModeAttributeValuesType variableRef">
+          <xs:annotation>
+            <xs:documentation>Default: REG</xs:documentation>
+          </xs:annotation>
+        </xs:union>
+      </xs:simpleType>
     </xs:attribute>
     <xs:attribute name="cmhVersion" type="frankInt">
       <xs:annotation>
@@ -12954,6 +12959,25 @@
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
+  <xs:simpleType name="ModeAttributeValuesType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="I2T">
+        <xs:annotation>
+          <xs:documentation>ifsa2tibco</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="REG">
+        <xs:annotation>
+          <xs:documentation>Regular</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BIS">
+        <xs:annotation>
+          <xs:documentation>Business Integration Services</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
   <xs:attributeGroup name="EsbSoapWrapperPipeCumulativeAttributeGroup">
     <xs:attributeGroup ref="EsbSoapWrapperPipeDeclaredAttributeGroup" />
     <xs:attributeGroup ref="SoapWrapperPipeCumulativeAttributeGroup" />
@@ -17222,14 +17246,17 @@
         <xs:documentation>returned message</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="replaceFrom" type="xs:string" />
-    <xs:attribute name="replaceTo" type="xs:string" />
-    <xs:attribute name="styleSheetName" type="xs:string" />
-    <xs:attribute name="lookupAtRuntime" type="frankBoolean">
+    <xs:attribute name="replaceFrom" type="xs:string">
       <xs:annotation>
-        <xs:documentation>when set &lt;code&gt;true&lt;/code&gt;, the lookup of the file will be done at runtime instead of at configuration time Default: false</xs:documentation>
+        <xs:documentation>When set, any match in the result string will be replaced by the value of &lt;code&gt;replaceTo&lt;/code&gt; attribute</xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="replaceTo" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Target value for the matches of attribute &lt;code&gt;replaceFrom&lt;/code&gt; in the result string</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="styleSheetName" type="xs:string" />
     <xs:attribute name="replaceFixedParams" type="frankBoolean">
       <xs:annotation>
         <xs:documentation>when set &lt;code&gt;true&lt;/code&gt;, any parameter is used for replacements but with &lt;code&gt;name-of-parameter&lt;/code&gt; and not &lt;code&gt;${name-of-parameter}&lt;/code&gt; Default: false</xs:documentation>
@@ -17918,12 +17945,12 @@
     </xs:attribute>
     <xs:attribute name="filename" type="xs:string">
       <xs:annotation>
-        <xs:documentation>filename to operate on. When not set, the parameter filename is used. When that is not set either, the input is used</xs:documentation>
+        <xs:documentation>Filename to operate on. If not set, the parameter filename is used. If that is not set either, the input is used</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="destination" type="xs:string">
       <xs:annotation>
-        <xs:documentation>destination for move, copy or rename. If not set, the parameter destination is used. When that is not set either, the input is used</xs:documentation>
+        <xs:documentation>Destination for move, copy or rename. If not set, the parameter destination is used. If that is not set either, the input is used</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="inputFolder" type="xs:string">
@@ -17933,27 +17960,27 @@
     </xs:attribute>
     <xs:attribute name="createFolder" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>when set to &lt;code&gt;true&lt;/code&gt;, the folder to move or copy to is created if it does not exist Default: false</xs:documentation>
+        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, the folder to move or copy to is created if it does not exist Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="overwrite" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>when set to &lt;code&gt;true&lt;/code&gt;, for actions move, copy or rename, the destination file is overwritten if it already exists Default: false</xs:documentation>
+        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, for actions move, copy or rename, the destination file is overwritten if it already exists Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="rotateDays" type="frankInt">
       <xs:annotation>
-        <xs:documentation>for action=append: when set to a positive number, the file is rotated each day, and this number of files is kept. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
+        <xs:documentation>For action=append: If set to a positive number, the file is rotated each day, and this number of files is kept. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="rotateSize" type="frankInt">
       <xs:annotation>
-        <xs:documentation>for action=append: when set to a positive number, the file is rotated when it has reached the specified size, and the number of files specified in numberOfBackups is kept. Size is specified in plain bytes, suffixes like 'K', 'M' or 'G' are not recognized. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
+        <xs:documentation>For action=append: If set to a positive number, the file is rotated when it has reached the specified size, and the number of files specified in numberOfBackups is kept. Size is specified in plain bytes, suffixes like 'K', 'M' or 'G' are not recognized. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="numberOfBackups" type="frankInt">
       <xs:annotation>
-        <xs:documentation>for the actions write and append, with rotateSize&gt;0: the number of backup files that is kept. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
+        <xs:documentation>For the actions write and append, with rotateSize&gt;0: the number of backup files that is kept. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="wildcard" type="xs:string">
@@ -17968,12 +17995,12 @@
     </xs:attribute>
     <xs:attribute name="removeNonEmptyFolder" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set to true then the folder and the content of the non empty folder will be deleted.</xs:documentation>
+        <xs:documentation>If set to &lt;code&gt;true&lt;/code&gt; then the folder and the content of the non empty folder will be deleted.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="writeLineSeparator" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set to true then the system specific line separator will be appended to the file after executing the action. Works with actions write and append Default: false</xs:documentation>
+        <xs:documentation>If set to &lt;code&gt;true&lt;/code&gt; then the system specific line separator will be appended to the file after executing the action. Works with actions write and append Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="charset" type="xs:string">

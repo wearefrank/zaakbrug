@@ -28,15 +28,17 @@
 
             <JsonPipe name="JsonToXml"
                 storeResultInSessionKey="GetZaakTypeXmlResult">
-                <Forward name="success" path="RemoveNullNodes"/>
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToSingle"/>
             </JsonPipe>
 
-            <XsltPipe name="RemoveNullNodes" 
-                skipEmptyTags="true"
-                styleSheetName="Common/xsl/RemoveNullNodes.xslt" 
+            <XsltPipe
+                name="UnwrapOpenZaakApiEnvelopeToSingle"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToSingle.xslt"
                 >
+                <Param name="Type" value="ZgwZaakType"/>
                 <Forward name="success" path="EXIT"/>
-			</XsltPipe>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>

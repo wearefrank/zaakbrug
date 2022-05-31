@@ -71,7 +71,7 @@
                 storeResultInSessionKey="ZdsIsVan"
                 styleSheetName="creeerZaak_Lk01/xsl/CreateZdsIsVan.xslt"
                 >
-                <Param name="ZgwZaakType" sessionKey="ZgwZaaktype" type="DOMDOC"/>
+                <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
                 <Forward name="success" path="EnrichZdsZaakWithZdsIsVan"/>
             </XsltPipe>
 
@@ -216,7 +216,7 @@
                     name="ZdsHeeftLocalSender"
                     javaListener="MapZdsHeeftFromZgwStatus">
                 </IbisLocalSender>
-                <Param name="ZgwZaakType" sessionKey="ZgwZaaktype" type="DOMDOC"/>
+                <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
                 <Forward name="success" path="EnrichZdsZaakWithZdsHeeft"/>
             </ForEachChildElementPipe>
 

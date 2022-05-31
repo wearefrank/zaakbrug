@@ -10,10 +10,10 @@
 	</xsl:function>
 
     <xsl:template match="/">
-            <xsl:apply-templates select="root"/>
+            <xsl:apply-templates select="@*|node()"/>
     </xsl:template>
 
-    <xsl:template match="root[betrokkeneType='natuurlijk_persoon']">
+    <xsl:template match="@*|node()[betrokkeneType='natuurlijk_persoon']">
         <xsl:element name="{$RolNaam}">
             <xsl:attribute name="entiteittype" select="$RolEntiteitType"/>
             <gerelateerde>
@@ -31,7 +31,7 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="root[betrokkeneType='niet_natuurlijk_persoon']">
+    <xsl:template match="@*|node()[betrokkeneType='niet_natuurlijk_persoon']">
         <xsl:element name="{$RolNaam}">
             <xsl:attribute name="entiteittype" select="$RolEntiteitType"/>
             <gerelateerde>

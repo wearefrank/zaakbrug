@@ -24,8 +24,8 @@
                 <xsl:attribute name="entiteittype" select="'STT'"/>
                 <xsl:choose>
                     <xsl:when test="$ZgwZaakType">
-                        <zktCode><xsl:value-of select="$ZgwZaakType/root/ZgwZaakType/identificatie"/></zktCode>
-                        <zktOmschrijving><xsl:value-of select="$ZgwZaakType/root/ZgwZaakType/omschrijving"/></zktOmschrijving>
+                        <zktCode><xsl:value-of select="$ZgwZaakType/ZgwZaakType/identificatie"/></zktCode>
+                        <zktOmschrijving><xsl:value-of select="$ZgwZaakType/ZgwZaakType/omschrijving"/></zktOmschrijving>
                     </xsl:when>
                     <xsl:otherwise>
                         <zktCode><xsl:value-of select="$Identificatie"/></zktCode>

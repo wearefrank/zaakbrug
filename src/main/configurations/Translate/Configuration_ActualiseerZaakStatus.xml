@@ -30,11 +30,26 @@
                 storeResultInSessionKey="GetZaakTypeResult">
                 <IbisLocalSender
                     name="CallGetZgwZaakTypeSender"
-                    javaListener="GetZgwZaakType">
+                    javaListener="GetZgwZaakTypeByIdentificatie">
                     <Param name="ZaakTypeCode" xpathExpression="zakLk01/object[2]/isVan/gerelateerde/code"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CallSetResultaatAndStatus"/>
+                <Forward name="success" path="SetZgwZaakType"/>
             </SenderPipe>
+
+            <XsltPipe
+                name="SetZgwZaakType"
+                styleSheetName="CreeerZaak_LK01/xsl/FilterZgwZaakTypenForGeldigheid.xslt"
+                storeResultInSessionKey="GetZaakTypeResult"
+                >
+                <Forward name="success" path="CheckForSetZgwZaakTypeResult"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForSetZgwZaakTypeResult"
+                xpathExpression="count(ZgwZaakTypen/ZgwZaakType) > 1"
+                >
+                <Forward name="then" path="EXCEPTION"/>
+                <Forward name="else" path="CallSetResultaatAndStatus"/>
+            </XmlIfPipe>
 
             <SenderPipe
                 name="CallSetResultaatAndStatus"

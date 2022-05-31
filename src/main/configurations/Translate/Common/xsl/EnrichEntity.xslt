@@ -6,7 +6,7 @@
     <xsl:template match="@*|node()">
         <root>
             <xsl:copy-of select="@*|node()"/>
-            <xsl:copy-of select="$With/root/*"/>
+            <xsl:copy-of select="$With/*"/>
         </root>
     </xsl:template>
     

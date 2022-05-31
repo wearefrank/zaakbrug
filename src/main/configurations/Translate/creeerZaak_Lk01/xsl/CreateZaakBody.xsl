@@ -20,7 +20,7 @@
             <bronorganisatie><xsl:value-of select="$GetRsinResult/rsin"/></bronorganisatie>
             <omschrijving><xsl:value-of select="omschrijving"/></omschrijving>
             <toelichting><xsl:value-of select="toelichting"/></toelichting>
-            <zaaktype><xsl:value-of select="$GetZaakTypeResult/zgwZaakType/ZaakType/url"/></zaaktype>
+            <zaaktype><xsl:value-of select="$GetZaakTypeResult/ZgwZaakType/url"/></zaaktype>
             <xsl:if test="string-length(registratiedatum) > 0">
                 <registratiedatum><xsl:value-of select="zgw:convertZdsDateToZgwDate(registratiedatum)"/></registratiedatum>
             </xsl:if>
@@ -39,7 +39,7 @@
             </xsl:if>
            <!-- <communicatiekanaal><xsl:value-of select="$communicatiekanaal"/></communicatiekanaal> --> <!-- where to get? unknown -->
             <xsl:apply-templates select="productenOfDiensten"/>
-            <vertrouwelijkheidaanduiding><xsl:value-of select="$GetZaakTypeResult/zgwZaakType/ZaakType/vertrouwelijkheidaanduiding"/></vertrouwelijkheidaanduiding> <!-- from zaaktype -->
+            <vertrouwelijkheidaanduiding><xsl:value-of select="$GetZaakTypeResult/ZgwZaakType/vertrouwelijkheidaanduiding"/></vertrouwelijkheidaanduiding> <!-- from zaaktype -->
             <betalingsindicatie><xsl:value-of select="betalingsindicatie"/></betalingsindicatie>
             <xsl:if test="string-length(laatsteBetaaldatum) > 0">
                 <laatsteBetaaldatum><xsl:value-of select="zgw:convertZdsDatetimeToZgwDatetime(laatsteBetaaldatum)"/></laatsteBetaaldatum>

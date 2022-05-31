@@ -8,14 +8,14 @@
             <xsl:choose>
                 <xsl:when test="$Type = 'endCaseEndDate'">
                     <xsl:for-each select="root/profile/endCaseEndDate">
-                        <xsl:if test="../zaakTypeIdentificatie = $GetZaakTypeResult/zgwZaakType/ZaakType/identificatie">
+                        <xsl:if test="../zaakTypeIdentificatie = $GetZaakTypeResult/ZgwZaakType/identificatie">
                             <coalesceResultaat><xsl:value-of select="coalesceResultaat"/></coalesceResultaat>
                         </xsl:if>
                     </xsl:for-each>
                 </xsl:when>
                 <xsl:when test="$Type = 'endDateAndResultLastStatus'">
                     <xsl:for-each select="root/profile/endDateAndResultLastStatus">
-                        <xsl:if test="../zaakTypeIdentificatie = $GetZaakTypeResult/zgwZaakType/ZaakType/identificatie">
+                        <xsl:if test="../zaakTypeIdentificatie = $GetZaakTypeResult/ZgwZaakType/identificatie">
                             <coalesceResultaat><xsl:value-of select="coalesceResultaat"/></coalesceResultaat>
                         </xsl:if>
                     </xsl:for-each>

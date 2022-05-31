@@ -19,7 +19,7 @@
                 <IbisLocalSender
                     name="CallGetStatusTypeByZaakTypeSender"
                     javaListener="GetZgwStatusTypes">
-                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/zgwZaakType/ZaakType/url">
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakType/url">
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
@@ -70,7 +70,7 @@
                     javaListener="ZdsHeeftAdapter"
                     returnedSessionKeys="NewStatuses">
                     <Param name="GetStatussenResult" sessionKey="GetStatussenResult" type="DOMDOC"/>
-                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/zgwZaakType/ZaakType/url">
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakType/url">
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                     </Param>
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
@@ -93,7 +93,7 @@
                 <IbisLocalSender
                     name="CallGetZgwResultaatTypeByZaakTypeAndOmschrijvingSender"
                     javaListener="GetZgwResultaatTypeByZaakTypeAndOmschrijving">
-                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/zgwZaakType/ZaakType/url">
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakType/url">
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                     </Param>
                     <Param name="Omschrijving" xpathExpression="/zakLk01/object/resultaat/omschrijving"/>
@@ -211,7 +211,7 @@
                 <IbisLocalSender
                     name="CallGetZgwResultaatTypeByZaakTypeAndOmschrijvingSender"
                     javaListener="GetZgwResultaatTypeByZaakTypeAndOmschrijving">
-                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/zgwZaakType/ZaakType/url">
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakType/url">
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                     </Param>
                     <Param name="Omschrijving" xpathExpression="coalesceResultaat"/>
@@ -288,7 +288,7 @@
                 <IbisLocalSender
                     name="CallGetZgwResultaatTypeByZaakTypeAndOmschrijvingSender"
                     javaListener="GetZgwResultaatTypeByZaakTypeAndOmschrijving">
-                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/zgwZaakType/ZaakType/url">
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakType/url">
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                     </Param>
                     <Param name="Omschrijving" sessionKey="CoalesceResultaat"/>
