@@ -1,0 +1,48 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="GetZgwInformatieObjectTypeByOmschrijving"
+        active="${GetZgwInformatieObjectTypeByOmschrijving.Active}"
+        description="">
+
+        <Receiver name="GetZgwInformatieObjectTypeByOmschrijving">
+            <JavaListener name="GetZgwInformatieObjectTypeByOmschrijving"/>
+        </Receiver>
+
+        <Pipeline>   
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+			<ForEachChildElementPipe 
+                name="ZaakTypeInformatieObjectTypeUrlIterator"
+                storeResultInSessionKey="ZgwInformatieObjectTypen"
+                elementXPathExpression="/ZgwZaakType/informatieobjecttypen">
+                <IbisLocalSender
+                    name="GetZgwInformatieObjectTypeByUrlLocalSender"
+                    javaListener="GetZgwInformatieObjectTypeByUrl">
+                    <Param name="Url" xpathExpression="/informatieobjecttypen"/>
+                </IbisLocalSender>
+                <Forward name="success" path="UnwrapZgwInformatieObjectTypenToList"/>
+            </ForEachChildElementPipe>
+
+            <XsltPipe
+                name="UnwrapZgwInformatieObjectTypenToList"
+                styleSheetName="Common/xsl/UnwrapForEachChildPipeEnvelopeToList.xslt"
+                >
+                <Param name="List" value="ZgwInformatieObjectTypen"/>
+                <Forward name="success" path="GetZgwInformatieObjectTypenMatchingOmschrijving"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <XsltPipe
+                name="GetZgwInformatieObjectTypenMatchingOmschrijving"
+                styleSheetName="Common/xsl/GetElementsFromList.xslt"
+                >
+                <Param name="Where" value="omschrijving"/>
+                <Param name="Equals" sessionKey="Omschrijving"/>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

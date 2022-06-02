@@ -19,10 +19,60 @@
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
                     javaListener="GetZgwZaak">
-                    <Param name="Identificatie" xpathExpression="zakLk01/object[2]/identificatie"/>
+                    <Param name="Identificatie" xpathExpression="edcLk01/object[1]/isRelevantVoor/gerelateerde/identificatie"/>
                 </IbisLocalSender>
-                <Forward name="success" path="EXIT"/>
+                <Forward name="success" path="CheckForGetZgwZaakResult"/>
             </SenderPipe>
+
+            <XmlIfPipe name="CheckForGetZgwZaakResult"
+                xpathExpression="string-length(ZgwZaken) > 0"
+                >
+                <Forward name="then" path="GetSingleZgwZaakFromZgwZakenList"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </XmlIfPipe>
+        
+            <XsltPipe
+                name="GetSingleZgwZaakFromZgwZakenList"
+                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
+                storeResultInSessionKey="ZgwZaak"
+                >
+                <Forward name="success" path="CallGetZgwZaaktypeByUrl"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <SenderPipe
+                name="CallGetZgwZaaktypeByUrl"
+                getInputFromSessionKey="ZgwZaak"
+                storeResultInSessionKey="ZgwZaakType">
+                <IbisLocalSender
+                    name="CallGetZgwZaaktypeByUrlSender"
+                    javaListener="GetZaakTypeByUrl">
+                    <Param name="ZaakUrl" xpathExpression="ZgwZaak/zaaktype" />
+                </IbisLocalSender>
+                <Forward name="success" path="GetZgwInformatieObjectTypeByOmschrijvingSender"/>
+                <Forward name="exception" path="EXCEPTION"/>
+            </SenderPipe>
+
+            <SenderPipe
+                name="GetZgwInformatieObjectTypeByOmschrijvingSender">
+                <IbisLocalSender
+                    name="GetZgwInformatieObjectTypeByOmschrijvingLocalSender"
+                    javaListener="GetZgwInformatieObjectTypeByOmschrijving">
+                    <Param name="ZgwZaakType" sessionKey="ZgwZaakType" />
+                    <Param name="Omschrijving" value="Brief" />
+                </IbisLocalSender>
+                <Forward name="success" path="GetSingleZgwInformatieObjectTypeFromList"/>
+                <Forward name="exception" path="EXCEPTION"/>
+            </SenderPipe>
+
+            <XsltPipe
+                name="GetSingleZgwInformatieObjectTypeFromList"
+                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
+                storeResultInSessionKey="ZgwInformatieObjectType"
+                >
+                <Forward name="success" path="EXIT"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
 
         </Pipeline>
     </Adapter>
