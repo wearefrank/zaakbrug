@@ -13,13 +13,19 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
+            <PutInSessionPipe 
+                name="StoreZdsZaakDocumentInhoud">
+                <Param name="ZdsZaakDocumentInhoud" xpathExpression="edcLk01/object[1]" type="DOMDOC"/>
+                <Forward name="success" path="CallGetZgwZaak" />
+            </PutInSessionPipe>
+
             <SenderPipe
                 name="CallGetZgwZaak"
-                storeResultInSessionKey="GetZaakResult">
+                getInputFromSessionKey="ZdsZaakDocumentInhoud">
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
                     javaListener="GetZgwZaak">
-                    <Param name="Identificatie" xpathExpression="edcLk01/object[1]/isRelevantVoor/gerelateerde/identificatie"/>
+                    <Param name="Identificatie" xpathExpression="object/isRelevantVoor/gerelateerde/identificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwZaakResult"/>
             </SenderPipe>
@@ -54,12 +60,13 @@
             </SenderPipe>
 
             <SenderPipe
-                name="GetZgwInformatieObjectTypeByOmschrijvingSender">
+                name="GetZgwInformatieObjectTypeByOmschrijvingSender"
+                getInputFromSessionKey="ZdsZaakDocumentInhoud">
                 <IbisLocalSender
                     name="GetZgwInformatieObjectTypeByOmschrijvingLocalSender"
                     javaListener="GetZgwInformatieObjectTypeByOmschrijving">
                     <Param name="ZgwZaakType" sessionKey="ZgwZaakType" />
-                    <Param name="Omschrijving" value="Brief" />
+                    <Param name="Omschrijving" xpathExpression="object/dct.omschrijving" />
                 </IbisLocalSender>
                 <Forward name="success" path="GetSingleZgwInformatieObjectTypeFromList"/>
                 <Forward name="exception" path="EXCEPTION"/>
@@ -70,6 +77,20 @@
                 styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
                 storeResultInSessionKey="ZgwInformatieObjectType"
                 >
+                <Forward name="success" path="MapZgwInformatieObject"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <XsltPipe
+                name="MapZgwInformatieObject"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Zgw/Model/xslt/ZgwInformatieObject.xslt"
+                storeResultInSessionKey="ZgwInformatieObject"
+                >
+                <Param name="ZdsZaakDocumentInhoud" sessionKey="ZdsZaakDocumentInhoud" type="DOMDOC"/>
+                <Param name="ZgwInformatieObjectType" sessionKey="ZgwInformatieObjectType" type="DOMDOC"/>
+                <Param name="Bronorganisatie" value="1900" />
+                <Param name="IndicatieGebruiksrecht" value="false" />
                 <Forward name="success" path="EXIT"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
