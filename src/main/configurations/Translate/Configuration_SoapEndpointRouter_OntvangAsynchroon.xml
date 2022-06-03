@@ -32,14 +32,24 @@
                 storeResultInSessionKey="UnwrapMessageResult"
                 direction="UNWRAP"
                 removeOutputNamespaces="true">
-                <Forward name="success" path="ActionSwitch"/>
+                <Forward name="success" path="SanitizeSoapAction"/>
             </SoapWrapperPipe>
 
+            <XsltPipe
+                name="SanitizeSoapAction"
+                xpathExpression="replace($Action, '/', '_')"
+                storeResultInSessionKey="SatitizedSoapAction"
+                >
+                <Param name="Action" sessionKey="SOAPAction"/>
+                <Forward name="success" path="ActionSwitch"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
             <XmlSwitchPipe name="ActionSwitch"
-				forwardNameSessionKey="SOAPAction"
+				forwardNameSessionKey="SatitizedSoapAction"
                 />
 
-            <WsdlXmlValidatorPipe name="http://www.egem.nl/StUF/sector/zkn/0310/updateZaak_Lk01"
+            <WsdlXmlValidatorPipe name="http:__www.egem.nl_StUF_sector_zkn_0310_updateZaak_Lk01"
                 getInputFromSessionKey="originalMessage"
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl"
                 soapBody="zakLk01"
@@ -49,7 +59,7 @@
                 <Forward name="parserError" path="NotWellFormed"/>
 			</WsdlXmlValidatorPipe>
 
-            <WsdlXmlValidatorPipe name="http://www.egem.nl/StUF/sector/zkn/0310/creeerZaak_Lk01"
+            <WsdlXmlValidatorPipe name="http:__www.egem.nl_StUF_sector_zkn_0310_creeerZaak_Lk01"
                 getInputFromSessionKey="originalMessage"
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl"
                 soapBody="zakLk01"
@@ -91,7 +101,7 @@
 
             <!-- ActualiseerZaakstatus_Lk01 -->
             <WsdlXmlValidatorPipe 
-                name="http://www.egem.nl/StUF/sector/zkn/0310/actualiseerZaakstatus_Lk01"
+                name="http:__www.egem.nl_StUF_sector_zkn_0310_actualiseerZaakstatus_Lk01"
                 getInputFromSessionKey="originalMessage"
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
                 soapBody="zakLk01"
@@ -122,7 +132,7 @@
 
             <!-- VoegZaakdocumentToe_Lk01 -->
             <WsdlXmlValidatorPipe 
-                name="http://www.egem.nl/StUF/sector/zkn/0310/voegZaakdocumentToe_Lk01"
+                name="http:__www.egem.nl_StUF_sector_zkn_0310_voegZaakdocumentToe_Lk01"
                 getInputFromSessionKey="originalMessage"
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
                 soapBody="edcLk01"
