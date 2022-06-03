@@ -77,9 +77,39 @@
                 styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
                 storeResultInSessionKey="ZgwInformatieObjectType"
                 >
-                <Forward name="success" path="MapZgwInformatieObject"/>
+                <Forward name="success" path="StoreTaal"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
+
+            <PutInSessionPipe 
+                name="StoreTaal"
+                getInputFromSessionKey="ZdsZaakDocumentInhoud"
+                >
+                <Param name="Taal" xpathExpression="object/taal"/>            
+                <Forward name="success" path="CheckForTaalLength"/>
+            </PutInSessionPipe>
+
+            <XmlSwitchPipe 
+                name="CheckForTaalLength"
+                xpathExpression="3 > string-length($Taal)"
+                >
+                <Param name="Taal" sessionKey="Taal" />
+                <Forward name="true" path="ConvertISO639TaalSender" />
+                <Forward name="false" path="MapZgwInformatieObject" />
+                <Forward name="error" path="EXCEPTION" />
+            </XmlSwitchPipe>
+
+            <SenderPipe 
+                name="ConvertISO639TaalSender"
+                storeResultInSessionKey="Taal"
+                >
+                <IbisLocalSender
+                    name="ConvertISO639TaalLocalSender"
+                    javaListener="ConvertISO639Taal">
+                    <Param name="Alpha2" sessionKey="Taal" />                   
+                </IbisLocalSender>
+                <Forward name="success" path="MapZgwInformatieObject"/>
+            </SenderPipe>
 
             <XsltPipe
                 name="MapZgwInformatieObject"
@@ -91,6 +121,7 @@
                 <Param name="ZgwInformatieObjectType" sessionKey="ZgwInformatieObjectType" type="DOMDOC"/>
                 <Param name="Bronorganisatie" value="1900" />
                 <Param name="IndicatieGebruiksrecht" value="false" />
+                <Param name="Taal" sessionKey="Taal" />
                 <Forward name="success" path="EXIT"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>

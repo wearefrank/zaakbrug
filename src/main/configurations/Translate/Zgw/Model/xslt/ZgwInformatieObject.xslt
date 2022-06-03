@@ -1,5 +1,5 @@
-<xsl:stylesheet exclude-result-prefixes="xs xsl zgw xsi" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://google.com/zgw" xmlns:xsi="http://w3.org/2001/XMLSchema-instance" version="2.0">
-    <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="yes"/>
+<xsl:stylesheet exclude-result-prefixes="xs xsl zgw" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://google.com/zgw" xmlns:xsi="http://w3.org/2001/XMLSchema-instance" version="2.0">
+    <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="yes" exclude-result-prefixes="xsi"/>
 
     <xsl:param name="ZdsZaakDocumentInhoud" select="node()"/>
     <xsl:param name="ZgwInformatieObjectType" select="node()"/>
