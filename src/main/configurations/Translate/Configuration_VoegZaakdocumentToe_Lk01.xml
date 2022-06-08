@@ -114,8 +114,8 @@
             <XsltPipe
                 name="MapZgwInformatieObject"
                 getInputFromFixedValue="&lt;dummy/&gt;"
-                styleSheetName="Zgw/Model/xslt/ZgwInformatieObject.xslt"
-                storeResultInSessionKey="ZgwInformatieObject"
+                styleSheetName="Zgw/Model/xslt/ZgwEnkelvoudigInformatieObject.xslt"
+                storeResultInSessionKey="ZgwEnkelvoudigInformatieObject"
                 >
                 <Param name="ZdsZaakDocumentInhoud" sessionKey="ZdsZaakDocumentInhoud" type="DOMDOC"/>
                 <Param name="ZgwInformatieObjectType" sessionKey="ZgwInformatieObjectType" type="DOMDOC"/>
