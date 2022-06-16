@@ -36,8 +36,24 @@
                     <Param name="Omschrijving" xpathExpression="heeft/gerelateerde/omschrijving"/>
                     <Param name="Volgnummer" xpathExpression="heeft/gerelateerde/volgnummer"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CreateStatusBody"/>
+                <Forward name="success" path="CheckForZgwStatusTypeResult"/>
             </SenderPipe>
+
+            <XmlIfPipe name="CheckForZgwStatusTypeResult"
+                xpathExpression="count(*/ZgwStatusType) = 1"
+                >
+                <Forward name="then" path="GetSingleZgwStatusTypeFromList"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="GetSingleZgwStatusTypeFromList"
+                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
+                storeResultInSessionKey="GetStatusTypeByZaakTypeAndOmschrijvingResult"
+                >
+                <Forward name="success" path="CreateStatusBody"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
 
             <XsltPipe
                 name="CreateStatusBody"

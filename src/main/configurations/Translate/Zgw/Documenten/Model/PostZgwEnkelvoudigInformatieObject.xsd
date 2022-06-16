@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zgw="http://google.com/zgw">
+<xs:import namespace="http://google.com/zgw" schemaLocation="../ZgwDocumentenApi.xsd" />
+    <xs:element name="ZgwEnkelvoudigInformatieObject">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="url" type="zgw:Uri0_200" minOccurs="0" maxOccurs="1" />
+                <xs:element name="identificatie" type="zgw:AN0_40" minOccurs="0" maxOccurs="1" />
+                <xs:element name="bronorganisatie" type="zgw:Rsin" minOccurs="1" maxOccurs="1" />
+                <xs:element name="creatiedatum" type="xs:date" minOccurs="1" maxOccurs="1" />
+                <xs:element name="titel" type="zgw:AN1_200" minOccurs="1" maxOccurs="1" />
+                <xs:element name="vertrouwelijkheidaanduiding" type="zgw:Vertrouwelijkheidaanduiding" minOccurs="0" maxOccurs="1" />
+                <xs:element name="auteur" type="zgw:AN1_200" minOccurs="1" maxOccurs="1" />
+                <xs:element name="formaat" type="zgw:AN0_255" minOccurs="0" maxOccurs="1" />
+                <xs:element name="taal" type="zgw:Taal" minOccurs="1" maxOccurs="1" />
+                <xs:element name="bestandsnaam" type="zgw:AN0_255" minOccurs="0" maxOccurs="1" />
+                <xs:element name="bestandsomvang" minOccurs="0" maxOccurs="1" nillable="true">
+                    <xs:simpleType>
+                        <xs:union memberTypes="zgw:Bestandsomvang xs:string" />
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="link" type="zgw:Uri0_200" minOccurs="0" maxOccurs="1" />
+                <xs:element name="informatieobjecttype" type="zgw:Uri1_200" minOccurs="1" maxOccurs="1" />
+                <xs:element name="status" type="zgw:DocumentStatus" minOccurs="0" maxOccurs="1" />
+                <xs:element name="versie" type="xs:integer" minOccurs="0" maxOccurs="1" />
+                <xs:element name="ontvangstdatum" type="xs:date" minOccurs="0" maxOccurs="1" nillable="true" />
+                <xs:element name="verzenddatum" type="xs:date" minOccurs="0" maxOccurs="1" nillable="true" />
+                <xs:element name="indicatieGebruiksrecht" type="xs:boolean" minOccurs="0" maxOccurs="1" nillable="true" />
+                <xs:element name="ondertekening" type="zgw:Ondertekening" minOccurs="0" maxOccurs="1" nillable="true" />
+                <xs:element name="integriteit" type="zgw:Itegriteit" minOccurs="0" maxOccurs="1" nillable="true" />
+                <xs:element name="bestandsdelen" type="zgw:Bestandsdelen" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="beschrijving" type="zgw:AN1000" minOccurs="0" maxOccurs="1" />
+                <xs:element name="inhoud" type="xs:base64Binary" minOccurs="0" maxOccurs="1" nillable="true" />
+                <xs:element name="lock" type="zgw:Lock" minOccurs="0" maxOccurs="1" />
+                <xs:element name="locked" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema> 

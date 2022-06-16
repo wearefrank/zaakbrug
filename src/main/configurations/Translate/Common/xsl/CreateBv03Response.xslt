@@ -8,17 +8,17 @@
             <StUF:stuurgegevens>
                 <StUF:berichtcode>Bv03</StUF:berichtcode>
                 <StUF:zender>
-                    <StUF:organisatie><xsl:value-of select="$UnwrapMessageResult/zakLk01/stuurgegevens/ontvanger/organisatie"/></StUF:organisatie>
-                    <StUF:applicatie><xsl:value-of select="$UnwrapMessageResult/zakLk01/stuurgegevens/ontvanger/applicatie"/></StUF:applicatie>
+                    <StUF:organisatie><xsl:value-of select="$UnwrapMessageResult/*/stuurgegevens/ontvanger/organisatie"/></StUF:organisatie>
+                    <StUF:applicatie><xsl:value-of select="$UnwrapMessageResult/*/stuurgegevens/ontvanger/applicatie"/></StUF:applicatie>
                 </StUF:zender>
                 <StUF:ontvanger>
-                    <StUF:organisatie><xsl:value-of select="$UnwrapMessageResult/zakLk01/stuurgegevens/zender/organisatie"/></StUF:organisatie>
-                    <StUF:applicatie><xsl:value-of select="$UnwrapMessageResult/zakLk01/stuurgegevens/zender/applicatie"/></StUF:applicatie>
-                    <StUF:gebruiker><xsl:value-of select="$UnwrapMessageResult/zakLk01/stuurgegevens/zender/gebruiker"/></StUF:gebruiker>
+                    <StUF:organisatie><xsl:value-of select="$UnwrapMessageResult/*/stuurgegevens/zender/organisatie"/></StUF:organisatie>
+                    <StUF:applicatie><xsl:value-of select="$UnwrapMessageResult/*/stuurgegevens/zender/applicatie"/></StUF:applicatie>
+                    <StUF:gebruiker><xsl:value-of select="$UnwrapMessageResult/*/stuurgegevens/zender/gebruiker"/></StUF:gebruiker>
                 </StUF:ontvanger>
-                <StUF:referentienummer><xsl:value-of select="$UnwrapMessageResult/zakLk01/stuurgegevens/referentienummer"/></StUF:referentienummer>
-                <StUF:tijdstipBericht><xsl:value-of select="$UnwrapMessageResult/zakLk01/stuurgegevens/tijdstipBericht"/></StUF:tijdstipBericht>
-                <StUF:crossRefnummer><xsl:value-of select="$UnwrapMessageResult/zakLk01/stuurgegevens/referentienummer"/></StUF:crossRefnummer>
+                <StUF:referentienummer><xsl:value-of select="$UnwrapMessageResult/*/stuurgegevens/referentienummer"/></StUF:referentienummer>
+                <StUF:tijdstipBericht><xsl:value-of select="$UnwrapMessageResult/*/stuurgegevens/tijdstipBericht"/></StUF:tijdstipBericht>
+                <StUF:crossRefnummer><xsl:value-of select="$UnwrapMessageResult/*/stuurgegevens/referentienummer"/></StUF:crossRefnummer>
             </StUF:stuurgegevens>
         </StUF:Bv03Bericht>
 	</xsl:template>

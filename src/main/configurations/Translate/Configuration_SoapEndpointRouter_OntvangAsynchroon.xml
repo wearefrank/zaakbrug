@@ -102,6 +102,7 @@
            
             <SoapWrapperPipe
                 name="WrapBv03Response"
+                getInputFromFixedValue="&lt;dummy/&gt;"
                 soapBodyStyleSheet="Common/xsl/CreateBv03Response.xslt"
                 >
                 <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC"/>

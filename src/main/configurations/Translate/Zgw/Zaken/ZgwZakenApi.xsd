@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:zgw="http://google.com/zgw" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://google.com/zgw">
+    <xs:include schemaLocation="../ZgwSchemaBase.xsd" />
+    <xs:simpleType name="AardRelatieWeergave">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Hoort bij, omgekeerd: kent" />
+            <xs:enumeration value="Legt vast, omgekeerd: kan vastgelegd zijn als" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema> 

@@ -6,6 +6,7 @@
   <!ENTITY CreeerZaak_Lk01                                SYSTEM "./Configuration_CreeerZaak_Lk01.xml">
   <!ENTITY DeleteRolFromZgw                               SYSTEM "./Configuration_DeleteRolFromZgw.xml">
   <!ENTITY DetectRolChanges                               SYSTEM "./Configuration_DetectRolChanges.xml">
+  <!ENTITY Documenten_PostZgwEnkelvoudigInformatieObject  SYSTEM "./Configuration_Documenten_PostZgwEnkelvoudigInformatieObject.xml">
   <!ENTITY GenereerDocumentIdentificatie_SOAP             SYSTEM "./Configuration_GenereerDocumentIdentificatie_SOAP.xml">
   <!ENTITY GenereerIdentificatieEmulator                  SYSTEM "./Configuration_GenereerIdentificatieEmulator.xml">
   <!ENTITY GenereerZaakIdentificatie_SOAP                 SYSTEM "./Configuration_GenereerZaakIdentificatie_SOAP.xml">
@@ -43,6 +44,7 @@
   <!ENTITY UpdateRolInZgw                                 SYSTEM "./Configuration_UpdateRolInZgw.xml">
   <!ENTITY UpdateZaak_Lk01                                SYSTEM "./Configuration_UpdateZaak_Lk01.xml">
   <!ENTITY VoegZaakdocumentToe_Lk01                       SYSTEM "./Configuration_VoegZaakdocumentToe_Lk01.xml">
+  <!ENTITY Zaken_PostZgwZaakInformatieObject              SYSTEM "./Configuration_Zaken_PostZgwZaakInformatieObject.xml">
   <!ENTITY ZdsHeeft                                       SYSTEM "./Configuration_ZdsHeeft.xml">
   ]>
 
@@ -54,6 +56,7 @@
   &CreeerZaak_Lk01;
   &DeleteRolFromZgw;
   &DetectRolChanges;
+  &Documenten_PostZgwEnkelvoudigInformatieObject;
   &GenereerDocumentIdentificatie_SOAP;
   &GenereerIdentificatieEmulator;
   &GenereerZaakIdentificatie_SOAP;
@@ -91,5 +94,6 @@
   &UpdateRolInZgw;
   &UpdateZaak_Lk01;
   &VoegZaakdocumentToe_Lk01;
+  &Zaken_PostZgwZaakInformatieObject;
   &ZdsHeeft;
 </configuration>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zgw="http://google.com/zgw">
+    <xs:import namespace="http://google.com/zgw" schemaLocation="../ZgwZakenApi.xsd" />
+    <xs:element name="ZgwZaakInformatieObject">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="url" type="zgw:Uri1_1000" minOccurs="0" maxOccurs="1" />
+                <xs:element name="uuid" type="xs:string" minOccurs="0" maxOccurs="1" />
+                <xs:element name="informatieobject" type="zgw:Uri1_1000" minOccurs="1" maxOccurs="1" />
+                <xs:element name="zaak" type="zgw:Uri1_1000" minOccurs="1" maxOccurs="1" />
+                <xs:element name="aardRelatieWeergave" type="zgw:AardRelatieWeergave" minOccurs="0" maxOccurs="1" />
+                <xs:element name="titel" type="zgw:AN0_200" minOccurs="0" maxOccurs="1" />
+                <xs:element name="beschrijving" type="xs:string" minOccurs="0" maxOccurs="1" />
+                <xs:element name="registratiedatum" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema> 

@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:zgw="http://google.com/zgw" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://google.com/zgw">
+    <xs:include schemaLocation="../ZgwSchemaBase.xsd" />
+    <xs:complexType name="Ondertekening">
+        <xs:sequence>
+            <xs:element name="soort" type="zgw:Ondertekeningsoort" minOccurs="1" maxOccurs="1" />
+            <xs:element name="datum" type="xs:date" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Bestandsdelen">
+        <xs:sequence>
+            <xs:element name="url" type="zgw:Uri1_1000" minOccurs="0" maxOccurs="1" />
+            <xs:element name="omvang" type="xs:integer" minOccurs="0" maxOccurs="1" />
+            <xs:element name="inhoud" type="xs:base64Binary" minOccurs="0" maxOccurs="1" />
+            <xs:element name="voltooid" type="xs:integer" minOccurs="0" maxOccurs="1" />
+            <xs:element name="lock" type="zgw:Lock" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Itegriteit">
+        <xs:sequence>
+            <xs:element name="algoritme" type="zgw:Algoritme" minOccurs="1" maxOccurs="1" />
+            <xs:element name="waarde" type="zgw:AN1_128" minOccurs="1" maxOccurs="1" />
+            <xs:element name="datum" type="xs:date" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="Vertrouwelijkheidaanduiding">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="openbaar" />
+            <xs:enumeration value="beperkt_openbaar" />
+            <xs:enumeration value="intern" />
+            <xs:enumeration value="zaakvertrouwelijk" />
+            <xs:enumeration value="vertrouwelijk" />
+            <xs:enumeration value="confidentieel" />
+            <xs:enumeration value="geheim" />
+            <xs:enumeration value="zeer_geheim" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Algoritme">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="crc_16" />
+            <xs:enumeration value="crc_32" />
+            <xs:enumeration value="crc_64" />
+            <xs:enumeration value="fletcher_4" />
+            <xs:enumeration value="fletcher_8" />
+            <xs:enumeration value="fletcher_16" />
+            <xs:enumeration value="fletcher_32" />
+            <xs:enumeration value="hmac" />
+            <xs:enumeration value="md5" />
+            <xs:enumeration value="sha_1" />
+            <xs:enumeration value="sha_256" />
+            <xs:enumeration value="sha_512" />
+            <xs:enumeration value="sha_3" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="DocumentStatus">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="in_bewerking" />
+            <xs:enumeration value="ter_vaststelling" />
+            <xs:enumeration value="definitief" />
+            <xs:enumeration value="gearchiveerd" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="AardRelatieWeergave">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Hoort bij, omgekeerd: kent" />
+            <xs:enumeration value="Legt vast, omgekeerd: kan vastgelegd zijn als" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Ondertekeningsoort">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="analoog" />
+            <xs:enumeration value="digitaal" />
+            <xs:enumeration value="pki" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="AardRelatie">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="vervolg" />
+            <xs:enumeration value="onderwerp" />
+            <xs:enumeration value="bijdrage" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Archiefnominatie">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="blijvend_bewaren" />
+            <xs:enumeration value="vernietigen" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Archiefstatus">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="nog_te_archiveren" />
+            <xs:enumeration value="gearchiveerd" />
+            <xs:enumeration value="gearchiveerd_procestermijn_onbekend" />
+            <xs:enumeration value="overgedragen" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema> 
