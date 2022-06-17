@@ -6,7 +6,7 @@
     <xsl:param name="ZgwInformatieObjectType" as="node()"><ZgwInformatieObjectType/></xsl:param>
 
         <!-- Create/Enrich -->
-    <xsl:param name="ZgwEnkelvoudigInformatieObject" select="node()" as="node()"><ZgwEnkelvoudigInformatieObject/></xsl:param>
+    <xsl:param name="ZgwEnkelvoudigInformatieObject" as="node()"><ZgwEnkelvoudigInformatieObject/></xsl:param>
 
     <xsl:param name="Url" select="''" as="xs:string" />
     <xsl:param name="Identificatie" select="''" as="xs:string" />

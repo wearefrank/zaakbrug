@@ -37,7 +37,7 @@
                 styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
                 >
                 <Param name="Type" value="ZgwStatus"/>
-                <Param name="List" value="ZgwStatuses"/>
+                <Param name="List" value="ZgwStatussen"/>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>

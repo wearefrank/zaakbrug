@@ -241,12 +241,10 @@
             <XsltPipe
                 name="CreateStatusBody"
                 getInputFromSessionKey="ZdsZaakDocumentInhoud"
-                styleSheetName="CreeerZaak_LK01/xsl/CreateStatusBody.xsl"
+                styleSheetName="Zgw/Zaken/Model/ZgwStatus.xslt"
                 >
-                <Param name="ZaakUrl" xpathExpression="$ZgwZaak/ZgwZaak/url">
-                    <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
-                </Param>
-                <Param name="StatusType" sessionKey="ZgwStatusType" type="DOMDOC"/>
+                <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
+                <Param name="ZgwStatusType" sessionKey="ZgwStatusType" type="DOMDOC"/>
                 <Param name="ZdsStatusDatum" xpathExpression="object/isRelevantVoor/sta.datumStatusGezet"/>
                 <Forward name="success" path="PostZgwStatusSender"/>
             </XsltPipe>

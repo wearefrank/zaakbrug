@@ -60,11 +60,11 @@
                 storeResultInSessionKey="StatusBody"
                 getInputFromSessionKey="originalMessage"
                 skipEmptyTags="true"
-                styleSheetName="CreeerZaak_LK01/xsl/CreateStatusBody.xsl"
+                styleSheetName="Zgw/Zaken/Model/ZgwStatus.xslt"
                 >
-                <Param name="StatusType" sessionKey="GetStatusTypeByZaakTypeAndOmschrijvingResult" type="DOMDOC"/>
-                <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
-                <Param name="Einddatum" sessionKey="Einddatum"/>
+                <Param name="ZgwStatusType" sessionKey="GetStatusTypeByZaakTypeAndOmschrijvingResult" type="DOMDOC"/>
+                <Param name="Zaak" sessionKey="ZaakUrl"/>
+                <Param name="ZdsEinddatum" sessionKey="Einddatum"/>
                 <Param name="ZdsStatusDatum" xpathExpression="heeft/datumStatusGezet"/>
                 <Forward name="success" path="SetBeeindigdIfIsEindstatus"/>
             </XsltPipe>
@@ -99,13 +99,13 @@
                 styleSheetName="CreeerZaak_LK01/xsl/SetStatusExists.xsl"
                 >
                 <Param name="StatusBody" sessionKey="StatusBody" type="DOMDOC"/>
-                <Param name="ZgwStatusen" sessionKey="ZgwStatusen" type="DOMDOC"/>
+                <Param name="ZgwStatussen" sessionKey="ZgwStatussen" type="DOMDOC"/>
                 <Forward name="success" path="CheckForStatusExists"/>
             </XsltPipe>
 
             <XsltPipe
                 name="CompareDatumStatusGezet"
-                getInputFromSessionKey="ZgwStatusen"
+                getInputFromSessionKey="ZgwStatussen"
                 storeResultInSessionKey="StatusExists"
                 styleSheetName="CreeerZaak_LK01/xsl/CompareDatumStatusGezet.xsl"
                 >
