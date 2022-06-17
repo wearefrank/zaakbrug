@@ -330,8 +330,8 @@
                 getInputFromSessionKey="NewStatuses"
                 elementXPathExpression="ZgwStatussen/ZgwStatus">
                 <IbisLocalSender
-                    name="CallPostStatusAdapter"
-                    javaListener="PostStatusAdapter">
+                    name="PostZgwStatusLocalSender"
+                    javaListener="Zaken_PostZgwStatus">
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
             </ForEachChildElementPipe>

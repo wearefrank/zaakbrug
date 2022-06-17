@@ -255,7 +255,7 @@
                 >
                 <IbisLocalSender
                     name="PostZgwStatusLocalSender"
-                    javaListener="PostStatusAdapter"
+                    javaListener="Zaken_PostZgwStatus"
                     >
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
