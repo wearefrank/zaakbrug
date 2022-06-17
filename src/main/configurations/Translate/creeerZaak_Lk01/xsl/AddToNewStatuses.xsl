@@ -8,8 +8,8 @@
     </xsl:template>
     
 	<xsl:template match="/">
-        <newStatuses>
+        <ZgwStatusen>
             <xsl:apply-templates select="@*|node()"/>
-        </newStatuses>   
+        </ZgwStatusen>   
 	</xsl:template>
 </xsl:stylesheet>

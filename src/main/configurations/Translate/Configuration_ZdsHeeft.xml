@@ -96,17 +96,16 @@
             <XsltPipe
                 name="SetStatusExists"
                 storeResultInSessionKey="StatusExists"
-                skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/SetStatusExists.xsl"
                 >
                 <Param name="StatusBody" sessionKey="StatusBody" type="DOMDOC"/>
-                <Param name="GetStatussenResult" sessionKey="GetStatussenResult" type="DOMDOC"/>
+                <Param name="ZgwStatusen" sessionKey="ZgwStatusen" type="DOMDOC"/>
                 <Forward name="success" path="CheckForStatusExists"/>
             </XsltPipe>
 
             <XsltPipe
                 name="CompareDatumStatusGezet"
-                getInputFromSessionKey="GetStatussenResult"
+                getInputFromSessionKey="ZgwStatusen"
                 storeResultInSessionKey="StatusExists"
                 styleSheetName="CreeerZaak_LK01/xsl/CompareDatumStatusGezet.xsl"
                 >
@@ -134,7 +133,6 @@
                 name="AddToNewStatuses"
                 getInputFromSessionKey="StatusBody"
                 storeResultInSessionKey="NewStatuses"
-                skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/AddToNewStatuses.xsl"
                 >
                 <Forward name="success" path="EXIT"/>

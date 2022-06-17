@@ -6,7 +6,7 @@
     <xsl:param name="ZdsStatusDatum"/>
 
     <xsl:template match="/">
-        <zgwStatus>
+        <ZgwStatus>
             <zaak><xsl:value-of select="$ZaakUrl"/></zaak>
             <statustype><xsl:value-of select="$StatusType/ZgwStatusType/url"/></statustype>
             <datumStatusGezet>
@@ -20,7 +20,7 @@
                 </xsl:choose>
             </datumStatusGezet>
             <statustoelichting><xsl:value-of select="$StatusType/ZgwStatusType/omschrijving"/></statustoelichting>
-        </zgwStatus>
+        </ZgwStatus>
     </xsl:template>
 
     <xsl:function name="zgw:convertZdsDatetimeToZgwDatetime" as="xs:dateTime">

@@ -12,7 +12,7 @@
   <!ENTITY GenereerZaakIdentificatie_SOAP                 SYSTEM "./Configuration_GenereerZaakIdentificatie_SOAP.xml">
   <!ENTITY GetResultaatTypeByZaakTypeAndOmschrijving      SYSTEM "./Configuration_GetResultaatTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetResultatenByZaakUrl                         SYSTEM "./Configuration_GetResultatenByZaakUrl.xml">
-  <!ENTITY GetStatussenByZaakUrl                          SYSTEM "./Configuration_GetStatussenByZaakUrl.xml">
+  <!ENTITY Zaken_GetZgwStatusByZaakUrl                    SYSTEM "./Configuration_Zaken_GetZgwStatusByZaakUrl.xml">
   <!ENTITY GetStatusTypeByZaakTypeAndOmschrijving         SYSTEM "./Configuration_GetStatusTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetStatusTypes                                 SYSTEM "./Configuration_GetStatusTypes.xml">
   <!ENTITY GetZaakTypeByUrl                               SYSTEM "./Configuration_GetZaakTypeByUrl.xml">
@@ -62,7 +62,7 @@
   &GenereerZaakIdentificatie_SOAP;
   &GetResultaatTypeByZaakTypeAndOmschrijving;
   &GetResultatenByZaakUrl;
-  &GetStatussenByZaakUrl;
+  &Zaken_GetZgwStatusByZaakUrl;
   &GetStatusTypeByZaakTypeAndOmschrijving;
   &GetStatusTypes;
   &GetZaakTypeByUrl;

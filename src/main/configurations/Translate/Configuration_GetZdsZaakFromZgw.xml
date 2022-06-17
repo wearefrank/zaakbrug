@@ -189,25 +189,18 @@
                 <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
 
-            <SenderPipe name="GetZgwStatusByZaakUrlSender">
+            <SenderPipe 
+                name="GetZgwStatusByZaakUrlSender">
                 <IbisLocalSender
                     name="GetZgwStatusByZaakUrlLocalSender"
-                    javaListener="GetStatussenByZaakUrl">
+                    javaListener="Zaken_GetZgwStatusByZaakUrl"
+                    >
                     <Param name="ZaakUrl" xpathExpression="$ZgwZaak/ZgwZaak/url">
                         <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
-                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeWrapWithType"/>
-            </SenderPipe>
-
-            <XsltPipe
-                name="UnwrapOpenZaakApiEnvelopeWrapWithType"
-                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeWrapWithType.xslt"
-                >
-                <Param name="Type" value="ZgwStatus"/>
                 <Forward name="success" path="MapZdsHeeftIterator"/>
-                <Forward name="error" path="EXCEPTION"/>
-            </XsltPipe>
+            </SenderPipe>
 
             <ForEachChildElementPipe name="MapZdsHeeftIterator"
                 elementXPathExpression="/root/ZgwStatus"
