@@ -69,7 +69,7 @@
 
             <XsltPipe name="CreateZdsIsVan"
                 storeResultInSessionKey="ZdsIsVan"
-                styleSheetName="creeerZaak_Lk01/xsl/CreateZdsIsVan.xslt"
+                styleSheetName="CreeerZaak_LK01/xsl/CreateZdsIsVan.xslt"
                 >
                 <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
                 <Forward name="success" path="EnrichZdsZaakWithZdsIsVan"/>
@@ -110,7 +110,7 @@
             <XsltPipe name="CreateZdsHeeftAlsHoofdzaak"
                 storeResultInSessionKey="ZdsHeeftAlsHoofdzaak"
                 skipEmptyTags="true"
-                styleSheetName="creeerZaak_Lk01/xsl/CreateZdsHeeftAlsHoofdzaak.xslt"
+                styleSheetName="CreeerZaak_LK01/xsl/CreateZdsHeeftAlsHoofdzaak.xslt"
                 >
                 <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
                 <Forward name="success" path="EnrichZdsZaakWithZdsHeeftAlsHoofdzaak"/>
