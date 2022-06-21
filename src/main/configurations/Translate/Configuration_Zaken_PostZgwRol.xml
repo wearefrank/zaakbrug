@@ -1,10 +1,10 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="PostRolAdapter"
-        active="${PostRolAdapter.Active}"
+    <Adapter name="Zaken_PostZgwRol"
+        active="${Zaken_PostZgwRol.Active}"
         description="">
 
-        <Receiver name="PostRolAdapter">
-            <JavaListener name="PostRolAdapter"/>
+        <Receiver name="Zaken_PostZgwRol">
+            <JavaListener name="Zaken_PostZgwRol"/>
         </Receiver>
 
         <Pipeline>

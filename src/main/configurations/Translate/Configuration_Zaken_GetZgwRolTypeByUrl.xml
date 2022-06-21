@@ -1,9 +1,9 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="GetZgwRolTypeByUrl"
-        active="${GetZgwRolTypeByUrl.Active}"
+    <Adapter name="Zaken_GetZgwRolTypeByUrl"
+        active="${Zaken_GetZgwRolTypeByUrl.Active}"
         description="">
 
-        <Receiver name="GetZgwRolTypeByUrl">
+        <Receiver name="Zaken_GetZgwRolTypeByUrl">
             <JavaListener name="GetZgwRolTypeByUrl"/>
         </Receiver>
 
@@ -13,29 +13,35 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-			<SenderPipe name="GetZgwRolTypeByUrlSender" >
+			<SenderPipe 
+                name="GetZgwRolTypeByUrlSender"
+                >
 				<HttpSender 
 					name="GetZgwRolTypeByUrlHttpSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
                     timeout="${creeerZaak.timeout}"
+                    maxExecuteRetries="5"
 				/>
-                <Param name="url" sessionKey="RolTypeUrl" />
+                <Param name="url" sessionKey="Url" />
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="JsonToXml" />
 			</SenderPipe>
 
-            <JsonPipe name="JsonToXml">
-                <Forward name="success" path="RemoveNullNodes"/>
+            <JsonPipe 
+                name="JsonToXml">
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToSingle"/>
             </JsonPipe>
 
-            <XsltPipe name="RemoveNullNodes" 
-                skipEmptyTags="true"
-                styleSheetName="Common/xsl/RemoveNullNodes.xslt" 
+            <XsltPipe
+                name="UnwrapOpenZaakApiEnvelopeToSingle"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToSingle.xslt"
                 >
+                <Param name="Type" value="ZgwRolType"/>
                 <Forward name="success" path="EXIT"/>
-			</XsltPipe>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>

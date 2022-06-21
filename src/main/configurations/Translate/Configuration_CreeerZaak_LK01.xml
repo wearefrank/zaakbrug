@@ -62,10 +62,10 @@
 
             <SenderPipe
                 name="CallGetZgwRolType"
-                storeResultInSessionKey="GetRolTypeResult">
+                storeResultInSessionKey="ZgwRolTypen">
                 <IbisLocalSender
-                    name="CallGetZgwRolTypeSender"
-                    javaListener="GetZgwRolTypeByZaakType">
+                    name="GetZgwRolTypeByZaakTypeLocalSender"
+                    javaListener="Zaken_GetZgwRolTypeByZaakType">
                     <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakType/url">
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                     </Param>
@@ -90,14 +90,14 @@
                 <IbisLocalSender
                     name="CallAddRolToZgw"
                     javaListener="AddRolToZgw">
-                    <Param name="GetRolTypeResult" sessionKey="GetRolTypeResult" type="DOMDOC"/>
+                    <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC"/>
                     <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakType/url">
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CreateZaakBody"/>
             </ForEachChildElementPipe>
-<!-- Post zaak -->
+
             <XsltPipe
                 name="CreateZaakBody"
                 getInputFromSessionKey="originalMessage"
@@ -125,8 +125,8 @@
                 getInputFromSessionKey="RolMappingResults"
                 elementXPathExpression="/results/result/zgwRol">
                 <IbisLocalSender
-                    name="CallPostRol"
-                    javaListener="PostRolAdapter">
+                    name="PostZgwRolLocalSender"
+                    javaListener="Zaken_PostZgwRol">
                     <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/ZgwZaak/url">
                         <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
                     </Param>

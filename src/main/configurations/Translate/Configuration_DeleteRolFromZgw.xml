@@ -15,30 +15,39 @@
 
             <SenderPipe
                 name="CallGetZgwRolType"
-                storeResultInSessionKey="GetRolTypeResults">
+                storeResultInSessionKey="ZgwRolTypen">
                 <IbisLocalSender
-                    name="CallGetZgwRolTypeSender"
-                    javaListener="GetZgwRolTypeByZaakType"
+                    name="GetZgwRolTypeLocalSender"
+                    javaListener="Zaken_GetZgwRolTypeByZaakType"
                     >
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                 </IbisLocalSender>
-                <Forward name="success" path="GetRolTypeByOmschrijving"/>
+                <Forward name="success" path="GetZgwRolTypeWithMatchingOmschrijving"/>
             </SenderPipe>
 
             <XsltPipe
-                name="GetRolTypeByOmschrijving"
-                storeResultInSessionKey="GetRolTypeByOmschrijvingResult"
-                skipEmptyTags="true"
-                styleSheetName="UpdateZaak_LK01/xsl/GetZgwRolTypeByOmschrijving.xsl"
+                name="GetZgwRolTypeWithMatchingOmschrijving"
+                styleSheetName="Common/xsl/GetElementsFromList.xslt"
                 >
-                <Param name="Omschrijving" xpathExpression="$originalMessage/role/typeRolOmschrijving">
+                <Param name="Where" value="omschrijving"/>
+                <Param name="Equals" xpathExpression="$originalMessage/role/typeRolOmschrijving">
                     <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
                 </Param>
+                <Forward name="success" path="GetSingleZgwRolTypeFromList"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <XsltPipe
+                name="GetSingleZgwRolTypeFromList"
+                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
+                storeResultInSessionKey="ZgwRolType"
+                >
                 <Forward name="success" path="CheckForGetRolTypeResult"/>
+                <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
 
             <XmlIfPipe name="CheckForGetRolTypeResult"
-                xpathExpression="string-length(/rolType) > 0"
+                xpathExpression="string-length(/ZgwRolType) > 0"
                 >
                 <Forward name="then" path="GetRolByZaakUrlAndRolTypeUrl"/>
                 <Forward name="else" path="EXIT"/>
@@ -50,25 +59,28 @@
 					name="GetZgwZaakByIdentificatieSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.rol}?zaak=$ZaakUrl&amp;roltype=$RolTypeUrl"
+					url="${zgw.baseurl}${zgw.endpoint.rol}"
                     timeout="${creeerZaak.timeout}"
 				/>
                 <Param name="zaak" xpathExpression="$ZgwZaak/ZgwZaak/url">
                     <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
                 </Param>
-                <Param name="roltype" xpathExpression="$GetRolTypeByOmschrijvingResult/rolType/url">
-                    <Param name="GetRolTypeByOmschrijvingResult" sessionKey="GetRolTypeByOmschrijvingResult" type="DOMDOC"/>
+                <Param name="roltype" xpathExpression="$ZgwRolType/url">
+                    <Param name="ZgwRolType" sessionKey="ZgwRolType" type="DOMDOC"/>
                 </Param>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="JsonToXml" />
 			</SenderPipe>
 
-            <JsonPipe name="JsonToXml">
+            <JsonPipe 
+                name="JsonToXml"
+                >
                 <forward name="success" path="CheckForGetRolResult"/>
             </JsonPipe>
 
-            <XmlIfPipe name="CheckForGetRolResult"
+            <XmlIfPipe 
+                name="CheckForGetRolResult"
                 xpathExpression="string-length(/root/results) > 0"
                 >
                 <Forward name="then" path="DeleteRol"/>

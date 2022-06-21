@@ -46,7 +46,7 @@
                 storeResultInSessionKey="RolBody"
                 styleSheetName="CreeerZaak_LK01/xsl/CreateRolBody.xsl"
                 >
-                <Param name="GetRolTypeResult" sessionKey="GetRolTypeResult" type="DOMDOC"/>
+                <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC"/>
                 <Param name="ZgwBetrokkeneIdentificatie" sessionKey="ZgwBetrokkeneIdentificatie" type="DOMDOC"/>
                 <Param name="TypeRolOmschrijving" xpathExpression="role/typeRolOmschrijving"/>
                 <Forward name="success" path="CheckForZgwRolType"/>

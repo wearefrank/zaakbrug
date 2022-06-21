@@ -18,9 +18,9 @@
                 name="GetZgwRolTypeByUrlSender"
                 storeResultInSessionKey="GetZgwRolTypeByUrlResult">
                 <IbisLocalSender
-                    name="GetZgwRolTypeByUrlSenderHttp"
-                    javaListener="GetZgwRolTypeByUrl">
-                    <Param name="RolTypeUrl" xpathExpression="/results/roltype" type="STRING"/>
+                    name="GetZgwRolTypeByUrlLocalSender"
+                    javaListener="Zaken_GetZgwRolTypeByUrl">
+                    <Param name="Url" xpathExpression="/results/roltype" type="STRING"/>
                 </IbisLocalSender>
                 <Forward name="success" path="GetSingleResultFromZgwRolEnvelope"/>
             </SenderPipe>

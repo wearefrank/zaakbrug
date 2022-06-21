@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.8-20220615.111815">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.8-20220620.161826">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>Container of Adapters that belong together.
@@ -6930,12 +6930,12 @@
   <xs:attributeGroup name="ShadowSenderDeclaredAttributeGroup">
     <xs:attribute name="originalSender" type="xs:string">
       <xs:annotation>
-        <xs:documentation>the default or original sender</xs:documentation>
+        <xs:documentation>The default or original sender name</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="resultSender" type="xs:string">
       <xs:annotation>
-        <xs:documentation>the sender which will process all results</xs:documentation>
+        <xs:documentation>The sender name which will process the results</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -14453,7 +14453,7 @@
  You can use the &amp;lt;child&amp;gt; tag to register RecordHandlers, RecordHandlerManagers, ResultHandlers
  and RecordHandlingFlow elements. This is deprecated, however. Since 4.7 one should use &amp;lt;manager&amp;gt;,
  &amp;lt;recordHandler&amp;gt;, &amp;lt;resultHandler&amp;gt; and &amp;lt;flow&amp;gt;
- 
+
  For files containing only a single type of lines, a simpler configuration without managers and flows
  can be specified. A single recordHandler with key="*" and (optional) a single resultHandler need to be specified.
  Each line will be handled by this recordHandler and resultHandler.</xs:documentation>
@@ -15041,9 +15041,29 @@
       </xs:element>
       <xs:element name="FixedResultPipe">
         <xs:annotation>
-          <xs:documentation>Provides an example of a pipe. It may return the contents of a file
- (in the classpath) when &lt;code&gt;filename&lt;/code&gt; or &lt;code&gt;filenameSessionKey&lt;/code&gt; is specified, otherwise the
- input of &lt;code&gt;returnString&lt;/code&gt; is returned.</xs:documentation>
+          <xs:documentation>Produces a fixed result that does not depend on the input message. It may return the contents of a file
+ when &lt;code&gt;filename&lt;/code&gt; or &lt;code&gt;filenameSessionKey&lt;/code&gt; is specified. Otherwise the
+ value of attribute &lt;code&gt;returnString&lt;/code&gt; is returned.
+ &lt;br/&gt;&lt;br/&gt;
+ Using parameters and the attributes of this pipe, it is possible to substitute values. This pipe
+ performs the following steps:
+ &lt;ol&gt;
+ &lt;li&gt;During execution, this pipe first obtains a string based on attributes &lt;code&gt;returnString&lt;/code&gt;, &lt;code&gt;filename&lt;/code&gt; or &lt;code&gt;filenameSessionKey&lt;/code&gt;.
+ &lt;li&gt;The resulting string is transformed according to attributes &lt;code&gt;replaceFrom&lt;/code&gt; and &lt;code&gt;replaceTo&lt;/code&gt; if set.
+ Please note that the plain value of attribute &lt;code&gt;replaceFrom&lt;/code&gt; is matched, no &lt;code&gt;${...}&lt;/code&gt; here.
+ &lt;li&gt;The resulting string is substituted based on the parameters of this pipe. This step depends on attribute &lt;code&gt;replaceFixedParams&lt;/code&gt;.
+ Assume that there is a parameter with name &lt;code&gt;xyz&lt;/code&gt;. If &lt;code&gt;replaceFixedParams&lt;/code&gt; is &lt;code&gt;false&lt;/code&gt;, then
+ each occurrence of &lt;code&gt;${xyz}&lt;/code&gt; is replaced by the parameter's value. Otherwise, the text &lt;code&gt;xyz&lt;/code&gt;
+ is substituted. See nl.nn.adapterframework.parameters.Parameter to see how parameter values are determined.
+ &lt;li&gt;If attribute &lt;code&gt;substituteVars&lt;/code&gt; is &lt;code&gt;true&lt;/code&gt;, then expressions &lt;code&gt;${...}&lt;/code&gt; are substituted using
+ system properties, pipelinesession variables and application properties. Please note that
+ no &lt;code&gt;${...}&lt;/code&gt; patterns are left if the initial string came from attribute &lt;code&gt;returnString&lt;/code&gt;, because
+ any &lt;code&gt;${...}&lt;/code&gt; pattern in attribute &lt;code&gt;returnString&lt;/code&gt; is substituted when the configuration is loaded.
+ &lt;li&gt;If attribute &lt;code&gt;styleSheetName&lt;/code&gt; is set, then the referenced XSLT stylesheet is applied to the resulting string.
+ &lt;/ol&gt;  
+ &lt;br/&gt;&lt;br/&gt;
+ Many attributes of this pipe reference file names. If a file is referenced by a relative path, the path
+ is relative to the configuration's root directory.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:complexContent>
@@ -16066,10 +16086,10 @@
  &lt;ul&gt;
  	&lt;li&gt;String refering to a filename&lt;/li&gt;
   &lt;li&gt;File&lt;/li&gt;
-  &lt;li&gt;InputStream&lt;/li&gt; 
+  &lt;li&gt;InputStream&lt;/li&gt;
  &lt;/ul&gt;
- The message sent each time to the sender is the filename of the entry found in the archive. 
- The contents of the archive is available as a Stream or a String in a session variable. 
+ The message sent each time to the sender is the filename of the entry found in the archive.
+ The contents of the archive is available as a Stream or a String in a session variable.
 
  &lt;br&gt;</xs:documentation>
         </xs:annotation>
@@ -17396,38 +17416,43 @@
   <xs:attributeGroup name="FixedResultPipeDeclaredAttributeGroup">
     <xs:attribute name="substituteVars" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>should values between ${ and } be resolved from the pipelinesession (search order: 1) system properties 2) pipelinesession variables 3) application properties) Default: false</xs:documentation>
+        <xs:documentation>Should values between ${ and } be resolved. If true, the search order of replacement values is:
+ system properties (1), pipelinesession variables (2), application properties (3). Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="filename" type="xs:string">
       <xs:annotation>
-        <xs:documentation>name of the file containing the resultmessage</xs:documentation>
+        <xs:documentation>Name of the file containing the result message.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="filenameSessionKey" type="xs:string">
       <xs:annotation>
-        <xs:documentation>name of the session key containing the file name of the file containing the result message</xs:documentation>
+        <xs:documentation>Name of the session key containing the file name of the file containing the result message.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="returnString" type="xs:string">
       <xs:annotation>
-        <xs:documentation>returned message</xs:documentation>
+        <xs:documentation>Returned message.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="replaceFrom" type="xs:string">
       <xs:annotation>
-        <xs:documentation>When set, any match in the result string will be replaced by the value of &lt;code&gt;replaceTo&lt;/code&gt; attribute</xs:documentation>
+        <xs:documentation>If set, every occurrence of this attribute's value is replaced by the value of &lt;code&gt;replaceTo&lt;/code&gt;.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="replaceTo" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Target value for the matches of attribute &lt;code&gt;replaceFrom&lt;/code&gt; in the result string</xs:documentation>
+        <xs:documentation>See &lt;code&gt;replaceFrom&lt;/code&gt;.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="styleSheetName" type="xs:string" />
+    <xs:attribute name="styleSheetName" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>File name of XSLT stylesheet to apply.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="replaceFixedParams" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>when set &lt;code&gt;true&lt;/code&gt;, any parameter is used for replacements but with &lt;code&gt;name-of-parameter&lt;/code&gt; and not &lt;code&gt;${name-of-parameter}&lt;/code&gt; Default: false</xs:documentation>
+        <xs:documentation>When set &lt;code&gt;true&lt;/code&gt;, parameter replacement matches &lt;code&gt;name-of-parameter&lt;/code&gt;, not &lt;code&gt;${name-of-parameter}&lt;/code&gt; Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -18929,12 +18954,12 @@
   <xs:attributeGroup name="SkipPipeDeclaredAttributeGroup">
     <xs:attribute name="skip" type="frankInt">
       <xs:annotation>
-        <xs:documentation>number of bytes (for byte array input) or characters (for string input) to skip. an empty byte array or string is returned when skip is larger then the length of the input Default: 0</xs:documentation>
+        <xs:documentation>Number of bytes (for binary input) or characters (for character input) to skip. An empty byte array or string is returned when skip is larger then the length of the input Default: 0</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="length" type="frankInt">
       <xs:annotation>
-        <xs:documentation>if length&gt;=0 only these number of bytes (for byte array input) or characters (for string input) is returned. Default: -1</xs:documentation>
+        <xs:documentation>If length&gt;=0 only these number of bytes (for binary input) or characters (for character input) is returned. Default: -1</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -19103,7 +19128,7 @@
     </xs:attribute>
     <xs:attribute name="assumeDirectoryExists" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>if set &lt;code&gt;true&lt;/code&gt;, validation of directory is ignored Default: false</xs:documentation>
+        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, validation of directory is ignored Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -19489,12 +19514,12 @@
     <xs:attribute name="jobGroup" type="xs:string" />
     <xs:attribute name="name" type="xs:string" use="required">
       <xs:annotation>
-        <xs:documentation>Name of the job"</xs:documentation>
+        <xs:documentation>Name of the job</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="description" type="xs:string">
       <xs:annotation>
-        <xs:documentation>(Optional) Description of the job</xs:documentation>
+        <xs:documentation>Description of the job</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="cronExpression" type="xs:string">
@@ -19599,7 +19624,7 @@
     <xs:attribute name="className" type="xs:string" fixed="nl.nn.adapterframework.scheduler.job.IbisActionJob" use="prohibited" />
   </xs:complexType>
   <xs:attributeGroup name="IbisActionJobDeclaredAttributeGroup">
-    <xs:attribute name="action">
+    <xs:attribute name="action" use="required">
       <xs:simpleType>
         <xs:union memberTypes="ActionAttributeValuesType variableRef" />
       </xs:simpleType>
