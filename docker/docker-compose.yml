@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  frank:
+    image: frank2zgw
+    build: ..
+    ports:
+      - "8080:8080"
+    environment:
+      - dtap.stage=LOC
+      - instance.name=Frank2ZGW
+      - database.instance.name=frank2zgw
+      - database.host=database
+      - database.name=database
+      - database/username=database_user
+      - database/password=database_password
+    depends_on:
+      - database
+  database:
+    image: "postgres"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=database_user
+      - POSTGRES_PASSWORD=database_password
+      - POSTGRES_DB=database
