@@ -14,11 +14,10 @@ jobs:
     steps:
   
     - uses: djbender/docker-buildx-pull-or-build@v0.5
-    - name: Docker pull
+      name: Docker pull
       with:
           dockerfile: openzaak/open-zaak
         
-    - uses: actions/checkout@v2
     - name: Docker build
       run: docker-compose up
     
