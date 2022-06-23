@@ -35,13 +35,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /api/server/health
-              port: http
-          readinessProbe:
+          startupProbe:
             httpGet:
               path: /api/server/health
               port: http
