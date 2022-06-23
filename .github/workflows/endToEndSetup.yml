@@ -1,0 +1,25 @@
+name: EndToEnd setup
+
+on:
+  workflow_run:
+    workflows: ["CI build"]
+    types:
+      - completed
+    
+  workflow_dispatch:
+
+jobs:
+  setup_data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy Stage
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://webhook.site/ec53e8e9-ab32-4abd-b88d-5aee035862fa'
+          method: 'POST'
+#           username: 'admin'
+#           password: 'admin'
+          customHeaders: '{"Content-Type": "application/json"}'
+          data: '{"key_1": "value_1", "key_2": "value_2"}'
+
