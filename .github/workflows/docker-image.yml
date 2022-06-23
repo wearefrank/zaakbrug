@@ -13,4 +13,4 @@ jobs:
 
     steps:
     - name: Docker pull
-      run: docker pull openzaak/open-zaak && docker-compose up
+      run: docker pull openzaak/open-zaak && docker start openzaak/open-zaak
