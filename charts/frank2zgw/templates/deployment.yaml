@@ -39,7 +39,7 @@ spec:
               protocol: TCP
           startupProbe:
             httpGet:
-              path: /api/server/health
+              path: /iaf/api/server/health
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
