@@ -1,0 +1,45 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="GetZaakInformatieObjectenByZaak"
+        active="${GetZaakInformatieObjectenByZaak.Active}"
+        description="">
+
+        <Receiver name="GetZaakInformatieObjectenByZaak">
+            <JavaListener name="GetZaakInformatieObjectenByZaak"/>
+        </Receiver>
+
+        <Pipeline>  
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+			<SenderPipe name="GetZaakInformatieObjectenByZaak">
+				<HttpSender 
+					name="GetZaakInformatieObjectenByZaakSender" 
+					methodType="GET"
+					headersParams="Authorization,Accept-Crs"
+					url="${zgw.baseurl}${zgw.endpoint.zaakinformatieobject}"
+                    timeout="${creeerZaak.timeout}"
+				/>
+                <Param name="zaak" sessionKey="ZaakUrl"/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Forward name="success" path="JsonToXml" />
+			</SenderPipe>
+
+            <JsonPipe name="JsonToXml">
+                <Forward name="success" path="UnwrapZgwZaakInformatieObjectToList"/>
+            </JsonPipe>
+
+            <XsltPipe
+                name="UnwrapZgwZaakInformatieObjectToList"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
+                >
+                <Param name="List" value="ZgwZaakInformatieObjecten"/>
+                <Param name="Type" value="ZgwZaakInformatieObject"/>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

@@ -1,0 +1,48 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="GeefLijstZaakdocumenten"
+        active="${GeefLijstZaakdocumenten.Active}"
+        description="">
+
+        <Receiver name="GeefLijstZaakdocumenten">
+            <JavaListener name="GeefLijstZaakdocumenten"/>
+        </Receiver>
+
+        <Pipeline>  
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+			<SenderPipe
+                name="CallGetZgwZaak"
+                storeResultInSessionKey="GetZaakResult">
+                <IbisLocalSender
+                    name="CallGetZgwZaakSender"
+                    javaListener="GetZgwZaak">
+                    <Param name="Identificatie" sessionKey="zaakidentificatie"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CallGetZaakInformatieObjectenByZaak"/>
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallGetZaakInformatieObjectenByZaak"
+                storeResultInSessionKey="GetZaakInformatieObjectenResult">
+                <IbisLocalSender
+                    name="CallGetZaakInformatieObjectenByZaakSender"
+                    javaListener="GetZaakInformatieObjectenByZaak">
+                    <Param name="ZaakUrl" xpathExpression="ZgwZaken/ZgwZaak/url"/>
+                </IbisLocalSender>
+                <Forward name="success" path="ZgwZaakInformatieObjectenIterator"/>
+            </SenderPipe>
+
+            <ForEachChildElementPipe name="ZgwZaakInformatieObjectenIterator"
+                elementXPathExpression="/ZgwZaakInformatieObjecten/ZgwZaakInformatieObject">
+                <IbisLocalSender
+                    name="CallHandleZgwZaakInformatieObjecten"
+                    javaListener="HandleZgwZaakInformatieObjecten">
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+            </ForEachChildElementPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

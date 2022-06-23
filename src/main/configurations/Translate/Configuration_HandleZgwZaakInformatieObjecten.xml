@@ -1,0 +1,66 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="HandleZgwZaakInformatieObjecten"
+        active="${HandleZgwZaakInformatieObjecten.Active}"
+        description="">
+
+        <Receiver name="HandleZgwZaakInformatieObjecten">
+            <JavaListener name="HandleZgwZaakInformatieObjecten"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="EXCEPTION" state="ERROR" />
+            </Exits>
+
+			<SenderPipe
+                name="CallGetZaakDocumentByUrl"
+                storeResultInSessionKey="GetZaakDocumentResult">
+                <IbisLocalSender
+                    name="CallGetZaakDocumentSender"
+                    javaListener="GetZaakDocumentByUrl">
+                    <Param name="DocumentUrl" xpathExpression="/ZgwZaakInformatieObject/informatieobject"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForGetZaakDocumentResult"/>
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForGetZaakDocumentResult"
+                xpathExpression="string-length(/ZgwEnkelvoudigInformatieObject/informatieobjecttype) = 0"
+                >
+                <Forward name="then" path="EXCEPTION"/>
+                <Forward name="else" path="CallGetZgwInformatieObjectTypeByUrl"/>
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="CallGetZgwInformatieObjectTypeByUrl"
+                storeResultInSessionKey="GetZgwInformatieObjectTypeResult">
+                <IbisLocalSender
+                    name="CallGetZgwInformatieObjectTypeSender"
+                    javaListener="GetZgwInformatieObjectTypeByUrl">
+                    <Param name="InformatieObjectType" xpathExpression="/ZgwEnkelvoudigInformatieObject/informatieobjecttype"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForGetZgwInformatieObjectTypeResult"/>
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForGetZgwInformatieObjectTypeResult"
+                xpathExpression="string-length(/ZgwInformatieObjectType) = 0"
+                >
+                <Forward name="then" path="EXCEPTION"/>
+                <Forward name="else" path="MapHeeftRelevant"/>
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="MapHeeftRelevant"
+                getInputFromSessionKey="GetZaakDocumentResult"
+                storeResultInSessionKey="HeeftRelevant"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="ZaakDocument/xsl/ZdsHeeftRelevant.xsl"
+                >
+                <Param name="ZgwInformatieObjectType" sessionKey="GetZgwInformatieObjectTypeResult" type="DOMDOC"/>
+                <Param name="ZgwZaakInformatieObject" sessionKey="originalMessage" type="DOMDOC"/>
+                <Forward name="success" path="EXIT"/>
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>
