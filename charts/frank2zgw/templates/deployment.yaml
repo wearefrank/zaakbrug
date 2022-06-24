@@ -33,6 +33,10 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "nexus.frankframework.org/frank-framework:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+          - name: context-config
+            mountPath: /usr/local/tomcat/conf
+            subPath: config.yaml
           ports:
             - name: http
               containerPort: 8080
@@ -44,6 +48,10 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
+      volumes:
+      - name: context-config
+        configMap:
+          name: {{ include "frank2zgw.fullname" . }}-context-config
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
