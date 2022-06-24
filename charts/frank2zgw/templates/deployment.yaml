@@ -35,8 +35,8 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - name: context-config
-              mountPath: /usr/local/tomcat/conf
-              subPath: config.yaml
+              mountPath: /usr/local/tomcat/conf/context.xml
+              subPath: context.xml
             - name: frank
               mountPath: /opt/frank/configurations
               subPath: configurations
@@ -64,6 +64,7 @@ spec:
       - name: pv-claim-storage
         persistentVolumeClaim:
           claimName: task-pv-claim
+          name: {{ include "frank2zgw.fullname" . }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
