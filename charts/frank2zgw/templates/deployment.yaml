@@ -37,15 +37,15 @@ spec:
             - name: context-config
               mountPath: /usr/local/tomcat/conf/context.xml
               subPath: context.xml
-{{/*            - name: frank*/}}
-{{/*              mountPath: /opt/frank/configurations*/}}
-{{/*              subPath: configurations*/}}
-{{/*            - name: frank*/}}
-{{/*              mountPath: /opt/frank/resources*/}}
-{{/*              subPath: resources*/}}
-{{/*            - name: frank*/}}
-{{/*              mountPath: /opt/frank/testtool*/}}
-{{/*              subPath: testtool*/}}
+            - name: frank
+              mountPath: /opt/frank/configurations
+              subPath: configurations
+            - name: frank
+              mountPath: /opt/frank/resources
+              subPath: resources
+            - name: frank
+              mountPath: /opt/frank/testtool
+              subPath: testtool
           ports:
             - name: http
               containerPort: 8080
@@ -56,7 +56,7 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
+{{/*      {{- with .Values.nodeSelector }}*/}}
       volumes:
         - name: context-config
           configMap:
@@ -64,12 +64,12 @@ spec:
 {{/*            items:*/}}
 {{/*              - key: context.xml*/}}
 {{/*                path: context.xml*/}}
-{{/*        - name: frank*/}}
-{{/*          persistentVolumeClaim:*/}}
-{{/*            claimName: task-pv-claim*/}}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        - name: frank
+          persistentVolumeClaim:
+            claimName: task-pv-claim
+{{/*      nodeSelector:*/}}
+{{/*        {{- toYaml . | nindent 8 }}*/}}
+{{/*      {{- end }}*/}}
       {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
