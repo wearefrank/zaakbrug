@@ -37,15 +37,15 @@ spec:
             - name: context-config
               mountPath: /usr/local/tomcat/conf/context.xml
               subPath: context.xml
-            - name: frank
-              mountPath: /opt/frank/configurations
-              subPath: configurations
-            - name: frank
-              mountPath: /opt/frank/resources
-              subPath: resources
-            - name: frank
-              mountPath: /opt/frank/testtool
-              subPath: testtool
+{{/*            - name: frank*/}}
+{{/*              mountPath: /opt/frank/configurations*/}}
+{{/*              subPath: configurations*/}}
+{{/*            - name: frank*/}}
+{{/*              mountPath: /opt/frank/resources*/}}
+{{/*              subPath: resources*/}}
+{{/*            - name: frank*/}}
+{{/*              mountPath: /opt/frank/testtool*/}}
+{{/*              subPath: testtool*/}}
           ports:
             - name: http
               containerPort: 8080
@@ -58,13 +58,15 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       volumes:
-      - name: context-config
-        configMap:
-          name: {{ include "frank2zgw.fullname" . }}-context-config
-      - name: pv-claim-storage
-        persistentVolumeClaim:
-          claimName: task-pv-claim
-          name: {{ include "frank2zgw.fullname" . }}
+        - name: context-config
+          configMap:
+            name: {{ include "frank2zgw.fullname" . }}-context-config
+{{/*            items:*/}}
+{{/*              - key: context.xml*/}}
+{{/*                path: context.xml*/}}
+{{/*        - name: frank*/}}
+{{/*          persistentVolumeClaim:*/}}
+{{/*            claimName: task-pv-claim*/}}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
