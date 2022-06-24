@@ -34,9 +34,18 @@ spec:
           image: "nexus.frankframework.org/frank-framework:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
-          - name: context-config
-            mountPath: /usr/local/tomcat/conf
-            subPath: config.yaml
+            - name: context-config
+              mountPath: /usr/local/tomcat/conf
+              subPath: config.yaml
+            - name: frank
+              mountPath: /opt/frank/configurations
+              subPath: configurations
+            - name: frank
+              mountPath: /opt/frank/resources
+              subPath: resources
+            - name: frank
+              mountPath: /opt/frank/testtool
+              subPath: testtool
           ports:
             - name: http
               containerPort: 8080
@@ -52,6 +61,9 @@ spec:
       - name: context-config
         configMap:
           name: {{ include "frank2zgw.fullname" . }}-context-config
+      - name: pv-claim-storage
+        persistentVolumeClaim:
+          claimName: task-pv-claim
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
