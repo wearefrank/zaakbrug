@@ -51,7 +51,6 @@
             <XsltPipe
                 name="GetRsin"
                 storeResultInSessionKey="GetRsinResult"
-                removeNamespaces="true"
                 skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/GetRsin.xsl"
                 >
@@ -160,7 +159,7 @@
                 <IbisLocalSender
                     name="CallSetResultaatAndStatusSender"
                     javaListener="SetResultaatAndStatus">
-                    <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>                   
+                    <Param name="ZgwZaakType" sessionKey="GetZaakTypeResult" type="DOMDOC"/>                   
                     <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/ZgwZaak/url">
                         <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
                     </Param>

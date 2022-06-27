@@ -9,12 +9,12 @@
     </xsl:template>
     
 	<xsl:template match="/">
-		<endStatus>
-            <xsl:for-each select="results/result/newStatuses/zgwStatus">
+		<ZgwStatus>
+            <xsl:for-each select="ZgwStatusses/ZgwStatus">
                 <xsl:if test="statustype = $EndStatusType/ZgwStatusType/url">
                     <xsl:apply-templates select="@*|node()"/>
                 </xsl:if>
             </xsl:for-each> 
-        </endStatus>
+        </ZgwStatus>
 	</xsl:template>
 </xsl:stylesheet>

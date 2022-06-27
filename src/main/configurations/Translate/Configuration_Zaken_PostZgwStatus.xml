@@ -1,17 +1,17 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="PostStatusAdapter"
-        active="${PostStatusAdapter.Active}"
+    <Adapter name="Zaken_PostZgwStatus"
+        active="${Zaken_PostZgwStatus.Active}"
         description="">
 
-        <Receiver name="PostStatusAdapter">
-            <JavaListener name="PostStatusAdapter"/>
+        <Receiver name="Zaken_PostZgwStatus">
+            <JavaListener name="Zaken_PostZgwStatus"/>
         </Receiver>
 
         <Pipeline>
             <Json2XmlInputValidator
                 name="ValidatePostBody"
-                schema="CreeerZaak_LK01/xsd/ZgwStatus.xsd"
-                root="zgwStatus"
+                schema="Zgw/Zaken/Model/ZgwStatus.xsd"
+                root="ZgwStatus"
                 outputFormat="JSON"
                 deepSearch="true"
                 throwException="true">

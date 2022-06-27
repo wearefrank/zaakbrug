@@ -4,10 +4,10 @@
 
     <xsl:template match="/">
         <result>
-            <xsl:for-each select="root/results">
-                <xsl:if test="zgw:convertZdsDatetimeToZgwDatetime(datumStatusGezet) = zgw:convertZdsDatetimeToZgwDatetime($StatusBody/zgwStatus/datumStatusGezet)">
+            <xsl:for-each select="ZgwStatussen/ZgwStatus">
+                <xsl:if test="zgw:convertZdsDatetimeToZgwDatetime(datumStatusGezet) = zgw:convertZdsDatetimeToZgwDatetime($StatusBody/ZgwStatus/datumStatusGezet)">
                     <xsl:choose>
-                        <xsl:when test="statustype != $StatusBody/zgwStatus/statustype">
+                        <xsl:when test="statustype != $StatusBody/ZgwStatus/statustype">
                             <exception>ConverterException</exception>
                         </xsl:when>
                         <xsl:otherwise>

@@ -15,6 +15,7 @@
 
 			<ForEachChildElementPipe 
                 name="ZaakTypeInformatieObjectTypeUrlIterator"
+                getInputFromSessionKey="ZgwZaakType"
                 storeResultInSessionKey="ZgwInformatieObjectTypen"
                 elementXPathExpression="/ZgwZaakType/informatieobjecttypen">
                 <IbisLocalSender

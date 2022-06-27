@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.8-20220601.094449">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.8-20220615.111815">
   <xs:element name="Configuration">
     <xs:annotation>
-      <xs:documentation>The Configuration is the container of all configuration objects.</xs:documentation>
+      <xs:documentation>Container of Adapters that belong together.
+ A configuration may be deployed independently from other configurations.
+ Names of nested elements like Adapters, Receivers, listeners and senders
+ can be reused in other configurations.
+ &lt;br/&gt;&lt;br/&gt;
+ Configurations are shown in the Frank!Console along with their Adapters,
+ Receivers, listeners and senders. The Adapter Status page of the Frank!Console
+ has a tab for each configuration that only shows information
+ about that configuration. See the Frank!Manual for details.</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -22,23 +30,22 @@
   </xs:element>
   <xs:complexType name="AdapterType">
     <xs:annotation>
-      <xs:documentation>The Adapter is the central manager in the IBIS Adapterframework, that has knowledge
- and uses Receivers and a PipeLine.
- &lt;br/&gt;
- &lt;b&gt;Responsibilities&lt;/b&gt;&lt;br/&gt;
- &lt;ul&gt;
-   &lt;li&gt;keeping and gathering statistics&lt;/li&gt;
-   &lt;li&gt;processing messages, retrieved from IReceivers&lt;/li&gt;
-   &lt;li&gt;starting and stoppping IReceivers&lt;/li&gt;
-   &lt;li&gt;delivering error messages in a specified format&lt;/li&gt;
- &lt;/ul&gt;
- All messages from IReceivers pass through the adapter (multi threaded).
- Multiple receivers may be attached to one adapter.&lt;br/&gt;
- &lt;br/&gt;
- The actual processing of messages is delegated to the PipeLine
- object, which returns a PipeLineResult. If an error occurs during
- the pipeline execution, the state in the &lt;code&gt;PipeLineResult&lt;/code&gt; is set
- to the state specified by &lt;code&gt;setErrorState&lt;/code&gt;, which defaults to "ERROR".</xs:documentation>
+      <xs:documentation>An Adapter receives a specific type of messages and processes them. It has Receivers
+ that receive the messages and a PipeLine that transforms the incoming messages. Each adapter is part of a Configuration.
+ &lt;br&gt;&lt;/br&gt;
+ If an adapter can receive its messages through multiple channels (e.g. RESTful HTTP requests, incoming files, etc),
+ each channel appears as a separate Receiver nested in the adapter. Each Receiver is also responsible
+ for dealing with
+ the result of its received messages; the result is the output of the PipeLine. The result
+ consists of the transformed message and a state. The Frank!Framework distinguishes between exit states
+ SUCCESS and ERROR. There is also a state REJECTED for messages that are not accepted by the Frank!Framework
+ and that are not processed by the PipeLine. If the exit state is ERROR, the result message may
+ not be usable by the calling system. This can be fixed by adding an
+ errorMessageFormatter that formats the result message if the state is ERROR.
+ &lt;br/&gt;&lt;br/&gt;
+ Adapters gather statistics about the messages they process.
+ &lt;br&gt;&lt;/br&gt;
+ Adapters can process messages in parallel. They are thread-safe.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:element name="Receiver" minOccurs="1" maxOccurs="unbounded" type="ReceiverType" />
@@ -94,27 +101,28 @@
   </xs:complexType>
   <xs:complexType name="ReceiverType">
     <xs:annotation>
-      <xs:documentation>The receiver is the trigger and central communicator for the framework.
- &lt;br/&gt;
- The main responsibilities are:
- &lt;ul&gt;
-    &lt;li&gt;receiving messages&lt;/li&gt;
-    &lt;li&gt;for asynchronous receivers (which have a separate sender):&lt;br/&gt;
-            &lt;ul&gt;&lt;li&gt;initializing ISender objects&lt;/li&gt;
-                &lt;li&gt;stopping ISender objects&lt;/li&gt;
-                &lt;li&gt;sending the message with the ISender object&lt;/li&gt;
-            &lt;/ul&gt;
-    &lt;li&gt;synchronous receivers give the result directly&lt;/li&gt;
-    &lt;li&gt;take care of connection, sessions etc. to startup and shutdown&lt;/li&gt;
- &lt;/ul&gt;
- Listeners call the IAdapter.processMessage(String correlationID,String message)
- to do the actual work, which returns a &lt;code&gt;PipeLineResult&lt;/code&gt;. The receiver
- may observe the status in the &lt;code&gt;PipeLineResult&lt;/code&gt; to perform committing
- requests.
-
-
- &lt;/p&gt;
- &lt;p&gt;&lt;b&gt;Transaction control&lt;/b&gt;&lt;br&gt;
+      <xs:documentation>Wrapper for a listener that specifies a channel for the incoming messages of a specific Adapter.
+ By choosing a listener, the Frank developer determines how the messages are received.
+ For example, an nl.nn.adapterframework.http.rest.ApiListener receives RESTful HTTP requests and a
+ JavaListener receives messages from direct Java calls.
+ &lt;br/&gt;&lt;br/&gt;
+ Apart from wrapping the listener, a Receiver can be configured
+ to store received messages and to keep track of the processed / failed
+ status of these messages.
+ &lt;br/&gt;&lt;br/&gt;
+ There are two kinds of listeners: synchronous listeners and asynchronous listeners.
+ Synchronous listeners are expected to return a response. The system that triggers the
+ receiver typically waits for a response before proceeding its operation. When a
+ nl.nn.adapterframework.http.rest.ApiListener receives a HTTP request, the listener is expected to return a
+ HTTP response. Asynchronous listeners are not expected to return a response. The system that
+ triggers the listener typically continues without waiting for the adapter to finish. When a
+ receiver contains an asynchronous listener, it can have a sender that sends the transformed
+ message to its destination. Receivers with an asynchronous listener can also have an error sender that is used
+ by the receiver to send error messages. In other words: if the result state is SUCCESS then the
+ message is sent by the ordinary sender, while the error sender is used if the result state
+ is ERROR.
+ &lt;br/&gt;&lt;br/&gt;
+ &lt;b&gt;Transaction control&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;
  If transacted is set to &lt;code&gt;true&lt;/code&gt;, messages will be received and processed under transaction control.
  This means that after a message has been read and processed and the transaction has ended, one of the following apply:
  &lt;ul&gt;
@@ -127,7 +135,7 @@
  &lt;tr&gt;&lt;td&gt;transfer to errorSender failed&lt;/td&gt;&lt;td&gt;message read and committed&lt;/td&gt;&lt;td&gt;message processing failed and rolled back&lt;/td&gt;&lt;td&gt;message present&lt;/td&gt;&lt;td&gt;unchanged&lt;/td&gt;&lt;td&gt;message only transferred from listener to inProcess storage&lt;/td&gt;&lt;/tr&gt;
  &lt;/table&gt;
  If the application or the server crashes in the middle of one or more transactions, these transactions
- will be recovered and rolled back after the server/application is restarted. Then allways exactly one of
+ will be recovered and rolled back after the server/application is restarted. Then always exactly one of
  the following applies for any message touched at any time by Ibis by a transacted receiver:
  &lt;ul&gt;
  &lt;li&gt;It is processed correctly by the pipeline and removed from the input-queue,
@@ -280,7 +288,7 @@
     <xs:attribute name="removeCompactMsgNamespaces" type="frankBoolean" />
     <xs:attribute name="hideRegex" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Regular expression to mask strings in the errorStore/logStore. Every character between to the strings in this expression will be replaced by a '*'. For example, the regular expression (?&amp;lt;=&amp;lt;party&amp;gt;).*?(?=&amp;lt;/party&amp;gt;) will replace every character between keys&lt;party&gt; and &lt;/party&gt;</xs:documentation>
+        <xs:documentation>Regular expression to mask strings in the errorStore/logStore. Every character between to the strings in this expression will be replaced by a '*'. For example, the regular expression (?&amp;lt;=&amp;lt;party&amp;gt;).*?(?=&amp;lt;/party&amp;gt;) will replace every character between keys &amp;lt;party&amp;gt; and &amp;lt;/party&amp;gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="hideMethod" type="xs:string">
@@ -511,15 +519,19 @@
   </xs:complexType>
   <xs:complexType name="PipelineType">
     <xs:annotation>
-      <xs:documentation>Processor and keeper of a line of Pipes.
- &lt;br/&gt;
- Pipelines also generate statics information per Pipe and keep forwards, that are registered
- at individual pipes during the configure phase.
- &lt;br/&gt;
- In the AppConstants there may be a property named "log.logIntermediaryResults" (true/false)
+      <xs:documentation>Required in each Adapter to transform incoming messages. A pipeline
+ is a sequence of pipes. A
+ pipeline also defines its allowed end states using the &lt;code&gt;&amp;lt;Exits&amp;gt;&lt;/code&gt;
+ tag.
+ &lt;br/&gt;&lt;br/&gt;
+ The pipes in a PipeLine may not be executed in sequential order, see PipeForward.
+ &lt;br/&gt;&lt;br/&gt;
+ A pipeline gathers statistics about the messages it processes.
+ &lt;br/&gt;&lt;br/&gt;
+ In the AppConstants there may be a property named &lt;code&gt;log.logIntermediaryResults&lt;/code&gt; (true/false)
  which indicates whether the intermediary results (between calling pipes) have to be logged.
  &lt;br/&gt;&lt;br/&gt;
- &lt;b&gt;Transaction control&lt;/b&gt;&lt;br&gt;
+ &lt;b&gt;Transaction control&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;
  THE FOLLOWING TO BE UPDATED, attribute 'transacted' replaced by 'transactionAttribute'
 
  If transacted is set to &lt;code&gt;true&lt;/code&gt;, messages will be processed
@@ -540,8 +552,7 @@
 
  If the processing of the message concluded without exceptions and the status of the transaction is
  STATUS_ACTIVE (i.e. normal) the transaction will be committed. Otherwise it will be rolled back,
- or marked for roll back by the calling party.
- &lt;/p&gt;</xs:documentation>
+ or marked for roll back by the calling party.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:group ref="InputValidatorElementGroup" minOccurs="0" maxOccurs="1" />
@@ -963,7 +974,7 @@
   </xs:complexType>
   <xs:complexType name="SchedulerType">
     <xs:annotation>
-      <xs:documentation>Configure/start/stop lifecycles are managed by Spring. See ConfiguringLifecycleProcessor</xs:documentation>
+      <xs:documentation>Container for jobs that are scheduled for periodic execution.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:group ref="JobElementGroup" minOccurs="0" maxOccurs="unbounded" />
@@ -1096,7 +1107,11 @@
       <xs:group ref="TriggerElementGroup" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
     <xs:attribute name="destinations" type="xs:string" />
-    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The functional name of the object.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="type">
       <xs:simpleType>
         <xs:union memberTypes="EventTypeEnumAttributeValuesType variableRef" />
@@ -1827,17 +1842,17 @@
       <xs:element name="IbisLocalSender">
         <xs:annotation>
           <xs:documentation>Posts a message to another IBIS-adapter in the same IBIS instance.
- 
+
  An IbisLocalSender makes a call to a Receiver with either a WebServiceListener
  or a JavaListener.
 
  Any parameters are copied to the PipeLineSession of the service called.
- 
+
  &lt;h3&gt;Configuration of the Adapter to be called&lt;/h3&gt;
  A call to another Adapter in the same IBIS instance is preferably made using the combination
  of an IbisLocalSender and a JavaListener. If,
  however, a Receiver with a WebServiceListener is already present, that can be used in some cases, too.
-  
+
  &lt;h4&gt;configuring IbisLocalSender and JavaListener&lt;/h4&gt;
  &lt;ul&gt;
    &lt;li&gt;Define a SenderPipe with an IbisLocalSender&lt;/li&gt;
@@ -1851,9 +1866,9 @@
    &lt;li&gt;Do not set the attribute &lt;code&gt;serviceName&lt;/code&gt;, except if the service is to be called also
        from applications other than this IBIS-instance&lt;/li&gt;
  &lt;/ul&gt;
- 
+
  &lt;h4&gt;configuring IbisLocalSender and WebServiceListener&lt;/h4&gt;
- 
+
  &lt;ul&gt;
    &lt;li&gt;Define a SenderPipe with an IbisLocalSender&lt;/li&gt;
    &lt;li&gt;Set the attribute &lt;code&gt;serviceName&lt;/code&gt; to &lt;i&gt;yourIbisWebServiceName&lt;/i&gt;&lt;/li&gt;
@@ -2693,7 +2708,11 @@
     <xs:attribute name="className" type="xs:string" fixed="nl.nn.adapterframework.extensions.afm.Afm2EdiFactSender" use="prohibited" />
   </xs:complexType>
   <xs:attributeGroup name="Afm2EdiFactSenderDeclaredAttributeGroup">
-    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The functional name of the object.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="destination" type="xs:string" />
     <xs:attribute name="postbus" type="xs:string" />
     <xs:attribute name="tpnummer" type="xs:string" />
@@ -3162,7 +3181,7 @@
   <xs:attributeGroup name="CommandSenderDeclaredAttributeGroup">
     <xs:attribute name="command" type="xs:string">
       <xs:annotation>
-        <xs:documentation>The command to be executed. Note: Executing a command in WAS requires &lt;&lt;ALL FILES&gt;&gt; execute permission to avoid that provide the absolute path of the command. Absolute path can be found with the following command 'which -a {commandName}'</xs:documentation>
+        <xs:documentation>The command to be executed. Note: Executing a command in WAS requires &amp;lt;&amp;lt;ALL FILES&amp;gt;&amp;gt; execute permission to avoid that provide the absolute path of the command. Absolute path can be found with the following command 'which -a {commandName}'</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="timeOut" type="frankInt">
@@ -5052,7 +5071,11 @@
         <xs:documentation>the ApplicationID, in the form of "IFSA://&lt;i&gt;AppId&lt;/i&gt;"</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The functional name of the object.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="timeOut" type="frankInt">
       <xs:annotation>
         <xs:documentation>The receive timeout in milliseconds. To use the timeout defined as IFSA expiry, set this value to -1 Default: 20000</xs:documentation>
@@ -5957,7 +5980,7 @@
     </xs:attribute>
     <xs:attribute name="hideRegex" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Regular expression to mask strings in the errorStore/logStore. Every character between to the strings in this expression will be replaced by a '*'. For example, the regular expression (?&amp;lt;=&amp;lt;party&amp;gt;).*?(?=&amp;lt;/party&amp;gt;) will replace every character between keys&lt;party&gt; and &lt;/party&gt;</xs:documentation>
+        <xs:documentation>Regular expression to mask strings in the errorStore/logStore. Every character between to the strings in this expression will be replaced by a '*'. For example, the regular expression (?&amp;lt;=&amp;lt;party&amp;gt;).*?(?=&amp;lt;/party&amp;gt;) will replace every character between keys &amp;lt;party&amp;gt; and &amp;lt;/party&amp;gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="hideMethod" type="xs:string">
@@ -6069,7 +6092,11 @@
     <xs:attribute name="className" type="xs:string" fixed="nl.nn.adapterframework.extensions.mqtt.MqttFacade" use="prohibited" />
   </xs:complexType>
   <xs:attributeGroup name="MqttFacadeDeclaredAttributeGroup">
-    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The functional name of the object.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="timeout" type="frankInt" />
     <xs:attribute name="keepAliveInterval" type="frankInt" />
     <xs:attribute name="clientId" type="xs:string" />
@@ -7246,7 +7273,11 @@
     </xs:sequence>
   </xs:group>
   <xs:attributeGroup name="XmlValidatorSenderDeclaredAttributeGroup">
-    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The functional name of the object.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:attributeGroup>
   <xs:attributeGroup name="XmlValidatorSenderCumulativeAttributeGroup">
     <xs:attributeGroup ref="XmlValidatorSenderDeclaredAttributeGroup" />
@@ -7503,7 +7534,7 @@
  &lt;p&gt;
  To understand what this listener does exactly, please remember that the Frank!Framework is a Java application.
  The JavaListener listens to Java method calls. You can issue Java method calls using a nl.nn.adapterframework.senders.IbisJavaSender (external call)
- or nl.nn.adapterframework.senders.IbisLocalSender (internal call). 
+ or nl.nn.adapterframework.senders.IbisLocalSender (internal call).
  For more information see the ibis-servicedispatcher project.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -7914,11 +7945,19 @@
         <xs:annotation>
           <xs:documentation>Listener that allows a nl.nn.adapterframework.receivers.Receiver to receive messages as a SOAP webservice.
  The structure of the SOAP messages is expressed in a WSDL (Web Services Description Language) document.
- The Frank!Framework generates a WSDL document for each adapter that contains WebServiceListener-s. You can
+ The Frank!Framework generates a WSDL document for each adapter that contains WebServiceListeners. You can
  find these documents in the Frank!Console under main menu item Webservices, heading Available WSDL's.
  The WSDL documents that we generate document how the SOAP services can be accessed. In particular, the
  URL of a SOAP service can be found in an XML element &lt;code&gt;&amp;lt;soap:address&amp;gt;&lt;/code&gt; with
- &lt;code&gt;soap&lt;/code&gt; pointing to namespace &lt;code&gt;http://schemas.xmlsoap.org/wsdl/soap/&lt;/code&gt;.</xs:documentation>
+ &lt;code&gt;soap&lt;/code&gt; pointing to namespace &lt;code&gt;http://schemas.xmlsoap.org/wsdl/soap/&lt;/code&gt;.
+
+ &lt;br/&gt;If &lt;code&gt;address&lt;/code&gt; is set, then for each request:&lt;ul&gt;
+ &lt;li&gt;MIME headers are described in a 'mimeHeaders'-XML stored under session key 'mimeHeaders'&lt;/li&gt;
+ &lt;li&gt;Attachments present in the request are described by an 'attachments'-XML stored under session key 'attachments'&lt;/li&gt;
+ &lt;li&gt;SOAP protocol is stored under a session key 'soapProtocol'&lt;/li&gt;
+ &lt;li&gt;SOAP action is stored under a session key 'SOAPAction'&lt;/li&gt;
+ &lt;/ul&gt;
+ and for each response a multipart message is constructed if a 'multipart'-XML is provided in sessionKey specified by multipartXmlSessionKey.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:complexContent>
@@ -8085,7 +8124,6 @@
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="applicationFaultsAsExceptions" type="frankBoolean" />
-    <xs:attribute name="running" type="frankBoolean" />
     <xs:attribute ref="active" />
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
@@ -9264,23 +9302,38 @@
   <xs:attributeGroup name="WebServiceListenerDeclaredAttributeGroup">
     <xs:attribute name="soap" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>when &lt;code&gt;true&lt;/code&gt; the soap envelope is removed from received messages and a soap envelope is added to returned messages (soap envelope will not be visible to the pipeline) Default: true</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt; the SOAP envelope is removed from received messages and a SOAP envelope is added to returned messages (SOAP envelope will not be visible to the pipeline) Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="serviceNamespaceURI" type="xs:string">
       <xs:annotation>
-        <xs:documentation>namespace of the service that is provided by the adapter of this listener</xs:documentation>
+        <xs:documentation>Namespace of the service that is provided by the adapter of this listener.
+ If specified, requests posted to https://mydomain.com/ibis4something/servlet/rpcrouter that have this namespace in their body  will be handled by this listener,
+ where mydomain.com and ibis4something refer to 'your ibis'.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="applicationFaultsAsSoapFaults" type="frankBoolean" />
     <xs:attribute name="address" type="xs:string">
       <xs:annotation>
-        <xs:documentation>The address to listen to, e.g the part &amp;lt;address&amp;gt; in https://mydomain.com/ibis4something/services/&amp;lt;address&amp;gt;, where mydomain.com and ibis4something refer to 'your ibis'</xs:documentation>
+        <xs:documentation>The address to listen to, e.g the part &amp;lt;address&amp;gt; in https://mydomain.com/ibis4something/services/&amp;lt;address&amp;gt;,
+ where mydomain.com and ibis4something refer to 'your ibis'.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="mtomEnabled" type="frankBoolean" />
-    <xs:attribute name="attachmentSessionKeys" type="xs:string" />
-    <xs:attribute name="multipartXmlSessionKey" type="xs:string" />
+    <xs:attribute name="mtomEnabled" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>If set, MTOM is enabled on the SOAP binding</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="attachmentSessionKeys" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Comma separated list of session keys to hold contents of attachments of the request</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="multipartXmlSessionKey" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Key of session variable that holds the description (name, sessionKey, mimeType) of the parts present in the request. Only used if attachmentSessionKeys are specified Default: multipartXml</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:attributeGroup>
   <xs:attributeGroup name="WebServiceListenerCumulativeAttributeGroup">
     <xs:attributeGroup ref="WebServiceListenerDeclaredAttributeGroup" />
@@ -9698,17 +9751,17 @@
       <xs:element name="IbisLocalErrorSender">
         <xs:annotation>
           <xs:documentation>Posts a message to another IBIS-adapter in the same IBIS instance.
- 
+
  An IbisLocalSender makes a call to a Receiver with either a WebServiceListener
  or a JavaListener.
 
  Any parameters are copied to the PipeLineSession of the service called.
- 
+
  &lt;h3&gt;Configuration of the Adapter to be called&lt;/h3&gt;
  A call to another Adapter in the same IBIS instance is preferably made using the combination
  of an IbisLocalSender and a JavaListener. If,
  however, a Receiver with a WebServiceListener is already present, that can be used in some cases, too.
-  
+
  &lt;h4&gt;configuring IbisLocalSender and JavaListener&lt;/h4&gt;
  &lt;ul&gt;
    &lt;li&gt;Define a SenderPipe with an IbisLocalSender&lt;/li&gt;
@@ -9722,9 +9775,9 @@
    &lt;li&gt;Do not set the attribute &lt;code&gt;serviceName&lt;/code&gt;, except if the service is to be called also
        from applications other than this IBIS-instance&lt;/li&gt;
  &lt;/ul&gt;
- 
+
  &lt;h4&gt;configuring IbisLocalSender and WebServiceListener&lt;/h4&gt;
- 
+
  &lt;ul&gt;
    &lt;li&gt;Define a SenderPipe with an IbisLocalSender&lt;/li&gt;
    &lt;li&gt;Set the attribute &lt;code&gt;serviceName&lt;/code&gt; to &lt;i&gt;yourIbisWebServiceName&lt;/i&gt;&lt;/li&gt;
@@ -10616,82 +10669,14 @@
       <xs:element name="JdbcErrorStorage">
         <xs:annotation>
           <xs:documentation>JDBC implementation of ITransactionalStorage.
- 
- 
- For an Oracle database the following objects are used by default:
-  &lt;pre&gt;
-	CREATE TABLE &amp;lt;schema_owner&amp;gt;.IBISSTORE
-	(
-	MESSAGEKEY NUMBER(10),
-	TYPE CHAR(1 CHAR),
-	SLOTID VARCHAR2(100 CHAR),
-	HOST VARCHAR2(100 CHAR),
-	MESSAGEID VARCHAR2(100 CHAR),
-	CORRELATIONID VARCHAR2(256 CHAR),
-	MESSAGEDATE TIMESTAMP(6),
-	COMMENTS VARCHAR2(1000 CHAR),
-	MESSAGE BLOB,
-	EXPIRYDATE TIMESTAMP(6),
-	LABEL VARCHAR2(100 CHAR),
-	CONSTRAINT PK_IBISSTORE PRIMARY KEY (MESSAGEKEY)
-	);
-	
-	CREATE INDEX &amp;lt;schema_owner&amp;gt;.IX_IBISSTORE ON &amp;lt;schema_owner&amp;gt;.IBISSTORE (TYPE, SLOTID, MESSAGEDATE);
-	CREATE INDEX &amp;lt;schema_owner&amp;gt;.IX_IBISSTORE_02 ON &amp;lt;schema_owner&amp;gt;.IBISSTORE (EXPIRYDATE);
-	CREATE SEQUENCE &amp;lt;schema_owner&amp;gt;.SEQ_IBISSTORE;
 
-	GRANT DELETE, INSERT, SELECT, UPDATE ON &amp;lt;schema_owner&amp;gt;.IBISSTORE TO &amp;lt;rolename&amp;gt;;
-	GRANT SELECT ON &amp;lt;schema_owner&amp;gt;.SEQ_IBISSTORE TO &amp;lt;rolename&amp;gt;;
-	GRANT SELECT ON SYS.DBA_PENDING_TRANSACTIONS TO &amp;lt;rolename&amp;gt;;
-	
-	COMMIT;
-  &lt;/pre&gt;
- For an MS SQL Server database the following objects are used by default:
-  &lt;pre&gt;
-	CREATE TABLE IBISSTORE
-	(
-	MESSAGEKEY int identity,
-	TYPE CHAR(1),
-	SLOTID VARCHAR(100),
-	HOST VARCHAR(100),
-	MESSAGEID VARCHAR(100),
-	CORRELATIONID VARCHAR(256),
-	MESSAGEDATE datetime,
-	COMMENTS VARCHAR(1000),
-	MESSAGE varbinary(max),
-	EXPIRYDATE datetime,
-	LABEL VARCHAR(100),
-	CONSTRAINT PK_IBISSTORE PRIMARY KEY (MESSAGEKEY)
-	);
-	
-	CREATE INDEX IX_IBISSTORE ON IBISSTORE (TYPE, SLOTID, MESSAGEDATE);
-	CREATE INDEX IX_IBISSTORE_02 ON IBISSTORE (EXPIRYDATE);
+ Storage structure is defined in /IAF_util/IAF_DatabaseChangelog.xml
 
-	COMMIT;
-  &lt;/pre&gt;
- 
- For a generic database the following objects are used by default:
-  &lt;pre&gt;
-	CREATE TABLE ibisstore (
-	  messageKey INT DEFAULT AUTOINCREMENT CONSTRAINT ibisstore_pk PRIMARY KEY,
-	  type CHAR(1), 
-	  slotId VARCHAR(100), 
-	  host VARCHAR(100),
-	  messageId VARCHAR(100), 
-	  correlationId VARCHAR(256), 
-	  messageDate TIMESTAMP, 
-	  comments VARCHAR(1000), 
-	  message LONG BINARY),
-	  expiryDate TIMESTAMP, 
-	  label VARCHAR(100); 
-
-	CREATE INDEX ibisstore_idx ON ibisstore (slotId, messageDate, expiryDate);
-  &lt;/pre&gt;
  If these objects do not exist, Ibis will try to create them if the attribute createTable="true".
- 
+
  &lt;br/&gt;
  N.B. Note on using XA transactions:
- If transactions are used, make sure that the database user can access the table SYS.DBA_PENDING_TRANSACTIONS.
+ If transactions are used on Oracle, make sure that the database user can access the table SYS.DBA_PENDING_TRANSACTIONS.
  If not, transactions present when the server goes down cannot be properly recovered, resulting in exceptions like:
  &lt;pre&gt;
    The error code was XAER_RMERR. The exception stack trace follows: javax.transaction.xa.XAException
@@ -10785,7 +10770,7 @@
     </xs:attribute>
     <xs:attribute name="hideRegex" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Regular expression to mask strings in the errorStore/logStore. Every character between to the strings in this expression will be replaced by a '*'. For example, the regular expression (?&amp;lt;=&amp;lt;party&amp;gt;).*?(?=&amp;lt;/party&amp;gt;) will replace every character between keys&lt;party&gt; and &lt;/party&gt;</xs:documentation>
+        <xs:documentation>Regular expression to mask strings in the errorStore/logStore. Every character between to the strings in this expression will be replaced by a '*'. For example, the regular expression (?&amp;lt;=&amp;lt;party&amp;gt;).*?(?=&amp;lt;/party&amp;gt;) will replace every character between keys &amp;lt;party&amp;gt; and &amp;lt;/party&amp;gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="hideMethod" type="xs:string">
@@ -10855,82 +10840,14 @@
       <xs:element name="JdbcMessageLog">
         <xs:annotation>
           <xs:documentation>JDBC implementation of ITransactionalStorage.
- 
- 
- For an Oracle database the following objects are used by default:
-  &lt;pre&gt;
-	CREATE TABLE &amp;lt;schema_owner&amp;gt;.IBISSTORE
-	(
-	MESSAGEKEY NUMBER(10),
-	TYPE CHAR(1 CHAR),
-	SLOTID VARCHAR2(100 CHAR),
-	HOST VARCHAR2(100 CHAR),
-	MESSAGEID VARCHAR2(100 CHAR),
-	CORRELATIONID VARCHAR2(256 CHAR),
-	MESSAGEDATE TIMESTAMP(6),
-	COMMENTS VARCHAR2(1000 CHAR),
-	MESSAGE BLOB,
-	EXPIRYDATE TIMESTAMP(6),
-	LABEL VARCHAR2(100 CHAR),
-	CONSTRAINT PK_IBISSTORE PRIMARY KEY (MESSAGEKEY)
-	);
-	
-	CREATE INDEX &amp;lt;schema_owner&amp;gt;.IX_IBISSTORE ON &amp;lt;schema_owner&amp;gt;.IBISSTORE (TYPE, SLOTID, MESSAGEDATE);
-	CREATE INDEX &amp;lt;schema_owner&amp;gt;.IX_IBISSTORE_02 ON &amp;lt;schema_owner&amp;gt;.IBISSTORE (EXPIRYDATE);
-	CREATE SEQUENCE &amp;lt;schema_owner&amp;gt;.SEQ_IBISSTORE;
 
-	GRANT DELETE, INSERT, SELECT, UPDATE ON &amp;lt;schema_owner&amp;gt;.IBISSTORE TO &amp;lt;rolename&amp;gt;;
-	GRANT SELECT ON &amp;lt;schema_owner&amp;gt;.SEQ_IBISSTORE TO &amp;lt;rolename&amp;gt;;
-	GRANT SELECT ON SYS.DBA_PENDING_TRANSACTIONS TO &amp;lt;rolename&amp;gt;;
-	
-	COMMIT;
-  &lt;/pre&gt;
- For an MS SQL Server database the following objects are used by default:
-  &lt;pre&gt;
-	CREATE TABLE IBISSTORE
-	(
-	MESSAGEKEY int identity,
-	TYPE CHAR(1),
-	SLOTID VARCHAR(100),
-	HOST VARCHAR(100),
-	MESSAGEID VARCHAR(100),
-	CORRELATIONID VARCHAR(256),
-	MESSAGEDATE datetime,
-	COMMENTS VARCHAR(1000),
-	MESSAGE varbinary(max),
-	EXPIRYDATE datetime,
-	LABEL VARCHAR(100),
-	CONSTRAINT PK_IBISSTORE PRIMARY KEY (MESSAGEKEY)
-	);
-	
-	CREATE INDEX IX_IBISSTORE ON IBISSTORE (TYPE, SLOTID, MESSAGEDATE);
-	CREATE INDEX IX_IBISSTORE_02 ON IBISSTORE (EXPIRYDATE);
+ Storage structure is defined in /IAF_util/IAF_DatabaseChangelog.xml
 
-	COMMIT;
-  &lt;/pre&gt;
- 
- For a generic database the following objects are used by default:
-  &lt;pre&gt;
-	CREATE TABLE ibisstore (
-	  messageKey INT DEFAULT AUTOINCREMENT CONSTRAINT ibisstore_pk PRIMARY KEY,
-	  type CHAR(1), 
-	  slotId VARCHAR(100), 
-	  host VARCHAR(100),
-	  messageId VARCHAR(100), 
-	  correlationId VARCHAR(256), 
-	  messageDate TIMESTAMP, 
-	  comments VARCHAR(1000), 
-	  message LONG BINARY),
-	  expiryDate TIMESTAMP, 
-	  label VARCHAR(100); 
-
-	CREATE INDEX ibisstore_idx ON ibisstore (slotId, messageDate, expiryDate);
-  &lt;/pre&gt;
  If these objects do not exist, Ibis will try to create them if the attribute createTable="true".
- 
+
  &lt;br/&gt;
  N.B. Note on using XA transactions:
- If transactions are used, make sure that the database user can access the table SYS.DBA_PENDING_TRANSACTIONS.
+ If transactions are used on Oracle, make sure that the database user can access the table SYS.DBA_PENDING_TRANSACTIONS.
  If not, transactions present when the server goes down cannot be properly recovered, resulting in exceptions like:
  &lt;pre&gt;
    The error code was XAER_RMERR. The exception stack trace follows: javax.transaction.xa.XAException
@@ -11266,7 +11183,6 @@
         <xs:annotation>
           <xs:documentation>XmlValidator that will automatically add the SOAP envelope XSD to the set of XSD's used for validation.
 
- &lt;b&gt;&lt;A name="note1"&gt;Note 1:&lt;/A&gt;&lt;/b&gt;
  Before the &lt;code&gt;outputSoapBody&lt;/code&gt; attribute was introduced, two validators were used for a request-reply pattern (an inputValidator for the request and an outputValidator for the reply).
  These inputValidator and outputValidator were identical except for the child element of the SOAP body. Because validators use relatively a lot of memory, the &lt;code&gt;outputSoapBody&lt;/code&gt; attribute was added which replaces the outputValidator.
  Both the request and the reply are then validated by the inputValidator.
@@ -11476,6 +11392,11 @@
         <xs:documentation>the wsdl to read the xsd's from</xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="soapBody" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Name of the child element of the SOAP body, or a comma separated list of names to choose from (only one is allowed) (WSDL generator will use the first element) (use empty value to allow an empty SOAP body, for example to allow element x and an empty SOAP body use: x,). In case the request contains SOAPAction header and the WSDL contains an element specific to that SOAPAction, it will use that element as SOAP body.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="schemaLocationToAdd" type="xs:string">
       <xs:annotation>
         <xs:documentation>pairs of uri references which will be added to the wsdl</xs:documentation>
@@ -11489,8 +11410,254 @@
   </xs:attributeGroup>
   <xs:attributeGroup name="WsdlXmlValidatorCumulativeAttributeGroup">
     <xs:attributeGroup ref="WsdlXmlValidatorDeclaredAttributeGroup" />
-    <xs:attributeGroup ref="SoapValidatorCumulativeAttributeGroup" />
+    <xs:attribute name="outputSoapBody" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Identical to the &lt;code&gt;soapBody&lt;/code&gt; attribute except that it's used for the output message instead of the input message. For more information see &lt;a href="#note1"&gt;note 1&lt;/a&gt;</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="soapHeader" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Name of the child element of the SOAP header, or a comma separated list of names to choose from (only one is allowed) (wsdl generator will use the first element) (use empty value to allow an empty soap header, for example to allow element x and an empty soap header use: x,)</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="soapHeaderNamespace" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Can be used when the SOAP header element exists multiple times</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="soapVersion">
+      <xs:simpleType>
+        <xs:union memberTypes="SoapVersionAttributeValuesType variableRef">
+          <xs:annotation>
+            <xs:documentation>SOAP envelope XSD version to use Default: 1.1</xs:documentation>
+          </xs:annotation>
+        </xs:union>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="allowPlainXml" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>Allow plain XML, without a SOAP Envelope, too. Be aware that setting this true inhibits the capability to test for exit specific response roots in SOAP messages Default: false</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Json2XmlValidatorDeclaredAttributeGroup" />
+    <xs:attribute name="schemaLocation" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Pairs of URI references (one for the namespace name, and one for a hint as to the location of a schema document defining names for that namespace name).&lt;br/&gt;
+ The syntax is the same as for schemaLocation attributes in instance documents: e.g, "http://www.example.com file%20name.xsd".&lt;br/&gt;
+ The user can specify more than one XML Schema in the list.&lt;br/&gt;
+ &lt;b&gt;Note&lt;/b&gt; that spaces are considered separators for this attributed. This means that, for example, spaces in filenames should be escaped to %20.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="noNamespaceSchemaLocation" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>A uri reference as a hint as to the location of a schema document with no target namespace.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="schemaSessionKey" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>session key for retrieving a schema</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="responseRoot" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Name of the response root element, or a comma separated list of element names. The validation fails if the root element is not present in the list. N.B. for WSDL generation only the first element is used</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="fullSchemaChecking" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>Enable full schema grammar constraint checking, including checking which
+ may be time-consuming or memory intensive. Currently, particle unique
+ attribution constraint checking and particle derivation restriction
+ checking are controlled by this option.
+ &lt;p&gt;
+ see property
+ http://apache.org/xml/features/validation/schema-full-checking
+ &lt;/p&gt;</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="throwException" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>Should the XmlValidator throw a PipeRunexception on a validation error. If not, a forward with name 'failure' must be defined. Default: false</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="reasonSessionKey" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>If set: key of session variable to store reasons of mis-validation in Default: failureReason</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="xmlReasonSessionKey" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Like &lt;code&gt;reasonSessionKey&lt;/code&gt; but stores reasons in xml format and more extensive Default: xmlFailureReason</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="validateFile" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, the input is assumed to be the name of the file to be validated. Otherwise the input itself is validated Default: false</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="charset" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Characterset used for reading file, only used when &lt;code&gt;validateFile&lt;/code&gt; is &lt;code&gt;true&lt;/code&gt; Default: utf-8</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="addNamespaceToSchema" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, the namespace from schemalocation is added to the schema document as targetnamespace Default: false</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="importedSchemaLocationsToIgnore" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Comma separated list of schemaLocations which are excluded from an import or include in the schema document</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="useBaseImportedSchemaLocationsToIgnore" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, the comparison for importedSchemaLocationsToIgnore is done on base filename without any path Default: false</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="importedNamespacesToIgnore" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Comma separated list of namespaces which are excluded from an import or include in the schema document</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="warn" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, send warnings to logging and console about syntax problems in the configured schema('s) Default: true</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="ignoreUnknownNamespaces" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>Ignore namespaces in the input message which are unknown Default: true when &lt;code&gt;schema&lt;/code&gt; or &lt;code&gt;noNamespaceSchemaLocation&lt;/code&gt; is used, false otherwise</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="ignoreCaching" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, the number for caching validators in appConstants is ignored and no caching is done (for this validator only) Default: false</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="xmlSchemaVersion" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>If set to &lt;code&gt;1.0&lt;/code&gt;, Xerces's previous XML Schema factory will be used, which would make all XSD 1.1 features illegal. The default behaviour can also be set with &lt;code&gt;xsd.processor.version&lt;/code&gt; property.  Default: &lt;code&gt;1.1&lt;/code&gt;</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="rootElementSessionKey" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>key of session variable to store the name of the root element</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="rootNamespaceSessionKey" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>key of session variable to store the namespace of the root element</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The functional name of this pipe. Can be referenced by the &lt;code&gt;path&lt;/code&gt; attribute of a PipeForward.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="FixedForwardPipeDeclaredAttributeGroup" />
+    <xs:attribute name="getInputFromSessionKey" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>If set, input is taken from this session key, instead of regular input</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="getInputFromFixedValue" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>If set, this fixed value is taken as input, instead of regular input</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="emptyInputReplacement" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>If set and the input is empty, this fixed value is taken as input</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="preserveInput" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, the result of the pipe is replaced with the original input (i.e. the input before configured replacements of &lt;code&gt;getInputFromSessionKey&lt;/code&gt;, &lt;code&gt;getInputFromFixedValue&lt;/code&gt; or &lt;code&gt;emptyInputReplacement&lt;/code&gt;)</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="storeResultInSessionKey" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>If set, the result (before replacing when &lt;code&gt;true&lt;/code&gt;) is stored under this session key</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="maxThreads" type="frankInt">
+      <xs:annotation>
+        <xs:documentation>Maximum number of threads that may call session) simultaneously, use 0 to disable limit Default: 0</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="chompCharSize" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>If set (&gt;=0) and the character data length inside a xml element exceeds this size, the character data is chomped (with a clear comment)</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="elementToMove" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>If set, the character data in this element is stored under a session key and in the message replaced by a reference to this session key: {sessionkey: + &lt;code&gt;elementToMoveSessionKey&lt;/code&gt; + }</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="elementToMoveSessionKey" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>(Only used when &lt;code&gt;elementToMove&lt;/code&gt; is set) Name of the session key under which the character data is stored Default: ref_ + the name of the element</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="elementToMoveChain" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Like &lt;code&gt;elementToMove&lt;/code&gt; but element is preceded with all ancestor elements and separated by semicolons (e.g. 'adapter;pipeline;pipe')</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="durationThreshold" type="frankInt">
+      <xs:annotation>
+        <xs:documentation>If durationThreshold &gt;=0 and the duration of the message processing exceeded the value specified (in milliseconds) the message is logged informatory to be analyzed Default: -1</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="removeCompactMsgNamespaces" type="frankBoolean" />
+    <xs:attribute name="restoreMovedElements" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, compacted messages in the result are restored to their original format (see also  #setElementToMove(java.lang.String))</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="sizeStatistics" type="frankBoolean" />
+    <xs:attribute name="writeToSecLog" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>when set to &lt;code&gt;true&lt;/code&gt; a record is written to the security log when the pipe has finished successfully</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="secLogSessionKeys" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>(only used when &lt;code&gt;writeToSecLog=true&lt;/code&gt;) comma separated list of keys of session variables that is appended to the security log record</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="logIntermediaryResults" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>when set, the value in AppConstants is overwritten (for this pipe only)</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="hideRegex" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Regular expression to mask strings in the log. For example, the regular expression &lt;code&gt;(?&amp;lt;=&amp;lt;password&amp;gt;).*?(?=&amp;lt;/password&amp;gt;)&lt;/code&gt;
+ will replace every character between keys '&amp;lt;password&amp;gt;' and '&amp;lt;/password&amp;gt;'. &lt;b&gt;note:&lt;/b&gt; this feature is used at adapter level,
+ so one pipe affects all pipes in the pipeline (and multiple values in different pipes are merged)</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="TransactionAttributesDeclaredAttributeGroup" />
   </xs:attributeGroup>
+  <xs:simpleType name="SoapVersionAttributeValuesType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="1.1" />
+      <xs:enumeration value="1.2" />
+      <xs:enumeration value="none">
+        <xs:annotation>
+          <xs:documentation>No wrapping or unwrapping will be done</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="auto">
+        <xs:annotation>
+          <xs:documentation>Try to auto-detect the value</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
   <xs:complexType name="SoapValidatorType">
     <xs:group ref="AbstractPipeDeclaredChildGroup" />
     <xs:attributeGroup ref="SoapValidatorCumulativeAttributeGroup" />
@@ -11532,22 +11699,6 @@
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
-  <xs:simpleType name="SoapVersionAttributeValuesType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="1.1" />
-      <xs:enumeration value="1.2" />
-      <xs:enumeration value="none">
-        <xs:annotation>
-          <xs:documentation>No wrapping or unwrapping will be done</xs:documentation>
-        </xs:annotation>
-      </xs:enumeration>
-      <xs:enumeration value="auto">
-        <xs:annotation>
-          <xs:documentation>Try to auto-detect the value</xs:documentation>
-        </xs:annotation>
-      </xs:enumeration>
-    </xs:restriction>
-  </xs:simpleType>
   <xs:attributeGroup name="SoapValidatorCumulativeAttributeGroup">
     <xs:attributeGroup ref="SoapValidatorDeclaredAttributeGroup" />
     <xs:attributeGroup ref="Json2XmlValidatorDeclaredAttributeGroup" />
@@ -12091,10 +12242,43 @@
     <xs:attribute name="className" type="xs:string" fixed="nl.nn.adapterframework.extensions.esb.EsbSoapValidator" use="prohibited" />
   </xs:complexType>
   <xs:attributeGroup name="EsbSoapValidatorDeclaredAttributeGroup">
-    <xs:attribute name="direction" type="xs:string" />
-    <xs:attribute name="mode" type="xs:string" />
+    <xs:attribute name="direction">
+      <xs:simpleType>
+        <xs:union memberTypes="DirectionAttributeValuesType_2 variableRef" />
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="mode">
+      <xs:simpleType>
+        <xs:union memberTypes="ModeAttributeValuesType variableRef" />
+      </xs:simpleType>
+    </xs:attribute>
     <xs:attribute name="cmhVersion" type="frankInt" />
   </xs:attributeGroup>
+  <xs:simpleType name="DirectionAttributeValuesType_2">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="INPUT" />
+      <xs:enumeration value="OUTPUT" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ModeAttributeValuesType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="I2T">
+        <xs:annotation>
+          <xs:documentation>ifsa2tibco</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="REG">
+        <xs:annotation>
+          <xs:documentation>Regular</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BIS">
+        <xs:annotation>
+          <xs:documentation>Business Integration Services</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
   <xs:attributeGroup name="EsbSoapValidatorCumulativeAttributeGroup">
     <xs:attributeGroup ref="EsbSoapValidatorDeclaredAttributeGroup" />
     <xs:attributeGroup ref="SoapValidatorCumulativeAttributeGroup" />
@@ -12316,7 +12500,6 @@
         <xs:annotation>
           <xs:documentation>XmlValidator that will automatically add the SOAP envelope XSD to the set of XSD's used for validation.
 
- &lt;b&gt;&lt;A name="note1"&gt;Note 1:&lt;/A&gt;&lt;/b&gt;
  Before the &lt;code&gt;outputSoapBody&lt;/code&gt; attribute was introduced, two validators were used for a request-reply pattern (an inputValidator for the request and an outputValidator for the reply).
  These inputValidator and outputValidator were identical except for the child element of the SOAP body. Because validators use relatively a lot of memory, the &lt;code&gt;outputSoapBody&lt;/code&gt; attribute was added which replaces the outputValidator.
  Both the request and the reply are then validated by the inputValidator.
@@ -12691,7 +12874,7 @@
   <xs:attributeGroup name="SoapWrapperPipeDeclaredAttributeGroup">
     <xs:attribute name="direction">
       <xs:simpleType>
-        <xs:union memberTypes="DirectionAttributeValuesType_2 variableRef">
+        <xs:union memberTypes="DirectionAttributeValuesType_3 variableRef">
           <xs:annotation>
             <xs:documentation>Default: wrap</xs:documentation>
           </xs:annotation>
@@ -12818,7 +13001,7 @@
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
-  <xs:simpleType name="DirectionAttributeValuesType_2">
+  <xs:simpleType name="DirectionAttributeValuesType_3">
     <xs:restriction base="xs:string">
       <xs:enumeration value="WRAP" />
       <xs:enumeration value="UNWRAP" />
@@ -12964,25 +13147,6 @@
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
-  <xs:simpleType name="ModeAttributeValuesType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="I2T">
-        <xs:annotation>
-          <xs:documentation>ifsa2tibco</xs:documentation>
-        </xs:annotation>
-      </xs:enumeration>
-      <xs:enumeration value="REG">
-        <xs:annotation>
-          <xs:documentation>Regular</xs:documentation>
-        </xs:annotation>
-      </xs:enumeration>
-      <xs:enumeration value="BIS">
-        <xs:annotation>
-          <xs:documentation>Business Integration Services</xs:documentation>
-        </xs:annotation>
-      </xs:enumeration>
-    </xs:restriction>
-  </xs:simpleType>
   <xs:attributeGroup name="EsbSoapWrapperPipeCumulativeAttributeGroup">
     <xs:attributeGroup ref="EsbSoapWrapperPipeDeclaredAttributeGroup" />
     <xs:attributeGroup ref="SoapWrapperPipeCumulativeAttributeGroup" />
@@ -15610,7 +15774,6 @@
         <xs:annotation>
           <xs:documentation>XmlValidator that will automatically add the SOAP envelope XSD to the set of XSD's used for validation.
 
- &lt;b&gt;&lt;A name="note1"&gt;Note 1:&lt;/A&gt;&lt;/b&gt;
  Before the &lt;code&gt;outputSoapBody&lt;/code&gt; attribute was introduced, two validators were used for a request-reply pattern (an inputValidator for the request and an outputValidator for the reply).
  These inputValidator and outputValidator were identical except for the child element of the SOAP body. Because validators use relatively a lot of memory, the &lt;code&gt;outputSoapBody&lt;/code&gt; attribute was added which replaces the outputValidator.
  Both the request and the reply are then validated by the inputValidator.
@@ -15951,7 +16114,7 @@
     </xs:attribute>
     <xs:attribute name="direction">
       <xs:simpleType>
-        <xs:union memberTypes="DirectionAttributeValuesType_3 variableRef">
+        <xs:union memberTypes="DirectionAttributeValuesType_4 variableRef">
           <xs:annotation>
             <xs:documentation>Transformation direction. Default: Adios2Xml</xs:documentation>
           </xs:annotation>
@@ -15974,7 +16137,7 @@
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
-  <xs:simpleType name="DirectionAttributeValuesType_3">
+  <xs:simpleType name="DirectionAttributeValuesType_4">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Xml2Adios">
         <xs:annotation>
@@ -17549,7 +17712,7 @@
   <xs:attributeGroup name="JsonPipeDeclaredAttributeGroup">
     <xs:attribute name="direction">
       <xs:simpleType>
-        <xs:union memberTypes="DirectionAttributeValuesType_4 variableRef">
+        <xs:union memberTypes="DirectionAttributeValuesType_5 variableRef">
           <xs:annotation>
             <xs:documentation>Direction of the transformation. Default: JSON2XML</xs:documentation>
           </xs:annotation>
@@ -17567,7 +17730,7 @@
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
-  <xs:simpleType name="DirectionAttributeValuesType_4">
+  <xs:simpleType name="DirectionAttributeValuesType_5">
     <xs:restriction base="xs:string">
       <xs:enumeration value="JSON2XML" />
       <xs:enumeration value="XML2JSON" />

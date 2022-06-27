@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zgw="http://google.com/zgw">
+    <xs:import namespace="http://google.com/zgw" schemaLocation="../ZgwZakenApi.xsd" />
+    <xs:element name="ZgwStatus">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="zaak" type="zgw:Uri1_1000" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="statustype" type="zgw:Uri1_1000" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="datumStatusGezet" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="statustoelichting" type="zgw:AN1000" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema> 

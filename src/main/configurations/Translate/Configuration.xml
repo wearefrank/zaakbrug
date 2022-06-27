@@ -2,15 +2,17 @@
   <!ENTITY ActualiseerZaakStatus                          SYSTEM "./Configuration_ActualiseerZaakStatus.xml">
   <!ENTITY AddRolToZgw                                    SYSTEM "./Configuration_AddRolToZgw.xml">
   <!ENTITY AndereZaak                                     SYSTEM "./Configuration_AndereZaak.xml">
+  <!ENTITY ConvertISO639Taal                              SYSTEM "./Configuration_ConvertISO639Taal.xml">
   <!ENTITY CreeerZaak_Lk01                                SYSTEM "./Configuration_CreeerZaak_Lk01.xml">
   <!ENTITY DeleteRolFromZgw                               SYSTEM "./Configuration_DeleteRolFromZgw.xml">
   <!ENTITY DetectRolChanges                               SYSTEM "./Configuration_DetectRolChanges.xml">
+  <!ENTITY Documenten_PostZgwEnkelvoudigInformatieObject  SYSTEM "./Configuration_Documenten_PostZgwEnkelvoudigInformatieObject.xml">
   <!ENTITY GenereerDocumentIdentificatie_SOAP             SYSTEM "./Configuration_GenereerDocumentIdentificatie_SOAP.xml">
   <!ENTITY GenereerIdentificatieEmulator                  SYSTEM "./Configuration_GenereerIdentificatieEmulator.xml">
   <!ENTITY GenereerZaakIdentificatie_SOAP                 SYSTEM "./Configuration_GenereerZaakIdentificatie_SOAP.xml">
   <!ENTITY GetResultaatTypeByZaakTypeAndOmschrijving      SYSTEM "./Configuration_GetResultaatTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetResultatenByZaakUrl                         SYSTEM "./Configuration_GetResultatenByZaakUrl.xml">
-  <!ENTITY GetStatussenByZaakUrl                          SYSTEM "./Configuration_GetStatussenByZaakUrl.xml">
+  <!ENTITY Zaken_GetZgwStatusByZaakUrl                    SYSTEM "./Configuration_Zaken_GetZgwStatusByZaakUrl.xml">
   <!ENTITY GetStatusTypeByZaakTypeAndOmschrijving         SYSTEM "./Configuration_GetStatusTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetStatusTypes                                 SYSTEM "./Configuration_GetStatusTypes.xml">
   <!ENTITY GetZaakTypeByUrl                               SYSTEM "./Configuration_GetZaakTypeByUrl.xml">
@@ -32,7 +34,7 @@
   <!ENTITY PatchRelevanteAndereZaak                       SYSTEM "./Configuration_PatchRelevanteAndereZaak.xml">
   <!ENTITY PostResultaat                                  SYSTEM "./Configuration_PostResultaat.xml">
   <!ENTITY PostRol                                        SYSTEM "./Configuration_PostRol.xml">
-  <!ENTITY PostStatus                                     SYSTEM "./Configuration_PostStatus.xml">
+  <!ENTITY Zaken_PostZgwStatus                            SYSTEM "./Configuration_Zaken_PostZgwStatus.xml">
   <!ENTITY PostZaak                                       SYSTEM "./Configuration_PostZaak.xml">
   <!ENTITY RolHandler                                     SYSTEM "./Configuration_RolHandler.xml">
   <!ENTITY SetResultaatAndStatus                          SYSTEM "./Configuration_SetResultaatAndStatus.xml">
@@ -42,6 +44,7 @@
   <!ENTITY UpdateRolInZgw                                 SYSTEM "./Configuration_UpdateRolInZgw.xml">
   <!ENTITY UpdateZaak_Lk01                                SYSTEM "./Configuration_UpdateZaak_Lk01.xml">
   <!ENTITY VoegZaakdocumentToe_Lk01                       SYSTEM "./Configuration_VoegZaakdocumentToe_Lk01.xml">
+  <!ENTITY Zaken_PostZgwZaakInformatieObject              SYSTEM "./Configuration_Zaken_PostZgwZaakInformatieObject.xml">
   <!ENTITY ZdsHeeft                                       SYSTEM "./Configuration_ZdsHeeft.xml">
   ]>
 
@@ -49,15 +52,17 @@
   &ActualiseerZaakStatus;
   &AddRolToZgw;
   &AndereZaak;
+  &ConvertISO639Taal;
   &CreeerZaak_Lk01;
   &DeleteRolFromZgw;
   &DetectRolChanges;
+  &Documenten_PostZgwEnkelvoudigInformatieObject;
   &GenereerDocumentIdentificatie_SOAP;
   &GenereerIdentificatieEmulator;
   &GenereerZaakIdentificatie_SOAP;
   &GetResultaatTypeByZaakTypeAndOmschrijving;
   &GetResultatenByZaakUrl;
-  &GetStatussenByZaakUrl;
+  &Zaken_GetZgwStatusByZaakUrl;
   &GetStatusTypeByZaakTypeAndOmschrijving;
   &GetStatusTypes;
   &GetZaakTypeByUrl;
@@ -79,7 +84,7 @@
   &PatchRelevanteAndereZaak;
   &PostResultaat;
   &PostRol;
-  &PostStatus;
+  &Zaken_PostZgwStatus;
   &PostZaak;
   &RolHandler;
   &SetResultaatAndStatus;
@@ -89,5 +94,6 @@
   &UpdateRolInZgw;
   &UpdateZaak_Lk01;
   &VoegZaakdocumentToe_Lk01;
+  &Zaken_PostZgwZaakInformatieObject;
   &ZdsHeeft;
 </configuration>

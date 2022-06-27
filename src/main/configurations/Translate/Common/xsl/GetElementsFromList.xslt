@@ -2,24 +2,34 @@
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="yes"/>
     <xsl:param name="Where" select="''" as="xs:string"/>
     <xsl:param name="Equals" select="''"/>
+    <xsl:param name="StartsWith" select="''"/>
     
     <xsl:template match="/">
-        <xsl:apply-templates select="/*"/>
+        <xsl:element name="{local-name(*)}">
+            <xsl:apply-templates select="/*/*"/>
+        </xsl:element>
     </xsl:template>
     
     <xsl:template match="*">
-        <xsl:element name="{local-name()}">
-            <xsl:choose>
-                <xsl:when test="$Where = ''">
-                    <xsl:copy-of select="*"/>
-                </xsl:when>    
-                <xsl:otherwise>
-                    <xsl:if test="descendant::*[name() = $Where] = $Equals">
-                        <xsl:copy-of select="*"/>
+        
+        <xsl:choose>
+            <xsl:when test="$Where = '' and $StartsWith = ''">
+                <xsl:copy-of select="."/>
+            </xsl:when>    
+            <xsl:otherwise>
+                <xsl:variable name="element" select="descendant::*[name() = $Where]"/>
+                <xsl:if test="$Equals">
+                    <xsl:if test="$element = $Equals">
+                        <xsl:copy-of select="."/>
                     </xsl:if>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:element>
+                </xsl:if>
+                <xsl:if test="$StartsWith">
+                    <xsl:if test="starts-with($element, $StartsWith)">
+                        <xsl:copy-of select="."/>
+                    </xsl:if>
+                </xsl:if>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     
 </xsl:stylesheet>

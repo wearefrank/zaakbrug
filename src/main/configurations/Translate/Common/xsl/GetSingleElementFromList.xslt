@@ -5,20 +5,20 @@
     <xsl:param name="Equals" select="''"/>
     
     <xsl:template match="/">
-        <xsl:apply-templates select="/*"/>
+        <xsl:apply-templates select="/*/*"/>
     </xsl:template>
     
     <xsl:template match="*">
         <xsl:choose>
             <xsl:when test="$Where = ''">
                 <xsl:if test="position() = $Nth">
-                    <xsl:copy-of select="*"/>
+                    <xsl:copy-of select="."/>
                 </xsl:if>
             </xsl:when>    
             <xsl:otherwise>
                 <xsl:if test="descendant::*[name() = $Where] = $Equals">
                     <xsl:if test="position() = $Nth">
-                        <xsl:copy-of select="*"/>
+                        <xsl:copy-of select="."/>
                     </xsl:if>
                 </xsl:if>
             </xsl:otherwise>

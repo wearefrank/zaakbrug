@@ -15,29 +15,24 @@
 
             <SenderPipe
                 name="CallGetStatusTypeByZaakType"
-                storeResultInSessionKey="GetStatusTypeByZaakTypeResult">
+                >
                 <IbisLocalSender
                     name="CallGetStatusTypeByZaakTypeSender"
                     javaListener="GetZgwStatusTypes">
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                 </IbisLocalSender>
-                <Forward name="success" path="GetZgwStatusTypeByOmschrijving"/>
+                <Forward name="success" path="GetZgwStatusTypeMatchingOmschrijvingFromList"/>
             </SenderPipe>
-    <!-- How to handle Volgnummer and if no statustype is found with the statusOmschrijving -->
-            <XsltPipe
-                name="GetZgwStatusTypeByOmschrijving"
-                styleSheetName="CreeerZaak_LK01/xsl/GetZgwStatusTypeByOmschrijving.xsl"
-                >
-                <Param name="Omschrijving" sessionKey="Omschrijving"/>
-                <Forward name="success" path="CheckForGetStatusTypeResult"/>
-            </XsltPipe>
 
-            <XmlIfPipe name="CheckForGetStatusTypeResult"
-                xpathExpression="string-length(ZgwStatusTypes/ZgwStatusType) > 0"
+            <XsltPipe
+                name="GetZgwStatusTypeMatchingOmschrijvingFromList"
+                styleSheetName="Common/xsl/GetElementsFromList.xslt"
                 >
-                <Forward name="then" path="EXIT"/>
-                <Forward name="else" path="EXCEPTION"/>
-            </XmlIfPipe>
+                <Param name="Where" value="omschrijving"/>
+                <Param name="StartsWith" sessionKey="Omschrijving"/>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>

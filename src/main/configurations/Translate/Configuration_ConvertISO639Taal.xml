@@ -1,0 +1,58 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="ConvertISO639Taal"
+        active="${ConvertISO639Taal.Active}"
+        description="">
+
+        <Receiver name="ConvertISO639Taal">
+            <JavaListener name="ConvertISO639Taal"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe name="GetISO639CodesFromLocalFSSender">
+                <IbisLocalSender
+                    name="GetISO639CodesFromLocalFSLocalSender"
+                    javaListener="ImportFromLocalFS">
+                    <Param name="FileName" value="${ISO639_Codes_path}"/>                   
+                </IbisLocalSender>
+                <Forward name="success" path="Alpha2Check"/>
+            </SenderPipe>
+
+            <XmlSwitchPipe name="Alpha2Check"
+                xpathExpression="count($Alpha2) > 0"
+                >
+                <Param name="Alpha2" sessionKey="Alpha2" />
+                <Forward name="true" path="GetAlpha3tCodeFromAlpha2" />
+                <Forward name="false" path="Alpha3tCheck" />
+            </XmlSwitchPipe>
+            
+            <XmlSwitchPipe name="Alpha3tCheck"
+                xpathExpression="count($Alpha3t) > 0"
+                >
+                <Param name="Alpha3t" sessionKey="Alpha3t" />
+                <Forward name="true" path="GetAlpha2CodeFromAlpha3t" />
+                <Forward name="false" path="EXCEPTION" />
+            </XmlSwitchPipe>
+
+            <XsltPipe
+                name="GetAlpha3tCodeFromAlpha2"
+                styleSheetName="Common/xsl/GetISO639Code.xslt"
+                >
+                <Param name="Alpha2" sessionKey="Alpha2" /> 
+                <Forward name="success" path="EXIT" />
+            </XsltPipe>
+
+            <XsltPipe
+                name="GetAlpha2CodeFromAlpha3t"
+                styleSheetName="Common/xsl/GetISO639Code.xslt"
+                >
+                <Param name="Alpha3t" sessionKey="Alpha3t" /> 
+                <Forward name="success" path="EXIT" />
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

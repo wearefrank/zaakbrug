@@ -27,6 +27,15 @@
                 <Forward name="parserError" path="NotWellFormed"/>
             </SoapInputValidator> -->
 
+            <XsltPipe
+                name="RemoveComments"
+                styleSheetName="Common/xsl/RemoveComments.xslt"
+                storeResultInSessionKey="SanitizedMessage"
+                >
+                <Forward name="success" path="UnwrapMessage"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
             <SoapWrapperPipe
                 name="UnwrapMessage"
                 storeResultInSessionKey="UnwrapMessageResult"
@@ -50,7 +59,7 @@
                 />
 
             <WsdlXmlValidatorPipe name="http:__www.egem.nl_StUF_sector_zkn_0310_updateZaak_Lk01"
-                getInputFromSessionKey="originalMessage"
+                getInputFromSessionKey="SanitizedMessage"
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl"
                 soapBody="zakLk01"
                 >
@@ -60,7 +69,7 @@
 			</WsdlXmlValidatorPipe>
 
             <WsdlXmlValidatorPipe name="http:__www.egem.nl_StUF_sector_zkn_0310_creeerZaak_Lk01"
-                getInputFromSessionKey="originalMessage"
+                getInputFromSessionKey="SanitizedMessage"
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl"
                 soapBody="zakLk01"
                 >
@@ -93,6 +102,7 @@
            
             <SoapWrapperPipe
                 name="WrapBv03Response"
+                getInputFromFixedValue="&lt;dummy/&gt;"
                 soapBodyStyleSheet="Common/xsl/CreateBv03Response.xslt"
                 >
                 <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC"/>
@@ -102,7 +112,7 @@
             <!-- ActualiseerZaakstatus_Lk01 -->
             <WsdlXmlValidatorPipe 
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_actualiseerZaakstatus_Lk01"
-                getInputFromSessionKey="originalMessage"
+                getInputFromSessionKey="SanitizedMessage"
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
                 soapBody="zakLk01"
                 >
@@ -133,7 +143,7 @@
             <!-- VoegZaakdocumentToe_Lk01 -->
             <WsdlXmlValidatorPipe 
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_voegZaakdocumentToe_Lk01"
-                getInputFromSessionKey="originalMessage"
+                getInputFromSessionKey="SanitizedMessage"
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
                 soapBody="edcLk01"
                 >
@@ -150,7 +160,8 @@
             </SoapWrapperPipe>
 
             <SenderPipe
-                name="VoegZaakdocumentToe_Lk01Sender">
+                name="VoegZaakdocumentToe_Lk01Sender"
+                >
                 <IbisLocalSender
                     name="VoegZaakdocumentToe_Lk01LocalSender"
                     javaListener="VoegZaakdocumentToe_Lk01"
@@ -184,7 +195,7 @@
                 name="WrapFo03Response"
                 soapBodyStyleSheet="Common/xsl/CreateFo03Response.xslt"
                 >
-                <Param name="UnwrapMessageResult" sessionKey="originalMessage" type="DOMDOC"/>
+                <Param name="UnwrapMessageResult" sessionKey="SanitizedMessage" type="DOMDOC"/>
                 <Param name="errorCode"   sessionKey="errorCode"/>
                 <Param name="errorReason" sessionKey="errorReason"/>
                 <Param name="errorDetailText" value="''"/>
