@@ -1,0 +1,38 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="GetZaakDetailsByBsn"
+        active="${GetZaakDetailsByBsn.Active}"
+        description="">
+
+        <Receiver name="GetZaakDetailsByBsn">
+            <JavaListener name="GetZaakDetailsByBsn"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+			<SenderPipe
+                name="CallGetRollenByBsn"
+                storeResultInSessionKey="GetRollenByBsnResult">
+                <IbisLocalSender
+                    name="CallGetRollenByBsnSender"
+                    javaListener="GetRollenByBsn">
+                    <Param name="Bsn" sessionKey="Bsn"/>
+                </IbisLocalSender>
+                <Forward name="success" path="RolIterator"/>
+            </SenderPipe>
+
+            <ForEachChildElementPipe name="RolIterator"
+                storeResultInSessionKey="GetZaakDetailsByRolResults"
+                elementXPathExpression="/ZgwRollen/ZgwRol">
+                <IbisLocalSender
+                    name="CallGetZaakDetailsByRol"
+                    javaListener="GetZaakDetailsByRol">
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+            </ForEachChildElementPipe>
+        </Pipeline>
+    </Adapter>
+</Module>
