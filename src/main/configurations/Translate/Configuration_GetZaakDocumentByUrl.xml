@@ -1,0 +1,51 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="GetZaakDocumentByUrl"
+        active="${GetZaakDocumentByUrl.Active}"
+        description="">
+
+        <Receiver name="GetZaakDocumentByUrl">
+            <JavaListener name="GetZaakDocumentByUrl"/>
+        </Receiver>
+
+        <Pipeline>  
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+			<SenderPipe name="GetZaakDocumentByUrl">
+				<HttpSender 
+					name="GetZaakDocumentByUrlSender" 
+					methodType="GET"
+					headersParams="Authorization,Accept-Crs"
+					url="${zgw.baseurl}${zgw.endpoint.document}"
+                    timeout="${creeerZaak.timeout}"
+				/>
+                <Param name="url" sessionKey="DocumentUrl"/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Forward name="success" path="JsonToXml" />
+			</SenderPipe>
+
+            <JsonPipe name="JsonToXml">
+                <Forward name="success" path="UnwrapZgwEnkelvoudigInformatieObjectToSingle"/>
+            </JsonPipe>
+
+            <XsltPipe
+                name="UnwrapZgwEnkelvoudigInformatieObjectToSingle"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToSingle.xslt"
+                >
+                <Param name="Type" value="ZgwEnkelvoudigInformatieObject"/>
+                <Forward name="success" path="CheckForGetZaakDocumentResult"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForGetZaakDocumentResult"
+                xpathExpression="count(/ZgwEnkelvoudigInformatieObject) > 0"
+                >
+                <Forward name="then" path="EXIT"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </XmlIfPipe>
+        </Pipeline>
+    </Adapter>
+</Module>
