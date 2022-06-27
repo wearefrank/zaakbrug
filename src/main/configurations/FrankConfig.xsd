@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.8-20220620.161826">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.8-20220624.101938">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>Container of Adapters that belong together.
@@ -18418,7 +18418,7 @@
   <xs:attributeGroup name="PutSystemDateInSessionDeclaredAttributeGroup">
     <xs:attribute name="sessionKey" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Key of session variable to store systemdate in Default: systemdate</xs:documentation>
+        <xs:documentation>Key of session variable to store systemdate in Default: systemDate</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="dateFormat" type="xs:string">
