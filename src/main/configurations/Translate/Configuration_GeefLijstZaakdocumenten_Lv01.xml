@@ -19,7 +19,7 @@
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
                     javaListener="GetZgwZaak">
-                    <Param name="Identificatie" sessionKey="zaakidentificatie"/>
+                    <Param name="Identificatie" sessionKey="ZaakIdentificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallGetZaakInformatieObjectenByZaak"/>
             </SenderPipe>

@@ -19,7 +19,7 @@
                 <IbisLocalSender
                     name="CallGetZaakDocumentSender"
                     javaListener="GetZaakDocumentByUrl">
-                    <Param name="DocumentUrl" xpathExpression="/ZgwZaakInformatieObject/informatieobject"/>
+                    <Param name="Url" xpathExpression="/ZgwZaakInformatieObject/informatieobject"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZaakDocumentResult"/>
             </SenderPipe>

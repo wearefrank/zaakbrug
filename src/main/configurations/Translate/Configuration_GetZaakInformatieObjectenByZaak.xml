@@ -18,7 +18,7 @@
 					name="GetZaakInformatieObjectenByZaakSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.zaakinformatieobject}"
+					url="${zgw.baseurl}${zgw.endpoint.zaakinformatieobjecten}"
                     timeout="${creeerZaak.timeout}"
 				/>
                 <Param name="zaak" sessionKey="ZaakUrl"/>
@@ -33,7 +33,7 @@
 
             <XsltPipe
                 name="UnwrapZgwZaakInformatieObjectToList"
-                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
+                styleSheetName="ZaakDocument/xsl/UnwrapZgwZaakInformatieObjectToList.xslt"
                 >
                 <Param name="List" value="ZgwZaakInformatieObjecten"/>
                 <Param name="Type" value="ZgwZaakInformatieObject"/>

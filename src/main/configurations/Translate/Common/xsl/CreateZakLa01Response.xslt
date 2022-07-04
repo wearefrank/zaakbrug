@@ -3,8 +3,8 @@
     <xsl:param name="UnwrapMessageResult"/>
    
 	<xsl:template match="/">
-        <StUF:zakLa01>
-            <StUF:stuurgegevens>
+        <ZKN:zakLa01>
+            <ZKN:stuurgegevens>
                 <StUF:berichtcode>La01</StUF:berichtcode>
                 <StUF:zender>
                     <StUF:organisatie><xsl:value-of select="$UnwrapMessageResult/*/stuurgegevens/ontvanger/organisatie"/></StUF:organisatie>
@@ -19,12 +19,12 @@
                 <StUF:tijdstipBericht><xsl:value-of select="format-dateTime(current-dateTime(), '[Y0001][M01][D01][H01][m01][s01]')"/></StUF:tijdstipBericht>
                 <StUF:crossRefnummer><xsl:value-of select="$UnwrapMessageResult/*/stuurgegevens/referentienummer"/></StUF:crossRefnummer>
                 <StUF:entiteittype>ZAK</StUF:entiteittype>
-            </StUF:stuurgegevens>
-            <StUF:parameters>
+            </ZKN:stuurgegevens>
+            <ZKN:parameters>
                 <StUF:indicatorVervolgvraag><xsl:value-of select="$UnwrapMessageResult/*/parameters/indicatorVervolgvraag"/></StUF:indicatorVervolgvraag>
-            </StUF:parameters>
-            <StUF:antwoord>
-                <StUF:object>
+            </ZKN:parameters>
+            <ZKN:antwoord>
+                <ZKN:object>
                     <StUF:identificatie><xsl:value-of select="ZgwZaak/identificatie"/></StUF:identificatie>
                     <StUF:omschrijving><xsl:value-of select="ZgwZaak/omschrijving"/></StUF:omschrijving>
                     <StUF:toelichting><xsl:value-of select="ZgwZaak/toelichting"/></StUF:toelichting>
@@ -165,16 +165,16 @@
                                 <xsl:apply-templates select="medewerker"/>
                             </xsl:when>
                         </xsl:choose>
-                    </StUF:heeftBetrekkingOp>
+                    </StUF:heeftAlsOverigBetrokkene>
                     <xsl:apply-templates select="ZgwZaak/isVan/gerelateerde"/>
                     <xsl:apply-templates select="ZgwZaak/heeftAlsDeelzaak/gerelateerde"/>
                     <xsl:apply-templates select="ZgwZaak/heeftAlsHoofdzaak/gerelateerde"/>
                     <xsl:apply-templates select="ZgwZaak/root/heeftBetrekkingOp/gerelateerde"/>
                     <xsl:apply-templates select="ZgwZaak/heeft"/>
                     <xsl:apply-templates select="results/result/heeftRelevant"/>
-                </StUF:object>
-            </StUF:antwoord>
-        </StUF:zakLa01>
+                </ZKN:object>
+            </ZKN:antwoord>
+        </ZKN:zakLa01>
 	</xsl:template>
 
     <xsl:template match="ZgwZaak/anderZaakObject">

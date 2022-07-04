@@ -64,7 +64,7 @@
                 ignoreUndeclaredElements="true"
                 ignoreUnknownNamespaces="true"
                 >
-				<Forward name="succes" path="CreeerZaakSender"/>
+				<Forward name="success" path="CreeerZaakSender"/>
 				<Forward name="failure" path="InvalidXml"/>
                 <Forward name="parserError" path="NotWellFormed"/>
 			</WsdlXmlValidatorPipe>
@@ -76,7 +76,7 @@
                 ignoreUndeclaredElements="true"
                 ignoreUnknownNamespaces="true"
                 >
-				<Forward name="succes" path="UpdateZaakSender"/>
+				<Forward name="success" path="UpdateZaakSender"/>
 				<Forward name="failure" path="InvalidXml"/>
                 <Forward name="parserError" path="NotWellFormed"/>
 			</WsdlXmlValidatorPipe>
@@ -84,11 +84,12 @@
             <WsdlXmlValidatorPipe 
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_geefLijstZaakdocumenten_Lv01"
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_beantwoordVraag_zs-dms.wsdl"
+                getInputFromSessionKey="SanitizedMessage"
                 soapBody="zakLv01"
                 ignoreUndeclaredElements="true"
                 ignoreUnknownNamespaces="true"
                 >
-				<Forward name="succes" path="GeefLijstZaakdocumenten_Lv01Sender"/>
+				<Forward name="success" path="GeefLijstZaakdocumenten_Lv01Sender"/>
 				<Forward name="failure" path="InvalidXml"/>
                 <Forward name="parserError" path="NotWellFormed"/>
 			</WsdlXmlValidatorPipe>
@@ -100,7 +101,7 @@
                 ignoreUndeclaredElements="true"
                 ignoreUnknownNamespaces="true"
                 >
-				<Forward name="succes" path="GeefZaakdocumentLezen_Lv01Sender"/>
+				<Forward name="success" path="GeefZaakdocumentLezen_Lv01Sender"/>
 				<Forward name="failure" path="InvalidXml"/>
                 <Forward name="parserError" path="NotWellFormed"/>
 			</WsdlXmlValidatorPipe>
@@ -130,7 +131,8 @@
                 <IbisLocalSender
                     name="GeefLijstZaakdocumenten_Lv01LocalSender"
                     javaListener="GeefLijstZaakdocumenten_Lv01">
-                    <Param name="zaakidentificatie" xpathExpression="/zakLv01/gelijk/identificatie"/>
+                    <Param name="ZaakIdentificatie" xpathExpression="$UnwrapMessageResult/zakLv01/gelijk/identificatie">
+                        <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="WrapZakLa01Response" />
