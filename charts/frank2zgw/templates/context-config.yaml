@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "frank2zgw.fullname" . }}-context-config
+  name: {{ include "frank2zgw.fullname" . }}-context
   labels:
     {{- include "frank2zgw.labels" . | nindent 4 }}
 data:

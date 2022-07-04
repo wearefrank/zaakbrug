@@ -29,14 +29,30 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
+          env:
+          - name: SET_PERMISSIONS_ON_STARTUP
+            value: "FALSE"
+          - name: dtap.stage
+            value: {{ .Values.frank.dtapStage }}
+          - name: instance.name
+            value: {{ .Values.frank.instanceName }}
+          - name: database.instance.name
+            value: {{ .Values.frank.databaseInstanceName }}
+          - name: {{print "configurations." .Values.frank.instanceName ".classLoaderType"}}
+            value: "DirectoryClassLoader"
+          - name: configurations.names.application
+            value: "IAF_Util,Translate"
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "nexus.frankframework.org/frank-framework:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
-            - name: context-config
+            - name: context
               mountPath: /usr/local/tomcat/conf/context.xml
               subPath: context.xml
+            - mountPath: /usr/local/tomcat/conf/Catalina
+              name: frank
+              subPath: Catalina
             - name: frank
               mountPath: /opt/frank/configurations
               subPath: configurations
@@ -47,26 +63,38 @@ spec:
               mountPath: /opt/frank/testtool
               subPath: testtool
           ports:
-            - name: http
+            - name: console
               containerPort: 8080
               protocol: TCP
           startupProbe:
-            httpGet:
-              path: /iaf/api/server/health
-              port: http
+            failureThreshold: 5
+            initialDelaySeconds: 40
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 8080
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 5
+            initialDelaySeconds: 40
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+            tcpSocket:
+              port: 8080
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 {{/*      {{- with .Values.nodeSelector }}*/}}
       volumes:
-        - name: context-config
+        - name: context
           configMap:
-            name: {{ include "frank2zgw.fullname" . }}-context-config
+            name: {{ include "frank2zgw.fullname" . }}-context
 {{/*            items:*/}}
 {{/*              - key: context.xml*/}}
 {{/*                path: context.xml*/}}
         - name: frank
           persistentVolumeClaim:
-            claimName: task-pv-claim
+            claimName: {{ include "frank2zgw.fullname" . }}
 {{/*      nodeSelector:*/}}
 {{/*        {{- toYaml . | nindent 8 }}*/}}
 {{/*      {{- end }}*/}}

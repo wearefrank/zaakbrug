@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.8-20220624.101938">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.8-20220627.111853">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>Container of Adapters that belong together.
@@ -333,10 +333,10 @@
   <xs:complexType name="ParamType">
     <xs:annotation>
       <xs:documentation>Generic parameter definition.
- 
+
  A parameter resembles an attribute. However, while attributes get their value at configuration-time,
  parameters get their value at the time of processing the message. Value can be retrieved from the message itself,
- a fixed value, or from the pipelineSession. If this does not result in a value (or if neither of these is specified), a default value 
+ a fixed value, or from the pipelineSession. If this does not result in a value (or if neither of these is specified), a default value
  can be specified. If an XPathExpression or stylesheet is specified, it will be applied to the message, the value retrieved
  from the pipelineSession or the fixed value specified.
  &lt;br/&gt;
@@ -348,17 +348,17 @@
    &amp;lt;to&amp;gt;***@zonnet.nl&amp;lt;/to&amp;gt;
    &amp;lt;cc&amp;gt;***@zonnet.nl&amp;lt;/cc&amp;gt;
   &amp;lt;/transportinfo&amp;gt;
- 
+
  to obtain all 'to' addressees as a parameter:
  sessionKey="TransportInfo"
  xpathExpression="transportinfo/to"
  type="xml"
- 
+
  Result:
    &amp;lt;to&amp;gt;***@zonnet.nl&amp;lt;/to&amp;gt;
    &amp;lt;to&amp;gt;***@zonnet.nl&amp;lt;/to&amp;gt;
  &lt;/code&gt;&lt;/pre&gt;
- 
+
  N.B. to obtain a fixed value: a non-existing 'dummy' &lt;code&gt;sessionKey&lt;/code&gt; in combination with the fixed value in &lt;code&gt;DefaultValue&lt;/code&gt; is used traditionally.
  The current version of parameter supports the 'value' attribute, that is sufficient to set a fixed value.</xs:documentation>
     </xs:annotation>
@@ -416,7 +416,7 @@
     </xs:attribute>
     <xs:attribute name="namespaceDefs" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Namespace defintions for xpathExpression. Must be in the form of a comma or space separated list of 
+        <xs:documentation>Namespace defintions for xpathExpression. Must be in the form of a comma or space separated list of
  &lt;code&gt;prefix=namespaceuri&lt;/code&gt;-definitions. One entry can be without a prefix, that will define the default namespace.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -453,8 +453,11 @@
  &lt;li&gt;{fixedhostname}: fake hostname, for testing only&lt;/li&gt;
  &lt;/ul&gt;
  A guid can be generated using {hostname}_{uid}, see also
- &lt;a href=\"http://java.sun.com/j2se/1.4.2/docs/api/java/rmi/server/uid.html\"&gt;http://java.sun.com/j2se/1.4.2/docs/api/java/rmi/server/uid.html&lt;/a&gt; for more information about (g)uid's or 
- &lt;a href=\"http://docs.oracle.com/javase/1.5.0/docs/api/java/util/uuid.html\"&gt;http://docs.oracle.com/javase/1.5.0/docs/api/java/util/uuid.html&lt;/a&gt; for more information about uuid's.</xs:documentation>
+ &lt;a href=\"http://java.sun.com/j2se/1.4.2/docs/api/java/rmi/server/uid.html\"&gt;http://java.sun.com/j2se/1.4.2/docs/api/java/rmi/server/uid.html&lt;/a&gt; for more information about (g)uid's or
+ &lt;a href=\"http://docs.oracle.com/javase/1.5.0/docs/api/java/util/uuid.html\"&gt;http://docs.oracle.com/javase/1.5.0/docs/api/java/util/uuid.html&lt;/a&gt; for more information about uuid's.
+ &lt;br/&gt;
+ When combining a date or time &lt;code&gt;pattern&lt;/code&gt; like {now} or {fixeddate} with a DATE, TIME, DATETIME or TIMESTAMP &lt;code&gt;type&lt;/code&gt;, the effective value of the attribute
+ &lt;code&gt;formatString&lt;/code&gt; must match the effective value of the formatString in the &lt;/code&gt;pattern&lt;/code&gt;.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="authAlias" type="xs:string">
@@ -474,17 +477,17 @@
     </xs:attribute>
     <xs:attribute name="formatString" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Used in combination with types &lt;code&gt;date&lt;/code&gt;, &lt;code&gt;time&lt;/code&gt; and &lt;code&gt;datetime&lt;/code&gt;"</xs:documentation>
+        <xs:documentation>Used in combination with types &lt;code&gt;DATE&lt;/code&gt;, &lt;code&gt;TIME&lt;/code&gt;, &lt;code&gt;DATETIME&lt;/code&gt; and &lt;code&gt;TIMESTAMP&lt;/code&gt; to parse the raw parameter string data into an object of the respective type</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="decimalSeparator" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Used in combination with type &lt;code&gt;number&lt;/code&gt;</xs:documentation>
+        <xs:documentation>Used in combination with type &lt;code&gt;NUMBER&lt;/code&gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="groupingSeparator" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Used in combination with type &lt;code&gt;number&lt;/code&gt;</xs:documentation>
+        <xs:documentation>Used in combination with type &lt;code&gt;NUMBER&lt;/code&gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="minLength" type="frankInt">
@@ -582,7 +585,7 @@
     </xs:attribute>
     <xs:attribute name="messageSizeWarn" type="xs:string">
       <xs:annotation>
-        <xs:documentation>If messageSizeWarn&gt;=0 and the size of the input or result pipe message exceeds the value specified a warning message is logged. You can specify the value with the suffixes &lt;code&gt;KB&lt;/code&gt;, &lt;code&gt;MB&lt;/code&gt; or &lt;code&gt;GB&lt;/code&gt; Default: application default (3MB)"</xs:documentation>
+        <xs:documentation>If messageSizeWarn&gt;=0 and the size of the input or result pipe message exceeds the value specified a warning message is logged. You can specify the value with the suffixes &lt;code&gt;KB&lt;/code&gt;, &lt;code&gt;MB&lt;/code&gt; or &lt;code&gt;GB&lt;/code&gt; Default: application default (3MB)</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="transformNullMessage" type="xs:string">
@@ -872,9 +875,19 @@
         <xs:documentation>Configures the responseRoot in the OpenAPI schema for this exit. If not set, the responseRoot value of the validator will be used. If that contains multiple (comma separated) values, the first will be used for the exits with state &lt;code&gt;SUCCESS&lt;/code&gt;, the last for the other exits.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="empty" type="xs:string">
+    <xs:attribute name="empty" type="frankBoolean">
       <xs:annotation>
         <xs:documentation>If using RestListener and set to &lt;code&gt;true&lt;/code&gt;, this removes the output and shows a blank page, the output is still logged in the ladybug testtool Default: &lt;code&gt;false&lt;/code&gt;</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="skipWrapping" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>If set to &lt;code&gt;true&lt;/code&gt;, the output will not be wrapped by the OutputWrapper. Default: &lt;code&gt;false&lt;/code&gt;</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="skipValidation" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>If set to &lt;code&gt;true&lt;/code&gt;, the output will not be validated or transformed by the validator. Default: &lt;code&gt;false&lt;/code&gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="className" type="xs:string" fixed="nl.nn.adapterframework.core.PipeLineExit" use="prohibited" />
@@ -1189,7 +1202,7 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="STRING">
         <xs:annotation>
-          <xs:documentation>Renders the contents of the first node (in combination with xslt or xpath). Please note that 
+          <xs:documentation>Renders the contents of the first node (in combination with xslt or xpath). Please note that
  if there are child nodes, only the contents are returned, use &lt;code&gt;XML&lt;/code&gt; if the xml tags are required</xs:documentation>
         </xs:annotation>
       </xs:enumeration>
