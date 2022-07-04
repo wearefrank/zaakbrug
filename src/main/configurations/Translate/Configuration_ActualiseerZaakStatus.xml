@@ -1,19 +1,19 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="ActualiseerZaakStatus"
-    active="${ActualiseerZaakStatus.Active}"
-    description="">
+        active="${ActualiseerZaakStatus.Active}"
+        description="">
     
-    <Receiver name="ActualiseerZaakStatus">
-        <JavaListener name="ActualiseerZaakStatus"/>
-    </Receiver>
-    
-    <Pipeline>   
-        <Exits>
-            <Exit name="EXIT" state="SUCCESS"/>
-            <Exit name="EXCEPTION" state="ERROR"/>
-        </Exits>
+        <Receiver name="ActualiseerZaakStatus">
+            <JavaListener name="ActualiseerZaakStatus"/>
+        </Receiver>
         
-        <SenderPipe
+        <Pipeline>   
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+            
+            <SenderPipe
                 name="CallGetZgwZaak"
                 storeResultInSessionKey="GetZaakResult">
                 <IbisLocalSender
