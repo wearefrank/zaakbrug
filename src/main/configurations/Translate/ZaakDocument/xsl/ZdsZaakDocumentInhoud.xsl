@@ -56,7 +56,7 @@
             <auteur><xsl:value-of select="ZgwEnkelvoudigInformatieObject/auteur"/></auteur>
             <link><xsl:value-of select="ZgwEnkelvoudigInformatieObject/link"/></link>
             <inhoud>
-                <xsl:value-of select="$Bas64Inhoud/Inhoud"/>
+                <xsl:value-of select="$Bas64Inhoud"/>
                 <xsl:attribute name="StUF:bestandsnaam"><xsl:value-of select="ZgwEnkelvoudigInformatieObject/bestandsnaam"/></xsl:attribute>
                 <!-- <xsl:attribute name="xmime:contentType"></xsl:attribute> -->
             </inhoud>

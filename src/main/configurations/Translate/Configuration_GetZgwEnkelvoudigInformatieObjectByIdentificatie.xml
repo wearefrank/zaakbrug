@@ -1,10 +1,10 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="GetZgwEnkelvoudigInformatieObjectByIdentiticatie"
-        active="${GetZgwEnkelvoudigInformatieObjectByIdentiticatie.Active}"
+    <Adapter name="GetZgwEnkelvoudigInformatieObjectByIdentificatie"
+        active="${GetZgwEnkelvoudigInformatieObjectByIdentificatie.Active}"
         description="">
 
-        <Receiver name="GetZgwEnkelvoudigInformatieObjectByIdentiticatie">
-            <JavaListener name="GetZgwEnkelvoudigInformatieObjectByIdentiticatie"/>
+        <Receiver name="GetZgwEnkelvoudigInformatieObjectByIdentificatie">
+            <JavaListener name="GetZgwEnkelvoudigInformatieObjectByIdentificatie"/>
         </Receiver>
 
         <Pipeline>   
@@ -13,23 +13,23 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <XmlSwitchPipe name="CheckForIdentiticatie"
-                xpathExpression="string-length($Identiticatie) > 0"
+            <XmlSwitchPipe name="CheckForIdentificatie"
+                xpathExpression="string-length($Identificatie) > 0"
                 >
-                <Param name="Identiticatie" sessionKey="Identiticatie"/>
-                <Forward name="true" path="GetZgwEnkelvoudigInformatieObjectByIdentiticatie"/>
+                <Param name="Identificatie" sessionKey="Identificatie"/>
+                <Forward name="true" path="GetZgwEnkelvoudigInformatieObjectByIdentificatie"/>
                 <Forward name="false" path="EXCEPTION"/>
             </XmlSwitchPipe>
 
-			<SenderPipe name="GetZgwEnkelvoudigInformatieObjectByIdentiticatie">
+			<SenderPipe name="GetZgwEnkelvoudigInformatieObjectByIdentificatie">
 				<HttpSender 
-					name="GetZgwEnkelvoudigInformatieObjectByIdentiticatieSender" 
+					name="GetZgwEnkelvoudigInformatieObjectByIdentificatieSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
                     url="${zgw.baseurl}${zgw.endpoint.enkelvoudiginformatieobjecten}"
                     timeout="${creeerZaak.timeout}"
 				/>
-                <Param name="identiticatie" sessionKey="Identiticatie"/>
+                <Param name="identificatie" sessionKey="Identificatie"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="JsonToXml" />
