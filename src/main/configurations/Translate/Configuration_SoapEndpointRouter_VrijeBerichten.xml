@@ -120,6 +120,58 @@
                 <Forward name="success" path="EXIT"/>
             </SoapWrapperPipe>
 
+            <!-- GeefZaakdocumentbewerken_Di02 -->
+            <WsdlXmlValidatorPipe 
+                name="http:__www.egem.nl_StUF_sector_zkn_0310_geefZaakdocumentbewerken_Di02"
+                getInputFromSessionKey="SanitizedMessage"
+				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
+                soapBody="geefZaakdocumentbewerken_Di02"
+                >
+				<Forward name="succes" path="UnwrapMessageForGeefZaakdocumentbewerken_Di02"/>
+				<Forward name="failure" path="InvalidXml"/>
+			</WsdlXmlValidatorPipe>
+
+            <SoapWrapperPipe 
+                name="UnwrapMessageForGeefZaakdocumentbewerken_Di02"
+                storeResultInSessionKey="UnwrapMessageResult"
+                direction="UNWRAP"
+                removeOutputNamespaces="true">
+                <Forward name="success" path="CallGetZaakDocumentLezen"/>
+            </SoapWrapperPipe>
+
+            <SenderPipe
+                name="CallGetZaakDocumentLezen"
+                storeResultInSessionKey="GetZaakDocumentLezenResult">
+                <IbisLocalSender
+                    name="CallGetZaakDocumentLezenSender"
+                    javaListener="GeefZaakdocumentLezen_Lv01">
+                    <Param name="DocumentIdentificatie" xpathExpression="/geefZaakdocumentbewerken_Di02/edcLv01/gelijk/identificatie"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CallCheckOutZaakDocument"/>
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallCheckOutZaakDocument"
+                getInputFromSessionKey="UnwrapMessageResult"
+                storeResultInSessionKey="CheckOutZaakDocumentResult">
+                <IbisLocalSender
+                    name="CallCheckOutZaakDocumentSender"
+                    javaListener="CheckOutZaakDocument">
+                    <Param name="DocumentIdentificatie" xpathExpression="/geefZaakdocumentbewerken_Di02/edcLv01/gelijk/identificatie"/>
+                </IbisLocalSender>
+                <Forward name="success" path="WrapGeefZaakdocumentbewerken_Di02Response"/>
+            </SenderPipe>
+
+            <SoapWrapperPipe
+                name="WrapGeefZaakdocumentbewerken_Di02Response"
+                getInputFromSessionKey="GetZaakDocumentLezenResult"
+                soapBodyStyleSheet="Common/xsl/CreateDu02Response.xslt"
+                >
+                <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC" />
+                <Param name="CheckOutZaakDocument" sessionKey="CheckOutZaakDocumentResult" type="DOMDOC"/>
+                <Forward name="success" path="EXIT"/>
+            </SoapWrapperPipe>
+
             <!-- ERRORS -->
 
             <PutInSessionPipe name="InvalidXml">

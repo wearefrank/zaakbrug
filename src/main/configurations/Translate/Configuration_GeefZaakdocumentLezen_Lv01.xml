@@ -14,12 +14,12 @@
             </Exits>
 
 			<SenderPipe
-                name="CallGetZgwEnkelvoudigInformatieObjectByIdentiticatie"
+                name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatie"
                 storeResultInSessionKey="ZgwEnkelvoudigInformatieObject">
                 <IbisLocalSender
-                    name="CallGetZgwEnkelvoudigInformatieObjectByIdentiticatieSender"
-                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentiticatie">
-                    <Param name="Identiticatie" sessionKey="DocumentIdentificatie"/>
+                    name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatieSender"
+                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie">
+                    <Param name="Identificatie" sessionKey="DocumentIdentificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwEnkelvoudigInformatieObjectResult"/>
             </SenderPipe>
@@ -89,25 +89,44 @@
                 <Forward name="else" path="EXCEPTION"/>
             </XmlIfPipe>
 
-            <SenderPipe
-                name="CallGetBas64Inhoud"
+            <SenderPipe name="CallGetBas64Inhoud"
                 storeResultInSessionKey="Bas64Inhoud">
-                <IbisLocalSender
-                    name="CallGetBas64InhoudSender"
-                    javaListener="GetBas64Inhoud">
-                    <Param name="Url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/inhoud">
-                        <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
-                    </Param>
-                </IbisLocalSender>
-                <Forward name="success" path="CheckForGetBas64InhoudResult"/>
-            </SenderPipe>
+				<HttpSender 
+					name="CallGetBas64InhoudSender" 
+					methodType="GET"
+                    encodeMessages="true"
+					headersParams="Authorization,Accept-Crs"
+                    timeout="${creeerZaak.timeout}"
+				/>
+                <Param name="url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/inhoud">
+                    <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
+                </Param>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Forward name="success" path="StoreBas64Inhoud" />
+			</SenderPipe>
 
-            <XmlIfPipe name="CheckForGetBas64InhoudResult"
-                xpathExpression="string-length(/Inhoud) > 0"
+            <!-- <PutInSessionPipe 
+                name="StoreBas64Inhoud">
+                <Param name="Bas64Inhoud" xpathExpression="$Bas64Inhoud/html/body">
+                    <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="EncodeInhoud" />
+            </PutInSessionPipe> -->
+
+            <Base64Pipe name="EncodeInhoud"
+				storeResultInSessionKey="Bas64Inhoud">
+                <forward name="success" path="CheckForGetBas64InhoudResult" />
+            </Base64Pipe>
+
+            <XmlSwitchPipe 
+                name="CheckForGetBas64InhoudResult" 
+                xpathExpression="string-length($Bas64Inhoud) > 0"
                 >
-                <Forward name="then" path="MapZdsZaakDocumentInhoud"/>
-                <Forward name="else" path="EXCEPTION"/>
-            </XmlIfPipe>
+                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud"/>
+                <Forward name="true" path="MapZdsZaakDocumentInhoud"/>
+                <Forward name="false" path="EXCEPTION"/>
+            </XmlSwitchPipe>
 
             <XsltPipe
                 name="MapZdsZaakDocumentInhoud"
