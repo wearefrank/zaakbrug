@@ -1,0 +1,49 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="CancelCheckOutZaakDocument_Di02"
+        active="${CancelCheckOutZaakDocument_Di02.Active}"
+        description="">
+
+        <Receiver name="CancelCheckOutZaakDocument_Di02">
+            <JavaListener name="CancelCheckOutZaakDocument_Di02"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatie"
+                storeResultInSessionKey="ZgwEnkelvoudigInformatieObject">
+                <IbisLocalSender
+                    name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatieSender"
+                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie">
+                    <Param name="Identificatie" sessionKey="DocumentIdentificatie"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForGetZgwEnkelvoudigInformatieObjectResult"/>
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForGetZgwEnkelvoudigInformatieObjectResult"
+                xpathExpression="count(ZgwEnkelvoudigInformatieObject) = 0"
+                >
+                <Forward name="then" path="EXCEPTION"/>
+                <Forward name="else" path="CallGetZgwInformatieObjectUnLock"/>
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="CallGetZgwInformatieObjectUnLock"
+                storeResultInSessionKey="ZgwInformatieObjectUnLockResult">
+                <IbisLocalSender
+                    name="CallGetZgwInformatieObjectUnLockSender"
+                    javaListener="GetZgwInformatieObjectUnLock">
+                    <Param name="Url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/url">
+                        <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
+                    </Param>                    
+                    <Param name="ZgwLock" sessionKey="Lock"/>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+            </SenderPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

@@ -1,0 +1,47 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="GetZgwInformatieObjectUnLock"
+        active="${GetZgwInformatieObjectUnLock.Active}"
+        description="">
+
+        <Receiver name="GetZgwInformatieObjectUnLock">
+            <JavaListener name="GetZgwInformatieObjectUnLock"/>
+        </Receiver>
+
+        <Pipeline>   
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <XsltPipe
+                name="CreatePostUnLockBody"
+                styleSheetName="ZaakDocument/xsl/CreatePostUnLockBody.xslt"
+                >
+                <Param name="ZgwLock" sessionKey="ZgwLock"/>
+                <Forward name="success" path="XmlToJson"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <JsonPipe name="XmlToJson"
+                direction="xml2json"
+                >
+                <Forward name="success" path="PostUnLock"/>
+            </JsonPipe>
+
+			<SenderPipe name="PostUnLock">
+				<HttpSender 
+					name="PostUnLockSender" 
+					methodType="POST"
+					headersParams="Authorization,Accept-Crs"
+                    url="${url}/unlock"
+                    timeout="${creeerZaak.timeout}"
+				/>
+                <Param name="url" sessionKey="Url"/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="error" path="EXCEPTION"/>
+			</SenderPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

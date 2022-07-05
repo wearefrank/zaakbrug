@@ -172,6 +172,44 @@
                 <Forward name="success" path="EXIT"/>
             </SoapWrapperPipe>
 
+            <!-- CancelCheckout_Di02 -->
+            <WsdlXmlValidatorPipe 
+                name="http:__www.egem.nl_StUF_sector_zkn_0310_cancelCheckout_Di02"
+                getInputFromSessionKey="SanitizedMessage"
+				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
+                soapBody="cancelCheckout_Di02"
+                >
+				<Forward name="succes" path="UnwrapMessageForCancelCheckout_Di02"/>
+				<Forward name="failure" path="InvalidXml"/>
+			</WsdlXmlValidatorPipe>
+
+            <SoapWrapperPipe 
+                name="UnwrapMessageForCancelCheckout_Di02"
+                storeResultInSessionKey="UnwrapMessageResult"
+                direction="UNWRAP"
+                removeOutputNamespaces="true">
+                <Forward name="success" path="CallCancelCheckOutZaakDocument"/>
+            </SoapWrapperPipe>
+
+            <SenderPipe
+                name="CallCancelCheckOutZaakDocument"
+                storeResultInSessionKey="CancelCheckOutZaakDocumentResult">
+                <IbisLocalSender
+                    name="CallCancelCheckOutZaakDocumentSender"
+                    javaListener="CancelCheckOutZaakDocument_Di02">
+                    <Param name="DocumentIdentificatie" xpathExpression="/cancelCheckout_Di02/document/identificatie"/>
+                    <Param name="Lock" xpathExpression="/cancelCheckout_Di02/parameters/checkedOutId"/>
+                </IbisLocalSender>
+                <Forward name="success" path="WrapCheckOutZaakDocument_Di02Response"/>
+            </SenderPipe>
+
+            <SoapWrapperPipe
+                name="WrapCheckOutZaakDocument_Di02Response"
+                soapBodyStyleSheet="Common/xsl/CreateBv02Response.xslt"
+                >
+                <Forward name="success" path="EXIT"/>
+            </SoapWrapperPipe>
+
             <!-- ERRORS -->
 
             <PutInSessionPipe name="InvalidXml">
