@@ -210,6 +210,45 @@
                 <Forward name="success" path="EXIT"/>
             </SoapWrapperPipe>
 
+            <!-- UpdateZaakdocument_Di02 -->
+            <WsdlXmlValidatorPipe 
+                name="http:__www.egem.nl_StUF_sector_zkn_0310_updateZaakdocument_Di02"
+                getInputFromSessionKey="SanitizedMessage"
+				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
+                soapBody="updateZaakdocument_Di02"
+                >
+				<Forward name="succes" path="UnwrapMessageForUpdateZaakdocument_Di02"/>
+				<Forward name="failure" path="InvalidXml"/>
+			</WsdlXmlValidatorPipe>
+
+            <SoapWrapperPipe 
+                name="UnwrapMessageForUpdateZaakdocument_Di02"
+                storeResultInSessionKey="UnwrapMessageResult"
+                direction="UNWRAP"
+                removeOutputNamespaces="true">
+                <Forward name="success" path="CallUpdateZaakdocument"/>
+            </SoapWrapperPipe>
+
+            <SenderPipe
+                name="CallUpdateZaakdocument"
+                storeResultInSessionKey="UpdateZaakdocumentResult">
+                <IbisLocalSender
+                    name="CallUpdateZaakdocumentSender"
+                    javaListener="UpdateZaakDocument_Di02">
+                    <Param name="ZdsWasInformatieObject" xpathExpression="/updateZaakdocument_Di02/edcLk02/object[1]" type="DOMDOC"/>
+                    <Param name="ZdsWordtInformatieObject" xpathExpression="/updateZaakdocument_Di02/edcLk02/object[2]" type="DOMDOC"/>
+                    <Param name="Lock" xpathExpression="/updateZaakdocument_Di02/parameters/checkedOutId"/>
+                </IbisLocalSender>
+                <Forward name="success" path="WrapUpdateZaakDocument_Di02Response"/>
+            </SenderPipe>
+
+            <SoapWrapperPipe
+                name="WrapUpdateZaakDocument_Di02Response"
+                soapBodyStyleSheet="Common/xsl/CreateBv02Response.xslt"
+                >
+                <Forward name="success" path="EXIT"/>
+            </SoapWrapperPipe>
+
             <!-- ERRORS -->
 
             <PutInSessionPipe name="InvalidXml">

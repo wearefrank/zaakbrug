@@ -103,16 +103,8 @@
                 </Param>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
-                <Forward name="success" path="StoreBas64Inhoud" />
-			</SenderPipe>
-
-            <!-- <PutInSessionPipe 
-                name="StoreBas64Inhoud">
-                <Param name="Bas64Inhoud" xpathExpression="$Bas64Inhoud/html/body">
-                    <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="DOMDOC"/>
-                </Param>
                 <Forward name="success" path="EncodeInhoud" />
-            </PutInSessionPipe> -->
+			</SenderPipe>
 
             <Base64Pipe name="EncodeInhoud"
 				storeResultInSessionKey="Bas64Inhoud">
@@ -121,7 +113,7 @@
 
             <XmlSwitchPipe 
                 name="CheckForGetBas64InhoudResult" 
-                xpathExpression="string-length($Bas64Inhoud) > 0"
+                xpathExpression="string-length($Bas64Inhoud) &gt; 0"
                 >
                 <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud"/>
                 <Forward name="true" path="MapZdsZaakDocumentInhoud"/>

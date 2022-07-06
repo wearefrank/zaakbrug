@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="ZgwEnkelvoudigInformatieObject">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="identificatie" type="zgwIdentificatie" minOccurs="0"/>
+                <xs:element name="bronorganisatie" type="zgwRsin"/>
+                <xs:element name="creatiedatum" type="xs:date"/>
+                <xs:element name="titel" type="zgwTitel"/>
+                <xs:element name="vertrouwelijkheidaanduiding" type="zgwVertrouwelijkheidaanduiding" minOccurs="0"/>
+                <xs:element name="auteur" type="zgwAuteur"/>
+                <xs:element name="formaat" type="zgwFormaat" minOccurs="0"/>
+                <xs:element name="taal" type="zgwTaal"/>
+                <xs:element name="bestandsnaam" type="zgwBestandsnaam" minOccurs="0"/>
+                <xs:element name="bestandsomvang" type="zgwBestandsomvang" minOccurs="0" nillable="true"/>
+                <xs:element name="link" type="zgwUri" minOccurs="0"/>
+                <xs:element name="informatieobjecttype" type="zgwUri"/>
+                <xs:element name="status" type="zgwStatus" minOccurs="0"/>
+                <xs:element name="ontvangstdatum" type="xs:date" minOccurs="0" nillable="true"/>
+                <xs:element name="verzenddatum" type="xs:date" minOccurs="0" nillable="true"/>
+                <xs:element name="indicatieGebruiksrecht" type="xs:boolean" minOccurs="0" nillable="true"/>
+                <xs:element name="ondertekening" type="zgwOndertekening" minOccurs="0" nillable="true"/>
+                <xs:element name="integriteit" type="zgwIntegriteit" minOccurs="0" nillable="true"/>
+                <xs:element name="beschrijving" type="zgwBeschrijving" minOccurs="0"/>
+                <xs:element name="inhoud" type="zgwInhoud" minOccurs="0" nillable="true"/>
+                <xs:element name="lock" type="zgwLock"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="zgwAlgoritme">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="crc_16"/>
+            <xs:enumeration value="crc_32"/>
+            <xs:enumeration value="crc_64"/>
+            <xs:enumeration value="fletcher_4"/>
+            <xs:enumeration value="fletcher_8"/>
+            <xs:enumeration value="fletcher_16"/>
+            <xs:enumeration value="fletcher_32"/>
+            <xs:enumeration value="hmac"/>
+            <xs:enumeration value="md5"/>
+            <xs:enumeration value="sha_1"/>
+            <xs:enumeration value="sha_256"/>
+            <xs:enumeration value="sha_512"/>
+            <xs:enumeration value="sha_3"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwAuteur">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="200"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwBeschrijving">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1000"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwBestandsnaam">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="255"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwBestandsomvang">
+        <xs:restriction base="xs:integer">
+            <xs:minValue value="0"/>
+            <xs:maxValue value="9223372036854776000"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwFormaat">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="255"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwIdentificatie">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="40"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="zgwIntegriteit">
+        <xs:sequence>
+            <xs:element name="algoritme" type="zgwAlgoritme"/>
+            <xs:element name="waarde" type="zgwWaarde"/>
+            <xs:element name="datum" type="xs:date"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="zgwInhoud">
+        <!-- <xs:restriction base="xs:string">
+            <xs:maxLength value="40"/>
+        </xs:restriction> -->
+    </xs:simpleType>
+    <xs:simpleType name="zgwLock">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="zgwOndertekening">
+        <xs:sequence>
+            <xs:element name="soort" type="zgwSoort"/>
+            <xs:element name="datum" type="xs:date"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="zgwRsin">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{9}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwSoort">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="analoog"/>
+            <xs:enumeration value="digitaal"/>
+            <xs:enumeration value="pki"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwStatus">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="in_bewerking"/>
+            <xs:enumeration value="ter_vaststelling"/>
+            <xs:enumeration value="definitief"/>
+            <xs:enumeration value="gearchiveerd"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwTaal">
+        <xs:restriction base="xs:string">
+            <xs:length value="3"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwTitel">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="200"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwUri">
+        <xs:restriction base="xs:anyURI">
+            <xs:maxLength value="200"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwVertrouwelijkheidaanduiding">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="openbaar"/>
+            <xs:enumeration value="beperkt_openbaar"/>
+            <xs:enumeration value="intern"/>
+            <xs:enumeration value="zaakvertrouwelijk"/>
+            <xs:enumeration value="vertrouwelijk"/>
+            <xs:enumeration value="confidentieel"/>
+            <xs:enumeration value="geheim"/>
+            <xs:enumeration value="zeer_geheim"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwWaarde">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="128"/>
+        </xs:restriction>
+    </xs:simpleType>    
+</xs:schema> 

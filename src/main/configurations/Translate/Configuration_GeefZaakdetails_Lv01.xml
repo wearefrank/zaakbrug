@@ -1,0 +1,120 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="GeefZaakdetails_Lv01"
+        active="${GeefZaakdetails_Lv01.Active}"
+        description="">
+
+        <Receiver name="GeefZaakdetails_Lv01">
+            <JavaListener name="GeefZaakdetails_Lv01"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <XmlSwitchPipe 
+                name="CheckForGelijk" 
+                styleSheetName="GeefZaakdetails_LV01/xsl/CheckForGelijk.xsl"
+                >
+                <Forward name="CallGetZgwZaak" path="CallGetZgwZaak"/>
+                <Forward name="CheckForGerelateerdeIdentificatie" path="CheckForGerelateerdeIdentificatie"/>
+                <Forward name="EXCEPTION" path="EXCEPTION"/>
+            </XmlSwitchPipe>
+
+            <SenderPipe
+                name="CallGetZgwZaak"
+                storeResultInSessionKey="GetZgwZaakResult">
+                <IbisLocalSender
+                    name="CallGetZgwZaakSender"
+                    javaListener="GetZgwZaak">
+                    <Param name="Identificatie" xpathExpression="zakLv01/gelijk/identificatie"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForGetZgwZaakResult"/>
+            </SenderPipe>
+            
+            <XmlIfPipe name="CheckForGetZgwZaakResult"
+                xpathExpression="string-length(ZgwZaken) > 0"
+                >
+                <Forward name="then" path="GetSingleZgwZaakFromZgwZakenList"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </XmlIfPipe>
+        
+            <XsltPipe
+                name="GetSingleZgwZaakFromZgwZakenList"
+                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
+                storeResultInSessionKey="GetZgwZaakResult"
+                >
+                <Forward name="success" path="CallGetZgwZaaktypeByUrl"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <SenderPipe
+                name="CallGetZgwZaaktypeByUrl"
+                getInputFromSessionKey="GetZgwZaakResult"
+                storeResultInSessionKey="GetZgwZaaktypeByUrlResult">
+                <IbisLocalSender
+                    name="CallGetZgwZaaktypeByUrlSender"
+                    javaListener="GetZaakTypeByUrl">
+                    <Param name="ZaakUrl" xpathExpression="/ZgwZaak/zaaktype" />
+                </IbisLocalSender>
+                <Forward name="success" path="CallGetZdsZaakFromZgw"/>
+                <Forward name="exception" path="EXCEPTION"/>
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallGetZdsZaakFromZgw"
+                storeResultInSessionKey="GetZdsZaakFromZgwResult">
+                <IbisLocalSender
+                    name="CallGetZdsZaakFromZgwSender"
+                    javaListener="GetZdsZaakFromZgw">
+                    <Param name="ZgwZaak" sessionKey="GetZgwZaakResult" type="DOMDOC"/>
+                    <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForGerelateerdeIdentificatie"
+                getInputFromSessionKey="originalMessage"
+                xpathExpression="starts-with(/zakLv01/gelijk/heeftAlsInitiator/gerelateerde/identificatie, '11')"
+                >
+                <Forward name="then" path="CallGetRollenByBsn"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </XmlIfPipe>
+
+            <!-- <SenderPipe
+                name="CallGetZaakDetailsByBsn"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="GetZaakDetailsByBsnResult">
+                <IbisLocalSender
+                    name="CallGetZaakDetailsByBsnSender"
+                    javaListener="GetZaakDetailsByBsn">
+                    <Param name="Bsn" xpathExpression="substring(/zakLv01/gelijk/heeftAlsInitiator/gerelateerde/identificatie, 2)"/>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+            </SenderPipe> -->
+
+            <SenderPipe
+                name="CallGetRollenByBsn"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="GetRollenByBsnResult">
+                <IbisLocalSender
+                    name="CallGetRollenByBsnSender"
+                    javaListener="GetRollenByBsn">
+                    <Param name="Bsn" xpathExpression="substring(/zakLv01/gelijk/heeftAlsInitiator/gerelateerde/identificatie, 2)"/>
+                </IbisLocalSender>
+                <Forward name="success" path="RolIterator"/>
+            </SenderPipe>
+
+            <ForEachChildElementPipe name="RolIterator"
+                storeResultInSessionKey="GetZaakDetailsByRolResults"
+                elementXPathExpression="/ZgwRollen/ZgwRol">
+                <IbisLocalSender
+                    name="CallGetZaakDetailsByRol"
+                    javaListener="GetZaakDetailsByRol">
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+            </ForEachChildElementPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

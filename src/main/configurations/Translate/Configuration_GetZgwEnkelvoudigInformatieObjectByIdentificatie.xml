@@ -60,9 +60,16 @@
                 name="GetSingleZgwEnkelvoudigInformatieObjectFromList"
                 styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
                 >
-                <Forward name="success" path="EXIT"/>
+                <Forward name="success" path="RemoveNullNodes"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
+
+            <XsltPipe name="RemoveNullNodes" 
+                skipEmptyTags="true"
+                styleSheetName="Common/xsl/RemoveNullNodes.xslt" 
+                >
+                <Forward name="success" path="EXIT"/>
+			</XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>

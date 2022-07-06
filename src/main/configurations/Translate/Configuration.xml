@@ -2,6 +2,7 @@
   <!ENTITY ActualiseerZaakStatus                          SYSTEM "./Configuration_ActualiseerZaakStatus.xml">
   <!ENTITY AddRolToZgw                                    SYSTEM "./Configuration_AddRolToZgw.xml">
   <!ENTITY AndereZaak                                     SYSTEM "./Configuration_AndereZaak.xml">
+  <!ENTITY CancelCheckOutZaakDocument_Di02                SYSTEM "./Configuration_CancelCheckOutZaakDocument_Di02.xml">
   <!ENTITY CheckOutZaakDocument                           SYSTEM "./Configuration_CheckOutZaakDocument.xml">
   <!ENTITY ConvertISO639Taal                              SYSTEM "./Configuration_ConvertISO639Taal.xml">
   <!ENTITY CreeerZaak_Lk01                                SYSTEM "./Configuration_CreeerZaak_LK01.xml">
@@ -9,6 +10,7 @@
   <!ENTITY DetectRolChanges                               SYSTEM "./Configuration_DetectRolChanges.xml">
   <!ENTITY Documenten_PostZgwEnkelvoudigInformatieObject  SYSTEM "./Configuration_Documenten_PostZgwEnkelvoudigInformatieObject.xml">
   <!ENTITY GeefLijstZaakdocumenten_Lv01                   SYSTEM "./Configuration_GeefLijstZaakdocumenten_Lv01.xml">
+  <!ENTITY GeefZaakdetails_Lv01                           SYSTEM "./Configuration_GeefZaakdetails_Lv01.xml">
   <!ENTITY GeefZaakdocumentLezen_Lv01                     SYSTEM "./Configuration_GeefZaakdocumentLezen_Lv01.xml">
   <!ENTITY GenereerDocumentIdentificatie_SOAP             SYSTEM "./Configuration_GenereerDocumentIdentificatie_SOAP.xml">
   <!ENTITY GenereerIdentificatieEmulator                  SYSTEM "./Configuration_GenereerIdentificatieEmulator.xml">
@@ -18,12 +20,15 @@
   <!ENTITY Zaken_GetZgwStatusByZaakUrl                    SYSTEM "./Configuration_Zaken_GetZgwStatusByZaakUrl.xml">
   <!ENTITY GetStatusTypeByZaakTypeAndOmschrijving         SYSTEM "./Configuration_GetStatusTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetStatusTypes                                 SYSTEM "./Configuration_GetStatusTypes.xml">
+  <!ENTITY GetZaakDetailsByBsn                            SYSTEM "./Configuration_GetZaakDetailsByBsn.xml">
+  <!ENTITY GetZaakDetailsByRol                            SYSTEM "./Configuration_GetZaakDetailsByRol.xml">
   <!ENTITY GetZaakDocumentByUrl                           SYSTEM "./Configuration_GetZaakDocumentByUrl.xml">
   <!ENTITY GetZaakInformatieObjectenByZaak                SYSTEM "./Configuration_GetZaakInformatieObjectenByZaak.xml">
   <!ENTITY GetZaakTypeByUrl                               SYSTEM "./Configuration_GetZaakTypeByUrl.xml">
   <!ENTITY GetZgwEnkelvoudigInformatieObjectByIdentificatie       SYSTEM "./Configuration_GetZgwEnkelvoudigInformatieObjectByIdentificatie.xml">
   <!ENTITY GetZgwInformatieObjectTypeByOmschrijving       SYSTEM "./Configuration_GetZgwInformatieObjectTypeByOmschrijving.xml">
   <!ENTITY GetZgwInformatieObjectTypeByUrl                SYSTEM "./Configuration_GetZgwInformatieObjectTypeByUrl.xml">
+  <!ENTITY GetZgwInformatieObjectUnLock                   SYSTEM "./Configuration_GetZgwInformatieObjectUnLock.xml">
   <!ENTITY GetZdsZaakFromZgw                              SYSTEM "./Configuration_GetZdsZaakFromZgw.xml">
   <!ENTITY GetZgwRolesByZaakUrl                           SYSTEM "./Configuration_GetZgwRolesByZaakUrl.xml">
   <!ENTITY Zaken_GetZgwRolTypeByUrl                       SYSTEM "./Configuration_Zaken_GetZgwRolTypeByUrl.xml">
@@ -51,6 +56,7 @@
   <!ENTITY SoapEndpointRouter_VrijeBerichten              SYSTEM "./Configuration_SoapEndpointRouter_VrijeBerichten.xml">
   <!ENTITY UpdateRolInZgw                                 SYSTEM "./Configuration_UpdateRolInZgw.xml">
   <!ENTITY UpdateZaak_Lk01                                SYSTEM "./Configuration_UpdateZaak_LK01.xml">
+  <!ENTITY UpdateZaakDocument_Di02                        SYSTEM "./Configuration_UpdateZaakDocument_Di02.xml">
   <!ENTITY VoegZaakdocumentToe_Lk01                       SYSTEM "./Configuration_VoegZaakdocumentToe_Lk01.xml">
   <!ENTITY Zaken_PostZgwZaakInformatieObject              SYSTEM "./Configuration_Zaken_PostZgwZaakInformatieObject.xml">
   <!ENTITY ZdsHeeft                                       SYSTEM "./Configuration_ZdsHeeft.xml">
@@ -60,6 +66,7 @@
   &ActualiseerZaakStatus;
   &AddRolToZgw;
   &AndereZaak;
+  &CancelCheckOutZaakDocument_Di02;
   &CheckOutZaakDocument;
   &ConvertISO639Taal;
   &CreeerZaak_Lk01;
@@ -67,6 +74,7 @@
   &DetectRolChanges;
   &Documenten_PostZgwEnkelvoudigInformatieObject;
   &GeefLijstZaakdocumenten_Lv01;
+  &GeefZaakdetails_Lv01;
   &GeefZaakdocumentLezen_Lv01;
   &GenereerDocumentIdentificatie_SOAP;
   &GenereerIdentificatieEmulator;
@@ -76,6 +84,8 @@
   &Zaken_GetZgwStatusByZaakUrl;
   &GetStatusTypeByZaakTypeAndOmschrijving;
   &GetStatusTypes;
+  &GetZaakDetailsByBsn;
+  &GetZaakDetailsByRol;
   &GetZaakDocumentByUrl;
   &GetZaakInformatieObjectenByZaak;
   &GetZaakTypeByUrl;
@@ -83,6 +93,7 @@
   &GetZdsZaakFromZgw;
   &GetZgwInformatieObjectTypeByOmschrijving;
   &GetZgwInformatieObjectTypeByUrl;
+  &GetZgwInformatieObjectUnLock;
   &GetZgwRolesByZaakUrl;
   &Zaken_GetZgwRolTypeByUrl;
   &Zaken_GetZgwRolTypeByZaakType;
@@ -109,6 +120,7 @@
   &SoapEndpointRouter_VrijeBerichten;
   &UpdateRolInZgw;
   &UpdateZaak_Lk01;
+  &UpdateZaakDocument_Di02;
   &VoegZaakdocumentToe_Lk01;
   &Zaken_PostZgwZaakInformatieObject;
   &ZdsHeeft;
