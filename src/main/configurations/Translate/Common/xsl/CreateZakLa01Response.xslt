@@ -245,6 +245,7 @@
         <ZKN:gerelateerde>
             <ZKN:natuurlijkPersoon StUF:entiteittype="NPS">
                 <BG:inp.bsn><xsl:value-of select="inp.bsn"/></BG:inp.bsn>
+                <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
                 <BG:geslachtsnaam><xsl:value-of select="geslachtsnaam"/></BG:geslachtsnaam>
                 <BG:voorvoegselGeslachtsnaam><xsl:value-of select="voorvoegselGeslachtsnaam"/></BG:voorvoegselGeslachtsnaam>
                 <BG:voorletters><xsl:value-of select="voorletters"/></BG:voorletters>
@@ -260,6 +261,7 @@
         <ZKN:gerelateerde>
             <ZKN:nietNatuurlijkPersoon StUF:entiteittype="NNP">
                 <BG:inn.nnpId><xsl:value-of select="inn.nnpId"/></BG:inn.nnpId>
+                <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
                 <BG:ann.identificatie><xsl:value-of select="ann.identificatie"/></BG:ann.identificatie>
                 <BG:statutaireNaam><xsl:value-of select="statutaireNaam"/></BG:statutaireNaam>
                 <BG:innRechtsvorm><xsl:value-of select="innRechtsvorm"/></BG:innRechtsvorm>
