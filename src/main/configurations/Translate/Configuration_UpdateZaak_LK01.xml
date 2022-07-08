@@ -16,7 +16,7 @@
             <!-- Retrieve was zgwZaak -->
             <SenderPipe
                 name="CallGetZgwZaak"
-                storeResultInSessionKey="GetWasZgwZaakResult">
+                storeResultInSessionKey="GetZgwWasZaakResult">
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
                     javaListener="GetZgwZaak">
@@ -35,16 +35,32 @@
             <XsltPipe
                 name="GetSingleZgwZaakFromZgwZakenList"
                 styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
-                storeResultInSessionKey="GetWasZgwZaakResult"
+                storeResultInSessionKey="GetZgwWasZaakResult"
                 >
-                <Forward name="success" path="CallGetZgwZaaktypeByUrl"/>
+                <Forward name="success" path="RemoveNullNodes"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
+
+            <XsltPipe name="RemoveNullNodes" 
+                storeResultInSessionKey="GetZgwWasZaakResult"
+                skipEmptyTags="true"
+                styleSheetName="Common/xsl/RemoveNullNodes.xslt" 
+                >
+                <Forward name="success" path="StoreZgwZaakUrl"/>
+			</XsltPipe>
+
+            <PutInSessionPipe 
+                name="StoreZgwZaakUrl">
+                <Param name="ZgwZaakUrl" xpathExpression="$GetZgwWasZaakResult/ZgwZaak/url">
+                    <Param name="GetZgwWasZaakResult" sessionKey="GetZgwWasZaakResult" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="CallGetZgwZaaktypeByUrl" />
+            </PutInSessionPipe>
 
             <!-- Retrieve zgwZaaktype -->
             <SenderPipe
                 name="CallGetZgwZaaktypeByUrl"
-                getInputFromSessionKey="GetWasZgwZaakResult"
+                getInputFromSessionKey="GetZgwWasZaakResult"
                 storeResultInSessionKey="GetZgwZaaktypeByUrlResult">
                 <IbisLocalSender
                     name="CallGetZgwZaaktypeByUrlSender"
@@ -61,18 +77,170 @@
                 <IbisLocalSender
                     name="CallGetZdsZaakFromZgwSender"
                     javaListener="GetZdsZaakFromZgw">
-                    <Param name="ZgwZaak" sessionKey="GetWasZgwZaakResult" type="DOMDOC"/>
+                    <Param name="ZgwZaak" sessionKey="GetZgwWasZaakResult" type="DOMDOC"/>
                     <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForInputZaakObjectCount"/>
             </SenderPipe>
 
             <XmlIfPipe name="CheckForInputZaakObjectCount"
+                getInputFromSessionKey="originalMessage"
                 xpathExpression="count(/zakLk01/object) = 2"
                 >
-                <Forward name="then" path="EXIT"/>
-                <Forward name="else" path="EXIT"/>
+                <Forward name="then" path="StoreZdsWordtZaak_1"/>
+                <Forward name="else" path="StoreZdsWordtZaak_2"/>
             </XmlIfPipe>
+
+            <PutInSessionPipe 
+                name="StoreZdsWordtZaak_1">
+                <Param name="ZdsWordtZaak" xpathExpression="$originalMessage/zakLk01/object[2]" type="DOMDOC">
+                    <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="DetectZdsZaakChanges" />
+            </PutInSessionPipe>
+
+            <PutInSessionPipe 
+                name="StoreZdsWordtZaak_2">
+                <Param name="ZdsWordtZaak" xpathExpression="$originalMessage/zakLk01/object[1]" type="DOMDOC">
+                    <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="DetectZdsZaakChanges" />
+            </PutInSessionPipe>
+
+            <XsltPipe
+                name="DetectZdsZaakChanges"
+                getInputFromSessionKey="GetZdsZaakFromZgwResult"
+                styleSheetName="UpdateZaak_LK01/xsl/DetectZdsZaakChanges.xslt"
+                skipEmptyTags="true"
+                >
+                <Param name="ZdsWordtZaak" sessionKey="ZdsWordtZaak" type="DOMDOC"/>
+                <Forward name="success" path="CheckForDetectZdsZaakChangesResult"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForDetectZdsZaakChangesResult"
+                xpathExpression="count(/ZdsZaak/*) = 25"
+                >
+                <Forward name="then" path="SetRolesForZdsWasZaak"/>
+                <Forward name="else" path="GetGlobalConfigFromLocalFS"/>
+            </XmlIfPipe>
+
+            <SenderPipe name="GetGlobalConfigFromLocalFS"
+                storeResultInSessionKey="GetGlobalConfigResult">
+                <IbisLocalSender
+                    name="CallImportFromLocalFS"
+                    javaListener="ImportFromLocalFS">
+                    <Param name="FileName" value="${FilePath_1}"/>
+                </IbisLocalSender>
+                <Forward name="success" path="GetRsin"/>
+            </SenderPipe>
+
+            <XsltPipe
+                name="GetRsin"
+                storeResultInSessionKey="GetRsinResult"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/GetRsin.xsl"
+                >
+                <Param name="GemeenteCode" xpathExpression="$OriginalMessage/zakLk01/stuurgegevens/zender/organisatie">
+                    <Param name="OriginalMessage" sessionKey="originalMessage" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="CreateUpdateZaakBody"/>
+            </XsltPipe>
+
+            <XsltPipe
+                name="CreateUpdateZaakBody"
+                styleSheetName="UpdateZaak_LK01/xsl/CreateUpdateZaakBody.xslt"
+                getInputFromSessionKey="ZdsWordtZaak"
+                storeResultInSessionKey="UpdateZaakBody"
+                skipEmptyTags="true"
+                >
+                <Param name="ZgwZaak" sessionKey="GetZgwWasZaakResult" type="DOMDOC"/>
+                <Param name="Rsin" sessionKey="GetRsinResult" type="DOMDOC"/>
+                <Forward name="success" path="XmlToJson"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <JsonPipe name="XmlToJson"
+                direction="XML2JSON">
+                <Forward name="success" path="UpdateZgwZaak"/>
+            </JsonPipe>
+
+            <SenderPipe name="UpdateZgwZaak">
+				<HttpSender name="PostZgwZaakSender" 
+					methodType="PUT"
+					headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
+                    timeout="${creeerZaak.timeout}"
+                    maxExecuteRetries="5"
+                    contentType="application/json"
+				/>
+                <Param name="url" sessionKey="ZgwZaakUrl"/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Accept" value="application/json"/>
+                <Param name="Content-Crs"  value="EPSG:4326" />
+                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Forward name="success" path="SetRolesForZdsWasZaak"/>
+			</SenderPipe>
+
+            <XsltPipe
+                name="SetRolesForZdsWasZaak"
+                getInputFromSessionKey="GetZdsZaakFromZgwResult"
+                storeResultInSessionKey="ZdsWasZaakRol"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xslt"
+                >
+                <Param name="RolMapping" sessionKey="GetGlobalConfigResult" type="DOMDOC"/>
+                <Forward name="success" path="SetRolesForZdsWordtZaak"/>
+            </XsltPipe>
+
+            <XsltPipe
+                name="SetRolesForZdsWordtZaak"
+                getInputFromSessionKey="ZdsWordtZaak"
+                storeResultInSessionKey="ZdsWordtZaakRol"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xslt"
+                >
+                <Param name="RolMapping" sessionKey="GetGlobalConfigResult" type="DOMDOC"/>
+                <Forward name="success" path="CallDetectRolChanges"/>
+            </XsltPipe>
+
+            <ForEachChildElementPipe name="CallDetectRolChanges"
+                elementXPathExpression="/roles/role"
+                storeResultInSessionKey="DetectRolChangesResults">
+                <IbisLocalSender
+                    name="CallDetectRolChangesSender"
+                    javaListener="DetectRolChanges">
+                    <Param name="ZdsWasZaakRol" sessionKey="ZdsWasZaakRol" type="DOMDOC"/>
+                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZgwZaaktypeByUrlResult/ZgwZaakType/url">
+                        <Param name="GetZgwZaaktypeByUrlResult" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="WrapZdsWordtZaak"/>
+            </ForEachChildElementPipe>            
+
+            <XsltPipe
+                name="WrapZdsWordtZaak"
+                getInputFromSessionKey="ZdsWordtZaak"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="UpdateZaak_LK01/xsl/WrapZdsWordtZaak.xslt"
+                >
+                <Forward name="success" path="CallSetResultaatAndStatus"/>
+            </XsltPipe>
+
+            <SenderPipe
+                name="CallSetResultaatAndStatus"
+                storeResultInSessionKey="SetResultaatAndStatusResult">
+                <IbisLocalSender
+                    name="CallSetResultaatAndStatusSender"
+                    javaListener="SetResultaatAndStatus">
+                    <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>                   
+                    <Param name="ZaakUrl" sessionKey="ZgwZaakUrl"/>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+            </SenderPipe>
         </Pipeline>
     </Adapter>
 </Module>

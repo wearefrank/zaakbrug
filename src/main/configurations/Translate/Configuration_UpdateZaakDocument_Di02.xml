@@ -100,13 +100,6 @@
                     timeout="${creeerZaak.timeout}"
                     contentType="application/json"
 				/>
-                <!-- <Json2XmlInputValidator name="ValidatePost"
-                    schema="Zgw/Documenten/Model/PostZgwEnkelvoudigInformatieObject.xsd"
-                    root="ZgwEnkelvoudigInformatieObject"
-                    outputFormat="JSON"
-                    deepSearch="true"
-                    throwException="true"
-                /> -->
                 <Param name="url" sessionKey="Url"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>

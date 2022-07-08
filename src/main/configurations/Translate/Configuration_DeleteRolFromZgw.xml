@@ -62,9 +62,7 @@
 					url="${zgw.baseurl}${zgw.endpoint.rol}"
                     timeout="${creeerZaak.timeout}"
 				/>
-                <Param name="zaak" xpathExpression="$ZgwZaak/ZgwZaak/url">
-                    <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
-                </Param>
+                <Param name="zaak" sessionKey="ZgwZaakUrl"/>
                 <Param name="roltype" xpathExpression="$ZgwRolType/url">
                     <Param name="ZgwRolType" sessionKey="ZgwRolType" type="DOMDOC"/>
                 </Param>
@@ -73,15 +71,31 @@
                 <Forward name="success" path="JsonToXml" />
 			</SenderPipe>
 
-            <JsonPipe 
-                name="JsonToXml"
-                >
-                <forward name="success" path="CheckForGetRolResult"/>
+            <JsonPipe name="JsonToXml">
+                <Forward name="success" path="UnwrapZgwRolToList"/>
             </JsonPipe>
+
+            <XsltPipe
+                name="UnwrapZgwRolToList"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
+                >
+                <Param name="List" value="Rollen"/>
+                <Param name="Type" value="Rol"/>
+                <Forward name="success" path="GetSingleZgwRolFromList"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <XsltPipe
+                name="GetSingleZgwRolFromList"
+                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
+                >
+                <Forward name="success" path="CheckForGetRolResult"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
 
             <XmlIfPipe 
                 name="CheckForGetRolResult"
-                xpathExpression="string-length(/root/results) > 0"
+                xpathExpression="string-length(/Rol) > 0"
                 >
                 <Forward name="then" path="DeleteRol"/>
                 <Forward name="else" path="EXIT"/>
@@ -95,7 +109,7 @@
 					headersParams="Authorization,Accept-Crs"
                     timeout="${creeerZaak.timeout}"
 				/>
-                <Param name="url" xpathExpression="root/results/url"/>
+                <Param name="url" xpathExpression="/Rol/url"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="EXIT"/>

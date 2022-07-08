@@ -58,8 +58,14 @@
                 styleSheetName="CreeerZaak_LK01/xsl/SetBeeindigd.xsl"
                 >
                 <Param name="SetEndStatusTypeResult" sessionKey="SetEndStatusTypeResult" type="DOMDOC"/>
-                <Forward name="success" path="ZdsHeeftIterator"/>
+                <Forward name="success" path="PutEmptyNewStatussenInSession"/>
             </XsltPipe>
+
+            <PutInSessionPipe name="PutEmptyNewStatussenInSession"
+                sessionKey="NewStatuses" 
+                value="&lt;ZgwStatussen&gt;&lt;/ZgwStatussen&gt;">
+                <Forward name="success" path="ZdsHeeftIterator" />
+            </PutInSessionPipe>
 
             <ForEachChildElementPipe name="ZdsHeeftIterator"
                 getInputFromSessionKey="originalMessage"

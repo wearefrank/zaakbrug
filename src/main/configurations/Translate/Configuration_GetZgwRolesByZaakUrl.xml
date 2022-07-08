@@ -13,7 +13,7 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-			<SenderPipe name="GetZgwResultatenByZaakUrl" 
+			<SenderPipe name="GetZgwRolesByZaakUrl" 
                 getInputFromFixedValue="&lt;dummy/&gt;">
 				<HttpSender 
 					name="GetZgwRoltypeByIdSender" 

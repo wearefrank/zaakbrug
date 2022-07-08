@@ -20,7 +20,6 @@
   <!ENTITY Zaken_GetZgwStatusByZaakUrl                    SYSTEM "./Configuration_Zaken_GetZgwStatusByZaakUrl.xml">
   <!ENTITY GetStatusTypeByZaakTypeAndOmschrijving         SYSTEM "./Configuration_GetStatusTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetStatusTypes                                 SYSTEM "./Configuration_GetStatusTypes.xml">
-  <!ENTITY GetZaakDetailsByBsn                            SYSTEM "./Configuration_GetZaakDetailsByBsn.xml">
   <!ENTITY GetZaakDetailsByRol                            SYSTEM "./Configuration_GetZaakDetailsByRol.xml">
   <!ENTITY GetZaakDocumentByUrl                           SYSTEM "./Configuration_GetZaakDocumentByUrl.xml">
   <!ENTITY GetZaakInformatieObjectenByZaak                SYSTEM "./Configuration_GetZaakInformatieObjectenByZaak.xml">
@@ -49,7 +48,6 @@
   <!ENTITY Zaken_PostZgwRol                               SYSTEM "./Configuration_Zaken_PostZgwRol.xml">
   <!ENTITY Zaken_PostZgwStatus                            SYSTEM "./Configuration_Zaken_PostZgwStatus.xml">
   <!ENTITY PostZaak                                       SYSTEM "./Configuration_PostZaak.xml">
-  <!ENTITY RolHandler                                     SYSTEM "./Configuration_RolHandler.xml">
   <!ENTITY SetResultaatAndStatus                          SYSTEM "./Configuration_SetResultaatAndStatus.xml">
   <!ENTITY SoapEndpointRouter_BeantwoordVraag             SYSTEM "./Configuration_SoapEndpointRouter_BeantwoordVraag.xml">
   <!ENTITY SoapEndpointRouter_OntvangAsynchroon           SYSTEM "./Configuration_SoapEndpointRouter_OntvangAsynchroon.xml">
@@ -84,7 +82,6 @@
   &Zaken_GetZgwStatusByZaakUrl;
   &GetStatusTypeByZaakTypeAndOmschrijving;
   &GetStatusTypes;
-  &GetZaakDetailsByBsn;
   &GetZaakDetailsByRol;
   &GetZaakDocumentByUrl;
   &GetZaakInformatieObjectenByZaak;
@@ -113,7 +110,6 @@
   &Zaken_PostZgwRol;
   &Zaken_PostZgwStatus;
   &PostZaak;
-  &RolHandler;
   &SetResultaatAndStatus;
   &SoapEndpointRouter_BeantwoordVraag;
   &SoapEndpointRouter_OntvangAsynchroon;

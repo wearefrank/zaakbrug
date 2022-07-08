@@ -13,7 +13,8 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-			<SenderPipe name="GetStatusTypesByZaakType">
+			<SenderPipe name="GetStatusTypesByZaakType"
+                getInputFromFixedValue="&lt;dummy/&gt;">
 				<HttpSender 
 					name="GetStatusTypesByZaakTypeSender" 
 					methodType="GET"

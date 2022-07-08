@@ -17,14 +17,8 @@
                 xpathExpression="string-length(heeft/gerelateerde/omschrijving) > 0"
                 >
                 <Forward name="then" path="CallGetStatusTypeByZaakTypeAndOmschrijving"/>
-                <Forward name="else" path="PutEmptyNewStatussenInSession"/>
+                <Forward name="else" path="EXIT"/>
             </XmlIfPipe>
-
-            <PutInSessionPipe name="PutEmptyNewStatussenInSession"
-                sessionKey="NewStatuses" 
-                value="&lt;newStatuses&gt;&lt;/newStatuses&gt;">
-                <Forward name="success" path="EXIT" />
-            </PutInSessionPipe>
 
             <SenderPipe
                 name="CallGetStatusTypeByZaakTypeAndOmschrijving"
