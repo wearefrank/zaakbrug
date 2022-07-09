@@ -103,16 +103,19 @@
                 <Param name="url" sessionKey="Url"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
-                <Forward name="success" path="CallGetZgwInformatieObjectUnLock" />
+                <Forward name="success" path="CallGetZgwInformatieObjectUnlock" />
 			</SenderPipe>
 
             <SenderPipe
-                name="CallGetZgwInformatieObjectUnLock"
-                storeResultInSessionKey="ZgwInformatieObjectUnLockResult">
+                name="CallGetZgwInformatieObjectUnlock"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="ZgwInformatieObjectUnlockResult">
                 <IbisLocalSender
-                    name="CallGetZgwInformatieObjectUnLockSender"
-                    javaListener="GetZgwInformatieObjectUnLock">
-                    <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
+                    name="CallGetZgwInformatieObjectUnlockSender"
+                    javaListener="GetZgwInformatieObjectUnlock">
+                    <Param name="ZgwUnlockUrl" xpathExpression="concat($Url, '/unlock')">
+                        <Param name="Url" sessionKey="Url"/>
+                    </Param>
                     <Param name="ZgwLock" sessionKey="Lock"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>

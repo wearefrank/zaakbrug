@@ -85,11 +85,12 @@
             <XmlIfPipe name="CheckForGetGetZaakResult"
                 xpathExpression="string-length(/ZgwZaak) > 0"
                 >
-                <Forward name="then" path="CallGetBas64Inhoud"/>
+                <Forward name="then" path="MapZdsZaakDocumentInhoud"/>
                 <Forward name="else" path="EXCEPTION"/>
             </XmlIfPipe>
 
-            <SenderPipe name="CallGetBas64Inhoud"
+<!-- Read timed out while testing -->
+            <!-- <SenderPipe name="CallGetBas64Inhoud"
                 storeResultInSessionKey="Bas64Inhoud">
 				<HttpSender 
 					name="CallGetBas64InhoudSender" 
@@ -118,13 +119,14 @@
                 <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud"/>
                 <Forward name="true" path="MapZdsZaakDocumentInhoud"/>
                 <Forward name="false" path="EXCEPTION"/>
-            </XmlSwitchPipe>
+            </XmlSwitchPipe> -->
 
             <XsltPipe
                 name="MapZdsZaakDocumentInhoud"
                 getInputFromSessionKey="ZgwEnkelvoudigInformatieObject"
                 storeResultInSessionKey="ZdsZaakDocumentInhoud"
                 removeNamespaces="true"
+                skipEmptyTags="true"
                 styleSheetName="ZaakDocument/xsl/ZdsZaakDocumentInhoud.xsl"
                 >
                 <Param name="ZgwInformatieObjectType" sessionKey="ZgwInformatieObjectType" type="DOMDOC"/>

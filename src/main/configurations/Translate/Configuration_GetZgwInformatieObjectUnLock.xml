@@ -1,10 +1,10 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="GetZgwInformatieObjectUnLock"
-        active="${GetZgwInformatieObjectUnLock.Active}"
+    <Adapter name="GetZgwInformatieObjectUnlock"
+        active="${GetZgwInformatieObjectUnlock.Active}"
         description="">
 
-        <Receiver name="GetZgwInformatieObjectUnLock">
-            <JavaListener name="GetZgwInformatieObjectUnLock"/>
+        <Receiver name="GetZgwInformatieObjectUnlock">
+            <JavaListener name="GetZgwInformatieObjectUnlock"/>
         </Receiver>
 
         <Pipeline>   
@@ -14,8 +14,8 @@
             </Exits>
 
             <XsltPipe
-                name="CreatePostUnLockBody"
-                styleSheetName="ZaakDocument/xsl/CreatePostUnLockBody.xslt"
+                name="CreatePostUnlockBody"
+                styleSheetName="ZaakDocument/xsl/CreatePostUnlockBody.xslt"
                 >
                 <Param name="ZgwLock" sessionKey="ZgwLock"/>
                 <Forward name="success" path="XmlToJson"/>
@@ -25,19 +25,18 @@
             <JsonPipe name="XmlToJson"
                 direction="xml2json"
                 >
-                <Forward name="success" path="PostUnLock"/>
+                <Forward name="success" path="PostUnlock"/>
             </JsonPipe>
 
-			<SenderPipe name="PostUnLock">
+			<SenderPipe name="PostUnlock">
 				<HttpSender 
-					name="PostUnLockSender" 
+					name="PostUnlockSender" 
 					methodType="POST"
 					headersParams="Authorization,Accept-Crs"
+                    contentType="application/json"
                     timeout="${creeerZaak.timeout}"
 				/>
-                <Param name="url" xpathExpression="concat($ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/url, '/unlock')">
-                    <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
-                </Param>
+                <Param name="url" sessionKey="ZgwUnlockUrl"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="EXIT"/>

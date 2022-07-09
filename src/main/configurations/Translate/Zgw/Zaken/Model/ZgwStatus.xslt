@@ -25,7 +25,7 @@
                 <xsl:value-of select="zgw:toZgwDatetime($ZdsEinddatum)"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="zgw:toZgwDatetime($ZdsStatusDatum)"/>
+                <xsl:value-of select="zgw:toZgwDatetime(concat($ZdsStatusDatum,'000000'))"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>

@@ -205,6 +205,7 @@
 
             <SoapWrapperPipe
                 name="WrapCheckOutZaakDocument_Di02Response"
+                getInputFromFixedValue="&lt;dummy/&gt;"
                 soapBodyStyleSheet="Common/xsl/CreateBv02Response.xslt"
                 >
                 <Forward name="success" path="EXIT"/>
@@ -244,6 +245,7 @@
 
             <SoapWrapperPipe
                 name="WrapUpdateZaakDocument_Di02Response"
+                getInputFromFixedValue="&lt;dummy/&gt;"
                 soapBodyStyleSheet="Common/xsl/CreateBv02Response.xslt"
                 >
                 <Forward name="success" path="EXIT"/>

@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" version="2.0">
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
     <xsl:param name="UnwrapMessageResult"/>
    
@@ -24,22 +24,52 @@
                 <StUF:indicatorVervolgvraag><xsl:value-of select="$UnwrapMessageResult/*/parameters/indicatorVervolgvraag"/></StUF:indicatorVervolgvraag>
             </ZKN:parameters>
             <ZKN:antwoord>
-                <ZKN:object>
-                    <ZKN:identificatie><xsl:value-of select="ZdsZaakDocumentInhoud/identificatie"/></ZKN:identificatie>
-                    <ZKN:dct.omschrijving><xsl:value-of select="ZdsZaakDocumentInhoud/omschrijving"/></ZKN:dct.omschrijving>
-                    <ZKN:creatiedatum><xsl:value-of select="ZdsZaakDocumentInhoud/creatiedatum"/></ZKN:creatiedatum>
-                    <ZKN:ontvangstdatum><xsl:value-of select="ZdsZaakDocumentInhoud/ontvangstdatum"/></ZKN:ontvangstdatum>
-                    <ZKN:titel><xsl:value-of select="ZdsZaakDocumentInhoud/titel"/></ZKN:titel>
-                    <ZKN:beschrijving><xsl:value-of select="ZdsZaakDocumentInhoud/beschrijving"/></ZKN:beschrijving>
-                    <ZKN:formaat><xsl:value-of select="ZdsZaakDocumentInhoud/formaat"/></ZKN:formaat>
-                    <ZKN:taal><xsl:value-of select="ZdsZaakDocumentInhoud/taal"/></ZKN:taal>
-                    <ZKN:versie><xsl:value-of select="ZdsZaakDocumentInhoud/versie"/></ZKN:versie>
-                    <ZKN:status><xsl:value-of select="ZdsZaakDocumentInhoud/status"/></ZKN:status>
-                    <ZKN:verzenddatum><xsl:value-of select="ZdsZaakDocumentInhoud/verzenddatum"/></ZKN:verzenddatum>
-                    <ZKN:vertrouwelijkAanduiding><xsl:value-of select="ZdsZaakDocumentInhoud/vertrouwelijkAanduiding"/></ZKN:vertrouwelijkAanduiding>
-                    <ZKN:auteur><xsl:value-of select="ZdsZaakDocumentInhoud/auteur"/></ZKN:auteur>
-                    <ZKN:link><xsl:value-of select="ZdsZaakDocumentInhoud/link"/></ZKN:link>
-                    <ZKN:inhoud><xsl:value-of select="ZdsZaakDocumentInhoud/inhoud"/></ZKN:inhoud>
+                <ZKN:object StUF:entiteittype="EDC">
+                    <xsl:if test="ZdsZaakDocumentInhoud/identificatie">
+                        <ZKN:identificatie><xsl:value-of select="ZdsZaakDocumentInhoud/identificatie"/></ZKN:identificatie>
+                    </xsl:if>
+                    <xsl:if test="ZdsZaakDocumentInhoud/omschrijving">
+                        <ZKN:dct.omschrijving><xsl:value-of select="ZdsZaakDocumentInhoud/omschrijving"/></ZKN:dct.omschrijving>
+                    </xsl:if>
+                    <xsl:if test="ZdsZaakDocumentInhoud/creatiedatum">
+                        <ZKN:creatiedatum><xsl:value-of select="ZdsZaakDocumentInhoud/creatiedatum"/></ZKN:creatiedatum>
+                    </xsl:if>
+                    <xsl:if test="ZdsZaakDocumentInhoud/ontvangstdatum">
+                        <ZKN:ontvangstdatum><xsl:value-of select="ZdsZaakDocumentInhoud/ontvangstdatum"/></ZKN:ontvangstdatum>
+                    </xsl:if>
+                    <xsl:if test="ZdsZaakDocumentInhoud/titel">
+                        <ZKN:titel><xsl:value-of select="ZdsZaakDocumentInhoud/titel"/></ZKN:titel>
+                    </xsl:if>
+                    <xsl:if test="ZdsZaakDocumentInhoud/beschrijving">
+                        <ZKN:beschrijving><xsl:value-of select="ZdsZaakDocumentInhoud/beschrijving"/></ZKN:beschrijving>
+                    </xsl:if>
+                    <xsl:if test="ZdsZaakDocumentInhoud/formaat">
+                        <ZKN:formaat><xsl:value-of select="ZdsZaakDocumentInhoud/formaat"/></ZKN:formaat>
+                    </xsl:if>
+                    <xsl:if test="ZdsZaakDocumentInhoud/taal">
+                        <ZKN:taal><xsl:value-of select="ZdsZaakDocumentInhoud/taal"/></ZKN:taal>
+                    </xsl:if>
+                    <xsl:if test="ZdsZaakDocumentInhoud/versie">
+                        <ZKN:versie><xsl:value-of select="ZdsZaakDocumentInhoud/versie"/></ZKN:versie>
+                    </xsl:if>
+                    <xsl:if test="ZdsZaakDocumentInhoud/status">
+                        <ZKN:status><xsl:value-of select="ZdsZaakDocumentInhoud/status"/></ZKN:status>
+                    </xsl:if>
+                    <xsl:if test="ZdsZaakDocumentInhoud/verzenddatum">
+                        <ZKN:verzenddatum><xsl:value-of select="ZdsZaakDocumentInhoud/verzenddatum"/></ZKN:verzenddatum>
+                    </xsl:if>
+                    <xsl:if test="ZdsZaakDocumentInhoud/vertrouwelijkAanduiding">
+                        <ZKN:vertrouwelijkAanduiding><xsl:value-of select="ZdsZaakDocumentInhoud/vertrouwelijkAanduiding"/></ZKN:vertrouwelijkAanduiding>
+                    </xsl:if>
+                    <xsl:if test="ZdsZaakDocumentInhoud/auteur">
+                        <ZKN:auteur><xsl:value-of select="ZdsZaakDocumentInhoud/auteur"/></ZKN:auteur>
+                    </xsl:if>
+                    <xsl:if test="ZdsZaakDocumentInhoud/link">
+                        <ZKN:link><xsl:value-of select="ZdsZaakDocumentInhoud/link"/></ZKN:link>
+                    </xsl:if>
+                    <xsl:if test="ZdsZaakDocumentInhoud/inhoud">
+                        <ZKN:inhoud StUF:bestandsnaam="" xmime:contentType="unknown"><xsl:value-of select="ZdsZaakDocumentInhoud/inhoud"/></ZKN:inhoud>
+                    </xsl:if>
                     <xsl:apply-templates select="ZdsZaakDocumentInhoud/isRelevantVoor"/>
                 </ZKN:object>
             </ZKN:antwoord>
@@ -47,8 +77,8 @@
 	</xsl:template>
 
     <xsl:template match="ZdsZaakDocumentInhoud/isRelevantVoor">
-        <ZKN:isRelevantVoor>
-            <ZKN:gerelateerde>
+        <ZKN:isRelevantVoor StUF:entiteittype="EDCZAK">
+            <ZKN:gerelateerde StUF:entiteittype="ZAK">
                 <ZKN:identificatie><xsl:value-of select="gerelateerde/identificatie"/></ZKN:identificatie>
                 <ZKN:omschrijving><xsl:value-of select="gerelateerde/omschrijving"/></ZKN:omschrijving>
             </ZKN:gerelateerde>

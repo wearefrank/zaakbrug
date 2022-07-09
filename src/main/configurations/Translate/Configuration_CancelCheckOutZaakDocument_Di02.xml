@@ -28,18 +28,18 @@
                 xpathExpression="count(ZgwEnkelvoudigInformatieObject) = 0"
                 >
                 <Forward name="then" path="EXCEPTION"/>
-                <Forward name="else" path="CallGetZgwInformatieObjectUnLock"/>
+                <Forward name="else" path="CallGetZgwInformatieObjectUnlock"/>
             </XmlIfPipe>
 
             <SenderPipe
-                name="CallGetZgwInformatieObjectUnLock"
-                storeResultInSessionKey="ZgwInformatieObjectUnLockResult">
+                name="CallGetZgwInformatieObjectUnlock"
+                storeResultInSessionKey="ZgwInformatieObjectUnlockResult">
                 <IbisLocalSender
-                    name="CallGetZgwInformatieObjectUnLockSender"
-                    javaListener="GetZgwInformatieObjectUnLock">
-                    <Param name="Url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/url">
+                    name="CallGetZgwInformatieObjectUnlockSender"
+                    javaListener="GetZgwInformatieObjectUnlock">
+                    <Param name="ZgwUnlockUrl" xpathExpression="concat($ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/url, '/unlock')">
                         <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
-                    </Param>                    
+                    </Param>
                     <Param name="ZgwLock" sessionKey="Lock"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>

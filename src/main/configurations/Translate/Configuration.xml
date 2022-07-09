@@ -17,6 +17,7 @@
   <!ENTITY GenereerZaakIdentificatie_SOAP                 SYSTEM "./Configuration_GenereerZaakIdentificatie_SOAP.xml">
   <!ENTITY GetResultaatTypeByZaakTypeAndOmschrijving      SYSTEM "./Configuration_GetResultaatTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetResultatenByZaakUrl                         SYSTEM "./Configuration_GetResultatenByZaakUrl.xml">
+  <!ENTITY GetRollenByBsn                                 SYSTEM "./Configuration_GetRollenByBsn.xml">
   <!ENTITY Zaken_GetZgwStatusByZaakUrl                    SYSTEM "./Configuration_Zaken_GetZgwStatusByZaakUrl.xml">
   <!ENTITY GetStatusTypeByZaakTypeAndOmschrijving         SYSTEM "./Configuration_GetStatusTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetStatusTypes                                 SYSTEM "./Configuration_GetStatusTypes.xml">
@@ -27,7 +28,7 @@
   <!ENTITY GetZgwEnkelvoudigInformatieObjectByIdentificatie       SYSTEM "./Configuration_GetZgwEnkelvoudigInformatieObjectByIdentificatie.xml">
   <!ENTITY GetZgwInformatieObjectTypeByOmschrijving       SYSTEM "./Configuration_GetZgwInformatieObjectTypeByOmschrijving.xml">
   <!ENTITY GetZgwInformatieObjectTypeByUrl                SYSTEM "./Configuration_GetZgwInformatieObjectTypeByUrl.xml">
-  <!ENTITY GetZgwInformatieObjectUnLock                   SYSTEM "./Configuration_GetZgwInformatieObjectUnLock.xml">
+  <!ENTITY GetZgwInformatieObjectUnlock                   SYSTEM "./Configuration_GetZgwInformatieObjectUnlock.xml">
   <!ENTITY GetZdsZaakFromZgw                              SYSTEM "./Configuration_GetZdsZaakFromZgw.xml">
   <!ENTITY GetZgwRolesByZaakUrl                           SYSTEM "./Configuration_GetZgwRolesByZaakUrl.xml">
   <!ENTITY Zaken_GetZgwRolTypeByUrl                       SYSTEM "./Configuration_Zaken_GetZgwRolTypeByUrl.xml">
@@ -79,6 +80,7 @@
   &GenereerZaakIdentificatie_SOAP;
   &GetResultaatTypeByZaakTypeAndOmschrijving;
   &GetResultatenByZaakUrl;
+  &GetRollenByBsn;
   &Zaken_GetZgwStatusByZaakUrl;
   &GetStatusTypeByZaakTypeAndOmschrijving;
   &GetStatusTypes;
@@ -90,7 +92,7 @@
   &GetZdsZaakFromZgw;
   &GetZgwInformatieObjectTypeByOmschrijving;
   &GetZgwInformatieObjectTypeByUrl;
-  &GetZgwInformatieObjectUnLock;
+  &GetZgwInformatieObjectUnlock;
   &GetZgwRolesByZaakUrl;
   &Zaken_GetZgwRolTypeByUrl;
   &Zaken_GetZgwRolTypeByZaakType;

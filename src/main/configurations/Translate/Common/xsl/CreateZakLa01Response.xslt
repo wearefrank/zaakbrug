@@ -356,24 +356,58 @@
     <xsl:template match="results/result/heeftRelevant">
         <ZKN:heeftRelevant StUF:entiteittype="ZAKEDC">
             <ZKN:gerelateerde StUF:entiteittype="EDC">
-                <ZKN:identificatie><xsl:value-of select="gerelateerde/identificatie"/></ZKN:identificatie>
-                <ZKN:dct.omschrijving><xsl:value-of select="gerelateerde/omschrijving"/></ZKN:dct.omschrijving>
-                <ZKN:creatiedatum><xsl:value-of select="gerelateerde/creatiedatum"/></ZKN:creatiedatum>
-                <ZKN:ontvangstdatum><xsl:value-of select="gerelateerde/ontvangstdatum"/></ZKN:ontvangstdatum>
-                <ZKN:titel><xsl:value-of select="gerelateerde/titel"/></ZKN:titel>
-                <ZKN:beschrijving><xsl:value-of select="gerelateerde/beschrijving"/></ZKN:beschrijving>
-                <ZKN:formaat><xsl:value-of select="gerelateerde/formaat"/></ZKN:formaat>
-                <ZKN:taal><xsl:value-of select="gerelateerde/taal"/></ZKN:taal>
-                <ZKN:versie><xsl:value-of select="gerelateerde/versie"/></ZKN:versie>
-                <ZKN:status><xsl:value-of select="gerelateerde/status"/></ZKN:status>
-                <ZKN:verzenddatum><xsl:value-of select="gerelateerde/verzenddatum"/></ZKN:verzenddatum>
-                <ZKN:vertrouwelijkAanduiding><xsl:value-of select="gerelateerde/vertrouwelijkheidaanduiding"/></ZKN:vertrouwelijkAanduiding>
-                <ZKN:auteur><xsl:value-of select="gerelateerde/auteur"/></ZKN:auteur>
-                <ZKN:link><xsl:value-of select="gerelateerde/link"/></ZKN:link>
+                <xsl:if test="gerelateerde/identificatie">
+                    <ZKN:identificatie><xsl:value-of select="gerelateerde/identificatie"/></ZKN:identificatie>
+                </xsl:if>
+                <xsl:if test="gerelateerde/omschrijving">
+                    <ZKN:dct.omschrijving><xsl:value-of select="gerelateerde/omschrijving"/></ZKN:dct.omschrijving>
+                </xsl:if>
+                <xsl:if test="gerelateerde/creatiedatum">
+                    <ZKN:creatiedatum><xsl:value-of select="format-date(gerelateerde/creatiedatum, '[Y0001][M01][D01]')"/></ZKN:creatiedatum>
+                </xsl:if>
+                <xsl:if test="gerelateerde/ontvangstdatum">
+                    <ZKN:ontvangstdatum><xsl:value-of select="format-date(gerelateerde/ontvangstdatum, '[Y0001][M01][D01]')"/></ZKN:ontvangstdatum>
+                </xsl:if>
+                <xsl:if test="gerelateerde/titel">
+                    <ZKN:titel><xsl:value-of select="gerelateerde/titel"/></ZKN:titel>
+                </xsl:if>
+                <xsl:if test="gerelateerde/beschrijving">
+                    <ZKN:beschrijving><xsl:value-of select="gerelateerde/beschrijving"/></ZKN:beschrijving>
+                </xsl:if>
+                <xsl:if test="gerelateerde/formaat">
+                    <ZKN:formaat><xsl:value-of select="gerelateerde/formaat"/></ZKN:formaat>
+                </xsl:if>
+                <xsl:if test="gerelateerde/taal">
+                    <ZKN:taal><xsl:value-of select="gerelateerde/taal"/></ZKN:taal>
+                </xsl:if>
+                <xsl:if test="gerelateerde/versie">
+                    <ZKN:versie><xsl:value-of select="gerelateerde/versie"/></ZKN:versie>
+                </xsl:if>
+                <xsl:if test="gerelateerde/status">
+                    <ZKN:status><xsl:value-of select="gerelateerde/status"/></ZKN:status>
+                </xsl:if>
+                <xsl:if test="gerelateerde/verzenddatum">
+                    <ZKN:verzenddatum><xsl:value-of select="format-date(gerelateerde/verzenddatum, '[Y0001][M01][D01]')"/></ZKN:verzenddatum>
+                </xsl:if>
+                <xsl:if test="gerelateerde/vertrouwelijkAanduiding">
+                    <ZKN:vertrouwelijkAanduiding><xsl:value-of select="upper-case(gerelateerde/vertrouwelijkAanduiding)"/></ZKN:vertrouwelijkAanduiding>
+                </xsl:if>
+                <xsl:if test="gerelateerde/auteur">
+                    <ZKN:auteur><xsl:value-of select="gerelateerde/auteur"/></ZKN:auteur>
+                </xsl:if>
+                <xsl:if test="gerelateerde/link">
+                    <ZKN:link><xsl:value-of select="gerelateerde/link"/></ZKN:link>
+                </xsl:if>
             </ZKN:gerelateerde>
-            <ZKN:titel><xsl:value-of select="titel"/></ZKN:titel>
-            <ZKN:beschrijving><xsl:value-of select="beschrijving"/></ZKN:beschrijving>
-            <ZKN:registratiedatum><xsl:value-of select="registratiedatum"/></ZKN:registratiedatum>
+            <xsl:if test="titel">
+                <ZKN:titel><xsl:value-of select="titel"/></ZKN:titel>
+            </xsl:if>
+            <xsl:if test="beschrijving">
+                <ZKN:beschrijving><xsl:value-of select="beschrijving"/></ZKN:beschrijving>
+            </xsl:if>
+            <xsl:if test="registratiedatum">
+                <ZKN:registratiedatum><xsl:value-of select="format-dateTime(registratiedatum, '[Y0001][M01][D01]')"/></ZKN:registratiedatum>
+            </xsl:if>
         </ZKN:heeftRelevant>
     </xsl:template>
 </xsl:stylesheet>

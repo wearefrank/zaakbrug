@@ -35,8 +35,21 @@
                 xpathExpression="/ZgwEnkelvoudigInformatieObject/locked = 'true'"
                 >
                 <Forward name="then" path="EXCEPTION"/>
-                <Forward name="else" path="PostLock"/>
+                <Forward name="else" path="StoreZgwLockUrl"/>
             </XmlIfPipe>
+
+            <PutInSessionPipe 
+                name="StoreZgwLockUrl">
+                <Param name="ZgwLockUrl" xpathExpression="concat($ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/url, '/lock')">
+                    <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="ReadFile" />
+            </PutInSessionPipe>
+
+            <LocalFileSystemPipe name="ReadFile" action="read">
+				<Param name="filename" value="${FilePath_3}" />
+				<Forward name="success" path="PostLock" />
+			</LocalFileSystemPipe>
 
             <SenderPipe name="PostLock">
 				<HttpSender 
@@ -44,27 +57,17 @@
 					methodType="POST"
 					headersParams="Authorization,Accept-Crs"
                     timeout="${creeerZaak.timeout}"
+                    contentType="application/json"
 				/>
-                <Param name="url" xpathExpression="concat($ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/url, '/lock')">
-                    <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
-                </Param>
+                <Param name="url" sessionKey="ZgwLockUrl"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="JsonToXml" />
 			</SenderPipe>
 
             <JsonPipe name="JsonToXml">
-                <Forward name="success" path="UnwrapZgwLockToSingle"/>
-            </JsonPipe>
-
-            <XsltPipe
-                name="UnwrapZgwLockToSingle"
-                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToSingle.xslt"
-                >
-                <Param name="Type" value="ZgwLock"/>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="error" path="EXCEPTION"/>
-            </XsltPipe>
+            </JsonPipe>
         </Pipeline>
     </Adapter>
 </Module>

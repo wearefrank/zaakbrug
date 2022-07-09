@@ -9,12 +9,12 @@
     </xsl:template>
 
     <xsl:template match="/">
-        <xsl:for-each select="root/results">
-            <xsl:if test="omschrijving = $Omschrijving">
-                <resultaatType>
+        <resultaatType>
+            <xsl:for-each select="root/results">
+                <xsl:if test="omschrijving = $Omschrijving">
                     <xsl:apply-templates select="@*|node()"/>
-                </resultaatType>
-            </xsl:if>
-        </xsl:for-each>
+                </xsl:if>
+            </xsl:for-each>
+        </resultaatType>
 	</xsl:template>
 </xsl:stylesheet>
