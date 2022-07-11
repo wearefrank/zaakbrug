@@ -14,12 +14,12 @@
             </Exits>
 
 			<SenderPipe
-                name="CallGetZgwEnkelvoudigInformatieObjectByIdentiticatie"
+                name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatie"
                 storeResultInSessionKey="ZgwEnkelvoudigInformatieObject">
                 <IbisLocalSender
-                    name="CallGetZgwEnkelvoudigInformatieObjectByIdentiticatieSender"
-                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentiticatie">
-                    <Param name="Identiticatie" sessionKey="DocumentIdentificatie"/>
+                    name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatieSender"
+                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie">
+                    <Param name="Identificatie" sessionKey="DocumentIdentificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwEnkelvoudigInformatieObjectResult"/>
             </SenderPipe>
@@ -85,35 +85,48 @@
             <XmlIfPipe name="CheckForGetGetZaakResult"
                 xpathExpression="string-length(/ZgwZaak) > 0"
                 >
-                <Forward name="then" path="CallGetBas64Inhoud"/>
-                <Forward name="else" path="EXCEPTION"/>
-            </XmlIfPipe>
-
-            <SenderPipe
-                name="CallGetBas64Inhoud"
-                storeResultInSessionKey="Bas64Inhoud">
-                <IbisLocalSender
-                    name="CallGetBas64InhoudSender"
-                    javaListener="GetBas64Inhoud">
-                    <Param name="Url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/inhoud">
-                        <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
-                    </Param>
-                </IbisLocalSender>
-                <Forward name="success" path="CheckForGetBas64InhoudResult"/>
-            </SenderPipe>
-
-            <XmlIfPipe name="CheckForGetBas64InhoudResult"
-                xpathExpression="string-length(/Inhoud) > 0"
-                >
                 <Forward name="then" path="MapZdsZaakDocumentInhoud"/>
                 <Forward name="else" path="EXCEPTION"/>
             </XmlIfPipe>
+
+<!-- Read timed out while testing -->
+            <!-- <SenderPipe name="CallGetBas64Inhoud"
+                storeResultInSessionKey="Bas64Inhoud">
+				<HttpSender 
+					name="CallGetBas64InhoudSender" 
+					methodType="GET"
+                    encodeMessages="true"
+					headersParams="Authorization,Accept-Crs"
+                    timeout="${creeerZaak.timeout}"
+				/>
+                <Param name="url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/inhoud">
+                    <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
+                </Param>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Forward name="success" path="EncodeInhoud" />
+			</SenderPipe>
+
+            <Base64Pipe name="EncodeInhoud"
+				storeResultInSessionKey="Bas64Inhoud">
+                <forward name="success" path="CheckForGetBas64InhoudResult" />
+            </Base64Pipe>
+
+            <XmlSwitchPipe 
+                name="CheckForGetBas64InhoudResult" 
+                xpathExpression="string-length($Bas64Inhoud) &gt; 0"
+                >
+                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud"/>
+                <Forward name="true" path="MapZdsZaakDocumentInhoud"/>
+                <Forward name="false" path="EXCEPTION"/>
+            </XmlSwitchPipe> -->
 
             <XsltPipe
                 name="MapZdsZaakDocumentInhoud"
                 getInputFromSessionKey="ZgwEnkelvoudigInformatieObject"
                 storeResultInSessionKey="ZdsZaakDocumentInhoud"
                 removeNamespaces="true"
+                skipEmptyTags="true"
                 styleSheetName="ZaakDocument/xsl/ZdsZaakDocumentInhoud.xsl"
                 >
                 <Param name="ZgwInformatieObjectType" sessionKey="ZgwInformatieObjectType" type="DOMDOC"/>

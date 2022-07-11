@@ -15,27 +15,61 @@
 
 			<XmlSwitchPipe 
                 name="DetectRolChanges" 
-                styleSheetName="UpdateZaak_LK01/xsl/DetectRolChanges.xsl"
+                getInputFromSessionKey="ZdsWasZaakRol"
+                styleSheetName="UpdateZaak_LK01/xsl/DetectRolChanges.xslt"
                 >
-                <Param name="RolBody_1" sessionKey="RolBody_1" type="DOMDOC"/>
-                <Forward name="New" path="CallAddRolToZgw"/>
-                <Forward name="Delete" path="CallDeleteRol"/>
-                <Forward name="Changed" path="CallUpdateRolInZgw"/>
+                <Param name="ZdsWordtZaakRol" sessionKey="originalMessage" type="DOMDOC"/>
+                <Forward name="New" path="CallGetZgwRolType"/>
+                <Forward name="Delete" path="CallDeleteRolFromZgw"/>
+                <Forward name="Changed" path="DeleteRolBeforeUpdate"/>
+                <Forward name="Exit" path="EXIT"/>
             </XmlSwitchPipe>
 
+            <SenderPipe name="DeleteRolBeforeUpdate"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="DeleteRolResult">
+                <IbisLocalSender
+                    name="CallDeleteRolSender"
+                    javaListener="DeleteRolFromZgw">
+                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
+                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CallGetZgwRolType"/>
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallGetZgwRolType"
+                storeResultInSessionKey="ZgwRolTypen">
+                <IbisLocalSender
+                    name="GetZgwRolTypeByZaakTypeLocalSender"
+                    javaListener="Zaken_GetZgwRolTypeByZaakType">
+                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CallAddRolToZgw"/>
+            </SenderPipe>
+
             <SenderPipe name="CallAddRolToZgw"
-                getInputFromSessionKey="ZgwZaak"
+                getInputFromSessionKey="originalMessage"
                 storeResultInSessionKey="AddRolResult">
                 <IbisLocalSender
                     name="CallAddRolToZgwSender"
                     javaListener="AddRolToZgw">
-                    <Param name="GetRolTypeResult" sessionKey="GetRolTypeResult" type="DOMDOC"/>
-                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/zgwZaakType/ZaakType/url">
-                        <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
-                    </Param>
+                    <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC"/>
+                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
+                </IbisLocalSender>
+                <Forward name="success" path="PostRolIterator"/>
+            </SenderPipe>
+
+            <ForEachChildElementPipe name="PostRolIterator"
+                elementXPathExpression="/results/result/zgwRol"
+                >
+                <IbisLocalSender
+                    name="PostZgwRolLocalSender"
+                    javaListener="Zaken_PostZgwRol">
+                    <Param name="ZaakUrl" sessionKey="ZgwZaakUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
-            </SenderPipe>
+            </ForEachChildElementPipe>
 
             <SenderPipe name="CallDeleteRolFromZgw"
                 getInputFromSessionKey="originalMessage"
@@ -43,22 +77,8 @@
                 <IbisLocalSender
                     name="CallDeleteRolSender"
                     javaListener="DeleteRolFromZgw">
-                    <Param name="ZgwZaak" sessionKey="ZgwZaak"/>
+                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
-                </IbisLocalSender>
-                <Forward name="success" path="EXIT"/>
-            </SenderPipe>
-
-            <SenderPipe name="CallUpdateRolInZgw"
-                getInputFromSessionKey="originalMessage"
-                storeResultInSessionKey="UpdateRolResult">
-                <IbisLocalSender
-                    name="CallUpdateRolInZgwSender"
-                    javaListener="UpdateRolInZgw">
-                    <Param name="GetRolTypeResult" sessionKey="GetRolTypeResult" type="DOMDOC"/>
-                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/zgwZaakType/ZaakType/url">
-                        <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
-                    </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
             </SenderPipe>

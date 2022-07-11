@@ -58,52 +58,113 @@
 				forwardNameSessionKey="SatitizedSoapAction"
                 />
 
-            <WsdlXmlValidatorPipe name="http:__www.egem.nl_StUF_sector_zkn_0310_creeerZaak_Lk01"
-				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl"
-                soapBody="zakLk01"
+            <WsdlXmlValidatorPipe 
+                name="http:__www.egem.nl_StUF_sector_zkn_0310_geefLijstZaakdocumenten_Lv01"
+				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_beantwoordVraag_zs-dms.wsdl"
+                getInputFromSessionKey="SanitizedMessage"
+                soapBody="zakLv01"
                 ignoreUndeclaredElements="true"
                 ignoreUnknownNamespaces="true"
                 >
-				<Forward name="succes" path="CreeerZaakSender"/>
+				<Forward name="success" path="GeefLijstZaakdocumenten_Lv01Sender"/>
 				<Forward name="failure" path="InvalidXml"/>
                 <Forward name="parserError" path="NotWellFormed"/>
 			</WsdlXmlValidatorPipe>
 
             <WsdlXmlValidatorPipe 
-                name="http:__www.egem.nl_StUF_sector_zkn_0310_updateZaak_Lk01"
-				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl"
-                soapBody="zakLk01"
+                name="http:__www.egem.nl_StUF_sector_zkn_0310_geefZaakdocumentLezen_Lv01"
+				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_beantwoordVraag_zs-dms.wsdl"
+                getInputFromSessionKey="SanitizedMessage"
+                soapBody="edcLv01"
                 ignoreUndeclaredElements="true"
                 ignoreUnknownNamespaces="true"
                 >
-				<Forward name="succes" path="UpdateZaakSender"/>
+				<Forward name="success" path="GeefZaakdocumentLezen_Lv01Sender"/>
+				<Forward name="failure" path="InvalidXml"/>
+                <Forward name="parserError" path="NotWellFormed"/>
+			</WsdlXmlValidatorPipe>
+
+            <WsdlXmlValidatorPipe 
+                name="http:__www.egem.nl_StUF_sector_zkn_0310_geefZaakdetails_Lv01"
+				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_beantwoordVraag_zs-dms.wsdl"
+                getInputFromSessionKey="SanitizedMessage"
+                soapBody="zakLv01"
+                ignoreUndeclaredElements="true"
+                ignoreUnknownNamespaces="true"
+                >
+				<Forward name="success" path="GeefZaakdetails_Lv01Sender"/>
 				<Forward name="failure" path="InvalidXml"/>
                 <Forward name="parserError" path="NotWellFormed"/>
 			</WsdlXmlValidatorPipe>
 
             <SenderPipe
-                name="UpdateZaakSender">
+                name="GeefLijstZaakdocumenten_Lv01Sender">
                 <IbisLocalSender
-                    name="UpdateZaakLocalSender"
-                    javaListener="UpdateZaak_Lk01">
+                    name="GeefLijstZaakdocumenten_Lv01LocalSender"
+                    javaListener="GeefLijstZaakdocumenten_Lv01">
+                    <Param name="ZaakIdentificatie" xpathExpression="$UnwrapMessageResult/zakLv01/gelijk/identificatie">
+                        <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC"/>
+                    </Param>
                 </IbisLocalSender>
-                <Forward name="success" path="WrapBv03Response" />
+                <Forward name="success" path="WrapZakLa01Response" />
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>
 
             <SenderPipe
-                name="CreeerZaakSender">
+                name="GeefZaakdocumentLezen_Lv01Sender">
                 <IbisLocalSender
-                    name="CreeerZaakLocalSender"
-                    javaListener="CreeerZaak_Lk01">
+                    name="GeefZaakdocumentLezen_Lv01LocalSender"
+                    javaListener="GeefZaakdocumentLezen_Lv01">
+                    <Param name="DocumentIdentificatie" xpathExpression="$UnwrapMessageResult/edcLv01/gelijk/identificatie">
+                        <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC"/>
+                    </Param>
                 </IbisLocalSender>
-                <Forward name="success" path="WrapBv03Response" />
+                <Forward name="success" path="WrapEdcLa01Response" />
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>
+
+            <SenderPipe
+                name="GeefZaakdetails_Lv01Sender"
+                getInputFromSessionKey="UnwrapMessageResult"
+                storeResultInSessionKey="Zaakdetails">
+                <IbisLocalSender
+                    name="GeefZaakdetails_Lv01LocalSender"
+                    javaListener="GeefZaakdetails_Lv01">
+                </IbisLocalSender>
+                <Forward name="success" path="FilterZaakdetails" />
+                <Forward name="exception" path="BackEndError" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="FilterZaakdetails"
+                getInputFromSessionKey="UnwrapMessageResult"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="GeefZaakdetails_LV01/xsl/FilterScope.xsl"
+                >
+                <Param name="ZdsZaak"   sessionKey="Zaakdetails" type="DOMDOC"/>
+                <Forward name="success" path="WrapZakLa01Response"/>
+            </XsltPipe>
            
             <SoapWrapperPipe
                 name="WrapBv03Response"
                 soapBodyStyleSheet="Common/xsl/CreateBv03Response.xslt"
+                >
+                <Param name="UnwrapMessageResult"   sessionKey="UnwrapMessageResult" type="DOMDOC"/>
+                <Forward name="success" path="EXIT"/>
+            </SoapWrapperPipe>
+
+            <SoapWrapperPipe
+                name="WrapZakLa01Response"
+                soapBodyStyleSheet="Common/xsl/CreateZakLa01Response.xslt"
+                >
+                <Param name="UnwrapMessageResult"   sessionKey="UnwrapMessageResult" type="DOMDOC"/>
+                <Forward name="success" path="EXIT"/>
+            </SoapWrapperPipe>
+
+            <SoapWrapperPipe
+                name="WrapEdcLa01Response"
+                soapBodyStyleSheet="Common/xsl/CreateEdcLa01Response.xslt"
                 >
                 <Param name="UnwrapMessageResult"   sessionKey="UnwrapMessageResult" type="DOMDOC"/>
                 <Forward name="success" path="EXIT"/>

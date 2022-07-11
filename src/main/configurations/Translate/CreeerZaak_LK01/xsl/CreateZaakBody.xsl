@@ -56,7 +56,7 @@
             </xsl:if>
             <!--<archiefstatus><xsl:value-of select="$archiefstatus"/></archiefstatus> --> <!-- where to get ? unknown -->
             <xsl:if test="string-length(datumVernietigingDossier) > 0">
-                <archiefdatum><xsl:value-of select="zgw:convertZdsDateToZgwDate(datumVernietigingDossier)"/></archiefdatum>
+                <archiefactiedatum><xsl:value-of select="zgw:convertZdsDateToZgwDate(datumVernietigingDossier)"/></archiefactiedatum>
             </xsl:if>
             <opdrachtgevendeOrganisatie><xsl:value-of select="opdrachtgevendeOrganisatie"/></opdrachtgevendeOrganisatie>
         </ZgwZaak>

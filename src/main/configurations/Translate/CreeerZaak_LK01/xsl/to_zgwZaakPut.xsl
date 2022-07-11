@@ -114,7 +114,7 @@
                 <archiefstatus><xsl:value-of select="$archiefstatus"/></archiefstatus>
             </xsl:if>
 			<xsl:if test="/object/datumVernietigingDossier">
-                <archiefdatum><xsl:value-of select="zgw:convertZdsDateToZgwDate(/object/datumVernietigingDossier)"/></archiefdatum>
+                <archiefactiedatum><xsl:value-of select="zgw:convertZdsDateToZgwDate(/object/datumVernietigingDossier)"/></archiefactiedatum>
             </xsl:if>
         </ZgwZaakPut>
 	</xsl:template>

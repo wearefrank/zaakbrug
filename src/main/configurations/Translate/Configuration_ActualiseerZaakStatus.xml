@@ -2,11 +2,11 @@
     <Adapter name="ActualiseerZaakStatus"
         active="${ActualiseerZaakStatus.Active}"
         description="">
-    
+        
         <Receiver name="ActualiseerZaakStatus">
             <JavaListener name="ActualiseerZaakStatus"/>
         </Receiver>
-        
+    
         <Pipeline>   
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>

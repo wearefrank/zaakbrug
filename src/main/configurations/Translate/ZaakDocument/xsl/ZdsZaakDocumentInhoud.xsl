@@ -8,10 +8,10 @@
         <ZdsZaakDocumentInhoud>
             <identificatie><xsl:value-of select="ZgwEnkelvoudigInformatieObject/identificatie"/></identificatie>
             <omschrijving><xsl:value-of select="$ZgwInformatieObjectType/ZgwInformatieObjectType/omschrijving"/></omschrijving>
-            <creatiedatum><xsl:value-of select="ZgwEnkelvoudigInformatieObject/creatiedatum"/></creatiedatum>
+            <creatiedatum><xsl:value-of select="format-date(ZgwEnkelvoudigInformatieObject/creatiedatum, '[Y0001][M01][D01]')"/></creatiedatum>
             <xsl:choose>
                 <xsl:when test="string-length(ZgwEnkelvoudigInformatieObject/ontvangstdatum) > 0 and normalize-space(ZgwEnkelvoudigInformatieObject/ontvangstdatum) != 'null'" >
-                    <ontvangstdatum><xsl:value-of select="ZgwEnkelvoudigInformatieObject/ontvangstdatum"/></ontvangstdatum>
+                    <ontvangstdatum><xsl:value-of select="format-date(ZgwEnkelvoudigInformatieObject/ontvangstdatum, '[Y0001][M01][D01]')"/></ontvangstdatum>
                 </xsl:when>
                 <xsl:otherwise>
                     <ontvangstdatum>00010101</ontvangstdatum>
@@ -51,24 +51,21 @@
                     <status><xsl:attribute name="xsi:nil">true</xsl:attribute></status>
                 </xsl:otherwise>
             </xsl:choose>
-            <verzenddatum><xsl:value-of select="ZgwEnkelvoudigInformatieObject/verzenddatum"/></verzenddatum>
-            <vertrouwelijkAanduiding><xsl:value-of select="ZgwEnkelvoudigInformatieObject/vertrouwelijkheidaanduiding"/></vertrouwelijkAanduiding>
+            <verzenddatum><xsl:value-of select="format-date(ZgwEnkelvoudigInformatieObject/verzenddatum, '[Y0001][M01][D01]')"/></verzenddatum>
+            <vertrouwelijkAanduiding><xsl:value-of select="upper-case(ZgwEnkelvoudigInformatieObject/vertrouwelijkheidaanduiding)"/></vertrouwelijkAanduiding>
             <auteur><xsl:value-of select="ZgwEnkelvoudigInformatieObject/auteur"/></auteur>
             <link><xsl:value-of select="ZgwEnkelvoudigInformatieObject/link"/></link>
             <inhoud>
-                <xsl:value-of select="$Bas64Inhoud/Inhoud"/>
                 <xsl:attribute name="StUF:bestandsnaam"><xsl:value-of select="ZgwEnkelvoudigInformatieObject/bestandsnaam"/></xsl:attribute>
                 <!-- <xsl:attribute name="xmime:contentType"></xsl:attribute> -->
+                <xsl:value-of select="$Bas64Inhoud"/>
             </inhoud>
             <isRelevantVoor>
                 <gerelateerde>
+                    <xsl:attribute name="entiteittype">ZAK</xsl:attribute>
                     <identificatie><xsl:value-of select="$ZgwZaak/ZgwZaak/identificatie"/></identificatie>
                     <omschrijving><xsl:value-of select="$ZgwZaak/ZgwZaak/omschrijving"/></omschrijving>
-                    <xsl:attribute name="entiteittype">ZAK</xsl:attribute>
                 </gerelateerde>
-                <stt.volgnummer><xsl:value-of select="ZgwEnkelvoudigInformatieObject/verzenddatum"/></stt.volgnummer>
-                <stt.omschrijving><xsl:value-of select="ZgwEnkelvoudigInformatieObject/verzenddatum"/></stt.omschrijving>
-                <sta.datumStatusGezet><xsl:value-of select="ZgwEnkelvoudigInformatieObject/verzenddatum"/></sta.datumStatusGezet>
             </isRelevantVoor>
         </ZdsZaakDocumentInhoud>
     </xsl:template>

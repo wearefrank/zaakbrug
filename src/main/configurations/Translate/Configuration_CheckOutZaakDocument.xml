@@ -1,0 +1,73 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="CheckOutZaakDocument"
+        active="${CheckOutZaakDocument.Active}"
+        description="">
+
+        <Receiver name="CheckOutZaakDocument">
+            <JavaListener name="CheckOutZaakDocument"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatie"
+                storeResultInSessionKey="ZgwEnkelvoudigInformatieObject">
+                <IbisLocalSender
+                    name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatieSender"
+                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie">
+                    <Param name="Identificatie" sessionKey="DocumentIdentificatie"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForGetZgwEnkelvoudigInformatieObjectResult"/>
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForGetZgwEnkelvoudigInformatieObjectResult"
+                xpathExpression="string-length(ZgwEnkelvoudigInformatieObject) = 0"
+                >
+                <Forward name="then" path="EXCEPTION"/>
+                <Forward name="else" path="CheckForLock"/>
+            </XmlIfPipe>
+
+            <XmlIfPipe name="CheckForLock"
+                xpathExpression="/ZgwEnkelvoudigInformatieObject/locked = 'true'"
+                >
+                <Forward name="then" path="EXCEPTION"/>
+                <Forward name="else" path="StoreZgwLockUrl"/>
+            </XmlIfPipe>
+
+            <PutInSessionPipe 
+                name="StoreZgwLockUrl">
+                <Param name="ZgwLockUrl" xpathExpression="concat($ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/url, '/lock')">
+                    <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="ReadFile" />
+            </PutInSessionPipe>
+
+            <LocalFileSystemPipe name="ReadFile" action="read">
+				<Param name="filename" value="${FilePath_3}" />
+				<Forward name="success" path="PostLock" />
+			</LocalFileSystemPipe>
+
+            <SenderPipe name="PostLock">
+				<HttpSender 
+					name="PostLockSender" 
+					methodType="POST"
+					headersParams="Authorization,Accept-Crs"
+                    timeout="${creeerZaak.timeout}"
+                    contentType="application/json"
+				/>
+                <Param name="url" sessionKey="ZgwLockUrl"/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Forward name="success" path="JsonToXml" />
+			</SenderPipe>
+
+            <JsonPipe name="JsonToXml">
+                <Forward name="success" path="EXIT"/>
+            </JsonPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

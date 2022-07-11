@@ -19,7 +19,7 @@
                 <IbisLocalSender
                     name="CallGetZaakDocumentSender"
                     javaListener="GetZaakDocumentByUrl">
-                    <Param name="DocumentUrl" xpathExpression="/ZgwZaakInformatieObject/informatieobject"/>
+                    <Param name="Url" xpathExpression="/ZgwZaakInformatieObject/informatieobject"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZaakDocumentResult"/>
             </SenderPipe>
@@ -37,7 +37,7 @@
                 <IbisLocalSender
                     name="CallGetZgwInformatieObjectTypeSender"
                     javaListener="GetZgwInformatieObjectTypeByUrl">
-                    <Param name="InformatieObjectType" xpathExpression="/ZgwEnkelvoudigInformatieObject/informatieobjecttype"/>
+                    <Param name="Url" xpathExpression="/ZgwEnkelvoudigInformatieObject/informatieobjecttype"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwInformatieObjectTypeResult"/>
             </SenderPipe>
@@ -59,8 +59,15 @@
                 >
                 <Param name="ZgwInformatieObjectType" sessionKey="GetZgwInformatieObjectTypeResult" type="DOMDOC"/>
                 <Param name="ZgwZaakInformatieObject" sessionKey="originalMessage" type="DOMDOC"/>
-                <Forward name="success" path="EXIT"/>
+                <Forward name="success" path="RemoveNullNodes"/>
             </XsltPipe>
+
+            <XsltPipe name="RemoveNullNodes" 
+                skipEmptyTags="true"
+                styleSheetName="Common/xsl/RemoveNullNodes.xslt" 
+                >
+                <Forward name="success" path="EXIT"/>
+			</XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>

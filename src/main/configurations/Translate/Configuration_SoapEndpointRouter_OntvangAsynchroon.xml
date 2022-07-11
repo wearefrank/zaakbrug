@@ -113,7 +113,7 @@
             <WsdlXmlValidatorPipe 
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_actualiseerZaakstatus_Lk01"
                 getInputFromSessionKey="SanitizedMessage"
-				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
+				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl"
                 soapBody="zakLk01"
                 >
 				<Forward name="succes" path="UnwrapMessageForActualiseerZaakstatus_Lk01"/>
@@ -144,7 +144,7 @@
             <WsdlXmlValidatorPipe 
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_voegZaakdocumentToe_Lk01"
                 getInputFromSessionKey="SanitizedMessage"
-				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
+				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl"
                 soapBody="edcLk01"
                 >
 				<Forward name="succes" path="UnwrapMessageForVoegZaakdocumentToe_Lk01"/>

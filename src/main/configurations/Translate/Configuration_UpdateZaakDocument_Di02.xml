@@ -1,0 +1,125 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="UpdateZaakDocument_Di02"
+        active="${UpdateZaakDocument_Di02.Active}"
+        description="">
+
+        <Receiver name="UpdateZaakDocument_Di02">
+            <JavaListener name="UpdateZaakDocument_Di02"/>
+        </Receiver>
+
+        <Pipeline>  
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+			<SenderPipe
+                name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatie"
+                storeResultInSessionKey="GetZgwEnkelvoudigInformatieObjectResult">
+                <IbisLocalSender
+                    name="CallGetZgwEnkelvoudigInformatieObjectSender"
+                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie">
+                    <Param name="Identificatie" xpathExpression="$ZdsWasInformatieObject/object/identificatie">
+                        <Param name="ZdsWasInformatieObject" sessionKey="ZdsWasInformatieObject" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForStatus"/>
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForStatus"
+                xpathExpression="/ZgwEnkelvoudigInformatieObject/status = 'definitief'"
+                >
+                <Forward name="then" path="EXCEPTION"/>
+                <Forward name="else" path="StoreTaal"/>
+            </XmlIfPipe>
+
+            <PutInSessionPipe name="StoreTaal"
+                getInputFromSessionKey="ZdsWordtInformatieObject"
+                >
+                <Param name="Taal" xpathExpression="object/taal"/>            
+                <Forward name="success" path="CheckForTaalLength"/>
+            </PutInSessionPipe>
+
+            <XmlSwitchPipe 
+                name="CheckForTaalLength"
+                xpathExpression="string-length($Taal) &lt; 3"
+                >
+                <Param name="Taal" sessionKey="Taal"/>
+                <Forward name="true" path="ConvertISO639TaalSender"/>
+                <Forward name="false" path="MapZgwEnkelvoudigInformatieObject"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XmlSwitchPipe>
+
+            <SenderPipe 
+                name="ConvertISO639TaalSender"
+                storeResultInSessionKey="Taal"
+                >
+                <IbisLocalSender
+                    name="ConvertISO639TaalLocalSender"
+                    javaListener="ConvertISO639Taal">
+                    <Param name="Alpha2" sessionKey="Taal"/>                   
+                </IbisLocalSender>
+                <Forward name="success" path="MapZgwEnkelvoudigInformatieObject"/>
+            </SenderPipe>
+
+            <XsltPipe
+                name="MapZgwEnkelvoudigInformatieObject"
+                storeResultInSessionKey="ZgwEnkelvoudigInformatieObject"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="ZaakDocument/xsl/CreatePutZaakDocumentBody.xslt"
+                >
+                <Param name="ZdsZaakDocumentInhoud" sessionKey="ZdsWordtInformatieObject" type="DOMDOC"/>
+                <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="GetZgwEnkelvoudigInformatieObjectResult" type="DOMDOC"/>
+                <Param name="Taal" sessionKey="Taal"/>
+                <Param name="IndicatieGebruiksrecht" value="false"/>
+                <Param name="Lock" sessionKey="Lock"/>
+                <Forward name="success" path="StoreUrl"/>
+            </XsltPipe>
+
+            <PutInSessionPipe name="StoreUrl"
+                getInputFromSessionKey="GetZgwEnkelvoudigInformatieObjectResult"
+                >
+                <Param name="Url" xpathExpression="ZgwEnkelvoudigInformatieObject/url"/>            
+                <Forward name="success" path="XmlToJson"/>
+            </PutInSessionPipe>
+
+            <!-- put zaakdocument -->
+            <JsonPipe name="XmlToJson"
+                getInputFromSessionKey="ZgwEnkelvoudigInformatieObject"
+                direction="xml2json"
+                >
+                <Forward name="success" path="PutZaakDocument"/>
+            </JsonPipe>
+
+            <SenderPipe name="PutZaakDocument">
+				<HttpSender 
+					name="PutZaakDocumentSender" 
+					methodType="PUT"
+					headersParams="Authorization,Accept-Crs"
+                    timeout="${creeerZaak.timeout}"
+                    contentType="application/json"
+				/>
+                <Param name="url" sessionKey="Url"/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Forward name="success" path="CallGetZgwInformatieObjectUnlock" />
+			</SenderPipe>
+
+            <SenderPipe
+                name="CallGetZgwInformatieObjectUnlock"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="ZgwInformatieObjectUnlockResult">
+                <IbisLocalSender
+                    name="CallGetZgwInformatieObjectUnlockSender"
+                    javaListener="GetZgwInformatieObjectUnlock">
+                    <Param name="ZgwUnlockUrl" xpathExpression="concat($Url, '/unlock')">
+                        <Param name="Url" sessionKey="Url"/>
+                    </Param>
+                    <Param name="ZgwLock" sessionKey="Lock"/>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+            </SenderPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

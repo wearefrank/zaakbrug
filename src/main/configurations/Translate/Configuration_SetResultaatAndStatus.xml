@@ -58,8 +58,14 @@
                 styleSheetName="CreeerZaak_LK01/xsl/SetBeeindigd.xsl"
                 >
                 <Param name="SetEndStatusTypeResult" sessionKey="SetEndStatusTypeResult" type="DOMDOC"/>
-                <Forward name="success" path="ZdsHeeftIterator"/>
+                <Forward name="success" path="PutEmptyNewStatussenInSession"/>
             </XsltPipe>
+
+            <PutInSessionPipe name="PutEmptyNewStatussenInSession"
+                sessionKey="NewStatuses" 
+                value="&lt;ZgwStatussen&gt;&lt;/ZgwStatussen&gt;">
+                <Forward name="success" path="ZdsHeeftIterator" />
+            </PutInSessionPipe>
 
             <ForEachChildElementPipe name="ZdsHeeftIterator"
                 getInputFromSessionKey="originalMessage"
@@ -213,7 +219,7 @@
                     <Param name="ZaakTypeUrl" xpathExpression="$ZgwZaakType/ZgwZaakType/url">
                         <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
                     </Param>
-                    <Param name="Omschrijving" xpathExpression="coalesceResultaat"/>
+                    <Param name="Omschrijving" xpathExpression="/result/coalesceResultaat"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallPostResultaat_2"/>
             </SenderPipe>
@@ -225,8 +231,8 @@
                     name="CallPostResultaatSender"
                     javaListener="PostResultaatAdapter">
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
-                    <Param name="ResultaatType" xpathExpression="/root/results/url"/>
-                    <Param name="Toelichting" xpathExpression="/root/results/omschrijving"/>
+                    <Param name="ResultaatType" xpathExpression="/resultaatType/url"/>
+                    <Param name="Toelichting" xpathExpression="/resultaatType/omschrijving"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForEindDatum"/>
             </SenderPipe>
@@ -290,7 +296,9 @@
                     <Param name="ZaakTypeUrl" xpathExpression="$ZgwZaakType/ZgwZaakType/url">
                         <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
                     </Param>
-                    <Param name="Omschrijving" sessionKey="CoalesceResultaat"/>
+                    <Param name="Omschrijving" xpathExpression="$CoalesceResultaat/result/coalesceResultaat">
+                        <Param name="CoalesceResultaat" sessionKey="CoalesceResultaat" type="DOMDOC"/>
+                    </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CallPostResultaat_3"/>
             </SenderPipe>
@@ -302,8 +310,8 @@
                     name="CallPostResultaatSender"
                     javaListener="PostResultaatAdapter">
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
-                    <Param name="ResultaatType" xpathExpression="/root/results/url"/>
-                    <Param name="Toelichting" xpathExpression="/root/results/omschrijving"/>
+                    <Param name="ResultaatType" xpathExpression="/resultaatType/url"/>
+                    <Param name="Toelichting" xpathExpression="/resultaatType/omschrijving"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CreateStatusBody"/>
             </SenderPipe>

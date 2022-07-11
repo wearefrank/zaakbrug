@@ -13,6 +13,14 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
+            <XmlSwitchPipe name="CheckForIdentificatie"
+                xpathExpression="string-length($Identificatie) > 0 and $Identificatie != 'null'"
+                >
+                <Param name="Identificatie" sessionKey="Identificatie" />
+                <Forward name="true" path="GetZgwZaakByIdentificatie" />
+                <Forward name="false" path="EXCEPTION" />
+            </XmlSwitchPipe>
+
 			<SenderPipe name="GetZgwZaakByIdentificatie">
 				<HttpSender 
 					name="GetZgwZaakByIdentificatieSender" 
