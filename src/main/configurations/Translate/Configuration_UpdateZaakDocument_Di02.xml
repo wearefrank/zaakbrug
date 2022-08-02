@@ -81,30 +81,19 @@
                 getInputFromSessionKey="GetZgwEnkelvoudigInformatieObjectResult"
                 >
                 <Param name="Url" xpathExpression="ZgwEnkelvoudigInformatieObject/url"/>            
-                <Forward name="success" path="XmlToJson"/>
+                <Forward name="success" path="CallPutZaakDocument"/>
             </PutInSessionPipe>
 
-            <!-- put zaakdocument -->
-            <JsonPipe name="XmlToJson"
-                getInputFromSessionKey="ZgwEnkelvoudigInformatieObject"
-                direction="xml2json"
-                >
-                <Forward name="success" path="PutZaakDocument"/>
-            </JsonPipe>
-
-            <SenderPipe name="PutZaakDocument">
-				<HttpSender 
-					name="PutZaakDocumentSender" 
-					methodType="PUT"
-					headersParams="Authorization,Accept-Crs"
-                    timeout="${creeerZaak.timeout}"
-                    contentType="application/json"
-				/>
-                <Param name="url" sessionKey="Url"/>
-                <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Authorization" value="Bearer ${JwtToken}"/>
-                <Forward name="success" path="CallGetZgwInformatieObjectUnlock" />
-			</SenderPipe>
+            <SenderPipe 
+                name="CallPutZaakDocument"
+                getInputFromSessionKey="ZgwEnkelvoudigInformatieObject">
+                <IbisLocalSender
+                    name="CallPutZaakDocumentSender"
+                    javaListener="PutZgwZaakDocument">
+                    <Param name="Url" sessionKey="Url"/>                   
+                </IbisLocalSender>
+                <Forward name="success" path="CallGetZgwInformatieObjectUnlock"/>
+            </SenderPipe>
 
             <SenderPipe
                 name="CallGetZgwInformatieObjectUnlock"

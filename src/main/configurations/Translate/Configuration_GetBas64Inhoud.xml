@@ -1,0 +1,35 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="GetBas64Inhoud"
+        active="${GetBas64Inhoud.Active}"
+        description="">
+
+        <Receiver name="GetBas64Inhoud">
+            <JavaListener name="GetBas64Inhoud"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+			<SenderPipe name="CallGetBas64Inhoud">
+				<HttpSender 
+					name="CallGetBas64InhoudSender" 
+					methodType="GET"
+                    encodeMessages="true"
+					headersParams="Authorization,Accept-Crs"
+                    timeout="${creeerZaak.timeout}"
+				/>
+                <Param name="url" sessionKey="Url"/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Forward name="success" path="EncodeInhoud" />
+			</SenderPipe>
+
+            <Base64Pipe name="EncodeInhoud">
+                <Forward name="success" path="EXIT" />
+            </Base64Pipe>
+        </Pipeline>
+    </Adapter>
+</Module>

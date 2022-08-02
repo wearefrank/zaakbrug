@@ -1,10 +1,10 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="Zaken_UpdateZgwZaak"
-        active="${Zaken_UpdateZgwZaak.Active}"
+    <Adapter name="PutZgwZaakDocument"
+        active="${PutZgwZaakDocument.Active}"
         description="">
 
-        <Receiver name="Zaken_UpdateZgwZaak">
-            <JavaListener name="Zaken_UpdateZgwZaak"/>
+        <Receiver name="PutZgwZaakDocument">
+            <JavaListener name="PutZgwZaakDocument"/>
         </Receiver>
 
         <Pipeline>
@@ -12,28 +12,25 @@
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
-
+            
             <JsonPipe name="XmlToJson"
                 direction="XML2JSON">
-                <Forward name="success" path="UpdateZgwZaak"/>
+                <Forward name="success" path="PutZaakDocument"/>
             </JsonPipe>
 
-            <SenderPipe name="UpdateZgwZaak">
-				<HttpSender name="UpdateZgwZaakSender" 
+            <SenderPipe name="PutZaakDocument">
+				<HttpSender 
+					name="PutZaakDocumentSender" 
 					methodType="PUT"
-					headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
+					headersParams="Authorization,Accept-Crs"
                     timeout="${creeerZaak.timeout}"
-                    maxExecuteRetries="5"
                     contentType="application/json"
 				/>
                 <Param name="url" sessionKey="Url"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Accept" value="application/json"/>
-                <Param name="Content-Crs"  value="EPSG:4326" />
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
-                <Forward name="success" path="EXIT"/>
+                <Forward name="success" path="CallGetZgwInformatieObjectUnlock" />
 			</SenderPipe>
-
         </Pipeline>
     </Adapter>
 </Module>

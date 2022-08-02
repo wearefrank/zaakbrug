@@ -15,6 +15,7 @@
   <!ENTITY GenereerDocumentIdentificatie_SOAP             SYSTEM "./Configuration_GenereerDocumentIdentificatie_SOAP.xml">
   <!ENTITY GenereerIdentificatieEmulator                  SYSTEM "./Configuration_GenereerIdentificatieEmulator.xml">
   <!ENTITY GenereerZaakIdentificatie_SOAP                 SYSTEM "./Configuration_GenereerZaakIdentificatie_SOAP.xml">
+  <!ENTITY GetBas64Inhoud                                 SYSTEM "./Configuration_GetBas64Inhoud.xml">
   <!ENTITY GetResultaatTypeByZaakTypeAndOmschrijving      SYSTEM "./Configuration_GetResultaatTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetResultatenByZaakUrl                         SYSTEM "./Configuration_GetResultatenByZaakUrl.xml">
   <!ENTITY GetRollenByBsn                                 SYSTEM "./Configuration_GetRollenByBsn.xml">
@@ -49,6 +50,8 @@
   <!ENTITY Zaken_PostZgwRol                               SYSTEM "./Configuration_Zaken_PostZgwRol.xml">
   <!ENTITY Zaken_PostZgwStatus                            SYSTEM "./Configuration_Zaken_PostZgwStatus.xml">
   <!ENTITY PostZaak                                       SYSTEM "./Configuration_PostZaak.xml">
+  <!ENTITY PostZgwLock                                    SYSTEM "./Configuration_PostZgwLock.xml">
+  <!ENTITY PutZgwZaakDocument                             SYSTEM "./Configuration_PutZgwZaakDocument.xml">
   <!ENTITY SetResultaatAndStatus                          SYSTEM "./Configuration_SetResultaatAndStatus.xml">
   <!ENTITY SoapEndpointRouter_BeantwoordVraag             SYSTEM "./Configuration_SoapEndpointRouter_BeantwoordVraag.xml">
   <!ENTITY SoapEndpointRouter_OntvangAsynchroon           SYSTEM "./Configuration_SoapEndpointRouter_OntvangAsynchroon.xml">
@@ -58,6 +61,7 @@
   <!ENTITY UpdateZaakDocument_Di02                        SYSTEM "./Configuration_UpdateZaakDocument_Di02.xml">
   <!ENTITY VoegZaakdocumentToe_Lk01                       SYSTEM "./Configuration_VoegZaakdocumentToe_Lk01.xml">
   <!ENTITY Zaken_PostZgwZaakInformatieObject              SYSTEM "./Configuration_Zaken_PostZgwZaakInformatieObject.xml">
+  <!ENTITY Zaken_UpdateZgwZaak                            SYSTEM "./Configuration_Zaken_UpdateZgwZaak.xml">
   <!ENTITY ZdsHeeft                                       SYSTEM "./Configuration_ZdsHeeft.xml">
   ]>
 
@@ -78,6 +82,7 @@
   &GenereerDocumentIdentificatie_SOAP;
   &GenereerIdentificatieEmulator;
   &GenereerZaakIdentificatie_SOAP;
+  &GetBas64Inhoud;
   &GetResultaatTypeByZaakTypeAndOmschrijving;
   &GetResultatenByZaakUrl;
   &GetRollenByBsn;
@@ -112,6 +117,8 @@
   &Zaken_PostZgwRol;
   &Zaken_PostZgwStatus;
   &PostZaak;
+  &PostZgwLock;
+  &PutZgwZaakDocument;
   &SetResultaatAndStatus;
   &SoapEndpointRouter_BeantwoordVraag;
   &SoapEndpointRouter_OntvangAsynchroon;
@@ -121,5 +128,6 @@
   &UpdateZaakDocument_Di02;
   &VoegZaakdocumentToe_Lk01;
   &Zaken_PostZgwZaakInformatieObject;
+  &Zaken_UpdateZgwZaak;
   &ZdsHeeft;
 </configuration>

@@ -156,30 +156,19 @@
                 >
                 <Param name="ZgwZaak" sessionKey="GetZgwWasZaakResult" type="DOMDOC"/>
                 <Param name="Rsin" sessionKey="GetRsinResult" type="DOMDOC"/>
-                <Forward name="success" path="XmlToJson"/>
+                <Forward name="success" path="UpdateZgwZaak"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
 
-            <JsonPipe name="XmlToJson"
-                direction="XML2JSON">
-                <Forward name="success" path="UpdateZgwZaak"/>
-            </JsonPipe>
-
-            <SenderPipe name="UpdateZgwZaak">
-				<HttpSender name="PostZgwZaakSender" 
-					methodType="PUT"
-					headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
-                    timeout="${creeerZaak.timeout}"
-                    maxExecuteRetries="5"
-                    contentType="application/json"
-				/>
-                <Param name="url" sessionKey="ZgwZaakUrl"/>
-                <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Accept" value="application/json"/>
-                <Param name="Content-Crs"  value="EPSG:4326" />
-                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+            <SenderPipe
+                name="UpdateZgwZaak">
+                <IbisLocalSender
+                    name="CallUpdateZgwZaakSender"
+                    javaListener="Zaken_UpdateZgwZaak">
+                    <Param name="Url" sessionKey="ZgwZaakUrl"/>
+                </IbisLocalSender>
                 <Forward name="success" path="SetRolesForZdsWasZaak"/>
-			</SenderPipe>
+            </SenderPipe>
 
             <XsltPipe
                 name="SetRolesForZdsWasZaak"
