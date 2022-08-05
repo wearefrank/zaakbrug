@@ -123,10 +123,11 @@
                     name="DeleteZaakResultaatSender" 
 					methodType="DELETE"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.resultaat}?uuid=$Uuid"
                     timeout="${creeerZaak.timeout}"
 				>
-                    <Param name="Uuid" xpathExpression="root/results/uuid"/>
+                    <Param name="url" xpathExpression="results/url"/>
+                    <Param name="Accept-Crs" value="EPSG:4326"/>
+                    <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 </HttpSender>
                 <Forward name="success" path="CallPostResultaat_1"/>
             </ForEachChildElementPipe>
@@ -156,9 +157,9 @@
 
             <XsltPipe
                 name="SetNewEndStatus"
-                getInputFromSessionKey="NewStatuses"
                 styleSheetName="CreeerZaak_LK01/xsl/SetNewEndStatus.xsl"
                 >
+                <Param name="NewStatuses" sessionKey="NewStatuses" type="DOMDOC"/>
                 <Param name="EndStatusType" sessionKey="SetEndStatusTypeResult" type="DOMDOC"/>
                 <Forward name="success" path="CheckForNewEndStatus"/>
             </XsltPipe>
@@ -318,6 +319,7 @@
 
             <XsltPipe
                 name="CreateStatusBody"
+                getInputFromSessionKey="originalMessage"
                 styleSheetName="Zgw/Zaken/Model/ZgwStatus.xslt"
                 >
                 <Param name="Zaak" sessionKey="ZaakUrl"/>

@@ -1,6 +1,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="yes"/>
     <xsl:param name="EndStatusType"/>
+    <xsl:param name="NewStatuses" as="node()"><ZgwStatussen/></xsl:param>
+
 
     <xsl:template match="@*|node()">
         <xsl:copy>
@@ -10,7 +12,7 @@
     
 	<xsl:template match="/">
 		<ZgwStatus>
-            <xsl:for-each select="ZgwStatussen/ZgwStatus">
+            <xsl:for-each select="$NewStatuses/ZgwStatussen/ZgwStatus">
                 <xsl:if test="statustype = $EndStatusType/ZgwStatusType/url">
                     <xsl:apply-templates select="@*|node()"/>
                 </xsl:if>

@@ -23,7 +23,10 @@
             <toelichting><xsl:value-of select="$ZgwZaak/ZgwZaak/toelichting"/></toelichting>
             <startdatum><xsl:if test="$ZgwZaak/ZgwZaak/startdatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/startdatum)"/></xsl:if></startdatum>
             <registratiedatum><xsl:if test="$ZgwZaak/ZgwZaak/registratiedatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/registratiedatum)"/></xsl:if></registratiedatum>
-            <archiefnominatie><xsl:value-of select="$ZgwZaak/ZgwZaak/archiefnominatie"/></archiefnominatie> <!-- convert -->
+            <xsl:choose>
+                <xsl:when test="$ZgwZaak/ZgwZaak/archiefnominatie = 'vernietigen'"><archiefnominatie>J</archiefnominatie></xsl:when>
+                <xsl:otherwise><archiefnominatie>N</archiefnominatie></xsl:otherwise>
+            </xsl:choose>
             <!-- <zaakniveau>1</zaakniveau> -->
             <!-- <deelzakenIndicatie>N</deelzakenIndicatie> -->
             <publicatiedatum><xsl:if test="$ZgwZaak/ZgwZaak/publicatiedatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/publicatiedatum)"/></xsl:if></publicatiedatum> <!-- convert -->

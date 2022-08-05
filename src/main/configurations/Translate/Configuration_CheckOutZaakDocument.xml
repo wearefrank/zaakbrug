@@ -35,16 +35,16 @@
                 xpathExpression="/ZgwEnkelvoudigInformatieObject/locked = 'true'"
                 >
                 <Forward name="then" path="EXCEPTION"/>
-                <Forward name="else" path="ReadFile"/>
+                <Forward name="else" path="StoreZgwLockUrl"/>
             </XmlIfPipe>
 
-            <!-- <PutInSessionPipe 
+            <PutInSessionPipe 
                 name="StoreZgwLockUrl">
                 <Param name="ZgwLockUrl" xpathExpression="concat($ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/url, '/lock')">
                     <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
                 </Param>
                 <Forward name="success" path="ReadFile" />
-            </PutInSessionPipe> -->
+            </PutInSessionPipe>
 
             <LocalFileSystemPipe name="ReadFile" action="read">
 				<Param name="filename" value="${FilePath_3}" />
@@ -56,11 +56,9 @@
                 <IbisLocalSender
                     name="CallPostZgwLockSender"
                     javaListener="PostZgwLock">
-                    <Param name="ZgwLockUrl" xpathExpression="concat($ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/url, '/lock')">
-                        <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
-                    </Param>
+                    <Param name="ZgwLockUrl" sessionKey="ZgwLockUrl"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CheckForGetZgwEnkelvoudigInformatieObjectResult"/>
+                <Forward name="success" path="EXIT"/>
             </SenderPipe>
         </Pipeline>
     </Adapter>

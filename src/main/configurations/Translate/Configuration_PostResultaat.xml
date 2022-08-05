@@ -39,7 +39,7 @@
 				<HttpSender 
 					name="PostZgwResultaatSender" 
 					methodType="POST"
-					headersParams="Authorization,Accept-Crs"
+					headersParams="Authorization,Accept-Crs,Content-Crs"
 					url="${zgw.baseurl}${zgw.endpoint.resultaat}"
                     contentType="application/json"
                     timeout="${creeerZaak.timeout}"

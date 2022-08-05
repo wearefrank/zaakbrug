@@ -88,7 +88,7 @@
     <xsl:function name="zgw:convertZdsArchiefNominatieToZgwArchiefNominatie" as="xs:string">
     	<xsl:param name="zgwArchiefNominatie" as="xs:string"/>
 		<xsl:choose>
-      		<xsl:when test="fn:upper-case($zgwArchiefNominatie)='Y'">vernietigen</xsl:when>
+      		<xsl:when test="fn:upper-case($zgwArchiefNominatie)='J'">vernietigen</xsl:when>
       		<xsl:otherwise>blijvend_bewaren</xsl:otherwise>
     	</xsl:choose>
 	</xsl:function>

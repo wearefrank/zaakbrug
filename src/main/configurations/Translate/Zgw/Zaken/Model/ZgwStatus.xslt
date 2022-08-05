@@ -22,10 +22,10 @@
     <xsl:variable name="DatumStatusGezetFromParams" as="xs:string">
         <xsl:choose>
             <xsl:when test="$ZgwStatusType/ZgwStatusType/isEindstatus = 'true' and not($ZdsEinddatum = 'Undefined')">
-                <xsl:value-of select="zgw:toZgwDatetime($ZdsEinddatum)"/>
+                <xsl:value-of select="zgw:toZgwDatetime(concat($ZdsEinddatum,'000000'))"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="zgw:toZgwDatetime(concat($ZdsStatusDatum,'000000'))"/>
+                <xsl:value-of select="zgw:toZgwDatetime($ZdsStatusDatum)"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>

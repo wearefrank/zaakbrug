@@ -35,8 +35,8 @@
 
             <XmlSwitchPipe name="CompareZgwRolOmschrijving" 
 				xpathExpression="/root/rolMapping/heeftAlsInitiator = $ZgwRolOmschrijving">
-				<Param name="ZgwRolOmschrijving" xpathExpression="$GetZgwRolTypeByUrlResult/root/omschrijving">
-                    <Param name="RolTypeUrl" sessionKey="GetZgwRolTypeByUrlResult" type="DOMDOC"/>
+				<Param name="ZgwRolOmschrijving" xpathExpression="$ZgwRolType/root/omschrijving">
+                    <Param name="ZgwRolType" sessionKey="GetZgwRolTypeByUrlResult" type="DOMDOC"/>
                 </Param>
 				<Forward name="true" path="CallGetZaakByUrl" />
 				<Forward name="false" path="EXIT" />

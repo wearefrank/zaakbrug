@@ -29,7 +29,7 @@
                 <Param name="url" sessionKey="Url"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
-                <Forward name="success" path="CallGetZgwInformatieObjectUnlock" />
+                <Forward name="success" path="EXIT" />
 			</SenderPipe>
         </Pipeline>
     </Adapter>

@@ -13,6 +13,12 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
+            <PutInSessionPipe name="PutNewStatussenInSession"
+                sessionKey="NewStatuses" 
+                value="&lt;ZgwStatussen&gt;&lt;/ZgwStatussen&gt;">
+                <Forward name="success" path="CheckForOmschrijving" />
+            </PutInSessionPipe>
+
             <XmlIfPipe name="CheckForOmschrijving"
                 xpathExpression="string-length(heeft/gerelateerde/omschrijving) > 0"
                 >

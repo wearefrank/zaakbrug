@@ -4,7 +4,7 @@
 	<xsl:function name="zgw:convertZgwArchiefNominatieToZdsArchiefNominatie" as="xs:string">
     	<xsl:param name="zgwArchiefNominatie" as="xs:string"/>
 		<xsl:choose>
-      		<xsl:when test="fn:upper-case($zgwArchiefNominatie)='VERWIJDEREN'">Y</xsl:when>
+      		<xsl:when test="fn:upper-case($zgwArchiefNominatie)='VERWIJDEREN'">J</xsl:when>
       		<xsl:otherwise>N</xsl:otherwise>
     	</xsl:choose>
 	</xsl:function>

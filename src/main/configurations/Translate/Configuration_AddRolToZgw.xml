@@ -36,9 +36,14 @@
                 xpathExpression="string-length(zgwRol/betrokkeneIdentificatie)>0"
                 >
                 <Forward name="then" path="CreateRolBody"/>
-                <Forward name="else" path="EXIT"/>
+                <Forward name="else" path="EmptyResult"/>
                 <Forward name="exception" path="EXIT"/> <!-- Temporary solution for lack of adres processing -->
             </XmlIfPipe>
+
+            <EchoPipe name="EmptyResult"
+                getInputFromFixedValue="&lt;dummy/&gt;">
+                <Forward name="success" path="EXIT"/>
+            </EchoPipe>
 
             <XsltPipe
                 name="CreateRolBody"

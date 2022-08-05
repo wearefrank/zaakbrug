@@ -245,7 +245,7 @@
                 >
                 <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
                 <Param name="ZgwStatusType" sessionKey="ZgwStatusType" type="DOMDOC"/>
-                <Param name="ZdsStatusDatum" xpathExpression="object/isRelevantVoor/sta.datumStatusGezet"/>
+                <Param name="ZdsStatusDatum" xpathExpression="concat(object/isRelevantVoor/sta.datumStatusGezet,'000000')"/>
                 <Forward name="success" path="PostZgwStatusSender"/>
             </XsltPipe>
 
