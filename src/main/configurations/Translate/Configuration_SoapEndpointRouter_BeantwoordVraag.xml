@@ -131,9 +131,18 @@
                     name="GeefZaakdetails_Lv01LocalSender"
                     javaListener="GeefZaakdetails_Lv01">
                 </IbisLocalSender>
-                <Forward name="success" path="FilterZaakdetails" />
+                <Forward name="success" path="ReplaceNulls" />
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>
+
+            <XsltPipe
+                name="ReplaceNulls"
+                getInputFromSessionKey="Zaakdetails"
+                storeResultInSessionKey="Zaakdetails"
+                styleSheetName="Common/xsl/ReplaceNullStringWithXmlNull.xslt"
+                >
+                <Forward name="success" path="FilterZaakdetails"/>
+            </XsltPipe>
 
             <XsltPipe
                 name="FilterZaakdetails"
