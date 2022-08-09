@@ -43,8 +43,8 @@
 
             <XsltPipe name="RemoveNullNodes" 
                 storeResultInSessionKey="GetZgwWasZaakResult"
+                styleSheetName="Common/xsl/RemoveNullNodes.xslt"
                 skipEmptyTags="true"
-                styleSheetName="Common/xsl/RemoveNullNodes.xslt" 
                 >
                 <Forward name="success" path="StoreZgwZaakUrl"/>
 			</XsltPipe>
@@ -152,7 +152,6 @@
                 styleSheetName="UpdateZaak_LK01/xsl/CreateUpdateZaakBody.xslt"
                 getInputFromSessionKey="ZdsWordtZaak"
                 storeResultInSessionKey="UpdateZaakBody"
-                skipEmptyTags="true"
                 >
                 <Param name="ZgwZaak" sessionKey="GetZgwWasZaakResult" type="DOMDOC"/>
                 <Param name="Rsin" sessionKey="GetRsinResult" type="DOMDOC"/>
