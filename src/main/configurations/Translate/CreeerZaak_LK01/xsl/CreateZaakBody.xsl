@@ -106,7 +106,7 @@
     <xsl:function name="zgw:convertZdsBooleanToZgwBoolean" as="xs:string">
     	<xsl:param name="zdsBoolean" as="xs:string"/>
 		<xsl:choose>
-      		<xsl:when test="fn:upper-case($zdsBoolean)='Y'">true</xsl:when>
+      		<xsl:when test="fn:upper-case($zdsBoolean)='J'">true</xsl:when>
             <xsl:when test="fn:upper-case($zdsBoolean)='N'">false</xsl:when>
       		<xsl:otherwise>invalid character</xsl:otherwise>
     	</xsl:choose>
