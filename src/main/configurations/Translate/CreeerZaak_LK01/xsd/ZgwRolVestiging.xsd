@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="zgwRol">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="zaak" type="zgwUri"/>
+                <xs:element name="betrokkene" type="zgwUri" minOccurs="0"/>
+                <xs:element name="betrokkeneType" type="zgwBetrokkeneType"/>
+                <xs:element name="roltype" type="zgwUri"/>
+                <xs:element name="roltoelichting" type="zgwAN1000"/>
+                <xs:element name="indicatieMachtiging" type="zgwIndicatieMachtiging" minOccurs="0"/>
+                <xs:element name="betrokkeneIdentificatie" type="zgwVestiging" minOccurs="0"/>                    
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="zgwVestiging">
+            <xs:sequence>
+                <xs:element name="vestigingsNummer" type="zgwAN24" minOccurs="0"/>
+                <xs:element name="handelsnaam" type="zgwAN625" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="verblijfsadres" type="zgwVerblijfsAdres" minOccurs="0"/>
+            </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="zgwVerblijfsAdres">
+        <xs:sequence>
+            <xs:element name="aoaIdentificatie" type="zgwAN100"/>
+            <xs:element name="wplWoonplaatsNaam" type="zgwAN80"/>
+            <xs:element name="gorOpenbareRuimteNaam" type="zgwAN80"/>
+            <xs:element name="aoaPostcode" type="zgwAN7" minOccurs="0"/>
+            <xs:element name="aoaHuisnummer" type="zgwHuisnummer"/>
+            <xs:element name="aoaHuisletter" type="zgwAN1" minOccurs="0"/>
+            <xs:element name="aoaHuisnummertoevoeging" type="zgwAN9" minOccurs="0"/>
+            <xs:element name="inpLocatiebeschrijving" type="zgwAN1000" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="zgwAN1">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwAN7">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="7"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwAN9">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="9"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwAN24">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="24"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwAN80">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="80"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwAN100">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwAN625">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="625"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwAN1000">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1000"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwUri">
+        <xs:restriction base="xs:anyURI">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1000"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwHuisnummer">
+        <xs:restriction base="xs:integer">
+            <xs:minValue value="0"/>
+            <xs:maxValue value="99999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwBetrokkeneType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="natuurlijk_persoon"/>
+            <xs:enumeration value="niet_natuurlijk_persoon"/>
+            <xs:enumeration value="vestiging"/>
+            <xs:enumeration value="organisatorische_eenheid"/>
+            <xs:enumeration value="medewerker"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwIndicatieMachtiging">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="gemachtigde"/>
+            <xs:enumeration value="machtinggever"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema> 
