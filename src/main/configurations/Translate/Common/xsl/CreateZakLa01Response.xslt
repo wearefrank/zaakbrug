@@ -35,7 +35,7 @@
                         <ZKN:toelichting><xsl:value-of select="ZgwZaak/toelichting"/></ZKN:toelichting>
                     </xsl:if>
                     <xsl:apply-templates select="ZgwZaak/kenmerken"/>
-                    <!-- <xsl:apply-templates select="ZgwZaak/anderZaakObject"/> -->
+                    <!-- <xsl:apply-templates select="ZgwZaak/anderZaakObject"/> --> <!-- not provided -->
                     <!-- <ZKN:resultaat>
                         <ZKN:omschrijving><xsl:value-of select="ZgwZaak/resultaat/omschrijving"/></ZKN:omschrijving>
                         <ZKN:toelichting><xsl:value-of select="ZgwZaak/resultaat/toelichting"/></ZKN:toelichting>
@@ -89,132 +89,62 @@
                         <ZKN:deelzakenIndicatie><xsl:value-of select="ZgwZaak/deelzakenIndicatie"/></ZKN:deelzakenIndicatie>
                     </xsl:if>
                     <xsl:apply-templates select="ZgwZaak/isVan/gerelateerde"/>
-                    <xsl:if test="ZgwZaak/heeftBetrekkingOp">
+                    <xsl:for-each select="ZgwZaak/heeftBetrekkingOp">
                         <ZKN:heeftBetrekkingOp StUF:entiteittype="ZAKOBJ">
-                            <xsl:choose>
-                                <xsl:when test="ZgwZaak/heeftBetrekkingOp/gerelateerde/natuurlijkPersoon">
-                                    <xsl:apply-templates select="natuurlijkPersoon"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftBetrekkingOp/gerelateerde/nietNatuurlijkPersoon">
-                                    <xsl:apply-templates select="ZgwZaak/heeftBetrekkingOp/gerelateerde/nietNatuurlijkPersoon"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftBetrekkingOp/gerelateerde/vestiging">
-                                    <xsl:apply-templates select="ZgwZaak/heeftBetrekkingOp/gerelateerde/vestiging"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftBetrekkingOp/gerelateerde/medewerker">
-                                    <xsl:apply-templates select="ZgwZaak/heeftBetrekkingOp/gerelateerde/medewerker"/>
-                                </xsl:when>
-                            </xsl:choose>
+                            <xsl:apply-templates select="gerelateerde/natuurlijkPersoon"/>
+                            <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
+                            <xsl:apply-templates select="gerelateerde/vestiging"/>
+                            <xsl:apply-templates select="gerelateerde/medewerker"/>
                         </ZKN:heeftBetrekkingOp>
-                    </xsl:if>
-                    <xsl:if test="ZgwZaak/heeftAlsBelanghebbende">
+                    </xsl:for-each>
+                    <xsl:for-each select="ZgwZaak/heeftAlsBelanghebbende">
                         <ZKN:heeftAlsBelanghebbende StUF:entiteittype="ZAKBTRBLH">
-                            <xsl:choose>
-                                <xsl:when test="ZgwZaak/heeftAlsBelanghebbende/gerelateerde/natuurlijkPersoon">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsBelanghebbende/gerelateerde/natuurlijkPersoon"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsBelanghebbende/gerelateerde/nietNatuurlijkPersoon">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsBelanghebbende/gerelateerde/nietNatuurlijkPersoon"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsBelanghebbende/gerelateerde/vestiging">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsBelanghebbende/gerelateerde/vestiging"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsBelanghebbende/gerelateerde/medewerker">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsBelanghebbende/gerelateerde/medewerker"/>
-                                </xsl:when>
-                            </xsl:choose>
+                            <xsl:apply-templates select="gerelateerde/natuurlijkPersoon"/>
+                            <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
+                            <xsl:apply-templates select="gerelateerde/vestiging"/>
+                            <xsl:apply-templates select="gerelateerde/medewerker"/>
                         </ZKN:heeftAlsBelanghebbende>
-                    </xsl:if>
-                    <xsl:if test="ZgwZaak/heeftAlsGemachtigde">
+                    </xsl:for-each>
+                    <xsl:for-each select="ZgwZaak/heeftAlsGemachtigde">
                         <ZKN:heeftAlsGemachtigde StUF:entiteittype="ZAKBTRGMC">
-                            <xsl:choose>
-                                <xsl:when test="ZgwZaak/heeftAlsGemachtigde/gerelateerde/natuurlijkPersoon">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsGemachtigde/gerelateerde/natuurlijkPersoon"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsGemachtigde/gerelateerde/nietNatuurlijkPersoon">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsGemachtigde/gerelateerde/nietNatuurlijkPersoon"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsGemachtigde/gerelateerde/vestiging">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsGemachtigde/gerelateerde/vestiging"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsGemachtigde/gerelateerde/medewerker">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsGemachtigde/gerelateerde/medewerker"/>
-                                </xsl:when>
-                            </xsl:choose>
+                            <xsl:apply-templates select="gerelateerde/natuurlijkPersoon"/>
+                            <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
+                            <xsl:apply-templates select="gerelateerde/vestiging"/>
+                            <xsl:apply-templates select="gerelateerde/medewerker"/>
                         </ZKN:heeftAlsGemachtigde>
-                    </xsl:if>
-                    <xsl:if test="ZgwZaak/heeftAlsInitiator">
+                    </xsl:for-each>
+                    <xsl:for-each select="ZgwZaak/heeftAlsInitiator">
                         <ZKN:heeftAlsInitiator StUF:entiteittype="ZAKBTRINI">
-                            <xsl:choose>
-                                <xsl:when test="ZgwZaak/heeftAlsInitiator/gerelateerde/natuurlijkPersoon">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsInitiator/gerelateerde/natuurlijkPersoon"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsInitiator/gerelateerde/nietNatuurlijkPersoon">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsInitiator/gerelateerde/nietNatuurlijkPersoon"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsInitiator/gerelateerde/vestiging">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsInitiator/gerelateerde/vestiging"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsInitiator/gerelateerde/medewerker">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsInitiator/gerelateerde/medewerker"/>
-                                </xsl:when>
-                            </xsl:choose>
+                            <xsl:apply-templates select="gerelateerde/natuurlijkPersoon"/>
+                            <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
+                            <xsl:apply-templates select="gerelateerde/vestiging"/>
+                            <xsl:apply-templates select="gerelateerde/medewerker"/>
                         </ZKN:heeftAlsInitiator>
-                    </xsl:if>
-                    <xsl:if test="ZgwZaak/heeftAlsUitvoerende">
+                    </xsl:for-each>
+                    <xsl:for-each select="ZgwZaak/heeftAlsUitvoerende">
                         <ZKN:heeftAlsUitvoerende StUF:entiteittype="ZAKBTRUTV">
-                            <xsl:choose>
-                                <xsl:when test="ZgwZaak/heeftAlsUitvoerende/gerelateerde/natuurlijkPersoon">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsUitvoerende/gerelateerde/natuurlijkPersoon"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsUitvoerende/gerelateerde/nietNatuurlijkPersoon">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsUitvoerende/gerelateerde/nietNatuurlijkPersoon"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsUitvoerende/gerelateerde/vestiging">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsUitvoerende/gerelateerde/vestiging"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsUitvoerende/gerelateerde/medewerker">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsUitvoerende/gerelateerde/medewerker"/>
-                                </xsl:when>
-                            </xsl:choose>
+                            <xsl:apply-templates select="gerelateerde/natuurlijkPersoon"/>
+                            <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
+                            <xsl:apply-templates select="gerelateerde/vestiging"/>
+                            <xsl:apply-templates select="gerelateerde/medewerker"/>
                         </ZKN:heeftAlsUitvoerende>
-                    </xsl:if>
-                    <xsl:if test="ZgwZaak/heeftAlsVerantwoordelijke">
+                    </xsl:for-each>
+                    <xsl:for-each select="ZgwZaak/heeftAlsVerantwoordelijke">
                         <ZKN:heeftAlsVerantwoordelijke StUF:entiteittype="ZAKBTRVRA">
-                            <xsl:choose>
-                                <xsl:when test="ZgwZaak/heeftAlsVerantwoordelijke/gerelateerde/natuurlijkPersoon">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsVerantwoordelijke/gerelateerde/natuurlijkPersoon"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsVerantwoordelijke/gerelateerde/nietNatuurlijkPersoon">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsVerantwoordelijke/gerelateerde/nietNatuurlijkPersoon"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsVerantwoordelijke/gerelateerde/vestiging">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsVerantwoordelijke/gerelateerde/vestiging"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsVerantwoordelijke/gerelateerde/medewerker">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsVerantwoordelijke/gerelateerde/medewerker"/>
-                                </xsl:when>
-                            </xsl:choose>
+                            <xsl:apply-templates select="gerelateerde/natuurlijkPersoon"/>
+                            <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
+                            <xsl:apply-templates select="gerelateerde/vestiging"/>
+                            <xsl:apply-templates select="gerelateerde/medewerker"/>
                         </ZKN:heeftAlsVerantwoordelijke>
-                    </xsl:if>
-                    <xsl:if test="ZgwZaak/heeftAlsOverigBetrokkene">
+                    </xsl:for-each>
+                    <xsl:for-each select="ZgwZaak/heeftAlsOverigBetrokkene">
                         <ZKN:heeftAlsOverigBetrokkene StUF:entiteittype="ZAKBTROVR">
-                            <xsl:choose>
-                                <xsl:when test="ZgwZaak/heeftAlsOverigBetrokkene/gerelateerde/natuurlijkPersoon">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsOverigBetrokkene/gerelateerde/natuurlijkPersoon"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsOverigBetrokkene/gerelateerde/nietNatuurlijkPersoon">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsOverigBetrokkene/gerelateerde/nietNatuurlijkPersoon"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsOverigBetrokkene/gerelateerde/vestiging">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsOverigBetrokkene/gerelateerde/vestiging"/>
-                                </xsl:when>
-                                <xsl:when test="ZgwZaak/heeftAlsOverigBetrokkene/gerelateerde/medewerker">
-                                    <xsl:apply-templates select="ZgwZaak/heeftAlsOverigBetrokkene/gerelateerde/medewerker"/>
-                                </xsl:when>
-                            </xsl:choose>
+                            <xsl:apply-templates select="gerelateerde/natuurlijkPersoon"/>
+                            <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
+                            <xsl:apply-templates select="gerelateerde/vestiging"/>
+                            <xsl:apply-templates select="gerelateerde/medewerker"/>
                         </ZKN:heeftAlsOverigBetrokkene>
-                    </xsl:if>
+                    </xsl:for-each>
                     <xsl:apply-templates select="ZgwZaak/heeftAlsDeelzaak/gerelateerde"/>
                     <xsl:apply-templates select="ZgwZaak/heeftAlsHoofdzaak/gerelateerde"/>
                     <xsl:apply-templates select="ZgwZaak/root/heeftBetrekkingOp/gerelateerde"/>
@@ -225,14 +155,20 @@
         </ZKN:zakLa01>
 	</xsl:template>
 
-    <xsl:template match="ZgwZaak/anderZaakObject">
+    <!-- <xsl:template match="ZgwZaak/anderZaakObject">
         <ZKN:anderZaakObject>
             <ZKN:omschrijving><xsl:value-of select="omschrijving"/></ZKN:omschrijving>
-            <ZKN:aanduiding><xsl:value-of select="aanduiding"/></ZKN:aanduiding>
-            <ZKN:lokatie><xsl:value-of select="lokatie"/></ZKN:lokatie>
-            <ZKN:registratie><xsl:value-of select="registratie"/></ZKN:registratie>
+            <xsl:if test="aanduiding">
+                <ZKN:aanduiding><xsl:value-of select="aanduiding"/></ZKN:aanduiding>
+            </xsl:if>
+            <xsl:if test="lokatie">
+                <ZKN:lokatie><xsl:value-of select="lokatie"/></ZKN:lokatie>
+            </xsl:if>
+            <xsl:if test="registratie">
+                <ZKN:registratie><xsl:value-of select="registratie"/></ZKN:registratie>
+            </xsl:if>
         </ZKN:anderZaakObject>
-    </xsl:template>
+    </xsl:template> -->
 
     <xsl:template match="ZgwZaak/kenmerken">
         <ZKN:kenmerk>
@@ -244,14 +180,30 @@
     <xsl:template match="natuurlijkPersoon">
         <ZKN:gerelateerde>
             <ZKN:natuurlijkPersoon StUF:entiteittype="NPS">
-                <BG:inp.bsn><xsl:value-of select="inp.bsn"/></BG:inp.bsn>
-                <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
-                <BG:geslachtsnaam><xsl:value-of select="geslachtsnaam"/></BG:geslachtsnaam>
-                <BG:voorvoegselGeslachtsnaam><xsl:value-of select="voorvoegselGeslachtsnaam"/></BG:voorvoegselGeslachtsnaam>
-                <BG:voorletters><xsl:value-of select="voorletters"/></BG:voorletters>
-                <BG:voornamen><xsl:value-of select="voornamen"/></BG:voornamen>
-                <BG:geslachtsaanduiding><xsl:value-of select="geslachtsaanduiding"/></BG:geslachtsaanduiding>
-                <BG:geboortedatum><xsl:value-of select="geboortedatum"/></BG:geboortedatum>
+                <xsl:if test="inp.bsn">
+                    <BG:inp.bsn><xsl:value-of select="inp.bsn"/></BG:inp.bsn>
+                </xsl:if>
+                <xsl:if test="authentiek">
+                    <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+                </xsl:if>
+                <xsl:if test="geslachtsnaam">
+                    <BG:geslachtsnaam><xsl:value-of select="geslachtsnaam"/></BG:geslachtsnaam>
+                </xsl:if>
+                <xsl:if test="voorvoegselGeslachtsnaam">
+                    <BG:voorvoegselGeslachtsnaam><xsl:value-of select="voorvoegselGeslachtsnaam"/></BG:voorvoegselGeslachtsnaam>
+                </xsl:if>
+                <xsl:if test="voorletters">
+                    <BG:voorletters><xsl:value-of select="voorletters"/></BG:voorletters>
+                </xsl:if>
+                <xsl:if test="voornamen">
+                    <BG:voornamen><xsl:value-of select="voornamen"/></BG:voornamen>
+                </xsl:if>
+                <xsl:if test="geslachtsaanduiding">
+                    <BG:geslachtsaanduiding><xsl:value-of select="geslachtsaanduiding"/></BG:geslachtsaanduiding>
+                </xsl:if>
+                <xsl:if test="geboortedatum">
+                    <BG:geboortedatum><xsl:value-of select="geboortedatum"/></BG:geboortedatum>
+                </xsl:if>
                 <xsl:apply-templates select="verblijfsadres"/>
             </ZKN:natuurlijkPersoon>
         </ZKN:gerelateerde>
@@ -260,11 +212,21 @@
     <xsl:template match="nietNatuurlijkPersoon">
         <ZKN:gerelateerde>
             <ZKN:nietNatuurlijkPersoon StUF:entiteittype="NNP">
-                <BG:inn.nnpId><xsl:value-of select="inn.nnpId"/></BG:inn.nnpId>
-                <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
-                <BG:ann.identificatie><xsl:value-of select="ann.identificatie"/></BG:ann.identificatie>
-                <BG:statutaireNaam><xsl:value-of select="statutaireNaam"/></BG:statutaireNaam>
-                <BG:innRechtsvorm><xsl:value-of select="innRechtsvorm"/></BG:innRechtsvorm>
+                <xsl:if test="inn.nnpId">
+                    <BG:inn.nnpId><xsl:value-of select="inn.nnpId"/></BG:inn.nnpId>
+                </xsl:if>
+                <xsl:if test="authentiek">
+                    <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+                </xsl:if>
+                <xsl:if test="ann.identificatie">
+                    <BG:ann.identificatie><xsl:value-of select="ann.identificatie"/></BG:ann.identificatie>
+                </xsl:if>
+                <xsl:if test="statutaireNaam">
+                    <BG:statutaireNaam><xsl:value-of select="statutaireNaam"/></BG:statutaireNaam>
+                </xsl:if>
+                <xsl:if test="innRechtsvorm">
+                    <BG:innRechtsvorm><xsl:value-of select="innRechtsvorm"/></BG:innRechtsvorm>
+                </xsl:if>
                 <!-- Missing bezoekadres -->
                 <!-- Missing subVerblijfBuitenland -->
             </ZKN:nietNatuurlijkPersoon>
@@ -274,8 +236,12 @@
     <xsl:template match="vestiging">
         <ZKN:gerelateerde>
             <ZKN:vestiging StUF:entiteittype="VES">
-                <BG:vestigingsNummer><xsl:value-of select="vestigingsNummer"/></BG:vestigingsNummer>
-                <BG:handelsnaam><xsl:value-of select="handelsnaam"/></BG:handelsnaam>
+                <xsl:if test="vestigingsNummer">
+                    <BG:vestigingsNummer><xsl:value-of select="vestigingsNummer"/></BG:vestigingsNummer>
+                </xsl:if>
+                <xsl:if test="handelsnaam">
+                    <BG:handelsnaam><xsl:value-of select="handelsnaam"/></BG:handelsnaam>
+                </xsl:if>
                 <xsl:apply-templates select="verblijfsadres"/>
                 <!-- Missing subVerblijfBuitenland -->
             </ZKN:vestiging>
@@ -285,32 +251,60 @@
     <xsl:template match="medewerker">
         <ZKN:gerelateerde>
             <ZKN:medewerker StUF:entiteittype="MDW">
-                <BG:identificatie><xsl:value-of select="identificatie"/></BG:identificatie>
-                <BG:achternaam><xsl:value-of select="achternaam"/></BG:achternaam>
-                <BG:voorletters><xsl:value-of select="voorletters"/></BG:voorletters>
+                <xsl:if test="identificatie">
+                    <BG:identificatie><xsl:value-of select="identificatie"/></BG:identificatie>
+                </xsl:if>
+                <xsl:if test="achternaam">
+                    <BG:achternaam><xsl:value-of select="achternaam"/></BG:achternaam>
+                </xsl:if>
+                <xsl:if test="voorletters">
+                    <BG:voorletters><xsl:value-of select="voorletters"/></BG:voorletters>
+                </xsl:if>
             </ZKN:medewerker>
         </ZKN:gerelateerde>
     </xsl:template>
 
     <xsl:template match="verblijfsadres">
         <BG:verblijfsadres>
-            <BG:aoa.identificatie><xsl:value-of select="aoa.identificatie"/></BG:aoa.identificatie>
-            <BG:wpl.woonplaatsNaam><xsl:value-of select="wpl.woonplaatsNaam"/></BG:wpl.woonplaatsNaam>
-            <BG:gor.openbareRuimteNaam><xsl:value-of select="gor.openbareRuimteNaam"/></BG:gor.openbareRuimteNaam>
-            <BG:gor.straatnaam><xsl:value-of select="gor.straatnaam"/></BG:gor.straatnaam>
-            <BG:aoa.postcode><xsl:value-of select="aoa.postcode"/></BG:aoa.postcode>
-            <BG:aoa.huisnummer><xsl:value-of select="aoa.huisnummer"/></BG:aoa.huisnummer>
-            <BG:aoa.huisletter><xsl:value-of select="aoa.huisletter"/></BG:aoa.huisletter>
-            <BG:aoa.huisnummertoevoeging><xsl:value-of select="aoa.huisnummertoevoeging"/></BG:aoa.huisnummertoevoeging>
-            <BG:inp.locatiebeschrijving><xsl:value-of select="inp.locatiebeschrijving"/></BG:inp.locatiebeschrijving>
+            <xsl:if test="aoa.identificatie">
+                <BG:aoa.identificatie><xsl:value-of select="aoa.identificatie"/></BG:aoa.identificatie>
+            </xsl:if>
+            <xsl:if test="wpl.woonplaatsNaam">
+                <BG:wpl.woonplaatsNaam><xsl:value-of select="wpl.woonplaatsNaam"/></BG:wpl.woonplaatsNaam>
+            </xsl:if>
+            <xsl:if test="gor.openbareRuimteNaam">
+                <BG:gor.openbareRuimteNaam><xsl:value-of select="gor.openbareRuimteNaam"/></BG:gor.openbareRuimteNaam>
+            </xsl:if>
+            <xsl:if test="gor.straatnaam">
+                <BG:gor.straatnaam><xsl:value-of select="gor.straatnaam"/></BG:gor.straatnaam>
+            </xsl:if>
+            <xsl:if test="aoa.postcode">
+                <BG:aoa.postcode><xsl:value-of select="aoa.postcode"/></BG:aoa.postcode>
+            </xsl:if>
+            <xsl:if test="aoa.huisnummer">
+                <BG:aoa.huisnummer><xsl:value-of select="aoa.huisnummer"/></BG:aoa.huisnummer>
+            </xsl:if>
+            <xsl:if test="aoa.huisletter">
+                <BG:aoa.huisletter><xsl:value-of select="aoa.huisletter"/></BG:aoa.huisletter>
+            </xsl:if>
+            <xsl:if test="aoa.huisnummertoevoeging">
+                <BG:aoa.huisnummertoevoeging><xsl:value-of select="aoa.huisnummertoevoeging"/></BG:aoa.huisnummertoevoeging>
+            </xsl:if>
+            <xsl:if test="inp.locatiebeschrijving">
+                <BG:inp.locatiebeschrijving><xsl:value-of select="inp.locatiebeschrijving"/></BG:inp.locatiebeschrijving>
+            </xsl:if>
         </BG:verblijfsadres>
     </xsl:template>
 
     <xsl:template match="ZgwZaak/isVan/gerelateerde">
         <ZKN:isVan StUF:entiteittype="ZAKZKT">
             <ZKN:gerelateerde StUF:entiteittype="ZKT">
-                <ZKN:omschrijving><xsl:value-of select="omschrijving"/></ZKN:omschrijving>
-                <ZKN:code><xsl:value-of select="code"/></ZKN:code>
+                <xsl:if test="omschrijving">
+                    <ZKN:omschrijving><xsl:value-of select="omschrijving"/></ZKN:omschrijving>
+                </xsl:if>
+                <xsl:if test="code">
+                    <ZKN:code><xsl:value-of select="code"/></ZKN:code>
+                </xsl:if>
             </ZKN:gerelateerde>
         </ZKN:isVan>
     </xsl:template>
@@ -318,8 +312,12 @@
     <xsl:template match="ZgwZaak/heeftAlsDeelzaak/gerelateerde">
         <ZKN:heeftAlsHoofdzaak StUF:entiteittype="ZAKZAKDEL">
             <ZKN:gerelateerde>
-                <ZKN:identificatie><xsl:value-of select="code"/></ZKN:identificatie>
-                <ZKN:omschrijving><xsl:value-of select="omschrijving"/></ZKN:omschrijving>
+                <xsl:if test="code">
+                    <ZKN:identificatie><xsl:value-of select="code"/></ZKN:identificatie>
+                </xsl:if>
+                <xsl:if test="omschrijving">
+                    <ZKN:omschrijving><xsl:value-of select="omschrijving"/></ZKN:omschrijving>
+                </xsl:if>
             </ZKN:gerelateerde>
         </ZKN:heeftAlsHoofdzaak>
     </xsl:template>
@@ -327,17 +325,25 @@
     <xsl:template match="ZgwZaak/heeftAlsHoofdzaak/gerelateerde">
         <ZKN:heeftAlsHoofdzaak StUF:entiteittype="ZAKZAKHFD">
             <ZKN:gerelateerde>
-                <ZKN:identificatie><xsl:value-of select="code"/></ZKN:identificatie>
-                <ZKN:omschrijving><xsl:value-of select="omschrijving"/></ZKN:omschrijving>
+                <xsl:if test="code">
+                    <ZKN:identificatie><xsl:value-of select="code"/></ZKN:identificatie>
+                </xsl:if>
+                <xsl:if test="omschrijving">
+                    <ZKN:omschrijving><xsl:value-of select="omschrijving"/></ZKN:omschrijving>
+                </xsl:if>
             </ZKN:gerelateerde>
         </ZKN:heeftAlsHoofdzaak>
     </xsl:template>
 
-    <xsl:template match="ZgwZaak/root/heeftBetrekkingOpAndere/gerelateerde">
+    <xsl:template match="ZgwZaak/root/heeftBetrekkingOp/gerelateerde">
         <ZKN:heeftBetrekkingOpAndere StUF:entiteittype="ZAKZAKBTR">
             <ZKN:gerelateerde>
-                <ZKN:identificatie><xsl:value-of select="code"/></ZKN:identificatie>
-                <ZKN:omschrijving><xsl:value-of select="omschrijving"/></ZKN:omschrijving>
+                <xsl:if test="code">
+                    <ZKN:identificatie><xsl:value-of select="code"/></ZKN:identificatie>
+                </xsl:if>
+                <xsl:if test="omschrijving">
+                    <ZKN:omschrijving><xsl:value-of select="omschrijving"/></ZKN:omschrijving>
+                </xsl:if>
             </ZKN:gerelateerde>
         </ZKN:heeftBetrekkingOpAndere>
     </xsl:template>
@@ -345,11 +351,19 @@
     <xsl:template match="ZgwZaak/heeft">
         <ZKN:heeft StUF:entiteittype="ZAKSTT">
             <ZKN:gerelateerde StUF:entiteittype="STT">
-                <ZKN:zkt.code><xsl:value-of select="gerelateerde/zktOmschrijving"/></ZKN:zkt.code>
-                <ZKN:zkt.omschrijving><xsl:value-of select="gerelateerde/zktCode"/></ZKN:zkt.omschrijving>
-                <ZKN:omschrijving><xsl:value-of select="gerelateerde/omschrijving"/></ZKN:omschrijving>
+                <xsl:if test="gerelateerde/zktOmschrijving">
+                    <ZKN:zkt.code><xsl:value-of select="gerelateerde/zktOmschrijving"/></ZKN:zkt.code>
+                </xsl:if>
+                <xsl:if test="gerelateerde/zktCode">
+                    <ZKN:zkt.omschrijving><xsl:value-of select="gerelateerde/zktCode"/></ZKN:zkt.omschrijving>
+                </xsl:if>
+                <xsl:if test="gerelateerde/omschrijving">
+                    <ZKN:omschrijving><xsl:value-of select="gerelateerde/omschrijving"/></ZKN:omschrijving>
+                </xsl:if>
             </ZKN:gerelateerde>
-            <ZKN:indicatieLaatsteStatus><xsl:value-of select="code"/></ZKN:indicatieLaatsteStatus>
+            <xsl:if test="gerelateerde/indicatieLaatsteStatus">
+                <ZKN:indicatieLaatsteStatus><xsl:value-of select="gerelateerde/indicatieLaatsteStatus"/></ZKN:indicatieLaatsteStatus>
+            </xsl:if>
         </ZKN:heeft>
     </xsl:template>
 

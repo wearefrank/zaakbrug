@@ -203,7 +203,7 @@
             </SenderPipe>
 
             <ForEachChildElementPipe name="MapZdsHeeftIterator"
-                elementXPathExpression="/root/ZgwStatus"
+                elementXPathExpression="/ZgwStatussen/ZgwStatus"
                 storeResultInSessionKey="ZdsHeeft">
                 <IbisLocalSender
                     name="ZdsHeeftLocalSender"
