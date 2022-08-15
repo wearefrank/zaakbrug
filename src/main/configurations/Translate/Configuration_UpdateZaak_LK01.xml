@@ -5,6 +5,10 @@
 
         <Receiver name="UpdateZaak_Lk01">
             <JavaListener name="UpdateZaak_Lk01"/>
+            <JdbcErrorStorage
+                name="JdbcErrorStorage"
+                datasourceName="jdbc/frank2zgw"
+                slotId="${instance.name}/updateZaak_Lk01"/>
         </Receiver>
 
         <Pipeline>
@@ -195,7 +199,8 @@
 
             <ForEachChildElementPipe name="CallDetectRolChanges"
                 elementXPathExpression="/roles/role"
-                storeResultInSessionKey="DetectRolChangesResults">
+                storeResultInSessionKey="DetectRolChangesResults"
+                parallel="true">
                 <IbisLocalSender
                     name="CallDetectRolChangesSender"
                     javaListener="DetectRolChanges">

@@ -224,8 +224,8 @@
                 <xsl:if test="statutaireNaam">
                     <BG:statutaireNaam><xsl:value-of select="statutaireNaam"/></BG:statutaireNaam>
                 </xsl:if>
-                <xsl:if test="innRechtsvorm">
-                    <BG:innRechtsvorm><xsl:value-of select="innRechtsvorm"/></BG:innRechtsvorm>
+                <xsl:if test="inn.Rechtsvorm">
+                    <BG:inn.Rechtsvorm><xsl:value-of select="inn.Rechtsvorm"/></BG:inn.Rechtsvorm>
                 </xsl:if>
                 <!-- Missing bezoekadres -->
                 <!-- Missing subVerblijfBuitenland -->
@@ -268,6 +268,9 @@
         <BG:verblijfsadres>
             <xsl:if test="aoa.identificatie">
                 <BG:aoa.identificatie><xsl:value-of select="aoa.identificatie"/></BG:aoa.identificatie>
+            </xsl:if>
+            <xsl:if test="authentiek">
+                <BG:authentiek StUF:metagegeven="true"><xsl:value-of select="authentiek"/></BG:authentiek>
             </xsl:if>
             <xsl:if test="wpl.woonplaatsNaam">
                 <BG:wpl.woonplaatsNaam><xsl:value-of select="wpl.woonplaatsNaam"/></BG:wpl.woonplaatsNaam>

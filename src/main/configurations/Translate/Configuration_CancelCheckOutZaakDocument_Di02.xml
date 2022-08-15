@@ -5,6 +5,10 @@
 
         <Receiver name="CancelCheckOutZaakDocument_Di02">
             <JavaListener name="CancelCheckOutZaakDocument_Di02"/>
+            <JdbcErrorStorage
+                name="JdbcErrorStorage"
+                datasourceName="jdbc/frank2zgw"
+                slotId="${instance.name}/cancelCheckOutZaakDocument_Di02"/>
         </Receiver>
 
         <Pipeline>

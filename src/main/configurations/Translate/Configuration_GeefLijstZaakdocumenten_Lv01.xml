@@ -5,6 +5,10 @@
 
         <Receiver name="GeefLijstZaakdocumenten_Lv01">
             <JavaListener name="GeefLijstZaakdocumenten_Lv01"/>
+            <JdbcErrorStorage
+                name="JdbcErrorStorage"
+                datasourceName="jdbc/frank2zgw"
+                slotId="${instance.name}/geefLijstZaakdocumenten_Lv01"/>
         </Receiver>
 
         <Pipeline>  
@@ -36,7 +40,8 @@
             </SenderPipe>
 
             <ForEachChildElementPipe name="ZgwZaakInformatieObjectenIterator"
-                elementXPathExpression="/ZgwZaakInformatieObjecten/ZgwZaakInformatieObject">
+                elementXPathExpression="/ZgwZaakInformatieObjecten/ZgwZaakInformatieObject"
+                parallel="true">
                 <IbisLocalSender
                     name="CallHandleZgwZaakInformatieObjecten"
                     javaListener="HandleZgwZaakInformatieObjecten">

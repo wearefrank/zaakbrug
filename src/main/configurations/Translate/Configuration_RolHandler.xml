@@ -37,7 +37,8 @@
 
             <ForEachChildElementPipe name="CallDetectRolChanges"
                 elementXPathExpression="/roles/role"
-                storeResultInSessionKey="RolChangesResults">
+                storeResultInSessionKey="RolChangesResults"
+                parallel="true">
                 <IbisLocalSender
                     name="CallDetectRolChangesSender"
                     javaListener="DetectRolChanges">

@@ -5,6 +5,10 @@
 
         <Receiver name="GeefZaakdocumentLezen_Lv01">
             <JavaListener name="GeefZaakdocumentLezen_Lv01"/>
+            <JdbcErrorStorage
+                name="JdbcErrorStorage"
+                datasourceName="jdbc/frank2zgw"
+                slotId="${instance.name}/geefZaakdocumentLezen_Lv01"/>
         </Receiver>
 
         <Pipeline>
@@ -90,27 +94,18 @@
             </XmlIfPipe>
 
 <!-- Read timed out while testing -->
-            <!-- <SenderPipe name="CallGetBas64Inhoud"
+            <!-- <SenderPipe
+                name="CallGetBas64Inhoud"
                 storeResultInSessionKey="Bas64Inhoud">
-				<HttpSender 
-					name="CallGetBas64InhoudSender" 
-					methodType="GET"
-                    encodeMessages="true"
-					headersParams="Authorization,Accept-Crs"
-                    timeout="${creeerZaak.timeout}"
-				/>
-                <Param name="url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/inhoud">
-                    <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
-                </Param>
-                <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Authorization" value="Bearer ${JwtToken}"/>
-                <Forward name="success" path="EncodeInhoud" />
-			</SenderPipe>
-
-            <Base64Pipe name="EncodeInhoud"
-				storeResultInSessionKey="Bas64Inhoud">
-                <forward name="success" path="CheckForGetBas64InhoudResult" />
-            </Base64Pipe>
+                <IbisLocalSender
+                    name="CallGetBas64InhoudSender"
+                    javaListener="GetBas64Inhoud">
+                    <Param name="url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/inhoud">
+                        <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForGetBas64InhoudResult"/>
+            </SenderPipe>
 
             <XmlSwitchPipe 
                 name="CheckForGetBas64InhoudResult" 
@@ -120,6 +115,24 @@
                 <Forward name="true" path="MapZdsZaakDocumentInhoud"/>
                 <Forward name="false" path="EXCEPTION"/>
             </XmlSwitchPipe> -->
+
+            <!-- <LocalFileSystemPipe name="ReadFile" action="read">
+				<Param name="filename" value="${FilePath_4}" />
+				<Forward name="success" path="JsonToXml" />
+			</LocalFileSystemPipe>
+
+            <XsltPipe
+                name="GetContentType"
+                storeResultInSessionKey="ContentType"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="ZaakDocument/xsl/GetContentType.xslt"
+                >
+                <Param name="ZgwInformatieObjectType" sessionKey="ZgwInformatieObjectType" type="DOMDOC"/>
+                <Param name="ZgwZaak" sessionKey="GetZgwZaakResult" type="DOMDOC"/>
+                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="DOMDOC"/>
+                <Forward name="success" path="EXIT"/>
+            </XsltPipe> -->
 
             <XsltPipe
                 name="MapZdsZaakDocumentInhoud"

@@ -5,10 +5,10 @@
 
         <Receiver name="SoapEndpointRouter_OntvangAsynchroon">
             <WebServiceListener name="SoapEndpointRouter_OntvangAsynchroon" address="${address.OntvangAsynchroon}" soap="false"/>
-            <!-- <JdbcErrorStorage
+            <JdbcErrorStorage
                 name="JdbcErrorStorage"
-                datasourceName="jdbc/openZaakBrug"
-                slotId="${instance.name}/creeerZaak"/> -->
+                datasourceName="jdbc/frank2zgw"
+                slotId="${instance.name}/ontvangAsynchroon"/>
         </Receiver>
 
         <Pipeline>
@@ -16,16 +16,6 @@
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
-            <!-- <SoapInputValidator
-                name="InputValidator"
-                schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 CreeerZaak_LK01/xsd/zkn0310_msg_zs-dms_resolved2017.xsd"
-                reasonSessionKey="errorMsg"
-                ignoreUnknownNamespaces="true"
-                deepSearch="true"
-                cmhVersion="2">
-                <Forward name="failure" path="InvalidXml"/>
-                <Forward name="parserError" path="NotWellFormed"/>
-            </SoapInputValidator> -->
 
             <XsltPipe
                 name="RemoveComments"

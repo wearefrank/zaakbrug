@@ -48,7 +48,8 @@
            
             <ForEachChildElementPipe name="MapZdsRolFromZgwRolIterator"
                 elementXPathExpression="/root/results"
-                storeResultInSessionKey="Rollen">
+                storeResultInSessionKey="Rollen"
+                parallel="true">
                 <IbisLocalSender
                     name="CallMapZdsRolFromZgwRol"
                     javaListener="MapZdsRolFromZgwRol">
@@ -139,7 +140,8 @@
             <!-- not tested -->
             <ForEachChildElementPipe name="MapZgwDeelzakenIterator"
                 elementXPathExpression="/ZgwZaak/deelzaken"
-                storeResultInSessionKey="ZgwDeelzaken">
+                storeResultInSessionKey="ZgwDeelzaken"
+                parallel="true">
                 <IbisLocalSender
                     name="CallMapZdsDeelzakenFromZgwDeelzaken"
                     javaListener="MapZdsDeelzakenFromZgwDeelzaken">
@@ -170,7 +172,8 @@
             <!-- not tested -->
             <ForEachChildElementPipe name="MapZdsRelevanteAndereZakenIterator"
                 elementXPathExpression="/ZgwZaak/relevanteAndereZaken"
-                storeResultInSessionKey="ZdsRelevanteAndereZaken">
+                storeResultInSessionKey="ZdsRelevanteAndereZaken"
+                parallel="true">
                 <IbisLocalSender
                     name="CallMapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken"
                     javaListener="MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken">
@@ -204,7 +207,8 @@
 
             <ForEachChildElementPipe name="MapZdsHeeftIterator"
                 elementXPathExpression="/ZgwStatussen/ZgwStatus"
-                storeResultInSessionKey="ZdsHeeft">
+                storeResultInSessionKey="ZdsHeeft"
+                parallel="true">
                 <IbisLocalSender
                     name="ZdsHeeftLocalSender"
                     javaListener="MapZdsHeeftFromZgwStatus">

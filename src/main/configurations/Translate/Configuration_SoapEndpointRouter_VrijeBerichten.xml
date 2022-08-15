@@ -5,6 +5,10 @@
 
         <Receiver name="SoapEndpointRouter_VrijeBerichten">
             <WebServiceListener name="SoapEndpointRouter_VrijeBerichten" address="${address.VrijeBerichten}" soap="false"/>
+            <JdbcErrorStorage
+                name="JdbcErrorStorage"
+                datasourceName="jdbc/frank2zgw"
+                slotId="${instance.name}/vrijeBerichten"/>
         </Receiver>
 
         <Pipeline>

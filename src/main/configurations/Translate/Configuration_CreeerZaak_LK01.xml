@@ -5,6 +5,10 @@
 
         <Receiver name="CreeerZaak_Lk01">
             <JavaListener name="CreeerZaak_Lk01"/>
+            <JdbcErrorStorage
+                name="JdbcErrorStorage"
+                datasourceName="jdbc/frank2zgw"
+                slotId="${instance.name}/creeerZaak_Lk01"/>
         </Receiver>
 
         <Pipeline>
@@ -86,7 +90,8 @@
 
             <ForEachChildElementPipe name="RolMappingIterator"
                 storeResultInSessionKey="RolMappingResults"
-                elementXPathExpression="/roles/role">
+                elementXPathExpression="/roles/role"
+                parallel="true">
                 <IbisLocalSender
                     name="CallAddRolToZgw"
                     javaListener="AddRolToZgw">
@@ -123,7 +128,8 @@
 <!-- Post zaak end -->
             <ForEachChildElementPipe name="PostRolIterator"
                 getInputFromSessionKey="RolMappingResults"
-                elementXPathExpression="/results/result/zgwRol">
+                elementXPathExpression="/results/result/zgwRol"
+                parallel="true">
                 <IbisLocalSender
                     name="PostZgwRolLocalSender"
                     javaListener="Zaken_PostZgwRol">
@@ -143,7 +149,8 @@
 
             <ForEachChildElementPipe name="AndereZaakIterator"
                 getInputFromSessionKey="originalMessage"
-                elementXPathExpression="/zakLk01/object/heeftBetrekkingOpAndere">
+                elementXPathExpression="/zakLk01/object/heeftBetrekkingOpAndere"
+                parallel="true">
                 <IbisLocalSender
                     name="CallAndereZaakAdapter"
                     javaListener="AndereZaakAdapter">

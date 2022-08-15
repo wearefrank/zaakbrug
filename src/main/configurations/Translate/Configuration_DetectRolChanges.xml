@@ -62,7 +62,7 @@
 
             <ForEachChildElementPipe name="PostRolIterator"
                 elementXPathExpression="/results/result/zgwRol"
-                >
+                parallel="true">
                 <IbisLocalSender
                     name="PostZgwRolLocalSender"
                     javaListener="Zaken_PostZgwRol">

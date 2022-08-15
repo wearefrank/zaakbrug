@@ -41,7 +41,7 @@
                     <authentiek>J</authentiek>
                     <ann.identificatie><xsl:value-of select="betrokkeneIdentificatie/annIdentificatie"/></ann.identificatie>
                     <statutaireNaam><xsl:value-of select="betrokkeneIdentificatie/statutaireNaam"/></statutaireNaam>
-                    <innRechtsvorm><xsl:value-of select="betrokkeneIdentificatie/innRechtsvorm"/></innRechtsvorm>
+                    <inn.Rechtsvorm><xsl:value-of select="betrokkeneIdentificatie/innRechtsvorm"/></inn.Rechtsvorm>
                     <!-- Missing bezoekadres -->
                     <!-- Missing subVerblijfBuitenland -->
                 </nietNatuurlijkPersoon>
@@ -79,6 +79,7 @@
     <xsl:template match="verblijfsadres">
         <verblijfsadres>
             <aoa.identificatie><xsl:value-of select="aoaIdentificatie"/></aoa.identificatie>
+            <authentiek><xsl:value-of select="authentiek"/></authentiek>
             <wpl.woonplaatsNaam><xsl:value-of select="wplWoonplaatsNaam"/></wpl.woonplaatsNaam>
             <gor.openbareRuimteNaam><xsl:value-of select="gorOpenbareRuimteNaam"/></gor.openbareRuimteNaam>
             <gor.straatnaam><xsl:value-of select="gorOpenbareRuimteNaam"/></gor.straatnaam>
