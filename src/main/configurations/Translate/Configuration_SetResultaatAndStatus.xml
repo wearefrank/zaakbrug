@@ -53,11 +53,11 @@
 
             <XsltPipe name="SetBeeindigd"
                 getInputFromSessionKey="ZgwStatussen"
-                storeResultInSessionKey="SetBeeindigdResult"
+                storeResultInSessionKey="Beeindigd"
                 skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/SetBeeindigd.xsl"
                 >
-                <Param name="SetEndStatusTypeResult" sessionKey="SetEndStatusTypeResult" type="DOMDOC"/>
+                <Param name="EndStatusType" sessionKey="SetEndStatusTypeResult" type="DOMDOC"/>
                 <Forward name="success" path="PutEmptyNewStatussenInSession"/>
             </XsltPipe>
 

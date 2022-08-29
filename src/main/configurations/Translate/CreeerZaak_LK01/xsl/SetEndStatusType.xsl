@@ -8,12 +8,12 @@
     </xsl:template>
 
     <xsl:template match="/">
-        <xsl:for-each select="ZgwStatusTypes/ZgwStatusType">
-            <xsl:if test="isEindstatus = 'true'">
-                <ZgwStatusType>
+        <ZgwStatusType>
+            <xsl:for-each select="ZgwStatusTypes/ZgwStatusType">
+                <xsl:if test="isEindstatus = 'true'">
                     <xsl:apply-templates select="@*|node()" />
-                </ZgwStatusType>
-            </xsl:if>
-        </xsl:for-each>
+                </xsl:if>
+            </xsl:for-each>
+        </ZgwStatusType>
     </xsl:template>
 </xsl:stylesheet>
