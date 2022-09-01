@@ -3,7 +3,7 @@
         active="${ZdsHeeftAdapter.Active}"
         description="Handle each ZdsHeeft">
 
-        <Receiver name="ZdsHeeftAdapter" returnedSessionKeys="NewStatuses">
+        <Receiver name="ZdsHeeftAdapter" returnedSessionKeys="NewStatuses,Beeindigd">
             <JavaListener name="ZdsHeeftAdapter"/>
         </Receiver>
 
@@ -69,16 +69,14 @@
                 <Forward name="success" path="SetBeeindigdIfIsEindstatus"/>
             </XsltPipe>
 
-            <PutInSessionPipe name="SetBeeindigdIfIsEindstatus"
-                sessionKey="Beeindigd" 
-                value="&lt;beeindigd&gt;true&lt;/beeindigd&gt;"
-                ifParam="isEindstatus"
-                ifValue="true">
-                <Param name="isEindstatus" xpathExpression="$GetStatusTypeByZaakTypeAndOmschrijvingResult/statusType/isEindstatus">
-                    <Param name="GetStatusTypeByZaakTypeAndOmschrijvingResult" sessionKey="GetStatusTypeByZaakTypeAndOmschrijvingResult" type="DOMDOC"/>
-                </Param>
-                <Forward name="success" path="PutStatusExistsInSession" />
-            </PutInSessionPipe>
+            <XsltPipe
+                name="SetBeeindigdIfIsEindstatus"
+                storeResultInSessionKey="Beeindigd"
+                styleSheetName="CreeerZaak_LK01/xsl/SetBeeindigdIfIsEindstatus.xslt"
+                >
+                <Param name="IsEindstatus" sessionKey="GetStatusTypeByZaakTypeAndOmschrijvingResult" type="DOMDOC"/>
+                <Forward name="success" path="PutStatusExistsInSession"/>
+            </XsltPipe>
 
             <PutInSessionPipe name="PutStatusExistsInSession"
                 sessionKey="StatusExists" 

@@ -5,11 +5,11 @@
     
     <xsl:template match="/">
         <xsl:element name="{$List}">
-            <xsl:apply-templates select="//array"/>
+            <xsl:apply-templates select="//item"/>
         </xsl:element>
     </xsl:template>
     
-    <xsl:template match="array">
+    <xsl:template match="item">
         <xsl:element name="{$Type}">
             <xsl:copy-of select="*"/>
         </xsl:element>

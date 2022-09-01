@@ -42,14 +42,8 @@
                     javaListener="Zaken_GetZgwStatusByZaakUrl">
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                 </IbisLocalSender>
-                <Forward name="success" path="PutBeeindigdInSession"/>
+                <Forward name="success" path="SetBeeindigd"/>
             </SenderPipe>
-
-            <PutInSessionPipe name="PutBeeindigdInSession"
-                sessionKey="Beeindigd" 
-                value="&lt;beeindigd&gt;false&lt;/beeindigd&gt;">
-                <Forward name="success" path="SetBeeindigd" />
-            </PutInSessionPipe>
 
             <XsltPipe name="SetBeeindigd"
                 getInputFromSessionKey="ZgwStatussen"
@@ -58,8 +52,17 @@
                 styleSheetName="CreeerZaak_LK01/xsl/SetBeeindigd.xsl"
                 >
                 <Param name="EndStatusType" sessionKey="SetEndStatusTypeResult" type="DOMDOC"/>
-                <Forward name="success" path="PutEmptyNewStatussenInSession"/>
+                <Forward name="success" path="PutBeeindigdInSession"/>
             </XsltPipe>
+
+            <PutInSessionPipe name="PutBeeindigdInSession"
+                sessionKey="Beeindigd" 
+                value="&lt;beeindigd&gt;false&lt;/beeindigd&gt;"
+                ifParam="Beeindigd"
+                ifValue="">
+                <Param name="Beeindigd" sessionKey="Beeindigd"/>
+                <Forward name="success" path="PutEmptyNewStatussenInSession" />
+            </PutInSessionPipe>
 
             <PutInSessionPipe name="PutEmptyNewStatussenInSession"
                 sessionKey="NewStatuses" 
@@ -74,7 +77,7 @@
                 <IbisLocalSender
                     name="CallZdsHeeftAdapter"
                     javaListener="ZdsHeeftAdapter"
-                    returnedSessionKeys="NewStatuses">
+                    returnedSessionKeys="NewStatuses,Beeindigd">
                     <Param name="ZgwStatussen" sessionKey="ZgwStatussen" type="DOMDOC"/>
                     <Param name="ZaakTypeUrl" xpathExpression="$ZgwZaakType/ZgwZaakType/url">
                         <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
@@ -242,7 +245,7 @@
 
             <XmlIfPipe name="CheckForEindDatum"
                 getInputFromSessionKey="originalMessage"
-                xpathExpression="string-length(/*/object/einddatum) > 0 and $Beeindigd/beeindigd='false'"
+                xpathExpression="string-length(/*/object/einddatum) > 0 and $Beeindigd/beeindigd = 'false'"
                 thenForwardName="GetProfileDataFromLocalFS_2"
                 elseForwardName="PostStatusIterator">
                 <Param name="Beeindigd" sessionKey="Beeindigd" type="DOMDOC"/>

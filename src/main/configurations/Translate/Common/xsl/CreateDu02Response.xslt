@@ -22,7 +22,7 @@
                 <StUF:functie>geefZaakdocumentbewerken</StUF:functie>
             </ZKN:stuurgegevens>
             <ZKN:parameters>
-                <ZKN:checkedOutId><xsl:value-of select="$CheckOutZaakDocument/lock"/></ZKN:checkedOutId>
+                <ZKN:checkedOutId><xsl:value-of select="$CheckOutZaakDocument/root/lock"/></ZKN:checkedOutId>
             </ZKN:parameters>
             <ZKN:edcLa01 StUF:entiteittype="EDC" StUF:functie="antwoord">
                 <ZKN:parameters/>
