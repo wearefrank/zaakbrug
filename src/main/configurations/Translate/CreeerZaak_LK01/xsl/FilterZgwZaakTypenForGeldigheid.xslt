@@ -8,14 +8,16 @@
     </xsl:template>
     
     <xsl:template match="/">
-        <xsl:for-each select="ZgwZaakTypen/ZgwZaakType">
-            <xsl:if test="xs:date(beginGeldigheid) &lt; current-date()">
-                <xsl:if test="eindeGeldigheid/@nil = 'true' or (xs:date(eindeGeldigheid) &gt; current-date())">
-                    <ZgwZaakType>
-                        <xsl:apply-templates select="@*|node()"/>
-                    </ZgwZaakType>
+        <ZgwZaakTypen>
+            <xsl:for-each select="ZgwZaakTypen/ZgwZaakType">
+                <xsl:if test="xs:date(beginGeldigheid) &lt; current-date()">
+                    <xsl:if test="eindeGeldigheid/@nil = 'true' or (xs:date(eindeGeldigheid) &gt; current-date())">
+                        <ZgwZaakType>
+                            <xsl:apply-templates select="@*|node()"/>
+                        </ZgwZaakType>
+                    </xsl:if>
                 </xsl:if>
-            </xsl:if>
-        </xsl:for-each> 
+            </xsl:for-each>
+        </ZgwZaakTypen>
     </xsl:template>
 </xsl:stylesheet>

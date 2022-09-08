@@ -37,10 +37,10 @@
             </XsltPipe>
 
             <XmlIfPipe name="CheckForSetZgwZaakTypeResult"
-                xpathExpression="count(ZgwZaakTypen/ZgwZaakType) > 1"
+                xpathExpression="count(/ZgwZaakTypen/ZgwZaakType) = 1"
                 >
-                <Forward name="then" path="EXCEPTION"/>
-                <Forward name="else" path="GetGlobalConfigFromLocalFS"/>
+                <Forward name="then" path="GetGlobalConfigFromLocalFS"/>
+                <Forward name="else" path="EXCEPTION"/>
             </XmlIfPipe>
 
             <SenderPipe name="GetGlobalConfigFromLocalFS">
@@ -70,7 +70,7 @@
                 <IbisLocalSender
                     name="GetZgwRolTypeByZaakTypeLocalSender"
                     javaListener="Zaken_GetZgwRolTypeByZaakType">
-                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakType/url">
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType/url">
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
@@ -96,7 +96,7 @@
                     name="CallAddRolToZgw"
                     javaListener="AddRolToZgw">
                     <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC"/>
-                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakType/url">
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType/url">
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
@@ -166,7 +166,9 @@
                 <IbisLocalSender
                     name="CallSetResultaatAndStatusSender"
                     javaListener="SetResultaatAndStatus">
-                    <Param name="ZgwZaakType" sessionKey="GetZaakTypeResult" type="DOMDOC"/>                   
+                    <Param name="ZgwZaakType" xpathExpression="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType" type="DOMDOC">
+                        <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
+                    </Param>                  
                     <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/ZgwZaak/url">
                         <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
                     </Param>

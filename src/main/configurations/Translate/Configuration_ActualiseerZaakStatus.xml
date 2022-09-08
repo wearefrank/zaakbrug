@@ -49,10 +49,10 @@
             </XsltPipe>
 
             <XmlIfPipe name="CheckForSetZgwZaakTypeResult"
-                xpathExpression="count(ZgwZaakTypen/ZgwZaakType) > 1"
+                xpathExpression="count(ZgwZaakTypen/ZgwZaakType) = 1"
                 >
-                <Forward name="then" path="EXCEPTION"/>
-                <Forward name="else" path="CallSetResultaatAndStatus"/>
+                <Forward name="then" path="CallSetResultaatAndStatus"/>
+                <Forward name="else" path="EXCEPTION"/>
             </XmlIfPipe>
 
             <SenderPipe
@@ -62,7 +62,9 @@
                 <IbisLocalSender
                     name="CallSetResultaatAndStatusSender"
                     javaListener="SetResultaatAndStatus">
-                    <Param name="ZgwZaakType" sessionKey="GetZaakTypeResult" type="DOMDOC"/>                   
+                    <Param name="ZgwZaakType" xpathExpression="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType" type="DOMDOC">
+                        <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
+                    </Param>                   
                     <Param name="ZaakUrl" xpathExpression="$GetZaakResult/ZgwZaken/ZgwZaak/url">
                         <Param name="GetZaakResult" sessionKey="GetZaakResult" type="DOMDOC"/>
                     </Param>
