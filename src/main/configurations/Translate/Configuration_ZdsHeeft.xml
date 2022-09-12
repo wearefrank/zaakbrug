@@ -64,7 +64,7 @@
                 >
                 <Param name="ZgwStatusType" sessionKey="GetStatusTypeByZaakTypeAndOmschrijvingResult" type="DOMDOC"/>
                 <Param name="Zaak" sessionKey="ZaakUrl"/>
-                <Param name="ZdsEinddatum" sessionKey="Einddatum"/>
+                <Param name="ZdsEinddatum" sessionKey="Einddatum"  defaultValue="Undefined"/>
                 <Param name="ZdsStatusDatum" xpathExpression="heeft/datumStatusGezet"/>
                 <Forward name="success" path="SetBeeindigdIfIsEindstatus"/>
             </XsltPipe>

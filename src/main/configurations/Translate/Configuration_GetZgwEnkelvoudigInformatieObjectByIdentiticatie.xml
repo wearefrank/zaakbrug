@@ -21,7 +21,8 @@
                 <Forward name="false" path="EXCEPTION"/>
             </XmlSwitchPipe>
 
-			<SenderPipe name="GetZgwEnkelvoudigInformatieObjectByIdentiticatie">
+			<SenderPipe name="GetZgwEnkelvoudigInformatieObjectByIdentiticatie"
+                getInputFromFixedValue="&lt;dummy/&gt;">
 				<HttpSender 
 					name="GetZgwEnkelvoudigInformatieObjectByIdentiticatieSender" 
 					methodType="GET"

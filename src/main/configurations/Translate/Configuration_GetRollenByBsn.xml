@@ -13,7 +13,8 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-			<SenderPipe name="GetRollenByBsn">
+			<SenderPipe name="GetRollenByBsn"
+                getInputFromFixedValue="&lt;dummy/&gt;">
 				<HttpSender 
 					name="GetRollenByBsnSender" 
 					methodType="GET"

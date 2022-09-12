@@ -15,7 +15,7 @@
 
             <SenderPipe
                 name="CallGetStatusTypeByZaakType"
-                >
+                getInputFromFixedValue="&lt;dummy/&gt;">
                 <IbisLocalSender
                     name="CallGetStatusTypeByZaakTypeSender"
                     javaListener="GetZgwStatusTypes">

@@ -84,7 +84,7 @@
                     </Param>
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                     <Param name="Beeindigd" sessionKey="Beeindigd"/>
-                    <Param name="Einddatum" xpathExpression="/*/object/einddatum" defaultValue="Undefined"/>
+                    <Param name="Einddatum" xpathExpression="/*/object/einddatum" sessionKey="originalMessage"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForResultaat"/>
             </ForEachChildElementPipe>

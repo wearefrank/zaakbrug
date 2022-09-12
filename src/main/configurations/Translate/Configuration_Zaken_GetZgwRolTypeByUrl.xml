@@ -15,7 +15,7 @@
 
 			<SenderPipe 
                 name="GetZgwRolTypeByUrlSender"
-                >
+                getInputFromFixedValue="&lt;dummy/&gt;">
 				<HttpSender 
 					name="GetZgwRolTypeByUrlHttpSender" 
 					methodType="GET"

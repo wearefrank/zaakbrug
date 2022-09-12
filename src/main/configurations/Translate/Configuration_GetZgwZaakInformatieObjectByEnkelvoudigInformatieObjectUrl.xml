@@ -13,7 +13,8 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-			<SenderPipe name="GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl">
+			<SenderPipe name="GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl"
+                getInputFromFixedValue="&lt;dummy/&gt;">
 				<HttpSender 
 					name="GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrlSender" 
 					methodType="GET"
