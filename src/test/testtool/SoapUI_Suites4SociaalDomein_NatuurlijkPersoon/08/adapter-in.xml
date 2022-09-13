@@ -1,0 +1,27 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+<soapenv:Header/>
+<soapenv:Body>
+<ZKN:cancelCheckout_Di02 xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 zkn0310_msg_zs-dms.xsd">
+<ZKN:stuurgegevens>
+<StUF:berichtcode xmlns:StUF="http://www.egem.nl/StUF/StUF0301">Di02</StUF:berichtcode>
+<StUF:zender xmlns:StUF="http://www.egem.nl/StUF/StUF0301">
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>GWS4all</StUF:applicatie>
+<StUF:gebruiker>Gebruiker</StUF:gebruiker>
+</StUF:zender>
+<StUF:ontvanger xmlns:StUF="http://www.egem.nl/StUF/StUF0301">
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>CDR</StUF:applicatie>
+</StUF:ontvanger>
+<StUF:referentienummer xmlns:StUF="http://www.egem.nl/StUF/StUF0301">d0ac4afa-d594-4117-a9b2-43a0e21e48bf</StUF:referentienummer>
+<StUF:tijdstipBericht xmlns:StUF="http://www.egem.nl/StUF/StUF0301">20220908152003666</StUF:tijdstipBericht>
+<StUF:functie xmlns:StUF="http://www.egem.nl/StUF/StUF0301">cancelCheckout</StUF:functie>
+</ZKN:stuurgegevens>
+<ZKN:parameters>
+<ZKN:checkedOutId>4248bd34ca5a4e01a68b36569b19152b</ZKN:checkedOutId>
+</ZKN:parameters>
+<ZKN:document xmlns:StUF="http://www.egem.nl/StUF/StUF0301" StUF:entiteittype="EDC" StUF:functie="entiteit" StUF:verwerkingssoort="W">
+<ZKN:identificatie>1900107</ZKN:identificatie>
+</ZKN:document>
+</ZKN:cancelCheckout_Di02>
+</soapenv:Body></soapenv:Envelope>

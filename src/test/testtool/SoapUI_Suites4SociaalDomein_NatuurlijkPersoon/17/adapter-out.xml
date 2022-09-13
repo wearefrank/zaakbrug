@@ -1,0 +1,36 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Body><ZKN:zakLa01 xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310"
+xmlns:StUF="http://www.egem.nl/StUF/StUF0301"
+xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310">
+<ZKN:stuurgegevens>
+<StUF:berichtcode>La01</StUF:berichtcode>
+<StUF:zender>
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>CDR</StUF:applicatie>
+</StUF:zender>
+<StUF:ontvanger>
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>ZaakDocumentManager</StUF:applicatie>
+<StUF:gebruiker/>
+</StUF:ontvanger>
+<StUF:referentienummer>169f2091-b74f-4781-8c29-0e15e61b7cd7</StUF:referentienummer>
+<StUF:tijdstipBericht>20220913160707</StUF:tijdstipBericht>
+<StUF:crossRefnummer>169f2091-b74f-4781-8c29-0e15e61b7cd7</StUF:crossRefnummer>
+<StUF:entiteittype>ZAK</StUF:entiteittype>
+</ZKN:stuurgegevens>
+<ZKN:parameters>
+<StUF:indicatorVervolgvraag>false</StUF:indicatorVervolgvraag>
+</ZKN:parameters>
+<ZKN:antwoord>
+<ZKN:object StUF:entiteittype="ZAK">
+<ZKN:identificatie>1900244</ZKN:identificatie>
+<ZKN:omschrijving>Aanvraag minimaregelingen (Z)</ZKN:omschrijving>
+<ZKN:isVan StUF:entiteittype="ZAKZKT">
+<ZKN:gerelateerde StUF:entiteittype="ZKT">
+<ZKN:omschrijving>Minimaregeling aanvraag</ZKN:omschrijving>
+<ZKN:code>B1026</ZKN:code>
+</ZKN:gerelateerde>
+</ZKN:isVan>
+</ZKN:object>
+</ZKN:antwoord>
+</ZKN:zakLa01>
+</soapenv:Body></soapenv:Envelope>

@@ -63,7 +63,7 @@
                     timeout="${creeerZaak.timeout}"
 				/>
                 <Param name="zaak" sessionKey="ZgwZaakUrl"/>
-                <Param name="roltype" xpathExpression="$ZgwRolType/url">
+                <Param name="roltype" xpathExpression="$ZgwRolType/ZgwRolType/url">
                     <Param name="ZgwRolType" sessionKey="ZgwRolType" type="DOMDOC"/>
                 </Param>
                 <Param name="Accept-Crs" value="EPSG:4326"/>

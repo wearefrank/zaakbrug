@@ -57,19 +57,17 @@
                     <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC"/>
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                 </IbisLocalSender>
-                <Forward name="success" path="PostRolIterator"/>
+                <Forward name="success" path="CallPostRol"/>
             </SenderPipe>
 
-            <ForEachChildElementPipe name="PostRolIterator"
-                elementXPathExpression="/results/result/zgwRol"
-                parallel="true">
+            <SenderPipe name="CallPostRol">
                 <IbisLocalSender
-                    name="PostZgwRolLocalSender"
+                    name="CallPostRolSender"
                     javaListener="Zaken_PostZgwRol">
                     <Param name="ZaakUrl" sessionKey="ZgwZaakUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
-            </ForEachChildElementPipe>
+            </SenderPipe>
 
             <SenderPipe name="CallDeleteRolFromZgw"
                 getInputFromSessionKey="originalMessage"

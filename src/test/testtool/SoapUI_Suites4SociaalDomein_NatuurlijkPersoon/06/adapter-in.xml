@@ -1,0 +1,53 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+<soapenv:Header/>
+<soapenv:Body>
+<ZKN:updateZaakdocument_Di02 xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 zkn0310_msg_zs-dms.xsd">
+<ZKN:stuurgegevens>
+<StUF:berichtcode xmlns:StUF="http://www.egem.nl/StUF/StUF0301">Di02</StUF:berichtcode>
+<StUF:zender xmlns:StUF="http://www.egem.nl/StUF/StUF0301">
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>GWS4all</StUF:applicatie>
+<StUF:gebruiker>Gebruiker</StUF:gebruiker>
+</StUF:zender>
+<StUF:ontvanger xmlns:StUF="http://www.egem.nl/StUF/StUF0301">
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>CDR</StUF:applicatie>
+</StUF:ontvanger>
+<StUF:referentienummer xmlns:StUF="http://www.egem.nl/StUF/StUF0301">54bdad69-e899-49de-8132-c08ed759129e</StUF:referentienummer>
+<StUF:tijdstipBericht xmlns:StUF="http://www.egem.nl/StUF/StUF0301">2022090815200319</StUF:tijdstipBericht>
+<StUF:functie xmlns:StUF="http://www.egem.nl/StUF/StUF0301">updateZaakdocument</StUF:functie>
+</ZKN:stuurgegevens>
+<ZKN:parameters>
+<ZKN:checkedOutId>7cc2853cf3ce465e9097c34b3af6c351</ZKN:checkedOutId>
+</ZKN:parameters>
+<ZKN:edcLk02 xmlns:StUF="http://www.egem.nl/StUF/StUF0301" StUF:entiteittype="EDC" StUF:functie="update">
+<ZKN:parameters>
+<StUF:mutatiesoort>W</StUF:mutatiesoort>
+</ZKN:parameters>
+<ZKN:object StUF:entiteittype="EDC" StUF:verwerkingssoort="W">
+<ZKN:identificatie>1900107</ZKN:identificatie>
+</ZKN:object>
+<ZKN:object StUF:entiteittype="EDC" StUF:verwerkingssoort="W">
+<ZKN:identificatie>1900107</ZKN:identificatie>
+<ZKN:dct.omschrijving>gewijzigde omschrijving</ZKN:dct.omschrijving>
+<ZKN:creatiedatum>20201009</ZKN:creatiedatum>
+<ZKN:ontvangstdatum StUF:noValue="waardeOnbekend" xsi:nil="true"/>
+<ZKN:titel>Testbestand</ZKN:titel>
+<ZKN:beschrijving>Testbestand in ketentest</ZKN:beschrijving>
+<ZKN:formaat>txt</ZKN:formaat>
+<ZKN:taal>nld</ZKN:taal>
+<ZKN:versie StUF:noValue="waardeOnbekend" xsi:nil="true"/>
+<ZKN:status>Definitief</ZKN:status>
+<ZKN:verzenddatum StUF:noValue="waardeOnbekend" xsi:nil="true"/>
+<ZKN:vertrouwelijkAanduiding>OPENBAAR</ZKN:vertrouwelijkAanduiding>
+<ZKN:auteur>auteur</ZKN:auteur>
+<ZKN:inhoud StUF:bestandsnaam="Testbestand.txt">RGl0IGlzIGVlbiB0ZXN0YmVzdGFuZC4KRGV6ZSBob29ydCB0ZSB3b3JkZW4gb3BnZXZvZXJkIG1ldCBkb2N1bWVudGlkZW50aWZpY2F0aWUgMDIwNDE2MzYyCgp0ZXN0MDkxMApFaW5kZSBiZXN0YW5k</ZKN:inhoud>
+<ZKN:isRelevantVoor StUF:entiteittype="EDCZAK" StUF:verwerkingssoort="T">
+<ZKN:gerelateerde StUF:entiteittype="ZAK" StUF:verwerkingssoort="T">
+<ZKN:identificatie>1900236</ZKN:identificatie>
+</ZKN:gerelateerde>
+</ZKN:isRelevantVoor>
+</ZKN:object>
+</ZKN:edcLk02>
+</ZKN:updateZaakdocument_Di02>
+</soapenv:Body></soapenv:Envelope>

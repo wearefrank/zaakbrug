@@ -1,0 +1,80 @@
+<SOAP-ENV:Envelope xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 zkn0310-p28\mutatie\zkn0310_msg_mutatie_resolved.xsd">
+<SOAP-ENV:Header/>
+<SOAP-ENV:Body>
+<ZKN:zakLk01>
+<ZKN:stuurgegevens>
+<StUF:berichtcode>Lk01</StUF:berichtcode>
+<StUF:zender>
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>GWS4all</StUF:applicatie>
+<StUF:gebruiker>Gebruiker</StUF:gebruiker>
+</StUF:zender>
+<StUF:ontvanger>
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>CDR</StUF:applicatie>
+</StUF:ontvanger>
+<StUF:referentienummer>b97da75a-7841-4a0f-84ec-8728516af4e1</StUF:referentienummer>
+<StUF:tijdstipBericht>20220913160705324</StUF:tijdstipBericht>
+<StUF:entiteittype>ZAK</StUF:entiteittype>
+</ZKN:stuurgegevens>
+<ZKN:parameters>
+<StUF:mutatiesoort>W</StUF:mutatiesoort>
+<StUF:indicatorOvername>V</StUF:indicatorOvername>
+</ZKN:parameters>
+<ZKN:object StUF:entiteittype="ZAK" StUF:sleutelVerzendend="1900244" StUF:verwerkingssoort="W">
+<ZKN:identificatie>1900244</ZKN:identificatie>
+<ZKN:omschrijving>Aanvraag minimaregelingen (Z)</ZKN:omschrijving>
+<ZKN:startdatum>20220913</ZKN:startdatum>
+<ZKN:registratiedatum>20220913</ZKN:registratiedatum>
+<ZKN:isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="I">
+<ZKN:gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="I">
+<ZKN:omschrijving>Aanvraag minima</ZKN:omschrijving>
+<ZKN:code>B1026</ZKN:code>
+<ZKN:ingangsdatumObject StUF:noValue="geenWaarde" xsi:nil="true"/>
+</ZKN:gerelateerde>
+</ZKN:isVan>
+<ZKN:leidtTot StUF:entiteittype="ZAKBSL" StUF:noValue="geenWaarde" StUF:verwerkingssoort="T" xsi:nil="true"/>
+</ZKN:object>
+<ZKN:object StUF:entiteittype="ZAK" StUF:sleutelVerzendend="1900244" StUF:verwerkingssoort="W">
+<ZKN:identificatie>1900244</ZKN:identificatie>
+<ZKN:omschrijving>Aanvraag minimaregelingen (Z)</ZKN:omschrijving>
+<ZKN:resultaat>
+<ZKN:omschrijving>Buiten behandeling g</ZKN:omschrijving>
+</ZKN:resultaat>
+<ZKN:startdatum>20220913</ZKN:startdatum>
+<ZKN:registratiedatum>20220913</ZKN:registratiedatum>
+<ZKN:einddatum>20220913</ZKN:einddatum>
+<ZKN:verlenging>
+<ZKN:duur>99</ZKN:duur>
+<ZKN:reden>Overig</ZKN:reden>
+</ZKN:verlenging>
+<ZKN:isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="I">
+<ZKN:gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="I">
+<ZKN:omschrijving>Aanvraag minima</ZKN:omschrijving>
+<ZKN:code>B1026</ZKN:code>
+<ZKN:ingangsdatumObject StUF:noValue="geenWaarde" xsi:nil="true"/>
+</ZKN:gerelateerde>
+</ZKN:isVan>
+<ZKN:heeft StUF:entiteittype="ZAKSTT" StUF:verwerkingssoort="T">
+<ZKN:gerelateerde StUF:entiteittype="STT" StUF:verwerkingssoort="T">
+<ZKN:zkt.code>B1026</ZKN:zkt.code>
+<ZKN:zkt.omschrijving>Aanvraag minima</ZKN:zkt.omschrijving>
+<ZKN:volgnummer>0010</ZKN:volgnummer>
+<ZKN:code>ontv</ZKN:code>
+<ZKN:omschrijving>Ontvangen</ZKN:omschrijving>
+<ZKN:ingangsdatumObject StUF:noValue="geenWaarde" xsi:nil="true"/>
+</ZKN:gerelateerde>
+<ZKN:datumStatusGezet>20220913140705337</ZKN:datumStatusGezet>
+<ZKN:isGezetDoor StUF:entiteittype="ZAKSTTBTR" StUF:verwerkingssoort="T">
+<ZKN:gerelateerde>
+<ZKN:medewerker StUF:entiteittype="MDW" StUF:verwerkingssoort="I">
+<ZKN:identificatie>012345678901234567890123</ZKN:identificatie>
+<ZKN:achternaam>G. Bruiker</ZKN:achternaam>
+<ZKN:voorletters StUF:noValue="geenWaarde" xsi:nil="true"/>
+</ZKN:medewerker>
+</ZKN:gerelateerde>
+</ZKN:isGezetDoor>
+</ZKN:heeft>
+</ZKN:object>
+</ZKN:zakLk01>
+</SOAP-ENV:Body></SOAP-ENV:Envelope>
