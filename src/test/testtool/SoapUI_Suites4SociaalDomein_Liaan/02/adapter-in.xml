@@ -1,0 +1,180 @@
+<SOAP-ENV:Envelope xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 zkn0310-p28\mutatie\zkn0310_msg_mutatie_resolved.xsd">
+<SOAP-ENV:Header/>
+<SOAP-ENV:Body>
+<ZKN:zakLk01>
+<ZKN:stuurgegevens>
+<StUF:berichtcode>Lk01</StUF:berichtcode>
+<StUF:zender>
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>GWS4all</StUF:applicatie>
+<StUF:gebruiker>Gebruiker</StUF:gebruiker>
+</StUF:zender>
+<StUF:ontvanger>
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>CDR</StUF:applicatie>
+</StUF:ontvanger>
+<StUF:referentienummer>1941d5b2-8efa-4951-858a-c02b44ba46f2</StUF:referentienummer>
+<StUF:tijdstipBericht>20220913224356782</StUF:tijdstipBericht>
+<StUF:entiteittype>ZAK</StUF:entiteittype>
+</ZKN:stuurgegevens>
+<ZKN:parameters>
+<StUF:mutatiesoort>T</StUF:mutatiesoort>
+<StUF:indicatorOvername>V</StUF:indicatorOvername>
+</ZKN:parameters>
+<ZKN:object StUF:entiteittype="ZAK" StUF:sleutelVerzendend="1900247" StUF:verwerkingssoort="T">
+<ZKN:identificatie>1900247</ZKN:identificatie>
+<ZKN:omschrijving>Aanvraag minimaregelingen (Z)</ZKN:omschrijving>
+<!--<ZKN:resultaat>
+<ZKN:omschrijving>Toegekend</ZKN:omschrijving>
+</ZKN:resultaat>-->
+<ZKN:startdatum>20220913</ZKN:startdatum>
+<ZKN:registratiedatum>20220913</ZKN:registratiedatum>
+<ZKN:einddatumGepland>20210101</ZKN:einddatumGepland>
+<ZKN:einddatum>20220913</ZKN:einddatum>
+<ZKN:archiefnominatie>J</ZKN:archiefnominatie>
+<ZKN:zaakniveau>1</ZKN:zaakniveau>
+<ZKN:deelzakenIndicatie>N</ZKN:deelzakenIndicatie>
+<ZKN:isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="T">
+<ZKN:gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="T">
+<ZKN:omschrijving>Aanvraag minima</ZKN:omschrijving>
+<ZKN:code>B1026</ZKN:code>
+<ZKN:ingangsdatumObject StUF:noValue="geenWaarde" xsi:nil="true"/>
+</ZKN:gerelateerde>
+</ZKN:isVan>
+<ZKN:heeftBetrekkingOp StUF:entiteittype="ZAKOBJ" StUF:verwerkingssoort="T">
+<ZKN:gerelateerde>
+<ZKN:natuurlijkPersoon StUF:entiteittype="NPS" StUF:verwerkingssoort="T">
+<BG:inp.bsn>111111110</BG:inp.bsn>
+<BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+<BG:geslachtsnaam>Precies</BG:geslachtsnaam>
+<BG:voorvoegselGeslachtsnaam StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:voorletters>P</BG:voorletters>
+<BG:voornamen>Pietje</BG:voornamen>
+<BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>
+<BG:geboortedatum StUF:indOnvolledigeDatum="V">19010101</BG:geboortedatum>
+<BG:verblijfsadres>
+<BG:aoa.identificatie StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+<BG:wpl.woonplaatsNaam>Bolsward</BG:wpl.woonplaatsNaam>
+<BG:gor.openbareRuimteNaam StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:gor.straatnaam>Kerkstraat</BG:gor.straatnaam>
+<BG:aoa.postcode>8701HP</BG:aoa.postcode>
+<BG:aoa.huisnummer>1</BG:aoa.huisnummer>
+<BG:aoa.huisletter StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:aoa.huisnummertoevoeging StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:inp.locatiebeschrijving StUF:noValue="geenWaarde" xsi:nil="true"/>
+</BG:verblijfsadres>
+</ZKN:natuurlijkPersoon>
+</ZKN:gerelateerde>
+<ZKN:omschrijving>Client</ZKN:omschrijving>
+</ZKN:heeftBetrekkingOp>
+<ZKN:heeftAlsBelanghebbende StUF:entiteittype="ZAKBTRBLH" StUF:verwerkingssoort="T">
+<ZKN:gerelateerde>
+<ZKN:natuurlijkPersoon StUF:entiteittype="NPS" StUF:verwerkingssoort="T">
+<BG:inp.bsn>111111110</BG:inp.bsn>
+<BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+<BG:geslachtsnaam>Precies</BG:geslachtsnaam>
+<BG:voorvoegselGeslachtsnaam StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:voorletters>P</BG:voorletters>
+<BG:voornamen>Pietje</BG:voornamen>
+<BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>
+<BG:geboortedatum StUF:indOnvolledigeDatum="V">19010101</BG:geboortedatum>
+<BG:verblijfsadres>
+<BG:aoa.identificatie StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+<BG:wpl.woonplaatsNaam>Bolsward</BG:wpl.woonplaatsNaam>
+<BG:gor.openbareRuimteNaam StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:gor.straatnaam>Kerkstraat</BG:gor.straatnaam>
+<BG:aoa.postcode>8701HP</BG:aoa.postcode>
+<BG:aoa.huisnummer>1</BG:aoa.huisnummer>
+<BG:aoa.huisletter StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:aoa.huisnummertoevoeging StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:inp.locatiebeschrijving StUF:noValue="geenWaarde" xsi:nil="true"/>
+</BG:verblijfsadres>
+</ZKN:natuurlijkPersoon>
+</ZKN:gerelateerde>
+<ZKN:omschrijving>Client</ZKN:omschrijving>
+</ZKN:heeftAlsBelanghebbende>
+<ZKN:heeftAlsInitiator StUF:entiteittype="ZAKBTRINI" StUF:verwerkingssoort="T">
+<ZKN:gerelateerde>
+<ZKN:natuurlijkPersoon StUF:entiteittype="NPS" StUF:verwerkingssoort="T">
+<BG:inp.bsn>111111110</BG:inp.bsn>
+<BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+<BG:geslachtsnaam>Precies</BG:geslachtsnaam>
+<BG:voorvoegselGeslachtsnaam StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:voorletters>P</BG:voorletters>
+<BG:voornamen>Pietje</BG:voornamen>
+<BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>
+<BG:geboortedatum StUF:indOnvolledigeDatum="V">19010101</BG:geboortedatum>
+<BG:verblijfsadres>
+<BG:aoa.identificatie StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+<BG:wpl.woonplaatsNaam>Bolsward</BG:wpl.woonplaatsNaam>
+<BG:gor.openbareRuimteNaam StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:gor.straatnaam>Kerkstraat</BG:gor.straatnaam>
+<BG:aoa.postcode>8701HP</BG:aoa.postcode>
+<BG:aoa.huisnummer>1</BG:aoa.huisnummer>
+<BG:aoa.huisletter StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:aoa.huisnummertoevoeging StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:inp.locatiebeschrijving StUF:noValue="geenWaarde" xsi:nil="true"/>
+</BG:verblijfsadres>
+</ZKN:natuurlijkPersoon>
+</ZKN:gerelateerde>
+</ZKN:heeftAlsInitiator>
+<ZKN:heeftAlsUitvoerende StUF:entiteittype="ZAKBTRUTV" StUF:verwerkingssoort="T">
+<ZKN:gerelateerde>
+<ZKN:medewerker StUF:entiteittype="MDW" StUF:verwerkingssoort="T">
+<ZKN:identificatie>012345678901234567890123</ZKN:identificatie>
+<ZKN:achternaam>G. Bruiker</ZKN:achternaam>
+<ZKN:voorletters StUF:noValue="geenWaarde" xsi:nil="true"/>
+</ZKN:medewerker>
+</ZKN:gerelateerde>
+<ZKN:heeftAlsAanspreekpunt StUF:entiteittype="ZAKBTRUTVCTP" StUF:verwerkingssoort="T">
+<ZKN:gerelateerde StUF:entiteittype="CTP" StUF:verwerkingssoort="T">
+<ZKN:identificatie>012345678901234567890123</ZKN:identificatie>
+<ZKN:naam>G. Bruiker</ZKN:naam>
+<ZKN:telefoonnummer>0515489000</ZKN:telefoonnummer>
+<ZKN:emailadres>info@sudwestfryslan.nl</ZKN:emailadres>
+</ZKN:gerelateerde>
+</ZKN:heeftAlsAanspreekpunt>
+</ZKN:heeftAlsUitvoerende>
+<ZKN:heeftAlsVerantwoordelijke StUF:entiteittype="ZAKBTRVRA" StUF:verwerkingssoort="T">
+<ZKN:gerelateerde>
+<ZKN:medewerker StUF:entiteittype="MDW" StUF:verwerkingssoort="T">
+<ZKN:identificatie>012345678901234567890123</ZKN:identificatie>
+<ZKN:achternaam>G. Bruiker</ZKN:achternaam>
+<ZKN:voorletters StUF:noValue="geenWaarde" xsi:nil="true"/>
+</ZKN:medewerker>
+</ZKN:gerelateerde>
+<ZKN:heeftAlsAanspreekpunt StUF:entiteittype="ZAKBTRVRACTP" StUF:verwerkingssoort="T">
+<ZKN:gerelateerde StUF:entiteittype="CTP" StUF:verwerkingssoort="T">
+<ZKN:identificatie>012345678901234567890123</ZKN:identificatie>
+<ZKN:naam>G. Bruiker</ZKN:naam>
+<ZKN:telefoonnummer>0515489000</ZKN:telefoonnummer>
+<ZKN:emailadres>info@sudwestfryslan.nl</ZKN:emailadres>
+</ZKN:gerelateerde>
+</ZKN:heeftAlsAanspreekpunt>
+</ZKN:heeftAlsVerantwoordelijke>
+<!--<ZKN:heeft StUF:entiteittype="ZAKSTT" StUF:verwerkingssoort="T">
+<ZKN:gerelateerde StUF:entiteittype="STT" StUF:verwerkingssoort="T">
+<ZKN:zkt.code>B1026</ZKN:zkt.code>
+<ZKN:zkt.omschrijving>Aanvraag minima</ZKN:zkt.omschrijving>
+<ZKN:volgnummer>0009</ZKN:volgnummer>
+<ZKN:code>einde</ZKN:code>
+<ZKN:omschrijving>einde</ZKN:omschrijving>
+<ZKN:ingangsdatumObject xsi:nil="true" StUF:noValue="geenWaarde"/>
+</ZKN:gerelateerde>
+<ZKN:datumStatusGezet>20220913224356798</ZKN:datumStatusGezet>
+<ZKN:isGezetDoor StUF:entiteittype="ZAKSTTBTR" StUF:verwerkingssoort="T">
+<ZKN:gerelateerde>
+<ZKN:medewerker StUF:entiteittype="MDW" StUF:verwerkingssoort="T">
+<ZKN:identificatie>012345678901234567890123</ZKN:identificatie>
+<ZKN:achternaam>G. Bruiker</ZKN:achternaam>
+<ZKN:voorletters xsi:nil="true" StUF:noValue="geenWaarde"/>
+</ZKN:medewerker>
+</ZKN:gerelateerde>
+</ZKN:isGezetDoor>
+</ZKN:heeft>-->
+</ZKN:object>
+</ZKN:zakLk01>
+</SOAP-ENV:Body></SOAP-ENV:Envelope>
