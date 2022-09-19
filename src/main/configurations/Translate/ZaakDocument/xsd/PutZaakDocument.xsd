@@ -63,8 +63,8 @@
     </xs:simpleType>
     <xs:simpleType name="zgwBestandsomvang">
         <xs:restriction base="xs:integer">
-            <xs:minValue value="0"/>
-            <xs:maxValue value="9223372036854776000"/>
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="9223372036854776000"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="zgwFormaat">

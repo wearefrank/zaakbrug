@@ -125,8 +125,8 @@
     </xs:simpleType>
     <xs:simpleType name="zgwHuisnummer">
         <xs:restriction base="xs:integer">
-            <xs:minValue value="0"/>
-            <xs:maxValue value="99999"/>
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="99999"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="zgwDate">

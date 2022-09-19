@@ -40,7 +40,8 @@
             <PutInSessionPipe name="StoreTaal"
                 getInputFromSessionKey="ZdsWordtInformatieObject"
                 >
-                <Param name="Taal" xpathExpression="object/taal"/>            
+                <Param name="Taal" xpathExpression="object/taal"/> 
+                <Param name="Inhoud" xpathExpression="object/inhoud"/>           
                 <Forward name="success" path="CheckForTaalLength"/>
             </PutInSessionPipe>
 
@@ -50,7 +51,7 @@
                 >
                 <Param name="Taal" sessionKey="Taal"/>
                 <Forward name="true" path="ConvertISO639TaalSender"/>
-                <Forward name="false" path="MapZgwEnkelvoudigInformatieObject"/>
+                <Forward name="false" path="DecodeInhoud"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XmlSwitchPipe>
 
@@ -63,21 +64,30 @@
                     javaListener="ConvertISO639Taal">
                     <Param name="Alpha2" sessionKey="Taal"/>                   
                 </IbisLocalSender>
-                <Forward name="success" path="MapZgwEnkelvoudigInformatieObject"/>
+                <Forward name="success" path="DecodeInhoud"/>
             </SenderPipe>
+
+            <Base64Pipe name="DecodeInhoud"
+                direction="DECODE"
+                getInputFromSessionKey="Inhoud"
+                storeResultInSessionKey="DecodeInhoudResult">
+                <Forward name="success" path="MapZgwEnkelvoudigInformatieObject" />
+            </Base64Pipe>
 
             <XsltPipe
                 name="MapZgwEnkelvoudigInformatieObject"
+                getInputFromSessionKey="ZdsWordtInformatieObject"
                 storeResultInSessionKey="ZgwEnkelvoudigInformatieObject"
                 removeNamespaces="true"
                 skipEmptyTags="true"
                 styleSheetName="ZaakDocument/xsl/CreatePutZaakDocumentBody.xslt"
                 >
-                <Param name="ZdsZaakDocumentInhoud" sessionKey="ZdsWordtInformatieObject" type="DOMDOC"/>
+                <!-- <Param name="ZdsZaakDocumentInhoud" sessionKey="ZdsWordtInformatieObject" type="DOMDOC"/> -->
                 <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="GetZgwEnkelvoudigInformatieObjectResult" type="DOMDOC"/>
                 <Param name="Taal" sessionKey="Taal"/>
                 <Param name="IndicatieGebruiksrecht" value="false"/>
                 <Param name="Lock" sessionKey="Lock"/>
+                <Param name="DecodeInhoudResult" sessionKey="DecodeInhoudResult"/>
                 <Forward name="success" path="StoreUrl"/>
             </XsltPipe>
 

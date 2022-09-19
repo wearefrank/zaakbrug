@@ -16,7 +16,7 @@
 			<SenderPipe name="GetZgwRolesByZaakUrl" 
                 getInputFromFixedValue="&lt;dummy/&gt;">
 				<HttpSender 
-					name="GetZgwRoltypeByIdSender" 
+					name="GetZgwRolesByZaakUrlSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
 					url="${zgw.baseurl}${zgw.endpoint.rol}"
