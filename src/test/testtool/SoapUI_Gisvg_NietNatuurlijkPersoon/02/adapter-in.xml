@@ -1,0 +1,132 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+<s:Header/><s:Body>
+<zakLk01 xmlns="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<stuurgegevens>
+<StUF:berichtcode>Lk01</StUF:berichtcode>
+<StUF:zender>
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>GISVG</StUF:applicatie>
+</StUF:zender>
+<StUF:ontvanger>
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>ZDS</StUF:applicatie>
+</StUF:ontvanger>
+<StUF:referentienummer>cbb09ebc-cfe4-472f-a169-13f287ac5a39</StUF:referentienummer>
+<StUF:tijdstipBericht>20220922114903421</StUF:tijdstipBericht>
+<StUF:entiteittype>ZAK</StUF:entiteittype>
+</stuurgegevens>
+<parameters>
+<StUF:mutatiesoort>T</StUF:mutatiesoort>
+<StUF:indicatorOvername>I</StUF:indicatorOvername>
+</parameters>
+<object StUF:entiteittype="ZAK" StUF:verwerkingssoort="T">
+<identificatie>1900292</identificatie>
+<omschrijving>Dossiernummer GISVG OV1900292</omschrijving>
+<toelichting>Reguliere omgevingsvergunning</toelichting>
+<startdatum>20220922</startdatum>
+<registratiedatum>20220922</registratiedatum>
+<archiefnominatie>N</archiefnominatie>
+<zaakniveau>1</zaakniveau>
+<deelzakenIndicatie>N</deelzakenIndicatie>
+<isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="T">
+<gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="T">
+<omschrijving>Aanvraag omgevingsvergunning</omschrijving>
+<code>B1210</code>
+<ingangsdatumObject StUF:noValue="waardeOnbekend" xsi:nil="true"/>
+</gerelateerde>
+</isVan>
+<heeftBetrekkingOp StUF:entiteittype="ZAKOBJ" StUF:verwerkingssoort="T">
+<gerelateerde>
+<adres StUF:entiteittype="AOA" StUF:verwerkingssoort="T">
+<BG:identificatie>0091200000046730</BG:identificatie>
+<BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+<BG:wpl.woonplaatsNaam>Sneek</BG:wpl.woonplaatsNaam>
+<BG:gor.openbareRuimteNaam>Marktstraat</BG:gor.openbareRuimteNaam>
+<BG:huisnummer>15</BG:huisnummer>
+<BG:huisletter StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:huisnummertoevoeging/>
+<BG:postcode>8601CR</BG:postcode>
+</adres>
+</gerelateerde>
+<omschrijving>zaak object omschrijving</omschrijving>
+</heeftBetrekkingOp>
+<heeftAlsBelanghebbende StUF:entiteittype="ZAKBTRBLH" StUF:verwerkingssoort="T">
+<gerelateerde>
+<vestiging StUF:entiteittype="VES" StUF:verwerkingssoort="T">
+<BG:vestigingsNummer>000021774684</BG:vestigingsNummer>
+<BG:authentiek StUF:metagegeven="true">N</BG:authentiek>
+<BG:handelsnaam>Gemeente Súdwest-Fryslân</BG:handelsnaam>
+<BG:verblijfsadres>
+<BG:aoa.identificatie>0091200000046730</BG:aoa.identificatie>
+<BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+<BG:wpl.woonplaatsNaam>Sneek</BG:wpl.woonplaatsNaam>
+<BG:gor.openbareRuimteNaam>Marktstraat</BG:gor.openbareRuimteNaam>
+<BG:gor.straatnaam>Marktstraat</BG:gor.straatnaam>
+<BG:aoa.postcode>8601CR</BG:aoa.postcode>
+<BG:aoa.huisnummer>15</BG:aoa.huisnummer>
+<BG:aoa.huisletter StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:aoa.huisnummertoevoeging StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:inp.locatiebeschrijving StUF:noValue="geenWaarde" xsi:nil="true"/>
+</BG:verblijfsadres>
+</vestiging>
+</gerelateerde>
+<code>B1210</code>
+<omschrijving>Rolomschrijving</omschrijving>
+<toelichting>Roltoelichting</toelichting>
+<heeftAlsAanspreekpunt StUF:entiteittype="ZAKBTRBLHCTP" StUF:verwerkingssoort="T">
+<gerelateerde StUF:entiteittype="CTP" StUF:verwerkingssoort="T"/>
+</heeftAlsAanspreekpunt>
+</heeftAlsBelanghebbende>
+<heeftAlsInitiator StUF:entiteittype="ZAKBTRINI" StUF:verwerkingssoort="T">
+<gerelateerde>
+<nietNatuurlijkPersoon StUF:entiteittype="NNP" StUF:verwerkingssoort="T">
+<BG:inn.nnpId>823288444</BG:inn.nnpId>
+<BG:authentiek StUF:metagegeven="true">N</BG:authentiek>
+<BG:statutaireNaam>Gemeente Súdwest-Fryslân</BG:statutaireNaam>
+<!--<BG:inn.rechtsvorm xsi:nil="true" StUF:noValue="geenWaarde"/>-->
+<BG:inn.rechtsvorm>Eenmanszaak</BG:inn.rechtsvorm>
+<BG:bezoekadres>
+<BG:aoa.identificatie>0091200000046730</BG:aoa.identificatie>
+<BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+<BG:wpl.woonplaatsNaam>Sneek</BG:wpl.woonplaatsNaam>
+<BG:gor.openbareRuimteNaam>Marktstraat</BG:gor.openbareRuimteNaam>
+<BG:gor.straatnaam>Marktstraat</BG:gor.straatnaam>
+<BG:aoa.postcode>8601CR</BG:aoa.postcode>
+<BG:aoa.huisnummer>15</BG:aoa.huisnummer>
+<BG:aoa.huisletter StUF:noValue="geenWaarde" xsi:nil="true"/>
+<BG:aoa.huisnummertoevoeging/>
+<BG:inp.locatiebeschrijving StUF:noValue="geenWaarde" xsi:nil="true"/>
+</BG:bezoekadres>
+</nietNatuurlijkPersoon>
+</gerelateerde>
+<code>B1210</code>
+<omschrijving>Rolomschrijving</omschrijving>
+<toelichting>Roltoelichting</toelichting>
+</heeftAlsInitiator>
+<heeft StUF:entiteittype="ZAKSTT" StUF:verwerkingssoort="T">
+<gerelateerde StUF:entiteittype="STT" StUF:verwerkingssoort="T">
+<zkt.code>B1230</zkt.code>
+<zkt.omschrijving>Omgevingsvergunning activiteit bouwen bouwwerk</zkt.omschrijving>
+<volgnummer>1</volgnummer>
+<code>160</code>
+<omschrijving/>
+<ingangsdatumObject StUF:noValue="waardeOnbekend" xsi:nil="true"/>
+</gerelateerde>
+<toelichting>StatusZaakToelichting nog aanleveren vanuit GISVG</toelichting>
+<datumStatusGezet>20220922000000000</datumStatusGezet>
+<isGezetDoor StUF:entiteittype="ZAKSTTBTR" StUF:verwerkingssoort="T">
+<gerelateerde>
+<medewerker StUF:entiteittype="MDW" StUF:verwerkingssoort="T">
+<identificatie>Med75</identificatie>
+<achternaam>Administratie</achternaam>
+<voorletters StUF:noValue="geenWaarde" xsi:nil="true"/>
+<voorvoegselAchternaam StUF:noValue="geenWaarde" xsi:nil="true"/>
+</medewerker>
+</gerelateerde>
+<rolOmschrijving/>
+<rolomschrijvingGeneriek>Uitvoerder</rolomschrijvingGeneriek>
+</isGezetDoor>
+</heeft>
+</object>
+</zakLk01>
+</s:Body></s:Envelope>

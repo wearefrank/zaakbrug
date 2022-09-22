@@ -1,0 +1,72 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+<s:Header/><s:Body>
+<zakLk01 xmlns="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<stuurgegevens>
+<StUF:berichtcode>Lk01</StUF:berichtcode>
+<StUF:zender>
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>GISVG</StUF:applicatie>
+</StUF:zender>
+<StUF:ontvanger>
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>ZDS</StUF:applicatie>
+</StUF:ontvanger>
+<StUF:referentienummer>cb732bf5-c934-4c66-a860-1d790c038828</StUF:referentienummer>
+<StUF:tijdstipBericht>20220922114905448</StUF:tijdstipBericht>
+<StUF:entiteittype>ZAK</StUF:entiteittype>
+</stuurgegevens>
+<parameters>
+<StUF:mutatiesoort>W</StUF:mutatiesoort>
+<StUF:indicatorOvername>I</StUF:indicatorOvername>
+</parameters>
+<object StUF:entiteittype="ZAK" StUF:verwerkingssoort="W">
+<identificatie>1900292</identificatie>
+<omschrijving>Dossiernummer GISVG OV1900292</omschrijving>
+<archiefnominatie>N</archiefnominatie>
+<isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="I">
+<gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="I">
+<omschrijving>Aanvraag omgevingsvergunning</omschrijving>
+<code>B1210</code>
+<ingangsdatumObject StUF:noValue="waardeOnbekend" xsi:nil="true"/>
+</gerelateerde>
+</isVan>
+<heeft StUF:entiteittype="ZAKSTT" StUF:noValue="geenWaarde" StUF:verwerkingssoort="T" xsi:nil="true"/>
+</object>
+<object StUF:entiteittype="ZAK" StUF:verwerkingssoort="W">
+<identificatie>1900292</identificatie>
+<omschrijving>Dossiernummer GISVG OV1900292</omschrijving>
+<archiefnominatie>N</archiefnominatie>
+<isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="I">
+<gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="I">
+<omschrijving>Aanvraag omgevingsvergunning</omschrijving>
+<code>B1210</code>
+<ingangsdatumObject StUF:noValue="waardeOnbekend" xsi:nil="true"/>
+</gerelateerde>
+</isVan>
+<heeft StUF:entiteittype="ZAKSTT" StUF:verwerkingssoort="T">
+<gerelateerde StUF:entiteittype="STT" StUF:verwerkingssoort="T">
+<zkt.code StUF:noValue="waardeOnbekend" xsi:nil="true"/>
+<zkt.omschrijving StUF:noValue="waardeOnbekend" xsi:nil="true"/>
+<volgnummer>1</volgnummer>
+<code>160</code>
+<omschrijving>Geregistreerd</omschrijving>
+<ingangsdatumObject StUF:noValue="waardeOnbekend" xsi:nil="true"/>
+</gerelateerde>
+<toelichting/>
+<datumStatusGezet>20220922000000000</datumStatusGezet>
+<isGezetDoor StUF:entiteittype="ZAKSTTBTR" StUF:verwerkingssoort="T">
+<gerelateerde>
+<medewerker StUF:entiteittype="MDW" StUF:verwerkingssoort="T">
+<identificatie>Med75</identificatie>
+<achternaam>Administratie</achternaam>
+<voorletters StUF:noValue="geenWaarde" xsi:nil="true"/>
+<voorvoegselAchternaam StUF:noValue="geenWaarde" xsi:nil="true"/>
+</medewerker>
+</gerelateerde>
+<rolOmschrijving/>
+<rolomschrijvingGeneriek>Uitvoerder</rolomschrijvingGeneriek>
+</isGezetDoor>
+</heeft>
+</object>
+</zakLk01>
+</s:Body></s:Envelope>
