@@ -70,10 +70,12 @@
         </xsl:if>
     </xsl:template>
     <xsl:template match="opschorting">
-        <opschorting>
-            <indicatie><xsl:value-of select="zgw:convertZdsBooleanToZgwBoolean(indicatie)"/></indicatie>
-            <reden><xsl:value-of select="reden"/></reden>
-        </opschorting>
+        <xsl:if test="string-length(indicatie) > 0 and string-length(reden) > 0">
+            <opschorting>
+                <indicatie><xsl:value-of select="zgw:convertZdsBooleanToZgwBoolean(indicatie)"/></indicatie>
+                <reden><xsl:value-of select="reden"/></reden>
+            </opschorting>
+        </xsl:if>
     </xsl:template>
     <xsl:template match="object/kenmerk">
         <kenmerken>

@@ -155,7 +155,7 @@
     <xsl:template match="verblijfsadres">
         <verblijfsadres>
             <aoaIdentificatie><xsl:value-of select="aoa.identificatie"/></aoaIdentificatie>
-            <authentiek><xsl:value-of select="authentiek"/></authentiek>
+            <!-- <authentiek><xsl:value-of select="authentiek"/></authentiek> -->
             <wplWoonplaatsNaam><xsl:value-of select="wpl.woonplaatsNaam"/></wplWoonplaatsNaam>
             <gorOpenbareRuimteNaam><xsl:value-of select="gor.openbareRuimteNaam"/></gorOpenbareRuimteNaam>
             <aoaPostcode><xsl:value-of select="aoa.postcode"/></aoaPostcode>
