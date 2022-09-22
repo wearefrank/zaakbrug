@@ -1,0 +1,27 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Body><ZKN:zakLa01 xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310"
+xmlns:StUF="http://www.egem.nl/StUF/StUF0301"
+xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310">
+<ZKN:stuurgegevens>
+<StUF:berichtcode>La01</StUF:berichtcode>
+<StUF:zender>
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>ZDS</StUF:applicatie>
+</StUF:zender>
+<StUF:ontvanger>
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>GISVG</StUF:applicatie>
+<StUF:gebruiker/>
+</StUF:ontvanger>
+<StUF:referentienummer>8435f05e-6652-42c7-82f6-db18bce09bb7</StUF:referentienummer>
+<StUF:tijdstipBericht>20220922114844</StUF:tijdstipBericht>
+<StUF:crossRefnummer>8435f05e-6652-42c7-82f6-db18bce09bb7</StUF:crossRefnummer>
+<StUF:entiteittype>ZAK</StUF:entiteittype>
+</ZKN:stuurgegevens>
+<ZKN:parameters>
+<StUF:indicatorVervolgvraag>false</StUF:indicatorVervolgvraag>
+</ZKN:parameters>
+<ZKN:antwoord>
+<ZKN:object StUF:entiteittype="ZAK"/>
+</ZKN:antwoord>
+</ZKN:zakLa01>
+</soapenv:Body></soapenv:Envelope>

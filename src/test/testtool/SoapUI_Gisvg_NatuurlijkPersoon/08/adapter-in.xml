@@ -1,0 +1,77 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+<s:Header/><s:Body>
+<zakLk01 xmlns="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<stuurgegevens>
+<StUF:berichtcode>Lk01</StUF:berichtcode>
+<StUF:zender>
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>GISVG</StUF:applicatie>
+</StUF:zender>
+<StUF:ontvanger>
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>ZDS</StUF:applicatie>
+</StUF:ontvanger>
+<StUF:referentienummer>6c74abf4-a01d-485a-b129-ed4e54646cf0</StUF:referentienummer>
+<StUF:tijdstipBericht>20220922114844218</StUF:tijdstipBericht>
+<StUF:entiteittype>ZAK</StUF:entiteittype>
+</stuurgegevens>
+<parameters>
+<StUF:mutatiesoort>W</StUF:mutatiesoort>
+<StUF:indicatorOvername>I</StUF:indicatorOvername>
+</parameters>
+<object StUF:entiteittype="ZAK" StUF:verwerkingssoort="W">
+<identificatie>1900291</identificatie>
+<omschrijving>Dossiernummer GISVG OV1900291</omschrijving>
+<toelichting/>
+<resultaat>
+<omschrijving>Vergunningvrij</omschrijving>
+</resultaat>
+<!-- <einddatum /> -->
+<archiefnominatie>N</archiefnominatie>
+<isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="I">
+<gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="I">
+<omschrijving>Aanvraag omgevingsvergunning</omschrijving>
+<code>B1210</code>
+<ingangsdatumObject StUF:noValue="waardeOnbekend" xsi:nil="true"/>
+</gerelateerde>
+</isVan>
+<heeftBetrekkingOp StUF:entiteittype="ZAKOBJ" StUF:verwerkingssoort="T">
+<gerelateerde/>
+<omschrijving StUF:noValue="geenWaarde" xsi:nil="true"/>
+</heeftBetrekkingOp>
+<heeftAlsInitiator StUF:entiteittype="ZAKBTRINI" StUF:verwerkingssoort="T">
+<gerelateerde/>
+<code StUF:noValue="geenWaarde" xsi:nil="true"/>
+<omschrijving/>
+<toelichting StUF:noValue="geenWaarde" xsi:nil="true"/>
+</heeftAlsInitiator>
+</object>
+<object StUF:entiteittype="ZAK" StUF:verwerkingssoort="W">
+<identificatie>1900291</identificatie>
+<omschrijving>Dossiernummer GISVG OV1900291</omschrijving>
+<toelichting/>
+<resultaat>
+<omschrijving>Vergunningvrij</omschrijving>
+</resultaat>
+<einddatum>20210402</einddatum>
+<archiefnominatie>N</archiefnominatie>
+<isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="I">
+<gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="I">
+<omschrijving>Aanvraag omgevingsvergunning</omschrijving>
+<code>B1210</code>
+<ingangsdatumObject StUF:noValue="waardeOnbekend" xsi:nil="true"/>
+</gerelateerde>
+</isVan>
+<heeftBetrekkingOp StUF:entiteittype="ZAKOBJ" StUF:verwerkingssoort="T">
+<gerelateerde/>
+<omschrijving StUF:noValue="geenWaarde" xsi:nil="true"/>
+</heeftBetrekkingOp>
+<heeftAlsInitiator StUF:entiteittype="ZAKBTRINI" StUF:verwerkingssoort="T">
+<gerelateerde/>
+<code StUF:noValue="geenWaarde" xsi:nil="true"/>
+<omschrijving/>
+<toelichting StUF:noValue="geenWaarde" xsi:nil="true"/>
+</heeftAlsInitiator>
+</object>
+</zakLk01>
+</s:Body></s:Envelope>
