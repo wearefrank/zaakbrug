@@ -1,0 +1,22 @@
+<soapenv:Envelope xmlns:cal="http://www.stgregorioschurchdc.org/Calendar" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<soapenv:Header/>
+<soapenv:Body>
+<ZKN:genereerZaakIdentificatie_Di02 xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:gml="http://www.opengis.net/gml" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 ../../gemmaonline.nl/Zkn0310_20140107_patch18/zkn0310/zkn0310_msg_totaal.xsd">
+<ZKN:stuurgegevens>
+<StUF:berichtcode>Di02</StUF:berichtcode>
+<StUF:zender>
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>Zaaksysteemvuller 3.0</StUF:applicatie>
+<StUF:gebruiker>B0208</StUF:gebruiker>
+</StUF:zender>
+<StUF:ontvanger>
+<StUF:organisatie>1900</StUF:organisatie>
+<StUF:applicatie>CDR</StUF:applicatie>
+<StUF:gebruiker>
+</StUF:gebruiker>
+</StUF:ontvanger>
+<StUF:tijdstipBericht>20220913224523710</StUF:tijdstipBericht>
+<StUF:functie>genereerZaakidentificatie</StUF:functie>
+</ZKN:stuurgegevens>
+</ZKN:genereerZaakIdentificatie_Di02>
+</soapenv:Body></soapenv:Envelope>
