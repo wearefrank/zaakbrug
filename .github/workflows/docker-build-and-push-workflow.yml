@@ -39,14 +39,29 @@ jobs:
           flavor: |
             latest=false
 
-      # - name: Lint Dockerfile using Checkov
-      #   id: checkov
-      #   uses: bridgecrewio/checkov-action@master
-      #   with:
-      #     directory: .
-      #     framework: dockerfile
-      #     quiet: false
-      #     container_user: 1000 # UID to run the container under
+      - name: Lint Dockerfile using Checkov
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: .
+          framework: dockerfile
+          quiet: false
+          container_user: tomcat
+
+      - name: Build and export Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          load: true
+          tags: test:test
+
+      - name: Test Docker image
+        run: |
+          docker run --rm ${{ env.TEST_TAG }}
+
+      - name: Inspect
+        run: |
+          docker image inspect ${{ steps.meta.outputs.tags }}
       
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
