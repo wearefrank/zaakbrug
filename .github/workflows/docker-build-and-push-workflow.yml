@@ -57,11 +57,11 @@ jobs:
 
       - name: Test Docker image
         run: |
-          docker run --rm ${{ env.TEST_TAG }}
+          docker run --rm test:test
 
       - name: Inspect
         run: |
-          docker image inspect ${{ steps.meta.outputs.tags }}
+          docker image inspect test:test
       
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
