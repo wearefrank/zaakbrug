@@ -75,11 +75,12 @@ jobs:
           sleep 30
 
           RETRY_COUNT=0
-          HEALTH="$(docker inspect --format='{{json .State.Health.Status}}' test)"
-          until [ $HEALTH = "healthy" && $RETRY_COUNT -lt 12 ]; do
-            let RETRY_COUNT+=1
-            HEALTH="$(docker inspect --format='{{json .State.Health.Status}}' test)"
-            sleep 10
+          HEALTH=$(docker inspect --format='{{json .State.Health.Status}}' test)
+          until [[ $HEALTH -eq 'healthy' || $RETRY_COUNT -gt 11 ]]
+          do
+              let RETRY_COUNT+=1
+              HEALTH=$(docker inspect --format='{{json .State.Health.Status}}' test)
+              sleep 10
           done
 
           docker inspect test
