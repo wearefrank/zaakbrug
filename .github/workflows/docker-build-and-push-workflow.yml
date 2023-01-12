@@ -76,16 +76,24 @@ jobs:
 
           RETRY_COUNT=0
           HEALTH=$(docker inspect --format='{{json .State.Health.Status}}' test)
-          until [[ $HEALTH = "healthy" || $RETRY_COUNT -gt 25 ]]
+          until [[ $HEALTH = "healthy" ]]
           do
-              let RETRY_COUNT+=1
-              HEALTH=$(docker inspect --format='{{json .State.Health.Status}}' test)
-              sleep 10
+            if [[ $RETRY_COUNT -gt 30 ]]
+              then
+                  docker inspect test
+                  docker logs test
+                  docker stop test
+                  exit 1
+            fi
+
+            let RETRY_COUNT+=1
+            HEALTH=$(docker inspect --format='{{json .State.Health.Status}}' test)
+            sleep 15
           done
 
           docker inspect test
           docker logs test
-        timeout-minutes: 5
+        timeout-minutes: 8
       
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
