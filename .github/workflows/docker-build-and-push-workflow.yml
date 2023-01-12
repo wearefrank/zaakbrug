@@ -48,6 +48,16 @@ jobs:
           quiet: false
           container_user: tomcat
 
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ inputs.docker-image-repo }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
       - name: Build and export Docker image
         uses: docker/build-push-action@v3
         with:
@@ -55,13 +65,30 @@ jobs:
           load: true
           tags: test:test
 
-      - name: Test Docker image
-        run: |
-          docker run --rm test:test
-
       - name: Inspect
         run: |
           docker image inspect test:test
+
+      - name: Test Docker image
+        run: |
+          set -x
+
+          docker image inspect test:test
+          docker run --rm -p 8080:8080 -e dtap.stage=LOC -e instance.name=frank2zgw -e database.instance.name=frank2zgw -e configurations.frank2zgw.classLoaderType=DirectoryClassLoader -e configurations.names.application=IAF_Util,Translate --name=test -d test:test
+
+          sleep 30
+
+          RETRY_COUNT=0
+          HEALTH="$(docker inspect --format='{{json .State.Health.Status}}' test)"
+          until [ "${HEALTH}" = "healthy" && ${RETRY_COUNT} -lt 12 ]; do
+            let RETRY_COUNT+=1
+            HEALTH="$(docker inspect --format='{{json .State.Health.Status}}' test)"
+            sleep 10
+          done
+
+          docker inspect test
+          docker logs test
+        timeout-minutes: 5
       
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
