@@ -65,10 +65,6 @@ jobs:
           load: true
           tags: test:test
 
-      - name: Inspect
-        run: |
-          docker image inspect test:test
-
       - name: Test Docker image
         run: |
           set -x
@@ -80,7 +76,7 @@ jobs:
 
           RETRY_COUNT=0
           HEALTH="$(docker inspect --format='{{json .State.Health.Status}}' test)"
-          until [ "${HEALTH}" = "healthy" && ${RETRY_COUNT} -lt 12 ]; do
+          until [ $HEALTH = "healthy" && $RETRY_COUNT -lt 12 ]; do
             let RETRY_COUNT+=1
             HEALTH="$(docker inspect --format='{{json .State.Health.Status}}' test)"
             sleep 10
