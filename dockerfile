@@ -18,7 +18,7 @@ COPY --chown=tomcat src/test/ /opt/frank/
 # COPY --chown=tomcat configurations/     /opt/frank/configurations/
 # Or don't copy anything if you plan on using the database to store your configurations
 
-HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=20 \
+HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=60 \
   CMD curl --fail --silent http://localhost:8080/iaf/api/server/health || (curl --silent http://localhost:8080/iaf/api/server/health && exit 1)
 
 EXPOSE 8080
