@@ -18,7 +18,7 @@
                 storeResultInSessionKey="GetZgwRolTypeByUrlResult">
                 <IbisLocalSender
                     name="CallGetZgwRolTypeByUrlSender"
-                    javaListener="GetZgwRolTypeByUrl">
+                    javaListener="Zaken_GetZgwRolTypeByUrl">
                     <Param name="RolTypeUrl" xpathExpression="/ZgwRol/roltype"/>
                 </IbisLocalSender>
                 <Forward name="success" path="GetGlobalConfigFromLocalFS"/>
