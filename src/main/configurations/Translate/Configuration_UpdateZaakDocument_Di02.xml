@@ -7,7 +7,7 @@
             <JavaListener name="UpdateZaakDocument_Di02"/>
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
-                datasourceName="jdbc/frank2zgw"
+                datasourceName="jdbc/${database.instance.name}"
                 slotId="${instance.name}/updateZaakDocument_Di02"/>
         </Receiver>
 

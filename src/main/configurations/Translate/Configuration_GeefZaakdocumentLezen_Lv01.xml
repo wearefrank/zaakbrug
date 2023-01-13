@@ -7,7 +7,7 @@
             <JavaListener name="GeefZaakdocumentLezen_Lv01"/>
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
-                datasourceName="jdbc/frank2zgw"
+                datasourceName="jdbc/${database.instance.name}"
                 slotId="${instance.name}/geefZaakdocumentLezen_Lv01"/>
         </Receiver>
 

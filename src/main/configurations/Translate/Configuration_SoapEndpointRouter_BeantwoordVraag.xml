@@ -7,7 +7,7 @@
             <WebServiceListener name="SoapEndpointRouter_BeantwoordVraag" address="${address.BeantwoordVraag}" soap="false"/>
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
-                datasourceName="jdbc/frank2zgw"
+                datasourceName="jdbc/${database.instance.name}"
                 slotId="${instance.name}/beantwoordVraag"/>
         </Receiver>
 

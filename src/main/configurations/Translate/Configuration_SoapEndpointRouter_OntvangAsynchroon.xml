@@ -7,7 +7,7 @@
             <WebServiceListener name="SoapEndpointRouter_OntvangAsynchroon" address="${address.OntvangAsynchroon}" soap="false"/>
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
-                datasourceName="jdbc/frank2zgw"
+                datasourceName="jdbc/${database.instance.name}"
                 slotId="${instance.name}/ontvangAsynchroon"/>
         </Receiver>
 

@@ -7,7 +7,7 @@
             <JavaListener name="CancelCheckOutZaakDocument_Di02"/>
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
-                datasourceName="jdbc/frank2zgw"
+                datasourceName="jdbc/${database.instance.name}"
                 slotId="${instance.name}/cancelCheckOutZaakDocument_Di02"/>
         </Receiver>
 
