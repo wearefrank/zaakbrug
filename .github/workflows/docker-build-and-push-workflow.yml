@@ -70,19 +70,18 @@ jobs:
           set -x
 
           docker image inspect test:test
-          docker run --rm -p 8080:8080 -e dtap.stage=LOC -e instance.name=frank2zgw -e database.instance.name=frank2zgw -e configurations.frank2zgw.classLoaderType=DirectoryClassLoader -e configurations.names.application=IAF_Util,Translate --name=test -d test:test
+          docker run --rm -p 8080:8080 -e dtap.stage=LOC --name=test -d test:test
 
           sleep 30
 
           RETRY_COUNT=0
           HEALTH=$(docker inspect --format='{{json .State.Health.Status}}' test)
-          until [[ $HEALTH = "healthy" ]]
+          until [[ "$HEALTH" = "healthy" ]]
           do
             if [[ $RETRY_COUNT -gt 30 ]]
               then
                   docker inspect test
                   docker logs test
-                  docker stop test
                   exit 1
             fi
 
