@@ -15,7 +15,7 @@ Om ZaakBrug 2.0 te kunnen opstarten met de Frank!Runner heb je versiebeheersyste
 1. Open een command prompt en ga naar directory `work`.
 1. Clone de Frank!Runner: `git clone https://github.com/ibissource/frank-runner`.
 1. Clone ZaakBrug: `git clone https://github.com/ibissource/open-zaakbrug`.
-1. Start de Frank!Runner met het een van de start scripts in de checkout directory: `start.bat` of `restart.bat` onder Windows of `start.sh` of `restart.sh` onder Linux of op een Apple computer. Met deze stap zorg je ervoor dat ANT wordt gedownloaded.
+1. Start de Frank!Runner met een van de start scripts in de checkout directory: `start.bat` of `restart.bat` onder Windows of `start.sh` of `restart.sh` onder Linux of op een Apple computer. Met deze stap zorg je ervoor dat ANT wordt gedownloaded.
 1. Configureer je IDE zoals beschreven in de documentatie van de Frank!Runner, zie https://github.com/ibissource/frank-runner.
 1. Als je met VS Code werkt, dan heb je een link om ZaakBrug te starten, zie nummer 2 in onderstaande figuur. Gebruik de menu optie nummer 1 om toegang te krijgen tot deze link. Klik de link om ZaakBrug te starten met de Frank!Runner.
 
