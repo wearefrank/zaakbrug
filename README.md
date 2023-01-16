@@ -2,13 +2,13 @@ Opvolger van Open-Zaakbrug, een applicatie die de transitie van zaak- en documen
 
 De nieuwe standaard voor het zaakgewijs werken is de zgw standaard, dit is de opvolger van de zaak- en documentservices (zds) standaard. Om de overstap te maken naar deze nieuwe standaard vindt de gemeente Súdwest Fryslân het belangrijk om niet meer te investeren in de oude zds koppelingen, maar zo snel mogelijk de nieuwe zgw-standaard te gebruiken. Om deze reden heeft het team Open Zaakbrug van deze gemeente een oplossing gemaakt om de bestaande applicaties, die de oude zds-standaard praten, toch met een zgw-zaaksysteem te laten praten. Zie https://github.com/Sudwest-Fryslan/OpenZaakBrug#open-zaakbrug-zds-to-zgw. Zie ook https://vng.nl/sites/default/files/2022-03/20200703%20-%20Vergelijking%20ZGW%20APIs%20en%20ZDS_v1.0.pdf#:~:text=De%20Zaak-%20en%20Documentservices%20%28ZDS%29-standaard%20beschrijft%20hoe%20een,vakapplicatie%20en%20deze%20worden%20gekopieerd%20naar%20het%20zaaksysteem voor een vergelijking van de zgw en de zds standaarden.
 
-Dit project, ZaakBrug 2.0, is bedoeld als opvolger van Open-Zaakbrug. Het werkt op basis van het Frank!Framework (zie https://wearefrank.nl/framework/) en de debugger Ladybug die daar bij hoort. Deze debugger laat zien welke stappen zijn gevolgd bij het verwerken van een bericht zodat eventuele problemen gemakkelijk onderzocht kunnen worden. Zaakbrug 2.0 verbindt zds systemen niet alleen met zgw systeem OpenZaak (https://openzaak.org/), maar ook met andere zgw implementaties. Dit is de reden van de naamswijziging van Open-Zaakbrug naar Zaakbrug.
+Dit project, ZaakBrug 2.0, is bedoeld als opvolger van Open-Zaakbrug. Het werkt op basis van het Frank!Framework (zie https://wearefrank.nl/framework/) en de debugger Ladybug die daar bij hoort. Deze debugger laat zien welke stappen zijn gevolgd bij het verwerken van een bericht zodat eventuele problemen gemakkelijk onderzocht kunnen worden. ZaakBrug 2.0 verbindt zds systemen niet alleen met zgw systeem OpenZaak (https://openzaak.org/), maar ook met andere zgw implementaties. Dit is de reden van de naamswijziging van Open-Zaakbrug naar ZaakBrug.
 
 # Opstarten
 
 ### Ontwikkelen in Visual Studio Code
 
-Voor het ontwikkelen aan Zaakbrug 2.0 is het handig om dit systeem op te starten met de Frank!Runner van WeAreFrank!. Je kan ZaakBrug dan starten vanuit je Integrated Development Environment, Visual Studio Code of Eclipse.
+Voor het ontwikkelen aan ZaakBrug 2.0 is het handig om dit systeem op te starten met de Frank!Runner van WeAreFrank!. Je kan ZaakBrug dan starten vanuit je Integrated Development Environment, Visual Studio Code of Eclipse.
 
 Om ZaakBrug 2.0 te kunnen opstarten met de Frank!Runner heb je versiebeheersysteem Git nodig. Kies een werk directory waarin je Git repositories kan uitchecken, zeg `work`. Doe het volgende:
 
