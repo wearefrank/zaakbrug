@@ -76,7 +76,7 @@ jobs:
 
           RETRY_COUNT=0
           HEALTH=$(docker inspect --format='{{json .State.Health.Status}}' test)
-          until [ "$HEALTH" = "healthy" ]
+          until [ "$HEALTH" = '"healthy"' ]
           do
             if [ $RETRY_COUNT -gt 15 ]
               then
