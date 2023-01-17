@@ -18,7 +18,7 @@ To boot ZaakBrug 2.0 using the Frank!Runner, you need version control system Git
 1. Clone the Frank!Runner: `git clone https://github.com/ibissource/frank-runner`.
 1. Clone ZaakBrug 2.0: `git clone https://github.com/ibissource/open-zaakbrug`.
 1. Start the Frank!Runner with one of the boot scripts in the Frank!Runner checkout directory: `start.bat` or `restart.bat` for Windows or `start.sh` or `restart.sh` for Linux or Mac. This step lets the Frank!Runner download Ant, a build tool for Java applications.
-1. Configure your IDE as described in the Frank!Runner's documentation, see https://github.com/ibissource/frank-runner.
+1. Configure your IDE as described in the Frank!Runner's documentation, see https://github.com/ibissource/frank-runner. For VS Code, these instructions let you install the Task Explorer plugin by Scott Meesseman.
 1. If your IDE is Visual Studio Code, you should have a link to open ZaakBrug 2.0, see number 2 in the figure below. Use the menu option number 1 to get access to the link. Click the link to open ZaakBrug 2.0 using the Frank!Runner.
 
    ![antJobVsCode.jpg](/docs/picturesReadme/antJobVsCode.jpg)
