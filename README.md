@@ -1,35 +1,37 @@
-Opvolger van Open-Zaakbrug, een applicatie die de transitie van zaak- en documentatieservices (zds) naar zaakgericht werken (zgw) ondersteunt voor Nederlandse gemeenten.
+Successor of Open-Zaakbrug, an app for Dutch municipalities that supports the transition from "zaak- en documentatieservices" (zds) to "zaakgericht werken" (zgw).
 
-De nieuwe standaard voor het zaakgewijs werken is de zgw standaard, onderdeel van de bredere standaard Common Ground (https://vng.nl/artikelen/common-ground). Zaakgericht werken (zgw) is de opvolger van de zaak- en documentservices (zds) standaard. Om de overstap te maken naar deze nieuwe standaard vindt de gemeente Súdwest Fryslân het belangrijk om niet meer te investeren in de oude zds koppelingen, maar zo snel mogelijk de nieuwe zgw-standaard te gebruiken. Om deze reden heeft het team Open Zaakbrug van deze gemeente een oplossing gemaakt om de bestaande applicaties, die de oude zds-standaard praten, toch met een zgw-zaaksysteem te laten praten. Zie https://github.com/Sudwest-Fryslan/OpenZaakBrug#open-zaakbrug-zds-to-zgw. Zie ook https://vng.nl/sites/default/files/2022-03/20200703%20-%20Vergelijking%20ZGW%20APIs%20en%20ZDS_v1.0.pdf#:~:text=De%20Zaak-%20en%20Documentservices%20%28ZDS%29-standaard%20beschrijft%20hoe%20een,vakapplicatie%20en%20deze%20worden%20gekopieerd%20naar%20het%20zaaksysteem voor een vergelijking van de zgw en de zds standaarden.
+Dutch municipalities provide services that delivered many times. An example of such a service is to provide passports. This service is delivered many times because each citizen needs a passport or an ID card. An instance of a service that is provided multiple times is referred by the Dutch word "zaak".
 
-Dit project, ZaakBrug 2.0, is bedoeld als opvolger van Open-Zaakbrug. Het werkt op basis van het Frank!Framework (zie https://wearefrank.nl/framework/) en de debugger Ladybug die daar bij hoort. Deze debugger laat zien welke stappen zijn gevolgd bij het verwerken van een bericht zodat eventuele problemen gemakkelijk onderzocht kunnen worden. ZaakBrug 2.0 verbindt zds systemen niet alleen met zgw systeem OpenZaak (https://openzaak.org/), maar ook met andere zgw implementaties. Dit is de reden van de naamswijziging van Open-Zaakbrug naar ZaakBrug.
+There is a new specification for software systems that process "zaak" instances that is named "zaakgericht werken" (zgw). Zgw is part of the Common Ground specification for software used by Dutch municipalities (https://vng.nl/artikelen/common-ground). Zgw will replace an old specification called "zaak- en documentatieservices" (zds). The municipality of Súdwest Fryslân wants to migrate to the zgw standard without having to invest in zds interfaces. To this end, the municipality has built the system Open-Zaakbrug (brug means bridge). It acts as an interface between a zgw system that handles "zaak" instances (zaaksysteem) on the one hand and systems that want to connect to the zaaksysteem using the zds specification on the other hand. Open-Zaakbrug is hosted at https://github.com/Sudwest-Fryslan/OpenZaakBrug. For a comparison of zgw and zds see https://vng.nl/sites/default/files/2022-03/20200703%20-%20Vergelijking%20ZGW%20APIs%20en%20ZDS_v1.0.pdf#:~:text=De%20Zaak-%20en%20Documentservices%20%28ZDS%29-standaard%20beschrijft%20hoe%20een,vakapplicatie%20en%20deze%20worden%20gekopieerd%20naar%20het%20zaaksysteem.
 
-# Opstarten
+This project, ZaakBrug 2.0, is meant to be a successor of Open-Zaakbrug. It leverages the Frank!Framework (https://wearefrank.nl/en/framework/) and its debugger Ladybug. The debugger shows for each incoming request which steps are executed to process the message. If there are errors, this information can be used for easy debugging. ZaakBrug 2.0 does not only connect zds systems with the "zaaksysteem" called OpenZaak (https://openzaak.org/), but it connects zds systems with any "zaaksysteem" that implements the zgw specification.
 
-### Ontwikkelen in Visual Studio Code
+# Starting ZaakBrug 2.0
 
-Voor het ontwikkelen aan ZaakBrug 2.0 is het handig om dit systeem op te starten met de Frank!Runner van WeAreFrank!. Je kan ZaakBrug dan starten vanuit je Integrated Development Environment (IDE). WeAreFrank! ondersteunt hierbij de twee IDEs Visual Studio Code en Eclipse.
+### Development in Visual Studio Code
 
-Om ZaakBrug 2.0 te kunnen opstarten met de Frank!Runner heb je versiebeheersysteem Git nodig. Kies een werk directory waarin je Git repositories kan uitchecken, zeg `work`. Doe het volgende:
+When you are doing development work on ZaakBrug 2.0, you may want to boot it using WeAreFrank!'s Frank!Runner. When you use the Frank!Runner, you can boot ZaakBrug 2.0 from within your Integrated Development Environment (IDE); we support the two IDEs Visual Studio Code and Eclipse.
 
-1. Open een command prompt en ga naar directory `work`.
-1. Clone de Frank!Runner: `git clone https://github.com/ibissource/frank-runner`.
-1. Clone ZaakBrug: `git clone https://github.com/ibissource/open-zaakbrug`.
-1. Start de Frank!Runner met een van de start scripts in de checkout directory: `start.bat` of `restart.bat` onder Windows of `start.sh` of `restart.sh` onder Linux of op een Apple computer. Met deze stap zorg je ervoor dat ANT wordt gedownloaded.
-1. Configureer je IDE zoals beschreven in de documentatie van de Frank!Runner, zie https://github.com/ibissource/frank-runner.
-1. Als je met VS Code werkt, dan heb je een link om ZaakBrug te starten, zie nummer 2 in onderstaande figuur. Gebruik de menu optie nummer 1 om toegang te krijgen tot deze link. Klik de link om ZaakBrug te starten met de Frank!Runner.
+To boot ZaakBrug 2.0 using the Frank!Runner, you need version control system Git. Choose or create some empty directory in which you can clone Git repositories. For the sake of the argument, we assume it to be `work`. Please do the following:
+
+1. Open a command prompt and change directory to `work`.
+1. Clone the Frank!Runner: `git clone https://github.com/ibissource/frank-runner`.
+1. Clone ZaakBrug 2.0: `git clone https://github.com/ibissource/open-zaakbrug`.
+1. Start the Frank!Runner with one of the boot scripts in the Frank!Runner checkout directory: `start.bat` or `restart.bat` for Windows or `start.sh` or `restart.sh` for Linux or Mac. This step lets the Frank!Runner download Ant, a build tool for Java applications.
+1. Configure your IDE as described in the Frank!Runner's documentation, see https://github.com/ibissource/frank-runner.
+1. If your IDE is Visual Studio Code, you should have a link to open ZaakBrug 2.0, see number 2 in the figure below. Use the menu option number 1 to get access to the link. Click the link to open ZaakBrug 2.0 using the Frank!Runner.
 
    ![antJobVsCode.jpg](/docs/picturesReadme/antJobVsCode.jpg)
 
-### Opstarten met Docker
+### Running with Docker
 
-In een productie omgeving is het handig om ZaakBrug te starten met Docker. Zorg dat Docker geïnstalleerd is. Doe daarna het volgende:
+In a production environment it is recommended to run ZaakBrug 2.0 with Docker. Ensure that Docker is installed on your computer and proceed as follows:
 
-1. Clone GitHub project https://github.com/ibissource/open-zaakbrug als je dat nog niet gedaan hebt.
-1. Open een command prompt en ga naar de checkout directory.
-1. Bouw uit de broncode een docker image met het volgende commando: `docker build --no-cache -t open-zaakbrug:test .`.
-1. Run ZaakBrug, bijvoorbeeld met het volgende commando: `docker run --rm -p 8080:8080 -e dtap.stage=LOC --name=open-zaakbrug open-zaakbrug:test`.
-1. Je kan ZaakBrug zien door een webbrowser te openen en te gaan naar: http://localhost:8080.
-1. ZaakBrug ondersteunt ook een geautomatiseerde health check. Die kan je doen met het volgende commando: `docker inspect --format='{{json .State.Health.Status}}' open-zaakbrug`.
+1. Clone GitHub project https://github.com/ibissource/open-zaakbrug if you have not done so yet.
+1. Open a command prompt and change directory to the checkout directory.
+1. Build your Docker image from the source code using a command like the following: `docker build --no-cache -t open-zaakbrug:test .`.
+1. Run ZaakBrug using a command like the following: `docker run --rm -p 8080:8080 -e dtap.stage=LOC --name=open-zaakbrug open-zaakbrug:test`.
+1. To see the user interface of ZaakBrug 2.0, open a webbrowser and visit http://localhost:8080.
+1. ZaakBrug 2.0 provides an automated health check. You can run it with the following command: `docker inspect --format='{{json .State.Health.Status}}' open-zaakbrug`.
 
-   > **Info:** Als je het Frank!Framework kent, dan helpt de volgende informatie misschien. Als de health check status `healthy` oplevert, dan is gegarandeerd dat alle adapters in de Frank configuraties zonder fouten zijn gestart.
+   > **Info:** If you know the Frank!Framework, the following information may be helpful. If the health check produces the value `healthy`, it is guarenteed that all adapters in the Frank configuration have booted without errors.
