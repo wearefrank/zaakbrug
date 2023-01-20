@@ -115,7 +115,7 @@
                 preserveInput="true"
                 xpathExpression="exists(/result/exception)"
                 >
-                <Forward name="then" path="Exception"/>
+                <Forward name="then" path="EXCEPTION"/>
                 <Forward name="else" path="CheckForStatusExists"/>
             </XmlIfPipe>
 
