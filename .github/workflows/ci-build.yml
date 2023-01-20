@@ -17,4 +17,4 @@ jobs:
         ${{ startsWith(github.ref, 'refs/tags/') ||
             (github.ref == 'refs/heads/master' &&
              github.event_name == 'push') }}
-      docker-image-repo: docker.io/dogbytesgaming/open-zaakbrug
+      docker-image-repo: docker.io/wearefrank/zaakbrug
