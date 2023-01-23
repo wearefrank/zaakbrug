@@ -13,7 +13,7 @@ services:
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
-      - ./open-zaak/postgres.entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+      - ./docker/postgres.entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
       - db:/var/lib/postgresql/data
     ports:
       - "11234:5432"
@@ -21,7 +21,8 @@ services:
   redis:
     image: redis
 
-  openzaak:
+# Cannot rename this one because then container nginx produces an error
+  web:
     image: openzaak/open-zaak:latest
     environment: &app-env
       - DJANGO_SETTINGS_MODULE=openzaak.conf.docker
@@ -73,20 +74,20 @@ services:
   nginx:
     image: nginx
     volumes:
-      - ./open-zaak-nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "9000:80"
     depends_on:
-      - openzaak
+      - web
 
   zaakbrug:
-    build: ..
+    build: .
     image: zaak-brug:test
     container_name: zaak-brug
     environment:
       - dtap.stage=LOC
-      - zgw.baseurl=http://openzaak:8000/
-      - JwtToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ6YWFrYnJ1ZyIsImlhdCI6MTY3NDQ4MjM4OSwiY2xpZW50X2lkIjoiemFha2JydWciLCJ1c2VyX2lkIjoiIiwidXNlcl9yZXByZXNlbnRhdGlvbiI6IiJ9.gvrTjrDZVuI-E4aWnw2ui8AUzeQ77E_C5MVhtNeFLxY
+      - zgw.baseurl=http://web:8000/
+      - JwtToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmcmFuayIsImlhdCI6MTY3NDQ5MjA4MywiY2xpZW50X2lkIjoiZnJhbmsiLCJ1c2VyX2lkIjoiIiwidXNlcl9yZXByZXNlbnRhdGlvbiI6IiJ9.RntFEAC5IetktZc-erfiLYhEvv3LxhCxl60kXQVqvVw
     ports:
       - 8080:8080
     depends_on:
