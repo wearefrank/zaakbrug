@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "zaakbrug.fullname" . }}
+  labels:
+    {{- include "zaakbrug.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "zaakbrug.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "zaakbrug.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+            {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "zaakbrug.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "zaakbrug.fullname" . }}-env
+            - configMapRef:
+                name: {{ template "zaakbrug.fullname" . }}-specifics
+          volumeMounts:
+            - name: {{ template "zaakbrug.fullname" . }}-config
+              mountPath: /usr/local/tomcat/conf/Catalina/localhost/ROOT.xml
+              subPath: context.xml
+              readOnly: true
+            {{- if .Values.frank.credentials }}
+            - name: {{ template "zaakbrug.fullname" . }}-credentials
+              mountPath: /opt/frank/secrets/
+              readOnly: true
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /iaf/
+              port: http
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: {{ template "zaakbrug.fullname" . }}-config
+          configMap:
+            name: {{ template "zaakbrug.fullname" . }}-config
+        - name: {{ template "zaakbrug.fullname" . }}-specifics
+          configMap:
+            name: {{ template "zaakbrug.fullname" . }}-specifics
+        {{- if .Values.frank.credentials }}
+        - name: {{ template "zaakbrug.fullname" . }}-credentials
+          secret: 
+            secretName: {{ .Values.frank.credentials.secret }}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
