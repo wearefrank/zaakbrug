@@ -21,7 +21,7 @@ services:
   redis:
     image: redis
 
-  web:
+  openzaak:
     image: openzaak/open-zaak:latest
     environment: &app-env
       - DJANGO_SETTINGS_MODULE=openzaak.conf.docker
@@ -77,14 +77,16 @@ services:
     ports:
       - "9000:80"
     depends_on:
-      - web
+      - openzaak
 
-  zaak-brug:
+  zaakbrug:
     build: ..
     image: zaak-brug:test
     container_name: zaak-brug
     environment:
       - dtap.stage=LOC
+      - zgw.baseurl=http://openzaak:8000/
+      - JwtToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ6YWFrYnJ1ZyIsImlhdCI6MTY3NDQ4MjM4OSwiY2xpZW50X2lkIjoiemFha2JydWciLCJ1c2VyX2lkIjoiIiwidXNlcl9yZXByZXNlbnRhdGlvbiI6IiJ9.gvrTjrDZVuI-E4aWnw2ui8AUzeQ77E_C5MVhtNeFLxY
     ports:
       - 8080:8080
     depends_on:
