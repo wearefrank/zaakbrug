@@ -28,19 +28,19 @@ metadata:
   name: {{ template "zaakbrug.fullname" . }}-specifics
 data:
   {{- with .Values.zaakbrug.zgw }}
-  zgw.baseurl: {{ .baseurl | default "http://localhost:8000/" }}
+  zgw.baseurl: {{ .baseurl }}
   {{- with .endpoint }}
-  zgw.endpoint.zaak: {{ .zaak | default "zaken/api/v1/zaken" }}
-  zgw.endpoint.zaaktype: {{ .zaaktype | default "catalogi/api/v1/zaaktypen" }}
-  zgw.endpoint.rol: {{ .rol | default "zaken/api/v1/rollen" }}
-  zgw.endpoint.roltype: {{ .roltype | default "catalogi/api/v1/roltypen" }}
-  zgw.endpoint.statustype: {{ .statustype | default "catalogi/api/v1/statustypen" }}
-  zgw.endpoint.status: {{ .status | default "zaken/api/v1/statussen" }}
-  zgw.endpoint.resultaattype: {{ .resultaattype | default "catalogi/api/v1/resultaattypen" }}
-  zgw.endpoint.resultaat: {{ .resultaat | default "zaken/api/v1/resultaten" }}
-  zgw.endpoint.informatieobjecttype: {{ .informatieobjecttype | default "catalogi/api/v1/informatieobjecttypen" }}
-  zgw.endpoint.enkelvoudiginformatieobjecten: {{ .enkelvoudiginformatieobjecten | default "documenten/api/v1/enkelvoudiginformatieobjecten" }}
-  zgw.endpoint.zaakinformatieobjecten: {{ .zaakinformatieobjecten | default "zaken/api/v1/zaakinformatieobjecten" }}
+  zgw.endpoint.zaak: {{ .zaak }}
+  zgw.endpoint.zaaktype: {{ .zaaktype }}
+  zgw.endpoint.rol: {{ .rol }}
+  zgw.endpoint.roltype: {{ .roltype }}
+  zgw.endpoint.statustype: {{ .statustype }}
+  zgw.endpoint.status: {{ .status }}
+  zgw.endpoint.resultaattype: {{ .resultaattype }}
+  zgw.endpoint.resultaat: {{ .resultaat }}
+  zgw.endpoint.informatieobjecttype: {{ .informatieobjecttype }}
+  zgw.endpoint.enkelvoudiginformatieobjecten: {{ .enkelvoudiginformatieobjecten }}
+  zgw.endpoint.zaakinformatieobjecten: {{ .zaakinformatieobjecten }}
   {{- end }}
   {{- end }}
 ---
