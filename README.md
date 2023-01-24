@@ -34,4 +34,6 @@ In a production environment it is recommended to run ZaakBrug with Docker. Ensur
 1. To see the user interface of ZaakBrug, open a webbrowser and visit http://localhost:8080.
 1. ZaakBrug provides an automated health check. You can run it with the following command: `docker inspect --format='{{json .State.Health.Status}}' zaakbrug`.
 
+   > **Warning:** In a DOS command window under Windows, the string after `--format=` has to be enclosed between `""`. You have `docker inspect --format="{{json .State.Health.Status}}" zaakbrug`.
+   
    > **Info:** If you know the Frank!Framework, the following information may be helpful. If the health check produces the value `healthy`, it is guarenteed that all adapters in the Frank configuration have booted without errors.
