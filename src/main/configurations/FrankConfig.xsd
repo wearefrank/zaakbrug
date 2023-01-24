@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.9-20230111.162530">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.9-20230123.115154">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>Container of Adapters that belong together.
@@ -88,6 +88,14 @@
       <xs:annotation>
         <xs:documentation>number of message displayed in ibisconsole Default: 10</xs:documentation>
       </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="msgLogLevel">
+      <xs:annotation>
+        <xs:documentation>Defines behaviour for logging messages. Configuration is done in the MSG appender in log4j4ibis.properties. Default: &lt;code&gt;INFO, unless overridden by property msg.log.level.default&lt;/code&gt;</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:union memberTypes="MessageLogLevelAttributeValuesType variableRef" />
+      </xs:simpleType>
     </xs:attribute>
     <xs:attribute name="msgLogHidden" type="frankBoolean">
       <xs:annotation>
@@ -298,7 +306,7 @@
     </xs:attribute>
     <xs:attribute name="forceRetryFlag" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set to &lt;code&gt;true&lt;/code&gt;, every message read will be processed as if it is being retried, by setting a session variable to #RETRY_FLAG_SESSION_KEY. Default: false</xs:documentation>
+        <xs:documentation>If set to &lt;code&gt;true&lt;/code&gt;, every message read will be processed as if it is being retried, by setting a session variable to retry. Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="numberOfExceptionsCaughtWithoutMessageBeingReceivedThreshold" type="frankInt">
@@ -787,7 +795,7 @@
  &lt;br/&gt;&lt;br/&gt;
  &lt;b&gt;example:&lt;/b&gt; &lt;code&gt;&lt;pre&gt;
    &amp;lt;Exits&amp;gt;
-      &amp;lt;Exit name="PipeLine#DEFAULT_SUCCESS_EXIT_NAME" state="PipeLine.ExitState#SUCCESS_EXIT_STATE" /&amp;gt;
+      &amp;lt;Exit name="READY" state="SUCCESS" /&amp;gt;
       &amp;lt;Exit name="Created" state="ERROR" code="201" empty="true" /&amp;gt;
       &amp;lt;Exit name="NotModified" state="ERROR" code="304" empty="true" /&amp;gt;
       &amp;lt;Exit name="BadRequest" state="ERROR" code="400" empty="true" /&amp;gt;
@@ -812,8 +820,8 @@
  the optionally specified http status code. Each Exit should have a unique name. See Exits
  for examples.
  &lt;br/&gt;&lt;br/&gt;
- When a Pipeline doesn't have an Exits element configured it will be initialized with one Exit having name PipeLine#DEFAULT_SUCCESS_EXIT_NAME and
- state PipeLine.ExitState#SUCCESS_EXIT_STATE.
+ When a Pipeline doesn't have an Exits element configured it will be initialized with one Exit having name READY and
+ state SUCCESS.
  &lt;br/&gt;&lt;br/&gt;
  The name of an Exit can be referenced by the &lt;code&gt;path&lt;/code&gt; attribute of a Forward within a Pipe.</xs:documentation>
     </xs:annotation>
@@ -2224,7 +2232,7 @@
     </xs:attribute>
     <xs:attribute name="replyAddressFields" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Comma separated list of fields to try as response address Default: #REPLY_ADDRESS_FIELDS_DEFAULT</xs:documentation>
+        <xs:documentation>Comma separated list of fields to try as response address Default: replyTo,from,sender,Return-Path</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="proxyHost" type="xs:string">
@@ -2547,7 +2555,7 @@
     </xs:attribute>
     <xs:attribute name="replyAddressFields" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Comma separated list of fields to try as response address Default: #REPLY_ADDRESS_FIELDS_DEFAULT</xs:documentation>
+        <xs:documentation>Comma separated list of fields to try as response address Default: replyTo,from,sender,Return-Path</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -4641,7 +4649,7 @@
   <xs:attributeGroup name="FileSystemSenderDeclaredAttributeGroup">
     <xs:attribute name="action">
       <xs:annotation>
-        <xs:documentation>If parameter [#PARAMETER_ACTION] is set, then the attribute action value will be overridden with the value of the parameter.</xs:documentation>
+        <xs:documentation>If parameter [action] is set, then the attribute action value will be overridden with the value of the parameter.</xs:documentation>
       </xs:annotation>
       <xs:simpleType>
         <xs:union memberTypes="FileSystemActionAttributeValuesType variableRef" />
@@ -4649,17 +4657,17 @@
     </xs:attribute>
     <xs:attribute name="filename" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Filename to operate on. If not set, the parameter #PARAMETER_FILENAME is used. If that is not set either, the input is used</xs:documentation>
+        <xs:documentation>Filename to operate on. If not set, the parameter filename is used. If that is not set either, the input is used</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="destination" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Destination for #ACTION_MOVE, #ACTION_COPY or #ACTION_RENAME. If not set, the parameter #PARAMETER_DESTINATION is used. If that is not set either, the input is used</xs:documentation>
+        <xs:documentation>Destination for move, copy or rename. If not set, the parameter destination is used. If that is not set either, the input is used</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="inputFolder" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Folder that is scanned for files when action=#ACTION_LIST. When not set, the root is scanned</xs:documentation>
+        <xs:documentation>Folder that is scanned for files when action=list. When not set, the root is scanned</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="createFolder" type="frankBoolean">
@@ -4669,32 +4677,32 @@
     </xs:attribute>
     <xs:attribute name="overwrite" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, for actions #ACTION_CREATE, #ACTION_MOVE, #ACTION_COPY or #ACTION_RENAME, the destination file is overwritten if it already exists Default: false</xs:documentation>
+        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, for actions create, move, copy or rename, the destination file is overwritten if it already exists Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="rotateDays" type="frankInt">
       <xs:annotation>
-        <xs:documentation>For action=#ACTION_APPEND: If set to a positive number, the file is rotated each day, and this number of files is kept. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
+        <xs:documentation>For action=append: If set to a positive number, the file is rotated each day, and this number of files is kept. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="rotateSize" type="frankInt">
       <xs:annotation>
-        <xs:documentation>For action=#ACTION_APPEND: If set to a positive number, the file is rotated when it has reached the specified size, and the number of files specified in numberOfBackups is kept. Size is specified in plain bytes, suffixes like 'K', 'M' or 'G' are not recognized. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
+        <xs:documentation>For action=append: If set to a positive number, the file is rotated when it has reached the specified size, and the number of files specified in numberOfBackups is kept. Size is specified in plain bytes, suffixes like 'K', 'M' or 'G' are not recognized. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="numberOfBackups" type="frankInt">
       <xs:annotation>
-        <xs:documentation>For the actions #ACTION_WRITE1 and #ACTION_APPEND, with rotateSize&gt;0: the number of backup files that is kept. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
+        <xs:documentation>For the actions write and append, with rotateSize&gt;0: the number of backup files that is kept. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="wildcard" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Filter of files to look for in inputFolder e.g. '*.inp'. Works with actions #ACTION_MOVE, #ACTION_COPY, #ACTION_DELETE and #ACTION_LIST</xs:documentation>
+        <xs:documentation>Filter of files to look for in inputFolder e.g. '*.inp'. Works with actions move, copy, delete and list</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="excludeWildcard" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Filter of files to be excluded when looking in inputFolder. Works with actions #ACTION_MOVE, #ACTION_COPY, #ACTION_DELETE and #ACTION_LIST</xs:documentation>
+        <xs:documentation>Filter of files to be excluded when looking in inputFolder. Works with actions move, copy, delete and list</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="removeNonEmptyFolder" type="frankBoolean">
@@ -4704,17 +4712,17 @@
     </xs:attribute>
     <xs:attribute name="writeLineSeparator" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set to &lt;code&gt;true&lt;/code&gt; then the system specific line separator will be appended to the file after executing the action. Works with actions #ACTION_WRITE1 and #ACTION_APPEND Default: false</xs:documentation>
+        <xs:documentation>If set to &lt;code&gt;true&lt;/code&gt; then the system specific line separator will be appended to the file after executing the action. Works with actions write and append Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="charset" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Charset to be used for #ACTION_READ1 and #ACTION_WRITE1 action</xs:documentation>
+        <xs:documentation>Charset to be used for read and write action</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="deleteEmptyFolder" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set to true then the folder will be deleted if it is empty after processing the action. Works with actions #ACTION_DELETE, #ACTION_READ_DELETE and #ACTION_MOVE</xs:documentation>
+        <xs:documentation>If set to true then the folder will be deleted if it is empty after processing the action. Works with actions delete, readDelete and move</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="outputFormat">
@@ -5068,7 +5076,7 @@
     </xs:attribute>
     <xs:attribute name="useNamedParams" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>Named parameters will be auto detected by default. Every string in the query which equals &lt;code&gt;#UNP_STARTparamname#UNP_END&lt;/code&gt; will be replaced by the value of the corresponding parameter. The parameters don't need to be in the correct order and unused parameters are skipped.</xs:documentation>
+        <xs:documentation>Named parameters will be auto detected by default. Every string in the query which equals &lt;code&gt;?{paramname}&lt;/code&gt; will be replaced by the value of the corresponding parameter. The parameters don't need to be in the correct order and unused parameters are skipped.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="includeFieldDefinition" type="frankBoolean">
@@ -5368,7 +5376,7 @@
     </xs:attribute>
     <xs:attribute name="replyAddressFields" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Comma separated list of fields to try as response address Default: #REPLY_ADDRESS_FIELDS_DEFAULT</xs:documentation>
+        <xs:documentation>Comma separated list of fields to try as response address Default: replyTo,from,sender,Return-Path</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="proxyHost" type="xs:string">
@@ -6217,7 +6225,7 @@
     </xs:attribute>
     <xs:attribute name="replyAddressFields" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Comma separated list of fields to try as response address Default: #REPLY_ADDRESS_FIELDS_DEFAULT</xs:documentation>
+        <xs:documentation>Comma separated list of fields to try as response address Default: replyTo,from,sender,Return-Path</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -6765,17 +6773,17 @@
   <xs:attributeGroup name="MongoDbSenderDeclaredAttributeGroup">
     <xs:attribute name="datasourceName" type="xs:string">
       <xs:annotation>
-        <xs:documentation>The MongoDB datasource Default: JndiMongoClientFactory#DEFAULT_DATASOURCE_NAME_PROPERTY</xs:documentation>
+        <xs:documentation>The MongoDB datasource Default: mongodb.datasource.default</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="database" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Database to connect to. Can be overridden by parameter #PARAM_DATABASE</xs:documentation>
+        <xs:documentation>Database to connect to. Can be overridden by parameter database</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="collection" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Collection to act upon. Can be overridden by parameter #PARAM_COLLECTION</xs:documentation>
+        <xs:documentation>Collection to act upon. Can be overridden by parameter collection</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="action">
@@ -6788,12 +6796,12 @@
     </xs:attribute>
     <xs:attribute name="filter" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Filter. Can contain references to parameters between #NAMED_PARAM_START and #NAMED_PARAM_END. Can be overridden by parameter #PARAM_FILTER</xs:documentation>
+        <xs:documentation>Filter. Can contain references to parameters between ?{ and }. Can be overridden by parameter filter</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="limit" type="frankInt">
       <xs:annotation>
-        <xs:documentation>Limit to number of results returned. A value of 0 means 'no limit'. Can be overridden by parameter #PARAM_LIMIT. Default: 0</xs:documentation>
+        <xs:documentation>Limit to number of results returned. A value of 0 means 'no limit'. Can be overridden by parameter limit. Default: 0</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="countOnly" type="frankBoolean">
@@ -9844,7 +9852,7 @@
     </xs:attribute>
     <xs:attribute name="inputFormatSessionKey" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Session key to store the inputFormat in, to be able to set the outputformat when autoFormat=true. Can also be used to pass the value of an HTTP Accept header, to obtain a properly formatted response Default: #INPUT_FORMAT_SESSION_KEY_PREFIX&amp;lt;name of the pipe&amp;gt;</xs:documentation>
+        <xs:documentation>Session key to store the inputFormat in, to be able to set the outputformat when autoFormat=true. Can also be used to pass the value of an HTTP Accept header, to obtain a properly formatted response Default: Json2XmlValidator.inputFormat &amp;lt;name of the pipe&amp;gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="autoFormat" type="frankBoolean">
@@ -10670,12 +10678,12 @@
     </xs:attribute>
     <xs:attribute name="soapNamespaceSessionKey" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Key of session variable to store auto detected soapNamespace Default: If configured as Pipeline Input Wrapper or PipeLine Output Wrapper: #DEFAULT_SOAP_NAMESPACE_SESSION_KEY</xs:documentation>
+        <xs:documentation>Key of session variable to store auto detected soapNamespace Default: If configured as Pipeline Input Wrapper or PipeLine Output Wrapper: soapNamespace</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="soapHeaderSessionKey" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Key of session variable to store soap header Default: If configured as Pipeline Input Wrapper and direction=&lt;code&gt;unwrap&lt;/code&gt;: #DEFAULT_SOAP_HEADER_SESSION_KEY</xs:documentation>
+        <xs:documentation>Key of session variable to store soap header Default: If configured as Pipeline Input Wrapper and direction=&lt;code&gt;unwrap&lt;/code&gt;: soapHeader</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="encodingStyle" type="xs:string">
@@ -11831,7 +11839,7 @@
     </xs:attribute>
     <xs:attribute name="datasourceName" type="xs:string">
       <xs:annotation>
-        <xs:documentation>JNDI name of datasource to be used, can be configured via jmsRealm, too Default: JndiDataSourceFactory#DEFAULT_DATASOURCE_NAME_PROPERTY</xs:documentation>
+        <xs:documentation>JNDI name of datasource to be used, can be configured via jmsRealm, too Default: jdbc.datasource.default</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="jmsRealm" type="xs:string">
@@ -14005,7 +14013,7 @@
     </xs:attribute>
     <xs:attribute name="datasourceName" type="xs:string">
       <xs:annotation>
-        <xs:documentation>JNDI name of datasource to be used, can be configured via jmsRealm, too Default: JndiDataSourceFactory#DEFAULT_DATASOURCE_NAME_PROPERTY</xs:documentation>
+        <xs:documentation>JNDI name of datasource to be used, can be configured via jmsRealm, too Default: jdbc.datasource.default</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="jmsRealm" type="xs:string">
@@ -14332,12 +14340,12 @@
     </xs:attribute>
     <xs:attribute name="datasourceName" type="xs:string">
       <xs:annotation>
-        <xs:documentation>JNDI name of datasource to be used, can be configured via jmsRealm, too Default: JndiDataSourceFactory#DEFAULT_DATASOURCE_NAME_PROPERTY</xs:documentation>
+        <xs:documentation>JNDI name of datasource to be used, can be configured via jmsRealm, too Default: jdbc.datasource.default</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="useNamedParams" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>Named parameters will be auto detected by default. Every string in the query which equals &lt;code&gt;#UNP_STARTparamname#UNP_END&lt;/code&gt; will be replaced by the value of the corresponding parameter. The parameters don't need to be in the correct order and unused parameters are skipped.</xs:documentation>
+        <xs:documentation>Named parameters will be auto detected by default. Every string in the query which equals &lt;code&gt;?{paramname}&lt;/code&gt; will be replaced by the value of the corresponding parameter. The parameters don't need to be in the correct order and unused parameters are skipped.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="trimSpaces" type="frankBoolean">
@@ -15529,7 +15537,7 @@
   <xs:attributeGroup name="FileSystemPipeDeclaredAttributeGroup">
     <xs:attribute name="action">
       <xs:annotation>
-        <xs:documentation>If parameter [#PARAMETER_ACTION] is set, then the attribute action value will be overridden with the value of the parameter.</xs:documentation>
+        <xs:documentation>If parameter [action] is set, then the attribute action value will be overridden with the value of the parameter.</xs:documentation>
       </xs:annotation>
       <xs:simpleType>
         <xs:union memberTypes="FileSystemActionAttributeValuesType variableRef" />
@@ -15537,17 +15545,17 @@
     </xs:attribute>
     <xs:attribute name="filename" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Filename to operate on. If not set, the parameter #PARAMETER_FILENAME is used. If that is not set either, the input is used</xs:documentation>
+        <xs:documentation>Filename to operate on. If not set, the parameter filename is used. If that is not set either, the input is used</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="destination" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Destination for #ACTION_MOVE, #ACTION_COPY or #ACTION_RENAME. If not set, the parameter #PARAMETER_DESTINATION is used. If that is not set either, the input is used</xs:documentation>
+        <xs:documentation>Destination for move, copy or rename. If not set, the parameter destination is used. If that is not set either, the input is used</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="inputFolder" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Folder that is scanned for files when action=#ACTION_LIST. When not set, the root is scanned</xs:documentation>
+        <xs:documentation>Folder that is scanned for files when action=list. When not set, the root is scanned</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="createFolder" type="frankBoolean">
@@ -15557,32 +15565,32 @@
     </xs:attribute>
     <xs:attribute name="overwrite" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, for actions #ACTION_CREATE, #ACTION_MOVE, #ACTION_COPY or #ACTION_RENAME, the destination file is overwritten if it already exists Default: false</xs:documentation>
+        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, for actions create, move, copy or rename, the destination file is overwritten if it already exists Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="rotateDays" type="frankInt">
       <xs:annotation>
-        <xs:documentation>For action=#ACTION_APPEND: If set to a positive number, the file is rotated each day, and this number of files is kept. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
+        <xs:documentation>For action=append: If set to a positive number, the file is rotated each day, and this number of files is kept. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="rotateSize" type="frankInt">
       <xs:annotation>
-        <xs:documentation>For action=#ACTION_APPEND: If set to a positive number, the file is rotated when it has reached the specified size, and the number of files specified in numberOfBackups is kept. Size is specified in plain bytes, suffixes like 'K', 'M' or 'G' are not recognized. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
+        <xs:documentation>For action=append: If set to a positive number, the file is rotated when it has reached the specified size, and the number of files specified in numberOfBackups is kept. Size is specified in plain bytes, suffixes like 'K', 'M' or 'G' are not recognized. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="numberOfBackups" type="frankInt">
       <xs:annotation>
-        <xs:documentation>For the actions #ACTION_WRITE1 and #ACTION_APPEND, with rotateSize&gt;0: the number of backup files that is kept. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
+        <xs:documentation>For the actions write and append, with rotateSize&gt;0: the number of backup files that is kept. The inputFolder must point to the directory where the file resides Default: 0</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="wildcard" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Filter of files to look for in inputFolder e.g. '*.inp'. Works with actions #ACTION_MOVE, #ACTION_COPY, #ACTION_DELETE and #ACTION_LIST</xs:documentation>
+        <xs:documentation>Filter of files to look for in inputFolder e.g. '*.inp'. Works with actions move, copy, delete and list</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="excludeWildcard" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Filter of files to be excluded when looking in inputFolder. Works with actions #ACTION_MOVE, #ACTION_COPY, #ACTION_DELETE and #ACTION_LIST</xs:documentation>
+        <xs:documentation>Filter of files to be excluded when looking in inputFolder. Works with actions move, copy, delete and list</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="removeNonEmptyFolder" type="frankBoolean">
@@ -15592,17 +15600,17 @@
     </xs:attribute>
     <xs:attribute name="writeLineSeparator" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set to &lt;code&gt;true&lt;/code&gt; then the system specific line separator will be appended to the file after executing the action. Works with actions #ACTION_WRITE1 and #ACTION_APPEND Default: false</xs:documentation>
+        <xs:documentation>If set to &lt;code&gt;true&lt;/code&gt; then the system specific line separator will be appended to the file after executing the action. Works with actions write and append Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="charset" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Charset to be used for #ACTION_READ1 and #ACTION_WRITE1 action</xs:documentation>
+        <xs:documentation>Charset to be used for read and write action</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="deleteEmptyFolder" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set to true then the folder will be deleted if it is empty after processing the action. Works with actions #ACTION_DELETE, #ACTION_READ_DELETE and #ACTION_MOVE</xs:documentation>
+        <xs:documentation>If set to true then the folder will be deleted if it is empty after processing the action. Works with actions delete, readDelete and move</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="outputFormat">
@@ -15870,7 +15878,7 @@
     </xs:attribute>
     <xs:attribute name="returnFixedDate" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the date/time returned will always be #FIXEDDATETIME (for testing purposes only). It is overridden by the value of the pipelinesession key &lt;code&gt;stub4testtool.fixeddate&lt;/code&gt; when it exists Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the date/time returned will always be 2001-12-17 09:30:47 (for testing purposes only). It is overridden by the value of the pipelinesession key &lt;code&gt;stub4testtool.fixeddate&lt;/code&gt; when it exists Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="getCurrentTimeStampInMillis" type="frankBoolean">
@@ -16982,7 +16990,7 @@
     </xs:attribute>
     <xs:attribute name="datasourceName" type="xs:string">
       <xs:annotation>
-        <xs:documentation>JNDI name of datasource to be used Default: JndiDataSourceFactory#DEFAULT_DATASOURCE_NAME_PROPERTY</xs:documentation>
+        <xs:documentation>JNDI name of datasource to be used Default: jdbc.datasource.default</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="queryTimeout" type="frankInt">
@@ -18278,6 +18286,25 @@
       </xs:enumeration>
     </xs:restriction>
   </xs:simpleType>
+  <xs:simpleType name="MessageLogLevelAttributeValuesType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="OFF">
+        <xs:annotation>
+          <xs:documentation>No logging</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="INFO">
+        <xs:annotation>
+          <xs:documentation>Logs information from adapter level messages</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="DEBUG">
+        <xs:annotation>
+          <xs:documentation>Logs information from pipe messages</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
   <xs:simpleType name="ActionAttributeValuesType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="STOPADAPTER" />
@@ -18569,7 +18596,7 @@
   <xs:attribute name="trace" type="frankBoolean" />
   <xs:attribute name="datasourceName" type="xs:string">
     <xs:annotation>
-      <xs:documentation>JNDI name of datasource to be used, can be configured via jmsRealm, too Default: JndiDataSourceFactory#DEFAULT_DATASOURCE_NAME_PROPERTY</xs:documentation>
+      <xs:documentation>JNDI name of datasource to be used, can be configured via jmsRealm, too Default: jdbc.datasource.default</xs:documentation>
     </xs:annotation>
   </xs:attribute>
   <xs:attribute name="connectionsArePooled" type="frankBoolean" />
@@ -19355,12 +19382,12 @@
   </xs:attribute>
   <xs:attribute name="maxItems" type="frankInt">
     <xs:annotation>
-      <xs:documentation>The maximum number of items returned. The (default) value of 0 means unlimited, all available items will be returned. Special forward #MAX_ITEMS_REACHED_FORWARD can be configured to follow Default: 0</xs:documentation>
+      <xs:documentation>The maximum number of items returned. The (default) value of 0 means unlimited, all available items will be returned. Special forward maxItemsReached can be configured to follow Default: 0</xs:documentation>
     </xs:annotation>
   </xs:attribute>
   <xs:attribute name="stopConditionXPathExpression" type="xs:string">
     <xs:annotation>
-      <xs:documentation>Expression evaluated on each result and forwards to [#STOP_CONDITION_MET_FORWARD] forward if configured.
+      <xs:documentation>Expression evaluated on each result and forwards to [stopConditionMet] forward if configured.
  Iteration stops if condition returns anything other than an empty result. To test for the root element to have an attribute 'finished' with the value 'yes', the expression &lt;code&gt;*[@finished='yes']&lt;/code&gt; can be used.
  This can be used if the condition to stop can be derived from the item result. To stop after a maximum number of items has been processed, use &lt;code&gt;maxItems&lt;/code&gt;.
  Previous versions documented that &lt;code&gt;position()=2&lt;/code&gt; could be used. This is not working as expected; Use maxItems instead</xs:documentation>

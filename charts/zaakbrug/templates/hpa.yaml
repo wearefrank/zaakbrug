@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "frank2zgw.fullname" . }}
+  name: {{ include "zaakbrug.fullname" . }}
   labels:
-    {{- include "frank2zgw.labels" . | nindent 4 }}
+    {{- include "zaakbrug.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "frank2zgw.fullname" . }}
+    name: {{ include "zaakbrug.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
