@@ -1,0 +1,181 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "zaakbrug.fullname" . }}-env
+  labels:
+    {{- include "zaakbrug.labels" . | nindent 4 }}
+data:
+  # Enable Narayana transaction manager
+  application.server.type.custom: NARAYANA
+  {{- $name := .Values.frank.instance.name | required (printf ".frank.instance.name is a required parameter") }}
+  instance.name: {{ .Values.frank.instance.name }}
+  {{- $name := .Values.frank.dtap.stage | required (printf ".frank.dtap.stage is a required parameter") }}
+  dtap.stage: {{ .Values.frank.dtap.stage }}
+  dtap.side: {{ .Values.frank.dtap.side | default "cluster" }}
+  configurations.names: {{ .Values.frank.configurations.names | default "" }}
+  {{- if .Values.frank.credentials }}
+  credentialFactory.class: nl.nn.credentialprovider.PropertyFileCredentialFactory
+  credentialFactory.map.properties: /opt/frank/secrets/{{.Values.frank.credentials.key}}
+  {{- end }}
+  {{- if .Values.frank.properties }}
+  {{ .Values.frank.properties | toYaml }}
+  {{- end }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "zaakbrug.fullname" . }}-specifics
+data:
+  {{- with .Values.zaakbrug.zgw }}
+  zgw.baseurl: {{ .baseurl }}
+  {{- with .endpoint }}
+  zgw.endpoint.zaak: {{ .zaak }}
+  zgw.endpoint.zaaktype: {{ .zaaktype }}
+  zgw.endpoint.rol: {{ .rol }}
+  zgw.endpoint.roltype: {{ .roltype }}
+  zgw.endpoint.statustype: {{ .statustype }}
+  zgw.endpoint.status: {{ .status }}
+  zgw.endpoint.resultaattype: {{ .resultaattype }}
+  zgw.endpoint.resultaat: {{ .resultaat }}
+  zgw.endpoint.informatieobjecttype: {{ .informatieobjecttype }}
+  zgw.endpoint.enkelvoudiginformatieobjecten: {{ .enkelvoudiginformatieobjecten }}
+  zgw.endpoint.zaakinformatieobjecten: {{ .zaakinformatieobjecten }}
+  {{- end }}
+  {{- end }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "zaakbrug.fullname" . }}-config
+  labels:
+    {{- include "zaakbrug.labels" . | nindent 4 }}
+data:
+  context.xml: |-
+    <?xml version="1.0" encoding="UTF-8"?>
+    <Context>
+      <JarScanner scanClassPath="false" scanAllFiles="false" scanAllDirectories="false"/>
+      {{- with .Values.connections }}
+        {{- range .jdbc }}
+          {{- $name := .host | required (printf ".host is required for database of type %s" ( .type | default "unknown" )) -}}
+          {{- $name := .type | required (printf ".type is required for database with host %s" ( .host | default "unknown" )) -}}
+          {{- if eq .type "oracle"}}
+          <Resource
+              name="{{ .name | default (printf "jdbc/%s" $.Values.frank.instance.name) | lower }}" 
+              factory="org.apache.naming.factory.BeanFactory"
+              type="oracle.jdbc.xa.client.OracleXADataSource"
+              URL="jdbc:oracle:thin:@{{ .host }}:{{ .port | default 1521}}:{{ .database | default $.Values.frank.instance.name }}"
+              user="{{ .username }}"
+              password="{{ .password }}"
+          />
+          {{- end }}
+          {{- if eq .type "mssql"}}
+            <Resource 
+              name="{{ .name | default (printf "jdbc/%s" $.Values.frank.instance.name) | lower }}" 
+              auth="Container" 
+              factory="org.apache.naming.factory.BeanFactory"
+              type="com.microsoft.sqlserver.jdbc.SQLServerXADataSource"
+              URL="jdbc:sqlserver://{{ .host }}:{{ .port | default 1433}};database={{ .database | default $.Values.frank.instance.name }}"
+              user="{{ .username }}"
+              password="{{ .password }}"
+              sendStringParametersAsUnicode="false"
+              sendTimeAsDatetime="true"
+              selectMethod="direct"
+              responseBuffering="adaptive"
+              packetSize="4096"
+              loginTimeout="10"
+              lockTimeout="2000"
+              lastUpdateCount="false"
+              encrypt="{{ .ssl | default false}}"
+              disableStatementPooling="true"
+              applicationName="{{ $.Values.frank.instance.name }}"
+              applicationIntent="readwrite"
+            />
+          {{- end }}
+          {{- if eq .type "mysql" }}
+            <Resource
+              name="{{ .name | default (printf "jdbc/%s" $.Values.frank.instance.name) | lower }}" 
+              factory="org.apache.naming.factory.BeanFactory"
+              type="com.mysql.cj.jdbc.MysqlXADataSource"
+              URL="jdbc:mysql://{{ .host }}:{{ .port | default 3306}}/{{ .database | default $.Values.frank.instance.name }}"
+              user="{{ .username }}"
+              password="{{ .password }}"
+              sslMode="{{ ternary "ENABLED" "DISABLED" (.ssl | default false)}}"
+              serverTimezone="{{ $.Values.timeZone }}"
+              allowPublicKeyRetrieval="true"
+              pinGlobalTxToPhysicalConnection="true"
+              socketTimeout="5000"
+            />
+          {{- end }}
+          {{- if eq .type "mariadb" }}
+            <Resource
+              name="{{ .name | default (printf "jdbc/%s" $.Values.frank.instance.name) | lower }}" 
+              factory="org.apache.naming.factory.BeanFactory"
+              type="com.mysql.cj.jdbc.MysqlXADataSource"
+              URL="jdbc:mysql://{{ .host }}:{{ .port | default 3306}}/{{ .database | default $.Values.frank.instance.name }}"
+              user="{{ .username }}"
+              password="{{ .password }}"
+              sslMode="{{ ternary "ENABLED" "DISABLED" (.ssl | default false)}}"
+              serverTimezone="{{ $.Values.timeZone }}"
+              allowPublicKeyRetrieval="true"
+              pinGlobalTxToPhysicalConnection="true"
+              socketTimeout="5000"
+            />
+          {{- end }}
+          {{- if eq .type "postgresql"}}
+            <Resource 
+              name="{{ .name | default (printf "jdbc/%s" $.Values.frank.instance.name) | lower }}" 
+              factory="org.apache.naming.factory.BeanFactory"
+              type="org.postgresql.xa.PGXADataSource" 
+              URL="jdbc:postgresql://{{ .host }}:{{ .port | default 5432}}/{{ .database | default $.Values.frank.instance.name }}"
+              user="{{ .username }}"
+              password="{{ .password }}"
+              sslMode="{{ ternary "REQUIRE" "DISABLE" (.ssl | default false)}}"
+            />
+          {{- end }}
+          {{- if eq .type "db2" }}
+            <Resource 
+              name="{{ .name | default (printf "jdbc/%s" $.Values.frank.instance.name) | lower }}" 
+              auth="Container"
+              factory="org.apache.naming.factory.BeanFactory" 
+              type="com.ibm.db2.jcc.DB2XADataSource"
+              serverName="{{ .host }}"
+              portNumber="{{ .port | default 50000 }}"
+              databaseName="{{ .database | default $.Values.frank.instance.name }}"
+              driverType="4"
+              user="{{ .username }}"
+              password="{{ .password }}"
+            />
+          {{- end }}
+          {{- if eq .type "mongodb" }}
+            <Resource 
+              name="{{ .name | default (printf "jdbc/%s" $.Values.frank.instance.name) | lower }}" 
+              type="com.mongodb.MongoClient"
+              factory="com.mongodb.client.MongoClientFactory"
+              connectionString="mongodb://{{ .username }}:{{ .password }}@{{ .host }}"
+              auth="Container"
+              singleton="true"
+            />
+          {{- end }}
+        {{- end }}
+        {{- range .jms }}
+          {{- $name := .host | required (printf ".host is required for MQ of type %s" .type) -}}
+          {{- if eq .type "activemq" }}
+            <Resource
+              name="{{ .name | default (printf "jms/%s" $.Values.frank.instance.name) | lower }}" 
+              factory="org.apache.naming.factory.BeanFactory"
+              type="org.apache.activemq.ActiveMQXAConnectionFactory"
+              brokerURL="tcp://{{ .host }}:{{ .port | default 61616 }}?jms.xaAckMode=1"
+            />
+          {{- end }}
+          {{- if eq .type "artemis" }}
+            <Resource 
+              name="{{ .name | default (printf "jms/%s" $.Values.frank.instance.name) | lower }}" 
+              factory="org.apache.naming.factory.BeanFactory"
+              type="org.apache.activemq.artemis.jms.client.ActiveMQXAConnectionFactory"
+              brokerURL="tcp://{{ .host }}:{{ .port | default 61616 }}"
+            />
+          {{- end }}
+        {{- end }}
+      {{- end }}
+    </Context>
