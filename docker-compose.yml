@@ -1,13 +1,13 @@
-version: "3"
+version: "4"
 
 services:
   frank:
     image: nexus.frankframework.org/frank-framework:latest
     volumes:
-      - ./context.xml:/usr/local/tomcat/conf/context.xml:ro
-      - ../src/main/resources/:/opt/frank/resources/:ro
-      - ../src/test/testtool/:/opt/frank/testtool/:ro
-      - ../src/main/configurations/:/opt/frank/configurations/:ro
+      - ./docker/context.xml:/usr/local/tomcat/conf/context.xml:ro
+      - ./src/main/resources/:/opt/frank/resources/:ro
+      - ./src/test/testtool/:/opt/frank/testtool/:ro
+      - ./src/main/configurations/:/opt/frank/configurations/:ro
     ports:
       - "8080:8080"
     environment:
@@ -20,8 +20,8 @@ services:
       - database/username=database_user
       - database/password=database_password
     depends_on:
-      - database
-  database:
+      - frankdatabase
+  frankdatabase:
     image: "postgres"
     ports:
       - "5432:5432"
