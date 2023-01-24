@@ -5,7 +5,7 @@
 #
 #       
 #     command: postgres -c max_connections=300 -c log_min_messages=LOG -c log_statement=all
-version: '3.4'
+version: '4'
 
 services:
   db:
