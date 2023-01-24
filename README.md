@@ -27,11 +27,11 @@ To boot ZaakBrug using the Frank!Runner, you need version control system Git. Ch
 
 In a production environment it is recommended to run ZaakBrug with Docker. Ensure that Docker is installed on your computer and proceed as follows:
 
-1. Clone GitHub project https://github.com/ibissource/open-zaakbrug if you have not done so yet.
+1. Clone GitHub project https://github.com/ibissource/zaakbrug if you have not done so yet.
 1. Open a command prompt and change directory to the checkout directory.
-1. Build your Docker image from the source code using a command like the following: `docker build --no-cache -t open-zaakbrug:test .`.
-1. Run ZaakBrug using a command like the following: `docker run --rm -p 8080:8080 -e dtap.stage=LOC --name=open-zaakbrug open-zaakbrug:test`.
+1. Build your Docker image from the source code using a command like the following: `docker build --no-cache -t zaakbrug:test .`.
+1. Run ZaakBrug using a command like the following: `docker run --rm -p 8080:8080 -e dtap.stage=LOC --name=zaakbrug zaakbrug:test`.
 1. To see the user interface of ZaakBrug, open a webbrowser and visit http://localhost:8080.
-1. ZaakBrug provides an automated health check. You can run it with the following command: `docker inspect --format='{{json .State.Health.Status}}' open-zaakbrug`.
+1. ZaakBrug provides an automated health check. You can run it with the following command: `docker inspect --format='{{json .State.Health.Status}}' zaakbrug`.
 
    > **Info:** If you know the Frank!Framework, the following information may be helpful. If the health check produces the value `healthy`, it is guarenteed that all adapters in the Frank configuration have booted without errors.
