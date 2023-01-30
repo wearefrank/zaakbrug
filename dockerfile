@@ -2,13 +2,12 @@
 FROM nexus.frankframework.org/frank-framework:7.9-SNAPSHOT
 
 # Copy all tomcat configuration files over to the tomcat configuration directory
-COPY --chown=tomcat tomcat/conf/ /usr/local/tomcat/conf/
+#COPY --chown=tomcat tomcat/conf/ /usr/local/tomcat/conf/
 # Or copy specific files
-#COPY --chown=tomcat tomcat/conf/context.xml  /usr/local/tomcat/conf/
+COPY --chown=tomcat src/main/webapp/META-INF/context.xml  /usr/local/tomcat/conf/
 #COPY --chown=tomcat tomcat/conf/server.xml   /usr/local/tomcat/conf/
 
 # Copy the lib directory to the tomcat lib directory (these files will come available at the classpath)
-COPY --chown=tomcat tomcat/lib/ /usr/local/tomcat/lib/
 COPY --chown=tomcat lib/webapp/ /usr/local/tomcat/lib/
 
 # Copy all the Frank! files to the Frank! configuration directory
