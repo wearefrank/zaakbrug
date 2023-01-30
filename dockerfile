@@ -1,5 +1,5 @@
 # Set a specific version for production
-FROM nexus.frankframework.org/frank-framework:7.8-RC3-SNAPSHOT
+FROM nexus.frankframework.org/frank-framework:7.9-SNAPSHOT
 
 # Copy all tomcat configuration files over to the tomcat configuration directory
 COPY --chown=tomcat tomcat/conf/ /usr/local/tomcat/conf/
