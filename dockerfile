@@ -8,7 +8,7 @@ COPY --chown=tomcat src/main/webapp/META-INF/context.xml  /usr/local/tomcat/conf
 #COPY --chown=tomcat tomcat/conf/server.xml   /usr/local/tomcat/conf/
 
 # Copy the lib directory to the tomcat lib directory (these files will come available at the classpath)
-COPY --chown=tomcat lib/webapp/ /usr/local/tomcat/lib/
+COPY --chown=tomcat lib/webapp/ /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/
 
 # Copy all the Frank! files to the Frank! configuration directory
 COPY --chown=tomcat src/main/ /opt/frank/
