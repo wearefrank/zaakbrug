@@ -97,9 +97,9 @@ affinity: {}
 timeZone: Etc/UTC
 
 zaakbrug:
-  zgw: 
+  zgw:
     baseurl: "http://localhost:8000/"
-    endpoint: 
+    endpoint:
       zaak: "zaken/api/v1/zaken"
       zaaktype: "catalogi/api/v1/zaaktypen"
       rol: "zaken/api/v1/rollen"
@@ -111,36 +111,49 @@ zaakbrug:
       informatieobjecttype: "catalogi/api/v1/informatieobjecttypen"
       enkelvoudiginformatieobjecten: "documenten/api/v1/enkelvoudiginformatieobjecten"
       zaakinformatieobjecten: "zaken/api/v1/zaakinformatieobjecten"
+  globalsConfigMap:
+    name:
+    key:
+  profilesConfigMap:
+    name:
+    key:
 
 frank:
-  # Secret containing the contents of the credentials.properties.
-  credentials: 
+  # Secret containing the contents of the credentials.properties
+  credentials:
+    # Secret name in the cluster
     secret:
-    # Key of secret and place to mount.
+    # Key of secret and place to mount
     key:
+#  # (TODO) Secrets should contain username and password keys, or just one of the two
+#  secrets:
+#      # Name of the secret in the namespace
+#    - name:
+#      # Alias for properties, for example: "database" can be used as ${database/username}
+#      alias:
   # (required) the name of the Frank
   instance:
     name: "ZaakBrug"
-  dtap:  
+  dtap:
     # (required) Options: LOC, DEV, TST, ACC, PRD
-    stage:
-    side:
+    stage: LOC
+    side: ""
   # Configurations to load.
   configurations:
     names: "Translate"
-  properties: 
-  
-connections: 
+  properties: {}
+
+connections:
   jdbc:
       # Default name is "jdbc/{{ .Values.frank.instance.name }}"
-    - name:
+    - name: ""
       # (required) Possible types: oracle, mssql, mysql, mariadb, postgresql, db2 and mongodb
       type:
       # (required) Example: <service>.<namespace>.svc.cluster.local
-      host: 
-      ssl: 
-      port:
+      host:
+      ssl: ""
+      port: ""
       # Default database is .frank.instance.name
-      database:
+      database: ""
       username: #${database/username}
       password: #${database/password}

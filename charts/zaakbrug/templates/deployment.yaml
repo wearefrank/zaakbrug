@@ -47,11 +47,28 @@ spec:
               mountPath: /usr/local/tomcat/conf/Catalina/localhost/ROOT.xml
               subPath: context.xml
               readOnly: true
+            {{- if .Values.zaakbrug.globalsConfigMap }}
+            - name: {{ template "zaakbrug.fullname" . }}-profiles-json
+              mountPath: /opt/frank/configurations/Translate/Globals.json
+              readOnly: true
+              subPath: {{ .Values.zaakbrug.profilesConfigMap.subPath }}
+            {{- end }}
+            {{- if .Values.zaakbrug.profilesConfigMap }}
+            - name: {{ template "zaakbrug.fullname" . }}-profiles-json
+              mountPath: /opt/frank/configurations/Translate/Profiles.json
+              readOnly: true
+              subPath: {{ .Values.zaakbrug.profilesConfigMap.subPath }}
+            {{- end }}
             {{- if .Values.frank.credentials }}
             - name: {{ template "zaakbrug.fullname" . }}-credentials
               mountPath: /opt/frank/secrets/
               readOnly: true
             {{- end }}
+{{/*            {{- range .Values.frank.secrets }}*/}}
+{{/*            - name: {{ template "zaakbrug.fullname" . }}-{{.name}}-secret*/}}
+{{/*              mountPath: /opt/frank/secrets/{{ .alias | default .name }}*/}}
+{{/*              readOnly: true*/}}
+{{/*            {{- end }}*/}}
           ports:
             - name: http
               containerPort: 8080
@@ -70,11 +87,26 @@ spec:
         - name: {{ template "zaakbrug.fullname" . }}-specifics
           configMap:
             name: {{ template "zaakbrug.fullname" . }}-specifics
+        {{- if .Values.zaakbrug.globalsConfigMap }}
+        - name: {{ template "zaakbrug.fullname" . }}-globals-json
+          configMap:
+            name: {{ .Values.zaakbrug.globalsConfigMap.name }}
+        {{- end }}
+        {{- if .Values.zaakbrug.profilesConfigMap }}
+        - name: {{ template "zaakbrug.fullname" . }}-profiles-json
+          configMap:
+            name: {{ .Values.zaakbrug.globalsConfigMap.name }}
+        {{- end }}
         {{- if .Values.frank.credentials }}
         - name: {{ template "zaakbrug.fullname" . }}-credentials
-          secret: 
+          secret:
             secretName: {{ .Values.frank.credentials.secret }}
         {{- end }}
+{{/*        {{- range .Values.frank.secrets }}*/}}
+{{/*        - name: {{ template "zaakbrug.fullname" . }}-{{.name}}-secret*/}}
+{{/*          secret:*/}}
+{{/*            secretName: {{ .name }}*/}}
+{{/*        {{- end }}*/}}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
