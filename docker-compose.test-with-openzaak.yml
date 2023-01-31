@@ -50,36 +50,6 @@ services:
       - db
       - redis
 
-  celery:
-    build: .
-    image: openzaak/open-zaak:latest
-    environment: *app-env
-    command: /celery_worker.sh
-    volumes: *app-volumes
-    depends_on:
-      - db
-      - redis
-
-  celery-flower:
-    build: .
-    image: openzaak/open-zaak:latest
-    environment: *app-env
-    command: /celery_flower.sh
-    ports:
-      - 5555:5555
-    depends_on:
-      - redis
-      - celery
-
-  nginx:
-    image: nginx
-    volumes:
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - "9000:80"
-    depends_on:
-      - web
-
   zaakbrug:
     build: .
     image: zaak-brug:test
@@ -87,11 +57,8 @@ services:
     environment:
       - dtap.stage=LOC
       - zgw.baseurl=http://web:8000/
-      - JwtToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmcmFuayIsImlhdCI6MTY3NDQ5MjA4MywiY2xpZW50X2lkIjoiZnJhbmsiLCJ1c2VyX2lkIjoiIiwidXNlcl9yZXByZXNlbnRhdGlvbiI6IiJ9.RntFEAC5IetktZc-erfiLYhEvv3LxhCxl60kXQVqvVw
     ports:
       - 8080:8080
-    depends_on:
-      - nginx
 
 volumes:
   db:
