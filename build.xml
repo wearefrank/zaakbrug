@@ -1,10 +1,17 @@
 <project default="restart-zaakbrug">
-	<target name="restart-zaakbrug">
-		<basename property="project.dir" file="${basedir}"/>
-		<exec executable="../frank-runner/restart.bat" vmlauncher="false" failonerror="true">
-			<arg value="-Dproject.dir=${project.dir}"/>
-			<arg value="-Dlog.level=WARN"/>
-			<arg value="-Dignore.double.jars=true"/>
-		</exec>
-	</target>
+    <target name="restart-zaakbrug">
+        <basename property="project.dir" file="${basedir}"/>
+        <condition property="exe" value="../frank-runner/restart.bat" else="/bin/bash">
+            <os family="windows"/>
+        </condition>
+        <condition property="arg" value="../frank-runner/restart.sh" else="">
+            <os family="unix"/>
+        </condition>
+        <exec executable="${exe}" vmlauncher="false" failonerror="true">
+            <arg value="${arg}"/>
+            <arg value="-Dprojects.dir=${basedir}/.."/>
+            <arg value="-Dproject.dir=${project.dir}"/>
+            <arg value="-DcredentialFactory.map.properties=${basedir}/frank/secrets/credentials.properties"/>
+        </exec>
+    </target>
 </project>
