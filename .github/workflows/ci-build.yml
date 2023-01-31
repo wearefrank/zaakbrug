@@ -35,7 +35,7 @@ jobs:
       id: next-version
       run: semantic-release --dryRun
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     outputs:
       release-tag: ${{ steps.next-version.outputs.release-tag }}
       release-version: ${{ steps.next-version.outputs.release-version }}
@@ -108,4 +108,4 @@ jobs:
       name: Semantic Release
       run: "semantic-release"
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
