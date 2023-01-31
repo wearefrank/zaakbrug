@@ -22,6 +22,8 @@ jobs:
     - 
       name: Checkout
       uses: actions/checkout@v3
+      with: 
+        persist-credentials: false
     - 
       name: "🔧 setup node"
       uses: actions/setup-node@v2.1.5
@@ -35,7 +37,8 @@ jobs:
       id: next-version
       run: semantic-release --dryRun
       env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
     outputs:
       release-tag: ${{ steps.next-version.outputs.release-tag }}
       release-version: ${{ steps.next-version.outputs.release-version }}
@@ -67,6 +70,8 @@ jobs:
     - 
       name: Checkout
       uses: actions/checkout@v3
+      with: 
+        persist-credentials: false
     -  
       name: "Download Docker artifact"
       uses: actions/download-artifact@v2
@@ -108,4 +113,5 @@ jobs:
       name: Semantic Release
       run: "semantic-release"
       env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
