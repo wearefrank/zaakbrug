@@ -51,6 +51,11 @@ jobs:
             github.ref == 'refs/heads/master') &&
             github.event_name == 'push' }}
       docker-image-repo: docker.io/wearefrank/zaakbrug
+      upload-sarif-to-security: >- 
+        ${{ (startsWith(github.ref, 'refs/tags/') ||
+          github.ref == 'refs/heads/main' ||
+          github.ref == 'refs/heads/master') &&
+          github.event_name == 'push' }}
 
   publish-docker:
     runs-on: ubuntu-latest
