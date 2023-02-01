@@ -1,19 +1,23 @@
 FROM nexus.frankframework.org/frank-framework:7.9-SNAPSHOT
 
-# TODO: Move this to the credentialprovider.properties
+# TempFix TODO: Move this to the credentialprovider.properties
 ENV credentialFactory.class=nl.nn.credentialprovider.PropertyFileCredentialFactory
-ENV credentialFactory.map.properties=/opt/frank/secrets/credentials.properties
+ENV credentialFactory.map.properties=/opt/frank/resources/credentials.properties
 
-# Copy Tomcat files
-# Currently the main place to store the "context.xml" is /usr/local/tomcat/conf/Catalina/localhost/ROOT.xml
-# This file will be overwriten by the database configuration of the Helm Chart
-COPY --chown=tomcat tomcat/ /usr/local/tomcat/
+# Copy dependencies
+COPY --chown=tomcat lib/server/ /usr/local/tomcat/lib/
+COPY --chown=tomcat lib/webapp/ /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/
+
+# When deploying the "context.xml" should be copied to /usr/local/tomcat/conf/Catalina/localhost/ROOT.xml
+COPY --chown=tomcat src/main/webapp/META-INF/context.xml /usr/local/tomcat/conf/Catalina/localhost/ROOT.xml
 
 # Copy Frank!
-COPY --chown=tomcat frank/ /opt/frank/
+COPY --chown=tomcat src/main/configurations/ /opt/frank/configurations/
+COPY --chown=tomcat src/main/resources/ /opt/frank/resources/
+COPY --chown=tomcat src/test/testtool/ /opt/frank/testtool/
 
 # Compile custom class, this should be changed to a buildstep in the future
-COPY --chown=tomcat java /tmp/java
+COPY --chown=tomcat src/main/java /tmp/java
 RUN javac /tmp/java/nl/nn/adapterframework/parameters/Parameter.java \
      -classpath "/usr/local/tomcat/webapps/ROOT/WEB-INF/lib/*:/usr/local/tomcat/lib/*" \
      -verbose -d /usr/local/tomcat/webapps/ROOT/WEB-INF/classes
