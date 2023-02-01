@@ -10,11 +10,6 @@ on:
       - main
       - master
 
-permissions:
-  contents: write
-  pull-requests: write
-  security-events: write
-
 jobs:
   analyze-commits:
     runs-on: ubuntu-latest
@@ -23,7 +18,6 @@ jobs:
       name: Checkout
       uses: actions/checkout@v3
       with: 
-        persist-credentials: false
         token: ${{ secrets.GH_TOKEN }}
     - 
       name: "🔧 setup node"
@@ -38,7 +32,7 @@ jobs:
       id: next-version
       run: semantic-release --dryRun
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
     outputs:
       release-tag: ${{ steps.next-version.outputs.release-tag }}
@@ -72,7 +66,7 @@ jobs:
       name: Checkout
       uses: actions/checkout@v3
       with: 
-        persist-credentials: false
+        token: ${{ secrets.GH_TOKEN }}
     -  
       name: "Download Docker artifact"
       uses: actions/download-artifact@v2
@@ -102,8 +96,7 @@ jobs:
     - 
       name: Checkout
       uses: actions/checkout@v3
-      with: 
-        persist-credentials: false
+      with:
         token: ${{ secrets.GH_TOKEN }}
     - 
       name: "🔧 setup node"
@@ -117,5 +110,5 @@ jobs:
       name: Semantic Release
       run: "semantic-release"
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
