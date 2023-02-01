@@ -21,7 +21,6 @@ services:
   redis:
     image: redis
 
-# Cannot rename this one because then container nginx produces an error
   open-zaak:
     image: openzaak/open-zaak:latest
     environment: &app-env
