@@ -16,15 +16,15 @@ These values are:
 
 For the ZaakBrug to work correctly some values need to be verified and other have to be filled in. 
 
-Check if all the zgw.endpoints are configured right. Add a configMap to both zgw.globalsConfigMap and zgs.profilesConfigMap
+Check if all the zaakbrug.zgw.endpoints are configured right. Add a configMap to both zaakbrug.zgw.globalsConfigMap and zaakbrug.zgs.profilesConfigMap
 
 #### Globals and Profiles
 
-The Globals.json should contain organizations and role mappings. 
+The Globals should contain organizations and role mappings. 
 
-The Profiles.json contains information about zaakTypes. The reason this file is separate, is to make it more sharable with other gemeentes. 
+The Profiles contain information about zaakTypes. The reason this file is separate, is to make it more sharable with other gemeentes.
 
-These files need to be added to the namespace as a configMap. The name of the configMap and the key of the data should be added in the values.yaml under .name and .subPath.
+The data should be entered as yaml inside the values.yaml at zaakbrug.globals and zaakbrug.profiles. The JSON files will be created by the Helm Chart. 
 
 ### Credentials
 
