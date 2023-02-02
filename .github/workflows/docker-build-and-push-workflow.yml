@@ -89,7 +89,7 @@ jobs:
       uses: bridgecrewio/checkov-action@master
       with:
         directory: .
-        framework: Dockerfile
+        framework: dockerfile
         check: 'LOW,MEDIUM,HIGH,CRITICAL'
         quiet: false
         soft_fail: true
