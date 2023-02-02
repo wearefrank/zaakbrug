@@ -4,7 +4,7 @@ image:
   repository: wearefrank/zaakbrug
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
@@ -112,11 +112,11 @@ zaakbrug:
       enkelvoudiginformatieobjecten: "documenten/api/v1/enkelvoudiginformatieobjecten"
       zaakinformatieobjecten: "zaken/api/v1/zaakinformatieobjecten"
   globalsConfigMap:
-    name:
-    key:
+    name: ""
+    key: ""
   profilesConfigMap:
-    name:
-    key:
+    name: ""
+    key: ""
 
 frank:
   # Secret containing the contents of the credentials.properties
