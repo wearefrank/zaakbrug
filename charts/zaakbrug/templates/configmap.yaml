@@ -182,3 +182,25 @@ data:
         {{- end }}
       {{- end }}
     </Context>
+---
+{{- if .Values.zaakbrug.globals }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "zaakbrug.fullname" . }}-globals
+  labels:
+    {{- include "zaakbrug.labels" . | nindent 4 }}
+data:
+  Globals.json: {{ .Values.zaakbrug.globals | toJson | quote }}
+{{- end }}
+---
+{{- if .Values.zaakbrug.profiles }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "zaakbrug.fullname" . }}-profiles
+  labels:
+    {{- include "zaakbrug.labels" . | nindent 4 }}
+data:
+  Profiles.json: {{ .Values.zaakbrug.globals | toJson | quote }}
+{{- end }}

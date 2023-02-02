@@ -111,12 +111,29 @@ zaakbrug:
       informatieobjecttype: "catalogi/api/v1/informatieobjecttypen"
       enkelvoudiginformatieobjecten: "documenten/api/v1/enkelvoudiginformatieobjecten"
       zaakinformatieobjecten: "zaken/api/v1/zaakinformatieobjecten"
-  globalsConfigMap:
-    name: ""
-    key: ""
-  profilesConfigMap:
-    name: ""
-    key: ""
+  globals:
+    organizations:
+      - gemeenteNaam: "Utrecht"
+        gemeenteCode: "0344"
+        RSIN: "002220647"
+    rolMapping:
+      heeftBetrekkingOp: "BetrekkingOp"
+      heeftAlsBelanghebbende: "Belanghebbende"
+      heeftAlsInitiator: "Initiator"
+      heeftAlsUitvoerende: "Uitvoerende"
+      heeftAlsVerantwoordelijke: "Verantwoordelijke"
+      heeftAlsGemachtigde: "Gemachtigde"
+      heeftAlsOverigBetrokkene: "OverigeBetrokkene"
+  profiles:
+    profile:
+      - zaakTypeIdentificatie: "B9999"
+        endCaseEndDate:
+          coalesceResultaat: "Onbekend"
+        endDateAndResultLastStatus:
+          coalesceResultaat: "Onbekend"
+      - zaakTypeIdentificatie: "B1026"
+        endCaseEndDate:
+          coalesceResultaat: "Toegekend"
 
 frank:
   # Secret containing the contents of the credentials.properties

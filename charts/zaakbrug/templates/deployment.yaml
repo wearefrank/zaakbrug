@@ -47,17 +47,17 @@ spec:
               mountPath: /usr/local/tomcat/conf/Catalina/localhost/ROOT.xml
               subPath: context.xml
               readOnly: true
-            {{- if .Values.zaakbrug.globalsConfigMap.name }}
-            - name: {{ template "zaakbrug.fullname" . }}-profiles-json
+            {{- if .Values.zaakbrug.globals }}
+            - name: {{ template "zaakbrug.fullname" . }}-globals
               mountPath: /opt/frank/configurations/Translate/Globals.json
+              subPath: Globals.json
               readOnly: true
-              subPath: {{ .Values.zaakbrug.profilesConfigMap.subPath }}
             {{- end }}
-            {{- if .Values.zaakbrug.profilesConfigMap.name }}
-            - name: {{ template "zaakbrug.fullname" . }}-profiles-json
+            {{- if .Values.zaakbrug.profiles }}
+            - name: {{ template "zaakbrug.fullname" . }}-profiles
               mountPath: /opt/frank/configurations/Translate/Profiles.json
+              subPath: Profiles.json
               readOnly: true
-              subPath: {{ .Values.zaakbrug.profilesConfigMap.subPath }}
             {{- end }}
             {{- if .Values.frank.credentials.secret }}
             - name: {{ template "zaakbrug.fullname" . }}-credentials
@@ -87,15 +87,15 @@ spec:
         - name: {{ template "zaakbrug.fullname" . }}-specifics
           configMap:
             name: {{ template "zaakbrug.fullname" . }}-specifics
-        {{- if .Values.zaakbrug.globalsConfigMap.name }}
-        - name: {{ template "zaakbrug.fullname" . }}-globals-json
+        {{- if .Values.zaakbrug.globals }}
+        - name: {{ template "zaakbrug.fullname" . }}-globals
           configMap:
-            name: {{ .Values.zaakbrug.globalsConfigMap.name }}
+            name: {{ template "zaakbrug.fullname" . }}-globals
         {{- end }}
-        {{- if .Values.zaakbrug.profilesConfigMap.name }}
-        - name: {{ template "zaakbrug.fullname" . }}-profiles-json
+        {{- if .Values.zaakbrug.profiles }}
+        - name: {{ template "zaakbrug.fullname" . }}-profiles
           configMap:
-            name: {{ .Values.zaakbrug.globalsConfigMap.name }}
+            name: {{ template "zaakbrug.fullname" . }}-profiles
         {{- end }}
         {{- if .Values.frank.credentials.secret }}
         - name: {{ template "zaakbrug.fullname" . }}-credentials
