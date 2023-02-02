@@ -3,12 +3,8 @@
 	<JarScanner scanClassPath="false" scanAllFiles="false" scanAllDirectories="false"/>
 	<Resource
 			name="jdbc/zaakbrug"
-			type="javax.sql.DataSource"
-			driverClassName="org.h2.Driver"
-			url="jdbc:h2:mem:zaakbrug;NON_KEYWORDS=VALUE;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;"
-			maxTotal="10"
-			maxIdle="2"
-
-			maxWaitMillis="5000"
+			type="org.h2.jdbcx.JdbcDataSource"
+			factory="org.apache.naming.factory.BeanFactory"
+			URL="jdbc:h2:./data"
 	/>
 </Context>

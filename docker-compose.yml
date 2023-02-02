@@ -1,31 +1,65 @@
-version: "4"
+# This is a compose file inteded for trying out the project locally and absolutely
+# not suitable for production usage. The configuration here contains non-safe defaults.
+#
+# If you want to try out CMIS with Alfresco, see docker-compose.alfresco.yml
+#
+#       
+#     command: postgres -c max_connections=300 -c log_min_messages=LOG -c log_statement=all
+version: '4'
 
 services:
-  frank:
-    image: nexus.frankframework.org/frank-framework:latest
+  postgis:
+    image: mdillon/postgis
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
-      - ./docker/context.xml:/usr/local/tomcat/conf/context.xml:ro
-      - ./src/main/resources/:/opt/frank/resources/:ro
-      - ./src/test/testtool/:/opt/frank/testtool/:ro
-      - ./src/main/configurations/:/opt/frank/configurations/:ro
+      - ./docker/postgres.entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+      - database-data:/var/lib/postgresql/data
     ports:
-      - "8080:8080"
-    environment:
-      - SET_PERMISSIONS_ON_STARTUP=FALSE
-      - dtap.stage=LOC
-      - instance.name=Frank2ZGW
-      - database.instance.name=frank2zgw
-      - database.host=database
-      - database.name=database
-      - database/username=database_user
-      - database/password=database_password
+      - "11234:5432"
+
+  redis:
+    image: redis
+
+  open-zaak:
+    image: openzaak/open-zaak:latest
+    environment: &app-env
+      - DJANGO_SETTINGS_MODULE=openzaak.conf.docker
+      - SECRET_KEY=${SECRET_KEY:-7(h1r2hk)8z9+05edulo_3qzymwbo&c24=)qz7+_@3&2sp=u%i}
+      - DB_NAME=openzaak
+      - DB_USER=openzaak
+      - DB_HOST=postgis
+      - IS_HTTPS=no
+      - ALLOWED_HOSTS=*
+      - CACHE_DEFAULT=redis:6379/0
+      - CACHE_AXES=redis:6379/0
+      - SUBPATH=${SUBPATH:-/}
+      - OPENZAAK_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - OPENZAAK_SUPERUSER_EMAIL=admin@localhost
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+      - CELERY_LOGLEVEL=DEBUG
+      - CELERY_WORKER_CONCURRENCY=${CELERY_WORKER_CONCURRENCY:-4}
+    ports:
+      - 8000:8000
+    volumes: &app-volumes
+      - media:/app/media  # Shared media volume to get access to saved OAS files
+      - private-media:/app/private-media
     depends_on:
-      - frankdatabase
-  frankdatabase:
-    image: "postgres"
-    ports:
-      - "5432:5432"
+      - postgis
+      - redis
+
+  zaakbrug:
+    build: .
+    image: zaakbrug
+    container_name: zaakbrug
     environment:
-      - POSTGRES_USER=database_user
-      - POSTGRES_PASSWORD=database_password
-      - POSTGRES_DB=database
+      - zgw.baseurl=http://open-zaak:8000/
+    ports:
+      - 8080:8080
+
+volumes:
+  database-data:
+  media:
+  private-media:
