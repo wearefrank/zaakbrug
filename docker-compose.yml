@@ -54,6 +54,8 @@ services:
     build: .
     image: zaakbrug
     container_name: zaakbrug
+    volumes:
+      - ./data:/usr/local/tomcat/data
     environment:
       - zgw.baseurl=http://open-zaak:8000/
     ports:
