@@ -25,6 +25,8 @@ services:
     image: openzaak/open-zaak:latest
     environment: &app-env
       - DJANGO_SETTINGS_MODULE=openzaak.conf.docker
+      - OPENZAAK_DOMAIN=localhost
+      - OPENZAAK_REWRITE_HOST=TRUE
       - SECRET_KEY=${SECRET_KEY:-7(h1r2hk)8z9+05edulo_3qzymwbo&c24=)qz7+_@3&2sp=u%i}
       - DB_NAME=openzaak
       - DB_USER=openzaak
