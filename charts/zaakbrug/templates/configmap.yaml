@@ -13,7 +13,20 @@ data:
   {{- $name := .Values.frank.dtap.stage | required (printf ".frank.dtap.stage is a required parameter") }}
   dtap.stage: {{ .Values.frank.dtap.stage }}
   dtap.side: {{ .Values.frank.dtap.side | default "cluster" }}
-  configurations.names: {{ .Values.frank.configurations.names | default "" }}
+  {{- with .Values.frank.configurations.names }}
+  configurations.names: {{ . }}
+  {{- end }}
+  application.security.http.authentication: {{ .Values.frank.security.http.authentication | toString | quote }}
+  application.security.http.transportGuarantee: {{ .Values.frank.security.http.enforceHttps | ternary "CONFIDENTIAL" "NONE" }}
+  {{- if .Values.frank.security.http.authentication }}
+  {{- with .Values.frank.security.http.ad }}
+  application.security.http.authenticators: AdAuthenticator
+  application.security.http.authenticators.AdAuthenticator.type: AD
+  application.security.http.authenticators.AdAuthenticator.baseDn: {{ .baseDn }}
+  application.security.http.authenticators.AdAuthenticator.url: {{ .url }}
+  servlet.IAF-API.authenticator: AdAuthenticator
+  {{- end }}
+  {{- end }}
   {{- if .Values.frank.credentials }}
 {{/*  credentialFactory.class: nl.nn.credentialprovider.FileSystemCredentialFactory*/}}
   credentialFactory.class: nl.nn.credentialprovider.PropertyFileCredentialFactory
@@ -183,6 +196,19 @@ data:
       {{- end }}
     </Context>
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "zaakbrug.fullname" . }}-roles
+  labels:
+    {{- include "zaakbrug.labels" . | nindent 4 }}
+data:
+  ldap-role-mapping.properties: |
+    IbisTester={{ .Values.frank.security.http.ad.roles.tester }}
+    IbisAdmin={{ .Values.frank.security.http.ad.roles.admin }}
+    IbisDataAdmin={{ .Values.frank.security.http.ad.roles.dataAdmin }}
+    IbisObserver={{ .Values.frank.security.http.ad.roles.observer }}
+---
 {{- if .Values.zaakbrug.globals }}
 apiVersion: v1
 kind: ConfigMap
@@ -202,5 +228,5 @@ metadata:
   labels:
     {{- include "zaakbrug.labels" . | nindent 4 }}
 data:
-  Profiles.json: {{ .Values.zaakbrug.globals | toJson | quote }}
+  Profiles.json: {{ .Values.zaakbrug.profiles | toJson | quote }}
 {{- end }}

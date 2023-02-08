@@ -47,6 +47,10 @@ spec:
               mountPath: /usr/local/tomcat/conf/Catalina/localhost/ROOT.xml
               subPath: context.xml
               readOnly: true
+            - name: {{ template "zaakbrug.fullname" . }}-roles
+              mountPath: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/ldap-role-mapping.properties
+              subPath: ldap-role-mapping.properties
+              readOnly: true
             {{- if .Values.zaakbrug.globals }}
             - name: {{ template "zaakbrug.fullname" . }}-globals
               mountPath: /opt/frank/configurations/Translate/Globals.json
@@ -73,6 +77,9 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+            - name: https
+              containerPort: 8443
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /iaf/
@@ -84,6 +91,9 @@ spec:
         - name: {{ template "zaakbrug.fullname" . }}-config
           configMap:
             name: {{ template "zaakbrug.fullname" . }}-config
+        - name: {{ template "zaakbrug.fullname" . }}-roles
+          configMap:
+            name: {{ template "zaakbrug.fullname" . }}-roles
         - name: {{ template "zaakbrug.fullname" . }}-specifics
           configMap:
             name: {{ template "zaakbrug.fullname" . }}-specifics

@@ -98,6 +98,7 @@ timeZone: Etc/UTC
 
 zaakbrug:
   zgw:
+    # Empty values aren't allowed, so at least fill in the protocol.
     baseurl: "http://localhost:8000/"
     endpoint:
       zaak: "zaken/api/v1/zaken"
@@ -136,6 +137,22 @@ zaakbrug:
           coalesceResultaat: "Toegekend"
 
 frank:
+  security:
+    http:
+      authentication: false
+      enforceHttps: false
+      # Only supports active directory for now
+      ad: {}
+#        # LDAP url e.g.: ldap://172.0.0.1
+#        url:
+#        # Base DN e.g.: DC=example,DC=com
+#        baseDn:
+#        # Roles to map to AD roles. e.g. dataAdmin: CN=FunctionalAdministrator,CN=Users,DC=example,DC=com
+#        roles:
+#          observer:
+#          dataAdmin:
+#          admin:
+#          tester:
   # Secret containing the contents of the credentials.properties
   credentials:
     # Secret name in the cluster
@@ -153,7 +170,7 @@ frank:
     name: "ZaakBrug"
   dtap:
     # (required) Options: LOC, DEV, TST, ACC, PRD
-    stage: LOC
+    stage:
     side: ""
   # Configurations to load.
   configurations:
