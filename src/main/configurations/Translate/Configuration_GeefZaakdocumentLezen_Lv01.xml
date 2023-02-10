@@ -93,8 +93,7 @@
                 <Forward name="else" path="EXCEPTION"/>
             </XmlIfPipe>
 
-<!-- Read timed out while testing -->
-            <!-- <SenderPipe
+            <SenderPipe
                 name="CallGetBas64Inhoud"
                 storeResultInSessionKey="Bas64Inhoud">
                 <IbisLocalSender
@@ -114,9 +113,9 @@
                 <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud"/>
                 <Forward name="true" path="MapZdsZaakDocumentInhoud"/>
                 <Forward name="false" path="EXCEPTION"/>
-            </XmlSwitchPipe> -->
+            </XmlSwitchPipe>
 
-            <!-- <LocalFileSystemPipe name="ReadFile" action="read">
+            <LocalFileSystemPipe name="ReadFile" action="read">
 				<Param name="filename" value="${FilePath_4}" />
 				<Forward name="success" path="JsonToXml" />
 			</LocalFileSystemPipe>
@@ -132,7 +131,7 @@
                 <Param name="ZgwZaak" sessionKey="GetZgwZaakResult" type="DOMDOC"/>
                 <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="DOMDOC"/>
                 <Forward name="success" path="EXIT"/>
-            </XsltPipe> -->
+            </XsltPipe>
 
             <XsltPipe
                 name="MapZdsZaakDocumentInhoud"
