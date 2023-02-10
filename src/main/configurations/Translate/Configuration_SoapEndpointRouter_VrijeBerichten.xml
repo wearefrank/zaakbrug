@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="SoapEndpointRouter_VrijeBerichten">
-            <WebServiceListener name="SoapEndpointRouter_VrijeBerichten" address="${address.VrijeBerichten}" soap="false"/>
+            <WebServiceListener name="SoapEndpointRouter_VrijeBerichten" address="${endpoints.soap.vrije-berichten.endpoint}" soap="false"/>
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
                 datasourceName="jdbc/${database.instance.name}"

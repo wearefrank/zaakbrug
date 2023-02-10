@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="SoapEndpointRouter_BeantwoordVraag">
-            <WebServiceListener name="SoapEndpointRouter_BeantwoordVraag" address="${address.BeantwoordVraag}" soap="false"/>
+            <WebServiceListener name="SoapEndpointRouter_BeantwoordVraag" address="${endpoints.soap.beantwoord-vraag.endpoint}" soap="false"/>
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
                 datasourceName="jdbc/${database.instance.name}"
