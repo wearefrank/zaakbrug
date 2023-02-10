@@ -106,7 +106,7 @@
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl"
                 soapBody="zakLk01"
                 >
-				<Forward name="succes" path="UnwrapMessageForActualiseerZaakstatus_Lk01"/>
+				<Forward name="success" path="UnwrapMessageForActualiseerZaakstatus_Lk01"/>
 				<Forward name="failure" path="InvalidXml"/>
 			</WsdlXmlValidatorPipe>
 
@@ -137,7 +137,7 @@
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl"
                 soapBody="edcLk01"
                 >
-				<Forward name="succes" path="UnwrapMessageForVoegZaakdocumentToe_Lk01"/>
+				<Forward name="success" path="UnwrapMessageForVoegZaakdocumentToe_Lk01"/>
 				<Forward name="failure" path="InvalidXml"/>
 			</WsdlXmlValidatorPipe>
 

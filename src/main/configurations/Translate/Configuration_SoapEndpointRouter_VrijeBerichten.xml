@@ -47,7 +47,7 @@
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
                 soapBody="genereerZaakIdentificatie_Di02"
                 >
-				<Forward name="succes" path="UnwrapMessageForGenereerZaakIdentificatie_Di02"/>
+				<Forward name="success" path="UnwrapMessageForGenereerZaakIdentificatie_Di02"/>
 				<Forward name="failure" path="InvalidXml"/>
 			</WsdlXmlValidatorPipe>
 
@@ -89,7 +89,7 @@
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
                 soapBody="genereerDocumentIdentificatie_Di02"
                 >
-				<Forward name="succes" path="UnwrapMessageForGenereerDocumentIdentificatie_Di02"/>
+				<Forward name="success" path="UnwrapMessageForGenereerDocumentIdentificatie_Di02"/>
 				<Forward name="failure" path="InvalidXml"/>
 			</WsdlXmlValidatorPipe>
 
@@ -131,7 +131,7 @@
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
                 soapBody="geefZaakdocumentbewerken_Di02"
                 >
-				<Forward name="succes" path="UnwrapMessageForGeefZaakdocumentbewerken_Di02"/>
+				<Forward name="success" path="UnwrapMessageForGeefZaakdocumentbewerken_Di02"/>
 				<Forward name="failure" path="InvalidXml"/>
 			</WsdlXmlValidatorPipe>
 
@@ -183,7 +183,7 @@
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
                 soapBody="cancelCheckout_Di02"
                 >
-				<Forward name="succes" path="UnwrapMessageForCancelCheckout_Di02"/>
+				<Forward name="success" path="UnwrapMessageForCancelCheckout_Di02"/>
 				<Forward name="failure" path="InvalidXml"/>
 			</WsdlXmlValidatorPipe>
 
@@ -222,7 +222,7 @@
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
                 soapBody="updateZaakdocument_Di02"
                 >
-				<Forward name="succes" path="UnwrapMessageForUpdateZaakdocument_Di02"/>
+				<Forward name="success" path="UnwrapMessageForUpdateZaakdocument_Di02"/>
 				<Forward name="failure" path="InvalidXml"/>
 			</WsdlXmlValidatorPipe>
 
