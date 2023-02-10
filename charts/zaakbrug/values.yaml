@@ -97,6 +97,17 @@ affinity: {}
 timeZone: Etc/UTC
 
 zaakbrug:
+  endpoints:
+    soap:
+      beantwoord-vraag:
+        endpoint: "translate/generic/zds/BeantwoordVraag"
+        validation-soft-fail: false
+      ontvang-asynchroon:
+        endpoint: "translate/generic/zds/OntvangAsynchroon"
+        validation-soft-fail: false
+      vrije-berichten:
+        endpoint: "translate/generic/zds/VrijBericht"
+        validation-soft-fail: false
   zgw:
     # Empty values aren't allowed, so at least fill in the protocol.
     baseurl: "http://localhost:8000/"
