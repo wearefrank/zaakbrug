@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="SoapEndpointRouter_OntvangAsynchroon">
-            <WebServiceListener name="SoapEndpointRouter_OntvangAsynchroon" address="${endpoints.soap.ontvang-asynchroon.endpoint}" soap="false"/>
+            <WebServiceListener name="SoapEndpointRouter_OntvangAsynchroon" address="${zaakbrug.soap.ontvang-asynchroon.endpoint}" soap="false"/>
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
                 datasourceName="jdbc/${database.instance.name}"
@@ -61,7 +61,7 @@
             <XmlSwitchPipe name="WsdlValidationSoftFailForwarder_UpdateZaak"
                 xpathExpression="$SoftFail = true()"
                 >
-                <Param name="SoftFail" value="${endpoints.soap.ontvang-asynchroon.validation-soft-fail}" type="BOOLEAN"/>
+                <Param name="SoftFail" value="${zaakbrug.soap.ontvang-asynchroon.validation-soft-fail}" type="BOOLEAN"/>
 				<Forward name="true" path="UpdateZaakSender" />
                 <Forward name="false" path="InvalidXml" />
             </XmlSwitchPipe>
@@ -79,7 +79,7 @@
             <XmlSwitchPipe name="WsdlValidationSoftFailForwarder_CreeerZaak"
                 xpathExpression="$SoftFail = true()"
                 >
-                <Param name="SoftFail" value="${endpoints.soap.ontvang-asynchroon.validation-soft-fail}" type="BOOLEAN"/>
+                <Param name="SoftFail" value="${zaakbrug.soap.ontvang-asynchroon.validation-soft-fail}" type="BOOLEAN"/>
 				<Forward name="true" path="CreeerZaakSender" />
                 <Forward name="false" path="InvalidXml" />
             </XmlSwitchPipe>
