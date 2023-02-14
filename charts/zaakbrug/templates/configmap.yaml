@@ -44,7 +44,6 @@ metadata:
     {{- include "zaakbrug.labels" . | nindent 4 }}
 data:
   {{- with .Values.zaakbrug.endpoints.soap }}
-  zgw.baseurl: {{ .baseurl }}
   {{- with .beantwoord-vraag }}
   endpoints.soap.beantwoord-vraag.endpoint: {{ .endpoint }}
   endpoints.soap.beantwoord-vraag.validation-soft-fail: {{ .validation-soft-fail }}
