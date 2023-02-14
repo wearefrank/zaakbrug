@@ -45,16 +45,16 @@ metadata:
 data:
   {{- with .Values.zaakbrug.endpoints.soap }}
   {{- with .beantwoord-vraag }}
-  endpoints.soap.beantwoord-vraag.endpoint: {{ .endpoint }}
-  endpoints.soap.beantwoord-vraag.validation-soft-fail: {{ .validation-soft-fail }}
+  zaakbrug.soap.beantwoord-vraag.endpoint: {{ .endpoint }}
+  zaakbrug.soap.beantwoord-vraag.validation-soft-fail: {{ .validation-soft-fail }}
   {{- end }}
   {{- with .ontvang-asynchroon }}
-  endpoints.soap.ontvang-asynchroon.endpoint: {{ .endpoint }}
-  endpoints.soap.ontvang-asynchroon.validation-soft-fail: {{ .validation-soft-fail }}
+  zaakbrug.soap.ontvang-asynchroon.endpoint: {{ .endpoint }}
+  zaakbrug.soap.ontvang-asynchroon.validation-soft-fail: {{ .validation-soft-fail }}
   {{- end }}
   {{- with .vrije-berichten }}
-  endpoints.soap.vrije-berichten.endpoint: {{ .endpoint }}
-  endpoints.soap.vrije-berichten.validation-soft-fail: {{ .validation-soft-fail }}
+  zaakbrug.soap.vrije-berichten.endpoint: {{ .endpoint }}
+  zaakbrug.soap.vrije-berichten.validation-soft-fail: {{ .validation-soft-fail }}
   {{- end }}
   {{- end }}
   {{- with .Values.zaakbrug.zgw }}
