@@ -86,7 +86,7 @@
                     $ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/bestandsnaam,
                     $ZdsZaakDocumentInhoud/object/bestandsnaam, 
                     ZgwEnkelvoudigInformatieObject/bestandsnaam))"/>
-            <xsl:copy-of select="zgw:WrapNullOrSkip('bestandsomvang', 'null', zgw:FromOrderedSource(
+            <xsl:copy-of select="zgw:WrapNullOrSkip('bestandsomvang', 'skip', zgw:FromOrderedSource(
                     $Bestandsomvang,
                     $ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/bestandsomvang,
                     '', 
