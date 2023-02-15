@@ -89,18 +89,17 @@
             <XmlIfPipe name="CheckForGetGetZaakResult"
                 xpathExpression="string-length(/ZgwZaak) > 0"
                 >
-                <Forward name="then" path="MapZdsZaakDocumentInhoud"/>
+                <Forward name="then" path="CallGetBas64Inhoud"/>
                 <Forward name="else" path="EXCEPTION"/>
             </XmlIfPipe>
 
-<!-- Read timed out while testing -->
-            <!-- <SenderPipe
+            <SenderPipe
                 name="CallGetBas64Inhoud"
                 storeResultInSessionKey="Bas64Inhoud">
                 <IbisLocalSender
                     name="CallGetBas64InhoudSender"
                     javaListener="GetBas64Inhoud">
-                    <Param name="url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/inhoud">
+                    <Param name="Url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/inhoud">
                         <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
@@ -108,13 +107,14 @@
             </SenderPipe>
 
             <XmlSwitchPipe 
-                name="CheckForGetBas64InhoudResult" 
+                name="CheckForGetBas64InhoudResult"
+                getInputFromFixedValue="&lt;dummy/&gt;"
                 xpathExpression="string-length($Bas64Inhoud) &gt; 0"
                 >
-                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud"/>
+                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="BASE64"/>
                 <Forward name="true" path="MapZdsZaakDocumentInhoud"/>
                 <Forward name="false" path="EXCEPTION"/>
-            </XmlSwitchPipe> -->
+            </XmlSwitchPipe>
 
             <!-- <LocalFileSystemPipe name="ReadFile" action="read">
 				<Param name="filename" value="${FilePath_4}" />
@@ -144,7 +144,7 @@
                 >
                 <Param name="ZgwInformatieObjectType" sessionKey="ZgwInformatieObjectType" type="DOMDOC"/>
                 <Param name="ZgwZaak" sessionKey="GetZgwZaakResult" type="DOMDOC"/>
-                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="DOMDOC"/>
+                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="BASE64"/>
                 <Forward name="success" path="EXIT"/>
             </XsltPipe>
         </Pipeline>
