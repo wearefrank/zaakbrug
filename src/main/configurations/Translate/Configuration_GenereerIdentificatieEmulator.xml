@@ -47,7 +47,7 @@
             </IncreaseIntegerPipe>
 
             <XsltPipe name="CreateNewId" styleSheetName="Common/xsl/CreateIdentication.xslt" storeResultInSessionKey="newId">
-                <Param name="NewIdDigit" value="${NewIdDigit}" />
+                <Param name="zaak-identificatie-template" value="${zaak-identificatie-template}"/>
             </XsltPipe>
             
             <SenderPipe name="UpdateIdentificatie">
@@ -76,11 +76,10 @@
 
             <XsltPipe
                 name="GenerateIdentificatie"
-                xpathExpression="concat($Prefixparam, $newId)"
+                xpathExpression="$newId"
                 storeResultInSessionKey="Identificatie"
                 >
                 <Param name="newId" sessionKey="newId"/>
-                <Param name="Prefixparam" value="${Prefixparam}"/>
                 <Forward name="success" path="SetExitMessage"/>
             </XsltPipe>
 
