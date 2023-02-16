@@ -54,7 +54,13 @@
                         <ZKN:vertrouwelijkAanduiding><xsl:value-of select="ZdsZaakDocumentInhoud/vertrouwelijkAanduiding"/></ZKN:vertrouwelijkAanduiding>
                         <ZKN:auteur><xsl:value-of select="ZdsZaakDocumentInhoud/auteur"/></ZKN:auteur>
                         <ZKN:link/>
-                        <ZKN:inhoud StUF:bestandsnaam="" xmime:contentType="unknown"><xsl:value-of select="ZdsZaakDocumentInhoud/inhoud"/></ZKN:inhoud>
+                        <xsl:if test="ZdsZaakDocumentInhoud/inhoud">
+                            <ZKN:inhoud>
+                                <xsl:attribute name="StUF:bestandsnaam"><xsl:value-of select="ZdsZaakDocumentInhoud/inhoud/@StUF:bestandsnaam"/></xsl:attribute>
+                                <xsl:attribute name="xmime:contentType"><xsl:value-of select="ZdsZaakDocumentInhoud/inhoud/@xmime:contentType"/></xsl:attribute>
+                                <xsl:value-of select="ZdsZaakDocumentInhoud/inhoud"/>
+                            </ZKN:inhoud>
+                        </xsl:if>
                         <xsl:apply-templates select="ZdsZaakDocumentInhoud/isRelevantVoor"/>
                     </ZKN:object>
                 </ZKN:antwoord>
