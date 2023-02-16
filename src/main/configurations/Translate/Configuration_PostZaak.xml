@@ -43,7 +43,6 @@
                     deepSearch="true"
                     throwException="true"
                 />
-
                 <HttpSender name="PostZgwZaakSender"
                     methodType="POST"
                     headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
@@ -58,6 +57,7 @@
                 </HttpSender>
 
                 <Forward name="success" path="JsonToXml" />
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <JsonPipe name="JsonToXml"

@@ -124,6 +124,7 @@
                     javaListener="PostZaakAdapter">
                 </IbisLocalSender>
                 <Forward name="success" path="PostRolIterator"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe> 
 <!-- Post zaak end -->
             <ForEachChildElementPipe name="PostRolIterator"
