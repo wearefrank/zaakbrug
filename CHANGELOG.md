@@ -1,5 +1,16 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.4.1](https://github.com/ibissource/zaakbrug/compare/v1.4.0...v1.4.1) (2023-02-16)
+
+
+### 🐛 Bug Fixes
+
+* Documenten inhoud attributess not copied to reponse ([af8e70a](https://github.com/ibissource/zaakbrug/commit/af8e70a3ea1659132da46849bc6c109c2db9acc1))
+* Generate plain base64 instead of 76 per line ([48de836](https://github.com/ibissource/zaakbrug/commit/48de836542c28eaa883857191dc96afd05f5dc4b))
+* Include document content&meta on getters ([c53dac9](https://github.com/ibissource/zaakbrug/commit/c53dac9570604bdb13862976c8d404c628047826))
+* Propogate attributes on inhoud in Du02 response ([56549c4](https://github.com/ibissource/zaakbrug/commit/56549c44629d65bc961abe5d815e810b40add76a))
+* Skip documenten bestandsomvang instead of null ([c048dea](https://github.com/ibissource/zaakbrug/commit/c048dea4ece9c1b526a9a2589062031f60c1062e))
+
 ## [1.4.0](https://github.com/ibissource/zaakbrug/compare/v1.3.0...v1.4.0) (2023-02-14)
 
 
