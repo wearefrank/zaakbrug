@@ -98,15 +98,15 @@ timeZone: Etc/UTC
 
 zaakbrug:
   soap:
-    beantwoord-vraag:
+    beantwoordVraag:
       endpoint: "translate/generic/zds/BeantwoordVraag"
-      validation-soft-fail: false
-    ontvang-asynchroon:
+      validationSoftFail: false
+    ontvangAsynchroon:
       endpoint: "translate/generic/zds/OntvangAsynchroon"
-      validation-soft-fail: false
-    vrije-berichten:
+      validationSoftFail: false
+    vrijeBerichten:
       endpoint: "translate/generic/zds/VrijBericht"
-      validation-soft-fail: false
+      validationSoftFail: false
   zgw:
     # Empty values aren't allowed, so at least fill in the protocol.
     baseurl: "http://localhost:8000/"
