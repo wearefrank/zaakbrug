@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="SoapEndpointRouter_BeantwoordVraag">
-            <WebServiceListener name="SoapEndpointRouter_BeantwoordVraag" address="${address.BeantwoordVraag}" soap="false"/>
+            <WebServiceListener name="SoapEndpointRouter_BeantwoordVraag" address="${zaakbrug.soap.beantwoord-vraag.endpoint}" soap="false"/>
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
                 datasourceName="jdbc/${database.instance.name}"
@@ -57,9 +57,18 @@
                 ignoreUnknownNamespaces="true"
                 >
 				<Forward name="success" path="GeefLijstZaakdocumenten_Lv01Sender"/>
-				<Forward name="failure" path="InvalidXml"/>
+				<Forward name="failure" path="WsdlValidationSoftFailForwarder_GeefLijstZaakdocumenten"/>
                 <Forward name="parserError" path="NotWellFormed"/>
 			</WsdlXmlValidatorPipe>
+
+            <XmlSwitchPipe 
+                name="WsdlValidationSoftFailForwarder_GeefLijstZaakdocumenten"
+                xpathExpression="$SoftFail = true()"
+                >
+                <Param name="SoftFail" value="${zaakbrug.soap.beantwoord-vraag.validation-soft-fail}" type="BOOLEAN"/>
+                <Forward name="true" path="GeefLijstZaakdocumenten_Lv01Sender" />
+                <Forward name="false" path="InvalidXml" />
+            </XmlSwitchPipe>
 
             <WsdlXmlValidatorPipe 
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_geefZaakdocumentLezen_Lv01"
@@ -70,9 +79,18 @@
                 ignoreUnknownNamespaces="true"
                 >
 				<Forward name="success" path="GeefZaakdocumentLezen_Lv01Sender"/>
-				<Forward name="failure" path="InvalidXml"/>
+				<Forward name="failure" path="WsdlValidationSoftFailForwarder_GeefZaakdocumentLezen"/>
                 <Forward name="parserError" path="NotWellFormed"/>
 			</WsdlXmlValidatorPipe>
+
+            <XmlSwitchPipe 
+                name="WsdlValidationSoftFailForwarder_GeefZaakdocumentLezen"
+                xpathExpression="$SoftFail = true()"
+                >
+                <Param name="SoftFail" value="${zaakbrug.soap.beantwoord-vraag.validation-soft-fail}" type="BOOLEAN"/>
+                <Forward name="true" path="GeefZaakdocumentLezen_Lv01Sender" />
+                <Forward name="false" path="InvalidXml" />
+            </XmlSwitchPipe>
 
             <WsdlXmlValidatorPipe 
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_geefZaakdetails_Lv01"
@@ -83,9 +101,18 @@
                 ignoreUnknownNamespaces="true"
                 >
 				<Forward name="success" path="GeefZaakdetails_Lv01Sender"/>
-				<Forward name="failure" path="InvalidXml"/>
+				<Forward name="failure" path="WsdlValidationSoftFailForwarder_GeefZaakdetails"/>
                 <Forward name="parserError" path="NotWellFormed"/>
 			</WsdlXmlValidatorPipe>
+
+            <XmlSwitchPipe 
+                name="WsdlValidationSoftFailForwarder_GeefZaakdetails"
+                xpathExpression="$SoftFail = true()"
+                >
+                <Param name="SoftFail" value="${zaakbrug.soap.beantwoord-vraag.validation-soft-fail}" type="BOOLEAN"/>
+                <Forward name="true" path="GeefZaakdetails_Lv01Sender" />
+                <Forward name="false" path="InvalidXml" />
+            </XmlSwitchPipe>
 
             <SenderPipe
                 name="GeefLijstZaakdocumenten_Lv01Sender">

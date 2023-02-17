@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="SoapEndpointRouter_VrijeBerichten">
-            <WebServiceListener name="SoapEndpointRouter_VrijeBerichten" address="${address.VrijeBerichten}" soap="false"/>
+            <WebServiceListener name="SoapEndpointRouter_VrijeBerichten" address="${zaakbrug.soap.vrije-berichten.endpoint}" soap="false"/>
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
                 datasourceName="jdbc/${database.instance.name}"
@@ -47,9 +47,18 @@
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
                 soapBody="genereerZaakIdentificatie_Di02"
                 >
-				<Forward name="succes" path="UnwrapMessageForGenereerZaakIdentificatie_Di02"/>
-				<Forward name="failure" path="InvalidXml"/>
+				<Forward name="success" path="UnwrapMessageForGenereerZaakIdentificatie_Di02"/>
+				<Forward name="failure" path="WsdlValidationSoftFailForwarder_GenereerZaakIdentificatie"/>
 			</WsdlXmlValidatorPipe>
+
+            <XmlSwitchPipe 
+                name="WsdlValidationSoftFailForwarder_GenereerZaakIdentificatie"
+                xpathExpression="$SoftFail = true()"
+                >
+                <Param name="SoftFail" value="${zaakbrug.soap.vrije-berichten.validation-soft-fail}" type="BOOLEAN"/>
+                <Forward name="true" path="UnwrapMessageForGenereerZaakIdentificatie_Di02" />
+                <Forward name="false" path="InvalidXml" />
+            </XmlSwitchPipe>
 
             <SoapWrapperPipe 
                 name="UnwrapMessageForGenereerZaakIdentificatie_Di02"
@@ -89,9 +98,17 @@
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
                 soapBody="genereerDocumentIdentificatie_Di02"
                 >
-				<Forward name="succes" path="UnwrapMessageForGenereerDocumentIdentificatie_Di02"/>
-				<Forward name="failure" path="InvalidXml"/>
+				<Forward name="success" path="UnwrapMessageForGenereerDocumentIdentificatie_Di02"/>
+				<Forward name="failure" path="WsdlValidationSoftFailForwarder_GenereerDocumentIdentificatie"/>
 			</WsdlXmlValidatorPipe>
+
+            <XmlSwitchPipe name="WsdlValidationSoftFailForwarder_GenereerDocumentIdentificatie"
+                xpathExpression="$SoftFail = true()"
+                >
+                <Param name="SoftFail" value="${zaakbrug.soap.vrije-berichten.validation-soft-fail}" type="BOOLEAN"/>
+				<Forward name="true" path="UnwrapMessageForGenereerDocumentIdentificatie_Di02" />
+                <Forward name="false" path="InvalidXml" />
+            </XmlSwitchPipe>
 
             <SoapWrapperPipe 
                 name="UnwrapMessageForGenereerDocumentIdentificatie_Di02"
@@ -131,9 +148,17 @@
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
                 soapBody="geefZaakdocumentbewerken_Di02"
                 >
-				<Forward name="succes" path="UnwrapMessageForGeefZaakdocumentbewerken_Di02"/>
-				<Forward name="failure" path="InvalidXml"/>
+				<Forward name="success" path="UnwrapMessageForGeefZaakdocumentbewerken_Di02"/>
+				<Forward name="failure" path="WsdlValidationSoftFailForwarder_GeefZaakdocumentbewerken"/>
 			</WsdlXmlValidatorPipe>
+
+            <XmlSwitchPipe name="WsdlValidationSoftFailForwarder_GeefZaakdocumentbewerken"
+                xpathExpression="$SoftFail = true()"
+                >
+                <Param name="SoftFail" value="${zaakbrug.soap.vrije-berichten.validation-soft-fail}" type="BOOLEAN"/>
+				<Forward name="true" path="UnwrapMessageForGeefZaakdocumentbewerken_Di02" />
+                <Forward name="false" path="InvalidXml" />
+            </XmlSwitchPipe>
 
             <SoapWrapperPipe 
                 name="UnwrapMessageForGeefZaakdocumentbewerken_Di02"
@@ -183,9 +208,17 @@
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
                 soapBody="cancelCheckout_Di02"
                 >
-				<Forward name="succes" path="UnwrapMessageForCancelCheckout_Di02"/>
-				<Forward name="failure" path="InvalidXml"/>
+				<Forward name="success" path="UnwrapMessageForCancelCheckout_Di02"/>
+				<Forward name="failure" path="WsdlValidationSoftFailForwarder_CancelCheckout"/>
 			</WsdlXmlValidatorPipe>
+
+            <XmlSwitchPipe name="WsdlValidationSoftFailForwarder_CancelCheckout"
+                xpathExpression="$SoftFail = true()"
+                >
+                <Param name="SoftFail" value="${zaakbrug.soap.vrije-berichten.validation-soft-fail}" type="BOOLEAN"/>
+				<Forward name="true" path="UnwrapMessageForCancelCheckout_Di02" />
+                <Forward name="false" path="InvalidXml" />
+            </XmlSwitchPipe>
 
             <SoapWrapperPipe 
                 name="UnwrapMessageForCancelCheckout_Di02"
@@ -222,9 +255,17 @@
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
                 soapBody="updateZaakdocument_Di02"
                 >
-				<Forward name="succes" path="UnwrapMessageForUpdateZaakdocument_Di02"/>
-				<Forward name="failure" path="InvalidXml"/>
+				<Forward name="success" path="UnwrapMessageForUpdateZaakdocument_Di02"/>
+				<Forward name="failure" path="WsdlValidationSoftFailForwarder_UpdateZaakdocument"/>
 			</WsdlXmlValidatorPipe>
+
+            <XmlSwitchPipe name="WsdlValidationSoftFailForwarder_UpdateZaakdocument"
+                xpathExpression="$SoftFail = true()"
+                >
+                <Param name="SoftFail" value="${zaakbrug.soap.vrije-berichten.validation-soft-fail}" type="BOOLEAN"/>
+				<Forward name="true" path="UnwrapMessageForUpdateZaakdocument_Di02" />
+                <Forward name="false" path="InvalidXml" />
+            </XmlSwitchPipe>
 
             <SoapWrapperPipe 
                 name="UnwrapMessageForUpdateZaakdocument_Di02"

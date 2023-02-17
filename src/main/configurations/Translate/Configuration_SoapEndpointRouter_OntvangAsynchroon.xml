@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="SoapEndpointRouter_OntvangAsynchroon">
-            <WebServiceListener name="SoapEndpointRouter_OntvangAsynchroon" address="${address.OntvangAsynchroon}" soap="false"/>
+            <WebServiceListener name="SoapEndpointRouter_OntvangAsynchroon" address="${zaakbrug.soap.ontvang-asynchroon.endpoint}" soap="false"/>
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
                 datasourceName="jdbc/${database.instance.name}"
@@ -54,9 +54,17 @@
                 soapBody="zakLk01"
                 >
 				<Forward name="success" path="UpdateZaakSender"/>
-				<Forward name="failure" path="InvalidXml"/>
+				<Forward name="failure" path="WsdlValidationSoftFailForwarder_UpdateZaak"/>
                 <Forward name="parserError" path="NotWellFormed"/>
 			</WsdlXmlValidatorPipe>
+
+            <XmlSwitchPipe name="WsdlValidationSoftFailForwarder_UpdateZaak"
+                xpathExpression="$SoftFail = true()"
+                >
+                <Param name="SoftFail" value="${zaakbrug.soap.ontvang-asynchroon.validation-soft-fail}" type="BOOLEAN"/>
+				<Forward name="true" path="UpdateZaakSender" />
+                <Forward name="false" path="InvalidXml" />
+            </XmlSwitchPipe>
 
             <WsdlXmlValidatorPipe name="http:__www.egem.nl_StUF_sector_zkn_0310_creeerZaak_Lk01"
                 getInputFromSessionKey="SanitizedMessage"
@@ -64,9 +72,17 @@
                 soapBody="zakLk01"
                 >
 				<Forward name="success" path="CreeerZaakSender"/>
-				<Forward name="failure" path="InvalidXml"/>
+				<Forward name="failure" path="WsdlValidationSoftFailForwarder_CreeerZaak"/>
                 <Forward name="parserError" path="NotWellFormed"/>
 			</WsdlXmlValidatorPipe> 
+
+            <XmlSwitchPipe name="WsdlValidationSoftFailForwarder_CreeerZaak"
+                xpathExpression="$SoftFail = true()"
+                >
+                <Param name="SoftFail" value="${zaakbrug.soap.ontvang-asynchroon.validation-soft-fail}" type="BOOLEAN"/>
+				<Forward name="true" path="CreeerZaakSender" />
+                <Forward name="false" path="InvalidXml" />
+            </XmlSwitchPipe>
 
             <SenderPipe name="UpdateZaakSender"
                 getInputFromSessionKey="UnwrapMessageResult"
@@ -106,7 +122,7 @@
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl"
                 soapBody="zakLk01"
                 >
-				<Forward name="succes" path="UnwrapMessageForActualiseerZaakstatus_Lk01"/>
+				<Forward name="success" path="UnwrapMessageForActualiseerZaakstatus_Lk01"/>
 				<Forward name="failure" path="InvalidXml"/>
 			</WsdlXmlValidatorPipe>
 
@@ -137,7 +153,7 @@
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl"
                 soapBody="edcLk01"
                 >
-				<Forward name="succes" path="UnwrapMessageForVoegZaakdocumentToe_Lk01"/>
+				<Forward name="success" path="UnwrapMessageForVoegZaakdocumentToe_Lk01"/>
 				<Forward name="failure" path="InvalidXml"/>
 			</WsdlXmlValidatorPipe>
 
