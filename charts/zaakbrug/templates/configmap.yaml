@@ -46,15 +46,15 @@ data:
   {{- with .Values.zaakbrug.soap }}
   {{- with .beantwoordVraag }}
   zaakbrug.soap.beantwoord-vraag.endpoint: {{ .endpoint }}
-  zaakbrug.soap.beantwoord-vraag.validation-soft-fail: {{ .validationSoftFail }}
+  zaakbrug.soap.beantwoord-vraag.validation-soft-fail: {{ toString .validationSoftFail }}
   {{- end }}
   {{- with .ontvangAsynchroon }}
   zaakbrug.soap.ontvang-asynchroon.endpoint: {{ .endpoint }}
-  zaakbrug.soap.ontvang-asynchroon.validation-soft-fail: {{ .validationSoftFail }}
+  zaakbrug.soap.ontvang-asynchroon.validation-soft-fail: {{ toString .validationSoftFail }}
   {{- end }}
   {{- with .vrijeBerichten }}
   zaakbrug.soap.vrije-berichten.endpoint: {{ .endpoint }}
-  zaakbrug.soap.vrije-berichten.validation-soft-fail: {{ .validationSoftFail }}
+  zaakbrug.soap.vrije-berichten.validation-soft-fail: {{ toString .validationSoftFail }}
   {{- end }}
   {{- end }}
   {{- with .Values.zaakbrug.zgw }}
