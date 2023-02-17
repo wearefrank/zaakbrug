@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" version="2.0">
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
     <xsl:param name="ZgwZaak"/>
     <xsl:param name="Bas64Inhoud"/>
@@ -26,7 +26,11 @@
                     <beschrijving><xsl:attribute name="xsi:nil">true</xsl:attribute></beschrijving>
                 </xsl:otherwise>
             </xsl:choose>
-            <!-- <formaat><xsl:value-of select="ZgwEnkelvoudigInformatieObject/formaat"/></formaat> -->
+            <xsl:choose>
+            <xsl:when test="string-length(ZgwEnkelvoudigInformatieObject/formaat) > 0 and normalize-space(ZgwEnkelvoudigInformatieObject/formaat) != 'null'">
+                    <formaat><xsl:value-of select="ZgwEnkelvoudigInformatieObject/formaat"/></formaat>
+                </xsl:when>
+            </xsl:choose>
             <xsl:choose>
                 <xsl:when test="string-length(ZgwEnkelvoudigInformatieObject/taal) > 0 and normalize-space(ZgwEnkelvoudigInformatieObject/taal) != 'null'">
                     <taal><xsl:value-of select="ZgwEnkelvoudigInformatieObject/taal"/></taal>
@@ -57,7 +61,7 @@
             <link><xsl:value-of select="ZgwEnkelvoudigInformatieObject/link"/></link>
             <inhoud>
                 <xsl:attribute name="StUF:bestandsnaam"><xsl:value-of select="ZgwEnkelvoudigInformatieObject/bestandsnaam"/></xsl:attribute>
-                <!-- <xsl:attribute name="xmime:contentType"></xsl:attribute> -->
+                <xsl:attribute name="xmime:contentType"><xsl:value-of select="ZgwEnkelvoudigInformatieObject/formaat"/></xsl:attribute>
                 <xsl:value-of select="$Bas64Inhoud"/>
             </inhoud>
             <isRelevantVoor>

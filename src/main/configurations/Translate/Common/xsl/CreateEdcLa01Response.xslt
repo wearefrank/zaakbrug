@@ -68,7 +68,11 @@
                         <ZKN:link><xsl:value-of select="ZdsZaakDocumentInhoud/link"/></ZKN:link>
                     </xsl:if>
                     <xsl:if test="ZdsZaakDocumentInhoud/inhoud">
-                        <ZKN:inhoud StUF:bestandsnaam="" xmime:contentType="unknown"><xsl:value-of select="ZdsZaakDocumentInhoud/inhoud"/></ZKN:inhoud>
+                        <ZKN:inhoud>
+                            <xsl:attribute name="StUF:bestandsnaam"><xsl:value-of select="ZdsZaakDocumentInhoud/inhoud/@StUF:bestandsnaam"/></xsl:attribute>
+                            <xsl:attribute name="xmime:contentType"><xsl:value-of select="ZdsZaakDocumentInhoud/inhoud/@xmime:contentType"/></xsl:attribute>
+                            <xsl:value-of select="ZdsZaakDocumentInhoud/inhoud"/>
+                        </ZKN:inhoud>
                     </xsl:if>
                     <xsl:apply-templates select="ZdsZaakDocumentInhoud/isRelevantVoor"/>
                 </ZKN:object>

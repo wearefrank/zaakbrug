@@ -66,8 +66,8 @@
                 <xsl:copy-of select="zgw:WrapNullOrSkip('formaat', 'skip', zgw:FromOrderedSource(
                     $Formaat,
                     '',
-                    '', 
-                    object/formaat))"/>
+                    object/inhoud/@contentType, 
+                    concat('application/', object/formaat)))"/>
                 <xsl:copy-of select="zgw:WrapNullOrSkip('taal', 'empty', zgw:FromOrderedSource(
                     $Taal,
                     '',
@@ -77,17 +77,17 @@
                     $Bestandsnaam,
                     '',
                     '', 
-                    object/bestandsnaam))"/>
-                <xsl:copy-of select="zgw:WrapNullOrSkip('bestandsomvang', 'null', zgw:FromOrderedSource(
+                    object/inhoud/@bestandsnaam))"/>
+                <!-- <xsl:copy-of select="zgw:WrapNullOrSkip('bestandsomvang', 'skip', zgw:FromOrderedSource(
                     string-length($DecodeInhoudResult),
                     '',
                     '', 
-                    ''))"/> <!-- bestandsomvang is not required in ZgwEnkelvoudigInformatieObject.class -->
-                <!-- <xsl:copy-of select="zgw:WrapNullOrSkip('link', 'skip', zgw:FromOrderedSource(
+                    ''))"/> -->
+                <xsl:copy-of select="zgw:WrapNullOrSkip('link', 'skip', zgw:FromOrderedSource(
                     $Link,
                     '',
                     '', 
-                    object/link))"/> --> <!-- link is not required in ZgwEnkelvoudigInformatieObject.class -->
+                    object/link))"/>
                 <xsl:copy-of select="zgw:WrapNullOrSkip('informatieobjecttype', 'empty', zgw:FromOrderedSource(
                     $Informatieobjecttype,
                     $ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/informatieobjecttype,
@@ -118,16 +118,16 @@
                     '',
                     '', 
                     object/indicatieGebruiksrecht))"/>
-            <!-- <xsl:copy-of select="zgw:WrapNullOrSkip('ondertekening', 'null', zgw:FromOrderedSource(
+            <xsl:copy-of select="zgw:WrapNullOrSkip('ondertekening', 'skip', zgw:FromOrderedSource(
                     $Ondertekening,
                     '',
                     '', 
-                    object/ondertekening))"/> --> <!-- ondertekening is not required in ZgwEnkelvoudigInformatieObject.class -->
-            <!-- <xsl:copy-of select="zgw:WrapNullOrSkip('integriteit', 'null', zgw:FromOrderedSource(
+                    object/ondertekening))"/>
+            <xsl:copy-of select="zgw:WrapNullOrSkip('integriteit', 'skip', zgw:FromOrderedSource(
                     $Integriteit,
                     '',
                     '', 
-                    object/integriteit))"/> --> <!-- integriteit is not required in ZgwEnkelvoudigInformatieObject.class -->
+                    object/integriteit))"/>
                 <xsl:copy-of select="zgw:WrapNullOrSkip('beschrijving', 'skip', zgw:FromOrderedSource(
                     $Beschrijving,
                     '',
