@@ -38,6 +38,7 @@
                 <Param name="Content-Crs"  value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
 			</SenderPipe>
         </Pipeline>
     </Adapter>

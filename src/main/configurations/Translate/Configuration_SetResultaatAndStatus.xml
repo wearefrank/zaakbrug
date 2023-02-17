@@ -135,6 +135,7 @@
                     <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 </HttpSender>
                 <Forward name="success" path="CallPostResultaat_1"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
 
             <SenderPipe
