@@ -28,7 +28,10 @@
                 <Forward name="success" path="EncodeInhoud" />
 			</SenderPipe>
 
-            <Base64Pipe name="EncodeInhoud">
+            <Base64Pipe 
+                name="EncodeInhoud"
+                lineLength="0"
+                >
                 <Forward name="success" path="EXIT" />
             </Base64Pipe>
         </Pipeline>
