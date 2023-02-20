@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.5.0](https://github.com/ibissource/zaakbrug/compare/v1.4.1...v1.5.0) (2023-02-20)
+
+
+### 🍕 Features
+
+* add SoftFail to ActualiseerZaakstatus and VoegZaakdocumentToe ([#51](https://github.com/ibissource/zaakbrug/issues/51)) ([af8468e](https://github.com/ibissource/zaakbrug/commit/af8468e54312c0188b9e0becc6eac57f893eb17f))
+
 ## [1.4.1](https://github.com/ibissource/zaakbrug/compare/v1.4.0...v1.4.1) (2023-02-16)
 
 
