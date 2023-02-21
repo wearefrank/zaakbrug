@@ -22,6 +22,7 @@
                     <Param name="Url" xpathExpression="/ZgwStatus/statustype"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CreateZdsHeeft"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe name="CreateZdsHeeft"

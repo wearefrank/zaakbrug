@@ -23,6 +23,7 @@
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="GetZgwRolTypeWithMatchingOmschrijving"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -65,6 +66,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetRolResult"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe 

@@ -28,6 +28,7 @@
                     <Param name="FileName" value="${FilePath_1}"/>
                 </IbisLocalSender>
                 <Forward name="success" path="StoreRolMappingFromConfig"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <PutInSessionPipe name="StoreRolMappingFromConfig">
@@ -44,6 +45,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="MapZdsRolFromZgwRolIterator"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
            
             <ForEachChildElementPipe name="MapZdsRolFromZgwRolIterator"
@@ -56,6 +58,7 @@
                     <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EnrichZdsZaakWithRol"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
 
             <XsltPipe name="EnrichZdsZaakWithRol"
@@ -105,6 +108,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CreateZdsHeeftAlsHoofdzaak"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <!-- not tested -->
@@ -147,6 +151,7 @@
                     javaListener="MapZdsDeelzakenFromZgwDeelzaken">
                 </IbisLocalSender>
                 <Forward name="success" path="EnrichZdsZaakWithZgwDeelzaken"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
 
             <XsltPipe name="EnrichZdsZaakWithZgwDeelzaken"
@@ -179,6 +184,7 @@
                     javaListener="MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken">
                 </IbisLocalSender>
                 <Forward name="success" path="EnrichZdsRelevanteAndereZaken"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
 
             <XsltPipe name="EnrichZdsRelevanteAndereZaken"
@@ -203,6 +209,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="MapZdsHeeftIterator"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <ForEachChildElementPipe name="MapZdsHeeftIterator"
@@ -215,6 +222,7 @@
                 </IbisLocalSender>
                 <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
                 <Forward name="success" path="EnrichZdsZaakWithZdsHeeft"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
 
             <XsltPipe name="EnrichZdsZaakWithZdsHeeft"

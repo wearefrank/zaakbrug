@@ -31,6 +31,7 @@
                     <Param name="Identificatie" xpathExpression="zakLv01/gelijk/identificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwZaakResult"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
             
             <XmlIfPipe name="CheckForGetZgwZaakResult"
@@ -72,6 +73,7 @@
                     <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForGerelateerdeIdentificatie"
@@ -92,6 +94,7 @@
                     <Param name="Bsn" xpathExpression="substring(/zakLv01/gelijk/heeftAlsInitiator/gerelateerde/identificatie, 2)"/>
                 </IbisLocalSender>
                 <Forward name="success" path="RolIterator"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <ForEachChildElementPipe name="RolIterator"
@@ -103,6 +106,7 @@
                     javaListener="GetZaakDetailsByRol">
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
         </Pipeline>
     </Adapter>

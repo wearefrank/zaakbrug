@@ -22,6 +22,7 @@
                     <Param name="Url" sessionKey="Url" type="STRING"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CreateZdsHeeftBetrekkingOp"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe name="CreateZdsHeeftBetrekkingOp"

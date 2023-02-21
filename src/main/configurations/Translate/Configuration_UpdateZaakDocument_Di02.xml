@@ -28,6 +28,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForStatus"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForStatus"
@@ -65,6 +66,7 @@
                     <Param name="Alpha2" sessionKey="Taal"/>                   
                 </IbisLocalSender>
                 <Forward name="success" path="DecodeInhoud"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <Base64Pipe name="DecodeInhoud"
@@ -107,6 +109,7 @@
                     <Param name="Url" sessionKey="Url"/>                   
                 </IbisLocalSender>
                 <Forward name="success" path="CallGetZgwInformatieObjectUnlock"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe
@@ -122,6 +125,7 @@
                     <Param name="ZgwLock" sessionKey="Lock"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
         </Pipeline>
     </Adapter>

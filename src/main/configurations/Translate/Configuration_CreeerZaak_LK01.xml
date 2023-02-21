@@ -26,6 +26,7 @@
                     <Param name="ZaakTypeCode" xpathExpression="/zakLk01/object/isVan/gerelateerde/code"/>
                 </IbisLocalSender>
                 <Forward name="success" path="SetZgwZaakType"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -50,6 +51,7 @@
                     <Param name="FileName" value="${FilePath_1}"/>                   
                 </IbisLocalSender>
                 <Forward name="success" path="GetRsin"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -75,6 +77,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="SetRoles"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>   
 
             <XsltPipe
@@ -101,6 +104,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CreateZaakBody"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
 
             <XsltPipe
@@ -139,6 +143,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForHeeftBetrekkingOpAndere"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
 
             <XmlIfPipe name="CheckForHeeftBetrekkingOpAndere"
@@ -158,6 +163,7 @@
                     <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallSetResultaatAndStatus"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
 
             <SenderPipe
@@ -175,6 +181,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
         </Pipeline>
     </Adapter>

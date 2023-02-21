@@ -177,6 +177,7 @@
                     <Param name="DocumentIdentificatie" xpathExpression="/geefZaakdocumentbewerken_Di02/edcLv01/gelijk/identificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallCheckOutZaakDocument"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe
@@ -189,6 +190,7 @@
                     <Param name="DocumentIdentificatie" xpathExpression="/geefZaakdocumentbewerken_Di02/edcLv01/gelijk/identificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="WrapGeefZaakdocumentbewerken_Di02Response"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SoapWrapperPipe
@@ -238,6 +240,7 @@
                     <Param name="Lock" xpathExpression="/cancelCheckout_Di02/parameters/checkedOutId"/>
                 </IbisLocalSender>
                 <Forward name="success" path="WrapCheckOutZaakDocument_Di02Response"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SoapWrapperPipe
@@ -286,6 +289,7 @@
                     <Param name="Lock" xpathExpression="/updateZaakdocument_Di02/parameters/checkedOutId"/>
                 </IbisLocalSender>
                 <Forward name="success" path="WrapUpdateZaakDocument_Di02Response"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SoapWrapperPipe

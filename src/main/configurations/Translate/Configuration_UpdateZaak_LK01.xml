@@ -27,6 +27,7 @@
                     <Param name="Identificatie" xpathExpression="/zakLk01/object[1]/identificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwZaakResult"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
             
             <XmlIfPipe name="CheckForGetZgwZaakResult"
@@ -85,6 +86,7 @@
                     <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForInputZaakObjectCount"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForInputZaakObjectCount"
@@ -137,6 +139,7 @@
                     <Param name="FileName" value="${FilePath_1}"/>
                 </IbisLocalSender>
                 <Forward name="success" path="GetRsin"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -171,6 +174,7 @@
                     <Param name="Url" sessionKey="ZgwZaakUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="SetRolesForZdsWasZaak"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -211,6 +215,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="WrapZdsWordtZaak"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>            
 
             <XsltPipe
@@ -233,6 +238,7 @@
                     <Param name="ZaakUrl" sessionKey="ZgwZaakUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
         </Pipeline>
     </Adapter>
