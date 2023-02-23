@@ -236,7 +236,7 @@
                 xpathExpression="count(*/ZgwStatusType) = 1"
                 >
                 <Forward name="then" path="GetSingleZgwStatusTypeFromList"/>
-                <Forward name="else" path="EXCEPTION"/>
+                <Forward name="else" path="EXIT"/>
             </XmlIfPipe>
 
             <XsltPipe

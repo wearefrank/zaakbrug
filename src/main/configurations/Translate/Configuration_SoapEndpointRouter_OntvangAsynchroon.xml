@@ -123,8 +123,17 @@
                 soapBody="zakLk01"
                 >
 				<Forward name="success" path="UnwrapMessageForActualiseerZaakstatus_Lk01"/>
-				<Forward name="failure" path="InvalidXml"/>
+				<Forward name="failure" path="WsdlValidationSoftFailForwarder_ActualiseerZaakstatus"/>
+                <Forward name="parserError" path="NotWellFormed"/>
 			</WsdlXmlValidatorPipe>
+
+            <XmlSwitchPipe name="WsdlValidationSoftFailForwarder_ActualiseerZaakstatus"
+                xpathExpression="$SoftFail = true()"
+                >
+                <Param name="SoftFail" value="${zaakbrug.soap.ontvang-asynchroon.validation-soft-fail}" type="BOOLEAN"/>
+				<Forward name="true" path="UnwrapMessageForActualiseerZaakstatus_Lk01" />
+                <Forward name="false" path="InvalidXml" />
+            </XmlSwitchPipe>
 
             <SoapWrapperPipe 
                 name="UnwrapMessageForActualiseerZaakstatus_Lk01"
@@ -147,15 +156,23 @@
             </SenderPipe>
 
             <!-- VoegZaakdocumentToe_Lk01 -->
-            <WsdlXmlValidatorPipe 
-                name="http:__www.egem.nl_StUF_sector_zkn_0310_voegZaakdocumentToe_Lk01"
+            <WsdlXmlValidatorPipe name="http:__www.egem.nl_StUF_sector_zkn_0310_voegZaakdocumentToe_Lk01"
                 getInputFromSessionKey="SanitizedMessage"
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl"
                 soapBody="edcLk01"
                 >
 				<Forward name="success" path="UnwrapMessageForVoegZaakdocumentToe_Lk01"/>
-				<Forward name="failure" path="InvalidXml"/>
+				<Forward name="failure" path="WsdlValidationSoftFailForwarder_VoegZaakdocumentToe"/>
+                <Forward name="parserError" path="NotWellFormed"/>
 			</WsdlXmlValidatorPipe>
+
+            <XmlSwitchPipe name="WsdlValidationSoftFailForwarder_VoegZaakdocumentToe"
+                xpathExpression="$SoftFail = true()"
+                >
+                <Param name="SoftFail" value="${zaakbrug.soap.ontvang-asynchroon.validation-soft-fail}" type="BOOLEAN"/>
+				<Forward name="true" path="UnwrapMessageForVoegZaakdocumentToe_Lk01" />
+                <Forward name="false" path="InvalidXml" />
+            </XmlSwitchPipe>
 
             <SoapWrapperPipe 
                 name="UnwrapMessageForVoegZaakdocumentToe_Lk01"

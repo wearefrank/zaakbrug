@@ -1,5 +1,33 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.5.3](https://github.com/ibissource/zaakbrug/compare/v1.5.2...v1.5.3) (2023-02-23)
+
+
+### 🐛 Bug Fixes
+
+* Add missing celery requirement to dev docker-compose ([#54](https://github.com/ibissource/zaakbrug/issues/54)) ([8c6cf91](https://github.com/ibissource/zaakbrug/commit/8c6cf919ac2cd13ad68db85c65f80d78ffc84c66))
+
+## [1.5.2](https://github.com/ibissource/zaakbrug/compare/v1.5.1...v1.5.2) (2023-02-21)
+
+
+### 🐛 Bug Fixes
+
+* skip json to xml when already xml ([#53](https://github.com/ibissource/zaakbrug/issues/53)) ([a665e21](https://github.com/ibissource/zaakbrug/commit/a665e2112030d5bed04cb4b1f730d2033e93ddac))
+
+## [1.5.1](https://github.com/ibissource/zaakbrug/compare/v1.5.0...v1.5.1) (2023-02-21)
+
+
+### 🐛 Bug Fixes
+
+* skip status update when omschrijving not found ([#52](https://github.com/ibissource/zaakbrug/issues/52)) ([7b687b2](https://github.com/ibissource/zaakbrug/commit/7b687b2a68f4338f1e7769cf9aa89d5c291bb8de))
+
+## [1.5.0](https://github.com/ibissource/zaakbrug/compare/v1.4.1...v1.5.0) (2023-02-20)
+
+
+### 🍕 Features
+
+* add SoftFail to ActualiseerZaakstatus and VoegZaakdocumentToe ([#51](https://github.com/ibissource/zaakbrug/issues/51)) ([af8468e](https://github.com/ibissource/zaakbrug/commit/af8468e54312c0188b9e0becc6eac57f893eb17f))
+
 ## [1.4.1](https://github.com/ibissource/zaakbrug/compare/v1.4.0...v1.4.1) (2023-02-16)
 
 

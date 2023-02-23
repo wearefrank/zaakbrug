@@ -15,8 +15,13 @@
 
             <LocalFileSystemPipe name="ReadFile" action="read">
 				<Param name="filename" sessionKey="FileName" />
-				<Forward name="success" path="JsonToXml" />
+				<Forward name="success" path="IsXml" />
 			</LocalFileSystemPipe>
+
+			<XmlWellFormedCheckerPipe name="IsXml">
+				<Forward name="success" path="EXIT" />
+				<Forward name="failure" path="JsonToXml" />
+            </XmlWellFormedCheckerPipe>
 
             <JsonPipe name="JsonToXml">
                 <Forward name="success" path="EXIT"/>
