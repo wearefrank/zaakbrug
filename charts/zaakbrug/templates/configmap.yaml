@@ -43,18 +43,18 @@ metadata:
   labels:
     {{- include "zaakbrug.labels" . | nindent 4 }}
 data:
-  {{- with .Values.zaakbrug.endpoints.soap }}
-  {{- with .beantwoord-vraag }}
+  {{- with .Values.zaakbrug.soap }}
+  {{- with .beantwoordVraag }}
   zaakbrug.soap.beantwoord-vraag.endpoint: {{ .endpoint }}
-  zaakbrug.soap.beantwoord-vraag.validation-soft-fail: {{ .validation-soft-fail }}
+  zaakbrug.soap.beantwoord-vraag.validation-soft-fail: {{ toString .validationSoftFail }}
   {{- end }}
-  {{- with .ontvang-asynchroon }}
+  {{- with .ontvangAsynchroon }}
   zaakbrug.soap.ontvang-asynchroon.endpoint: {{ .endpoint }}
-  zaakbrug.soap.ontvang-asynchroon.validation-soft-fail: {{ .validation-soft-fail }}
+  zaakbrug.soap.ontvang-asynchroon.validation-soft-fail: {{ toString .validationSoftFail }}
   {{- end }}
-  {{- with .vrije-berichten }}
+  {{- with .vrijeBerichten }}
   zaakbrug.soap.vrije-berichten.endpoint: {{ .endpoint }}
-  zaakbrug.soap.vrije-berichten.validation-soft-fail: {{ .validation-soft-fail }}
+  zaakbrug.soap.vrije-berichten.validation-soft-fail: {{ toString .validationSoftFail }}
   {{- end }}
   {{- end }}
   {{- with .Values.zaakbrug.zgw }}
@@ -210,6 +210,7 @@ data:
       {{- end }}
     </Context>
 ---
+{{- if .Values.frank.security.http.ad.roles }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -222,6 +223,7 @@ data:
     IbisAdmin={{ .Values.frank.security.http.ad.roles.admin }}
     IbisDataAdmin={{ .Values.frank.security.http.ad.roles.dataAdmin }}
     IbisObserver={{ .Values.frank.security.http.ad.roles.observer }}
+{{- end }}
 ---
 {{- if .Values.zaakbrug.globals }}
 apiVersion: v1
