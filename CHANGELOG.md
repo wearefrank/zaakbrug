@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.5.4](https://github.com/ibissource/zaakbrug/compare/v1.5.3...v1.5.4) (2023-02-24)
+
+
+### 🐛 Bug Fixes
+
+* throw errors on failed localsender and httpsender calls ([#56](https://github.com/ibissource/zaakbrug/issues/56)) ([ef5284a](https://github.com/ibissource/zaakbrug/commit/ef5284a8496c3c3f6560e6da7bd3e2386d7786a1))
+
 ## [1.5.3](https://github.com/ibissource/zaakbrug/compare/v1.5.2...v1.5.3) (2023-02-23)
 
 
