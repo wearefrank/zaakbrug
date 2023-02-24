@@ -53,7 +53,7 @@
                     <Param name="Accept-Crs" value="EPSG:4326" />
                     <Param name="Accept" value="application/json" />
                     <Param name="Content-Crs" value="EPSG:4326" />
-                    <Param name="Authorization" value="Bearer ${JwtToken}" />
+                    <Param name="Authorization" value="Bearer @@zaken-api.jwt@@" />
                 </HttpSender>
 
                 <Forward name="success" path="JsonToXml" />

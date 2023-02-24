@@ -25,7 +25,7 @@
                 <Param name="zaak" sessionKey="ZaakUrl"/>
                 <Param name="roltype" sessionKey="RolTypeUrl"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Param name="Authorization" value="Bearer @@zaken-api.jwt@@" />
                 <Forward name="success" path="JsonToXml" />
                 <Forward name="exception" path="EXCEPTION" />
 			</SenderPipe>
