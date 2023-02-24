@@ -30,6 +30,7 @@
                     <Param name="Identificatie" xpathExpression="heeftBetrekkingOpAndere/gerelateerde/identificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="GetSingleZgwZaakFromZgwZakenList"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -60,6 +61,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CallPatchAndereZaak"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe
@@ -75,6 +77,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
         </Pipeline>
     </Adapter>

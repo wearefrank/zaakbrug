@@ -20,6 +20,7 @@
                     <Param name="FileName" value="${ISO639_Codes_path}"/>                   
                 </IbisLocalSender>
                 <Forward name="success" path="Alpha2Check"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlSwitchPipe name="Alpha2Check"

@@ -24,6 +24,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="SetEndStatusType"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -43,6 +44,7 @@
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="SetBeeindigd"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe name="SetBeeindigd"
@@ -87,6 +89,7 @@
                     <Param name="Einddatum" xpathExpression="/*/object/einddatum" sessionKey="originalMessage"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForResultaat"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
 
             <XmlIfPipe name="CheckForResultaat"
@@ -108,6 +111,7 @@
                     <Param name="Omschrijving" xpathExpression="/*/object/resultaat/omschrijving"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallGetResultatenByZaakUrl_1"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe
@@ -119,6 +123,7 @@
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="ZgwResultatenIterator"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <ForEachChildElementPipe name="ZgwResultatenIterator"
@@ -135,6 +140,7 @@
                     <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 </HttpSender>
                 <Forward name="success" path="CallPostResultaat_1"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
 
             <SenderPipe
@@ -151,6 +157,7 @@
                     <Param name="Toelichting" xpathExpression="/*/object/resultaat/omschrijving"/>
                 </IbisLocalSender>
                 <Forward name="success" path="PostStatusIterator"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForEndStatusType"
@@ -184,6 +191,7 @@
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForResultaten"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForResultaten"
@@ -199,6 +207,7 @@
                     <Param name="FileName" value="${FilePath_2}"/>                   
                 </IbisLocalSender>
                 <Forward name="success" path="GetCoalesceResultaat_1"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -228,6 +237,7 @@
                     <Param name="Omschrijving" xpathExpression="/result/coalesceResultaat"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallPostResultaat_2"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe
@@ -241,6 +251,7 @@
                     <Param name="Toelichting" xpathExpression="/resultaatType/omschrijving"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForEindDatum"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForEindDatum"
@@ -258,6 +269,7 @@
                     <Param name="FileName" value="${FilePath_2}"/>                   
                 </IbisLocalSender>
                 <Forward name="success" path="GetCoalesceResultaat_2"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -285,6 +297,7 @@
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForResultaten_2"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForResultaten_2"
@@ -307,6 +320,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CallPostResultaat_3"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe
@@ -320,6 +334,7 @@
                     <Param name="Toelichting" xpathExpression="/resultaatType/omschrijving"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CreateStatusBody"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -350,6 +365,7 @@
                     javaListener="Zaken_PostZgwStatus">
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
         </Pipeline>
     </Adapter>

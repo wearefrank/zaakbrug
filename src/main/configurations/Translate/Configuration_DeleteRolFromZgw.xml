@@ -23,6 +23,7 @@
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="GetZgwRolTypeWithMatchingOmschrijving"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -65,6 +66,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetRolResult"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe 
@@ -87,6 +89,7 @@
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
         </Pipeline>
     </Adapter>

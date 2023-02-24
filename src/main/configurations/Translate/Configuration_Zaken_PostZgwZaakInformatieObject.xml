@@ -35,6 +35,7 @@
                     <Param name="Authorization" value="Bearer ${JwtToken}" />
                 </HttpSender>
                 <Forward name="success" path="JsonToXml" />
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <JsonPipe

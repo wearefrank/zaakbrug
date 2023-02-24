@@ -37,6 +37,7 @@
                     <Param name="Volgnummer" xpathExpression="heeft/gerelateerde/volgnummer"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForZgwStatusTypeResult"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForZgwStatusTypeResult"
