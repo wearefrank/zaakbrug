@@ -46,8 +46,10 @@
                 <Forward name="success" path="CreateNewId" />
             </IncreaseIntegerPipe>
 
-            <XsltPipe name="CreateNewId" styleSheetName="Common/xsl/CreateIdentication.xslt" storeResultInSessionKey="newId">
+            <XsltPipe name="CreateNewId" styleSheetName="Common/xsl/CreateIdentication.xslt" storeResultInSessionKey="newId" omitXmlDeclaration="true">
+                <Param name="IdentificatieType" sessionKey="IdentificatieType"/>
                 <Param name="zaak-identificatie-template" value="${zaak-identificatie-template}"/>
+                <Param name="documenten-identificatie-template" value="${documenten-identificatie-template}"/>
             </XsltPipe>
             
             <SenderPipe name="UpdateIdentificatie">
