@@ -21,8 +21,8 @@
 					name="GetZgwRolTypeByZaakTypeHttpSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.roltype}"
-                    timeout="${creeerZaak.timeout}"
+					url="${zaakbrug.zgw.catalogi-api.root-url}roltypen"
+                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
                     maxExecuteRetries="5"
 				/>
                 <Param name="zaaktype" sessionKey="ZaakTypeUrl" />

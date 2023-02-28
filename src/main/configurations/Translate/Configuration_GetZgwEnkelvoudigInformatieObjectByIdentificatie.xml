@@ -27,8 +27,8 @@
 					name="GetZgwEnkelvoudigInformatieObjectByIdentificatieSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-                    url="${zgw.baseurl}${zgw.endpoint.enkelvoudiginformatieobjecten}"
-                    timeout="${creeerZaak.timeout}"
+                    url="${zaakbrug.zgw.documenten-api.root-url}enkelvoudiginformatieobjecten"
+                    timeout="${zaakbrug.zgw.documenten-api.timeout}"
 				/>
                 <Param name="identificatie" sessionKey="Identificatie"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>

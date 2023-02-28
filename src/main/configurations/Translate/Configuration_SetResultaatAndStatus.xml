@@ -133,7 +133,7 @@
                     name="DeleteZaakResultaatSender" 
 					methodType="DELETE"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${creeerZaak.timeout}"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
 				>
                     <Param name="url" xpathExpression="results/url"/>
                     <Param name="Accept-Crs" value="EPSG:4326"/>

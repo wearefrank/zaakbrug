@@ -19,8 +19,8 @@
 					name="GetResultaatTypesByZaakTypeSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.resultaattype}"
-                    timeout="${creeerZaak.timeout}"
+					url="${zaakbrug.zgw.catalogi-api.root-url}resultaattypen"
+                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
 				/>
                 <Param name="zaaktype" sessionKey="ZaakTypeUrl" />
                 <Param name="Accept-Crs" value="EPSG:4326"/>

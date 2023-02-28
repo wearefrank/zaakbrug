@@ -22,7 +22,7 @@
 				<HttpSender name="UpdateZgwZaakSender" 
 					methodType="PUT"
 					headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
-                    timeout="${creeerZaak.timeout}"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
                     maxExecuteRetries="5"
                     contentType="application/json"
 				/>

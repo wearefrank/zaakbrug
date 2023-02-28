@@ -25,8 +25,8 @@
                 <HttpSender name="PostZgwEnkelvoudigInformatieObjectHttpSender"
                     methodType="POST"
                     headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
-                    url="${zgw.baseurl}${zgw.endpoint.enkelvoudiginformatieobjecten}"
-                    timeout="${creeerZaak.timeout}"
+                    url="${zaakbrug.zgw.documenten-api.root-url}enkelvoudiginformatieobjecten"
+                    timeout="${zaakbrug.zgw.documenten-api.timeout}"
                     maxExecuteRetries="5"
                     contentType="application/json">
                     <Param name="Accept-Crs" value="EPSG:4326" />

@@ -29,9 +29,9 @@
 					name="PostZgwStatusSender" 
 					methodType="POST"
 					headersParams="Authorization,Accept-Crs,Content-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.status}"
+					url="${zaakbrug.zgw.zaken-api.root-url}statussen"
                     contentType="application/json"
-                    timeout="${creeerZaak.timeout}"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
                     maxExecuteRetries="5"
 				/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>

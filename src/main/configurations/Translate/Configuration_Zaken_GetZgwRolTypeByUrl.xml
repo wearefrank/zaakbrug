@@ -20,7 +20,7 @@
 					name="GetZgwRolTypeByUrlHttpSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${creeerZaak.timeout}"
+                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
                     maxExecuteRetries="5"
 				/>
                 <Param name="url" sessionKey="Url" />

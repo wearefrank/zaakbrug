@@ -18,7 +18,7 @@
 					name="PostZgwLockSender" 
 					methodType="POST"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${creeerZaak.timeout}"
+                    timeout="${zaakbrug.zgw.documenten-api.timeout}"
                     contentType="application/json"
 				/>
                 <Param name="url" sessionKey="ZgwLockUrl"/>

@@ -46,8 +46,8 @@
                 <HttpSender name="PostZgwZaakSender"
                     methodType="POST"
                     headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
-                    url="${zgw.baseurl}${zgw.endpoint.zaak}"
-                    timeout="${creeerZaak.timeout}"
+                    url="${zaakbrug.zgw.zaken-api.root-url}zaken"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
                     maxExecuteRetries="5"
                     contentType="application/json">
                     <Param name="Accept-Crs" value="EPSG:4326" />

@@ -19,7 +19,7 @@
 					name="GetZgwInformatieObjectTypeByUrlSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${creeerZaak.timeout}"
+                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
 				/>
                 <Param name="url" sessionKey="Url"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>

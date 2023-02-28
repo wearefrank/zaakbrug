@@ -33,7 +33,7 @@
 					methodType="PATCH"
 					headersParams="Authorization,Accept-Crs,Content-Crs"
                     contentType="application/json"
-                    timeout="${creeerZaak.timeout}"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
                     maxExecuteRetries="5"
 				/>
                 <Param name="url" sessionKey="Url"/>
