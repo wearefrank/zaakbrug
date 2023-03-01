@@ -46,29 +46,29 @@ data:
   {{- with .Values.zaakbrug.soap }}
   {{- with .beantwoordVraag }}
   zaakbrug.soap.beantwoord-vraag.endpoint: {{ .endpoint }}
-  zaakbrug.soap.beantwoord-vraag.validation-soft-fail: {{ toString .validationSoftFail }}
+  zaakbrug.soap.beantwoord-vraag.validation-soft-fail: {{ toString .validationSoftFail | quote }}
   {{- end }}
   {{- with .ontvangAsynchroon }}
   zaakbrug.soap.ontvang-asynchroon.endpoint: {{ .endpoint }}
-  zaakbrug.soap.ontvang-asynchroon.validation-soft-fail: {{ toString .validationSoftFail }}
+  zaakbrug.soap.ontvang-asynchroon.validation-soft-fail: {{ toString .validationSoftFail | quote }}
   {{- end }}
   {{- with .vrijeBerichten }}
   zaakbrug.soap.vrije-berichten.endpoint: {{ .endpoint }}
-  zaakbrug.soap.vrije-berichten.validation-soft-fail: {{ toString .validationSoftFail }}
+  zaakbrug.soap.vrije-berichten.validation-soft-fail: {{ toString .validationSoftFail | quote }}
   {{- end }}
   {{- end }}
   {{- with .Values.zaakbrug.zgw }}
   {{- with .zakenApi }}
   zaakbrug.zgw.zaken-api.root-url: {{ .rootUrl }}
-  zaakbrug.zgw.zaken-api.timeout: {{ toString .timeout | default toString 20000 }}
+  zaakbrug.zgw.zaken-api.timeout: {{ toString (.timeout | default 20000) }}
   {{- end }}
   {{- with .documentenApi }}
   zaakbrug.zgw.documenten-api.root-url: {{ .rootUrl }}
-  zaakbrug.zgw.documenten-api.timeout: {{ toString .timeout | default toString 20000 }}
+  zaakbrug.zgw.documenten-api.timeout: {{ toString (.timeout | default 20000) }}
   {{- end }}
   {{- with .catalogiApi }}
   zaakbrug.zgw.catalogi-api.root-url: {{ .rootUrl }}
-  zaakbrug.zgw.catalogi-api.timeout: {{ toString .timeout | default toString 20000 }}
+  zaakbrug.zgw.catalogi-api.timeout: {{ toString (.timeout | default 20000) }}
   {{- end }}
   {{- end }}
 ---
