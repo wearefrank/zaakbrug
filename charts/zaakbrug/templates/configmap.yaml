@@ -58,19 +58,17 @@ data:
   {{- end }}
   {{- end }}
   {{- with .Values.zaakbrug.zgw }}
-  zgw.baseurl: {{ .baseurl }}
-  {{- with .endpoint }}
-  zgw.endpoint.zaak: {{ .zaak }}
-  zgw.endpoint.zaaktype: {{ .zaaktype }}
-  zgw.endpoint.rol: {{ .rol }}
-  zgw.endpoint.roltype: {{ .roltype }}
-  zgw.endpoint.statustype: {{ .statustype }}
-  zgw.endpoint.status: {{ .status }}
-  zgw.endpoint.resultaattype: {{ .resultaattype }}
-  zgw.endpoint.resultaat: {{ .resultaat }}
-  zgw.endpoint.informatieobjecttype: {{ .informatieobjecttype }}
-  zgw.endpoint.enkelvoudiginformatieobjecten: {{ .enkelvoudiginformatieobjecten }}
-  zgw.endpoint.zaakinformatieobjecten: {{ .zaakinformatieobjecten }}
+  {{- with .zakenApi }}
+  zaakbrug.zgw.zaken-api.root-url: {{ .rootUrl }}
+  zaakbrug.zgw.zaken-api.timeout: {{ toString .timeout | default toString 20000 }}
+  {{- end }}
+  {{- with .documentenApi }}
+  zaakbrug.zgw.documenten-api.root-url: {{ .rootUrl }}
+  zaakbrug.zgw.documenten-api.timeout: {{ toString .timeout | default toString 20000 }}
+  {{- end }}
+  {{- with .catalogiApi }}
+  zaakbrug.zgw.catalogi-api.root-url: {{ .rootUrl }}
+  zaakbrug.zgw.catalogi-api.timeout: {{ toString .timeout | default toString 20000 }}
   {{- end }}
   {{- end }}
 ---
