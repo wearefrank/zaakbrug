@@ -60,15 +60,15 @@ data:
   {{- with .Values.zaakbrug.zgw }}
   {{- with .zakenApi }}
   zaakbrug.zgw.zaken-api.root-url: {{ .rootUrl }}
-  zaakbrug.zgw.zaken-api.timeout: {{ toString (.timeout | default 20000) }}
+  zaakbrug.zgw.zaken-api.timeout: {{ toString (.timeout | default 20000 | quote) }}
   {{- end }}
   {{- with .documentenApi }}
   zaakbrug.zgw.documenten-api.root-url: {{ .rootUrl }}
-  zaakbrug.zgw.documenten-api.timeout: {{ toString (.timeout | default 20000) }}
+  zaakbrug.zgw.documenten-api.timeout: {{ toString (.timeout | default 20000 | quote) }}
   {{- end }}
   {{- with .catalogiApi }}
   zaakbrug.zgw.catalogi-api.root-url: {{ .rootUrl }}
-  zaakbrug.zgw.catalogi-api.timeout: {{ toString (.timeout | default 20000) }}
+  zaakbrug.zgw.catalogi-api.timeout: {{ toString (.timeout | default 20000 | quote) }}
   {{- end }}
   {{- end }}
 ---
