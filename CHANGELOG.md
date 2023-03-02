@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.6.0](https://github.com/ibissource/zaakbrug/compare/v1.5.4...v1.6.0) (2023-03-02)
+
+
+### 🍕 Features
+
+* Seperate configuration of properties and JWT credentials for each ZGW API ([#57](https://github.com/ibissource/zaakbrug/issues/57)) ([6c5bee1](https://github.com/ibissource/zaakbrug/commit/6c5bee195be5e0bede053497837f0b36de1617f6))
+
 ## [1.5.4](https://github.com/ibissource/zaakbrug/compare/v1.5.3...v1.5.4) (2023-02-24)
 
 
