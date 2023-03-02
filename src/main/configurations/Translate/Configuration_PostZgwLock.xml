@@ -18,12 +18,12 @@
 					name="PostZgwLockSender" 
 					methodType="POST"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${creeerZaak.timeout}"
+                    timeout="${zaakbrug.zgw.documenten-api.timeout}"
                     contentType="application/json"
 				/>
                 <Param name="url" sessionKey="ZgwLockUrl"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Param name="Authorization" value="Bearer @@documenten-api.jwt@@"/>
                 <Forward name="success" path="JsonToXml" />
                 <Forward name="exception" path="EXCEPTION" />
 			</SenderPipe>

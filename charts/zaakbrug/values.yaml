@@ -108,20 +108,13 @@ zaakbrug:
       endpoint: "translate/generic/zds/VrijBericht"
       validationSoftFail: false
   zgw:
-    # Empty values aren't allowed, so at least fill in the protocol.
-    baseurl: "http://localhost:8000/"
-    endpoint:
-      zaak: "zaken/api/v1/zaken"
-      zaaktype: "catalogi/api/v1/zaaktypen"
-      rol: "zaken/api/v1/rollen"
-      roltype: "catalogi/api/v1/roltypen"
-      statustype: "catalogi/api/v1/statustypen"
-      status: "zaken/api/v1/statussen"
-      resultaattype: "catalogi/api/v1/resultaattypen"
-      resultaat: "zaken/api/v1/resultaten"
-      informatieobjecttype: "catalogi/api/v1/informatieobjecttypen"
-      enkelvoudiginformatieobjecten: "documenten/api/v1/enkelvoudiginformatieobjecten"
-      zaakinformatieobjecten: "zaken/api/v1/zaakinformatieobjecten"
+    zakenApi:
+      rootUrl: "http://open-zaak/zaken/api/v1/"
+    catalogiApi:
+      rootUrl: "http://open-zaak/catalogi/api/v1/"
+    documentenApi:
+      rootUrl: "http://open-zaak/documenten/api/v1/"
+
   globals:
     organizations:
       - gemeenteNaam: "Utrecht"

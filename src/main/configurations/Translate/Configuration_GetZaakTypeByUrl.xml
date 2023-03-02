@@ -19,11 +19,11 @@
 					name="GetZgwZaakTypeByUrlHttpSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${creeerZaak.timeout}"
+                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
 				/>
                 <Param name="url" sessionKey="ZaakUrl"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Param name="Authorization" value="Bearer @@catalogi-api.jwt@@"/>
                 <Forward name="success" path="JsonToXml" />
                 <Forward name="exception" path="EXCEPTION" />
 			</SenderPipe>
