@@ -20,6 +20,12 @@
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
                     timeout="${zaakbrug.zgw.documenten-api.timeout}"
+                    truststore="${zaakbrug.zgw.documenten-api.truststore.url}"
+                    truststoreType="${zaakbrug.zgw.documenten-api.truststore.type}"
+                    truststoreAuthAlias="${zaakbrug.zgw.documenten-api.truststore.auth-alias}"
+                    verifyHostname="${zaakbrug.zgw.documenten-api.verify-hostname}"
+                    allowSelfSignedCertificates="${zaakbrug.zgw.documenten-api.allow-self-signed-cert}"
+                    ignoreCertificateExpiredException="${zaakbrug.zgw.documenten-api.ignore-expired-cert}"
 				/>
                 <Param name="url" sessionKey="Url"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
