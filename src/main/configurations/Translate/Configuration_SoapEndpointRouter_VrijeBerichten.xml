@@ -83,7 +83,7 @@
 
             <SoapWrapperPipe
                 name="WrapGenereerZaakIdentificatie_Du02Response"
-                getInputFromSessionKey="SanitizedMessage"
+                getInputFromSessionKey="UnwrapMessageResult"
                 soapBodyStyleSheet="Common/xsl/CreateGenereerZaakIdentificatie_Du02Response.xslt"
                 >
                 <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC" />
@@ -133,7 +133,7 @@
 
             <SoapWrapperPipe
                 name="WrapGenereerDocumentIdentificatie_Di02Response"
-                getInputFromSessionKey="SanitizedMessage"
+                getInputFromSessionKey="UnwrapMessageResult"
                 soapBodyStyleSheet="Common/xsl/CreateGenereerDocumentIdentificatie_Du02Response.xslt"
                 >
                 <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC" />
@@ -195,7 +195,7 @@
 
             <SoapWrapperPipe
                 name="WrapGeefZaakdocumentbewerken_Di02Response"
-                getInputFromSessionKey="GetZaakDocumentLezenResult"
+                getInputFromSessionKey="UnwrapMessageResult"
                 soapBodyStyleSheet="Common/xsl/CreateDu02Response.xslt"
                 >
                 <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC" />
@@ -245,7 +245,7 @@
 
             <SoapWrapperPipe
                 name="WrapCheckOutZaakDocument_Di02Response"
-                getInputFromFixedValue="&lt;dummy/&gt;"
+                getInputFromSessionKey="UnwrapMessageResult"
                 soapBodyStyleSheet="Common/xsl/CreateBv02Response.xslt"
                 >
                 <Forward name="success" path="EXIT"/>
@@ -294,7 +294,7 @@
 
             <SoapWrapperPipe
                 name="WrapUpdateZaakDocument_Di02Response"
-                getInputFromFixedValue="&lt;dummy/&gt;"
+                getInputFromSessionKey="UnwrapMessageResult"
                 soapBodyStyleSheet="Common/xsl/CreateBv02Response.xslt"
                 >
                 <Forward name="success" path="EXIT"/>
@@ -324,11 +324,11 @@
                 name="WrapFo03Response"
                 soapBodyStyleSheet="Common/xsl/CreateFo03Response.xslt"
                 >
-                <Param name="UnwrapMessageResult" sessionKey="SanitizedMessage" type="DOMDOC"/>
+                <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC"/>
                 <Param name="errorCode"   sessionKey="errorCode"/>
                 <Param name="errorReason" sessionKey="errorReason"/>
                 <Param name="errorDetailText" value="''"/>
-                <Param name="errorDetailXML" value="''"/>
+                <!-- TODO: Calculate this one <Param name="errorDetailXML" value="''"/> -->
                 <Forward name="success" path="EXIT"/>
             </SoapWrapperPipe>
         </Pipeline>
