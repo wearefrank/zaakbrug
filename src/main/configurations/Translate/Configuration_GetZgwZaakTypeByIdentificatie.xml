@@ -31,11 +31,10 @@
 			</SenderPipe>
 
             <JsonPipe name="ErrorJsonToXml">
-                <Forward name="success" path="saveErrorCode" />
+                <Forward name="success" path="buildErrorMsg" />
             </JsonPipe>
-            <XsltPipe name="saveErrorCode"
-                xpathExpression="root/status"
-                storeResultInSessionKey="errorCode">
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="GetZgwZaakTypeByIdentificatie/xsl/ParseNegativeHttpResult.xsl">
                 <Forward name="success" path="EXCEPTION" />
             </XsltPipe>
             <JsonPipe name="JsonToXml">

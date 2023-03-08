@@ -100,8 +100,7 @@
                 >
                  <IbisLocalSender
                     name="CreeerZaakLocalSender"
-                    javaListener="CreeerZaak_Lk01"
-                    returnedSessionKeys="errorCode">
+                    javaListener="CreeerZaak_Lk01">
                 </IbisLocalSender>
                 <Forward name="success" path="WrapBv03Response" />
                 <Forward name="exception" path="BackEndError" />
@@ -209,23 +208,21 @@
                 <Forward name="success" path="WrapFo03Response"/>
             </PutInSessionPipe>
             <PutInSessionPipe name="BackEndError" unlessSessionKey="errorCode">
-                <Param name="errorCode" value="BackendError"/>
-                <Forward name="success" path="BackEndErrorReason"/>
-            </PutInSessionPipe>
-            <PutInSessionPipe name="BackEndErrorReason">
-                <Param name="errorReason" value="BackendError"/>                
+                <Param name="errorCode" styleSheetName="SoapEndpointRouter_OntvangAsynchroon/xsl/BackEndError.xsl"/>
+                <Param name="errorReason" xpathExpression="/error/reason"/>
+                <Param name="errorDetailText" xpathExpression="concat(/error/code, ' ', /error/reason, ' ', /error/details)"/>
+                <Param name="errorDetailXML" xpathExpression="/error/detailsXml" type="DOMDOC" />
                 <Forward name="success" path="WrapFo03Response"/>
             </PutInSessionPipe>
-
             <SoapWrapperPipe
                 name="WrapFo03Response"
                 soapBodyStyleSheet="Common/xsl/CreateFo03Response.xslt"
                 >
-                <Param name="UnwrapMessageResult" sessionKey="SanitizedMessage" type="DOMDOC"/>
+                <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC"/>
                 <Param name="errorCode"   sessionKey="errorCode"/>
                 <Param name="errorReason" sessionKey="errorReason"/>
-                <Param name="errorDetailText" value="''"/>
-                <Param name="errorDetailXML" value="''"/>
+                <Param name="errorDetailText" sessionKey="errorDetailText"/>
+                <Param name="errorDetailXML" sessionKey="errorDetailXML" type="DOMDOC"/>
                 <Forward name="success" path="EXIT"/>
             </SoapWrapperPipe>
         </Pipeline>
