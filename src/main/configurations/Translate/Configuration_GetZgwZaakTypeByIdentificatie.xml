@@ -34,7 +34,8 @@
                 <Forward name="success" path="buildErrorMsg" />
             </JsonPipe>
             <XsltPipe name="buildErrorMsg"
-                styleSheetName="GetZgwZaakTypeByIdentificatie/xsl/ParseNegativeHttpResult.xsl">
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="GetZgwZaakTypeByIdentificatie" />
                 <Forward name="success" path="EXCEPTION" />
             </XsltPipe>
             <JsonPipe name="JsonToXml">
