@@ -200,6 +200,7 @@
                 >
                 <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC" />
                 <Param name="CheckOutZaakDocument" sessionKey="CheckOutZaakDocumentResult" type="DOMDOC"/>
+                <Param name="GetZaakDocumentLezenResult" sessionKey="GetZaakDocumentLezenResult" type="DOMDOC"/>
                 <Forward name="success" path="EXIT"/>
             </SoapWrapperPipe>
 

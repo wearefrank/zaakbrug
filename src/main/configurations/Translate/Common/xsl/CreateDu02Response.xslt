@@ -2,7 +2,8 @@
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
     <xsl:param name="UnwrapMessageResult" as="node()?" />
     <xsl:param name="CheckOutZaakDocument" as="node()?" />
-   
+    <xsl:param name="GetZaakDocumentLezenResult" as="node()?" />
+
 	<xsl:template match="/">
         <ZKN:geefZaakdocumentbewerken_Du02>
             <ZKN:stuurgegevens>
@@ -28,40 +29,40 @@
                 <ZKN:parameters/>
                 <ZKN:antwoord>
                     <ZKN:object StUF:entiteittype="EDC">
-                        <ZKN:identificatie><xsl:value-of select="ZdsZaakDocumentInhoud/identificatie"/></ZKN:identificatie>
-                        <xsl:if test="ZdsZaakDocumentInhoud/omschrijving">
-                            <ZKN:dct.omschrijving><xsl:value-of select="ZdsZaakDocumentInhoud/omschrijving"/></ZKN:dct.omschrijving>
+                        <ZKN:identificatie><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/identificatie"/></ZKN:identificatie>
+                        <xsl:if test="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/omschrijving">
+                            <ZKN:dct.omschrijving><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/omschrijving"/></ZKN:dct.omschrijving>
                         </xsl:if>
-                        <ZKN:creatiedatum><xsl:value-of select="ZdsZaakDocumentInhoud/creatiedatum"/></ZKN:creatiedatum>
-                        <xsl:if test="ZdsZaakDocumentInhoud/ontvangstdatum">
-                            <ZKN:ontvangstdatum><xsl:value-of select="ZdsZaakDocumentInhoud/ontvangstdatum"/></ZKN:ontvangstdatum>
+                        <ZKN:creatiedatum><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/creatiedatum"/></ZKN:creatiedatum>
+                        <xsl:if test="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/ontvangstdatum">
+                            <ZKN:ontvangstdatum><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/ontvangstdatum"/></ZKN:ontvangstdatum>
                         </xsl:if>
-                        <ZKN:titel><xsl:value-of select="ZdsZaakDocumentInhoud/titel"/></ZKN:titel>
-                        <xsl:if test="ZdsZaakDocumentInhoud/beschrijving">
-                            <ZKN:beschrijving><xsl:value-of select="ZdsZaakDocumentInhoud/beschrijving"/></ZKN:beschrijving>
+                        <ZKN:titel><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/titel"/></ZKN:titel>
+                        <xsl:if test="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/beschrijving">
+                            <ZKN:beschrijving><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/beschrijving"/></ZKN:beschrijving>
                         </xsl:if>
-                        <ZKN:formaat><xsl:value-of select="ZdsZaakDocumentInhoud/formaat"/></ZKN:formaat>
-                        <ZKN:taal><xsl:value-of select="ZdsZaakDocumentInhoud/taal"/></ZKN:taal>
-                        <xsl:if test="ZdsZaakDocumentInhoud/versie">
-                            <ZKN:versie><xsl:value-of select="ZdsZaakDocumentInhoud/versie"/></ZKN:versie>
+                        <ZKN:formaat><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/formaat"/></ZKN:formaat>
+                        <ZKN:taal><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/taal"/></ZKN:taal>
+                        <xsl:if test="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/versie">
+                            <ZKN:versie><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/versie"/></ZKN:versie>
                         </xsl:if>
-                        <xsl:if test="ZdsZaakDocumentInhoud/status">
-                            <ZKN:status><xsl:value-of select="ZdsZaakDocumentInhoud/status"/></ZKN:status>
+                        <xsl:if test="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/status">
+                            <ZKN:status><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/status"/></ZKN:status>
                         </xsl:if>
-                        <xsl:if test="ZdsZaakDocumentInhoud/verzenddatum">
-                            <ZKN:verzenddatum><xsl:value-of select="ZdsZaakDocumentInhoud/verzenddatum"/></ZKN:verzenddatum>
+                        <xsl:if test="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/verzenddatum">
+                            <ZKN:verzenddatum><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/verzenddatum"/></ZKN:verzenddatum>
                         </xsl:if>
-                        <ZKN:vertrouwelijkAanduiding><xsl:value-of select="ZdsZaakDocumentInhoud/vertrouwelijkAanduiding"/></ZKN:vertrouwelijkAanduiding>
-                        <ZKN:auteur><xsl:value-of select="ZdsZaakDocumentInhoud/auteur"/></ZKN:auteur>
+                        <ZKN:vertrouwelijkAanduiding><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/vertrouwelijkAanduiding"/></ZKN:vertrouwelijkAanduiding>
+                        <ZKN:auteur><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/auteur"/></ZKN:auteur>
                         <ZKN:link/>
-                        <xsl:if test="ZdsZaakDocumentInhoud/inhoud">
+                        <xsl:if test="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/inhoud">
                             <ZKN:inhoud>
-                                <xsl:attribute name="StUF:bestandsnaam"><xsl:value-of select="ZdsZaakDocumentInhoud/inhoud/@StUF:bestandsnaam"/></xsl:attribute>
-                                <xsl:attribute name="xmime:contentType"><xsl:value-of select="ZdsZaakDocumentInhoud/inhoud/@xmime:contentType"/></xsl:attribute>
-                                <xsl:value-of select="ZdsZaakDocumentInhoud/inhoud"/>
+                                <xsl:attribute name="StUF:bestandsnaam"><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/inhoud/@StUF:bestandsnaam"/></xsl:attribute>
+                                <xsl:attribute name="xmime:contentType"><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/inhoud/@xmime:contentType"/></xsl:attribute>
+                                <xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/inhoud"/>
                             </ZKN:inhoud>
                         </xsl:if>
-                        <xsl:apply-templates select="ZdsZaakDocumentInhoud/isRelevantVoor"/>
+                        <xsl:apply-templates select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/isRelevantVoor"/>
                     </ZKN:object>
                 </ZKN:antwoord>
             </ZKN:edcLa01>
