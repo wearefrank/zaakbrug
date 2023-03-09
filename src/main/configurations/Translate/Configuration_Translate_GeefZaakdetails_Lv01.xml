@@ -19,7 +19,7 @@
                 />
 
 			<SenderPipe name="getZgwZaakByIdentificatie" getInputFromFixedValue="&lt;dummy/&gt;" storeResultInSessionKey="zaakTypeJson">
-				<HttpSender 
+				<HttpSender
 					name="getZgwZaakByIdentificatie" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
@@ -31,8 +31,16 @@
 						<Param name="token" sessionKey="token" />
 					</Param>
 				</HttpSender>
-				<Forward name="exception" path="EXCEPTION" />
+				<Forward name="exception" path="ErrorJsonToXml_1" />
 			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml_1">
+                <Forward name="success" path="buildErrorMsg_1" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg_1"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="getZgwZaakByIdentificatie" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
 
 			<JsonPipe name="toZaakXml"/>
 
@@ -52,8 +60,16 @@
 						<Param name="token" sessionKey="token" />
 					</Param>
 				</HttpSender>
-				<Forward name="exception" path="EXCEPTION" />
+				<Forward name="exception" path="ErrorJsonToXml_2" />
 			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml_2">
+                <Forward name="success" path="buildErrorMsg_2" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg_2"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="getZaakTypeByUrl" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
 
 			<JsonPipe name="toZaakTypeXml"/>
 
@@ -78,8 +94,16 @@
 						<Param name="token" sessionKey="token" />
 					</Param>
 				</HttpSender>
-				<Forward name="exception" path="EXCEPTION" />
+				<Forward name="exception" path="ErrorJsonToXml_3" />
 			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml_3">
+                <Forward name="success" path="buildErrorMsg_3" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg_3"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="getRollenByUrl" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
 
 			<JsonPipe name="toRollenXml"/>
 

@@ -26,8 +26,16 @@
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer ${JwtToken}"/>
                 <Forward name="success" path="JsonToXml" />
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="ErrorJsonToXml" />
 			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="GetZgwStatusByZaakUrlSender" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
 
             <JsonPipe 
                 name="JsonToXml">

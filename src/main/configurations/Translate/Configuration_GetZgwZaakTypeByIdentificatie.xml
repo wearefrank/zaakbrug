@@ -29,7 +29,6 @@
                 <Forward name="success" path="JsonToXml" />
                 <Forward name="exception" path="ErrorJsonToXml" />
 			</SenderPipe>
-
             <JsonPipe name="ErrorJsonToXml">
                 <Forward name="success" path="buildErrorMsg" />
             </JsonPipe>
