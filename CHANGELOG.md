@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.6.1](https://github.com/ibissource/zaakbrug/compare/v1.6.0...v1.6.1) (2023-03-10)
+
+
+### 🐛 Bug Fixes
+
+* catch and propagate errors from API calls to soap fault responses ([#62](https://github.com/ibissource/zaakbrug/issues/62)) ([caa6e94](https://github.com/ibissource/zaakbrug/commit/caa6e940d2d35b25b448ceee4e27d742c78d310f))
+
 ## [1.6.0](https://github.com/ibissource/zaakbrug/compare/v1.5.4...v1.6.0) (2023-03-02)
 
 
