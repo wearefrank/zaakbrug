@@ -7,27 +7,27 @@
             <xsl:choose>
                 <xsl:when test="root/status=400">
                     <code>TranslationError</code>
-                    <reason><xsl:value-of select="$senderPipeName" /> received 400 Bad Request from OpenZaak</reason>
+                    <reason><xsl:value-of select="$senderPipeName" /> received 400 Bad Request from ZGW API</reason>
                 </xsl:when>
                 <xsl:when test="root/status=401">
                     <code>TechnicalError</code>
-                    <reason><xsl:value-of select="$senderPipeName" /> received 401 Unauthorized from OpenZaak</reason>
+                    <reason><xsl:value-of select="$senderPipeName" /> received 401 Unauthorized from ZGW API</reason>
                 </xsl:when>
                 <xsl:when test="root/status=403">
                     <code>TechnicalError</code>
-                    <reason><xsl:value-of select="$senderPipeName" /> received 403 Forbidden from OpenZaak</reason>
+                    <reason><xsl:value-of select="$senderPipeName" /> received 403 Forbidden from ZGW API</reason>
                 </xsl:when>
                 <xsl:when test="root/status=404">
                     <code>TechnicalError</code>
-                    <reason><xsl:value-of select="$senderPipeName" /> received 404 Not Found from OpenZaak</reason>
+                    <reason><xsl:value-of select="$senderPipeName" /> received 404 Not Found from ZGW API</reason>
                 </xsl:when>
                 <xsl:when test="root/status=500">
                     <code>TechnicalError</code>
-                    <reason><xsl:value-of select="$senderPipeName" /> received 500 Internal Server Error from OpenZaak</reason>
+                    <reason><xsl:value-of select="$senderPipeName" /> received 500 Internal Server Error from ZGW API</reason>
                 </xsl:when>
                 <xsl:otherwise>
                     <code>TechnicalError</code>
-                    <reason><xsl:value-of select="$senderPipeName" /> received some negative response from OpenZaak</reason>
+                    <reason><xsl:value-of select="$senderPipeName" /> received some negative response from ZGW API</reason>
                 </xsl:otherwise>
             </xsl:choose>
             <details>
