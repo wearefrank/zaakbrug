@@ -40,10 +40,16 @@
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer @@documenten-api.jwt@@"/>
                 <Forward name="success" path="EXIT"/>
-                <!-- Martijn wonders whether forward error is used, but he does not dare to remove -->
-                <Forward name="error" path="EXCEPTION"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="ErrorJsonToXml" />
 			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="PostUnlock" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>
