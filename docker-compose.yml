@@ -83,7 +83,9 @@ services:
       - ../frank-runner/data:/usr/local/tomcat/data
       # - ./data:/usr/local/tomcat/data
     environment:
-      - zgw.baseurl=http://host.docker.internal:8000/
+      - zaakbrug.zgw.zaken-api.root-url=http://host.docker.internal:8000/zaken/api/v1/
+      - zaakbrug.zgw.documenten-api.root-url=http://host.docker.internal:8000/documenten/api/v1/
+      - zaakbrug.zgw.catalogi-api.root-url=http://host.docker.internal:8000/catalogi/api/v1/
     ports:
       - 8080:8080
     depends_on:

@@ -22,7 +22,7 @@
 				<HttpSender name="UpdateZgwZaakSender" 
 					methodType="PUT"
 					headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
-                    timeout="${creeerZaak.timeout}"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
                     maxExecuteRetries="5"
                     contentType="application/json"
 				/>
@@ -30,7 +30,7 @@
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Accept" value="application/json"/>
                 <Param name="Content-Crs"  value="EPSG:4326" />
-                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Param name="Authorization" value="Bearer @@zaken-api.jwt@@"/>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="ErrorJsonToXml" />
 			</SenderPipe>

@@ -19,13 +19,13 @@
 					name="GetRolByZaakUrlAndRolTypeUrlSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.rol}"
-                    timeout="${creeerZaak.timeout}"
+					url="${zaakbrug.zgw.zaken-api.root-url}rollen"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
 				/>
                 <Param name="zaak" sessionKey="ZaakUrl"/>
                 <Param name="roltype" sessionKey="RolTypeUrl"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Param name="Authorization" value="Bearer @@zaken-api.jwt@@" />
                 <Forward name="success" path="JsonToXml" />
                 <Forward name="exception" path="ErrorJsonToXml" />
 			</SenderPipe>
