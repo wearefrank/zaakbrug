@@ -35,8 +35,16 @@
                     <Param name="Authorization" value="Bearer @@documenten-api.jwt@@" />
                 </HttpSender>
                 <Forward name="success" path="JsonToXml" />
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="ErrorJsonToXml" />
             </SenderPipe>
+            <JsonPipe name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="PostZgwEnkelvoudigInformatieObjectSender" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
 
             <JsonPipe
                 name="JsonToXml"
