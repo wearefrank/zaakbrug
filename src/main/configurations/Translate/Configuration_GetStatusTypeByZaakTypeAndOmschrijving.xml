@@ -22,6 +22,7 @@
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="GetZgwStatusTypeMatchingOmschrijvingFromList"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe

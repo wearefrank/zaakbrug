@@ -32,6 +32,7 @@
                     <Param name="Identificatie" xpathExpression="object/isRelevantVoor/gerelateerde/identificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwZaakResult"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForGetZgwZaakResult"
@@ -92,6 +93,7 @@
                     <Param name="FileName" value="${FilePath_1}"/>                   
                 </IbisLocalSender>
                 <Forward name="success" path="GetRsin"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -133,6 +135,7 @@
                     <Param name="Alpha2" sessionKey="Taal" />                   
                 </IbisLocalSender>
                 <Forward name="success" path="MapZgwEnkelvoudigInformatieObject"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -161,6 +164,7 @@
                     javaListener="Documenten_PostZgwEnkelvoudigInformatieObject">                
                 </IbisLocalSender>
                 <Forward name="success" path="EnrichZgwEnkelvoudigInformatieObject"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -197,6 +201,7 @@
                     javaListener="Zaken_PostZgwZaakInformatieObject">                
                 </IbisLocalSender>
                 <Forward name="success" path="EnrichZgwZaakInformatieObject"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -224,6 +229,7 @@
                     <Param name="Volgnummer" xpathExpression="object/isRelevantVoor/stt.volgnummer"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForZgwStatusTypeResult"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForZgwStatusTypeResult"
@@ -263,6 +269,7 @@
                     >
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
         </Pipeline>

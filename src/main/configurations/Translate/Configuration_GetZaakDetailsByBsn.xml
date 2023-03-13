@@ -22,6 +22,7 @@
                     <Param name="Bsn" sessionKey="Bsn"/>
                 </IbisLocalSender>
                 <Forward name="success" path="RolIterator"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <ForEachChildElementPipe name="RolIterator"
@@ -33,6 +34,7 @@
                     javaListener="GetZaakDetailsByRol">
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
         </Pipeline>
     </Adapter>

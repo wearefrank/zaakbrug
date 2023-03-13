@@ -25,17 +25,26 @@
                 <HttpSender name="PostZgwEnkelvoudigInformatieObjectHttpSender"
                     methodType="POST"
                     headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
-                    url="${zgw.baseurl}${zgw.endpoint.enkelvoudiginformatieobjecten}"
-                    timeout="${creeerZaak.timeout}"
+                    url="${zaakbrug.zgw.documenten-api.root-url}enkelvoudiginformatieobjecten"
+                    timeout="${zaakbrug.zgw.documenten-api.timeout}"
                     maxExecuteRetries="5"
                     contentType="application/json">
                     <Param name="Accept-Crs" value="EPSG:4326" />
                     <Param name="Accept" value="application/json" />
                     <Param name="Content-Crs" value="EPSG:4326" />
-                    <Param name="Authorization" value="Bearer ${JwtToken}" />
+                    <Param name="Authorization" value="Bearer @@documenten-api.jwt@@" />
                 </HttpSender>
                 <Forward name="success" path="JsonToXml" />
+                <Forward name="exception" path="ErrorJsonToXml" />
             </SenderPipe>
+            <JsonPipe name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="PostZgwEnkelvoudigInformatieObjectSender" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
 
             <JsonPipe
                 name="JsonToXml"

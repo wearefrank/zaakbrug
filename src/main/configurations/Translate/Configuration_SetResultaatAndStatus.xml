@@ -24,6 +24,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="SetEndStatusType"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -43,6 +44,7 @@
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="SetBeeindigd"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe name="SetBeeindigd"
@@ -87,6 +89,7 @@
                     <Param name="Einddatum" xpathExpression="/*/object/einddatum" sessionKey="originalMessage"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForResultaat"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
 
             <XmlIfPipe name="CheckForResultaat"
@@ -108,6 +111,7 @@
                     <Param name="Omschrijving" xpathExpression="/*/object/resultaat/omschrijving"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallGetResultatenByZaakUrl_1"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe
@@ -119,6 +123,7 @@
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="ZgwResultatenIterator"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <ForEachChildElementPipe name="ZgwResultatenIterator"
@@ -128,14 +133,23 @@
                     name="DeleteZaakResultaatSender" 
 					methodType="DELETE"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${creeerZaak.timeout}"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
 				>
                     <Param name="url" xpathExpression="results/url"/>
                     <Param name="Accept-Crs" value="EPSG:4326"/>
-                    <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                    <Param name="Authorization" value="Bearer @@zaken-api.jwt@@" />
                 </HttpSender>
                 <Forward name="success" path="CallPostResultaat_1"/>
+                <Forward name="exception" path="ErrorJsonToXml" />
             </ForEachChildElementPipe>
+            <JsonPipe name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="ZgwResultatenIterator" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
 
             <SenderPipe
                 name="CallPostResultaat_1"
@@ -151,6 +165,7 @@
                     <Param name="Toelichting" xpathExpression="/*/object/resultaat/omschrijving"/>
                 </IbisLocalSender>
                 <Forward name="success" path="PostStatusIterator"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForEndStatusType"
@@ -184,6 +199,7 @@
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForResultaten"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForResultaten"
@@ -199,6 +215,7 @@
                     <Param name="FileName" value="${FilePath_2}"/>                   
                 </IbisLocalSender>
                 <Forward name="success" path="GetCoalesceResultaat_1"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -228,6 +245,7 @@
                     <Param name="Omschrijving" xpathExpression="/result/coalesceResultaat"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallPostResultaat_2"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe
@@ -241,6 +259,7 @@
                     <Param name="Toelichting" xpathExpression="/resultaatType/omschrijving"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForEindDatum"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForEindDatum"
@@ -258,6 +277,7 @@
                     <Param name="FileName" value="${FilePath_2}"/>                   
                 </IbisLocalSender>
                 <Forward name="success" path="GetCoalesceResultaat_2"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -285,6 +305,7 @@
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForResultaten_2"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForResultaten_2"
@@ -307,6 +328,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CallPostResultaat_3"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe
@@ -320,6 +342,7 @@
                     <Param name="Toelichting" xpathExpression="/resultaatType/omschrijving"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CreateStatusBody"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -350,6 +373,7 @@
                     javaListener="Zaken_PostZgwStatus">
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
         </Pipeline>
     </Adapter>

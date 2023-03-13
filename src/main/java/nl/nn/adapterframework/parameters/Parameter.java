@@ -541,7 +541,17 @@ public class Parameter implements IConfigurable, IWithParameters {
 				if ("Authorization".equals(getName()) && result != null && result.toString().startsWith("Bearer ")) {
 					// E.g. with <Param name="Authorization" value="Bearer ${JwtToken}"/> the property JwtToken is
 					// is already resolved at this point (being an empty string when property JwtToken isn't found)
-					CredentialFactory credentialFactory = new CredentialFactory("zaken-api.jwt");
+					CredentialFactory credentialFactory;
+					if(result.toString().contains("@@zaken-api.jwt@@")){
+						credentialFactory = new CredentialFactory("zaken-api.jwt");
+					} else if(result.toString().contains("@@documenten-api.jwt@@")){
+						credentialFactory = new CredentialFactory("documenten-api.jwt");
+					} else if(result.toString().contains("@@catalogi-api.jwt@@")){
+						credentialFactory = new CredentialFactory("catalogi-api.jwt");
+					} else {
+						credentialFactory = new CredentialFactory("zaken-api.jwt");
+					}
+
 					String issuer = credentialFactory.getUsername();
 					String secret = credentialFactory.getPassword();
 					// Copied from https://github.com/Sudwest-Fryslan/OpenZaakBrug/blob/master/src/main/java/nl/haarlem/translations/zdstozgw/translation/zgw/client/JWTService.java

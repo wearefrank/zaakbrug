@@ -19,11 +19,11 @@
                 />
 
 			<SenderPipe name="getZgwZaakByIdentificatie" getInputFromFixedValue="&lt;dummy/&gt;" storeResultInSessionKey="zaakTypeJson">
-				<HttpSender 
+				<HttpSender
 					name="getZgwZaakByIdentificatie" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.zaak}"
+					url="${zaakbrug.zgw.zaken-api.root-url}zaken"
 				>
 					<Param name="identificatie" xpathExpression="root/zakLv01/gelijk/identificatie"/>
 					<Param name="Accept-Crs" value="EPSG:4326"/>
@@ -31,7 +31,16 @@
 						<Param name="token" sessionKey="token" />
 					</Param>
 				</HttpSender>
+				<Forward name="exception" path="ErrorJsonToXml_1" />
 			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml_1">
+                <Forward name="success" path="buildErrorMsg_1" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg_1"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="getZgwZaakByIdentificatie" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
 
 			<JsonPipe name="toZaakXml"/>
 
@@ -51,7 +60,16 @@
 						<Param name="token" sessionKey="token" />
 					</Param>
 				</HttpSender>
+				<Forward name="exception" path="ErrorJsonToXml_2" />
 			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml_2">
+                <Forward name="success" path="buildErrorMsg_2" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg_2"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="getZaakTypeByUrl" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
 
 			<JsonPipe name="toZaakTypeXml"/>
 
@@ -68,7 +86,7 @@
 					name="getRollenByUrl" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.rol}"
+					url="${zaakbrug.zgw.zaken-api.root-url}rollen"
 				>
 					<Param name="zaak" sessionKey="zaakXml" xpathExpression="results/url"/>
 					<Param name="Accept-Crs" value="EPSG:4326"/>
@@ -76,79 +94,22 @@
 						<Param name="token" sessionKey="token" />
 					</Param>
 				</HttpSender>
+				<Forward name="exception" path="ErrorJsonToXml_3" />
 			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml_3">
+                <Forward name="success" path="buildErrorMsg_3" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg_3"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="getRollenByUrl" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
 
 			<JsonPipe name="toRollenXml"/>
 
 			<PutInSessionPipe name="storeRollenXml">
 				<Param name="rollenXml" xpathExpression="/root/results"/>
 			</PutInSessionPipe>
-
-			<!-- <JsonPipe name="json_zaaktype"/>
-
-			<pipe name="PutZaakTypeValues" className="nl.nn.adapterframework.pipes.PutParametersInSession">
-				<Param name="ZaakTypeIdentificatie" xpathExpression="/root/identificatie"/>
-				<Param name="ZaakTypeOmschrijving" xpathExpression="/root/omschrijving"/>
-				<Param name="informatieObjectTypen" xpathExpression="/root/informatieobjecttypen"/>
-			</pipe> -->
-
-			<!-- <SenderPipe name="getAfzender" getInputFromFixedValue="&lt;dummy/&gt;">
-				<HttpSender 
-					name="httpSender" 
-					methodType="GET"
-					headersParams="Authorization,Accept-Crs"
-				>
-					<Param name="url"  xpathExpression="concat('${openzaak.baseurl}zaken/api/v1/rollen?zaak=', $zaakUrl)">
-						<Param name="zaakUrl" sessionKey="zaakUrl"/>
-					</Param>
-					<Param name="Accept-Crs" value="EPSG:4326"/>
-					<Param name="Authorization" xpathExpression="concat('Bearer ', $token)" >
-						<Param name="token" sessionKey="token" />
-					</Param>
-				</HttpSender>
-			</SenderPipe> -->
-
-			<!-- <JsonPipe name="json_roltypen"/>
-
-			<pipe name="PutAfzenderValuesInSession" className="nl.nn.adapterframework.pipes.PutParametersInSession">
-				<Param name="AfzenderLastName" xpathExpression="/root/results[omschrijving='Initiator']/betrokkeneIdentificatie/geslachtsnaam"/>
-				<Param name="AfzenderLetters" xpathExpression="/root/results[omschrijving='Initiator']/betrokkeneIdentificatie/voorletters"/>
-			</pipe> -->
-
-			<!-- <SenderPipe name="getDocuments" getInputFromFixedValue="&lt;dummy/&gt;">
-				<HttpSender 
-					name="httpSender" 
-					methodType="GET"
-					headersParams="Authorization,Accept-Crs"
-				>
-					<Param name="url"  xpathExpression="concat('${openzaak.baseurl}zaken/api/v1/zaakinformatieobjecten?zaak=', $zaakUrl)">
-						<Param name="zaakUrl" sessionKey="zaakUrl"/>
-					</Param>
-					<Param name="Accept-Crs" value="EPSG:4326"/>
-					<Param name="Authorization" xpathExpression="concat('Bearer ', $token)" >
-						<Param name="token" sessionKey="token" />
-					</Param>
-				</HttpSender>
-			</SenderPipe> -->
-
-			<!-- <JsonPipe name="json_zaak_documents"/>
-
-			<XsltPipe name="document names" styleSheetName="xsl/documentNames.xsl" storeResultInSessionKey="documents">
-			</XsltPipe>
-
-			<XsltPipe name="createResponse" styleSheetName="xsl/createZaakDetailsMessage.xsl" getInputFromFixedValue="&lt;dummy/&gt;">
-				<Param name="zaakId" sessionKey="identificatie"/>
-				<Param name="zaakTypeId" sessionKey="ZaakTypeIdentificatie"/>
-				<Param name="zaakTypeOmschrijving" sessionKey="ZaakTypeOmschrijving"/>
-				<Param name="zaakOmschrijving" sessionKey="omschrijving"/>
-				<Param name="afzenderLastname" sessionKey="AfzenderLastName"/>
-				<Param name="afzenderLetters" sessionKey="AfzenderLetters"/>
-				<Param name="documentNames" sessionKey="documents"/>
-				<Param name="zaakUrl" sessionKey="zaakUrl"/>
-				<Param name="informatieObjectTypen" sessionKey="informatieObjectTypen"/>
-			</XsltPipe>
-
-			<JsonPipe name="responseToJson" direction="XML2JSON"/> -->
 		</Pipeline>
   </Adapter>
 </Module>

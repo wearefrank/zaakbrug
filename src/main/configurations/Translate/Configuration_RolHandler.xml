@@ -45,6 +45,7 @@
                     <Param sessionKey="RolBody_1" type="DOMDOC"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
         </Pipeline>
     </Adapter>

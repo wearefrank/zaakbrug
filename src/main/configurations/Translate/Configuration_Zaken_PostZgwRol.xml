@@ -74,16 +74,25 @@
 					name="PostZgwRolSender"
 					methodType="POST"
 					headersParams="Authorization,Accept-Crs,Content-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.rol}"
+					url="${zaakbrug.zgw.zaken-api.root-url}rollen"
                     contentType="application/json"
-                    timeout="${creeerZaak.timeout}"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
                     maxExecuteRetries="5"
 				/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Content-Crs"  value="EPSG:4326"/>
-                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Param name="Authorization" value="Bearer @@zaken-api.jwt@@" />
                 <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="ErrorJsonToXml" />
 			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="PostZgwRol" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>

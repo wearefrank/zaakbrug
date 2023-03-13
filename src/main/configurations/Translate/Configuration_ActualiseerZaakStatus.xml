@@ -26,6 +26,7 @@
                     <Param name="Identificatie" xpathExpression="zakLk01/object[2]/identificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallGetZaakTypeByZaak"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe
@@ -38,6 +39,7 @@
                     <Param name="ZaakTypeCode" xpathExpression="zakLk01/object[2]/isVan/gerelateerde/code"/>
                 </IbisLocalSender>
                 <Forward name="success" path="SetZgwZaakType"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
@@ -70,6 +72,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
         </Pipeline>
     </Adapter>

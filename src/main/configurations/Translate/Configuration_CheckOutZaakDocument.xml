@@ -26,6 +26,7 @@
                     <Param name="Identificatie" sessionKey="DocumentIdentificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwEnkelvoudigInformatieObjectResult"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForGetZgwEnkelvoudigInformatieObjectResult"
@@ -63,6 +64,7 @@
                     <Param name="ZgwLockUrl" sessionKey="ZgwLockUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
         </Pipeline>
     </Adapter>

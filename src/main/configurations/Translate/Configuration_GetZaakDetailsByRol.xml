@@ -22,6 +22,7 @@
                     <Param name="RolTypeUrl" xpathExpression="/ZgwRol/roltype"/>
                 </IbisLocalSender>
                 <Forward name="success" path="GetGlobalConfigFromLocalFS"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe name="GetGlobalConfigFromLocalFS">
@@ -31,6 +32,7 @@
                     <Param name="FileName" value="${FilePath_1}"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CompareZgwRolOmschrijving"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlSwitchPipe name="CompareZgwRolOmschrijving" 
@@ -52,6 +54,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CallGetZgwZaak"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe
@@ -63,6 +66,7 @@
                     <Param name="Identificatie" xpathExpression="/ZgwZaak/identificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwZaakResult"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
             
             <XmlIfPipe name="CheckForGetZgwZaakResult"
@@ -104,6 +108,7 @@
                     <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
         </Pipeline>
     </Adapter>

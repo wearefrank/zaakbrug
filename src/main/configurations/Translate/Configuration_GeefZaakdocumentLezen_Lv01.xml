@@ -26,6 +26,7 @@
                     <Param name="Identificatie" sessionKey="DocumentIdentificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwEnkelvoudigInformatieObjectResult"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForGetZgwEnkelvoudigInformatieObjectResult"
@@ -44,6 +45,7 @@
                     <Param name="Url" xpathExpression="/ZgwEnkelvoudigInformatieObject/informatieobjecttype"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwInformatieObjectTypeResult"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForGetZgwInformatieObjectTypeResult"
@@ -64,6 +66,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwZaakInformatieObjectResult"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForGetZgwZaakInformatieObjectResult"
@@ -84,6 +87,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetGetZaakResult"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForGetGetZaakResult"
@@ -104,6 +108,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetBas64InhoudResult"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlSwitchPipe 

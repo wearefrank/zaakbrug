@@ -33,15 +33,25 @@
 					methodType="PATCH"
 					headersParams="Authorization,Accept-Crs,Content-Crs"
                     contentType="application/json"
-                    timeout="${creeerZaak.timeout}"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
                     maxExecuteRetries="5"
 				/>
                 <Param name="url" sessionKey="Url"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Content-Crs"  value="EPSG:4326"/>
-                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Param name="Authorization" value="Bearer @@zaken-api.jwt@@"/>
                 <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="ErrorJsonToXml" />
 			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="PatchZaak" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
+
         </Pipeline>
     </Adapter>
 </Module>

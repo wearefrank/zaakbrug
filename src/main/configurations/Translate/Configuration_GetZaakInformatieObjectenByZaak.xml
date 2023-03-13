@@ -19,14 +19,23 @@
 					name="GetZaakInformatieObjectenByZaakSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.zaakinformatieobjecten}"
-                    timeout="${creeerZaak.timeout}"
+					url="${zaakbrug.zgw.zaken-api.root-url}zaakinformatieobjecten"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
 				/>
                 <Param name="zaak" sessionKey="ZaakUrl"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Param name="Authorization" value="Bearer @@zaken-api.jwt@@"/>
                 <Forward name="success" path="JsonToXml" />
+                <Forward name="exception" path="ErrorJsonToXml" />
 			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="GetZaakInformatieObjectenByZaak" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
 
             <JsonPipe name="JsonToXml">
                 <Forward name="success" path="UnwrapZgwZaakInformatieObjectToList"/>

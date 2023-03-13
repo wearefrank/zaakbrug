@@ -19,14 +19,23 @@
 					name="GetResultaatTypesByZaakTypeSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zgw.baseurl}${zgw.endpoint.resultaattype}"
-                    timeout="${creeerZaak.timeout}"
+					url="${zaakbrug.zgw.catalogi-api.root-url}resultaattypen"
+                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
 				/>
                 <Param name="zaaktype" sessionKey="ZaakTypeUrl" />
                 <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Param name="Authorization" value="Bearer @@catalogi-api.jwt@@"/>
                 <Forward name="success" path="JsonToXml" />
+                <Forward name="exception" path="ErrorJsonToXml" />
 			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="GetResultaatTypesByZaakType" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
 
             <JsonPipe name="JsonToXml">
                 <Forward name="success" path="GetZgwResultaatTypeByOmschrijving"/>

@@ -26,6 +26,7 @@
                     <Param name="Identificatie" sessionKey="ZaakIdentificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallGetZaakInformatieObjectenByZaak"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe
@@ -37,6 +38,7 @@
                     <Param name="ZaakUrl" xpathExpression="ZgwZaken/ZgwZaak/url"/>
                 </IbisLocalSender>
                 <Forward name="success" path="ZgwZaakInformatieObjectenIterator"/>
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <ForEachChildElementPipe name="ZgwZaakInformatieObjectenIterator"
@@ -47,6 +49,7 @@
                     javaListener="HandleZgwZaakInformatieObjecten">
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
         </Pipeline>
     </Adapter>

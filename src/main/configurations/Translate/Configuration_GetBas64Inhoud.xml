@@ -20,13 +20,22 @@
 					methodType="GET"
                     encodeMessages="true"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${creeerZaak.timeout}"
+                    timeout="${zaakbrug.zgw.documenten-api.timeout}"
 				/>
                 <Param name="url" sessionKey="Url"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Authorization" value="Bearer ${JwtToken}"/>
+                <Param name="Authorization" value="Bearer @@documenten-api.jwt@@"/>
                 <Forward name="success" path="EncodeInhoud" />
+                <Forward name="exception" path="ErrorJsonToXml" />
 			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="CallGetBas64Inhoud" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
 
             <Base64Pipe 
                 name="EncodeInhoud"
