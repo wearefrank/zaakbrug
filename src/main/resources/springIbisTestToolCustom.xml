@@ -13,7 +13,7 @@
                 <bean class="nl.nn.testtool.metadata.StatusMetadataFieldExtractor"/>
                 <bean class="nl.nn.testtool.metadata.SessionKeyMetadataFieldExtractor">
                     <property name="name" value="soapAction"/>
-                    <property name="label" value="SOAP action"/>
+                    <property name="label" value="SOAPAction"/>
                     <property name="sessionKey" value="SOAPAction" />
                     <property name="regex" value="\/([^\/_]*)_\w+$" />
                 </bean>
