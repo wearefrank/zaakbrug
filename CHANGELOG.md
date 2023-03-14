@@ -1,5 +1,13 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.9.0](https://github.com/ibissource/zaakbrug/compare/v1.8.0...v1.9.0) (2023-03-14)
+
+
+### 🍕 Features
+
+* Refine Ladybug status column ([#65](https://github.com/ibissource/zaakbrug/issues/65)) ([8a5082c](https://github.com/ibissource/zaakbrug/commit/8a5082cc43fa9a4533b32d70456e4814850bf8ec))
+* Refine Ladybug status column ([#65](https://github.com/ibissource/zaakbrug/issues/65)) ([e25404c](https://github.com/ibissource/zaakbrug/commit/e25404ca7521bbd6f0376fb53b50a46aa7494ce4))
+
 ## [1.8.0](https://github.com/ibissource/zaakbrug/compare/v1.7.0...v1.8.0) (2023-03-14)
 
 
