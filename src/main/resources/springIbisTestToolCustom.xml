@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+    >
+
+    <import resource="springIbisTestTool.xml"/>
+
+    <bean name="metadataExtractor" class="nl.nn.testtool.MetadataExtractor">
+        <property name="extraMetadataFieldExtractors">
+            <list>
+                <bean class="nl.nn.testtool.metadata.StatusMetadataFieldExtractor"/>
+                <bean class="nl.nn.testtool.metadata.SessionKeyMetadataFieldExtractor">
+                    <property name="name" value="soapAction"/>
+                    <property name="label" value="SOAPAction"/>
+                    <property name="sessionKey" value="SOAPAction" />
+                    <property name="regex" value="\/([^\/_]*_\w+)$" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="metadataNames" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <value>storageId</value>
+                <value>endTime</value>
+                <value>duration</value>
+                <value>name</value>
+                <value>soapAction</value>
+                <value>correlationId</value>
+                <value>status</value>
+                <value>numberOfCheckpoints</value>
+                <value>estimatedMemoryUsage</value>
+                <value>storageSize</value>
+            </list>
+        </constructor-arg>
+    </bean>
+</beans>
