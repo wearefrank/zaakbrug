@@ -108,6 +108,17 @@ zaakbrug:
       endpoint: "translate/generic/zds/VrijBericht"
       validationSoftFail: false
   zgw:
+    # Templates used for generating zaak- and documentidentificatie
+    # The syntax for variable substitution is as follows {[variable-name][:formatting-string]} 
+    # variables:
+    # - id          Auto-incrementing identifier with 'D' as formatting option, indicating the amount of digits.
+    #               example: {id:D5} with id-123 will result in '00123'
+    # - datetime    The current date and time with '[Y' as formatting option, according to 
+    #               (https://www.oreilly.com/library/view/xslt-2nd-edition/9780596527211/ch04s05.html).
+    #               Only the '[Y0001]' is currently implemented
+    #               example: {datetime:[Y001]} with datetime=14-03-2023 produces '2023'
+    zaakIdentificatieTemplate: ZK{datetime:[Y0001]}-{id:D5}
+    documentIdentificatieTemplate: DC{datetime:[Y0001]}-{id:D5}
     zakenApi:
       rootUrl: "http://open-zaak/zaken/api/v1/"
     catalogiApi:

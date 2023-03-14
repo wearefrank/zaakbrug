@@ -1,5 +1,19 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.8.0](https://github.com/ibissource/zaakbrug/compare/v1.7.0...v1.8.0) (2023-03-14)
+
+
+### 🍕 Features
+
+* configurable template strings for interpolating variables for identificatie generation ([#43](https://github.com/ibissource/zaakbrug/issues/43)) ([4aa3041](https://github.com/ibissource/zaakbrug/commit/4aa304134912d9218b554f751d7de5058e3c2674))
+
+## [1.7.0](https://github.com/ibissource/zaakbrug/compare/v1.6.1...v1.7.0) (2023-03-13)
+
+
+### 🍕 Features
+
+* Add soap action to ladybug table ([#64](https://github.com/ibissource/zaakbrug/issues/64)) ([f2191e4](https://github.com/ibissource/zaakbrug/commit/f2191e459fa5529c287d336220b7c89dbb0e2872))
+
 ## [1.6.1](https://github.com/ibissource/zaakbrug/compare/v1.6.0...v1.6.1) (2023-03-10)
 
 
