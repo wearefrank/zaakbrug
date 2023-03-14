@@ -43,9 +43,15 @@
 			<IncreaseIntegerPipe 
                 name="IncrementNewIdentificatie"
                 sessionKey="NewIdentificatie">
-                <Forward name="success" path="UpdateIdentificatie" />
+                <Forward name="success" path="CreateNewId" />
             </IncreaseIntegerPipe>
 
+            <XsltPipe name="CreateNewId" styleSheetName="Common/xsl/CreateIdentication.xslt" storeResultInSessionKey="newId" omitXmlDeclaration="true">
+                <Param name="IdentificatieType" sessionKey="IdentificatieType"/>
+                <Param name="zaak-identificatie-template" value="${zaakbrug.zgw.zaak-identificatie-template}"/>
+                <Param name="document-identificatie-template" value="${zaakbrug.zgw.document-identificatie-template}"/>
+            </XsltPipe>
+            
             <SenderPipe name="UpdateIdentificatie">
                 <FixedQuerySender 
                     query="UPDATE IDENTIFICATIE  SET IDENTIFICATIE=?{NewIdentificatie} WHERE TYPE=?{IdentificatieType}"
@@ -72,11 +78,10 @@
 
             <XsltPipe
                 name="GenerateIdentificatie"
-                xpathExpression="concat($Prefixparam, $LastIdentificatie)"
+                xpathExpression="$newId"
                 storeResultInSessionKey="Identificatie"
                 >
-                <Param name="LastIdentificatie" sessionKey="LastIdentificatie"/>
-                <Param name="Prefixparam" value="${Prefixparam}"/>
+                <Param name="newId" sessionKey="newId"/>
                 <Forward name="success" path="SetExitMessage"/>
             </XsltPipe>
 
