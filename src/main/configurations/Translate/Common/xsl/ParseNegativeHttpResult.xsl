@@ -7,27 +7,27 @@
             <xsl:choose>
                 <xsl:when test="root/status=400">
                     <code>TranslationError</code>
-                    <reason><xsl:value-of select="$senderPipeName" /> received 400 Bad Request from ZGW API</reason>
+                    <reason>400 Bad Request from ZGW API received by <xsl:value-of select="$senderPipeName" /></reason>
                 </xsl:when>
                 <xsl:when test="root/status=401">
                     <code>TechnicalError</code>
-                    <reason><xsl:value-of select="$senderPipeName" /> received 401 Unauthorized from ZGW API</reason>
+                    <reason>401 Unauthorized from ZGW API received by <xsl:value-of select="$senderPipeName" /></reason>
                 </xsl:when>
                 <xsl:when test="root/status=403">
                     <code>TechnicalError</code>
-                    <reason><xsl:value-of select="$senderPipeName" /> received 403 Forbidden from ZGW API</reason>
+                    <reason>403 Forbidden from ZGW API received by <xsl:value-of select="$senderPipeName" /></reason>
                 </xsl:when>
                 <xsl:when test="root/status=404">
                     <code>TechnicalError</code>
-                    <reason><xsl:value-of select="$senderPipeName" /> received 404 Not Found from ZGW API</reason>
+                    <reason>404 Not Found from ZGW API received by <xsl:value-of select="$senderPipeName" /></reason>
                 </xsl:when>
                 <xsl:when test="root/status=500">
                     <code>TechnicalError</code>
-                    <reason><xsl:value-of select="$senderPipeName" /> received 500 Internal Server Error from ZGW API</reason>
+                    <reason>500 Internal Server Error from ZGW API received by <xsl:value-of select="$senderPipeName" /></reason>
                 </xsl:when>
                 <xsl:otherwise>
                     <code>TechnicalError</code>
-                    <reason><xsl:value-of select="$senderPipeName" /> received some negative response from ZGW API</reason>
+                    <reason>some negative response from ZGW API received by <xsl:value-of select="$senderPipeName" /></reason>
                 </xsl:otherwise>
             </xsl:choose>
             <details>

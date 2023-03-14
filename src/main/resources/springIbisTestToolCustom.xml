@@ -17,10 +17,11 @@
                             <property name="label" value="Status" />
                             <property name="defaultValue" value="Success" />
                             <property name="extractFrom" value="last" />
-                            <property name="xpath" value="/*//faultcode" />
+                            <property name="xpath" value="/*//*[local-name()='body']/*[local-name()='omschrijving']" />
                         </bean>                    
                     </property>
                     <property name="otherLabelForError" value="Aborted" />
+                    <property name="maxLength" value="30" />
                 </bean>
                 <bean class="nl.nn.testtool.metadata.SessionKeyMetadataFieldExtractor">
                     <property name="name" value="soapAction"/>
