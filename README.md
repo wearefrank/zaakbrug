@@ -39,3 +39,12 @@ In a production environment it is recommended to run ZaakBrug with Docker. Ensur
    > **Warning:** In a DOS command window under Windows, the string after `--format=` has to be enclosed between `""`. You have `docker inspect --format="{{json .State.Health.Status}}" zaakbrug`.
    
    > **Info:** If you know the Frank!Framework, the following information may be helpful. If the health check produces the value `healthy`, it is guarenteed that all adapters in the Frank configuration have booted without errors.
+
+# Configuration
+## Zaak- and Documentidentificatie
+The properties `zaakbrug.zgw.zaak-identificatie-template` and `zaakbrug.zgw.document-identificatie-template` can be configured to specify how the zaak- and documentidentificatie should be generated and formatted.
+The syntax for variable substitution is as follows {[variable-name][:formatting-string]} 
+| Variable | Description |
+| --- | --------- |
+| id | Auto-incrementing identifier with 'D' as formatting option, indicating the amount of digits. example: `{id:D5}` with id-123 will result in '00123'. |
+| datetime | The current date and time with '[Y]' as formatting option, according to [XSLT datetime formatting](https://www.oreilly.com/library/view/xslt-2nd-edition/9780596527211/ch04s05.html). Only the '[Y0001]' is currently implemented. Example: `{datetime:[Y001]}` with datetime=14-03-2023 produces '2023' |

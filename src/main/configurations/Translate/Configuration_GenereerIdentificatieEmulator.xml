@@ -48,8 +48,8 @@
 
             <XsltPipe name="CreateNewId" styleSheetName="Common/xsl/CreateIdentication.xslt" storeResultInSessionKey="newId" omitXmlDeclaration="true">
                 <Param name="IdentificatieType" sessionKey="IdentificatieType"/>
-                <Param name="zaak-identificatie-template" value="${zaak-identificatie-template}"/>
-                <Param name="documenten-identificatie-template" value="${documenten-identificatie-template}"/>
+                <Param name="zaak-identificatie-template" value="${zaakbrug.zgw.zaak-identificatie-template}"/>
+                <Param name="document-identificatie-template" value="${zaakbrug.zgw.document-identificatie-template}"/>
             </XsltPipe>
             
             <SenderPipe name="UpdateIdentificatie">

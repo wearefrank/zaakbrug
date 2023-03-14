@@ -4,7 +4,7 @@
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" />
     <xsl:param name="IdentificatieType" />
     <xsl:param name="zaak-identificatie-template" />
-    <xsl:param name="documenten-identificatie-template" />
+    <xsl:param name="document-identificatie-template" />
     <xsl:template match="/">
         <xsl:variable name="formatFromProperties">
             <!-- Identificatie type control -->
@@ -13,7 +13,7 @@
                     <xsl:value-of select="$zaak-identificatie-template"></xsl:value-of>
                 </xsl:when>
                 <xsl:when test="$IdentificatieType='DocumentIdentificatie'">
-                    <xsl:value-of select="$documenten-identificatie-template"></xsl:value-of>
+                    <xsl:value-of select="$document-identificatie-template"></xsl:value-of>
                 </xsl:when>
             </xsl:choose>
         </xsl:variable>
