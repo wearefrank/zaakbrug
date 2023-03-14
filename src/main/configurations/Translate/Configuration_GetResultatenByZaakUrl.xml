@@ -21,6 +21,12 @@
 					headersParams="Authorization,Accept-Crs"
 					url="${zaakbrug.zgw.zaken-api.root-url}resultaten"
                     timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    truststore="${zaakbrug.zgw.zaken-api.truststore.url}"
+                    truststoreType="${zaakbrug.zgw.zaken-api.truststore.type}"
+                    truststoreAuthAlias="${zaakbrug.zgw.zaken-api.truststore.auth-alias}"
+                    verifyHostname="${zaakbrug.zgw.zaken-api.verify-hostname}"
+                    allowSelfSignedCertificates="${zaakbrug.zgw.zaken-api.allow-self-signed-cert}"
+                    ignoreCertificateExpiredException="${zaakbrug.zgw.zaken-api.ignore-expired-cert}"
 				/>
                 <Param name="zaak" sessionKey="ZaakUrl" />
                 <Param name="Accept-Crs" value="EPSG:4326"/>

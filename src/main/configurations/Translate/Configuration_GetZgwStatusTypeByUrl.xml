@@ -20,6 +20,12 @@
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
                     timeout="${zaakbrug.zgw.catalogi-api.timeout}"
+                    truststore="${zaakbrug.zgw.catalogi-api.truststore.url}"
+                    truststoreType="${zaakbrug.zgw.catalogi-api.truststore.type}"
+                    truststoreAuthAlias="${zaakbrug.zgw.catalogi-api.truststore.auth-alias}"
+                    verifyHostname="${zaakbrug.zgw.catalogi-api.verify-hostname}"
+                    allowSelfSignedCertificates="${zaakbrug.zgw.catalogi-api.allow-self-signed-cert}"
+                    ignoreCertificateExpiredException="${zaakbrug.zgw.catalogi-api.ignore-expired-cert}"
 				/>
                 <Param name="url" sessionKey="Url" />
                 <Param name="Accept-Crs" value="EPSG:4326"/>
