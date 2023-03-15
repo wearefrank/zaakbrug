@@ -24,6 +24,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -58,6 +59,7 @@ import nl.nn.adapterframework.doc.DocumentedEnum;
 import nl.nn.adapterframework.doc.EnumLabel;
 import nl.nn.adapterframework.pipes.PutSystemDateInSession;
 import nl.nn.adapterframework.stream.Message;
+import nl.nn.adapterframework.util.AppConstants;
 import nl.nn.adapterframework.util.CredentialFactory;
 import nl.nn.adapterframework.util.DateUtils;
 import nl.nn.adapterframework.util.DomBuilderException;
@@ -539,29 +541,46 @@ public class Parameter implements IConfigurable, IWithParameters {
 				result=formatPattern(alreadyResolvedParameters, session);
 			} else if (getValue()!=null) {
 				result = getValue();
-				if ("Authorization".equals(getName()) && result != null && result.toString().startsWith("Bearer ")) {
+				String strResult = result.toString();
+				if ("Authorization".equals(getName()) && result != null && strResult.endsWith(".jwt@@")) {
 					// E.g. with <Param name="Authorization" value="Bearer ${JwtToken}"/> the property JwtToken is
 					// is already resolved at this point (being an empty string when property JwtToken isn't found)
-					CredentialFactory credentialFactory;
-					if(result.toString().contains("@@zaken-api.jwt@@")){
-						credentialFactory = new CredentialFactory("zaken-api.jwt");
-					} else if(result.toString().contains("@@documenten-api.jwt@@")){
-						credentialFactory = new CredentialFactory("documenten-api.jwt");
-					} else if(result.toString().contains("@@catalogi-api.jwt@@")){
-						credentialFactory = new CredentialFactory("catalogi-api.jwt");
+
+					AppConstants appConstants = AppConstants.getInstance(getConfigurationClassLoader());
+					String authType;
+					String authAlias;	
+					if(strResult.contains("@@zaken-api.jwt@@")){
+						authType = appConstants.getProperty("zaakbrug.zgw.zaken-api.auth-type", ""); // "jwt", "basic", "value"
+						authAlias = appConstants.getProperty("zaakbrug.zgw.zaken-api.auth-alias", "");
+					} else if(strResult.contains("@@documenten-api.jwt@@")){
+						authType = appConstants.getProperty("zaakbrug.zgw.documenten-api.auth-type", ""); // "jwt", "basic", "value"
+						authAlias = appConstants.getProperty("zaakbrug.zgw.documenten-api.auth-alias", "");
+					} else if(strResult.contains("@@catalogi-api.jwt@@")){
+						authType = appConstants.getProperty("zaakbrug.zgw.catalogi-api.auth-type", ""); // "jwt", "basic", "value"
+						authAlias = appConstants.getProperty("zaakbrug.zgw.catalogi-api.auth-alias", "");
 					} else {
-						credentialFactory = new CredentialFactory("zaken-api.jwt");
+						throw new ParameterException("Parameter ["+getName()+"] unable to resolve ["+strResult+"] to a known api type");
 					}
 
-					String issuer = credentialFactory.getUsername();
+					CredentialFactory credentialFactory = new CredentialFactory(authAlias);
+					String username = credentialFactory.getUsername();
 					String secret = credentialFactory.getPassword();
-					// Copied from https://github.com/Sudwest-Fryslan/OpenZaakBrug/blob/master/src/main/java/nl/haarlem/translations/zdstozgw/translation/zgw/client/JWTService.java
-					Signer signer = HMACSigner.newSHA256Signer(secret);
-					io.fusionauth.jwt.domain.JWT jwt = new io.fusionauth.jwt.domain.JWT().setIssuer(issuer)
-							.setIssuedAt(now(ZoneOffset.UTC)).addClaim("client_id", issuer).addClaim("user_id", issuer)
-							.addClaim("user_reresentation", issuer).setExpiration(now(ZoneOffset.UTC).plusMinutes(10));
-					String jwtToken = io.fusionauth.jwt.domain.JWT.getEncoder().encode(jwt, signer);
-					result = "Bearer " + jwtToken;
+					if("jwt".equalsIgnoreCase(authType)){
+						// Copied from https://github.com/Sudwest-Fryslan/OpenZaakBrug/blob/master/src/main/java/nl/haarlem/translations/zdstozgw/translation/zgw/client/JWTService.java
+						Signer signer = HMACSigner.newSHA256Signer(secret);
+						io.fusionauth.jwt.domain.JWT jwt = new io.fusionauth.jwt.domain.JWT().setIssuer(username)
+							.setIssuedAt(now(ZoneOffset.UTC)).addClaim("client_id", username).addClaim("user_id", username)
+							.addClaim("user_reresentation", username).setExpiration(now(ZoneOffset.UTC).plusMinutes(10));
+						String jwtToken = io.fusionauth.jwt.domain.JWT.getEncoder().encode(jwt, signer);
+						result = "Bearer " + jwtToken;
+					} else if ("basic".equalsIgnoreCase(authType)){
+						String encoded = Base64.getEncoder().encodeToString((username + ":" + secret).getBytes());
+						result = "Basic " + encoded;
+					} else if ("value".equalsIgnoreCase(authType)){
+						result = secret;
+					} else {
+						throw new ParameterException("Parameter ["+getName()+"] unknown auth-type ["+authType+"], must be 'jwt', 'basic' or 'value'");
+					}
 				}
 			} else {
 				try {
