@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.10.0](https://github.com/ibissource/zaakbrug/compare/v1.9.0...v1.10.0) (2023-03-15)
+
+
+### 🍕 Features
+
+* License ([#68](https://github.com/ibissource/zaakbrug/issues/68)) ([0a6485f](https://github.com/ibissource/zaakbrug/commit/0a6485fdacf51ad2581d24cb05e79c14af1d4f64))
+
 ## [1.9.0](https://github.com/ibissource/zaakbrug/compare/v1.8.0...v1.9.0) (2023-03-14)
 
 
