@@ -16,7 +16,7 @@ data:
   {{- with .Values.frank.configurations.names }}
   configurations.names: {{ . }}
   {{- end }}
-  application.security.http.authentication: {{ .Values.frank.security.http.authentication | toString | quote }}
+  application.security.http.authentication: "{{ .Values.frank.security.http.authentication }}"
   application.security.http.transportGuarantee: {{ .Values.frank.security.http.enforceHttps | ternary "CONFIDENTIAL" "NONE" }}
   {{- if .Values.frank.security.http.authentication }}
   {{- with .Values.frank.security.http.ad }}
@@ -46,15 +46,15 @@ data:
   {{- with .Values.zaakbrug.soap }}
   {{- with .beantwoordVraag }}
   zaakbrug.soap.beantwoord-vraag.endpoint: {{ .endpoint }}
-  zaakbrug.soap.beantwoord-vraag.validation-soft-fail: {{ toString .validationSoftFail | quote }}
+  zaakbrug.soap.beantwoord-vraag.validation-soft-fail: "{{ .validationSoftFail }}"
   {{- end }}
   {{- with .ontvangAsynchroon }}
   zaakbrug.soap.ontvang-asynchroon.endpoint: {{ .endpoint }}
-  zaakbrug.soap.ontvang-asynchroon.validation-soft-fail: {{ toString .validationSoftFail | quote }}
+  zaakbrug.soap.ontvang-asynchroon.validation-soft-fail: "{{ .validationSoftFail }}"
   {{- end }}
   {{- with .vrijeBerichten }}
   zaakbrug.soap.vrije-berichten.endpoint: {{ .endpoint }}
-  zaakbrug.soap.vrije-berichten.validation-soft-fail: {{ toString .validationSoftFail | quote }}
+  zaakbrug.soap.vrije-berichten.validation-soft-fail: "{{ .validationSoftFail }}"
   {{- end }}
   {{- end }}
   {{- with .Values.zaakbrug.zgw }}
