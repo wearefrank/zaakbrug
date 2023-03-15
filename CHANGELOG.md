@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.11.0](https://github.com/ibissource/zaakbrug/compare/v1.10.1...v1.11.0) (2023-03-15)
+
+
+### 🍕 Features
+
+* basic and static value authorization methods for zgw api communication ([#69](https://github.com/ibissource/zaakbrug/issues/69)) ([6ec7e4d](https://github.com/ibissource/zaakbrug/commit/6ec7e4d96dd8af5d80005d216d0e6ace8d7232f8))
+
 ## [1.10.1](https://github.com/ibissource/zaakbrug/compare/v1.10.0...v1.10.1) (2023-03-15)
 
 
