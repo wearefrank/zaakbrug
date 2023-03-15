@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.10.1](https://github.com/ibissource/zaakbrug/compare/v1.10.0...v1.10.1) (2023-03-15)
+
+
+### 🐛 Bug Fixes
+
+* boolean to string conversion in helm chart ([#67](https://github.com/ibissource/zaakbrug/issues/67)) ([a5f7fac](https://github.com/ibissource/zaakbrug/commit/a5f7fac96e3bf3fc15da8d23e8ead96dbf3b60e6))
+
 ## [1.10.0](https://github.com/ibissource/zaakbrug/compare/v1.9.0...v1.10.0) (2023-03-15)
 
 
