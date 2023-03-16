@@ -11,7 +11,7 @@
         <property name="extraMetadataFieldExtractors">
             <list>
                 <bean class="nl.nn.testtool.metadata.StatusMetadataFieldExtractor">
-                    <property name="otherLabelForError" value="Aborted" />
+                    <property name="errorLabel" value="Aborted" />
                     <property name="maxLength" value="30" />
                     <property name="delegate">
                         <bean class="nl.nn.testtool.metadata.XpathMetadataFieldExtractor">

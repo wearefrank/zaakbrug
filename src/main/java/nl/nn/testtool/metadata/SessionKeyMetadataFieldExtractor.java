@@ -37,7 +37,7 @@ public class SessionKeyMetadataFieldExtractor extends
 	protected Pattern pattern;
 
 	public void setSessionKey(String sessionKey) {
-        this.sessionKey = sessionKey;
+		this.sessionKey = sessionKey;
 	}
 
 	public void setRegex(String regex) {
