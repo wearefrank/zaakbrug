@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.11.3](https://github.com/ibissource/zaakbrug/compare/v1.11.2...v1.11.3) (2023-03-22)
+
+
+### 🐛 Bug Fixes
+
+* make the frank able to run in readOnly mode ([#73](https://github.com/ibissource/zaakbrug/issues/73)) ([20def24](https://github.com/ibissource/zaakbrug/commit/20def241805f0523bba4493b155210fce7b4bcfb))
+
 ## [1.11.2](https://github.com/ibissource/zaakbrug/compare/v1.11.1...v1.11.2) (2023-03-22)
 
 
