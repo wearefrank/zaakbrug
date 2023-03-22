@@ -1,0 +1,115 @@
+<!DOCTYPE Configuration [
+	<!ENTITY klantcontact_list SYSTEM "./configuration_zaken_klantcontact_list.xml">
+	<!ENTITY klantcontact_create SYSTEM "./configuration_zaken_klantcontact_create.xml">
+	<!ENTITY klantcontact_read SYSTEM "./configuration_zaken_klantcontact_read.xml">
+	<!ENTITY resultaat_list SYSTEM "./configuration_zaken_resultaat_list.xml">
+	<!ENTITY resultaat_create SYSTEM "./configuration_zaken_resultaat_create.xml">
+	<!ENTITY resultaat_read SYSTEM "./configuration_zaken_resultaat_read.xml">
+	<!ENTITY resultaat_update SYSTEM "./configuration_zaken_resultaat_update.xml">
+	<!ENTITY resultaat_delete SYSTEM "./configuration_zaken_resultaat_delete.xml">
+	<!ENTITY resultaat_partial_update SYSTEM "./configuration_zaken_resultaat_partial_update.xml">
+	<!ENTITY rol_list SYSTEM "./configuration_zaken_rol_list.xml">
+	<!ENTITY rol_create SYSTEM "./configuration_zaken_rol_create.xml">
+	<!ENTITY rol_read SYSTEM "./configuration_zaken_rol_read.xml">
+	<!ENTITY rol_delete SYSTEM "./configuration_zaken_rol_delete.xml">
+	<!ENTITY status_list SYSTEM "./configuration_zaken_status_list.xml">
+	<!ENTITY status_create SYSTEM "./configuration_zaken_status_create.xml">
+	<!ENTITY status_read SYSTEM "./configuration_zaken_status_read.xml">
+	<!ENTITY zaakcontactmoment_list SYSTEM "./configuration_zaken_zaakcontactmoment_list.xml">
+	<!ENTITY zaakcontactmoment_create SYSTEM "./configuration_zaken_zaakcontactmoment_create.xml">
+	<!ENTITY zaakcontactmoment_read SYSTEM "./configuration_zaken_zaakcontactmoment_read.xml">
+	<!ENTITY zaakcontactmoment_delete SYSTEM "./configuration_zaken_zaakcontactmoment_delete.xml">
+	<!ENTITY zaakinformatieobject_list SYSTEM "./configuration_zaken_zaakinformatieobject_list.xml">
+	<!ENTITY zaakinformatieobject_create SYSTEM "./configuration_zaken_zaakinformatieobject_create.xml">
+	<!ENTITY zaakinformatieobject_read SYSTEM "./configuration_zaken_zaakinformatieobject_read.xml">
+	<!ENTITY zaakinformatieobject_update SYSTEM "./configuration_zaken_zaakinformatieobject_update.xml">
+	<!ENTITY zaakinformatieobject_delete SYSTEM "./configuration_zaken_zaakinformatieobject_delete.xml">
+	<!ENTITY zaakinformatieobject_partial_update SYSTEM "./configuration_zaken_zaakinformatieobject_partial_update.xml">
+	<!ENTITY zaakobject_list SYSTEM "./configuration_zaken_zaakobject_list.xml">
+	<!ENTITY zaakobject_create SYSTEM "./configuration_zaken_zaakobject_create.xml">
+	<!ENTITY zaakobject_read SYSTEM "./configuration_zaken_zaakobject_read.xml">
+	<!ENTITY zaakobject_update SYSTEM "./configuration_zaken_zaakobject_update.xml">
+	<!ENTITY zaakobject_delete SYSTEM "./configuration_zaken_zaakobject_delete.xml">
+	<!ENTITY zaakobject_partial_update SYSTEM "./configuration_zaken_zaakobject_partial_update.xml">
+	<!ENTITY zaakverzoek_list SYSTEM "./configuration_zaken_zaakverzoek_list.xml">
+	<!ENTITY zaakverzoek_create SYSTEM "./configuration_zaken_zaakverzoek_create.xml">
+	<!ENTITY zaakverzoek_read SYSTEM "./configuration_zaken_zaakverzoek_read.xml">
+	<!ENTITY zaakverzoek_delete SYSTEM "./configuration_zaken_zaakverzoek_delete.xml">
+	<!ENTITY zaak_list SYSTEM "./configuration_zaken_zaak_list.xml">
+	<!ENTITY zaak_create SYSTEM "./configuration_zaken_zaak_create.xml">
+	<!ENTITY zaak__zoek SYSTEM "./configuration_zaken_zaak__zoek.xml">
+	<!ENTITY zaak_read SYSTEM "./configuration_zaken_zaak_read.xml">
+	<!ENTITY zaak_update SYSTEM "./configuration_zaken_zaak_update.xml">
+	<!ENTITY zaak_delete SYSTEM "./configuration_zaken_zaak_delete.xml">
+	<!ENTITY zaak_partial_update SYSTEM "./configuration_zaken_zaak_partial_update.xml">
+	<!ENTITY audittrail_list SYSTEM "./configuration_zaken_audittrail_list.xml">
+	<!ENTITY audittrail_read SYSTEM "./configuration_zaken_audittrail_read.xml">
+	<!ENTITY zaakbesluit_list SYSTEM "./configuration_zaken_zaakbesluit_list.xml">
+	<!ENTITY zaakbesluit_create SYSTEM "./configuration_zaken_zaakbesluit_create.xml">
+	<!ENTITY zaakbesluit_read SYSTEM "./configuration_zaken_zaakbesluit_read.xml">
+	<!ENTITY zaakbesluit_delete SYSTEM "./configuration_zaken_zaakbesluit_delete.xml">
+	<!ENTITY zaakeigenschap_list SYSTEM "./configuration_zaken_zaakeigenschap_list.xml">
+	<!ENTITY zaakeigenschap_create SYSTEM "./configuration_zaken_zaakeigenschap_create.xml">
+	<!ENTITY zaakeigenschap_read SYSTEM "./configuration_zaken_zaakeigenschap_read.xml">
+	<!ENTITY zaakeigenschap_update SYSTEM "./configuration_zaken_zaakeigenschap_update.xml">
+	<!ENTITY zaakeigenschap_delete SYSTEM "./configuration_zaken_zaakeigenschap_delete.xml">
+	<!ENTITY zaakeigenschap_partial_update SYSTEM "./configuration_zaken_zaakeigenschap_partial_update.xml">
+	]>
+
+<Configuration name="Zaken API - 1.2.0">
+	&klantcontact_list;
+	&klantcontact_create;
+	&klantcontact_read;
+	&resultaat_list;
+	&resultaat_create;
+	&resultaat_read;
+	&resultaat_update;
+	&resultaat_delete;
+	&resultaat_partial_update;
+	&rol_list;
+	&rol_create;
+	&rol_read;
+	&rol_delete;
+	&status_list;
+	&status_create;
+	&status_read;
+	&zaakcontactmoment_list;
+	&zaakcontactmoment_create;
+	&zaakcontactmoment_read;
+	&zaakcontactmoment_delete;
+	&zaakinformatieobject_list;
+	&zaakinformatieobject_create;
+	&zaakinformatieobject_read;
+	&zaakinformatieobject_update;
+	&zaakinformatieobject_delete;
+	&zaakinformatieobject_partial_update;
+	&zaakobject_list;
+	&zaakobject_create;
+	&zaakobject_read;
+	&zaakobject_update;
+	&zaakobject_delete;
+	&zaakobject_partial_update;
+	&zaakverzoek_list;
+	&zaakverzoek_create;
+	&zaakverzoek_read;
+	&zaakverzoek_delete;
+	&zaak_list;
+	&zaak_create;
+	&zaak__zoek;
+	&zaak_read;
+	&zaak_update;
+	&zaak_delete;
+	&zaak_partial_update;
+	&audittrail_list;
+	&audittrail_read;
+	&zaakbesluit_list;
+	&zaakbesluit_create;
+	&zaakbesluit_read;
+	&zaakbesluit_delete;
+	&zaakeigenschap_list;
+	&zaakeigenschap_create;
+	&zaakeigenschap_read;
+	&zaakeigenschap_update;
+	&zaakeigenschap_delete;
+	&zaakeigenschap_partial_update;
+</Configuration>
