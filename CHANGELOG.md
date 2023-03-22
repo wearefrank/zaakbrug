@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.11.2](https://github.com/ibissource/zaakbrug/compare/v1.11.1...v1.11.2) (2023-03-22)
+
+
+### 🧑‍💻 Code Refactoring
+
+* scaffold zgw api endpoints behind feature toggle ([#72](https://github.com/ibissource/zaakbrug/issues/72)) ([a584345](https://github.com/ibissource/zaakbrug/commit/a584345af48ee3607867a36a6c10aa44e73ce0d4))
+
 ## [1.11.1](https://github.com/ibissource/zaakbrug/compare/v1.11.0...v1.11.1) (2023-03-22)
 
 
