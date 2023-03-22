@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.11.1](https://github.com/ibissource/zaakbrug/compare/v1.11.0...v1.11.1) (2023-03-22)
+
+
+### 🐛 Bug Fixes
+
+* when url uses a standard port omit it in host header ([#71](https://github.com/ibissource/zaakbrug/issues/71)) ([be50dea](https://github.com/ibissource/zaakbrug/commit/be50deadbe8187c880d73554c023794ab40d6b36))
+
 ## [1.11.0](https://github.com/ibissource/zaakbrug/compare/v1.10.1...v1.11.0) (2023-03-15)
 
 
