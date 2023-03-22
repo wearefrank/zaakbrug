@@ -18,9 +18,14 @@ COPY --chown=tomcat src/test/testtool/ /opt/frank/testtool/
 
 # Compile custom class, this should be changed to a buildstep in the future
 COPY --chown=tomcat src/main/java /tmp/java
-RUN javac /tmp/java/nl/nn/adapterframework/parameters/Parameter.java /tmp/java/nl/nn/testtool/metadata/SessionKeyMetadataFieldExtractor.java /tmp/java/nl/nn/testtool/metadata/XpathMetadataFieldExtractor.java /tmp/java/nl/nn/testtool/metadata/StatusMetadataFieldExtractor.java \
-     -classpath "/usr/local/tomcat/webapps/ROOT/WEB-INF/lib/*:/usr/local/tomcat/lib/*" \
-     -verbose -d /usr/local/tomcat/webapps/ROOT/WEB-INF/classes
+RUN javac \
+      /tmp/java/nl/nn/adapterframework/parameters/Parameter.java \
+      /tmp/java/nl/nn/testtool/metadata/SessionKeyMetadataFieldExtractor.java \
+      /tmp/java/nl/nn/testtool/metadata/XpathMetadataFieldExtractor.java \
+      /tmp/java/nl/nn/testtool/metadata/StatusMetadataFieldExtractor.java \
+      /tmp/java/nl/nn/adapterframework/http/HttpSenderBase.java \
+      -classpath "/usr/local/tomcat/webapps/ROOT/WEB-INF/lib/*:/usr/local/tomcat/lib/*" \
+      -verbose -d /usr/local/tomcat/webapps/ROOT/WEB-INF/classes
 RUN rm -rf /tmp/java
 
 HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=60 \
