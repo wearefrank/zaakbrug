@@ -43,6 +43,16 @@ spec:
             - configMapRef:
                 name: {{ template "zaakbrug.fullname" . }}-specifics
           volumeMounts:
+            {{- if .Values.securityContext.readOnlyRootFilesystem }}
+            - mountPath: /usr/local/tomcat/logs
+              name: tmpfs
+            - mountPath: /usr/local/tomcat/conf/Catalina
+              name: tmpfs
+            - mountPath: /usr/local/tomcat/work/Catalina/localhost
+              name: tmpfs
+            - mountPath: /usr/local/tomcat/temp
+              name: tmpfs
+            {{- end }}
             - name: {{ template "zaakbrug.fullname" . }}-config
               mountPath: /usr/local/tomcat/conf/Catalina/localhost/ROOT.xml
               subPath: context.xml
@@ -90,6 +100,10 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
+        {{- if .Values.securityContext.readOnlyRootFilesystem }}
+        - name: tmpfs
+          emptyDir: {}
+        {{- end }}
         - name: {{ template "zaakbrug.fullname" . }}-config
           configMap:
             name: {{ template "zaakbrug.fullname" . }}-config
