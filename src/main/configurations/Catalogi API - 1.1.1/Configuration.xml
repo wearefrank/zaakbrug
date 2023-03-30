@@ -1,0 +1,113 @@
+<!DOCTYPE Configuration [
+	<!ENTITY besluittype_list SYSTEM "./configuration_catalogi_besluittype_list.xml">
+	<!ENTITY besluittype_create SYSTEM "./configuration_catalogi_besluittype_create.xml">
+	<!ENTITY besluittype_read SYSTEM "./configuration_catalogi_besluittype_read.xml">
+	<!ENTITY besluittype_update SYSTEM "./configuration_catalogi_besluittype_update.xml">
+	<!ENTITY besluittype_delete SYSTEM "./configuration_catalogi_besluittype_delete.xml">
+	<!ENTITY besluittype_partial_update SYSTEM "./configuration_catalogi_besluittype_partial_update.xml">
+	<!ENTITY besluittype_publish SYSTEM "./configuration_catalogi_besluittype_publish.xml">
+	<!ENTITY catalogus_list SYSTEM "./configuration_catalogi_catalogus_list.xml">
+	<!ENTITY catalogus_create SYSTEM "./configuration_catalogi_catalogus_create.xml">
+	<!ENTITY catalogus_read SYSTEM "./configuration_catalogi_catalogus_read.xml">
+	<!ENTITY eigenschap_list SYSTEM "./configuration_catalogi_eigenschap_list.xml">
+	<!ENTITY eigenschap_create SYSTEM "./configuration_catalogi_eigenschap_create.xml">
+	<!ENTITY eigenschap_read SYSTEM "./configuration_catalogi_eigenschap_read.xml">
+	<!ENTITY eigenschap_update SYSTEM "./configuration_catalogi_eigenschap_update.xml">
+	<!ENTITY eigenschap_delete SYSTEM "./configuration_catalogi_eigenschap_delete.xml">
+	<!ENTITY eigenschap_partial_update SYSTEM "./configuration_catalogi_eigenschap_partial_update.xml">
+	<!ENTITY informatieobjecttype_list SYSTEM "./configuration_catalogi_informatieobjecttype_list.xml">
+	<!ENTITY informatieobjecttype_create SYSTEM "./configuration_catalogi_informatieobjecttype_create.xml">
+	<!ENTITY informatieobjecttype_read SYSTEM "./configuration_catalogi_informatieobjecttype_read.xml">
+	<!ENTITY informatieobjecttype_update SYSTEM "./configuration_catalogi_informatieobjecttype_update.xml">
+	<!ENTITY informatieobjecttype_delete SYSTEM "./configuration_catalogi_informatieobjecttype_delete.xml">
+	<!ENTITY informatieobjecttype_partial_update SYSTEM "./configuration_catalogi_informatieobjecttype_partial_update.xml">
+	<!ENTITY informatieobjecttype_publish SYSTEM "./configuration_catalogi_informatieobjecttype_publish.xml">
+	<!ENTITY resultaattype_list SYSTEM "./configuration_catalogi_resultaattype_list.xml">
+	<!ENTITY resultaattype_create SYSTEM "./configuration_catalogi_resultaattype_create.xml">
+	<!ENTITY resultaattype_read SYSTEM "./configuration_catalogi_resultaattype_read.xml">
+	<!ENTITY resultaattype_update SYSTEM "./configuration_catalogi_resultaattype_update.xml">
+	<!ENTITY resultaattype_delete SYSTEM "./configuration_catalogi_resultaattype_delete.xml">
+	<!ENTITY resultaattype_partial_update SYSTEM "./configuration_catalogi_resultaattype_partial_update.xml">
+	<!ENTITY roltype_list SYSTEM "./configuration_catalogi_roltype_list.xml">
+	<!ENTITY roltype_create SYSTEM "./configuration_catalogi_roltype_create.xml">
+	<!ENTITY roltype_read SYSTEM "./configuration_catalogi_roltype_read.xml">
+	<!ENTITY roltype_update SYSTEM "./configuration_catalogi_roltype_update.xml">
+	<!ENTITY roltype_delete SYSTEM "./configuration_catalogi_roltype_delete.xml">
+	<!ENTITY roltype_partial_update SYSTEM "./configuration_catalogi_roltype_partial_update.xml">
+	<!ENTITY statustype_list SYSTEM "./configuration_catalogi_statustype_list.xml">
+	<!ENTITY statustype_create SYSTEM "./configuration_catalogi_statustype_create.xml">
+	<!ENTITY statustype_read SYSTEM "./configuration_catalogi_statustype_read.xml">
+	<!ENTITY statustype_update SYSTEM "./configuration_catalogi_statustype_update.xml">
+	<!ENTITY statustype_delete SYSTEM "./configuration_catalogi_statustype_delete.xml">
+	<!ENTITY statustype_partial_update SYSTEM "./configuration_catalogi_statustype_partial_update.xml">
+	<!ENTITY zaakinformatieobjecttype_list SYSTEM "./configuration_catalogi_zaakinformatieobjecttype_list.xml">
+	<!ENTITY zaakinformatieobjecttype_create SYSTEM "./configuration_catalogi_zaakinformatieobjecttype_create.xml">
+	<!ENTITY zaakinformatieobjecttype_read SYSTEM "./configuration_catalogi_zaakinformatieobjecttype_read.xml">
+	<!ENTITY zaakinformatieobjecttype_update SYSTEM "./configuration_catalogi_zaakinformatieobjecttype_update.xml">
+	<!ENTITY zaakinformatieobjecttype_delete SYSTEM "./configuration_catalogi_zaakinformatieobjecttype_delete.xml">
+	<!ENTITY zaakinformatieobjecttype_partial_update SYSTEM "./configuration_catalogi_zaakinformatieobjecttype_partial_update.xml">
+	<!ENTITY zaaktype_list SYSTEM "./configuration_catalogi_zaaktype_list.xml">
+	<!ENTITY zaaktype_create SYSTEM "./configuration_catalogi_zaaktype_create.xml">
+	<!ENTITY zaaktype_read SYSTEM "./configuration_catalogi_zaaktype_read.xml">
+	<!ENTITY zaaktype_update SYSTEM "./configuration_catalogi_zaaktype_update.xml">
+	<!ENTITY zaaktype_delete SYSTEM "./configuration_catalogi_zaaktype_delete.xml">
+	<!ENTITY zaaktype_partial_update SYSTEM "./configuration_catalogi_zaaktype_partial_update.xml">
+	<!ENTITY zaaktype_publish SYSTEM "./configuration_catalogi_zaaktype_publish.xml">
+	]>
+
+<Configuration name="Catalogi API - 1.1.1">
+	&besluittype_list;
+	&besluittype_create;
+	&besluittype_read;
+	&besluittype_update;
+	&besluittype_delete;
+	&besluittype_partial_update;
+	&besluittype_publish;
+	&catalogus_list;
+	&catalogus_create;
+	&catalogus_read;
+	&eigenschap_list;
+	&eigenschap_create;
+	&eigenschap_read;
+	&eigenschap_update;
+	&eigenschap_delete;
+	&eigenschap_partial_update;
+	&informatieobjecttype_list;
+	&informatieobjecttype_create;
+	&informatieobjecttype_read;
+	&informatieobjecttype_update;
+	&informatieobjecttype_delete;
+	&informatieobjecttype_partial_update;
+	&informatieobjecttype_publish;
+	&resultaattype_list;
+	&resultaattype_create;
+	&resultaattype_read;
+	&resultaattype_update;
+	&resultaattype_delete;
+	&resultaattype_partial_update;
+	&roltype_list;
+	&roltype_create;
+	&roltype_read;
+	&roltype_update;
+	&roltype_delete;
+	&roltype_partial_update;
+	&statustype_list;
+	&statustype_create;
+	&statustype_read;
+	&statustype_update;
+	&statustype_delete;
+	&statustype_partial_update;
+	&zaakinformatieobjecttype_list;
+	&zaakinformatieobjecttype_create;
+	&zaakinformatieobjecttype_read;
+	&zaakinformatieobjecttype_update;
+	&zaakinformatieobjecttype_delete;
+	&zaakinformatieobjecttype_partial_update;
+	&zaaktype_list;
+	&zaaktype_create;
+	&zaaktype_read;
+	&zaaktype_update;
+	&zaaktype_delete;
+	&zaaktype_partial_update;
+	&zaaktype_publish;
+</Configuration>

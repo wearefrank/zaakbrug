@@ -1,0 +1,49 @@
+<!DOCTYPE Configuration [
+	<!ENTITY bestandsdeel_update SYSTEM "./configuration_documenten_bestandsdeel_update.xml">
+	<!ENTITY enkelvoudiginformatieobject_list SYSTEM "./configuration_documenten_enkelvoudiginformatieobject_list.xml">
+	<!ENTITY enkelvoudiginformatieobject_create SYSTEM "./configuration_documenten_enkelvoudiginformatieobject_create.xml">
+	<!ENTITY audittrail_list SYSTEM "./configuration_documenten_audittrail_list.xml">
+	<!ENTITY audittrail_read SYSTEM "./configuration_documenten_audittrail_read.xml">
+	<!ENTITY enkelvoudiginformatieobject_read SYSTEM "./configuration_documenten_enkelvoudiginformatieobject_read.xml">
+	<!ENTITY enkelvoudiginformatieobject_update SYSTEM "./configuration_documenten_enkelvoudiginformatieobject_update.xml">
+	<!ENTITY enkelvoudiginformatieobject_delete SYSTEM "./configuration_documenten_enkelvoudiginformatieobject_delete.xml">
+	<!ENTITY enkelvoudiginformatieobject_partial_update SYSTEM "./configuration_documenten_enkelvoudiginformatieobject_partial_update.xml">
+	<!ENTITY enkelvoudiginformatieobject_download SYSTEM "./configuration_documenten_enkelvoudiginformatieobject_download.xml">
+	<!ENTITY enkelvoudiginformatieobject_lock SYSTEM "./configuration_documenten_enkelvoudiginformatieobject_lock.xml">
+	<!ENTITY enkelvoudiginformatieobject_unlock SYSTEM "./configuration_documenten_enkelvoudiginformatieobject_unlock.xml">
+	<!ENTITY gebruiksrechten_list SYSTEM "./configuration_documenten_gebruiksrechten_list.xml">
+	<!ENTITY gebruiksrechten_create SYSTEM "./configuration_documenten_gebruiksrechten_create.xml">
+	<!ENTITY gebruiksrechten_read SYSTEM "./configuration_documenten_gebruiksrechten_read.xml">
+	<!ENTITY gebruiksrechten_update SYSTEM "./configuration_documenten_gebruiksrechten_update.xml">
+	<!ENTITY gebruiksrechten_delete SYSTEM "./configuration_documenten_gebruiksrechten_delete.xml">
+	<!ENTITY gebruiksrechten_partial_update SYSTEM "./configuration_documenten_gebruiksrechten_partial_update.xml">
+	<!ENTITY objectinformatieobject_list SYSTEM "./configuration_documenten_objectinformatieobject_list.xml">
+	<!ENTITY objectinformatieobject_create SYSTEM "./configuration_documenten_objectinformatieobject_create.xml">
+	<!ENTITY objectinformatieobject_read SYSTEM "./configuration_documenten_objectinformatieobject_read.xml">
+	<!ENTITY objectinformatieobject_delete SYSTEM "./configuration_documenten_objectinformatieobject_delete.xml">
+	]>
+
+<Configuration name="Documenten API - 1.1.0">
+	&bestandsdeel_update;
+	&enkelvoudiginformatieobject_list;
+	&enkelvoudiginformatieobject_create;
+	&audittrail_list;
+	&audittrail_read;
+	&enkelvoudiginformatieobject_read;
+	&enkelvoudiginformatieobject_update;
+	&enkelvoudiginformatieobject_delete;
+	&enkelvoudiginformatieobject_partial_update;
+	&enkelvoudiginformatieobject_download;
+	&enkelvoudiginformatieobject_lock;
+	&enkelvoudiginformatieobject_unlock;
+	&gebruiksrechten_list;
+	&gebruiksrechten_create;
+	&gebruiksrechten_read;
+	&gebruiksrechten_update;
+	&gebruiksrechten_delete;
+	&gebruiksrechten_partial_update;
+	&objectinformatieobject_list;
+	&objectinformatieobject_create;
+	&objectinformatieobject_read;
+	&objectinformatieobject_delete;
+</Configuration>
