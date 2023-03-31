@@ -10,24 +10,24 @@
 			<ApiListener 
 				name="statustype_delete" 
 				method="DELETE"
-				uriPattern="/statustypen/{uuid}"
+				uriPattern="/catalogi/api/v1/statustypen/{uuid}"
 				produces="JSON"
 				consumes="ANY"
 				/>
 		</Receiver>
 		<Pipeline>
 			<Exits>
-				<Exit path="EXIT" state="SUCCESS" code="200"/>
-				<Exit path="NotModified" state="SUCCESS" code="304"/>
-				<Exit path="BadRequest" state="ERROR" code="400"/>
-				<Exit path="NotAuthorized" state="ERROR" code="401" empty="true"/>
-				<Exit path="NotAllowed" state="ERROR" code="403" empty="true"/>
-				<Exit path="PreconditionFailed" state="ERROR" code="412"/>
-				<Exit path="ServerError" state="ERROR" code="500"/>
-				<Exit path="Timeout" state="ERROR" code="504"/>
+				<Exit name="EXIT" state="SUCCESS" code="200"/>
+				<Exit name="NotModified" state="SUCCESS" code="304"/>
+				<Exit name="BadRequest" state="ERROR" code="400"/>
+				<Exit name="NotAuthorized" state="ERROR" code="401" empty="true"/>
+				<Exit name="NotAllowed" state="ERROR" code="403" empty="true"/>
+				<Exit name="PreconditionFailed" state="ERROR" code="412"/>
+				<Exit name="ServerError" state="ERROR" code="500"/>
+				<Exit name="Timeout" state="ERROR" code="504"/>
 			</Exits>
 
-			<FixedResultPipe name="Helloworld" returnString="Hello World!"/>
+			<FixedResultPipe name="Helloworld" returnString="{&quot;count&quot;:123,&quot;next&quot;:&quot;http://api.example.org/accounts/?page=4&quot;,&quot;previous&quot;:&quot;http://api.example.org/accounts/?page=2&quot;,&quot;results&quot;:[{&quot;url&quot;:&quot;string&quot;,&quot;uuid&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;,&quot;zaak&quot;:&quot;string&quot;,&quot;resultaattype&quot;:&quot;string&quot;,&quot;toelichting&quot;:&quot;string&quot;}]}" />
 		</Pipeline>
 	</Adapter>
 </Module>
