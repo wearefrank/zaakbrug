@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="rol_read" 
 				method="GET"
-				uriPattern="/rollen/{uuid}"
+				uriPattern="/zaken/api/v1/rollen/{uuid}"
 				produces="JSON"
 				consumes="ANY"
 				/>

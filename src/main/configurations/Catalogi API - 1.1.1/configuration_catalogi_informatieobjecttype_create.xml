@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="informatieobjecttype_create" 
 				method="POST"
-				uriPattern="/informatieobjecttypen"
+				uriPattern="/catalogi/api/v1/informatieobjecttypen"
 				produces="JSON"
 				consumes="JSON"
 				/>

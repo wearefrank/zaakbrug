@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="besluittype_create" 
 				method="POST"
-				uriPattern="/besluittypen"
+				uriPattern="/catalogi/api/v1/besluittypen"
 				produces="JSON"
 				consumes="JSON"
 				/>

@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="resultaat_list" 
 				method="GET"
-				uriPattern="/resultaten"
+				uriPattern="/zaken/api/v1/resultaten"
 				produces="JSON"
 				consumes="ANY"
 				/>

@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="klantcontact_read" 
 				method="GET"
-				uriPattern="/klantcontacten/{uuid}"
+				uriPattern="/zaken/api/v1/klantcontacten/{uuid}"
 				produces="JSON"
 				consumes="ANY"
 				/>

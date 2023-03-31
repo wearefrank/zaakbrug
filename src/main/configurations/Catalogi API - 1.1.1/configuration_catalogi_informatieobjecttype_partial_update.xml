@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="informatieobjecttype_partial_update" 
 				method="PATCH"
-				uriPattern="/informatieobjecttypen/{uuid}"
+				uriPattern="/catalogi/api/v1/informatieobjecttypen/{uuid}"
 				produces="JSON"
 				consumes="JSON"
 				/>

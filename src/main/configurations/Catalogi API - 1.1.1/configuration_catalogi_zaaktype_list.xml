@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="zaaktype_list" 
 				method="GET"
-				uriPattern="/zaaktypen"
+				uriPattern="/catalogi/api/v1/zaaktypen"
 				produces="JSON"
 				consumes="ANY"
 				/>

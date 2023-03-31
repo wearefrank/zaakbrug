@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="zaaktype_read" 
 				method="GET"
-				uriPattern="/zaaktypen/{uuid}"
+				uriPattern="/catalogi/api/v1/zaaktypen/{uuid}"
 				produces="JSON"
 				consumes="ANY"
 				/>

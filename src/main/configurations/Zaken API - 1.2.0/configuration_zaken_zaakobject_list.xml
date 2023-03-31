@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="zaakobject_list" 
 				method="GET"
-				uriPattern="/zaakobjecten"
+				uriPattern="/zaken/api/v1/zaakobjecten"
 				produces="JSON"
 				consumes="ANY"
 				/>

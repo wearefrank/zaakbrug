@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="gebruiksrechten_partial_update" 
 				method="PATCH"
-				uriPattern="/gebruiksrechten/{uuid}"
+				uriPattern="/documenten/api/v1/gebruiksrechten/{uuid}"
 				produces="JSON"
 				consumes="JSON"
 				/>

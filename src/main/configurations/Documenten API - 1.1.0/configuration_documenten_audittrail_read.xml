@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="audittrail_read" 
 				method="GET"
-				uriPattern="/enkelvoudiginformatieobjecten/{enkelvoudiginformatieobject_uuid}/audittrail/{uuid}"
+				uriPattern="/documenten/api/v1/enkelvoudiginformatieobjecten/{enkelvoudiginformatieobject_uuid}/audittrail/{uuid}"
 				produces="JSON"
 				consumes="ANY"
 				/>

@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="eigenschap_update" 
 				method="PUT"
-				uriPattern="/eigenschappen/{uuid}"
+				uriPattern="/catalogi/api/v1/eigenschappen/{uuid}"
 				produces="JSON"
 				consumes="JSON"
 				/>

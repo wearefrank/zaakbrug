@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="zaakeigenschap_create" 
 				method="POST"
-				uriPattern="/zaken/{zaak_uuid}/zaakeigenschappen"
+				uriPattern="/zaken/api/v1/zaken/{zaak_uuid}/zaakeigenschappen"
 				produces="JSON"
 				consumes="JSON"
 				/>

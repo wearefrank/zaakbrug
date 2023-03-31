@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="zaakverzoek_create" 
 				method="POST"
-				uriPattern="/zaakverzoeken"
+				uriPattern="/zaken/api/v1/zaakverzoeken"
 				produces="JSON"
 				consumes="JSON"
 				/>

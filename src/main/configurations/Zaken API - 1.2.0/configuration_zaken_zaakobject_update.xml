@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="zaakobject_update" 
 				method="PUT"
-				uriPattern="/zaakobjecten/{uuid}"
+				uriPattern="/zaken/api/v1/zaakobjecten/{uuid}"
 				produces="JSON"
 				consumes="JSON"
 				/>

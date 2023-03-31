@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="enkelvoudiginformatieobject_lock" 
 				method="POST"
-				uriPattern="/enkelvoudiginformatieobjecten/{uuid}/lock"
+				uriPattern="/documenten/api/v1/enkelvoudiginformatieobjecten/{uuid}/lock"
 				produces="JSON"
 				consumes="JSON"
 				/>

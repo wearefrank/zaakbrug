@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="zaakinformatieobjecttype_update" 
 				method="PUT"
-				uriPattern="/zaaktype-informatieobjecttypen/{uuid}"
+				uriPattern="/catalogi/api/v1/zaaktype-informatieobjecttypen/{uuid}"
 				produces="JSON"
 				consumes="JSON"
 				/>

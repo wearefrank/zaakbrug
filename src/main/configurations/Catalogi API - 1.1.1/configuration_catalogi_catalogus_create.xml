@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="catalogus_create" 
 				method="POST"
-				uriPattern="/catalogussen"
+				uriPattern="/catalogi/api/v1/catalogussen"
 				produces="JSON"
 				consumes="JSON"
 				/>

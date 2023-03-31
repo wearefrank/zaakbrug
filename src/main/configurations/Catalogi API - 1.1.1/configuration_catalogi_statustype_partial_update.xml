@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="statustype_partial_update" 
 				method="PATCH"
-				uriPattern="/statustypen/{uuid}"
+				uriPattern="/catalogi/api/v1/statustypen/{uuid}"
 				produces="JSON"
 				consumes="JSON"
 				/>

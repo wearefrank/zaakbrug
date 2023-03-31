@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="eigenschap_partial_update" 
 				method="PATCH"
-				uriPattern="/eigenschappen/{uuid}"
+				uriPattern="/catalogi/api/v1/eigenschappen/{uuid}"
 				produces="JSON"
 				consumes="JSON"
 				/>

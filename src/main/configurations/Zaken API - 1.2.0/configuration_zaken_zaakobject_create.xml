@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="zaakobject_create" 
 				method="POST"
-				uriPattern="/zaakobjecten"
+				uriPattern="/zaken/api/v1/zaakobjecten"
 				produces="JSON"
 				consumes="JSON"
 				/>

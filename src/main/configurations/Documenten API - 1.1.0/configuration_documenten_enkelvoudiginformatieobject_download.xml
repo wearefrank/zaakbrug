@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="enkelvoudiginformatieobject_download" 
 				method="GET"
-				uriPattern="/enkelvoudiginformatieobjecten/{uuid}/download"
+				uriPattern="/documenten/api/v1/enkelvoudiginformatieobjecten/{uuid}/download"
 				produces="JSON"
 				consumes="ANY"
 				/>

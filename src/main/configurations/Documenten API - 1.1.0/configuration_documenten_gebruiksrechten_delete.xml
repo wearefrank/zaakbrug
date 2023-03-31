@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="gebruiksrechten_delete" 
 				method="DELETE"
-				uriPattern="/gebruiksrechten/{uuid}"
+				uriPattern="/documenten/api/v1/gebruiksrechten/{uuid}"
 				produces="JSON"
 				consumes="ANY"
 				/>

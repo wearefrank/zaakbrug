@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="status_list" 
 				method="GET"
-				uriPattern="/statussen"
+				uriPattern="/zaken/api/v1/statussen"
 				produces="JSON"
 				consumes="ANY"
 				/>

@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="besluittype_delete" 
 				method="DELETE"
-				uriPattern="/besluittypen/{uuid}"
+				uriPattern="/catalogi/api/v1/besluittypen/{uuid}"
 				produces="JSON"
 				consumes="ANY"
 				/>

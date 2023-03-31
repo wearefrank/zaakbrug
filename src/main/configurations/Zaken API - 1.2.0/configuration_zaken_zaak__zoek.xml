@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="zaak__zoek" 
 				method="POST"
-				uriPattern="/zaken/_zoek"
+				uriPattern="/zaken/api/v1/zaken/_zoek"
 				produces="JSON"
 				consumes="JSON"
 				/>
