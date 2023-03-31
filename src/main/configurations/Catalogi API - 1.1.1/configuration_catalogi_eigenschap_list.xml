@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="eigenschap_list" 
 				method="GET"
-				uriPattern="/eigenschappen"
+				uriPattern="/catalogi/api/v1/eigenschappen"
 				produces="JSON"
 				consumes="ANY"
 				/>

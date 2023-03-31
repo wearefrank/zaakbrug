@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="objectinformatieobject_read" 
 				method="GET"
-				uriPattern="/objectinformatieobjecten/{uuid}"
+				uriPattern="/documenten/api/v1/objectinformatieobjecten/{uuid}"
 				produces="JSON"
 				consumes="ANY"
 				/>

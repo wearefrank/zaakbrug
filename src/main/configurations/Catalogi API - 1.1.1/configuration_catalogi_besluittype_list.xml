@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="besluittype_list" 
 				method="GET"
-				uriPattern="/besluittypen"
+				uriPattern="/catalogi/api/v1/besluittypen"
 				produces="JSON"
 				consumes="ANY"
 				/>

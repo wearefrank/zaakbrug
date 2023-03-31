@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="audittrail_read" 
 				method="GET"
-				uriPattern="/zaken/{zaak_uuid}/audittrail/{uuid}"
+				uriPattern="/zaken/api/v1/zaken/{zaak_uuid}/audittrail/{uuid}"
 				produces="JSON"
 				consumes="ANY"
 				/>

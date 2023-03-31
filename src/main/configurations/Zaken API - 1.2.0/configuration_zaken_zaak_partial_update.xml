@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="zaak_partial_update" 
 				method="PATCH"
-				uriPattern="/zaken/{uuid}"
+				uriPattern="/zaken/api/v1/zaken/{uuid}"
 				produces="JSON"
 				consumes="JSON"
 				/>

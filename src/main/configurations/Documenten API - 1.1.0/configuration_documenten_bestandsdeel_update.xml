@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="bestandsdeel_update" 
 				method="PUT"
-				uriPattern="/bestandsdelen/{uuid}"
+				uriPattern="/documenten/api/v1/bestandsdelen/{uuid}"
 				produces="JSON"
 				consumes="JSON"
 				/>

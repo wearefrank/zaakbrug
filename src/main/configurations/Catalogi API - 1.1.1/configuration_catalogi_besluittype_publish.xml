@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="besluittype_publish" 
 				method="POST"
-				uriPattern="/besluittypen/{uuid}/publish"
+				uriPattern="/catalogi/api/v1/besluittypen/{uuid}/publish"
 				produces="JSON"
 				consumes="JSON"
 				/>

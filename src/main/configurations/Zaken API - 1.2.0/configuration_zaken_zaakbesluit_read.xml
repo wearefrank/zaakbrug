@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="zaakbesluit_read" 
 				method="GET"
-				uriPattern="/zaken/{zaak_uuid}/besluiten/{uuid}"
+				uriPattern="/zaken/api/v1/zaken/{zaak_uuid}/besluiten/{uuid}"
 				produces="JSON"
 				consumes="ANY"
 				/>

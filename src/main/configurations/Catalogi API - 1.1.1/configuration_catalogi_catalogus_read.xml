@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="catalogus_read" 
 				method="GET"
-				uriPattern="/catalogussen/{uuid}"
+				uriPattern="/catalogi/api/v1/catalogussen/{uuid}"
 				produces="JSON"
 				consumes="ANY"
 				/>

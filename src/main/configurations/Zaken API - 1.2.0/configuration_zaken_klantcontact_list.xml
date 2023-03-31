@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="klantcontact_list" 
 				method="GET"
-				uriPattern="/klantcontacten"
+				uriPattern="/zaken/api/v1/klantcontacten"
 				produces="JSON"
 				consumes="ANY"
 				/>

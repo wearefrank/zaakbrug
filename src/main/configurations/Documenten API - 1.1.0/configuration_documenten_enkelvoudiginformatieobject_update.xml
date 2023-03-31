@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="enkelvoudiginformatieobject_update" 
 				method="PUT"
-				uriPattern="/enkelvoudiginformatieobjecten/{uuid}"
+				uriPattern="/documenten/api/v1/enkelvoudiginformatieobjecten/{uuid}"
 				produces="JSON"
 				consumes="JSON"
 				/>

@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="roltype_partial_update" 
 				method="PATCH"
-				uriPattern="/roltypen/{uuid}"
+				uriPattern="/catalogi/api/v1/roltypen/{uuid}"
 				produces="JSON"
 				consumes="JSON"
 				/>

@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="zaaktype_create" 
 				method="POST"
-				uriPattern="/zaaktypen"
+				uriPattern="/catalogi/api/v1/zaaktypen"
 				produces="JSON"
 				consumes="JSON"
 				/>

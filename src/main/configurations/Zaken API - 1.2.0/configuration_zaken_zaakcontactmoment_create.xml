@@ -10,7 +10,7 @@
 			<ApiListener 
 				name="zaakcontactmoment_create" 
 				method="POST"
-				uriPattern="/zaakcontactmomenten"
+				uriPattern="/zaken/api/v1/zaakcontactmomenten"
 				produces="JSON"
 				consumes="JSON"
 				/>
