@@ -17,14 +17,14 @@
 		</Receiver>
 		<Pipeline>
 			<Exits>
-				<Exit path="EXIT" state="SUCCESS" code="200"/>
-				<Exit path="NotModified" state="SUCCESS" code="304"/>
-				<Exit path="BadRequest" state="ERROR" code="400"/>
-				<Exit path="NotAuthorized" state="ERROR" code="401" empty="true"/>
-				<Exit path="NotAllowed" state="ERROR" code="403" empty="true"/>
-				<Exit path="PreconditionFailed" state="ERROR" code="412"/>
-				<Exit path="ServerError" state="ERROR" code="500"/>
-				<Exit path="Timeout" state="ERROR" code="504"/>
+				<Exit name="EXIT" state="SUCCESS" code="200"/>
+				<Exit name="NotModified" state="SUCCESS" code="304"/>
+				<Exit name="BadRequest" state="ERROR" code="400"/>
+				<Exit name="NotAuthorized" state="ERROR" code="401" empty="true"/>
+				<Exit name="NotAllowed" state="ERROR" code="403" empty="true"/>
+				<Exit name="PreconditionFailed" state="ERROR" code="412"/>
+				<Exit name="ServerError" state="ERROR" code="500"/>
+				<Exit name="Timeout" state="ERROR" code="504"/>
 			</Exits>
 
 			<FixedResultPipe name="Helloworld" returnString="Hello World!"/>
