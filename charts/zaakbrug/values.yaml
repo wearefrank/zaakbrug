@@ -160,6 +160,12 @@ frank:
     http:
       authentication: false
       enforceHttps: false
+      # Local Tomcat users, for testing purposes only
+      tomcatUsers: {}
+#        - username: tomcat
+#          password: changeMe
+#          # Options: IbisTester (default), IbisDataAdmin, IbisAdmin, IbisWebService
+#          roles: "IbisTester"
       # Only supports active directory for now
       ad: {}
 #        # LDAP url e.g.: ldap://172.0.0.1
