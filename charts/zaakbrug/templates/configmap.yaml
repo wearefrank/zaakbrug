@@ -8,6 +8,7 @@ metadata:
 data:
   # Enable Narayana transaction manager
   application.server.type.custom: NARAYANA
+  TZ: {{ .values.timeZone }}
   {{- $name := .Values.frank.instance.name | required (printf ".frank.instance.name is a required parameter") }}
   instance.name: {{ .Values.frank.instance.name }}
   {{- $name := .Values.frank.dtap.stage | required (printf ".frank.dtap.stage is a required parameter") }}
