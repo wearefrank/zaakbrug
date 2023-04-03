@@ -8,6 +8,7 @@ metadata:
 data:
   # Enable Narayana transaction manager
   application.server.type.custom: NARAYANA
+  TZ: {{ .Values.timeZone }}
   {{- $name := .Values.frank.instance.name | required (printf ".frank.instance.name is a required parameter") }}
   instance.name: {{ .Values.frank.instance.name }}
   {{- $name := .Values.frank.dtap.stage | required (printf ".frank.dtap.stage is a required parameter") }}
@@ -215,6 +216,28 @@ data:
         {{- end }}
       {{- end }}
     </Context>
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "zaakbrug.fullname" . }}-tomcat-users
+  labels:
+    {{- include "zaakbrug.labels" . | nindent 4 }}
+data:
+  tomcat-users.xml: |-
+    <?xml version="1.0" encoding="UTF-8"?>
+    <tomcat-users xmlns="http://tomcat.apache.org/xml"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://tomcat.apache.org/xml tomcat-users.xsd"
+                  version="1.0">
+      <role rolename="IbisTester"/>
+      <role rolename="IbisDataAdmin"/>
+      <role rolename="IbisAdmin"/>
+      <role rolename="IbisWebService"/>
+      {{- range .Values.frank.security.http.tomcatUsers }}
+      <user username="{{ .username }}" password="{{ .password }}" roles="{{ .roles | default "IbisTester" }}"/>
+      {{- end }}
+    </tomcat-users>
 ---
 {{- if .Values.frank.security.http.ad.roles }}
 apiVersion: v1

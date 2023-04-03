@@ -1,5 +1,27 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.0](https://github.com/ibissource/zaakbrug/compare/v1.11.4...v1.12.0) (2023-04-03)
+
+
+### 🍕 Features
+
+* add timezone to frank ([94106f7](https://github.com/ibissource/zaakbrug/commit/94106f71f47c2963320f5c185203d4c92392fac2))
+* add tomcat users ([8e53ddb](https://github.com/ibissource/zaakbrug/commit/8e53ddb601d31f66ab43a28af712fc550de1db43))
+
+## [1.11.4](https://github.com/ibissource/zaakbrug/compare/v1.11.3...v1.11.4) (2023-03-31)
+
+
+### 🐛 Bug Fixes
+
+* endpoints missing api name and api v1 in uri pattern ([ac54e5a](https://github.com/ibissource/zaakbrug/commit/ac54e5a4fd9cb72c50ad50b0e257f592142a94ab))
+* zgw endpoints return invalid json ([bdaa642](https://github.com/ibissource/zaakbrug/commit/bdaa642b44d34b92ab06af20f01fed6ee7aa5b13))
+
+
+### 🧑‍💻 Code Refactoring
+
+* exit path rename to name ([bee9875](https://github.com/ibissource/zaakbrug/commit/bee9875cfde07596ac002009f7a5056074b96992))
+* suppress ff defaults warnings for zgw apis ([3075a6a](https://github.com/ibissource/zaakbrug/commit/3075a6afdca468d2fb3b2549ac8b712aff3185a7))
+
 ## [1.11.3](https://github.com/ibissource/zaakbrug/compare/v1.11.2...v1.11.3) (2023-03-22)
 
 

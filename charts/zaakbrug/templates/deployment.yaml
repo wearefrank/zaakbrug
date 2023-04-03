@@ -57,6 +57,10 @@ spec:
               mountPath: /usr/local/tomcat/conf/Catalina/localhost/ROOT.xml
               subPath: context.xml
               readOnly: true
+            - name: {{ template "zaakbrug.fullname" . }}-tomcat-users
+              mountPath: /usr/local/tomcat/conf/tomcat-users.xml
+              subPath: tomcat-users.xml
+              readOnly: true
             {{- if .Values.frank.security.http.ad.roles }}
             - name: {{ template "zaakbrug.fullname" . }}-roles
               mountPath: /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/ldap-role-mapping.properties
@@ -107,6 +111,9 @@ spec:
         - name: {{ template "zaakbrug.fullname" . }}-config
           configMap:
             name: {{ template "zaakbrug.fullname" . }}-config
+        - name: {{ template "zaakbrug.fullname" . }}-tomcat-users
+          configMap:
+            name: {{ template "zaakbrug.fullname" . }}-tomcat-users
         {{- if .Values.frank.security.http.ad.roles }}
         - name: {{ template "zaakbrug.fullname" . }}-roles
           configMap:
