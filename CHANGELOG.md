@@ -1,5 +1,13 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.0](https://github.com/ibissource/zaakbrug/compare/v1.11.4...v1.12.0) (2023-04-03)
+
+
+### 🍕 Features
+
+* add timezone to frank ([94106f7](https://github.com/ibissource/zaakbrug/commit/94106f71f47c2963320f5c185203d4c92392fac2))
+* add tomcat users ([8e53ddb](https://github.com/ibissource/zaakbrug/commit/8e53ddb601d31f66ab43a28af712fc550de1db43))
+
 ## [1.11.4](https://github.com/ibissource/zaakbrug/compare/v1.11.3...v1.11.4) (2023-03-31)
 
 
