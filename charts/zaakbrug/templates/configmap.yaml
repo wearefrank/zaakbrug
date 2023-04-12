@@ -8,6 +8,7 @@ metadata:
 data:
   # Enable Narayana transaction manager
   application.server.type.custom: NARAYANA
+  JAVA_OPTS: -Xmx{{ .Values.frank.memory }} -Xms{{ .Values.frank.memory }}
   TZ: {{ .Values.timeZone }}
   {{- $name := .Values.frank.instance.name | required (printf ".frank.instance.name is a required parameter") }}
   instance.name: {{ .Values.frank.instance.name }}
