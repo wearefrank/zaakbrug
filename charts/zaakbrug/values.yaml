@@ -68,17 +68,13 @@ readinessProbe:
   failureThreshold: 6
   successThreshold: 1
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+resources:
+   limits:
+     cpu: 2000m
+     memory: 2200M
+   requests:
+     cpu: 2000m
+     memory: 2200M
 
 autoscaling:
   enabled: false
@@ -156,28 +152,29 @@ zaakbrug:
           coalesceResultaat: "Toegekend"
 
 frank:
+  memory: 2G
   security:
     http:
       authentication: false
       enforceHttps: false
       # Local Tomcat users, for testing purposes only
       tomcatUsers: {}
-#        - username: tomcat
-#          password: changeMe
-#          # Options: IbisTester (default), IbisDataAdmin, IbisAdmin, IbisWebService
-#          roles: "IbisTester"
+      #  - username: tomcat
+      #    password: changeMe
+      #    # Options: IbisTester (default), IbisDataAdmin, IbisAdmin, IbisWebService
+      #    roles: "IbisTester"
       # Only supports active directory for now
       ad: {}
-#        # LDAP url e.g.: ldap://172.0.0.1
-#        url:
-#        # Base DN e.g.: DC=example,DC=com
-#        baseDn:
-#        # Roles to map to AD roles. e.g. dataAdmin: CN=FunctionalAdministrator,CN=Users,DC=example,DC=com
-#        roles:
-#          observer:
-#          dataAdmin:
-#          admin:
-#          tester:
+      #  # LDAP url e.g.: ldap://172.0.0.1
+      #  url:
+      #  # Base DN e.g.: DC=example,DC=com
+      #  baseDn:
+      #  # Roles to map to AD roles. e.g. dataAdmin: CN=FunctionalAdministrator,CN=Users,DC=example,DC=com
+      #  roles:
+      #    observer:
+      #    dataAdmin:
+      #    admin:
+      #    tester:
   # Secret containing the contents of the credentials.properties
   credentials:
     # Secret name in the cluster
