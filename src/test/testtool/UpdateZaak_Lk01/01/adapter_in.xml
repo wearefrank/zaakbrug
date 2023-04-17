@@ -1,0 +1,53 @@
+<zakLk01>
+   <stuurgegevens>
+       <berichtcode>Lk01</berichtcode>
+       <zender>
+           <organisatie>1900</organisatie>
+           <applicatie>GWS4all</applicatie>
+           <gebruiker>Gebruiker</gebruiker>
+       </zender>
+       <ontvanger>
+           <organisatie>1900</organisatie>
+           <applicatie>CDR</applicatie>
+       </ontvanger>
+       <referentienummer>4bc49dbe-fbd8-4863-987c-284d14a7bc17</referentienummer>
+       <tijdstipBericht>20230327094741658</tijdstipBericht>
+       <entiteittype>ZAK</entiteittype>
+   </stuurgegevens>
+   <parameters>
+       <mutatiesoort>W</mutatiesoort>
+       <indicatorOvername>V</indicatorOvername>
+   </parameters>
+   <object entiteittype="ZAK" sleutelVerzendend="ZK2023-00153" verwerkingssoort="W">
+       <identificatie>ZK2023-00153</identificatie>
+       <omschrijving>Aanvraag minimaregelingen (Z)</omschrijving>
+       <startdatum>20230327</startdatum>
+       <registratiedatum>20230327</registratiedatum>
+       <einddatumGepland>20210101</einddatumGepland>
+       <isVan entiteittype="ZAKZKT" verwerkingssoort="I">
+           <gerelateerde entiteittype="ZKT" verwerkingssoort="I">
+               <omschrijving>Aanvraag minima</omschrijving>
+               <code>B1026</code>
+               <ingangsdatumObject noValue="geenWaarde" nil="true" />
+           </gerelateerde>
+       </isVan>
+   </object>
+   <object entiteittype="ZAK" sleutelVerzendend="ZK2023-00153" verwerkingssoort="W">
+       <identificatie>ZK2023-00153</identificatie>
+       <omschrijving>Aanvraag minimaregelingen (Z)</omschrijving>
+       <startdatum>20230327</startdatum>
+       <registratiedatum>20230327</registratiedatum>
+       <einddatumGepland>20210101</einddatumGepland>
+       <opschorting>
+           <indicatie>J</indicatie>
+           <reden>niet tijdig verstrekken inform</reden>
+       </opschorting>
+       <isVan entiteittype="ZAKZKT" verwerkingssoort="I">
+           <gerelateerde entiteittype="ZKT" verwerkingssoort="I">
+               <omschrijving>Aanvraag minima</omschrijving>
+               <code>B1026</code>
+               <ingangsdatumObject noValue="geenWaarde" nil="true" />
+           </gerelateerde>
+       </isVan>
+   </object>
+</zakLk01>
