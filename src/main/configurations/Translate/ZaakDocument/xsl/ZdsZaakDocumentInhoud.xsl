@@ -61,7 +61,9 @@
             <link><xsl:value-of select="ZgwEnkelvoudigInformatieObject/link"/></link>
             <inhoud>
                 <xsl:attribute name="StUF:bestandsnaam"><xsl:value-of select="ZgwEnkelvoudigInformatieObject/bestandsnaam"/></xsl:attribute>
-                <xsl:attribute name="xmime:contentType"><xsl:value-of select="ZgwEnkelvoudigInformatieObject/formaat"/></xsl:attribute>
+                <xsl:if test="ZgwEnkelvoudigInformatieObject/formaat != ''">
+                    <xsl:attribute name="xmime:contentType"><xsl:value-of select="ZgwEnkelvoudigInformatieObject/formaat"/></xsl:attribute>
+                </xsl:if>
                 <xsl:value-of select="$Bas64Inhoud"/>
             </inhoud>
             <isRelevantVoor>

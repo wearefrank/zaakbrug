@@ -58,7 +58,9 @@
                         <xsl:if test="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/inhoud">
                             <ZKN:inhoud>
                                 <xsl:attribute name="StUF:bestandsnaam"><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/inhoud/@StUF:bestandsnaam"/></xsl:attribute>
-                                <xsl:attribute name="xmime:contentType"><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/inhoud/@xmime:contentType"/></xsl:attribute>
+                                <xsl:if test="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/inhoud/@xmime:contentType != ''">
+                                    <xsl:attribute name="xmime:contentType"><xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/inhoud/@xmime:contentType"/></xsl:attribute>
+                                </xsl:if>
                                 <xsl:value-of select="$GetZaakDocumentLezenResult/ZdsZaakDocumentInhoud/inhoud"/>
                             </ZKN:inhoud>
                         </xsl:if>
