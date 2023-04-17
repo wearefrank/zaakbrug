@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.3](https://github.com/ibissource/zaakbrug/compare/v1.12.2...v1.12.3) (2023-04-17)
+
+
+### ✅ Tests
+
+* add larva tests ([#86](https://github.com/ibissource/zaakbrug/issues/86)) ([ab6f583](https://github.com/ibissource/zaakbrug/commit/ab6f583521d91d075a70d6426639e7a2a574973b))
+
 ## [1.12.2](https://github.com/ibissource/zaakbrug/compare/v1.12.1...v1.12.2) (2023-04-17)
 
 
