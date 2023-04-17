@@ -72,8 +72,8 @@
                     $ZdsZaakDocumentInhoud/object/auteur, 
                     ZgwEnkelvoudigInformatieObject/auteur))"/>
             <xsl:copy-of select="zgw:WrapNullOrSkip('formaat', 'skip', zgw:FromOrderedSource(
-                    $Formaat,
                     $ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/formaat,
+                    $ZdsZaakDocumentInhoud/object/formaat,
                     $ZdsZaakDocumentInhoud/object/inhoud/@contentType, 
                     ZgwEnkelvoudigInformatieObject/formaat))"/>
             <xsl:copy-of select="zgw:WrapNullOrSkip('taal', 'null', zgw:FromOrderedSource(
