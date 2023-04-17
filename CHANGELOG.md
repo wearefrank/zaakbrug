@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.1](https://github.com/ibissource/zaakbrug/compare/v1.12.0...v1.12.1) (2023-04-12)
+
+
+### 🐛 Bug Fixes
+
+* make memory configurable to prevent OOM errors ([ea0bb75](https://github.com/ibissource/zaakbrug/commit/ea0bb75635fd987b461e18c23579407923c6a704))
+
 ## [1.12.0](https://github.com/ibissource/zaakbrug/compare/v1.11.4...v1.12.0) (2023-04-03)
 
 
