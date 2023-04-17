@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.2](https://github.com/ibissource/zaakbrug/compare/v1.12.1...v1.12.2) (2023-04-17)
+
+
+### 🐛 Bug Fixes
+
+* propagate document formaat property correctly between zds to zgw and back ([#84](https://github.com/ibissource/zaakbrug/issues/84)) ([1fd510c](https://github.com/ibissource/zaakbrug/commit/1fd510cc2ed964bff128c6a1be09465c518a5840))
+
 ## [1.12.1](https://github.com/ibissource/zaakbrug/compare/v1.12.0...v1.12.1) (2023-04-12)
 
 
