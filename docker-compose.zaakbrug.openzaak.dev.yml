@@ -1,0 +1,107 @@
+version: '4'
+
+services:
+  zaakbrug-open-zaak-redis:
+    image: redis
+    networks:
+      - zaakbrug-backend
+
+  zaakbrug-open-zaak-db:
+    image: mdillon/postgis
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - ./docker/open-zaak-db/postgres.entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+      - zaakbrug-open-zaak-db-data:/var/lib/postgresql/data
+    networks:
+      - zaakbrug-backend
+    ports:
+      - 5432
+
+  zaakbrug-open-zaak:
+    image: openzaak/open-zaak:latest
+    container_name: zaakbrug-open-zaak
+    environment: &zaakbrug-open-zaak-env
+      - DJANGO_SETTINGS_MODULE=openzaak.conf.docker
+      - OPENZAAK_DOMAIN=host.docker.internal:8003
+      - SECRET_KEY=${SECRET_KEY:-7(h1r2hk)8z9+05edulo_3qzymwbo&c24=)qz7+_@3&2sp=u%i}
+      - DB_NAME=openzaak
+      - DB_USER=openzaak
+      - DB_HOST=zaakbrug-open-zaak-db
+      - IS_HTTPS=no
+      - ALLOWED_HOSTS=*
+      - CACHE_DEFAULT=zaakbrug-open-zaak-redis:6379/0
+      - CACHE_AXES=zaakbrug-open-zaak-redis:6379/0
+      - SUBPATH=${SUBPATH:-/}
+      - OPENZAAK_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - OPENZAAK_SUPERUSER_EMAIL=admin@localhost
+      - CELERY_BROKER_URL=redis://zaakbrug-open-zaak-redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://zaakbrug-open-zaak-redis:6379/1
+      - CELERY_LOGLEVEL=DEBUG
+      - CELERY_WORKER_CONCURRENCY=${CELERY_WORKER_CONCURRENCY:-4}
+      - SENDFILE_BACKEND=django_sendfile.backends.simple
+      - NOTIFICATIONS_DISABLED=yes
+    networks:
+      - zaakbrug
+      - zaakbrug-backend
+    ports:
+      - 8003:8000
+    volumes: &zaakbrug-open-zaak-volumes
+      - media:/app/media
+      - private-media:/app/private-media
+    depends_on:
+      - zaakbrug-open-zaak-db
+      - zaakbrug-open-zaak-redis
+
+  zaakbrug-open-zaak-celery:
+    image: openzaak/open-zaak:latest
+    environment: *zaakbrug-open-zaak-env
+    command: /celery_worker.sh
+    volumes: *zaakbrug-open-zaak-volumes
+    networks:
+      - zaakbrug-backend
+    depends_on:
+      - zaakbrug-open-zaak-db
+      - zaakbrug-open-zaak-redis
+
+  zaakbrug-open-zaak-celery-flower:
+    image: openzaak/open-zaak:latest
+    environment: *zaakbrug-open-zaak-env
+    command: /celery_flower.sh
+    networks:
+      - zaakbrug-backend
+    ports:
+      - 5555
+    depends_on:
+      - zaakbrug-open-zaak-redis
+      - zaakbrug-open-zaak-celery
+
+  zaakbrug-open-zaak-nginx:
+    image: nginx
+    volumes:
+      - ./docker/open-zaak-nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - zaakbrug
+      - zaakbrug-backend
+    ports:
+      - 9003:80
+    depends_on:
+      - zaakbrug-open-zaak
+
+  zaakbrug:
+    environment:
+      - zaakbrug.openzaak.embedded.zaken-api.root-url=http://host.docker.internal:8003/zaken/api/v1/
+      - zaakbrug.openzaak.embedded.documenten-api.root-url=http://host.docker.internal:8003/documenten/api/v1/
+      - zaakbrug.openzaak.embedded.catalogi-api.root-url=http://host.docker.internal:8003/catalogi/api/v1/
+
+volumes:
+  zaakbrug-open-zaak-db-data:
+  media:
+  private-media:
+
+networks:
+  zaakbrug:
+    name: zaakbrug-stack
+  zaakbrug-backend:
+
