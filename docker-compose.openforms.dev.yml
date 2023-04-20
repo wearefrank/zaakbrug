@@ -17,29 +17,29 @@ services:
     networks:
       - open-forms-backend
     volumes:
-      - data:/data
+      - open-forms-data:/data
 
   smtp:
     image: namshi/smtp
     networks:
       - open-forms-backend
-      - open-forms
 
   clamav:
     image: clamav/clamav:1.0.0
     networks:
       - open-forms-backend
-      - open-forms
 
   busybox:
     image: busybox
     command: /bin/chown -R 1000 /private-media
     volumes:
-      - private_media:/private-media
+      - open-forms-private-media:/private-media
+    networks:
+      - open-forms-backend
 
   open-forms:
     image: openformulieren/open-forms:${TAG:-latest}
-    container_name: open-forms
+    container_name: open-forms.dev
     environment: &open-forms-env
       - DJANGO_SETTINGS_MODULE=openforms.conf.docker
       - SECRET_KEY=${SECRET_KEY:-@r0w-0(&apjfde5fl6h23!vn)r1ldkp1c_d2#!$$did4z5hun4a}
@@ -64,12 +64,12 @@ services:
       - TZ=Europe/Amsterdam
       - CSP_REPORT_ONLY=yes
     volumes: &open-forms-volumes
-      - media:/app/media
-      - private_media:/app/private_media
-      - log:/app/log
+      - open-forms-media:/app/media
+      - open-forms-private-media:/app/private-media
+      - open-forms-log:/app/log
       - certifi_ca_bundle:/app/certifi_ca_bundle
     ports:
-      - 8001:8000
+      - 8000
     depends_on:
       - open-forms-db
       - open-forms-redis
@@ -77,20 +77,30 @@ services:
       - clamav
     networks:
       - open-forms-backend
-      - open-forms
 
   open-forms-nginx:
     image: nginx
+    container_name: open-forms.nginx
     volumes:
-      - ./docker/open-forms-nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - private_media:/private-media
+      - ./docker/open-forms-nginx/default.conf:/etc/nginx/includes/default.conf
+      - open-forms-private-media:/private-media
     ports:
-      - '9002:80'
+      - 9003:9003
+    depends_on:
+      - open-forms
+    networks:
+      - open-forms
+      - open-forms-backend
+  nginx:
+    image: nginx
+    volumes:
+      - ./docker/open-forms-nginx/openforms.conf:/etc/nginx/includes/openforms.conf
+    ports:
+      - 9000:9000
     depends_on:
       - open-forms
     networks:
       - open-forms-backend
-      - open-forms
 
   open-forms-celery:
     image: openformulieren/open-forms:${TAG:-latest}
@@ -127,11 +137,11 @@ services:
 
 volumes:
   open-forms-db:
-  media:
-  private_media:
-  log:
+  open-forms-media:
+  open-forms-private-media:
+  open-forms-log:
   certifi_ca_bundle:
-  data:
+  open-forms-data:
 
 networks:
   open-forms:

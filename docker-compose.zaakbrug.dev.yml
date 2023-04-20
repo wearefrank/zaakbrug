@@ -1,7 +1,7 @@
 version: '4'
 
 services:
-  zaakbrug-nginx:
+  nginx:
     image: nginx
     volumes:
       - ./docker/zaakbrug-nginx/default.conf:/etc/nginx/conf.d/default.conf
@@ -9,7 +9,7 @@ services:
       - zaakbrug
       - zaakbrug-backend
     ports:
-      - 9000:80
+      - 9000:9000
     depends_on:
       - zaakbrug
 
