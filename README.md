@@ -46,5 +46,5 @@ The properties `zaakbrug.zgw.zaak-identificatie-template` and `zaakbrug.zgw.docu
 The syntax for variable substitution is as follows {[variable-name][:formatting-string]} 
 | Variable | Description |
 | --- | --------- |
-| id | Auto-incrementing identifier with 'D' as formatting option, indicating the amount of digits. example: `{id:D5}` with id-123 will result in '00123'. |
-| datetime | The current date and time with '[Y]' as formatting option, according to [XSLT datetime formatting](https://www.oreilly.com/library/view/xslt-2nd-edition/9780596527211/ch04s05.html). Only the '[Y0001]' is currently implemented. Example: `{datetime:[Y001]}` with datetime=14-03-2023 produces '2023' |
+| id | Auto-incrementing identifier with 'D' as formatting option, indicating the amount of digits. <br/>_Example:_ `{id:D5}` with id-123 will result in '00123'. |
+| datetime | The current date and time with '[Y]' as formatting option, according to [XSLT datetime formatting](https://www.oreilly.com/library/view/xslt-2nd-edition/9780596527211/ch04s05.html). <br/> _Examples:_ <ul><li>`{datetime:[Y]}` with datetime=14-03-2023 produces '2023'</li><li>`{datetime:[Y0001]}` with datetime=14-03-2023 produces '2023'</li><li>`{datetime:[Y][M][D]}` with datetime=14-03-2023 produces '2023314'</li><li>`{datetime:[Y0001][M01][D01]}` with datetime=14-03-2023 produces '20230314'</li><li>`{datetime:[Y][M01][D]}` with datetime=14-03-2023 produces '20230314'</li></ul>
