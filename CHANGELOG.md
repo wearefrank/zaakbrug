@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.4](https://github.com/ibissource/zaakbrug/compare/v1.12.3...v1.12.4) (2023-05-01)
+
+
+### ✅ Tests
+
+* development test docker-compose expanded with openforms and cache openzaak ([#88](https://github.com/ibissource/zaakbrug/issues/88)) ([9135f8f](https://github.com/ibissource/zaakbrug/commit/9135f8f2057585ce9c84a9129ba9416b33ccc362))
+
 ## [1.12.3](https://github.com/ibissource/zaakbrug/compare/v1.12.2...v1.12.3) (2023-04-17)
 
 
