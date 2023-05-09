@@ -153,19 +153,17 @@
                 </Param>
                 <Param name="IndicatieGebruiksrecht" value="false" />
                 <Param name="Taal" sessionKey="Taal" />
-                <Forward name="success" path="substituteDocumentDataRef"/>
+                <Forward name="success" path="PostZgwEnkelvoudigInformatieObjectSender"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
-            <EchoPipe name="substituteDocumentDataRef" restoreMovedElements="true">
-                <Forward name="success" path="PostZgwEnkelvoudigInformatieObjectSender"/>
-            </EchoPipe>
-            <SenderPipe 
+            <SenderPipe
                 name="PostZgwEnkelvoudigInformatieObjectSender"
                 storeResultInSessionKey="PostZgwEnkelvoudigInformatieObject"
                 >
                 <IbisLocalSender
                     name="PostZgwEnkelvoudigInformatieObjectLocalSender"
-                    javaListener="Documenten_PostZgwEnkelvoudigInformatieObject">                
+                    javaListener="Documenten_PostZgwEnkelvoudigInformatieObject">
+                    <Param name="inhoud" sessionKey="ref_inhoud" />
                 </IbisLocalSender>
                 <Forward name="success" path="EnrichZgwEnkelvoudigInformatieObject"/>
                 <Forward name="exception" path="EXCEPTION" />
