@@ -20,12 +20,14 @@
             <PutInSessionPipe 
                 name="StoreZdsZaakDocumentInhoud">
                 <Param name="ZdsZaakDocumentInhoud" xpathExpression="edcLk01/object[1]" type="DOMDOC"/>
-                <Forward name="success" path="CallGetZgwZaak" />
+                <Forward name="success" path="StoreDocumentData" />
             </PutInSessionPipe>
-
+            <EchoPipe name="StoreDocumentData" elementToMove="inhoud" getInputFromSessionKey="ZdsZaakDocumentInhoud" storeResultInSessionKey="ZdsZaakDocumentInhoudDataRef">
+                <Forward name="success" path="CallGetZgwZaak" />
+            </EchoPipe>
             <SenderPipe
                 name="CallGetZgwZaak"
-                getInputFromSessionKey="ZdsZaakDocumentInhoud">
+                getInputFromSessionKey="ZdsZaakDocumentInhoudDataRef">
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
                     javaListener="GetZgwZaak">
@@ -66,7 +68,7 @@
 
             <SenderPipe
                 name="GetZgwInformatieObjectTypeByOmschrijvingSender"
-                getInputFromSessionKey="ZdsZaakDocumentInhoud">
+                getInputFromSessionKey="ZdsZaakDocumentInhoudDataRef">
                 <IbisLocalSender
                     name="GetZgwInformatieObjectTypeByOmschrijvingLocalSender"
                     javaListener="GetZgwInformatieObjectTypeByOmschrijving">
@@ -109,7 +111,7 @@
 
             <PutInSessionPipe 
                 name="StoreTaal"
-                getInputFromSessionKey="ZdsZaakDocumentInhoud"
+                getInputFromSessionKey="ZdsZaakDocumentInhoudDataRef"
                 >
                 <Param name="Taal" xpathExpression="object/taal"/>            
                 <Forward name="success" path="CheckForTaalLength"/>
@@ -144,7 +146,7 @@
                 styleSheetName="Zgw/Documenten/Model/ZgwEnkelvoudigInformatieObject.xslt"
                 storeResultInSessionKey="ZgwEnkelvoudigInformatieObject"
                 >
-                <Param name="ZdsZaakDocumentInhoud" sessionKey="ZdsZaakDocumentInhoud" type="DOMDOC"/>
+                <Param name="ZdsZaakDocumentInhoud" sessionKey="ZdsZaakDocumentInhoudDataRef" type="DOMDOC"/>
                 <Param name="ZgwInformatieObjectType" sessionKey="ZgwInformatieObjectType" type="DOMDOC"/>
                 <Param name="Bronorganisatie" xpathExpression="$Rsin/rsin">
                     <Param name="Rsin" sessionKey="Rsin" type="DOMDOC"/>
@@ -154,14 +156,14 @@
                 <Forward name="success" path="PostZgwEnkelvoudigInformatieObjectSender"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
-
-            <SenderPipe 
+            <SenderPipe
                 name="PostZgwEnkelvoudigInformatieObjectSender"
                 storeResultInSessionKey="PostZgwEnkelvoudigInformatieObject"
                 >
                 <IbisLocalSender
                     name="PostZgwEnkelvoudigInformatieObjectLocalSender"
-                    javaListener="Documenten_PostZgwEnkelvoudigInformatieObject">                
+                    javaListener="Documenten_PostZgwEnkelvoudigInformatieObject">
+                    <Param name="inhoud" sessionKey="ref_inhoud" />
                 </IbisLocalSender>
                 <Forward name="success" path="EnrichZgwEnkelvoudigInformatieObject"/>
                 <Forward name="exception" path="EXCEPTION" />
@@ -217,7 +219,7 @@
 
             <SenderPipe
                 name="GetZgwStatusTypeByZaakTypeAndOmschrijvingSender"
-                getInputFromSessionKey="ZdsZaakDocumentInhoud"
+                getInputFromSessionKey="ZdsZaakDocumentInhoudDataRef"
                 storeResultInSessionKey="ZgwStatusType">
                 <IbisLocalSender
                     name="GetZgwStatusTypeByZaakTypeAndOmschrijvingLocalSender"
@@ -250,7 +252,7 @@
 
             <XsltPipe
                 name="CreateStatusBody"
-                getInputFromSessionKey="ZdsZaakDocumentInhoud"
+                getInputFromSessionKey="ZdsZaakDocumentInhoudDataRef"
                 styleSheetName="Zgw/Zaken/Model/ZgwStatus.xslt"
                 >
                 <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>

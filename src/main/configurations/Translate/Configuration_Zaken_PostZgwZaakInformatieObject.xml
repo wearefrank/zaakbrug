@@ -14,14 +14,23 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
+            <PutInSessionPipe name="getInhoudParameter">
+                <Param name="ref_inhoud" sessionKey="inhoud" />
+                <Forward name="success" path="ValidatePost" />
+            </PutInSessionPipe>
+            <Json2XmlValidatorPipe name="ValidatePost"
+                schema="Zgw/Documenten/Model/PostZgwEnkelvoudigInformatieObject.xsd"
+                root="ZgwEnkelvoudigInformatieObject"
+                outputFormat="JSON"
+                deepSearch="true"
+                throwException="true">
+                <Forward name="success" path="SubstituteDocumentDataRef" />
+                <Forward name="exception" path="buildErrorMsg" />
+            </Json2XmlValidatorPipe>
+            <EchoPipe name="SubstituteDocumentDataRef" restoreMovedElements="true">
+                <Forward name="success" path="PostZgwEnkelvoudigInformatieObjectSender"/>
+            </EchoPipe>
             <SenderPipe name="PostZgwEnkelvoudigInformatieObjectSender">
-                <Json2XmlInputValidator name="ValidatePost"
-                    schema="Zgw/Documenten/Model/PostZgwEnkelvoudigInformatieObject.xsd"
-                    root="ZgwEnkelvoudigInformatieObject"
-                    outputFormat="JSON"
-                    deepSearch="true"
-                    throwException="true"
-                />
                 <HttpSender name="PostZgwEnkelvoudigInformatieObjectHttpSender"
                     methodType="POST"
                     headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
