@@ -18,19 +18,15 @@
                 <Param name="ref_inhoud" sessionKey="inhoud" />
                 <Forward name="success" path="ValidatePost" />
             </PutInSessionPipe>
-            <XmlValidatorPipe
-                name="ValidatePost"
+            <Json2XmlValidatorPipe name="ValidatePost"
                 schema="Zgw/Documenten/Model/PostZgwEnkelvoudigInformatieObject.xsd"
                 root="ZgwEnkelvoudigInformatieObject"
+                outputFormat="JSON"
+                deepSearch="true"
                 throwException="true">
-                <Forward name="success" path="PostToJson" />
-                <Forward name="exception" path="buildErrorMsg" />
-            </XmlValidatorPipe>
-            <JsonPipe name="PostToJson"
-                direction="XML2JSON">
                 <Forward name="success" path="SubstituteDocumentDataRef" />
                 <Forward name="exception" path="buildErrorMsg" />
-            </JsonPipe>
+            </Json2XmlValidatorPipe>
             <EchoPipe name="SubstituteDocumentDataRef" restoreMovedElements="true">
                 <Forward name="success" path="PostZgwEnkelvoudigInformatieObjectSender"/>
             </EchoPipe>
