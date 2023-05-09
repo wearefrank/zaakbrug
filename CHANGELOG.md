@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.6](https://github.com/ibissource/zaakbrug/compare/v1.12.5...v1.12.6) (2023-05-09)
+
+
+### 🐛 Bug Fixes
+
+* voegzaakdocumenttoe action with large documents takes very long or fails all together ([#95](https://github.com/ibissource/zaakbrug/issues/95)) ([ddb89ff](https://github.com/ibissource/zaakbrug/commit/ddb89ff7df2c34c90a62da0e2c046c8f5bbef170))
+
 ## [1.12.5](https://github.com/ibissource/zaakbrug/compare/v1.12.4...v1.12.5) (2023-05-09)
 
 
