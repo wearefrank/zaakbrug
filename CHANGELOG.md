@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.5](https://github.com/ibissource/zaakbrug/compare/v1.12.4...v1.12.5) (2023-05-09)
+
+
+### ✅ Tests
+
+* add test for passing large document to zaakbrug ([#93](https://github.com/ibissource/zaakbrug/issues/93)) ([098f874](https://github.com/ibissource/zaakbrug/commit/098f8742cbece991f34ba94c423ad3c5a7d37b36))
+
 ## [1.12.4](https://github.com/ibissource/zaakbrug/compare/v1.12.3...v1.12.4) (2023-05-01)
 
 
