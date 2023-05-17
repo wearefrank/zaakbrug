@@ -17,9 +17,14 @@
                         <bean class="nl.nn.testtool.metadata.XpathMetadataFieldExtractor">
                             <property name="label" value="Status" />
                             <property name="extractFrom" value="last" />
+                            <!-- This XPath should yield a non-blank result if there is an error.
+                                 See CreateFo03Response.xslt -->
                             <property name="xpath" value="/*//*[local-name()='body']/*[local-name()='omschrijving']" />
                             <property name="delegate">
                                 <bean class="nl.nn.testtool.metadata.XpathMetadataFieldExtractor">
+                                    <!-- Fallback if we do not have a value from tag "omschrijving" that should have been filled for an error.
+                                         If there is an error, this typically yields "SOAP-ENV:Server".
+                                         If we still get an empty string from this, we can assume success -->
                                     <property name="label" value="Status" />
                                     <property name="defaultValue" value="Success" />
                                     <property name="extractFrom" value="last" />
