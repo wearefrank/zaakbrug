@@ -23,18 +23,18 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlSwitchPipe name="Alpha2Check"
-                xpathExpression="count($Alpha2) > 0"
+            <XmlSwitchPipe
+                    name="Alpha2Check" xpathExpression="string-length($Alpha2) > 0 and $Alpha2 != 'null'"
                 >
-                <Param name="Alpha2" sessionKey="Alpha2" />
+                <Param name="Alpha2" value="" sessionKey="Alpha2"/>
                 <Forward name="true" path="GetAlpha3tCodeFromAlpha2" />
                 <Forward name="false" path="Alpha3tCheck" />
             </XmlSwitchPipe>
             
             <XmlSwitchPipe name="Alpha3tCheck"
-                xpathExpression="count($Alpha3t) > 0"
+                           xpathExpression="string-length($Alpha3t) > 0 and $Alpha3t != 'null'"
                 >
-                <Param name="Alpha3t" sessionKey="Alpha3t" />
+                <Param name="Alpha3t" value="" sessionKey="Alpha3t" />
                 <Forward name="true" path="GetAlpha2CodeFromAlpha3t" />
                 <Forward name="false" path="EXCEPTION" />
             </XmlSwitchPipe>
