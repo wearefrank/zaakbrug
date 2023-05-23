@@ -24,7 +24,7 @@
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
 				>
-					<Param name="Url" value="${zaakbrug.zgw.zaken-api.root-url}zaken"/>
+					<Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}zaken"/>
 					<Param name="identificatie" xpathExpression="root/zakLv01/gelijk/identificatie"/>
 					<Param name="Accept-Crs" value="EPSG:4326"/>
 					<Param name="Authorization" xpathExpression="concat('Bearer ', $token)" >
@@ -87,7 +87,7 @@
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
 				>
-					<Param name="Url" value="${zaakbrug.zgw.zaken-api.root-url}rollen"/>
+					<Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}rollen"/>
 					<Param name="zaak" sessionKey="zaakXml" xpathExpression="results/url"/>
 					<Param name="Accept-Crs" value="EPSG:4326"/>
 					<Param name="Authorization" xpathExpression="concat('Bearer ', $token)" >

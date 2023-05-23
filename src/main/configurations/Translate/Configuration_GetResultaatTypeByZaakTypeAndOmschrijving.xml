@@ -21,7 +21,7 @@
 					headersParams="Authorization,Accept-Crs"
                     timeout="${zaakbrug.zgw.catalogi-api.timeout}"
 				/>
-                <Param name="Url" value="${zaakbrug.zgw.catalogi-api.root-url}resultaattypen" />
+                <Param name="url" value="${zaakbrug.zgw.catalogi-api.root-url}resultaattypen" />
                 <Param name="zaaktype" sessionKey="ZaakTypeUrl" />
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer @@catalogi-api.jwt@@"/>
