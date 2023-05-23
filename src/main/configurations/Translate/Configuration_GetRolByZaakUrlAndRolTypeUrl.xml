@@ -19,9 +19,9 @@
 					name="GetRolByZaakUrlAndRolTypeUrlSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zaakbrug.zgw.zaken-api.root-url}rollen"
                     timeout="${zaakbrug.zgw.zaken-api.timeout}"
 				/>
+                <Param name="Url" value="${zaakbrug.zgw.zaken-api.root-url}rollen"/>
                 <Param name="zaak" sessionKey="ZaakUrl"/>
                 <Param name="roltype" sessionKey="RolTypeUrl"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>

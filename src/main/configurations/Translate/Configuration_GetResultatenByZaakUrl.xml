@@ -19,9 +19,9 @@
 					name="GetZgwRoltypeByIdSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zaakbrug.zgw.zaken-api.root-url}resultaten"
                     timeout="${zaakbrug.zgw.zaken-api.timeout}"
 				/>
+                <Param name="Url" value="${zaakbrug.zgw.zaken-api.root-url}resultaten" />
                 <Param name="zaak" sessionKey="ZaakUrl" />
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer @@zaken-api.jwt@@" />
