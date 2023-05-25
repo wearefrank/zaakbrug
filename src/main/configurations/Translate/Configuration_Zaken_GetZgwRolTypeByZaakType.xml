@@ -21,10 +21,10 @@
 					name="GetZgwRolTypeByZaakTypeHttpSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zaakbrug.zgw.catalogi-api.root-url}roltypen"
                     timeout="${zaakbrug.zgw.catalogi-api.timeout}"
                     maxExecuteRetries="5"
 				/>
+                <Param name="url" value="${zaakbrug.zgw.catalogi-api.root-url}roltypen"/>
                 <Param name="zaaktype" sessionKey="ZaakTypeUrl" />
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer @@catalogi-api.jwt@@" />

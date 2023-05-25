@@ -27,9 +27,9 @@
 					name="GetZgwZaakByIdentificatieSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zaakbrug.zgw.zaken-api.root-url}zaken"
                     timeout="${zaakbrug.zgw.zaken-api.timeout}"
 				/>
+                <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}zaken"/>
                 <Param name="identificatie" sessionKey="Identificatie"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer @@zaken-api.jwt@@" />
