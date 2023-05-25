@@ -34,10 +34,10 @@
                 <HttpSender name="PostZgwEnkelvoudigInformatieObjectHttpSender"
                     methodType="POST"
                     headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
-                    url="${zaakbrug.zgw.documenten-api.root-url}enkelvoudiginformatieobjecten"
                     timeout="${zaakbrug.zgw.documenten-api.timeout}"
                     maxExecuteRetries="5"
                     contentType="application/json">
+                    <Param name="url" value="${zaakbrug.zgw.documenten-api.root-url}enkelvoudiginformatieobjecten"/>
                     <Param name="Accept-Crs" value="EPSG:4326" />
                     <Param name="Accept" value="application/json" />
                     <Param name="Content-Crs" value="EPSG:4326" />
