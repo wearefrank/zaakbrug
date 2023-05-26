@@ -92,6 +92,8 @@ affinity: {}
 timeZone: Etc/UTC
 
 zaakbrug:
+  zds:
+    timezone: UTC
   soap:
     beantwoordVraag:
       endpoint: "translate/generic/zds/BeantwoordVraag"
