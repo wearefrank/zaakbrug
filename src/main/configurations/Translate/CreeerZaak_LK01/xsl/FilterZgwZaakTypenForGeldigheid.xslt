@@ -10,7 +10,7 @@
     <xsl:template match="/">
         <ZgwZaakTypen>
             <xsl:for-each select="ZgwZaakTypen/ZgwZaakType">
-                <xsl:if test="xs:date(beginGeldigheid) &lt; current-date()">
+                <xsl:if test="xs:date(beginGeldigheid) &lt;= current-date()">
                     <xsl:if test="eindeGeldigheid/@nil = 'true' or (xs:date(eindeGeldigheid) &gt; current-date())">
                         <ZgwZaakType>
                             <xsl:apply-templates select="@*|node()"/>
