@@ -1,9 +1,11 @@
 <xsl:stylesheet exclude-result-prefixes="xs xsl zgw" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://google.com/zgw" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" >
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="yes" exclude-result-prefixes="xsi"/>
-
     <xsl:function name="zgw:toZgwDatetime" as="xs:dateTime">
         <xsl:param name="dateTimeStr" as="xs:string"/>
-        <xsl:value-of select="concat(substring($dateTimeStr,1,4), '-', substring($dateTimeStr,5,2), '-', substring($dateTimeStr,7,2), 'T', substring($dateTimeStr,9,2), ':', substring($dateTimeStr,11,2), ':', substring($dateTimeStr,13,2), 'Z')"/>
+        <xsl:variable name="withoutZulu" select="xs:dateTime(concat(substring($dateTimeStr,1,4), '-', substring($dateTimeStr,5,2), '-', substring($dateTimeStr,7,2), 'T', substring($dateTimeStr,9,2), ':', substring($dateTimeStr,11,2), ':', substring($dateTimeStr,13,2)))" />
+        <xsl:variable name="withZulu" select="xs:dateTime(concat($withoutZulu, 'Z'))" />
+        <xsl:variable name="timezoneOffset" select="format-dateTime($withZulu, '[Z]', (), (), environment-variable('zaakbrug.zds.timezone'))" />
+        <xsl:value-of select="concat($withoutZulu, $timezoneOffset)"/>
     </xsl:function>
 
     <xsl:function name="zgw:toZgwDate">
