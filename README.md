@@ -1,5 +1,8 @@
 ![zaakbrug-banner-small.png](/docs/picturesReadme/zaakbrug-banner-small.png)
 
+
+
+
 Successor of [Open-ZaakBrug](https://sudwest-fryslan.github.io/OpenZaakBrug), an app for Dutch municipalities that supports the transition from "zaak- en documentatieservices" (zds) to "zaakgericht werken" (zgw).
 
 Dutch municipalities provide services that are delivered many times. An example of such a service is to provide passports. This service is delivered many times because each citizen needs a passport or an ID card. An instance of a service that is provided multiple times is referred by the Dutch word "zaak" (case).

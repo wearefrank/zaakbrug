@@ -10,7 +10,7 @@ data:
   application.server.type.custom: NARAYANA
   JAVA_OPTS: -Xmx{{ .Values.frank.memory }} -Xms{{ .Values.frank.memory }}
   TZ: {{ .Values.timeZone }}
-  zaakbrug.zds.timezone: {{ .Values.zaakbrug.zds.timezone | default UTC }}
+  zaakbrug.zds.timezone: {{ .Values.zaakbrug.zds.timezone | default "UTC" }}
   {{- $name := .Values.frank.instance.name | required (printf ".frank.instance.name is a required parameter") }}
   instance.name: {{ .Values.frank.instance.name }}
   {{- $name := .Values.frank.dtap.stage | required (printf ".frank.dtap.stage is a required parameter") }}
@@ -30,13 +30,13 @@ data:
   servlet.IAF-API.authenticator: AdAuthenticator
   {{- end }}
   {{- end }}
-  {{- if .Values.frank.credentials }}
+  {{- if .Values.frank.credentials.secret }}
 {{/*  credentialFactory.class: nl.nn.credentialprovider.FileSystemCredentialFactory*/}}
   credentialFactory.class: nl.nn.credentialprovider.PropertyFileCredentialFactory
   credentialFactory.map.properties: /opt/frank/secrets/{{.Values.frank.credentials.key}}
   {{- end }}
   {{- if .Values.frank.properties }}
-  {{ .Values.frank.properties | toYaml }}
+  {{ .Values.frank.properties | toYaml | nindent 2 }}
   {{- end }}
 ---
 apiVersion: v1
@@ -81,6 +81,11 @@ data:
   zaakbrug.zgw.catalogi-api.auth-type: {{ .authType }}
   zaakbrug.zgw.catalogi-api.auth-alias: {{ .authAlias }}
   {{- end }}
+  {{- end }}
+  {{- with .Values.zaakbrug.staging }}
+  zaakbrug.staging.zaken-api.root-url: {{ .zaken-api.root-url }}
+  zaakbrug.staging.documenten-api.root-url: {{ .documenten-api.root-url }}
+  zaakbrug.staging.catalogi-api.root-url: {{ .catalogi-api.root-url }}
   {{- end }}
 ---
 apiVersion: v1
