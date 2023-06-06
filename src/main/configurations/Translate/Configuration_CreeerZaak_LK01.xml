@@ -93,8 +93,7 @@
 
             <ForEachChildElementPipe name="RolMappingIterator"
                 storeResultInSessionKey="RolMappingResults"
-                elementXPathExpression="/roles/role"
-                parallel="true">
+                elementXPathExpression="/roles/role">
                 <IbisLocalSender
                     name="CallAddRolToZgw"
                     javaListener="AddRolToZgw">
@@ -133,8 +132,7 @@
 <!-- Post zaak end -->
             <ForEachChildElementPipe name="PostRolIterator"
                 getInputFromSessionKey="RolMappingResults"
-                elementXPathExpression="/results/result/zgwRol"
-                parallel="true">
+                elementXPathExpression="/results/result/zgwRol">
                 <IbisLocalSender
                     name="PostZgwRolLocalSender"
                     javaListener="Zaken_PostZgwRol">
@@ -155,8 +153,7 @@
 
             <ForEachChildElementPipe name="AndereZaakIterator"
                 getInputFromSessionKey="originalMessage"
-                elementXPathExpression="/zakLk01/object/heeftBetrekkingOpAndere"
-                parallel="true">
+                elementXPathExpression="/zakLk01/object/heeftBetrekkingOpAndere">
                 <IbisLocalSender
                     name="CallAndereZaakAdapter"
                     javaListener="AndereZaakAdapter">
