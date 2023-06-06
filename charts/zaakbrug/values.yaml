@@ -94,12 +94,12 @@ timeZone: Etc/UTC
 zaakbrug:
   staging:
     enabled: false
-    zaken-api:
-      root-url: http://zaakbrug-openzaak-nginx.zaakbrug/zaken/api/v1/
-    documenten-api:
-      root-url: http://zaakbrug-openzaak-nginx.zaakbrug/documenten/api/v1/
-    catalogi-api:
-      root-url: http://zaakbrug-openzaak-nginx.zaakbrug/catalogi/api/v1/
+    zakenApi:
+      rootUrl: http://zaakbrug-openzaak-nginx.zaakbrug/zaken/api/v1/
+    documentenApi:
+      rootUrl: http://zaakbrug-openzaak-nginx.zaakbrug/documenten/api/v1/
+    catalogiApi:
+      rootUrl: http://zaakbrug-openzaak-nginx.zaakbrug/catalogi/api/v1/
   zds:
     timezone: UTC
   soap:
