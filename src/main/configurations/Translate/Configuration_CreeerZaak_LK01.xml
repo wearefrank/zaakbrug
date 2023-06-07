@@ -13,8 +13,8 @@
 
         <Pipeline>
             <Exits>
-                <Exit name="EXIT" state="SUCCESS"/>
-                <Exit name="EXCEPTION" state="ERROR"/>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
             <SenderPipe
@@ -26,7 +26,7 @@
                     <Param name="ZaakTypeCode" xpathExpression="/zakLk01/object/isVan/gerelateerde/code"/>
                 </IbisLocalSender>
                 <Forward name="success" path="SetZgwZaakType"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
 
             <XsltPipe
@@ -41,7 +41,7 @@
                 xpathExpression="count(/ZgwZaakTypen/ZgwZaakType) = 1"
                 >
                 <Forward name="then" path="GetGlobalConfigFromLocalFS"/>
-                <Forward name="else" path="EXCEPTION"/>
+                <Forward name="else" path="UncaughtException"/>
             </XmlIfPipe>
 
             <SenderPipe name="GetGlobalConfigFromLocalFS">
@@ -77,7 +77,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="SetRoles"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </SenderPipe>   
 
             <XsltPipe
@@ -104,7 +104,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CreateZaakBody"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
 
             <XsltPipe
@@ -128,7 +128,7 @@
                     javaListener="PostZaakAdapter">
                 </IbisLocalSender>
                 <Forward name="success" path="PostRolIterator"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </SenderPipe> 
 <!-- Post zaak end -->
             <ForEachChildElementPipe name="PostRolIterator"
@@ -143,7 +143,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForHeeftBetrekkingOpAndere"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
 
             <XmlIfPipe name="CheckForHeeftBetrekkingOpAndere"
@@ -163,7 +163,7 @@
                     <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallSetResultaatAndStatus"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
 
             <SenderPipe
@@ -181,8 +181,20 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
+
+            <XsltPipe 
+                name="UncaughtException"
+                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl">
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Uncaught exception" /> 
+                <!-- <Param name="details" sessionKey="" /> -->
+                <Param name="detailsXml" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>

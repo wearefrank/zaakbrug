@@ -27,14 +27,14 @@
                     <Param name="Identificatie" xpathExpression="/zakLk01/object[1]/identificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwZaakResult"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
             
             <XmlIfPipe name="CheckForGetZgwZaakResult"
                 xpathExpression="string-length(ZgwZaken) > 0"
                 >
                 <Forward name="then" path="GetSingleZgwZaakFromZgwZakenList"/>
-                <Forward name="else" path="EXCEPTION"/>
+                <Forward name="else" path="UncaughtException"/>
             </XmlIfPipe>
         
             <XsltPipe
@@ -43,7 +43,7 @@
                 storeResultInSessionKey="GetZgwWasZaakResult"
                 >
                 <Forward name="success" path="RemoveNullNodes"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="error" path="UncaughtException"/>
             </XsltPipe>
 
             <XsltPipe name="RemoveNullNodes" 
@@ -73,7 +73,7 @@
                     <Param name="ZaakUrl" xpathExpression="/ZgwZaak/zaaktype" />
                 </IbisLocalSender>
                 <Forward name="success" path="CallGetZdsZaakFromZgw"/>
-                <Forward name="exception" path="EXCEPTION"/>
+                <Forward name="exception" path="UncaughtException"/>
             </SenderPipe>
 
             <SenderPipe
@@ -86,7 +86,7 @@
                     <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForInputZaakObjectCount"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForInputZaakObjectCount"
@@ -121,7 +121,7 @@
                 >
                 <Param name="ZdsWordtZaak" sessionKey="ZdsWordtZaak" type="DOMDOC"/>
                 <Forward name="success" path="CheckForDetectZdsZaakChangesResult"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="error" path="UncaughtException"/>
             </XsltPipe>
 
             <XmlIfPipe name="CheckForDetectZdsZaakChangesResult"
@@ -240,6 +240,18 @@
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
+
+            <XsltPipe 
+                name="UncaughtException"
+                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl">
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Uncaught exception" /> 
+                <!-- <Param name="details" sessionKey="" /> -->
+                <Param name="detailsXml" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>
