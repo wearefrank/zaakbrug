@@ -92,14 +92,6 @@ affinity: {}
 timeZone: Etc/UTC
 
 zaakbrug:
-  staging:
-    enabled: false
-    zakenApi:
-      rootUrl: http://zaakbrug-openzaak-nginx.zaakbrug/zaken/api/v1/
-    documentenApi:
-      rootUrl: http://zaakbrug-openzaak-nginx.zaakbrug/documenten/api/v1/
-    catalogiApi:
-      rootUrl: http://zaakbrug-openzaak-nginx.zaakbrug/catalogi/api/v1/
   zds:
     timezone: Etc/UTC
   soap:
@@ -126,15 +118,15 @@ zaakbrug:
     documentIdentificatieTemplate: DC{datetime:[Y0001]}-{id:D5}
     # Make sure that all Url's contain two "parts" e.g. `openzaak-nginx.zaakbrug`. Openzaak can't use a single part domain.
     zakenApi:
-      rootUrl: "http://openzaak-nginx.zaakbrug/zaken/api/v1/"
+      rootUrl: "http://open-zaak/zaken/api/v1/"
       authType: jwt # Options: 'jwt', 'basic', 'value'. 'value' uses the password field of the given authAlias as Authorization header
       authAlias: zaken-api.jwt # reference to an auth alias configured in credentials.properties
     catalogiApi:
-      rootUrl: "http://openzaak-nginx.zaakbrug/catalogi/api/v1/"
+      rootUrl: "http://open-zaak/catalogi/api/v1/"
       authType: jwt
       authAlias: zaken-api.jwt
     documentenApi:
-      rootUrl: "http://openzaak-nginx.zaakbrug/documenten/api/v1/"
+      rootUrl: "http://open-zaak/documenten/api/v1/"
       authType: jwt
       authAlias: zaken-api.jwt
   globals:
@@ -224,7 +216,14 @@ connections:
       username: #${database/username}
       password: #${database/password}
 
-openzaak:
+staging:
+  enabled: true
+  zakenApi:
+    rootUrl: http://zaakbrug-staging-nginx.zaakbrug/zaken/api/v1/
+  documentenApi:
+    rootUrl: http://zaakbrug-staging-nginx.zaakbrug/documenten/api/v1/
+  catalogiApi:
+    rootUrl: http://zaakbrug-staging-nginx.zaakbrug/catalogi/api/v1/
   extraEnvVars:
     - name: NOTIFICATIONS_DISABLED
       value: "yes"
@@ -233,7 +232,7 @@ openzaak:
     # openzaak.settings.allowedHosts Set the (v)hosts that need to be accessible for OpenZaak
     # Add the ingress route if you have one
     # Change the service names and include namespace
-    allowedHosts: "zaakbrug-openzaak.zaakbrug,zaakbrug-openzaak-nginx.zaakbrug,zaakbrug-openzaak.zaakbrug.svc.cluster.local,zaakbrug-openzaak-nginx.svc.cluster.local,localhost"
+    allowedHosts: "zaakbrug-staging.zaakbrug,zaakbrug-staging-nginx.zaakbrug,zaakbrug-staging.zaakbrug.svc.cluster.local,zaakbrug-staging-nginx.svc.cluster.local,localhost"
     secretKey: ""
     database: {}
   persistence:

@@ -82,7 +82,7 @@ data:
   zaakbrug.zgw.catalogi-api.auth-alias: {{ .authAlias }}
   {{- end }}
   {{- end }}
-  {{- with .Values.zaakbrug.staging }}
+  {{- with .Values.staging }}
   zaakbrug.staging.zaken-api.root-url: {{ .zakenApi.rootUrl }}
   zaakbrug.staging.documenten-api.root-url: {{ .documentenApi.rootUrl }}
   zaakbrug.staging.catalogi-api.root-url: {{ .catalogiApi.rootUrl }}
