@@ -13,18 +13,30 @@ services:
     depends_on:
       - zaakbrug
 
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=zaakbrug
+    ports:
+      - "5432:5432"
+
+
   zaakbrug:
     build: .
     image: wearefrank/zaakbrug:latest
     container_name: zaakbrug
     volumes: &zaakbrug-database-data
       - ../frank-runner/data:/usr/local/tomcat/data
+      - ./src/main/webapp/META-INF/context.xml:/usr/local/tomcat/conf/context.xml
       # - ./data:/usr/local/tomcat/data
     networks:
       - zaakbrug
       - zaakbrug-backend
     ports:
       - 8080:8080
+    depends_on:
+      - postgres
 
 volumes:
   database-data:
