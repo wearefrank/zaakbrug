@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ZKN:zakLk01 xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 C:\Data\KING\Kern-taken\StUF\StUFmaster\zkn0310\mutatie\zkn0310_msg_mutatie.xsd">
+	<ZKN:stuurgegevens>
+		<StUF:berichtcode>Lk01</StUF:berichtcode>
+		<StUF:zender>
+			<StUF:organisatie>GemeenteX</StUF:organisatie>
+			<StUF:applicatie>??????</StUF:applicatie>
+		</StUF:zender>
+		<StUF:ontvanger>
+			<StUF:applicatie>123456789</StUF:applicatie>
+		</StUF:ontvanger>
+		<StUF:referentienummer>QU45629GHB7546VC89763</StUF:referentienummer>
+		<StUF:tijdstipBericht>201011191704</StUF:tijdstipBericht>
+		<StUF:entiteittype>ZAK</StUF:entiteittype>
+	</ZKN:stuurgegevens>
+	<ZKN:parameters>
+		<StUF:mutatiesoort>W</StUF:mutatiesoort>
+		<StUF:indicatorOvername>V</StUF:indicatorOvername>
+	</ZKN:parameters>
+	<ZKN:object StUF:entiteittype="ZAK" StUF:verwerkingssoort="W">
+		<ZKN:identificatie>LT01FT1312</ZKN:identificatie>
+		<ZKN:omschrijving>Aanvraag van een nieuw paspoort door P. Poort (bsn: 123456789), d.d. 20101112.</ZKN:omschrijving>
+		<StUF:tijdvakGeldigheid>
+			<StUF:beginGeldigheid>20101112</StUF:beginGeldigheid>
+			<StUF:eindGeldigheid>20101113</StUF:eindGeldigheid>
+		</StUF:tijdvakGeldigheid>
+		<ZKN:isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="I">
+			<ZKN:gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="I">
+				<ZKN:omschrijving>Omschrijving van het zaaktype</ZKN:omschrijving>
+				<ZKN:code>ZKT001</ZKN:code>
+				<ZKN:ingangsdatumObject>20091010</ZKN:ingangsdatumObject>
+			</ZKN:gerelateerde>
+		</ZKN:isVan>
+		<ZKN:heeft StUF:verwerkingssoort="T" StUF:entiteittype="ZAKSTT" xsi:nil="true" StUF:noValue="geenWaarde"/>
+	</ZKN:object>
+	<ZKN:object StUF:entiteittype="ZAK" StUF:verwerkingssoort="W">
+		<ZKN:identificatie>LT01FT1312</ZKN:identificatie>
+		<ZKN:omschrijving>Aanvraag van een nieuw paspoort door P. Poort (bsn: 123456789), d.d. 20101112.</ZKN:omschrijving>
+		<StUF:tijdvakGeldigheid>
+			<StUF:beginGeldigheid>20101113</StUF:beginGeldigheid>
+			<StUF:eindGeldigheid xsi:nil="true" StUF:noValue="geenWaarde"/>
+		</StUF:tijdvakGeldigheid>
+		<StUF:tijdstipRegistratie>201011131323</StUF:tijdstipRegistratie>
+		<ZKN:isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="I">
+			<ZKN:gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="I">
+				<ZKN:omschrijving>Omschrijving van het zaaktype</ZKN:omschrijving>
+				<ZKN:code>ZKT001</ZKN:code>
+				<ZKN:ingangsdatumObject>20091010</ZKN:ingangsdatumObject>
+			</ZKN:gerelateerde>
+		</ZKN:isVan>
+		<ZKN:heeft StUF:verwerkingssoort="T" StUF:entiteittype="ZAKSTT">
+			<ZKN:gerelateerde StUF:verwerkingssoort="I" StUF:entiteittype="STT">
+				<ZKN:volgnummer>2</ZKN:volgnummer>
+				<ZKN:code>013</ZKN:code>
+				<ZKN:omschrijving>Aanvraag toegewezen</ZKN:omschrijving>
+				<ZKN:ingangsdatumObject>20090412</ZKN:ingangsdatumObject>
+			</ZKN:gerelateerde>
+			<ZKN:toelichting>Status LT01FT1312 De toewijzing van de aanvraag van een nieuw paspoort aan de daarvoor bevoegde ambtenaar.</ZKN:toelichting>
+			<ZKN:datumStatusGezet>201011131634</ZKN:datumStatusGezet>
+			<StUF:tijdvakRelatie>
+				<StUF:beginRelatie>20101113</StUF:beginRelatie>
+				<StUF:eindRelatie xsi:nil="true" StUF:noValue="geenWaarde"/>
+			</StUF:tijdvakRelatie>
+			<StUF:tijdvakGeldigheid>
+				<StUF:beginGeldigheid>20101113</StUF:beginGeldigheid>
+				<StUF:eindGeldigheid xsi:nil="true" StUF:noValue="geenWaarde"/>
+			</StUF:tijdvakGeldigheid>
+			<StUF:tijdstipRegistratie>201011131323</StUF:tijdstipRegistratie>
+			<ZKN:isGezetDoor StUF:entiteittype="ZAKSTTBTR" StUF:verwerkingssoort="I">
+				<ZKN:gerelateerde>
+					<ZKN:medewerker StUF:entiteittype="MDW" StUF:verwerkingssoort="I">
+						<ZKN:identificatie>987654321</ZKN:identificatie>
+						<ZKN:achternaam>Rijk</ZKN:achternaam>
+						<ZKN:voorletters>RC</ZKN:voorletters>
+						<ZKN:voorvoegselAchternaam>de</ZKN:voorvoegselAchternaam>
+					</ZKN:medewerker>
+				</ZKN:gerelateerde>
+			</ZKN:isGezetDoor>
+		</ZKN:heeft>
+	</ZKN:object>
+</ZKN:zakLk01>

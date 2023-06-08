@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 rel. 2 (http://www.altova.com) by Maarten van den Broek (messageDesign) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" targetNamespace="http://www.egem.nl/StUF/sector/zkn/0310" elementFormDefault="qualified" attributeFormDefault="unqualified" version="031002">
+	<import namespace="http://www.egem.nl/StUF/StUF0301" schemaLocation="../../0301/stuf0301mtom.xsd"/>
+	<annotation>
+		<documentation>
+			   - Aangepast aan nieuwe opzet sectormodellen
+
+			   Wijzigingen t.b.v. patch 21 (1-4-2015) vergeleken met versie 031000 zijn de volgende wijzigingen doorgevoerd:			
+			   - ERR289: Het complexType 'ZaakIdentificatie-r' is vanuit het schema 'zkn0310_simpleTypes_zs-dms.xsd' verplaatst naar dit schema.
+							   Daarnaast is ook 'Omschrijving-r' in dit schema geplaatst zodat het ook hergebruikt kan worden in meerdere koppelvlakken.
+					
+			   Wijzigingen t.b.v. patch 21 (1-4-2015) vergeleken met versie 031001 zijn de volgende wijzigingen doorgevoerd:			
+			   - ERR0353: Het schema is voorzien van de afgesproken structuur in 'appinfo'
+			
+        </documentation>
+		<appinfo>
+			<StUF:onderdeel>http://www.egem.nl/StUF/sector/zkn/0310</StUF:onderdeel>
+			<StUF:patch>22</StUF:patch>
+			<StUF:patchdatum>20150701</StUF:patchdatum>
+			<StUF:schemaversie>2</StUF:schemaversie>
+		</appinfo>
+	</annotation>
+	<!-- complexTypes met attributeGroup StUF:element op alfabet -->
+	<complexType name="Archiefcode-e">
+		<simpleContent>
+			<extension base="ZKN:Archiefcode">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="BeschikkingSoort-e">
+		<simpleContent>
+			<extension base="ZKN:BeschikkingSoort">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="Bestandsformaat-e">
+		<simpleContent>
+			<extension base="ZKN:Bestandsformaat">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="BetalingsIndicatie-e">
+		<simpleContent>
+			<extension base="ZKN:BetalingsIndicatie">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="Code-e">
+		<simpleContent>
+			<extension base="ZKN:Code">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="ContactpersoonNaam-e">
+		<simpleContent>
+			<extension base="ZKN:ContactpersoonNaam">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="DocumentAuteur-e">
+		<simpleContent>
+			<extension base="ZKN:DocumentAuteur">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="DocumentIdentificatie-e">
+		<simpleContent>
+			<extension base="ZKN:DocumentIdentificatie">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="DocumentStatus-e">
+		<simpleContent>
+			<extension base="ZKN:DocumentStatus">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="DocumentTaal-e">
+		<simpleContent>
+			<extension base="ZKN:DocumentTaal">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="DocumentTitel-e">
+		<simpleContent>
+			<extension base="ZKN:DocumentTitel">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="DocumentTypeOmschrijving-e">
+		<simpleContent>
+			<extension base="ZKN:DocumentTypeOmschrijving">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="DocumentVersie-e">
+		<simpleContent>
+			<extension base="ZKN:DocumentVersie">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="Doorlooptijd-e">
+		<simpleContent>
+			<extension base="ZKN:Doorlooptijd">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="DuurVerlenging-e">
+		<simpleContent>
+			<extension base="ZKN:DuurVerlenging">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="FunctieMDW-e">
+		<simpleContent>
+			<extension base="ZKN:FunctieMDW">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="Identificatie-e">
+		<simpleContent>
+			<extension base="ZKN:Identificatie">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="KenmerkBron-e">
+		<simpleContent>
+			<extension base="ZKN:KenmerkBron">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="KenmerkZaak-e">
+		<simpleContent>
+			<extension base="ZKN:KenmerkZaak">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="NaamObject-e">
+		<simpleContent>
+			<extension base="ZKN:NaamObject">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="NaamOEH-e">
+		<simpleContent>
+			<extension base="ZKN:NaamOEH">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="NaamVerkortOEH-e">
+		<simpleContent>
+			<extension base="ZKN:NaamVerkortOEH">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="ObjectTypering-e">
+		<simpleContent>
+			<extension base="ZKN:ObjectTypering">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="Omschrijving-e">
+		<simpleContent>
+			<extension base="ZKN:Omschrijving">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="Omschrijving-r">
+		<simpleContent>
+			<restriction base="ZKN:Omschrijving-e">
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:exact"/>
+			</restriction>
+		</simpleContent>
+	</complexType>
+	<complexType name="OmschrijvingKort-e">
+		<simpleContent>
+			<extension base="ZKN:OmschrijvingKort">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="OvereenkomstSoort-e">
+		<simpleContent>
+			<extension base="ZKN:OvereenkomstSoort">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="RedenOpschortingVerlenging-e">
+		<simpleContent>
+			<extension base="ZKN:RedenOpschortingVerlenging">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="RoepnaamMDW-e">
+		<simpleContent>
+			<extension base="ZKN:RoepnaamMDW">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="RolomschrijvingGeneriek-e">
+		<simpleContent>
+			<extension base="ZKN:RolomschrijvingGeneriek">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="SleutelObject-e">
+		<simpleContent>
+			<extension base="ZKN:SleutelObject">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="Termijn-e">
+		<simpleContent>
+			<extension base="ZKN:Termijn">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="Toelichting-e">
+		<simpleContent>
+			<extension base="ZKN:Toelichting">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="Trefwoord-e">
+		<simpleContent>
+			<extension base="ZKN:Trefwoord">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="VertrouwelijkAanduiding-e">
+		<simpleContent>
+			<extension base="ZKN:VertrouwelijkAanduiding">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="Vervalreden-e">
+		<simpleContent>
+			<extension base="ZKN:Vervalreden">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="Volgnummer-e">
+		<simpleContent>
+			<extension base="ZKN:Volgnummer">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="ZaakCategorie-e">
+		<simpleContent>
+			<extension base="ZKN:ZaakCategorie">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="ZaakIdentificatie-e">
+		<simpleContent>
+			<extension base="ZKN:ZaakIdentificatie">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="ZaakIdentificatie-r">
+		<simpleContent>
+			<restriction base="ZKN:ZaakIdentificatie-e">
+				<attribute ref="StUF:noValue" use="prohibited"/>
+				<attribute ref="StUF:exact"/>
+			</restriction>
+		</simpleContent>
+	</complexType>
+	<complexType name="ZaakNiveau-e">
+		<simpleContent>
+			<extension base="ZKN:ZaakNiveau">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="ZaakobjectRegistratie-e">
+		<simpleContent>
+			<extension base="ZKN:ZaakobjectRegistratie">
+				<attributeGroup ref="StUF:element"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- simpleTypes op alfabet -->
+	<simpleType name="Archiefcode">
+		<restriction base="string">
+			<maxLength value="20"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="BeschikkingSoort">
+		<restriction base="string">
+			<maxLength value="10"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Bestandsformaat">
+		<restriction base="string">
+			<maxLength value="85"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="BetalingsIndicatie">
+		<restriction base="string">
+			<enumeration value="N.v.t."/>
+			<enumeration value="(Nog) niet"/>
+			<enumeration value="Gedeeltelijk"/>
+			<enumeration value="Geheel"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Code">
+		<restriction base="string">
+			<maxLength value="10"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="ContactpersoonNaam">
+		<restriction base="string">
+			<maxLength value="40"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="DocumentAuteur">
+		<restriction base="string">
+			<maxLength value="200"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="DocumentIdentificatie">
+		<restriction base="string">
+			<maxLength value="40"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="DocumentStatus">
+		<restriction base="string">
+			<maxLength value="20"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="DocumentTaal">
+		<restriction base="string">
+			<maxLength value="20"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="DocumentTitel">
+		<restriction base="string">
+			<maxLength value="200"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="DocumentTypeOmschrijving">
+		<restriction base="string">
+			<maxLength value="80"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="DocumentVersie">
+		<restriction base="string">
+			<maxLength value="5"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Doorlooptijd">
+		<restriction base="positiveInteger">
+			<totalDigits value="3"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="DuurVerlenging">
+		<restriction base="integer">
+			<totalDigits value="3"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="FunctieMDW">
+		<restriction base="string">
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Identificatie">
+		<restriction base="string">
+			<maxLength value="24"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="KenmerkBron">
+		<restriction base="string">
+			<maxLength value="40"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="KenmerkZaak">
+		<restriction base="string">
+			<maxLength value="40"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="NaamObject">
+		<restriction base="string">
+			<maxLength value="200"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="NaamOEH">
+		<restriction base="string">
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="NaamVerkortOEH">
+		<restriction base="string">
+			<maxLength value="25"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="ObjectTypering">
+		<restriction base="string">
+			<enumeration value="AOA"/>
+			<enumeration value="BSL"/>
+			<enumeration value="BRT"/>
+			<enumeration value="EDC"/>
+			<enumeration value="GEM"/>
+			<enumeration value="GOR"/>
+			<enumeration value="HHD"/>
+			<enumeration value="IRE"/>
+			<enumeration value="KOZ"/>
+			<enumeration value="KWD"/>
+			<enumeration value="MAC"/>
+			<enumeration value="MDW"/>
+			<enumeration value="NPS"/>
+			<enumeration value="NNP"/>
+			<enumeration value="OPR"/>
+			<enumeration value="OEH"/>
+			<enumeration value="PND"/>
+			<enumeration value="SDC"/>
+			<enumeration value="SBD"/>
+			<enumeration value="STA"/>
+			<enumeration value="TDL"/>
+			<enumeration value="TGO"/>
+			<enumeration value="VES"/>
+			<enumeration value="WDL"/>
+			<enumeration value="WGD"/>
+			<enumeration value="WYK"/>
+			<enumeration value="WPL"/>
+			<enumeration value="WDO"/>
+			<enumeration value="WOZ"/>
+			<enumeration value="WRD"/>
+			<enumeration value="ZKR"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Omschrijving">
+		<restriction base="string">
+			<maxLength value="80"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="OmschrijvingKort">
+		<restriction base="string">
+			<maxLength value="40"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="OvereenkomstSoort">
+		<restriction base="string">
+			<maxLength value="10"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="RedenOpschortingVerlenging">
+		<restriction base="string">
+			<maxLength value="200"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="RoepnaamMDW">
+		<restriction base="string">
+			<maxLength value="30"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="RolomschrijvingGeneriek">
+		<restriction base="string">
+			<enumeration value="Belanghebbende"/>
+			<enumeration value="Gemachtigde"/>
+			<enumeration value="Initiator"/>
+			<enumeration value="Overig"/>
+			<enumeration value="Uitvoerder"/>
+			<enumeration value="Verantwoordelijke"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="SleutelObject">
+		<restriction base="string">
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Termijn">
+		<restriction base="nonNegativeInteger">
+			<totalDigits value="3"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Toelichting">
+		<restriction base="string">
+			<maxLength value="1000"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Trefwoord">
+		<restriction base="string">
+			<maxLength value="30"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="VertrouwelijkAanduiding">
+		<restriction base="string">
+			<enumeration value="ZEER GEHEIM"/>
+			<enumeration value="GEHEIM"/>
+			<enumeration value="CONFIDENTIEEL"/>
+			<enumeration value="VERTROUWELIJK"/>
+			<enumeration value="ZAAKVERTROUWELIJK"/>
+			<enumeration value="INTERN"/>
+			<enumeration value="BEPERKT OPENBAAR"/>
+			<enumeration value="OPENBAAR"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Vervalreden">
+		<restriction base="string">
+			<enumeration value="Besluit met tijdelijke werking"/>
+			<enumeration value="Besluit ingetrokken door overheid"/>
+			<enumeration value="Besluit ingetrokken o.v.v. belanghebbende"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Volgnummer">
+		<restriction base="positiveInteger">
+			<totalDigits value="4"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="ZaakCategorie">
+		<restriction base="string">
+			<maxLength value="40"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="ZaakIdentificatie">
+		<restriction base="string">
+			<minLength value="5"/>
+			<maxLength value="40"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="ZaakNiveau">
+		<restriction base="positiveInteger">
+			<minInclusive value="1"/>
+			<maxInclusive value="3"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="ZaakobjectRegistratie">
+		<restriction base="string">
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>
+</schema>

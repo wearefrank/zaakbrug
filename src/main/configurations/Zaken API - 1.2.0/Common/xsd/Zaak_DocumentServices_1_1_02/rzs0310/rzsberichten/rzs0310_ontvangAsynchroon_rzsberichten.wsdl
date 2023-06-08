@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 sp1 (http://www.altova.com) by Robert Melskens (Kwaliteits Instituut Nederlandse Gemeenten) -->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsi="http://ws-i.org/schemas/conformanceClaim/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:RZS="http://www.stufstandaarden.nl/sectormodel/rzs0310" name="StUF-ZKN0310" targetNamespace="http://www.stufstandaarden.nl/sectormodel/rzs0310">
+	<import namespace="http://www.egem.nl/StUF/StUF0301" location="../../0301/stuf0301_types.wsdl"/>
+	<documentation>
+		<xs:documentation>
+		Dit document definieert de webservices voor het portType OntvangAsynchroon voor het Regie-Zaak services koppelvlak.			
+		</xs:documentation>
+		<xs:appinfo>
+			<StUF:onderdeel>http://www.stufstandaarden.nl/sectormodel/rzs0310</StUF:onderdeel>
+			<StUF:patch>-</StUF:patch>
+			<StUF:patchdatum>-</StUF:patchdatum>
+			<StUF:schemaversie>0</StUF:schemaversie>
+		</xs:appinfo>
+	</documentation>
+	<types>
+		<xs:schema>
+			<xs:import namespace="http://www.stufstandaarden.nl/sectormodel/rzs0310" schemaLocation="rzs0310_msg_rzsberichten.xsd"/>
+		</xs:schema>
+	</types>
+	<message name="notificeerOverZaak_Di01">
+		<part name="body" element="RZS:notificeerOverZaak_Di01"/>
+	</message>
+	<message name="initieerNotificeerOverZaak_Di01">
+		<part name="body" element="RZS:initieerNotificeerOverZaak_Di01"/>
+	</message>
+	<message name="overdragenZaak_Di01">
+		<part name="body" element="RZS:overdragenZaak_Di01"/>
+	</message>
+	<message name="overdragenZaak_Du01">
+		<part name="body" element="RZS:overdragenZaak_Du01"/>
+	</message>
+	<portType name="OntvangAsynchroon">
+		<documentation>
+		Dit portType ondersteunt als operaties alle asynchrone berichten gedefinieerd binnen het sectormodel
+	</documentation>
+		<operation name="Bv01">
+			<input message="StUF:Bv01"/>
+			<output message="StUF:Bv01"/>
+			<fault name="fout" message="StUF:Fo01"/>
+		</operation>
+		<operation name="Fo01">
+			<input message="StUF:Fo01"/>
+			<output message="StUF:Bv01"/>
+			<fault name="fout" message="StUF:Fo01"/>
+		</operation>
+		<operation name="notificeerOverZaak">
+			<input message="RZS:notificeerOverZaak_Di01"/>
+			<output message="StUF:Bv01"/>
+			<fault name="fout" message="StUF:Fo01"/>
+		</operation>
+		<operation name="initieerNotificeerOverZaak">
+			<input message="RZS:initieerNotificeerOverZaak_Di01"/>
+			<output message="StUF:Bv01"/>
+			<fault name="fout" message="StUF:Fo01"/>
+		</operation>
+		<operation name="overdragenZaak">
+			<input message="RZS:overdragenZaak_Di01"/>
+			<output message="RZS:overdragenZaak_Du01"/>
+			<fault name="fout" message="StUF:Fo01"/>
+		</operation>
+	</portType>
+	<binding name="SOAPOntvangAsynchroon" type="RZS:OntvangAsynchroon">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+		<operation name="Bv01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/StUF0301/Bv01"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="Fo01">
+			<soap:operation soapAction="http://www.egem.nl/StUF/StUF0301/Fo01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="notificeerOverZaak">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/rzs/0310/notificeerOverZaak" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="initieerNotificeerOverZaak">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/rzs/0310/iitieerNotificeerOverZaak" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+		<operation name="overdragenZaak">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/rzs/0310/notificeerOverZaak" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="OntvangAsynchroon">
+		<documentation>		
+	Hieronder wordt de concreet aan te roepen service voor het ontvangen van asynchrone ZKN0310-berichten gedefinieerd. 
+		</documentation>
+		<port name="OntvangAsynchroon" binding="RZS:SOAPOntvangAsynchroon">
+			<documentation>
+				<wsi:Claim xmlns:wsi="http://ws-i.org/schemas/conformanceClaim/" conformsTo="http://ws-i.org/profiles/basic/1.1"/>
+			</documentation>
+			<soap:address location="http://example.com/OntvangAsynchroon" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+		</port>
+	</service>
+</definitions>

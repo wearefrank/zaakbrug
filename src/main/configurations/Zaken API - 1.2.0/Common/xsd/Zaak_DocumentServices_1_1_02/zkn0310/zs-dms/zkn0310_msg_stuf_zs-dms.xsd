@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 sp1 (http://www.altova.com) by Robert Melskens (Kwaliteits Instituut Nederlandse Gemeenten) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" targetNamespace="http://www.egem.nl/StUF/StUF0301" elementFormDefault="qualified" attributeFormDefault="unqualified" version="031001">
+	<annotation>
+		<documentation>
+			   Bestand bevat de stuurgegevensdefinities voor het opvragen van gegenereerde zaakidentificatie i.h.k.v. het ZS-DMS koppelvlak.
+ 
+			   Wijzigingen t.b.v. patch 21 (1-4-2015) vergeleken met versie 031000 zijn de volgende wijzigingen doorgevoerd:			
+			   - ERR289: Het complexType 'Datum-r' is vanuit dit schema verplaatst naar het schema  'stuf0301.xsd'.
+			   - ERR0353: Het schema is voorzien van de afgesproken structuur in 'appinfo'
+			
+        </documentation>
+		<appinfo>
+			<StUF:onderdeel>http://www.egem.nl/StUF/sector/zkn/0310</StUF:onderdeel>
+			<StUF:patch>22</StUF:patch>
+			<StUF:patchdatum>20150701</StUF:patchdatum>
+			<StUF:schemaversie>1</StUF:schemaversie>
+		</appinfo>
+	</annotation>
+	<include schemaLocation="../../0301/stuf0301mtom.xsd"/>
+	<!--ComplexTypes voor Stuurgegevens. -->
+	<complexType name="Di02-Stuurgegevens-gzi">
+		<complexContent>
+			<restriction base="StUF:StuurgegevensDi02">
+				<sequence>
+					<element name="berichtcode" type="StUF:BerichtcodeDi02"/>
+					<element name="zender" type="StUF:Systeem" minOccurs="0"/>
+					<element name="ontvanger" type="StUF:Systeem" minOccurs="0"/>
+					<element name="referentienummer" type="StUF:Refnummer" minOccurs="0"/>
+					<element name="tijdstipBericht" type="StUF:Tijdstip" minOccurs="0"/>
+					<element name="functie" type="StUF:FunctiegenereerZaakidentificatie"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="Du02-Stuurgegevens-gzi">
+		<complexContent>
+			<restriction base="StUF:StuurgegevensDu02">
+				<sequence>
+					<element name="berichtcode" type="StUF:BerichtcodeDu02"/>
+					<element name="zender" type="StUF:Systeem" minOccurs="0"/>
+					<element name="ontvanger" type="StUF:Systeem" minOccurs="0"/>
+					<element name="referentienummer" type="StUF:Refnummer" minOccurs="0"/>
+					<element name="tijdstipBericht" type="StUF:Tijdstip" minOccurs="0"/>
+					<element name="crossRefnummer" type="StUF:Refnummer" minOccurs="0"/>
+					<element name="functie" type="StUF:FunctiegenereerZaakidentificatie"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="Di02-Stuurgegevens-gzdb">
+		<complexContent>
+			<restriction base="StUF:StuurgegevensDi02">
+				<sequence>
+					<element name="berichtcode" type="StUF:BerichtcodeDi02"/>
+					<element name="zender" type="StUF:Systeem" minOccurs="0"/>
+					<element name="ontvanger" type="StUF:Systeem" minOccurs="0"/>
+					<element name="referentienummer" type="StUF:Refnummer" minOccurs="0"/>
+					<element name="tijdstipBericht" type="StUF:Tijdstip" minOccurs="0"/>
+					<element name="functie" type="StUF:FunctiegeefZaakdocumentbewerken"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="Du02-Stuurgegevens-gzdb">
+		<complexContent>
+			<restriction base="StUF:StuurgegevensDu02">
+				<sequence>
+					<element name="berichtcode" type="StUF:BerichtcodeDu02"/>
+					<element name="zender" type="StUF:Systeem" minOccurs="0"/>
+					<element name="ontvanger" type="StUF:Systeem" minOccurs="0"/>
+					<element name="referentienummer" type="StUF:Refnummer" minOccurs="0"/>
+					<element name="tijdstipBericht" type="StUF:Tijdstip" minOccurs="0"/>
+					<element name="crossRefnummer" type="StUF:Refnummer" minOccurs="0"/>
+					<element name="functie" type="StUF:FunctiegeefZaakdocumentbewerken"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="Di02-Stuurgegevens-gdi">
+		<complexContent>
+			<restriction base="StUF:StuurgegevensDi02">
+				<sequence>
+					<element name="berichtcode" type="StUF:BerichtcodeDi02"/>
+					<element name="zender" type="StUF:Systeem" minOccurs="0"/>
+					<element name="ontvanger" type="StUF:Systeem" minOccurs="0"/>
+					<element name="referentienummer" type="StUF:Refnummer" minOccurs="0"/>
+					<element name="tijdstipBericht" type="StUF:Tijdstip" minOccurs="0"/>
+					<element name="functie" type="StUF:FunctiegenereerDocumentidentificatie"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="Du02-Stuurgegevens-gdi">
+		<complexContent>
+			<restriction base="StUF:StuurgegevensDu02">
+				<sequence>
+					<element name="berichtcode" type="StUF:BerichtcodeDu02"/>
+					<element name="zender" type="StUF:Systeem" minOccurs="0"/>
+					<element name="ontvanger" type="StUF:Systeem" minOccurs="0"/>
+					<element name="referentienummer" type="StUF:Refnummer" minOccurs="0"/>
+					<element name="tijdstipBericht" type="StUF:Tijdstip" minOccurs="0"/>
+					<element name="crossRefnummer" type="StUF:Refnummer" minOccurs="0"/>
+					<element name="functie" type="StUF:FunctiegenereerDocumentidentificatie"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="Di02-Stuurgegevens-uzd">
+		<complexContent>
+			<restriction base="StUF:StuurgegevensDi02">
+				<sequence>
+					<element name="berichtcode" type="StUF:BerichtcodeDi02"/>
+					<element name="zender" type="StUF:Systeem" minOccurs="0"/>
+					<element name="ontvanger" type="StUF:Systeem" minOccurs="0"/>
+					<element name="referentienummer" type="StUF:Refnummer" minOccurs="0"/>
+					<element name="tijdstipBericht" type="StUF:Tijdstip" minOccurs="0"/>
+					<element name="functie" type="StUF:FunctieupdateZaakdocument"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="Di02-Stuurgegevens-cc">
+		<complexContent>
+			<restriction base="StUF:StuurgegevensDi02">
+				<sequence>
+					<element name="berichtcode" type="StUF:BerichtcodeDi02"/>
+					<element name="zender" type="StUF:Systeem" minOccurs="0"/>
+					<element name="ontvanger" type="StUF:Systeem" minOccurs="0"/>
+					<element name="referentienummer" type="StUF:Refnummer" minOccurs="0"/>
+					<element name="tijdstipBericht" type="StUF:Tijdstip" minOccurs="0"/>
+					<element name="functie" type="StUF:FunctiecancelCheckout"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<!--ComplexTypes voor Parameters -->
+	<complexType name="ParametersVraag-gzdb">
+		<complexContent>
+			<restriction base="StUF:ParametersVraag-basis">
+				<sequence>
+					<element name="indicatorAfnemerIndicatie" type="boolean" default="false" minOccurs="0"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ParametersAntwoord-gzdb">
+		<complexContent>
+			<restriction base="StUF:ParametersAntwoord">
+				<sequence>
+					<element name="indicatorAfnemerIndicatie" type="boolean" default="false" minOccurs="0"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<!-- ComplexTypes voor simpleContent. -->
+	<!-- SimpleTypes voor functies -->
+	<simpleType name="FunctiegenereerZaakidentificatie">
+		<annotation>
+			<documentation>Functie = genereerZaakidentificatie</documentation>
+		</annotation>
+		<restriction base="StUF:Functie">
+			<enumeration value="genereerZaakidentificatie"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="FunctiegeefZaakdocumentbewerken">
+		<annotation>
+			<documentation>Functie = geefZaakdocumentbewerken</documentation>
+		</annotation>
+		<restriction base="StUF:Functie">
+			<enumeration value="geefZaakdocumentbewerken"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="FunctiegenereerDocumentidentificatie">
+		<annotation>
+			<documentation>Functie = genereerDocumentidentificatie</documentation>
+		</annotation>
+		<restriction base="StUF:Functie">
+			<enumeration value="genereerDocumentidentificatie"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="FunctieupdateZaakdocument">
+		<annotation>
+			<documentation>Functie = updateZaakdocument</documentation>
+		</annotation>
+		<restriction base="StUF:Functie">
+			<enumeration value="updateZaakdocument"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="FunctiecancelCheckout">
+		<annotation>
+			<documentation>Functie = cancelCheckout</documentation>
+		</annotation>
+		<restriction base="StUF:Functie">
+			<enumeration value="cancelCheckout"/>
+		</restriction>
+	</simpleType>
+</schema>

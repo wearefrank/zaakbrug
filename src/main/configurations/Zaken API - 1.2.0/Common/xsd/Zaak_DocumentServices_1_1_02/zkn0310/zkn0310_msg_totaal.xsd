@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2012 sp1 (http://www.altova.com) by Maarten van den Broek (messageDesign) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" targetNamespace="http://www.egem.nl/StUF/sector/zkn/0310" elementFormDefault="qualified" attributeFormDefault="unqualified" version="031002">
+	<annotation>
+		<documentation>
+			   Dit schema bevat verwijzingen naar de schema's met de elementdefinities, zodat vanuit één schema alle berichtelementen gevalideerd kunnen worden. Dit schema zal elke keer als er een koppelvlak wordt
+			   toegevoegd in de namespace http://www.egem.nl/StUF/sector/zkn/0310 worden uitgebreid met een verwijzing naar het msg-schema voor dat koppelvlak.
+
+			   Wijzigingen vergeleken met versie zkn0310_msg_totaal.xsd v031000:
+			   - Message schema toegevoegd n.a.v. toevoeging zs-dms berichtencatralogus.
+			
+			   Wijzigingen t.b.v. patch 21 (1-4-2015) vergeleken met versie 031001 zijn de volgende wijzigingen doorgevoerd:			
+			   - ERR0353: Het schema is voorzien van de afgesproken structuur in 'appinfo'
+			
+        </documentation>
+		<appinfo>
+			<StUF:onderdeel>http://www.egem.nl/StUF/sector/zkn/0310</StUF:onderdeel>
+			<StUF:patch>22</StUF:patch>
+			<StUF:patchdatum>20150701</StUF:patchdatum>
+			<StUF:schemaversie>2</StUF:schemaversie>
+		</appinfo>
+	</annotation>
+	<include schemaLocation="mutatie/zkn0310_msg_mutatie.xsd"/>
+	<include schemaLocation="vraagAntwoord/zkn0310_msg_vraagAntwoord.xsd"/>
+	<include schemaLocation="zs-dms/zkn0310_msg_zs-dms.xsd"/>
+	<include schemaLocation="corv/zkn0310_msg_corv.xsd"/>
+</schema>

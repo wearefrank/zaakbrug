@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2015 sp2 (http://www.altova.com) by Johan Boer (Kwaliteits Instituut Nederlandse Gemeenten) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" targetNamespace="http://www.egem.nl/StUF/sector/zkn/0310" elementFormDefault="qualified" attributeFormDefault="unqualified" version="031000">
+	<annotation>
+		<documentation>
+			Bestand bevat de complexTypes voor de berichtdefinities voor het notificaties en opdrachtverstrekking i.h.k.v. het Regie-Zaak koppelvlak.
+        </documentation>
+		<appinfo>
+			<StUF:onderdeel>http://www.egem.nl/StUF/sector/zkn/0310</StUF:onderdeel>
+			<StUF:patch>-</StUF:patch>
+			<StUF:patchdatum>-</StUF:patchdatum>
+			<StUF:schemaversie>0</StUF:schemaversie>
+		</appinfo>
+	</annotation>
+	<import namespace="http://www.egem.nl/StUF/StUF0301" schemaLocation="../../0301/stuf0301mtom.xsd"/>
+	<import namespace="http://www.w3.org/2005/05/xmlmime" schemaLocation="../../xmlmime/xmlmime.xsd"/>
+	<include schemaLocation="../../zkn0310/entiteiten/zkn0310_ent_basis.xsd"/>
+	<include schemaLocation="rzs0310_zkn0310_simpleTypes.xsd"/>
+	<!-- ComplexTypes voor gespecialiseerde entiteittypen. -->
+	<!-- Definities de zaakgegevens in de notificatie. -->
+	<complexType name="ZAK-noticatie-r">
+		<complexContent>
+			<restriction base="ZKN:ZAK-basis">
+				<sequence>
+					<element name="identificatie" type="ZKN:ZaakIdentificatie-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="isVan" type="ZKN:ZAKZKT-kerngegevens" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeft" type="ZKN:ZAKSTT-kerngegevens" nillable="true" minOccurs="0" maxOccurs="2"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAK-opdracht-r">
+		<complexContent>
+			<restriction base="ZKN:ZAK-basis">
+				<sequence>
+					<element name="identificatie" type="ZKN:ZaakIdentificatie-r"/>
+					<element name="isVan" type="ZKN:ZAKZKT-kerngegevens" nillable="true" maxOccurs="unbounded"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAK-opdrachtbevestiging-r">
+		<complexContent>
+			<restriction base="ZKN:ZAK-basis">
+				<sequence>
+					<element name="identificatie" type="ZKN:ZaakIdentificatie-r"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAK-notificatie-e">
+		<complexContent>
+			<extension base="ZKN:ZAK-noticatie-r">
+				<attribute ref="StUF:functie" use="required" fixed="entiteit"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAK-opdracht-e">
+		<complexContent>
+			<extension base="ZKN:ZAK-opdracht-r">
+				<attribute ref="StUF:functie" use="required" fixed="entiteit"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAK-opdrachtbevestiging-e">
+		<complexContent>
+			<extension base="ZKN:ZAK-opdrachtbevestiging-r">
+				<sequence>
+					<element name="antwoord">
+						<complexType>
+							<simpleContent>
+								<extension base="ZKN:antwoord"/>
+							</simpleContent>
+						</complexType>
+					</element>
+				</sequence>
+				<attribute ref="StUF:functie" use="required" fixed="entiteit"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- ComplexTypes voor parameters. -->
+</schema>

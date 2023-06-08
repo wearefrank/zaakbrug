@@ -91,7 +91,7 @@ services:
     networks:
       - zaakbrug-backend
     ports:
-      - 9002
+      - 9002:9002
     depends_on:
       - zaakbrug-staging
 

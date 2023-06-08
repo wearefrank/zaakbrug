@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:zds="http://www.stufstandaarden.nl/koppelvlak/zds0120" targetNamespace="http://www.stufstandaarden.nl/koppelvlak/zds0120" elementFormDefault="qualified" attributeFormDefault="unqualified" version="031000">
+	<annotation>
+		<documentation>
+			Dit schema bevat verwijzingen naar de schema's met de elementdefinities, zodat vanuit één schema alle berichtelementen gevalideerd kunnen worden. Dit schema zal elke keer als er een koppelvlak wordt toegevoegd in de namespace targetNamespace="http://www.stufstandaarden.nl/koppelvlak/zds0120/201603" worden uitgebreid met een verwijzing naar het msg-schema voor dat koppelvlak.
+		</documentation>
+		<appinfo>
+			<StUF:onderdeel>http://www.stufstandaarden.nl/koppelvlak/zds0120</StUF:onderdeel>
+			<StUF:patch>zds120_20170401</StUF:patch>
+			<StUF:patchdatum>20170401</StUF:patchdatum>
+			<StUF:schemaversie>1</StUF:schemaversie>
+		</appinfo>
+	</annotation>
+	<include schemaLocation="berichten/zds0120_msg_zs-dms.xsd"/>
+</schema>

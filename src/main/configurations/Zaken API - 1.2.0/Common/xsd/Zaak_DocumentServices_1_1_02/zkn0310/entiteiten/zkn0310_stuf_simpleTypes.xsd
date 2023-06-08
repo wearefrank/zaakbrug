@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 rel. 2 (http://www.altova.com) by Maarten van den Broek (messageDesign) -->
+<schema xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.egem.nl/StUF/StUF0301" elementFormDefault="qualified" attributeFormDefault="unqualified" version="031001">
+	<annotation>
+		<documentation>
+			   Nieuw bestand n.a.v. ERR267 (patch 16, 1-7-2013):
+			   - ERR267: Voor elke entiteit een simpleType toegevoegd in de vorm 'EntiteittypeXXX' waarbij 'XXX' staat voor de mnemonic van de betreffende entiteit, bijv. 'EntiteittypeAOA'.
+					
+			   Wijzigingen t.b.v. patch 21 (1-4-2015) vergeleken met versie 031000 zijn de volgende wijzigingen doorgevoerd:			
+			   - ERR0353: Het schema is voorzien van de afgesproken structuur in 'appinfo'
+			
+        </documentation>
+		<appinfo>
+			<StUF:onderdeel>http://www.egem.nl/StUF/sector/zkn/0310</StUF:onderdeel>
+			<StUF:patch>22</StUF:patch>
+			<StUF:patchdatum>20150701</StUF:patchdatum>
+			<StUF:schemaversie>1</StUF:schemaversie>
+		</appinfo>
+	</annotation>
+	<include schemaLocation="../../0301/stuf0301.xsd"/>
+	<!--Definitie van complexTypes en simpleTypes voor inOnderzoek elementen-->
+	<!-- SimpleTypes voor entiteittypes. -->
+	<simpleType name="EntiteittypeBSL">
+		<annotation>
+			<documentation>Entiteittype = BSL</documentation>
+		</annotation>
+		<restriction base="StUF:Entiteittype">
+			<enumeration value="BSL"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="EntiteittypeBST">
+		<annotation>
+			<documentation>Entiteittype = BST</documentation>
+		</annotation>
+		<restriction base="StUF:Entiteittype">
+			<enumeration value="BST"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="EntiteittypeCTP">
+		<annotation>
+			<documentation>Entiteittype = CTP</documentation>
+		</annotation>
+		<restriction base="StUF:Entiteittype">
+			<enumeration value="CTP"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="EntiteittypeDCT">
+		<annotation>
+			<documentation>Entiteittype = DCT</documentation>
+		</annotation>
+		<restriction base="StUF:Entiteittype">
+			<enumeration value="DCT"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="EntiteittypeDTG">
+		<annotation>
+			<documentation>Entiteittype = DTG</documentation>
+		</annotation>
+		<restriction base="StUF:Entiteittype">
+			<enumeration value="DTG"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="EntiteittypeEDC">
+		<annotation>
+			<documentation>Entiteittype = EDC</documentation>
+		</annotation>
+		<restriction base="StUF:Entiteittype">
+			<enumeration value="EDC"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="EntiteittypeMDW">
+		<annotation>
+			<documentation>Entiteittype = MDW</documentation>
+		</annotation>
+		<restriction base="StUF:Entiteittype">
+			<enumeration value="MDW"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="EntiteittypeOEH">
+		<annotation>
+			<documentation>Entiteittype = OEH</documentation>
+		</annotation>
+		<restriction base="StUF:Entiteittype">
+			<enumeration value="OEH"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="EntiteittypeSDC">
+		<annotation>
+			<documentation>Entiteittype = SDC</documentation>
+		</annotation>
+		<restriction base="StUF:Entiteittype">
+			<enumeration value="SDC"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="EntiteittypeSTA">
+		<annotation>
+			<documentation>Entiteittype = STA</documentation>
+		</annotation>
+		<restriction base="StUF:Entiteittype">
+			<enumeration value="STA"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="EntiteittypeSTT">
+		<annotation>
+			<documentation>Entiteittype = STT</documentation>
+		</annotation>
+		<restriction base="StUF:Entiteittype">
+			<enumeration value="STT"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="EntiteittypeVZO">
+		<annotation>
+			<documentation>Entiteittype = VZO</documentation>
+		</annotation>
+		<restriction base="StUF:Entiteittype">
+			<enumeration value="VZO"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="EntiteittypeZAK">
+		<annotation>
+			<documentation>Entiteittype = ZAK</documentation>
+		</annotation>
+		<restriction base="StUF:Entiteittype">
+			<enumeration value="ZAK"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="EntiteittypeZKT">
+		<annotation>
+			<documentation>Entiteittype = ZKT</documentation>
+		</annotation>
+		<restriction base="StUF:Entiteittype">
+			<enumeration value="ZKT"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="EntiteittypeZTG">
+		<annotation>
+			<documentation>Entiteittype = ZTG</documentation>
+		</annotation>
+		<restriction base="StUF:Entiteittype">
+			<enumeration value="ZTG"/>
+		</restriction>
+	</simpleType>
+</schema>
