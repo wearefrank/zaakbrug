@@ -23,7 +23,7 @@
             </XsltPipe>
 
             <JsonPipe name="XmlToJson"
-                direction="xml2json"
+                direction="XML2JSON"
                 >
                 <Forward name="success" path="PostUnlock"/>
             </JsonPipe>

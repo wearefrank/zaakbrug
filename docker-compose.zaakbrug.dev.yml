@@ -26,9 +26,13 @@ services:
     build: .
     image: wearefrank/zaakbrug:latest
     container_name: zaakbrug
+    environment:
+      - zaakbrug.zds.timezone=UTC
+      - TZ=Europe/Amsterdam
     volumes: &zaakbrug-database-data
       - ../frank-runner/data:/usr/local/tomcat/data
       - ./src/main/webapp/META-INF/context.xml:/usr/local/tomcat/conf/context.xml
+      - logs:/usr/local/tomcat/logs
       # - ./data:/usr/local/tomcat/data
     networks:
       - zaakbrug
@@ -39,6 +43,7 @@ services:
       - postgres
 
 volumes:
+  logs:
   database-data:
   media:
   private-media:

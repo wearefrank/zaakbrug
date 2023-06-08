@@ -23,8 +23,8 @@
 					name="getZgwZaakByIdentificatie" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zaakbrug.zgw.zaken-api.root-url}zaken"
 				>
+					<Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}zaken"/>
 					<Param name="identificatie" xpathExpression="root/zakLv01/gelijk/identificatie"/>
 					<Param name="Accept-Crs" value="EPSG:4326"/>
 					<Param name="Authorization" xpathExpression="concat('Bearer ', $token)" >
@@ -86,8 +86,8 @@
 					name="getRollenByUrl" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-					url="${zaakbrug.zgw.zaken-api.root-url}rollen"
 				>
+					<Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}rollen"/>
 					<Param name="zaak" sessionKey="zaakXml" xpathExpression="results/url"/>
 					<Param name="Accept-Crs" value="EPSG:4326"/>
 					<Param name="Authorization" xpathExpression="concat('Bearer ', $token)" >

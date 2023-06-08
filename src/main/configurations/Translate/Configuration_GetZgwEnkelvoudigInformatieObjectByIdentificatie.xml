@@ -27,9 +27,9 @@
 					name="GetZgwEnkelvoudigInformatieObjectByIdentificatieSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-                    url="${zaakbrug.zgw.documenten-api.root-url}enkelvoudiginformatieobjecten"
                     timeout="${zaakbrug.zgw.documenten-api.timeout}"
 				/>
+                <Param name="url" value="${zaakbrug.zgw.documenten-api.root-url}enkelvoudiginformatieobjecten"/>
                 <Param name="identificatie" sessionKey="Identificatie"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization" value="Bearer @@documenten-api.jwt@@"/>

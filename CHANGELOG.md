@@ -1,5 +1,33 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.10](https://github.com/ibissource/zaakbrug/compare/v1.12.9...v1.12.10) (2023-06-06)
+
+
+### 🐛 Bug Fixes
+
+* **helm:** syntax error in zds timezone setting ([1b45651](https://github.com/ibissource/zaakbrug/commit/1b45651b0630e16a8145a6f7be07292eb61a3c2d))
+
+## [1.12.9](https://github.com/ibissource/zaakbrug/compare/v1.12.8...v1.12.9) (2023-05-30)
+
+
+### 🐛 Bug Fixes
+
+* filter for beginGeldigheid on zaaktype does not include the current day ([#102](https://github.com/ibissource/zaakbrug/issues/102)) ([2c390bb](https://github.com/ibissource/zaakbrug/commit/2c390bb4bd8a9351e0bd10ad679e0c83cc274990))
+
+## [1.12.8](https://github.com/ibissource/zaakbrug/compare/v1.12.7...v1.12.8) (2023-05-26)
+
+
+### 🐛 Bug Fixes
+
+* zds datetime from non-utc source defaults to zulu ([#100](https://github.com/ibissource/zaakbrug/issues/100)) ([6e2a7f0](https://github.com/ibissource/zaakbrug/commit/6e2a7f0ad2ab6e47f562f53e9c126d89e261f559))
+
+## [1.12.7](https://github.com/ibissource/zaakbrug/compare/v1.12.6...v1.12.7) (2023-05-25)
+
+
+### 🧑‍💻 Code Refactoring
+
+* change attribute url to parameter url for better ladybug visibility ([#98](https://github.com/ibissource/zaakbrug/issues/98)) ([aafaf85](https://github.com/ibissource/zaakbrug/commit/aafaf85d05cf9e4741503c1f7a127aba56a33b3e))
+
 ## [1.12.6](https://github.com/ibissource/zaakbrug/compare/v1.12.5...v1.12.6) (2023-05-09)
 
 
