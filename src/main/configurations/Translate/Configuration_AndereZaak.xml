@@ -23,7 +23,7 @@
 
             <SenderPipe
                 name="CallGetZgwZaak"
-                storeResultInSessionKey="GetZaakResult">
+                storeResultInSessionKey="ZgwZaakResult">
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
                     javaListener="GetZgwZaak">
@@ -35,6 +35,7 @@
 
             <XsltPipe
                 name="GetSingleZgwZaakFromZgwZakenList"
+                storeResultInSessionKey="ZgwZaakResult"
                 styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
                 >
                 <Forward name="success" path="CheckForGetZgwZaakResult"/>
