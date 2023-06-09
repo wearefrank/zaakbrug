@@ -1,5 +1,17 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.11](https://github.com/ibissource/zaakbrug/compare/v1.12.10...v1.12.11) (2023-06-08)
+
+
+### 🧑‍💻 Code Refactoring
+
+* improved feedback on uncaught errors ([280fdb3](https://github.com/ibissource/zaakbrug/commit/280fdb3dc1a96ce29b39b1fcf63920d802eca4a0))
+
+
+### 🐛 Bug Fixes
+
+* missing configuration for the organization in global config does not throw error ([cf3a7c9](https://github.com/ibissource/zaakbrug/commit/cf3a7c989ee6b36ce7ad6d28a82abd352603b6ea))
+
 ## [1.12.10](https://github.com/ibissource/zaakbrug/compare/v1.12.9...v1.12.10) (2023-06-06)
 
 

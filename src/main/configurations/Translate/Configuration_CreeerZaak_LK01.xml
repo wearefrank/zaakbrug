@@ -13,8 +13,8 @@
 
         <Pipeline>
             <Exits>
-                <Exit name="EXIT" state="SUCCESS"/>
-                <Exit name="EXCEPTION" state="ERROR"/>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
             <SenderPipe
@@ -26,7 +26,7 @@
                     <Param name="ZaakTypeCode" xpathExpression="/zakLk01/object/isVan/gerelateerde/code"/>
                 </IbisLocalSender>
                 <Forward name="success" path="SetZgwZaakType"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
 
             <XsltPipe
@@ -41,29 +41,53 @@
                 xpathExpression="count(/ZgwZaakTypen/ZgwZaakType) = 1"
                 >
                 <Forward name="then" path="GetGlobalConfigFromLocalFS"/>
-                <Forward name="else" path="EXCEPTION"/>
+                <Forward name="else" path="UncaughtException"/>
             </XmlIfPipe>
 
-            <SenderPipe name="GetGlobalConfigFromLocalFS">
+            <SenderPipe 
+                name="GetGlobalConfigFromLocalFS"
+                storeResultInSessionKey="GlobalConfig"
+                >
                 <IbisLocalSender
                     name="CallImportFromLocalFS"
-                    javaListener="ImportFromLocalFS">
-                    <Param name="FileName" value="${FilePath_1}"/>                   
+                    javaListener="ImportFromLocalFS"
+                    >
+                    <Param name="FileName" value="${FilePath_1}" />                   
                 </IbisLocalSender>
                 <Forward name="success" path="GetRsin"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
 
-            <XsltPipe
+            <PutInSessionPipe
                 name="GetRsin"
-                storeResultInSessionKey="GetRsinResult"
-                skipEmptyTags="true"
-                styleSheetName="CreeerZaak_LK01/xsl/GetRsin.xsl"
                 >
-                <Param name="GemeenteCode" xpathExpression="$OriginalMessage/zakLk01/stuurgegevens/zender/organisatie">
-                    <Param name="OriginalMessage" sessionKey="originalMessage" type="DOMDOC"/>
+                <Param name="Rsin" xpathExpression="/root/organizations[gemeenteCode = $GemeenteCode]/RSIN" defaultValue="&lt;RSIN/&gt;" type="XML">
+                    <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
                 </Param>
-                <Forward name="success" path="CallGetZgwRolType"/>
+                <Forward name="success" path="Rsin_NotEmpty"/>
+                <Forward name="exception" path="UncaughtException" />
+            </PutInSessionPipe>
+
+            <XmlIfPipe 
+                name="Rsin_NotEmpty"
+                getInputFromSessionKey="Rsin"
+                xpathExpression="string-length(/RSIN) gt 0"
+                >
+                <Forward name="then" path="CallGetZgwRolType"/>
+                <Forward name="else" path="Rsin_NotEmpty_Exception"/>
+                <Forward name="exception" path="UncaughtException"/>
+            </XmlIfPipe>
+
+            <XsltPipe 
+                name="Rsin_NotEmpty_Exception"
+                styleSheetName="Common/xsl/BuildError.xsl">
+                <Param name="code" value="ConfigurationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
+                <Param name="reason" pattern="No organization configured for gemeente code: [{GemeenteCode}]" ignoreUnresolvablePatternElements="true"/> 
+                <!-- <Param name="details" sessionKey="" /> -->
+                <Param name="detailsXml" sessionKey="GlobalConfig" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </XsltPipe>
 
             <SenderPipe
@@ -77,7 +101,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="SetRoles"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </SenderPipe>   
 
             <XsltPipe
@@ -103,7 +127,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CreateZaakBody"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
 
             <XsltPipe
@@ -115,7 +139,8 @@
                 styleSheetName="CreeerZaak_LK01/xsl/CreateZaakBody.xsl"
                 >
                 <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
-                <Param name="GetRsinResult" sessionKey="GetRsinResult" type="DOMDOC"/>
+                <Param name="Bronorganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
+                <Param name="VerantwoordelijkeOrganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
                 <Forward name="success" path="CallPostZaak"/>
             </XsltPipe>
 
@@ -127,7 +152,7 @@
                     javaListener="PostZaakAdapter">
                 </IbisLocalSender>
                 <Forward name="success" path="PostRolIterator"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </SenderPipe> 
 <!-- Post zaak end -->
             <ForEachChildElementPipe name="PostRolIterator"
@@ -141,7 +166,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForHeeftBetrekkingOpAndere"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
 
             <XmlIfPipe name="CheckForHeeftBetrekkingOpAndere"
@@ -160,7 +185,7 @@
                     <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallSetResultaatAndStatus"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
 
             <SenderPipe
@@ -178,8 +203,20 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
+
+            <XsltPipe 
+                name="UncaughtException"
+                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl">
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Uncaught exception" /> 
+                <!-- <Param name="details" sessionKey="" /> -->
+                <Param name="detailsXml" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>
