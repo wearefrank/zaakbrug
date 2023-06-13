@@ -50,32 +50,24 @@
             </XmlIfPipe>
 
             <SenderPipe
-                name="CallPatchZaak">
+                name="CallPatchZaak" getInputFromSessionKey="PostZgwZaakResult">
                 <IbisLocalSender
                     name="CallPatchZaakSender"
                     javaListener="PatchRelevanteAndereZaak">
-                    <Param name="AndereUrl" xpathExpression="$ZgwZaakResult/ZgwZaak/url">
-                        <Param name="ZgwZaakResult" sessionKey="ZgwZaakResult"/>
-                    </Param>
-                    <Param name="Url" xpathExpression="$PostZgwZaakResult/ZgwZaak/url">
-                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult"/>
-                    </Param>
+                    <Param name="AndereUrl" sessionKey="ZgwZaakResult" xpathExpression="/ZgwZaak/url" defaultValue="&lt;url/&gt;" />
+                    <Param name="Url" sessionKey="PostZgwZaakResult" xpathExpression="/ZgwZaak/url" defaultValue="&lt;url/&gt;" />
                 </IbisLocalSender>
                 <Forward name="success" path="CallPatchAndereZaak"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe
-                name="CallPatchAndereZaak">
+                name="CallPatchAndereZaak" getInputFromSessionKey="ZgwZaakResult">
                 <IbisLocalSender
                     name="CallPatchAndereZaakSender"
                     javaListener="PatchRelevanteAndereZaak">
-                    <Param name="AndereUrl" xpathExpression="$PostZgwZaakResult/ZgwZaak/url">
-                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
-                    </Param>
-                    <Param name="Url" xpathExpression="$ZgwZaakResult/ZgwZaak/url">
-                        <Param name="ZgwZaakResult" sessionKey="ZgwZaakResult" type="DOMDOC"/>
-                    </Param>
+                    <Param name="AndereUrl" sessionKey="PostZgwZaakResult" xpathExpression="/ZgwZaak/url" defaultValue="&lt;dummy/&gt;" />
+                    <Param name="Url" sessionKey="ZgwZaakResult" xpathExpression="/ZgwZaak/url" defaultValue="&lt;dummy/&gt;" />
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
