@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.15](https://github.com/ibissource/zaakbrug/compare/v1.12.14...v1.12.15) (2023-06-16)
+
+
+### ✅ Tests
+
+* added aanvraag collectieve zorgverzekering zaaktype as e2e test… ([#109](https://github.com/ibissource/zaakbrug/issues/109)) ([dc9a2de](https://github.com/ibissource/zaakbrug/commit/dc9a2de293c566ec373c2d4d5fbec47d195d50d1))
+
 ## [1.12.14](https://github.com/ibissource/zaakbrug/compare/v1.12.13...v1.12.14) (2023-06-16)
 
 
