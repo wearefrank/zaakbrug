@@ -1,7 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:math="http://www.w3.org/2005/xpath-functions/math" xmlns:array="http://www.w3.org/2005/xpath-functions/array" xmlns:map="http://www.w3.org/2005/xpath-functions/map" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:err="http://www.w3.org/2005/xqt-errors" xmlns:zgw="http://google.com/zgw" exclude-result-prefixes="array fn map math xhtml xs err zgw" version="2.0">
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
-    <xsl:param name="Bronorganisatie" select="''" as="xs:string" />
-    <xsl:param name="VerantwoordelijkeOrganisatie" select="''" as="xs:string" />
+    <xsl:param name="GetRsinResult"/>
     <xsl:param name="GetZaakTypeResult"/>
     <xsl:param name="communicatiekanaal" select="''" as="xs:string"/>
     <xsl:param name="productenOfDiensten" select="''" as="xs:string"/>
@@ -18,14 +17,14 @@
 	<xsl:template match="zakLk01/object[@entiteittype='ZAK']">
 		<ZgwZaak>
             <identificatie><xsl:value-of select="identificatie"/></identificatie>
-            <bronorganisatie><xsl:value-of select="$Bronorganisatie"/></bronorganisatie>
+            <bronorganisatie><xsl:value-of select="$GetRsinResult/rsin"/></bronorganisatie>
             <omschrijving><xsl:value-of select="omschrijving"/></omschrijving>
             <toelichting><xsl:value-of select="toelichting"/></toelichting>
             <zaaktype><xsl:value-of select="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType/url"/></zaaktype>
             <xsl:if test="string-length(registratiedatum) > 0">
                 <registratiedatum><xsl:value-of select="zgw:convertZdsDateToZgwDate(registratiedatum)"/></registratiedatum>
             </xsl:if>
-            <verantwoordelijkeOrganisatie><xsl:value-of select="$VerantwoordelijkeOrganisatie"/></verantwoordelijkeOrganisatie>
+            <verantwoordelijkeOrganisatie><xsl:value-of select="$GetRsinResult/rsin"/></verantwoordelijkeOrganisatie>
             <xsl:if test="string-length(startdatum) > 0">
                 <startdatum><xsl:value-of select="zgw:convertZdsDateToZgwDate(startdatum)"/></startdatum>
             </xsl:if>
