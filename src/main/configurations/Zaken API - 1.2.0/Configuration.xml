@@ -54,12 +54,6 @@
 	<!ENTITY zaakeigenschap_update SYSTEM "./configuration_zaken_zaakeigenschap_update.xml">
 	<!ENTITY zaakeigenschap_delete SYSTEM "./configuration_zaken_zaakeigenschap_delete.xml">
 	<!ENTITY zaakeigenschap_partial_update SYSTEM "./configuration_zaken_zaakeigenschap_partial_update.xml">
-	<!ENTITY ManageAPI SYSTEM "./configuration_ManageAPI.xml">
-	<!-- <!ENTITY zaak_list2 SYSTEM "./configuration_zaken_zaak_list2.xml">
-	<!ENTITY Zaakdetails_TranslationHandler SYSTEM "./Configuration_Zaakdetails_TranslationHandler.xml">
-	<!ENTITY CreateZaak_Lk01 SYSTEM "./Configuration_CreateZaak_Lk01.xml">
-	<!ENTITY GetZdsZaakTypeByIdentificatie SYSTEM "./Configuration_GetZdsZaakTypeByIdentificatie.xml">
-	<!ENTITY AddRolToZds SYSTEM "./Configuration_AddRolToZds.xml"> -->
 	]>
 
 <Configuration name="Zaken API - 1.2.0">
@@ -118,10 +112,4 @@
 	&zaakeigenschap_update;
 	&zaakeigenschap_delete;
 	&zaakeigenschap_partial_update;
-	&ManageAPI;
-	<!-- &zaak_list2;
-	&Zaakdetails_TranslationHandler;
-	&CreateZaak_Lk01;
-	&GetZdsZaakTypeByIdentificatie;
-	&AddRolToZds; -->
 </Configuration>

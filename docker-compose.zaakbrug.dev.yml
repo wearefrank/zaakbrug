@@ -16,7 +16,7 @@ services:
   zaakbrug:
     build: .
     image: wearefrank/zaakbrug:latest
-    container_name: zaakbrug
+    container_name: zaakbrug.dev
     environment:
       - zaakbrug.zds.timezone=UTC
       - TZ=Europe/Amsterdam

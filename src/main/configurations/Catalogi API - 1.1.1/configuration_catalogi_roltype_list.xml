@@ -11,6 +11,7 @@
 				name="roltype_list" 
 				method="GET"
 				uriPattern="/catalogi/api/v1/roltypen"
+				headerParams="Host"
 				produces="JSON"
 				consumes="ANY"
 				/>
@@ -44,14 +45,17 @@
             	getInputFromSessionKey="originalMessage">
                 <HttpSender name="GetRolTypeSender"
                     methodType="GET"
-                    headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
+                    headersParams="Authorization,Accept-Crs,Content-Crs,Accept,Host"
                     timeout="${zaakbrug.zgw.catalogi-api.timeout}"
                     maxExecuteRetries="5"
-                    contentType="application/json">
+                    contentType="application/json"
+					parametersToSkipWhenEmpty="*">
                     <Param name="url" sessionKey="UrlParam" />
+					<Param name="zaaktype" sessionKey="zaaktype" />
                 	<Param name="Accept-Crs" value="EPSG:4326" />
                     <Param name="Accept" value="application/json" />
                     <Param name="Content-Crs" value="EPSG:4326" />
+					<Param name="X-Forwarded-Host" sessionKey="headers" xpathExpression="/headers/header[@name = 'Host']/text()" />
                     <Param name="Authorization" value="Bearer @@catalogi-api.jwt@@"/>
                 </HttpSender>
 

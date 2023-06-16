@@ -11,6 +11,7 @@
 				name="eigenschap_create" 
 				method="POST"
 				uriPattern="/catalogi/api/v1/eigenschappen"
+				headerParams="Host"
 				produces="JSON"
 				consumes="JSON"
 				/>
@@ -43,7 +44,7 @@
             	getInputFromSessionKey="originalMessage">
                 <HttpSender name="PostCatalogusSender"
                     methodType="POST"
-                    headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
+                    headersParams="Authorization,Accept-Crs,Content-Crs,Accept,Host"
                     timeout="${zaakbrug.zgw.catalogi-api.timeout}"
                     maxExecuteRetries="5"
                     contentType="application/json">
@@ -51,6 +52,7 @@
                 	<Param name="Accept-Crs" value="EPSG:4326" />
                     <Param name="Accept" value="application/json" />
                     <Param name="Content-Crs" value="EPSG:4326" />
+					<Param name="Host" sessionKey="headers" xpathExpression="/headers/header[@name = 'Host']/text()" />
                     <Param name="Authorization" value="Bearer @@catalogi-api.jwt@@"/>
                 </HttpSender>
 
