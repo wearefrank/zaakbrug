@@ -3,8 +3,7 @@
     <xsl:include href="../../Zgw/ZgwFunctionsBase.xslt" />
 
     <xsl:param name="ZgwZaak"/>
-    <xsl:param name="Bronorganisatie" select="''" as="xs:string" />
-    <xsl:param name="VerantwoordelijkeOrganisatie" select="''" as="xs:string" />
+    <xsl:param name="Rsin"/>
 
     <xsl:function name="zgw:convertZdsArchiefNominatieToZgwArchiefNominatie" as="xs:string">
     	<xsl:param name="zgwArchiefNominatie" as="xs:string"/>
@@ -29,7 +28,7 @@
                 <xsl:when test="string-length(object/identificatie) > 0"><identificatie><xsl:value-of select="object/identificatie"/></identificatie></xsl:when>
                 <xsl:when test="string-length($ZgwZaak/ZgwZaak/identificatie) > 0"><identificatie><xsl:value-of select="$ZgwZaak/ZgwZaak/identificatie"/></identificatie></xsl:when>
             </xsl:choose>
-            <bronorganisatie><xsl:value-of select="$Bronorganisatie"/></bronorganisatie>
+            <bronorganisatie><xsl:value-of select="$Rsin/rsin"/></bronorganisatie>
             <omschrijving><xsl:value-of select="object/omschrijving"/></omschrijving>
             <xsl:choose>
                 <xsl:when test="string-length(object/toelichting) > 0"><toelichting><xsl:value-of select="object/toelichting"/></toelichting></xsl:when>

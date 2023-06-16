@@ -27,14 +27,14 @@
                     <Param name="Identificatie" xpathExpression="/zakLk01/object[1]/identificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwZaakResult"/>
-                <Forward name="exception" path="UncaughtException" />
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
             
             <XmlIfPipe name="CheckForGetZgwZaakResult"
                 xpathExpression="string-length(ZgwZaken) > 0"
                 >
                 <Forward name="then" path="GetSingleZgwZaakFromZgwZakenList"/>
-                <Forward name="else" path="UncaughtException"/>
+                <Forward name="else" path="EXCEPTION"/>
             </XmlIfPipe>
         
             <XsltPipe
@@ -43,7 +43,7 @@
                 storeResultInSessionKey="GetZgwWasZaakResult"
                 >
                 <Forward name="success" path="RemoveNullNodes"/>
-                <Forward name="error" path="UncaughtException"/>
+                <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
 
             <XsltPipe name="RemoveNullNodes" 
@@ -73,7 +73,7 @@
                     <Param name="ZaakUrl" xpathExpression="/ZgwZaak/zaaktype" />
                 </IbisLocalSender>
                 <Forward name="success" path="CallGetZdsZaakFromZgw"/>
-                <Forward name="exception" path="UncaughtException"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </SenderPipe>
 
             <SenderPipe
@@ -86,7 +86,7 @@
                     <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForInputZaakObjectCount"/>
-                <Forward name="exception" path="UncaughtException" />
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForInputZaakObjectCount"
@@ -121,7 +121,7 @@
                 >
                 <Param name="ZdsWordtZaak" sessionKey="ZdsWordtZaak" type="DOMDOC"/>
                 <Forward name="success" path="CheckForDetectZdsZaakChangesResult"/>
-                <Forward name="error" path="UncaughtException"/>
+                <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
 
             <XmlIfPipe name="CheckForDetectZdsZaakChangesResult"
@@ -131,50 +131,27 @@
                 <Forward name="else" path="GetGlobalConfigFromLocalFS"/>
             </XmlIfPipe>
 
-            <SenderPipe 
-                name="GetGlobalConfigFromLocalFS"
-                storeResultInSessionKey="GlobalConfig"
-                >
+            <SenderPipe name="GetGlobalConfigFromLocalFS"
+                storeResultInSessionKey="GetGlobalConfigResult">
                 <IbisLocalSender
                     name="CallImportFromLocalFS"
-                    javaListener="ImportFromLocalFS"
-                    >
-                    <Param name="FileName" value="${FilePath_1}" />                   
+                    javaListener="ImportFromLocalFS">
+                    <Param name="FileName" value="${FilePath_1}"/>
                 </IbisLocalSender>
                 <Forward name="success" path="GetRsin"/>
-                <Forward name="exception" path="UncaughtException" />
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <PutInSessionPipe
+            <XsltPipe
                 name="GetRsin"
+                storeResultInSessionKey="GetRsinResult"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/GetRsin.xsl"
                 >
-                <Param name="Rsin" xpathExpression="/root/organizations[gemeenteCode = $GemeenteCode]/RSIN" defaultValue="&lt;RSIN/&gt;" type="XML">
-                    <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
+                <Param name="GemeenteCode" xpathExpression="$OriginalMessage/zakLk01/stuurgegevens/zender/organisatie">
+                    <Param name="OriginalMessage" sessionKey="originalMessage" type="DOMDOC"/>
                 </Param>
-                <Forward name="success" path="Rsin_NotEmpty"/>
-                <Forward name="exception" path="UncaughtException" />
-            </PutInSessionPipe>
-
-            <XmlIfPipe 
-                name="Rsin_NotEmpty"
-                getInputFromSessionKey="Rsin"
-                xpathExpression="string-length(/RSIN) gt 0"
-                >
-                <Forward name="then" path="CreateUpdateZaakBody"/>
-                <Forward name="else" path="Rsin_NotEmpty_Exception"/>
-                <Forward name="exception" path="UncaughtException"/>
-            </XmlIfPipe>
-
-            <XsltPipe 
-                name="Rsin_NotEmpty_Exception"
-                styleSheetName="Common/xsl/BuildError.xsl">
-                <Param name="code" value="ConfigurationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
-                <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
-                <Param name="reason" pattern="No organization configured for gemeente code: [{GemeenteCode}]" ignoreUnresolvablePatternElements="true"/> 
-                <!-- <Param name="details" sessionKey="" /> -->
-                <Param name="detailsXml" sessionKey="GlobalConfig" type="DOMDOC" />
-                <Forward name="success" path="EXCEPTION" />
-                <Forward name="exception" path="UncaughtException" />
+                <Forward name="success" path="CreateUpdateZaakBody"/>
             </XsltPipe>
 
             <XsltPipe
@@ -184,8 +161,7 @@
                 storeResultInSessionKey="UpdateZaakBody"
                 >
                 <Param name="ZgwZaak" sessionKey="GetZgwWasZaakResult" type="DOMDOC"/>
-                <Param name="Bronorganisatie" sessionKey="Rsin" xpathExpression="/RSIN"/>
-                <Param name="VerantwoordelijkeOrganisatie" sessionKey="Rsin" xpathExpression="/RSIN"/>
+                <Param name="Rsin" sessionKey="GetRsinResult" type="DOMDOC"/>
                 <Forward name="success" path="UpdateZgwZaak"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
@@ -209,7 +185,7 @@
                 skipEmptyTags="true"
                 styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xslt"
                 >
-                <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC"/>
+                <Param name="RolMapping" sessionKey="GetGlobalConfigResult" type="DOMDOC"/>
                 <Forward name="success" path="SetRolesForZdsWordtZaak"/>
             </XsltPipe>
 
@@ -221,7 +197,7 @@
                 skipEmptyTags="true"
                 styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xslt"
                 >
-                <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC"/>
+                <Param name="RolMapping" sessionKey="GetGlobalConfigResult" type="DOMDOC"/>
                 <Forward name="success" path="CallDetectRolChanges"/>
             </XsltPipe>
 
@@ -264,18 +240,6 @@
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
-
-            <XsltPipe 
-                name="UncaughtException"
-                emptyInputReplacement="&lt;EmptyInput/&gt;"
-                styleSheetName="Common/xsl/BuildError.xsl">
-                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
-                <Param name="reason" pattern="Uncaught exception" /> 
-                <!-- <Param name="details" sessionKey="" /> -->
-                <Param name="detailsXml" type="DOMDOC" />
-                <Forward name="success" path="EXCEPTION" />
-                <Forward name="exception" path="EXCEPTION" />
-            </XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>
