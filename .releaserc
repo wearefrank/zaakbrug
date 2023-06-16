@@ -82,7 +82,8 @@
       "@semantic-release/git",
       {
         "assets": [
-          "CHANGELOG.md"
+          "CHANGELOG.md",
+          "./charts/zaakbrug/Chart.yaml"
         ],
         "message": "chore(<%= nextRelease.type %>): release <%= nextRelease.version %> <%= nextRelease.channel !== null ? `on ${nextRelease.channel} channel ` : '' %>[skip ci]\n\n<%= nextRelease.notes %>"
       }
