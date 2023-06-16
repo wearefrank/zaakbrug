@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.14](https://github.com/ibissource/zaakbrug/compare/v1.12.13...v1.12.14) (2023-06-16)
+
+
+### 🔁 Continuous Integration
+
+* include chart yaml in semantic release git commit ([83e2a91](https://github.com/ibissource/zaakbrug/commit/83e2a91e3d07ebfad464bc78cb28980e5979a4a3))
+
 ## [1.12.13](https://github.com/ibissource/zaakbrug/compare/v1.12.12...v1.12.13) (2023-06-16)
 
 
