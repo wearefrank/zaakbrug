@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.16](https://github.com/ibissource/zaakbrug/compare/v1.12.15...v1.12.16) (2023-06-22)
+
+
+### 🧑‍💻 Code Refactoring
+
+* add optional staging openzaak deployment to helm for zgw to zds translation ([#104](https://github.com/ibissource/zaakbrug/issues/104)) ([4dd4af1](https://github.com/ibissource/zaakbrug/commit/4dd4af189b7a10b9819ef16b473635434af66692))
+
 ## [1.12.15](https://github.com/ibissource/zaakbrug/compare/v1.12.14...v1.12.15) (2023-06-16)
 
 
