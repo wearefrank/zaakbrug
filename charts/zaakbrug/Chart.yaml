@@ -14,3 +14,10 @@ keywords:
   - zgw
   - esb
   - frank
+
+dependencies:
+  - name: openzaak
+    alias: staging
+    version: "1.1.0"
+    repository: "https://maykinmedia.github.io/charts/"
+    condition: staging.enabled
