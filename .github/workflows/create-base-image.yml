@@ -1,0 +1,29 @@
+name: "Create base image"
+on: 
+  workflow_dispatch:
+        
+env:
+  FF_IMAGE: nexus.frankframework.org/frank-framework
+  FF_VERSION: 7.9-SNAPSHOT
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Container Registry
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Pull Frank!Framework image
+        run: docker pull $FF_IMAGE:$FF_VERSION
+      - name: Tag Frank!Framework image latest
+        run: docker tag $FF_IMAGE:$FF_VERSION docker.io/wearefrank/zaakbrug-base:latest
+      - name: Tag Frank!Framework image with same tag
+        run: docker tag $FF_IMAGE:$FF_VERSION docker.io/wearefrank/zaakbrug-base:$FF_VERSION
+      - name: Tag Frank!Framework image with hash
+        run: docker tag $FF_IMAGE:$FF_VERSION docker.io/wearefrank/zaakbrug-base:$(uuidgen)
+      - name: List images
+        run: docker image ls
+      #- name: Push Docker image
+      #  run: docker push docker.io/wearefrank/zaakbrug --all-tags
