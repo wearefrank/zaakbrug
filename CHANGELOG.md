@@ -1,5 +1,18 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.18](https://github.com/ibissource/zaakbrug/compare/v1.12.17...v1.12.18) (2023-06-23)
+
+
+### 🤖 Build System
+
+* lock frank-framework base image to tag instead of snapshot ([#125](https://github.com/ibissource/zaakbrug/issues/125)) ([77b8031](https://github.com/ibissource/zaakbrug/commit/77b803125ab358e82a7871908ebc47b47a41c9f9))
+
+
+### 🔁 Continuous Integration
+
+* add workflow to create a base image for the zaakbrug ([#122](https://github.com/ibissource/zaakbrug/issues/122)) ([b7d1383](https://github.com/ibissource/zaakbrug/commit/b7d13832822564f0033e2d2a36d4a7b96c81e25c))
+* remove docker image artifact automatically after one day ([#123](https://github.com/ibissource/zaakbrug/issues/123)) ([61b8b1d](https://github.com/ibissource/zaakbrug/commit/61b8b1d9c7f52a7368853afd21178df06e410200))
+
 ## [1.12.17](https://github.com/ibissource/zaakbrug/compare/v1.12.16...v1.12.17) (2023-06-23)
 
 
