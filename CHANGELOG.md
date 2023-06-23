@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.17](https://github.com/ibissource/zaakbrug/compare/v1.12.16...v1.12.17) (2023-06-23)
+
+
+### 🐛 Bug Fixes
+
+* every call to a subadapter is shown as a seperate message in Ladybug ([#121](https://github.com/ibissource/zaakbrug/issues/121)) ([259c444](https://github.com/ibissource/zaakbrug/commit/259c4448e96ca915b64470a080411dfd7490de54))
+
 ## [1.12.16](https://github.com/ibissource/zaakbrug/compare/v1.12.15...v1.12.16) (2023-06-22)
 
 
