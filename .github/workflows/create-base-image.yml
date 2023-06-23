@@ -5,6 +5,7 @@ on:
 env:
   FF_IMAGE: nexus.frankframework.org/frank-framework
   FF_VERSION: 7.9-SNAPSHOT
+  BASE_IMAGE: docker.io/wearefrank/zaakbrug-base
 
 jobs:
   build:
@@ -18,12 +19,10 @@ jobs:
       - name: Pull Frank!Framework image
         run: docker pull $FF_IMAGE:$FF_VERSION
       - name: Tag Frank!Framework image latest
-        run: docker tag $FF_IMAGE:$FF_VERSION docker.io/wearefrank/zaakbrug-base:latest
+        run: docker tag $FF_IMAGE:$FF_VERSION $BASE_IMAGE:latest
       - name: Tag Frank!Framework image with same tag
-        run: docker tag $FF_IMAGE:$FF_VERSION docker.io/wearefrank/zaakbrug-base:$FF_VERSION
+        run: docker tag $FF_IMAGE:$FF_VERSION $BASE_IMAGE:$FF_VERSION
       - name: Tag Frank!Framework image with hash
-        run: docker tag $FF_IMAGE:$FF_VERSION docker.io/wearefrank/zaakbrug-base:$(uuidgen)
-      - name: List images
-        run: docker image ls
-      #- name: Push Docker image
-      #  run: docker push docker.io/wearefrank/zaakbrug --all-tags
+        run: docker tag $FF_IMAGE:$FF_VERSION $BASE_IMAGE:$(git rev-parse --short HEAD)
+      - name: Push Docker image
+        run: docker push $BASE_IMAGE --all-tags
