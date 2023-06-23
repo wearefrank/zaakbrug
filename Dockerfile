@@ -1,4 +1,4 @@
-FROM nexus.frankframework.org/frank-framework:7.9-SNAPSHOT
+FROM docker.io/wearefrank/zaakbrug-base:5357284526
 
 # TempFix TODO: Move this to the credentialprovider.properties
 ENV credentialFactory.class=nl.nn.credentialprovider.PropertyFileCredentialFactory
