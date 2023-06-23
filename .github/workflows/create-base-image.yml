@@ -23,6 +23,6 @@ jobs:
       - name: Tag Frank!Framework image with same tag
         run: docker tag $FF_IMAGE:$FF_VERSION $BASE_IMAGE:$FF_VERSION
       - name: Tag Frank!Framework image with hash
-        run: docker tag $FF_IMAGE:$FF_VERSION $BASE_IMAGE:$(git rev-parse --short HEAD)
+        run: docker tag $FF_IMAGE:$FF_VERSION $BASE_IMAGE:${{ github.run_id }}
       - name: Push Docker image
         run: docker push $BASE_IMAGE --all-tags
