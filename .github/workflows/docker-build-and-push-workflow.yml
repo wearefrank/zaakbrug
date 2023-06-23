@@ -73,6 +73,7 @@ jobs:
       with:
         name: docker
         path: /tmp/docker.tar
+        retention-days: 1
     outputs:
       docker-meta-tags: ${{ steps.meta.outputs.tags }}
       docker-meta-labels: ${{ steps.meta.outputs.labels }}
