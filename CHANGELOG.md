@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.20](https://github.com/ibissource/zaakbrug/compare/v1.12.19...v1.12.20) (2023-06-26)
+
+
+### 🐛 Bug Fixes
+
+* optional staging is enabled by default ([e54e657](https://github.com/ibissource/zaakbrug/commit/e54e6574a4a7687e60945ae14b5b13506031db3f))
+
 ## [1.12.19](https://github.com/ibissource/zaakbrug/compare/v1.12.18...v1.12.19) (2023-06-23)
 
 
