@@ -217,7 +217,7 @@ connections:
       password: #${database/password}
 
 staging:
-  enabled: true
+  enabled: false
   zakenApi:
     rootUrl: http://zaakbrug-staging-nginx.zaakbrug/zaken/api/v1/
   documentenApi:
