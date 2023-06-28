@@ -58,7 +58,7 @@
                 	<Param name="Accept-Crs" value="EPSG:4326" />
                     <Param name="Accept" value="application/json" />
                     <Param name="Content-Crs" value="EPSG:4326" />
-					<Param name="X-Forwarded-Host" sessionKey="headers" xpathExpression="/headers/header[@name = 'Host']/text()" />
+					<Param name="Host" sessionKey="headers" xpathExpression="/headers/header[@name = 'Host']/text()" />
                     <Param name="Authorization" value="Bearer @@catalogi-api.jwt@@"/>
                 </HttpSender>
 
