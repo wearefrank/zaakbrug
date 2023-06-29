@@ -13,3 +13,26 @@ spec:
       name: http
   selector:
     {{- include "zaakbrug.selectorLabels" . | nindent 4 }}
+---
+{{- if .Values.staging.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "zaakbrug.nginxFullname" . }}
+  labels:
+    {{- include "zaakbrug.nginxLabels" . | nindent 4 }}
+  {{- with .Values.staging.apiProxy.service.annotations }}
+  annotations:
+    {{- range $key, $value := . }}
+    {{ $key }} : {{ tpl ($value | toString) $ }}
+    {{- end }}
+  {{- end }}
+spec:
+  type: {{ .Values.staging.apiProxy.service.type }}
+  ports:
+    - port: {{ .Values.staging.apiProxy.service.port }}
+      targetPort: 8080
+      name: http
+  selector:
+    {{- include "zaakbrug.nginxSelectorLabels" . | nindent 4 }}
+{{- end -}}
