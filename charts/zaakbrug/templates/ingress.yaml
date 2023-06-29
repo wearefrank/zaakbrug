@@ -60,13 +60,13 @@ spec:
     {{- end }}
 {{- end }}
 ---
-{{- if .Values.nginx.enabled -}}
-{{- if .Values.nginx.ingress.enabled -}}
+{{- if .Values.staging.enabled -}}
+{{- if .Values.staging.apiProxy.ingress.enabled -}}
 {{- $fullName := include "zaakbrug.nginxFullname" . -}}
-{{- $svcPort := .Values.nginx.service.port -}}
-{{- if and .Values.nginx.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
-  {{- if not (hasKey .Values.nginx.ingress.annotations "kubernetes.io/ingress.class") }}
-  {{- $_ := set .Values.nginx.ingress.annotations "kubernetes.io/ingress.class" .Values.nginx.ingress.className}}
+{{- $svcPort := .Values.staging.apiProxy.service.port -}}
+{{- if and .Values.staging.apiProxy.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
+  {{- if not (hasKey .Values.staging.apiProxy.ingress.annotations "kubernetes.io/ingress.class") }}
+  {{- $_ := set .Values.staging.apiProxy.ingress.annotations "kubernetes.io/ingress.class" .Values.staging.apiProxy.ingress.className}}
   {{- end }}
 {{- end }}
 {{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
@@ -81,17 +81,17 @@ metadata:
   name: {{ $fullName }}
   labels:
     {{- include "zaakbrug.nginxLabels" . | nindent 4 }}
-  {{- with .Values.nginx.ingress.annotations }}
+  {{- with .Values.staging.apiProxy.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if and .Values.nginx.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ .Values.nginx.ingress.className }}
+  {{- if and .Values.staging.apiProxy.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ .Values.staging.apiProxy.ingress.className }}
   {{- end }}
-  {{- if .Values.nginx.ingress.tls }}
+  {{- if .Values.staging.apiProxy.ingress.tls }}
   tls:
-    {{- range .Values.nginx.ingress.tls }}
+    {{- range .Values.staging.apiProxy.ingress.tls }}
     - hosts:
         {{- range .hosts }}
         - {{ . | quote }}
@@ -100,7 +100,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.nginx.ingress.hosts }}
+    {{- range .Values.staging.apiProxy.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
