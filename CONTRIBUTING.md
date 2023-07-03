@@ -3,7 +3,7 @@
 # Docker-compose
 The docker-compose development environment is designed to be flexible and composable. This prevents the need for developers to run the entire stack eventhough their work requires only a small part of the stack. For this we make use of a docker-compose feature that merges a given array of docker-compose files together. Simply provide a `-f ./docker-compose.<application>.yml` argument for each docker-compose file you wish to include in the `docker-compose up`command.
 
-To run the entire stack the command would be `suns`
+To run the entire stack the command would be `docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.staging.dev.yml -f ./docker-compose.openzaak.dev.yml -f ./docker-compose.openforms.dev.yml up --build`
 
 > WARNING: It is important to use `host.docker.internal` instead of the usual `localhost`. The url-validator that is used by most components with invalidate any urls that contain only a hostname. It requires a full canonical domain name.
 
