@@ -81,8 +81,12 @@ We truncate at 57 chars in order to provide space for the "-nginx" suffix
 NGINX labels
 */}}
 {{- define "zaakbrug.nginxLabels" -}}
-{{ include "zaakbrug.labels" . }}
+helm.sh/chart: {{ include "zaakbrug.chart" . }}
 {{ include "zaakbrug.nginxSelectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
