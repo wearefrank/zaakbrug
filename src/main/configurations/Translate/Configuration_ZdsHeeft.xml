@@ -3,8 +3,8 @@
         active="${ZdsHeeftAdapter.Active}"
         description="Handle each ZdsHeeft">
 
-        <Receiver name="ZdsHeeftAdapter" returnedSessionKeys="NewStatuses,Beeindigd">
-            <JavaListener name="ZdsHeeftAdapter"/>
+        <Receiver name="ZdsHeeftAdapter">
+            <JavaListener name="ZdsHeeftAdapter" returnedSessionKeys="NewStatuses,Beeindigd"/>
         </Receiver>
 
         <Pipeline>

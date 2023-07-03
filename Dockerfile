@@ -1,4 +1,4 @@
-FROM nexus.frankframework.org/frank-framework:7.9-SNAPSHOT
+FROM docker.io/wearefrank/zaakbrug-base:5357284526
 
 # TempFix TODO: Move this to the credentialprovider.properties
 ENV credentialFactory.class=nl.nn.credentialprovider.PropertyFileCredentialFactory
@@ -21,7 +21,6 @@ COPY --chown=tomcat src/test/testtool/ /opt/frank/testtool/
 COPY --chown=tomcat src/main/java /tmp/java
 RUN javac \
       /tmp/java/nl/nn/adapterframework/parameters/Parameter.java \
-      /tmp/java/nl/nn/adapterframework/http/HttpSenderBase.java \
       -classpath "/usr/local/tomcat/webapps/ROOT/WEB-INF/lib/*:/usr/local/tomcat/lib/*" \
       -verbose -d /usr/local/tomcat/webapps/ROOT/WEB-INF/classes
 RUN rm -rf /tmp/java

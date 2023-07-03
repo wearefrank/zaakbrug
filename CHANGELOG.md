@@ -1,5 +1,96 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.23](https://github.com/ibissource/zaakbrug/compare/v1.12.22...v1.12.23) (2023-07-03)
+
+
+### 🐛 Bug Fixes
+
+* disable zgw api's by default ([e320fc6](https://github.com/ibissource/zaakbrug/commit/e320fc65deb7abb8045ec39bb49196927181a532))
+
+## [1.12.22](https://github.com/ibissource/zaakbrug/compare/v1.12.21...v1.12.22) (2023-07-03)
+
+
+### 🧑‍💻 Code Refactoring
+
+* proxy calls to zgw api's to staging ([#110](https://github.com/ibissource/zaakbrug/issues/110)) ([0371c12](https://github.com/ibissource/zaakbrug/commit/0371c12a4411b26074ffee70f941dc982af03706))
+
+## [1.12.21](https://github.com/ibissource/zaakbrug/compare/v1.12.20...v1.12.21) (2023-06-29)
+
+
+### 🧑‍💻 Code Refactoring
+
+* add NGinX reverse proxy to the Helm Chart ([#128](https://github.com/ibissource/zaakbrug/issues/128)) ([660310b](https://github.com/ibissource/zaakbrug/commit/660310b288f9e843fc2f5cf51a63dba6706b5faf))
+
+## [1.12.20](https://github.com/ibissource/zaakbrug/compare/v1.12.19...v1.12.20) (2023-06-26)
+
+
+### 🐛 Bug Fixes
+
+* optional staging is enabled by default ([e54e657](https://github.com/ibissource/zaakbrug/commit/e54e6574a4a7687e60945ae14b5b13506031db3f))
+
+## [1.12.19](https://github.com/ibissource/zaakbrug/compare/v1.12.18...v1.12.19) (2023-06-23)
+
+
+### 🐛 Bug Fixes
+
+* **helm:** tomcatUsers default should be an empty array ([#126](https://github.com/ibissource/zaakbrug/issues/126)) ([b4bfe7e](https://github.com/ibissource/zaakbrug/commit/b4bfe7e2063d42296c1876a8e236b7e4161375d0))
+
+## [1.12.18](https://github.com/ibissource/zaakbrug/compare/v1.12.17...v1.12.18) (2023-06-23)
+
+
+### 🤖 Build System
+
+* lock frank-framework base image to tag instead of snapshot ([#125](https://github.com/ibissource/zaakbrug/issues/125)) ([77b8031](https://github.com/ibissource/zaakbrug/commit/77b803125ab358e82a7871908ebc47b47a41c9f9))
+
+
+### 🔁 Continuous Integration
+
+* add workflow to create a base image for the zaakbrug ([#122](https://github.com/ibissource/zaakbrug/issues/122)) ([b7d1383](https://github.com/ibissource/zaakbrug/commit/b7d13832822564f0033e2d2a36d4a7b96c81e25c))
+* remove docker image artifact automatically after one day ([#123](https://github.com/ibissource/zaakbrug/issues/123)) ([61b8b1d](https://github.com/ibissource/zaakbrug/commit/61b8b1d9c7f52a7368853afd21178df06e410200))
+
+## [1.12.17](https://github.com/ibissource/zaakbrug/compare/v1.12.16...v1.12.17) (2023-06-23)
+
+
+### 🐛 Bug Fixes
+
+* every call to a subadapter is shown as a seperate message in Ladybug ([#121](https://github.com/ibissource/zaakbrug/issues/121)) ([259c444](https://github.com/ibissource/zaakbrug/commit/259c4448e96ca915b64470a080411dfd7490de54))
+
+## [1.12.16](https://github.com/ibissource/zaakbrug/compare/v1.12.15...v1.12.16) (2023-06-22)
+
+
+### 🧑‍💻 Code Refactoring
+
+* add optional staging openzaak deployment to helm for zgw to zds translation ([#104](https://github.com/ibissource/zaakbrug/issues/104)) ([4dd4af1](https://github.com/ibissource/zaakbrug/commit/4dd4af189b7a10b9819ef16b473635434af66692))
+
+## [1.12.15](https://github.com/ibissource/zaakbrug/compare/v1.12.14...v1.12.15) (2023-06-16)
+
+
+### ✅ Tests
+
+* added aanvraag collectieve zorgverzekering zaaktype as e2e test… ([#109](https://github.com/ibissource/zaakbrug/issues/109)) ([dc9a2de](https://github.com/ibissource/zaakbrug/commit/dc9a2de293c566ec373c2d4d5fbec47d195d50d1))
+
+## [1.12.14](https://github.com/ibissource/zaakbrug/compare/v1.12.13...v1.12.14) (2023-06-16)
+
+
+### 🔁 Continuous Integration
+
+* include chart yaml in semantic release git commit ([83e2a91](https://github.com/ibissource/zaakbrug/commit/83e2a91e3d07ebfad464bc78cb28980e5979a4a3))
+
+## [1.12.13](https://github.com/ibissource/zaakbrug/compare/v1.12.12...v1.12.13) (2023-06-16)
+
+
+### 🔁 Continuous Integration
+
+* auto bump helm chart version added to semantic-release ([#118](https://github.com/ibissource/zaakbrug/issues/118)) ([03b44bc](https://github.com/ibissource/zaakbrug/commit/03b44bcf740e265259cc924ce3e460cb8f06176c))
+* helm chart plugin dependency fix during release ([#119](https://github.com/ibissource/zaakbrug/issues/119)) ([aa1ffe7](https://github.com/ibissource/zaakbrug/commit/aa1ffe77024c8ea1f084c3a9b7afb409ef4ffc86))
+
+## [1.12.12](https://github.com/ibissource/zaakbrug/compare/v1.12.11...v1.12.12) (2023-06-16)
+
+
+### 🔁 Continuous Integration
+
+* breaking release parser opts fixed to allow for major releases ([#115](https://github.com/ibissource/zaakbrug/issues/115)) ([04744eb](https://github.com/ibissource/zaakbrug/commit/04744ebbeee84bdd72fe6e8d24a7c254aa73c899))
+
 ## [1.12.11](https://github.com/ibissource/zaakbrug/compare/v1.12.10...v1.12.11) (2023-06-08)
 
 

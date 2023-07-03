@@ -1,0 +1,24 @@
+{{- if .Values.staging.enabled -}}
+{{- if not .Values.staging.apiProxy.existingConfigmap -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "zaakbrug.nginxFullname" . }}
+  labels:
+  {{- include "zaakbrug.nginxLabels" . | nindent 4 }}
+data:
+  default.conf: |-
+    server {
+      listen 8080 default_server;
+      location / {
+        proxy_pass http://{{ include "zaakbrug.fullname" . }}:{{ .Values.service.port }}/api/;
+        proxy_buffering off;
+      }
+      location /_health/ {
+        access_log off;
+        error_log /var/log/nginx/error.log error;
+        return 200 'OK';
+        }
+    }
+{{- end -}}
+{{- end -}}
