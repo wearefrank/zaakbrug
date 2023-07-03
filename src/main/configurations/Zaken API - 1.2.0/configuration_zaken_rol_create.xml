@@ -47,7 +47,7 @@
             <SenderPipe name="CreateRolSender"
             	getInputFromSessionKey="originalMessage">
                 <HttpSender name="CreateRolSender"
-                    methodType="PUT"
+                    methodType="POST"
                     headersParams="Authorization,Accept-Crs,Content-Crs,Accept,Host"
                     timeout="${zaakbrug.zgw.zaken-api.timeout}"
                     maxExecuteRetries="5"

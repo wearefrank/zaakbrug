@@ -35,7 +35,7 @@
                 getInputFromFixedValue="&lt;dummy/&gt;"
                 storeResultInSessionKey="UrlParam"
                 >
-                <Param name="BaseUrl" value="${zaakbrug.staging.catalogi-api.root-url}" /> 
+                <Param name="BaseUrl" value="${zaakbrug.staging.documenten-api.root-url}" /> 
                 <Param name="UrlParam" sessionKey="uri" /> 
                 <Forward name="success" path="UpdateEnkelvoudigInformatieObjectSender"/>
             </XsltPipe>
