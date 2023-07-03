@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.23](https://github.com/ibissource/zaakbrug/compare/v1.12.22...v1.12.23) (2023-07-03)
+
+
+### 🐛 Bug Fixes
+
+* disable zgw api's by default ([e320fc6](https://github.com/ibissource/zaakbrug/commit/e320fc65deb7abb8045ec39bb49196927181a532))
+
 ## [1.12.22](https://github.com/ibissource/zaakbrug/compare/v1.12.21...v1.12.22) (2023-07-03)
 
 
