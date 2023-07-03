@@ -16,7 +16,7 @@ services:
   zaakbrug:
     build: .
     image: wearefrank/zaakbrug:latest
-    container_name: zaakbrug
+    container_name: zaakbrug.dev
     environment:
       - zaakbrug.zds.timezone=UTC
       - TZ=Europe/Amsterdam
@@ -24,6 +24,7 @@ services:
       - ../frank-runner/data:/usr/local/tomcat/data
       - logs:/usr/local/tomcat/logs
       # - ./data:/usr/local/tomcat/data
+      - ./src/main/configurations:/opt/frank/configurations:ro
     networks:
       - zaakbrug
       - zaakbrug-backend

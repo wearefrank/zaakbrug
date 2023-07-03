@@ -23,7 +23,7 @@ services:
     container_name: zaakbrug.staging.dev
     environment: &zaakbrug-staging-env
       - DJANGO_SETTINGS_MODULE=openzaak.conf.docker
-      - OPENZAAK_DOMAIN=zaakbrug.staging.dev:8000
+      - OPENZAAK_DOMAIN=host.docker.internal:9000
       - SECRET_KEY=${SECRET_KEY:-7(h1r2hk)8z9+05edulo_3qzymwbo&c24=)qz7+_@3&2sp=u%i}
       - DB_NAME=openzaak
       - DB_USER=openzaak
@@ -47,7 +47,8 @@ services:
       - NOTIFICATIONS_DISABLED=yes
       - DEBUG=1
       - LOG_LEVEL=DEBUG
-      - LOG_QUERIES=false
+      - LOG_QUERIES=true
+      - USE_X_FORWARDED_HOST=False
     networks:
       - zaakbrug-backend
     ports:
@@ -91,7 +92,7 @@ services:
     networks:
       - zaakbrug-backend
     ports:
-      - 9002
+      - 9002:9002
     depends_on:
       - zaakbrug-staging
 
