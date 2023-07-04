@@ -228,6 +228,8 @@ staging:
     - name: NOTIFICATIONS_DISABLED
       value: "yes"
   settings:
+    # Leave this to false, so absolute URL's make their way though te reverse proxies.
+    useXForwardedHost: false
     debug: false
     # openzaak.settings.allowedHosts Set the (v)hosts that need to be accessible for OpenZaak
     # Add the ingress route if you have one
