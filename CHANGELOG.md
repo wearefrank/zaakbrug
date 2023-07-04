@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.26](https://github.com/ibissource/zaakbrug/compare/v1.12.25...v1.12.26) (2023-07-04)
+
+
+### 🐛 Bug Fixes
+
+* host header for apiProxy ([a0f0bac](https://github.com/ibissource/zaakbrug/commit/a0f0baca3f898124c14fc346c10c3a819dcf0a83))
+
 ## [1.12.25](https://github.com/ibissource/zaakbrug/compare/v1.12.24...v1.12.25) (2023-07-04)
 
 
