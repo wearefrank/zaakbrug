@@ -13,6 +13,7 @@ data:
       location / {
         proxy_pass http://{{ include "zaakbrug.fullname" . }}:{{ .Values.service.port }}/api/;
         proxy_buffering off;
+        proxy_http_version 1.1;
       }
       location /_health/ {
         access_log off;

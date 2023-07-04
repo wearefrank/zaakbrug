@@ -244,10 +244,14 @@ staging:
       enabled: false
     replicaCount: 1
     podLabels: {}
-    securityContext: {}
+    securityContext:
+      readOnlyRootFilesystem: true
+      runAsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
     image:
-      repository: nginx
-      tag: latest
+      repository: nginxinc/nginx-unprivileged
+      tag: stable
       pullPolicy: IfNotPresent
     resources: {}
     existingConfigmap: ''
