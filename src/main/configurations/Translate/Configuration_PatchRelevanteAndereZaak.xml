@@ -22,10 +22,14 @@
                 <Forward name="success" path="XmlToJson"/>
             </XsltPipe>
 
-            <JsonPipe name="XmlToJson"
-                direction="XML2JSON">
-                <Forward name="success" path="PatchZaak"/>
-            </JsonPipe>
+            <Json2XmlValidatorPipe
+                name="XmlToJson"
+                schema="CreeerZaak_LK01/xsd/AndereZaakBodyToJson.xsd"
+                outputFormat="JSON"
+                compactJsonArrays="false"
+                throwException="true">
+                <Forward name="success" path="PatchZaak" />
+            </Json2XmlValidatorPipe>
 
             <SenderPipe name="PatchZaak">
 				<HttpSender 

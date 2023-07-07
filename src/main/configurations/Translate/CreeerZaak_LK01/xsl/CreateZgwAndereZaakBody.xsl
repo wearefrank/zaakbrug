@@ -3,9 +3,12 @@
     <xsl:param name="Url"/>
 
     <xsl:template match="/">
-        <relevanteAndereZaken>
-            <url><xsl:value-of select="Url"/></url>
-            <aardRelatie>onderwerp</aardRelatie>
-        </relevanteAndereZaken>
+        <!-- This element will not appear in the JSON, because array elements do not get a key -->
+        <container>
+            <relevanteAndereZaken>
+                <url><xsl:value-of select="$Url"/></url>
+                <aardRelatie>onderwerp</aardRelatie>
+            </relevanteAndereZaken>
+        </container>
     </xsl:template>
 </xsl:stylesheet>
