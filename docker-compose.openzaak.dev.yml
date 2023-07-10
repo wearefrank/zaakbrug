@@ -89,7 +89,7 @@ services:
       - ./docker/open-zaak-nginx/default.conf:/etc/nginx/conf.d/default.conf
       - open-zaak-private-media:/private-media
     networks:
-      - open-zaak
+      - zaakbrug-stack
       - open-zaak-backend
     ports:
       - 9001:9001
@@ -119,6 +119,5 @@ volumes:
   open-zaak-private-media:
 
 networks:
-  open-zaak:
-    name: zaakbrug-stack
+  zaakbrug-stack:
   open-zaak-backend:
