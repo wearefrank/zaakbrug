@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.27](https://github.com/ibissource/zaakbrug/compare/v1.12.26...v1.12.27) (2023-07-12)
+
+
+### 🐛 Bug Fixes
+
+* docker-compose network name correction due to changes in latest docker-compose version ([#131](https://github.com/ibissource/zaakbrug/issues/131)) ([a9806a2](https://github.com/ibissource/zaakbrug/commit/a9806a26c954017988ef0737d80207db1e6bdec0))
+
 ## [1.12.26](https://github.com/ibissource/zaakbrug/compare/v1.12.25...v1.12.26) (2023-07-04)
 
 
