@@ -98,13 +98,16 @@ zaakbrug:
     beantwoordVraag:
       endpoint: "translate/generic/zds/BeantwoordVraag"
       validationSoftFail: false
+    beantwoordVraag_v2: 
+      endpoint: "translate/generic/zds/v2/BeantwoordVraag"
+      validationSoftFail: false
     ontvangAsynchroon:
       endpoint: "translate/generic/zds/OntvangAsynchroon"
       validationSoftFail: false
     vrijeBerichten:
       endpoint: "translate/generic/zds/VrijBericht"
       validationSoftFail: false
-    vrijeBerichtenV2:
+    vrijeBerichten_v2:
       endpoint: "translate/generic/zds/v2/VrijBericht"
       validationSoftFail: false
   zgw:
