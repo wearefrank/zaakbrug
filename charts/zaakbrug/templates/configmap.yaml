@@ -63,6 +63,7 @@ data:
   {{- with .Values.zaakbrug.zgw }}
   zaakbrug.zgw.zaak-identificatie-template: {{ .zaakIdentificatieTemplate }}
   zaakbrug.zgw.document-identificatie-template: {{ .documentIdentificatieTemplate }}
+  zaakbrug.zgw.document-besluit-template: {{ .besluitIdentificatieTemplate }}
   {{- with .zakenApi }}
   zaakbrug.zgw.zaken-api.root-url: {{ .rootUrl }}
   zaakbrug.zgw.zaken-api.timeout: {{ toString (.timeout | default 20000 | quote) }}
