@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.29](https://github.com/ibissource/zaakbrug/compare/v1.12.28...v1.12.29) (2023-07-27)
+
+
+### 🧑‍💻 Code Refactoring
+
+* implement zds 1.2 genereerBesluitIdentificatie_Di02 SOAP-action ([#133](https://github.com/ibissource/zaakbrug/issues/133)) ([d31f315](https://github.com/ibissource/zaakbrug/commit/d31f315f7ab3ddc6ca121d56e2b955c7816dcab3))
+
 ## [1.12.28](https://github.com/ibissource/zaakbrug/compare/v1.12.27...v1.12.28) (2023-07-27)
 
 
