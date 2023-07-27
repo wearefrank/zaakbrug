@@ -62,11 +62,15 @@ data:
   zaakbrug.soap.vrije-berichten.endpoint: {{ .endpoint }}
   zaakbrug.soap.vrije-berichten.validation-soft-fail: "{{ .validationSoftFail }}"
   {{- end }}
+  {{- with .vrijeBerichten_v2 }}
+  zaakbrug.soap.vrije-berichten.v2.endpoint: {{ .endpoint }}
+  zaakbrug.soap.vrije-berichten.v2.validation-soft-fail: "{{ .validationSoftFail }}"
+  {{- end }}
   {{- end }}
   {{- with .Values.zaakbrug.zgw }}
   zaakbrug.zgw.zaak-identificatie-template: {{ .zaakIdentificatieTemplate }}
   zaakbrug.zgw.document-identificatie-template: {{ .documentIdentificatieTemplate }}
-  zaakbrug.zgw.document-besluit-template: {{ .besluitIdentificatieTemplate }}
+  zaakbrug.zgw.besluit-identificatie-template: {{ .besluitIdentificatieTemplate }}
   {{- with .zakenApi }}
   zaakbrug.zgw.zaken-api.root-url: {{ .rootUrl }}
   zaakbrug.zgw.zaken-api.timeout: {{ toString (.timeout | default 20000 | quote) }}
