@@ -1,10 +1,10 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="VoegBesluitToe_Di01"
-        active="${oegBesluitToe_Di01.Active}"
+        active="${VoegBesluitToe_Di01.Active}"
         description="">
 
-        <Receiver name="oegBesluitToe_Di01">
-            <JavaListener name="oegBesluitToe_Di01"/>
+        <Receiver name="VoegBesluitToe_Di01">
+            <JavaListener name="VoegBesluitToe_Di01"/>
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
                 datasourceName="jdbc/${database.instance.name}"
