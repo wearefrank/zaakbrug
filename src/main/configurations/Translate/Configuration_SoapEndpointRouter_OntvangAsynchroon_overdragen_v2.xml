@@ -1,13 +1,13 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="SoapEndpointRouter_OntvangAsynchroon_overdragen_v2"
-        active="${SoapEndpointRouter_OntvangAsynchroon_overdragen_v2.Active}"
+    <Adapter name="SoapEndpointRouter_OntvangAsynchroon_Overdragen_v2"
+        active="${SoapEndpointRouter_OntvangAsynchroon_Overdragen_v2.Active}"
         description="">
-        <Receiver name="SoapEndpointRouter_OntvangAsynchroon_overdragen_v2">
-            <WebServiceListener name="SoapEndpointRouter_OntvangAsynchroon_overdragen_v2" address="${zaakbrug.soap.ontvang-asynchroon-overdragen.v2.endpoint}" soap="false"/>
+        <Receiver name="SoapEndpointRouter_OntvangAsynchroon_Overdragen_v2">
+            <WebServiceListener name="SoapEndpointRouter_OntvangAsynchroon_Overdragen_v2" address="${zaakbrug.soap.ontvang-asynchroon-overdragen.v2.endpoint}" soap="false"/>
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
                 datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/OntvangAsynchroon_overdragen_v2"/>
+                slotId="${instance.name}/OntvangAsynchroonOverdragen_v2"/>
         </Receiver>
         <Pipeline>
             <Exits>
