@@ -133,6 +133,10 @@ zaakbrug:
       rootUrl: "http://open-zaak/documenten/api/v1/"
       authType: jwt
       authAlias: zaken-api.jwt
+    besluitenApi:
+      rootUrl: "http://open-zaak/besluiten/api/v1/"
+      authType: jwt
+      authAlias: zaken-api.jwt
   globals:
     organizations:
       - gemeenteNaam: "Súdwest-Fryslân"
