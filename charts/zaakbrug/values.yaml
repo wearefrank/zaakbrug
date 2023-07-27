@@ -98,6 +98,9 @@ zaakbrug:
     beantwoordVraag:
       endpoint: "translate/generic/zds/BeantwoordVraag"
       validationSoftFail: false
+    beantwoordVraag_v2: 
+      endpoint: "translate/generic/zds/v2/BeantwoordVraag"
+      validationSoftFail: false
     ontvangAsynchroon:
       endpoint: "translate/generic/zds/OntvangAsynchroon"
       validationSoftFail: false
