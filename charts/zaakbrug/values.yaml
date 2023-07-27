@@ -107,6 +107,9 @@ zaakbrug:
     vrijeBerichten_v2:
       endpoint: "translate/generic/zds/v2/VrijBericht"
       validationSoftFail: false
+    ontvangAsynchroonMutatie_v2:
+      endpoint: "translate/generic/zds/v2/OntvangAsynchroonMutatie"
+      validationSoftFail: false
   zgw:
     # Templates used for generating zaak- and documentidentificatie
     # The syntax for variable substitution is as follows {[variable-name][:formatting-string]} 

@@ -63,6 +63,10 @@ data:
   zaakbrug.soap.vrije-berichten.v2.endpoint: {{ .endpoint }}
   zaakbrug.soap.vrije-berichten.v2.validation-soft-fail: "{{ .validationSoftFail }}"
   {{- end }}
+  {{- with .ontvangAsynchroonMutatie_v2 }}
+  zaakbrug.soap.ontvang-asynchroon-mutatie.v2.endpoint: {{ .endpoint }}
+  zaakbrug.soap.ontvang-asynchroon-mutatie.v2.validation-soft-fail: "{{ .validationSoftFail }}"
+  {{- end }}
   {{- end }}
   {{- with .Values.zaakbrug.zgw }}
   zaakbrug.zgw.zaak-identificatie-template: {{ .zaakIdentificatieTemplate }}
