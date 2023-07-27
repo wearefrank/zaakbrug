@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.28](https://github.com/ibissource/zaakbrug/compare/v1.12.27...v1.12.28) (2023-07-27)
+
+
+### 🐛 Bug Fixes
+
+* authorization token missing for GetZaakDocumentByUrl ([#132](https://github.com/ibissource/zaakbrug/issues/132)) ([4f9c780](https://github.com/ibissource/zaakbrug/commit/4f9c7800c1846091b6f2c23b0dd34599fc880a3c))
+
 ## [1.12.27](https://github.com/ibissource/zaakbrug/compare/v1.12.26...v1.12.27) (2023-07-12)
 
 
