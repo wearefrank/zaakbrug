@@ -5,6 +5,7 @@
     <xsl:param name="IdentificatieType" />
     <xsl:param name="zaak-identificatie-template" />
     <xsl:param name="document-identificatie-template" />
+    <xsl:param name="besluit-identificatie-template" />
     <xsl:template match="/">
         <xsl:variable name="formatFromProperties">
             <!-- Identificatie type control -->
@@ -14,6 +15,9 @@
                 </xsl:when>
                 <xsl:when test="$IdentificatieType='DocumentIdentificatie'">
                     <xsl:value-of select="$document-identificatie-template"></xsl:value-of>
+                </xsl:when>
+                <xsl:when test="$IdentificatieType='BesluitIdentificatie'">
+                    <xsl:value-of select="$besluit-identificatie-template"></xsl:value-of>
                 </xsl:when>
             </xsl:choose>
         </xsl:variable>

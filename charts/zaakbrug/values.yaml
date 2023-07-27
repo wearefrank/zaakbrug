@@ -104,6 +104,9 @@ zaakbrug:
     vrijeBerichten:
       endpoint: "translate/generic/zds/VrijBericht"
       validationSoftFail: false
+    vrijeBerichten_v2:
+      endpoint: "translate/generic/zds/v2/VrijBericht"
+      validationSoftFail: false
   zgw:
     # Templates used for generating zaak- and documentidentificatie
     # The syntax for variable substitution is as follows {[variable-name][:formatting-string]} 
@@ -116,6 +119,7 @@ zaakbrug:
     #               example: {datetime:[Y001]} with datetime=14-03-2023 produces '2023'
     zaakIdentificatieTemplate: ZK{datetime:[Y0001]}-{id:D5}
     documentIdentificatieTemplate: DC{datetime:[Y0001]}-{id:D5}
+    besluitIdentificatieTemplate: BS{datetime:[Y0001]}-{id:D5}
     # Make sure that all Url's contain two "parts" e.g. `openzaak-nginx.zaakbrug`. Openzaak can't use a single part domain.
     zakenApi:
       rootUrl: "http://open-zaak/zaken/api/v1/"
