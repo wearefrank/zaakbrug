@@ -47,11 +47,12 @@
                 >
                 <Param name="Action" sessionKey="SOAPAction"/>
                 <Forward name="success" path="ActionSwitch"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="error" path="BackEndError"/>
             </XsltPipe>
 
             <XmlSwitchPipe name="ActionSwitch"
                 forwardNameSessionKey="SatitizedSoapAction"
+                notFoundForwardName="UnsupportedSoapActionError"
             />
             
             <!-- SenderPipes -->
@@ -59,6 +60,19 @@
             <!-- SoapWrapperPipes -->
 
             <!-- ERRORS -->
+            <XsltPipe 
+                    name="UnsupportedSoapActionError"
+                    emptyInputReplacement="&lt;EmptyInput/&gt;"
+                    styleSheetName="Common/xsl/BuildError.xsl"
+                    >
+                    <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                    <Param name="reason" pattern="Unsupported SOAP-action. No implementation found for: {SOAPAction}" /> 
+                <!-- <Param name="details" sessionKey="" /> -->
+                <!-- <Param name="detailsXml" type="DOMDOC" /> -->
+                <Forward name="success" path="BackEndError" />
+                <Forward name="exception" path="BackEndError" />
+            </XsltPipe>
+
             <PutInSessionPipe name="InvalidXml">
                 <Param name="errorCode" value="INVALID_XML"/>
                 <Param name="errorReason" value="XML was invalid"/>
