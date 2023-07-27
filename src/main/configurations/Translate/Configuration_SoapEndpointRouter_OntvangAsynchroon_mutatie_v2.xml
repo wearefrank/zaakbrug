@@ -7,7 +7,7 @@
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
                 datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/ontvangAsynchroon_mutatie_v2"/>
+                slotId="${instance.name}/ontvangAsynchroonMutatie_v2"/>
         </Receiver>
         <Pipeline>
             <Exits>
@@ -55,26 +55,9 @@
 				forwardNameSessionKey="SanitizedSoapAction"
                 />
 
-            <SenderPipe
-                name="http://www.stufstandaarden.nl/koppelvlak/zds0120/voegBesluitToe_Di01">
-                <IbisLocalSender
-                    name="VoegBesluitToe_Di01LocalSender"
-                    javaListener="VoegBesluitToe_Di01"
-                    >
-                </IbisLocalSender>
-                <Forward name="success" path="WrapBv03Response" />
-                <Forward name="exception" path="BackEndError" />
-            </SenderPipe>
+            <!-- SenderPipes -->
 
-            <SoapWrapperPipe
-                name="WrapBv03Response"
-                getInputFromFixedValue="&lt;dummy/&gt;"
-                soapBodyStyleSheet="Common/xsl/CreateBv03Response.xslt"
-                >
-                <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC"/>
-                <Forward name="success" path="EXIT"/>
-            </SoapWrapperPipe>
-
+            <!-- SoapWrapperPipes -->
 
             <!-- ERRORS -->
             <PutInSessionPipe name="InvalidXml">
