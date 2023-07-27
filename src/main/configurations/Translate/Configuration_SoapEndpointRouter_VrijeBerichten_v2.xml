@@ -67,11 +67,7 @@
                 <Forward name="success" path="WrapGenereerBesluitIdentificatie_Du02Response" />
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>
-            
-            <!-- Intentional fallthrough -->
-            
-            <!-- Undefined SOAP action error handling. Needed to catch the fallthrough incase no mathing action-->
-
+        
         
             <SoapWrapperPipe
                 name="WrapGenereerBesluitIdentificatie_Du02Response"
