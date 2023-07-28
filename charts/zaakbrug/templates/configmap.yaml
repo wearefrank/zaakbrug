@@ -54,6 +54,9 @@ data:
   {{- with .ontvangAsynchroon }}
   zaakbrug.soap.ontvang-asynchroon.endpoint: {{ .endpoint }}
   zaakbrug.soap.ontvang-asynchroon.validation-soft-fail: "{{ .validationSoftFail }}"
+  {{- with .ontvangAsynchroonOverdragen_v2 }}
+  zaakbrug.soap.ontvang-asynchroon-overdragen.v2.endpoint: {{ .endpoint }}
+  zaakbrug.soap.ontvang-asynchroon-overdragen.v2.validation-soft-fail: "{{ .validationSoftFail }}"
   {{- end }}
   {{- with .ontvangAsynchroon_v2 }}
   zaakbrug.soap.ontvang-asynchroon.v2.endpoint: {{ .endpoint }}
