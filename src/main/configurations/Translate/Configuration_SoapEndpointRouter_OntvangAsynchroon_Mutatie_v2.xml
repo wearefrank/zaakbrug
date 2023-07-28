@@ -17,7 +17,7 @@
 
             <WsdlXmlValidatorPipe 
                 name="ValidateInput"
-                wsdl="Common\xsd\Zaak-_Documentservices_1_2\zds0120\berichten\zds0120_ontvangAsynchroon_mutatie_zs-dms.wsdl"
+                wsdl="Common/xsd/Zaak-_Documentservices_1_2/zds0120/berichten/zds0120_ontvangAsynchroon_mutatie_zs-dms.wsdl"
                 >
                 <Forward name="success" path="UnwrapSoapMessage"/>
                 <Forward name="failure" path="WsdlValidationSoftFailForwarder"/>
