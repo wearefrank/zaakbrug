@@ -48,7 +48,7 @@
                 >
                 <Param name="Action" sessionKey="SOAPAction"/>
                 <Forward name="success" path="ActionSwitch"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="error" path="BackEndError"/>
             </XsltPipe>
 
             <XmlSwitchPipe name="ActionSwitch"
