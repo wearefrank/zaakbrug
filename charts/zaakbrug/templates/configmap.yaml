@@ -54,13 +54,14 @@ data:
   {{- with .ontvangAsynchroon }}
   zaakbrug.soap.ontvang-asynchroon.endpoint: {{ .endpoint }}
   zaakbrug.soap.ontvang-asynchroon.validation-soft-fail: "{{ .validationSoftFail }}"
+  {{- end }}
+  {{- with .ontvangAsynchroonMutatie_v2 }}
+  zaakbrug.soap.ontvang-asynchroon-mutatie.v2.endpoint: {{ .endpoint }}
+  zaakbrug.soap.ontvang-asynchroon-mutatie.v2.validation-soft-fail: "{{ .validationSoftFail }}"
+  {{- end }}
   {{- with .ontvangAsynchroonOverdragen_v2 }}
   zaakbrug.soap.ontvang-asynchroon-overdragen.v2.endpoint: {{ .endpoint }}
   zaakbrug.soap.ontvang-asynchroon-overdragen.v2.validation-soft-fail: "{{ .validationSoftFail }}"
-  {{- end }}
-  {{- with .ontvangAsynchroon_v2 }}
-  zaakbrug.soap.ontvang-asynchroon.v2.endpoint: {{ .endpoint }}
-  zaakbrug.soap.ontvang-asynchroon.v2.validation-soft-fail: "{{ .validationSoftFail }}"
   {{- end }}
   {{- with .vrijeBerichten }}
   zaakbrug.soap.vrije-berichten.endpoint: {{ .endpoint }}
@@ -81,7 +82,7 @@ data:
   zaakbrug.zgw.zaken-api.auth-type: {{ .authType }}
   zaakbrug.zgw.zaken-api.auth-alias: {{ .authAlias }}
   {{- end }}
-  {{- with .documentenApi }}
+  {{- with .documentenApi }}r
   zaakbrug.zgw.documenten-api.root-url: {{ .rootUrl }}
   zaakbrug.zgw.documenten-api.timeout: {{ toString (.timeout | default 20000 | quote) }}
   zaakbrug.zgw.documenten-api.auth-type: {{ .authType }}
