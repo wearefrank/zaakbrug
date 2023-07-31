@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.31](https://github.com/ibissource/zaakbrug/compare/v1.12.30...v1.12.31) (2023-07-31)
+
+
+### 🧑‍💻 Code Refactoring
+
+* scaffold zds 1.2 soap-endpoint OntvangAsynchroonMutatie v2 ([#136](https://github.com/ibissource/zaakbrug/issues/136)) ([e0a14f8](https://github.com/ibissource/zaakbrug/commit/e0a14f8a0b36799c32e31489e85e21b6dfd374a9))
+
 ## [1.12.30](https://github.com/ibissource/zaakbrug/compare/v1.12.29...v1.12.30) (2023-07-28)
 
 
