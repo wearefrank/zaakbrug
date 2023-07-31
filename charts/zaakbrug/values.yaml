@@ -104,6 +104,9 @@ zaakbrug:
     ontvangAsynchroon:
       endpoint: "translate/generic/zds/OntvangAsynchroon"
       validationSoftFail: false
+    ontvangAsynchroonMutatie_v2:
+      endpoint: "translate/generic/zds/v2/OntvangAsynchroonMutatie"
+      validationSoftFail: false
     ontvangAsynchroonOverdragen_v2:
       endpoint: "translate/generic/zds/v2/OntvangAsynchroonOverdragen"
       validationSoftFail: false      
