@@ -1,13 +1,13 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="SoapEndpointRouter_VrijeBerichten_v2"
-        active="${SoapEndpointRouter_VrijeBerichten_v2.Active}"
+    <Adapter name="SoapEndpointRouter_OntvangAsynchroon_Mutatie_v2"
+        active="${SoapEndpointRouter_OntvangAsynchroon_Mutatie_v2.Active}"
         description="">
-        <Receiver name="SoapEndpointRouter_VrijeBerichten_v2">
-            <WebServiceListener name="SoapEndpointRouter_VrijeBerichten_v2" address="${zaakbrug.soap.vrije-berichten.v2.endpoint}" soap="false"/>
+        <Receiver name="SoapEndpointRouter_OntvangAsynchroon_Mutatie_v2">
+            <WebServiceListener name="SoapEndpointRouter_OntvangAsynchroon_Mutatie_v2" address="${zaakbrug.soap.ontvang-asynchroon-mutatie.v2.endpoint}" soap="false"/>
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
                 datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/vrijeBerichten_v2"/>
+                slotId="${instance.name}/ontvangAsynchroonMutatie_v2"/>
         </Receiver>
         <Pipeline>
             <Exits>
@@ -17,7 +17,7 @@
 
             <WsdlXmlValidatorPipe 
                 name="ValidateInput"
-                wsdl="Common/xsd/Zaak-_Documentservices_1_2/zds0120/berichten/zds0120_vrijeBerichten_zs-dms.wsdl"
+                wsdl="Common/xsd/Zaak-_Documentservices_1_2/zds0120/berichten/zds0120_ontvangAsynchroon_mutatie_zs-dms.wsdl"
                 >
                 <Forward name="success" path="UnwrapSoapMessage"/>
                 <Forward name="failure" path="WsdlValidationSoftFailForwarder"/>
@@ -27,7 +27,7 @@
                 name="WsdlValidationSoftFailForwarder"
                 xpathExpression="$SoftFail = true()"
                 >
-                <Param name="SoftFail" value="${zaakbrug.soap.vrije-berichten.v2.validation-soft-fail}" type="BOOLEAN"/>
+                <Param name="SoftFail" value="${zaakbrug.soap.ontvang-asynchroon-mutatie.v2.validation-soft-fail}" type="BOOLEAN"/>
                 <Forward name="true" path="UnwrapSoapMessage" />
                 <Forward name="false" path="InvalidXml" />
             </XmlSwitchPipe>
@@ -52,43 +52,22 @@
             </XsltPipe>
 
             <XmlSwitchPipe name="ActionSwitch"
-				forwardNameSessionKey="SanitizedSoapAction"
+                forwardNameSessionKey="SanitizedSoapAction"
                 notFoundForwardName="UnsupportedSoapActionError"
                 />
-            
-            <SenderPipe
-                name="http:__www.stufstandaarden.nl_koppelvlak_zds0120_genereerBesluitIdentificatie_Di02"
-                storeResultInSessionKey="Identificatie">
-                <IbisLocalSender
-                    name="GenereerBesluitIdentificatie_Di02LocalSender"
-                    javaListener="GenereerIdentificatieEmulator"
-                    >
-                    <Param name="IdentificatieType" value="BesluitIdentificatie"/>
-                </IbisLocalSender>
-                <Forward name="success" path="WrapGenereerBesluitIdentificatie_Du02Response" />
-                <Forward name="exception" path="BackEndError" />
-            </SenderPipe>
-        
-        
-            <SoapWrapperPipe
-                name="WrapGenereerBesluitIdentificatie_Du02Response"
-                getInputFromSessionKey="UnwrapMessageResult"
-                soapBodyStyleSheet="Common/xsl/CreateGenereerBesluitIdentificatie_Du02Response.xslt"
-                >
-                <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC" />
-                <Param name="Identificatie" sessionKey="Identificatie" type="STRING" />
-                <Forward name="success" path="EXIT"/>
-            </SoapWrapperPipe>
 
+            <!-- SenderPipes -->
+
+            <!-- SoapWrapperPipes -->
 
             <!-- ERRORS -->
             <XsltPipe 
-                    name="UnsupportedSoapActionError"
-                    emptyInputReplacement="&lt;EmptyInput/&gt;"
-                    styleSheetName="Common/xsl/BuildError.xsl"
-                    >
-                    <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
-                    <Param name="reason" pattern="Unsupported SOAP-action. No implementation found for: {SOAPAction}" /> 
+                name="UnsupportedSoapActionError"
+                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                >
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Unsupported SOAP-action. No implementation found for: {SOAPAction}" /> 
                 <!-- <Param name="details" sessionKey="" /> -->
                 <!-- <Param name="detailsXml" type="DOMDOC" /> -->
                 <Forward name="success" path="BackEndError" />
