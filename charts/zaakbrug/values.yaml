@@ -241,6 +241,8 @@ staging:
     rootUrl: http://zaakbrug-staging-nginx.zaakbrug/documenten/api/v1/
   catalogiApi:
     rootUrl: http://zaakbrug-staging-nginx.zaakbrug/catalogi/api/v1/
+  besluitenApi:
+    rootUrl: http://zaakbrug-staging-nginx.zaakbrug/besluiten/api/v1/
   extraEnvVars:
     - name: NOTIFICATIONS_DISABLED
       value: "yes"
