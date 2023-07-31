@@ -1,0 +1,61 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="GetZgwBesluiten"
+        active="${GetZgwBesluiten.Active}"
+        description="">
+
+        <Receiver name="GetZgwBesluiten">
+            <JavaListener name="GetZgwBesluiten"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+			<SenderPipe name="GetZgwBesluitenSender"
+                getInputFromFixedValue="&lt;dummy/&gt;">
+				<HttpSender 
+					name="GetZgwBesluitenHttpSender" 
+					methodType="GET"
+					headersParams="Authorization,Accept-Crs"
+                    timeout="${zaakbrug.zgw.besluiten-api.timeout}"
+                    parametersToSkipWhenEmpty="*"
+				/>
+                <Param name="url" value="${zaakbrug.zgw.besluiten-api.root-url}besluiten"/>
+                <Param name="identificatie" sessionKey="Identificatie"/>
+                <Param name="verantwoordelijkeOrganisatie" sessionKey="VerantwoordelijkeOrganisatie"/>
+                <Param name="besluittype" sessionKey="Besluittype"/>
+                <Param name="zaak" sessionKey="Zaak"/>
+                <Param name="page" sessionKey="Page"/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Authorization" value="Bearer @@besluiten-api.jwt@@"/>
+                <Forward name="success" path="JsonToXml" />
+                <Forward name="exception" path="ErrorJsonToXml" />
+			</SenderPipe>
+
+            <JsonPipe name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="GetZgwBesluitenSender" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
+
+            <JsonPipe name="JsonToXml">
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList"/>
+            </JsonPipe>
+
+            <XsltPipe
+                name="UnwrapOpenZaakApiEnvelopeToList"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
+                >
+                <Param name="Type" value="ZgwBesluit"/>
+                <Param name="List" value="ZgwBesluiten"/>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>
