@@ -51,13 +51,34 @@
             </XsltPipe>
 
             <XmlSwitchPipe name="ActionSwitch"
-                forwardNameSessionKey="SatitizedSoapAction"
+				forwardNameSessionKey="SatitizedSoapAction"
                 notFoundForwardName="UnsupportedSoapActionError"
-            />
+                />
             
-            <!-- SenderPipes -->
+            <SenderPipe
+                name="http:__www.stufstandaarden.nl_koppelvlak_zds0120_geefLijstBesluiten_ZakLv01"
+                storeResultInSessionKey="UnwrapMessageResult">
+                <IbisLocalSender
+                    name="GeefLijstBesluiten_ZakLv01LocalSender"
+                    javaListener="GeefLijstBesluiten_ZakLv01">
+                </IbisLocalSender>
+                <Forward name="success" path="WrapZakLa01Response" />
+                <Forward name="exception" path="BackEndError" />
+            </SenderPipe>
+
+            <!-- Intentional fallthrough -->
+            
+            <!-- Undefined SOAP action error handling. Needed to catch the fallthrough incase no mathing action-->
 
             <!-- SoapWrapperPipes -->
+
+            <SoapWrapperPipe
+                name="WrapZakLa01Response"
+                soapBodyStyleSheet="Common/xsl/CreatebesluitenResponse.xslt"
+                >
+                <Param name="UnwrapMessageResult"   sessionKey="UnwrapMessageResult" type="DOMDOC"/>
+                <Forward name="success" path="EXIT"/>
+            </SoapWrapperPipe>
 
             <!-- ERRORS -->
             <XsltPipe 
