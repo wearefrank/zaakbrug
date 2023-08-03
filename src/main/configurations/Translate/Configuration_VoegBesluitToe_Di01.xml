@@ -17,77 +17,6 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <PutInSessionPipe 
-                name="StoreZdsZaakDocumentInhoud">
-                <Param name="ZdsZaakDocumentInhoud" xpathExpression="edcLk01/object[1]" type="DOMDOC"/>
-                <Forward name="success" path="StoreDocumentData" />
-            </PutInSessionPipe>
-            <EchoPipe name="StoreDocumentData" elementToMove="inhoud" getInputFromSessionKey="ZdsZaakDocumentInhoud" storeResultInSessionKey="ZdsZaakDocumentInhoudDataRef">
-                <Forward name="success" path="CallGetZgwZaak" />
-            </EchoPipe>
-            <SenderPipe
-                name="CallGetZgwZaak"
-                getInputFromSessionKey="ZdsZaakDocumentInhoudDataRef">
-                <IbisLocalSender
-                    name="CallGetZgwZaakSender"
-                    javaListener="GetZgwZaak">
-                    <Param name="Identificatie" xpathExpression="object/isRelevantVoor/gerelateerde/identificatie"/>
-                </IbisLocalSender>
-                <Forward name="success" path="CheckForGetZgwZaakResult"/>
-                <Forward name="exception" path="UncaughtException" />
-            </SenderPipe>
-
-            <XmlIfPipe name="CheckForGetZgwZaakResult"
-                xpathExpression="string-length(ZgwZaken) > 0"
-                >
-                <Forward name="then" path="GetSingleZgwZaakFromZgwZakenList"/>
-                <Forward name="else" path="UncaughtException"/>
-            </XmlIfPipe>
-        
-            <XsltPipe
-                name="GetSingleZgwZaakFromZgwZakenList"
-                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
-                storeResultInSessionKey="ZgwZaak"
-                >
-                <Forward name="success" path="CallGetZgwZaaktypeByUrl"/>
-                <Forward name="error" path="UncaughtException"/>
-            </XsltPipe>
-
-            <SenderPipe
-                name="CallGetZgwZaaktypeByUrl"
-                getInputFromSessionKey="ZgwZaak"
-                storeResultInSessionKey="ZgwZaakType">
-                <IbisLocalSender
-                    name="CallGetZgwZaaktypeByUrlSender"
-                    javaListener="GetZaakTypeByUrl">
-                    <Param name="ZaakUrl" xpathExpression="ZgwZaak/zaaktype" />
-                </IbisLocalSender>
-                <Forward name="success" path="GetZgwInformatieObjectTypeByOmschrijvingSender"/>
-                <Forward name="exception" path="UncaughtException"/>
-            </SenderPipe>
-
-            <SenderPipe
-                name="GetZgwInformatieObjectTypeByOmschrijvingSender"
-                getInputFromSessionKey="ZdsZaakDocumentInhoudDataRef">
-                <IbisLocalSender
-                    name="GetZgwInformatieObjectTypeByOmschrijvingLocalSender"
-                    javaListener="GetZgwInformatieObjectTypeByOmschrijving">
-                    <Param name="ZgwZaakType" sessionKey="ZgwZaakType" />
-                    <Param name="Omschrijving" xpathExpression="object/dct.omschrijving" />
-                </IbisLocalSender>
-                <Forward name="success" path="GetSingleZgwInformatieObjectTypeFromList"/>
-                <Forward name="exception" path="UncaughtException"/>
-            </SenderPipe>
-
-            <XsltPipe
-                name="GetSingleZgwInformatieObjectTypeFromList"
-                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
-                storeResultInSessionKey="ZgwInformatieObjectType"
-                >
-                <Forward name="success" path="GetGlobalConfigFromLocalFS"/>
-                <Forward name="error" path="UncaughtException"/>
-            </XsltPipe>
-
             <SenderPipe 
                 name="GetGlobalConfigFromLocalFS"
                 storeResultInSessionKey="GlobalConfig"
@@ -98,41 +27,21 @@
                     >
                     <Param name="FileName" value="${FilePath_1}" />                   
                 </IbisLocalSender>
-                <Forward name="success" path="GetRsin"/>
+                <Forward name="success" path="CallGetRsin"/>
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
 
-            <PutInSessionPipe
-                name="GetRsin"
-                >
-                <Param name="Rsin" xpathExpression="/root/organizations[gemeenteCode = $GemeenteCode]/RSIN" defaultValue="&lt;RSIN/&gt;" type="XML">
+            <SenderPipe 
+                name="CallGetRsin"
+                storeResultInSessionKey="Rsin">
+                <IbisLocalSender
+                    name="CallGetRsinSender"
+                    javaListener="GetRsinByGemeenteCode">
                     <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
-                </Param>
-                <Forward name="success" path="Rsin_NotEmpty"/>
-                <Forward name="exception" path="UncaughtException" />
-            </PutInSessionPipe>
-
-            <XmlIfPipe 
-                name="Rsin_NotEmpty"
-                getInputFromSessionKey="Rsin"
-                xpathExpression="string-length(/RSIN) gt 0"
-                >
-                <Forward name="then" path="StoreTaal"/>
-                <Forward name="else" path="Rsin_NotEmpty_Exception"/>
+                </IbisLocalSender>
+                <Forward name="success" path="StoreTaal"/>
                 <Forward name="exception" path="UncaughtException"/>
-            </XmlIfPipe>
-
-            <XsltPipe 
-                name="Rsin_NotEmpty_Exception"
-                styleSheetName="Common/xsl/BuildError.xsl">
-                <Param name="code" value="ConfigurationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
-                <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
-                <Param name="reason" pattern="No organization configured for gemeente code: [{GemeenteCode}]" ignoreUnresolvablePatternElements="true"/> 
-                <!-- <Param name="details" sessionKey="" /> -->
-                <Param name="detailsXml" sessionKey="GlobalConfig" type="DOMDOC" />
-                <Forward name="success" path="EXCEPTION" />
-                <Forward name="exception" path="UncaughtException" />
-            </XsltPipe>
+            </SenderPipe>
 
             <PutInSessionPipe 
                 name="StoreTaal"
