@@ -25,7 +25,7 @@
             <XmlIfPipe 
                 name="Rsin_NotEmpty"
                 getInputFromSessionKey="Rsin"
-                xpathExpression="string-length(/RSIN) gt 0"
+                xpathExpression="string-length(/RSIN) &gt; 0"
                 >
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="Rsin_NotEmpty_Exception"/>
