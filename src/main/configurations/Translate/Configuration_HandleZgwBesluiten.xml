@@ -1,0 +1,47 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="HandleZgwBesluiten"
+        active="${HandleZgwBesluiten.Active}"
+        description="">
+
+        <Receiver name="HandleZgwBesluiten">
+            <JavaListener name="HandleZgwBesluiten"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="EXCEPTION" state="ERROR" />
+            </Exits>
+
+			<SenderPipe
+                name="CallGetZgwBesluitTypeByUrl"
+                storeResultInSessionKey="GetZgwBesluitTypeResult">
+                <IbisLocalSender
+                    name="CallGetZgwBesluitTypeSender"
+                    javaListener="GetZgwBesluitTypeByUrl">
+                    <Param name="Url" xpathExpression="/ZgwBesluit/besluittype"/>
+                </IbisLocalSender>
+                <Forward name="success" path="MapLeidtTot"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="MapLeidtTot"
+                removeNamespaces="true"
+                getInputFromSessionKey="originalMessage"
+                skipEmptyTags="true"
+                styleSheetName="GeefLijstBesluiten_ZakLv01\xsl\ZdsLeidtTot.xsl"
+                >
+                <Param name="ZgwBesluitType" sessionKey="GetZgwBesluitTypeResult" type="DOMDOC"/>
+                <Forward name="success" path="RemoveNullNodes"/>
+            </XsltPipe>
+
+            <XsltPipe name="RemoveNullNodes" 
+                skipEmptyTags="true"
+                styleSheetName="Common/xsl/RemoveNullNodes.xslt" 
+                >
+                <Forward name="success" path="EXIT"/>
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>
