@@ -18,42 +18,39 @@
             </Exits>
 
 			<SenderPipe
+                name="CallGetZgwZaak"
+                storeResultInSessionKey="GetZaakResult">
+                <IbisLocalSender
+                    name="CallGetZgwZaakSender"
+                    javaListener="GetZgwZaak">
+                    <Param name="Identificatie" sessionKey="ZaakIdentificatie"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CallGetZgwBesluiten"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+			<SenderPipe
                 name="CallGetZgwBesluiten"
                 storeResultInSessionKey="GetZgwBesluitenResult">
                 <IbisLocalSender
                     name="CallZgwBesluitenSender"
                     javaListener="GetZgwBesluiten">
+                    <Param name="ZaakUrl" xpathExpression="ZgwZaken/ZgwZaak/url"/>
                 </IbisLocalSender>
-                <Forward name="success" path="MapHeeftRelevant"/>
+                <Forward name="success" path="ZgwBesluitenIterator"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XsltPipe
-                name="MapHeeftRelevant"
-                removeNamespaces="true"
-                skipEmptyTags="true"
-                styleSheetName="GeefLijstBesluiten_ZakLv01\xsl\ZdsHeeftRelevant.xsl"
-                >
-                <Forward name="success" path="RemoveNullNodes"/>
-            </XsltPipe>
-
-            <XsltPipe name="RemoveNullNodes" 
-                skipEmptyTags="true"
-                styleSheetName="Common/xsl/RemoveNullNodes.xslt" 
-                >
-                <Forward name="success" path="EXIT"/>
-            </XsltPipe>
-
-            <!-- <ForEachChildElementPipe name="ZgwBesluitenObjectenIterator"
-                elementXPathExpression="/ZgwZaakInformatieObjecten/ZgwZaakInformatieObject"
+            <ForEachChildElementPipe name="ZgwBesluitenIterator"
+                elementXPathExpression="/ZgwBesluiten/ZgwBesluit"
                 parallel="true">
                 <IbisLocalSender
-                    name="CallHandleZgwZaakInformatieObjecten"
-                    javaListener="HandleZgwZaakInformatieObjecten">
+                    name="CallHandleZgwBesluiten"
+                    javaListener="HandleZgwBesluiten">
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
-            </ForEachChildElementPipe> -->
+            </ForEachChildElementPipe>
         </Pipeline>
     </Adapter>
 </Module>
