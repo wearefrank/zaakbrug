@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:BG="http://www.egem.nl/StUF/StUF0301" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:BG="http://www.egem.nl/StUF/StUF0301" version="2.0">
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
     <xsl:param name="UnwrapMessageResult" as="node()?" />
    
@@ -92,9 +92,9 @@
                                         </xsl:otherwise>
                                     </xsl:choose>
                                 </ZKN:tijdvakGeldigheid>
-                                <xsl:if test="gerelateerde/tijdstipRegistratie">
-                                    <ZKN:tijdstipRegistratie><xsl:value-of select="gerelateerde/tijdstipRegistratie"/></ZKN:tijdstipRegistratie>
-                                </xsl:if>
+                                <ZKN:tijdstipRegistratie xmlns:ZKN="http://www.egem.nl/StUF/StUF0301">
+                                    <xsl:value-of select="format-dateTime(adjust-dateTime-to-timezone(current-dateTime(), xs:dayTimeDuration('PT1H')), '[Y0001][M01][D01]')" />
+                                </ZKN:tijdstipRegistratie>
                             </ZKN:gerelateerde>
                         </ZKN:leidtTot>
                     </xsl:for-each>
