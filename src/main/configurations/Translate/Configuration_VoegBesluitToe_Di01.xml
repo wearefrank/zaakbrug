@@ -17,6 +17,43 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
+            <!-- Get Zaak by using the zaak identificatie
+                Get Zaaktype in that zaak
+                Get BesluitTypen by zaaktype, burada bir de status parametresini de ekleyeceksin param'a
+                    - Eger result yoksa exception
+                    - Eger tek result varsa bir de Besluittype-omschrijving degeri verilmisse zds input mesajinda sonra bulunan besluittype'in omschrijving degeri ile gelen zds mesajinda saglanan
+                    Besluittype-omschrijving mesaji esit mi karsilastirilir. uymuyosa yine exception. Eger uyuyosa bu zaman muhabbetinin kontrolu yapilir.
+                    - Eger tek result olup gelen zds Besluittype-omschrijving degeri de yoksa, success ?????
+                    - Eger cok result varsa ve Besluittype-omschrijving yoksa zds mesajinda exception.
+                    - Eger cok result varsa, Besluittype-omschrijving varsa ona esit olan bulunur.
+            
+            
+                Catalog API'da olanlarla ilgili ne wsdl'de ne de zds spec'te bir sey yok sadece o api'a biseyler gonderim kayit yapmamiz gerekiyor besluittype zaaktype fln gibi-->
+            
+            <SenderPipe
+                name="CallGetZgwZaak"
+                getInputFromSessionKey="ZdsZaakDocumentInhoudDataRef">
+                <IbisLocalSender
+                    name="CallGetZgwZaakSender"
+                    javaListener="GetZgwZaak">
+                    <Param name="Identificatie" xpathExpression="object/isRelevantVoor/gerelateerde/identificatie"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForGetZgwZaakResult"/>
+                <Forward name="exception" path="UncaughtException" />
+            </SenderPipe>
+            
+            <SenderPipe
+                name="CallGetBesluitType"
+                storeResultInSessionKey="GetBesluitTypeResult">
+                <IbisLocalSender
+                    name="CallGetBesluitTypeSender"
+                    javaListener="GetBesluitTypeByUrl">
+                    <Param name="BesluitTypeUrl" xpathExpression="/zakLk01/object/isVan/gerelateerde/code"/>
+                </IbisLocalSender>
+                <Forward name="success" path="SetZgwZaakType"/>
+                <Forward name="exception" path="UncaughtException" />
+            </SenderPipe>
+
             <SenderPipe 
                 name="GetGlobalConfigFromLocalFS"
                 storeResultInSessionKey="GlobalConfig"
