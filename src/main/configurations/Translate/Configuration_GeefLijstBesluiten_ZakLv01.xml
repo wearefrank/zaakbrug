@@ -50,8 +50,7 @@
             </SenderPipe>
 
             <ForEachChildElementPipe name="ZgwBesluitenIterator"
-                elementXPathExpression="/ZgwBesluiten/ZgwBesluit"
-                parallel="true">
+                elementXPathExpression="/ZgwBesluiten/ZgwBesluit">
                 <IbisLocalSender
                     name="CallHandleZgwBesluiten"
                     javaListener="HandleZgwBesluiten">
