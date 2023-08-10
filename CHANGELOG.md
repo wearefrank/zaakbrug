@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.32](https://github.com/ibissource/zaakbrug/compare/v1.12.31...v1.12.32) (2023-08-10)
+
+
+### 🧑‍💻 Code Refactoring
+
+* add besluiten endpoint configuration ([#139](https://github.com/ibissource/zaakbrug/issues/139)) ([a6af85f](https://github.com/ibissource/zaakbrug/commit/a6af85fb86041e798f808cf2ae454e14d166417d))
+
 ## [1.12.31](https://github.com/ibissource/zaakbrug/compare/v1.12.30...v1.12.31) (2023-07-31)
 
 
