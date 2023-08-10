@@ -142,6 +142,10 @@ zaakbrug:
       rootUrl: "http://open-zaak/documenten/api/v1/"
       authType: jwt
       authAlias: zaken-api.jwt
+    besluitenApi:
+      rootUrl: "http://open-zaak/besluiten/api/v1/"
+      authType: jwt
+      authAlias: zaken-api.jwt
   globals:
     organizations:
       - gemeenteNaam: "Súdwest-Fryslân"
@@ -237,6 +241,8 @@ staging:
     rootUrl: http://zaakbrug-staging-nginx.zaakbrug/documenten/api/v1/
   catalogiApi:
     rootUrl: http://zaakbrug-staging-nginx.zaakbrug/catalogi/api/v1/
+  besluitenApi:
+    rootUrl: http://zaakbrug-staging-nginx.zaakbrug/besluiten/api/v1/
   extraEnvVars:
     - name: NOTIFICATIONS_DISABLED
       value: "yes"
