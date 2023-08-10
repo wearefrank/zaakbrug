@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.33](https://github.com/ibissource/zaakbrug/compare/v1.12.32...v1.12.33) (2023-08-10)
+
+
+### 🧑‍💻 Code Refactoring
+
+* moved gemeentecode to rsin logic to dedicated adapter ([#138](https://github.com/ibissource/zaakbrug/issues/138)) ([9c866c0](https://github.com/ibissource/zaakbrug/commit/9c866c0ecf2711b1859aa37ea6e1c79ee20f0788))
+
 ## [1.12.32](https://github.com/ibissource/zaakbrug/compare/v1.12.31...v1.12.32) (2023-08-10)
 
 
