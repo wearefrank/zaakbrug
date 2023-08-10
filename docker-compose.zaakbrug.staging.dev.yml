@@ -112,6 +112,7 @@ services:
       - zaakbrug.staging.zaken-api.root-url=http://zaakbrug.staging.nginx:9002/zaken/api/v1/
       - zaakbrug.staging.documenten-api.root-url=http://zaakbrug.staging.nginx:9002/documenten/api/v1/
       - zaakbrug.staging.catalogi-api.root-url=http://zaakbrug.staging.nginx:9002/catalogi/api/v1/
+      - zaakbrug.staging.besluiten-api.root-url=http://zaakbrug.staging.nginx:9002/besluiten/api/v1/
 
 volumes:
   zaakbrug-staging-db:
@@ -119,6 +120,5 @@ volumes:
   zaakbrug-staging-private-media:
 
 networks:
-  zaakbrug:
-    name: zaakbrug-stack
+  zaakbrug-stack:
   zaakbrug-backend:

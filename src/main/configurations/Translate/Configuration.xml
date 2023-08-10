@@ -18,6 +18,7 @@
   <!ENTITY GetResultatenByZaakUrl                         SYSTEM "./Configuration_GetResultatenByZaakUrl.xml">
   <!ENTITY GetRolByZaakUrlAndRolTypeUrl                   SYSTEM "./Configuration_GetRolByZaakUrlAndRolTypeUrl.xml">
   <!ENTITY GetRollenByBsn                                 SYSTEM "./Configuration_GetRollenByBsn.xml">
+  <!ENTITY GetRsinByGemeenteCode                        SYSTEM "./Configuration_GetRsinByGemeenteCode.xml">
   <!ENTITY Zaken_GetZgwStatusByZaakUrl                    SYSTEM "./Configuration_Zaken_GetZgwStatusByZaakUrl.xml">
   <!ENTITY GetStatusTypeByZaakTypeAndOmschrijving         SYSTEM "./Configuration_GetStatusTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetStatusTypes                                 SYSTEM "./Configuration_GetStatusTypes.xml">
@@ -53,8 +54,12 @@
   <!ENTITY PutZgwZaakDocument                             SYSTEM "./Configuration_PutZgwZaakDocument.xml">
   <!ENTITY SetResultaatAndStatus                          SYSTEM "./Configuration_SetResultaatAndStatus.xml">
   <!ENTITY SoapEndpointRouter_BeantwoordVraag             SYSTEM "./Configuration_SoapEndpointRouter_BeantwoordVraag.xml">
+  <!ENTITY SoapEndpointRouter_BeantwoordVraag_v2          SYSTEM "./Configuration_SoapEndpointRouter_BeantwoordVraag_v2.xml">
   <!ENTITY SoapEndpointRouter_OntvangAsynchroon           SYSTEM "./Configuration_SoapEndpointRouter_OntvangAsynchroon.xml">
+  <!ENTITY SoapEndpointRouter_OntvangAsynchroon_Mutatie_v2   SYSTEM "./Configuration_SoapEndpointRouter_OntvangAsynchroon_Mutatie_v2.xml">
+  <!ENTITY SoapEndpointRouter_OntvangAsynchroon_Overdragen_v2  SYSTEM "./Configuration_SoapEndpointRouter_OntvangAsynchroon_Overdragen_v2.xml">
   <!ENTITY SoapEndpointRouter_VrijeBerichten              SYSTEM "./Configuration_SoapEndpointRouter_VrijeBerichten.xml">
+  <!ENTITY SoapEndpointRouter_VrijeBerichten_v2           SYSTEM "./Configuration_SoapEndpointRouter_VrijeBerichten_v2.xml">
   <!ENTITY UpdateZaak_Lk01                                SYSTEM "./Configuration_UpdateZaak_LK01.xml">
   <!ENTITY UpdateZaakDocument_Di02                        SYSTEM "./Configuration_UpdateZaakDocument_Di02.xml">
   <!ENTITY VoegZaakdocumentToe_Lk01                       SYSTEM "./Configuration_VoegZaakdocumentToe_Lk01.xml">
@@ -83,6 +88,7 @@
   &GetResultatenByZaakUrl;
   &GetRolByZaakUrlAndRolTypeUrl;
   &GetRollenByBsn;
+  &GetRsinByGemeenteCode;
   &Zaken_GetZgwStatusByZaakUrl;
   &GetStatusTypeByZaakTypeAndOmschrijving;
   &GetStatusTypes;
@@ -118,8 +124,12 @@
   &PutZgwZaakDocument;
   &SetResultaatAndStatus;
   &SoapEndpointRouter_BeantwoordVraag;
+  &SoapEndpointRouter_BeantwoordVraag_v2;
   &SoapEndpointRouter_OntvangAsynchroon;
+  &SoapEndpointRouter_OntvangAsynchroon_Mutatie_v2;
+  &SoapEndpointRouter_OntvangAsynchroon_Overdragen_v2;
   &SoapEndpointRouter_VrijeBerichten;
+  &SoapEndpointRouter_VrijeBerichten_v2;
   &UpdateZaak_Lk01;
   &UpdateZaakDocument_Di02;
   &VoegZaakdocumentToe_Lk01;

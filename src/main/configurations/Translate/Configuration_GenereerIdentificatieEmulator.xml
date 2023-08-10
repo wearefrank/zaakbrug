@@ -50,6 +50,7 @@
                 <Param name="IdentificatieType" sessionKey="IdentificatieType"/>
                 <Param name="zaak-identificatie-template" value="${zaakbrug.zgw.zaak-identificatie-template}"/>
                 <Param name="document-identificatie-template" value="${zaakbrug.zgw.document-identificatie-template}"/>
+                <Param name="besluit-identificatie-template" value="${zaakbrug.zgw.besluit-identificatie-template}"/>
             </XsltPipe>
             
             <SenderPipe name="UpdateIdentificatie">

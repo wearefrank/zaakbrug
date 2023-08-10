@@ -191,6 +191,7 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: nginx
+          command: [ "/bin/bash", "-c", "nginx -g 'daemon off;'" ]
           securityContext:
             {{- toYaml .Values.staging.apiProxy.securityContext | nindent 12 }}
           image: "{{ .Values.staging.apiProxy.image.repository }}:{{ .Values.staging.apiProxy.image.tag }}"
@@ -206,11 +207,19 @@ spec:
             {{- toYaml .Values.staging.apiProxy.resources | nindent 12 }}
           volumeMounts:
             - name: nginx-config
-              mountPath: /etc/nginx/conf.d/
+              mountPath: /etc/nginx/conf.d
+            {{- if .Values.staging.apiProxy.securityContext.readOnlyRootFilesystem }}
+            - mountPath: /tmp
+              name: tmpfs
+            {{- end }}
       volumes:
         - name: nginx-config
           configMap:
             name: {{ if .Values.staging.apiProxy.existingConfigmap }}{{ .Values.staging.apiProxy.existingConfigmap  }}{{- else }}{{ include "zaakbrug.nginxFullname" . }}{{- end }}
+        {{- if .Values.staging.apiProxy.securityContext.readOnlyRootFilesystem }}
+        - name: tmpfs
+          emptyDir: {}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

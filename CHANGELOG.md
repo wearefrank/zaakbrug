@@ -1,5 +1,76 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.33](https://github.com/ibissource/zaakbrug/compare/v1.12.32...v1.12.33) (2023-08-10)
+
+
+### 🧑‍💻 Code Refactoring
+
+* moved gemeentecode to rsin logic to dedicated adapter ([#138](https://github.com/ibissource/zaakbrug/issues/138)) ([9c866c0](https://github.com/ibissource/zaakbrug/commit/9c866c0ecf2711b1859aa37ea6e1c79ee20f0788))
+
+## [1.12.32](https://github.com/ibissource/zaakbrug/compare/v1.12.31...v1.12.32) (2023-08-10)
+
+
+### 🧑‍💻 Code Refactoring
+
+* add besluiten endpoint configuration ([#139](https://github.com/ibissource/zaakbrug/issues/139)) ([a6af85f](https://github.com/ibissource/zaakbrug/commit/a6af85fb86041e798f808cf2ae454e14d166417d))
+
+## [1.12.31](https://github.com/ibissource/zaakbrug/compare/v1.12.30...v1.12.31) (2023-07-31)
+
+
+### 🧑‍💻 Code Refactoring
+
+* scaffold zds 1.2 soap-endpoint OntvangAsynchroonMutatie v2 ([#136](https://github.com/ibissource/zaakbrug/issues/136)) ([e0a14f8](https://github.com/ibissource/zaakbrug/commit/e0a14f8a0b36799c32e31489e85e21b6dfd374a9))
+
+## [1.12.30](https://github.com/ibissource/zaakbrug/compare/v1.12.29...v1.12.30) (2023-07-28)
+
+
+### 🧑‍💻 Code Refactoring
+
+* scaffold zds 1.2 soap-endpoint BeantwoordVraag ([#134](https://github.com/ibissource/zaakbrug/issues/134)) ([efdcb33](https://github.com/ibissource/zaakbrug/commit/efdcb33a7494f32fd898e335c272aa2341c5fe3c))
+* scaffold zds 1.2 soap-endpoint OntvangAsynchroon_Overdragen_v2 ([#135](https://github.com/ibissource/zaakbrug/issues/135)) ([492ea99](https://github.com/ibissource/zaakbrug/commit/492ea994000bbe7bf1d467a583dfc430e07febc4))
+
+## [1.12.29](https://github.com/ibissource/zaakbrug/compare/v1.12.28...v1.12.29) (2023-07-27)
+
+
+### 🧑‍💻 Code Refactoring
+
+* implement zds 1.2 genereerBesluitIdentificatie_Di02 SOAP-action ([#133](https://github.com/ibissource/zaakbrug/issues/133)) ([d31f315](https://github.com/ibissource/zaakbrug/commit/d31f315f7ab3ddc6ca121d56e2b955c7816dcab3))
+
+## [1.12.28](https://github.com/ibissource/zaakbrug/compare/v1.12.27...v1.12.28) (2023-07-27)
+
+
+### 🐛 Bug Fixes
+
+* authorization token missing for GetZaakDocumentByUrl ([#132](https://github.com/ibissource/zaakbrug/issues/132)) ([4f9c780](https://github.com/ibissource/zaakbrug/commit/4f9c7800c1846091b6f2c23b0dd34599fc880a3c))
+
+## [1.12.27](https://github.com/ibissource/zaakbrug/compare/v1.12.26...v1.12.27) (2023-07-12)
+
+
+### 🐛 Bug Fixes
+
+* docker-compose network name correction due to changes in latest docker-compose version ([#131](https://github.com/ibissource/zaakbrug/issues/131)) ([a9806a2](https://github.com/ibissource/zaakbrug/commit/a9806a26c954017988ef0737d80207db1e6bdec0))
+
+## [1.12.26](https://github.com/ibissource/zaakbrug/compare/v1.12.25...v1.12.26) (2023-07-04)
+
+
+### 🐛 Bug Fixes
+
+* host header for apiProxy ([a0f0bac](https://github.com/ibissource/zaakbrug/commit/a0f0baca3f898124c14fc346c10c3a819dcf0a83))
+
+## [1.12.25](https://github.com/ibissource/zaakbrug/compare/v1.12.24...v1.12.25) (2023-07-04)
+
+
+### 🐛 Bug Fixes
+
+* make nginx able to run as non-root and on a read-only filesystem ([70f0690](https://github.com/ibissource/zaakbrug/commit/70f0690f767eb8e7adf1e044d9019ab474089a10))
+
+## [1.12.24](https://github.com/ibissource/zaakbrug/compare/v1.12.23...v1.12.24) (2023-07-03)
+
+
+### 🐛 Bug Fixes
+
+* nginxLabelSelectors ([0399aff](https://github.com/ibissource/zaakbrug/commit/0399affd0e86291573eb6cb8debf49e62295d166))
+
 ## [1.12.23](https://github.com/ibissource/zaakbrug/compare/v1.12.22...v1.12.23) (2023-07-03)
 
 
