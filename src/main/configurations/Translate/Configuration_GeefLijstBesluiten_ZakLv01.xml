@@ -15,6 +15,7 @@
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
+                <Exit name="TRANSLATIONERROR" state="ERROR" code="400"/>
             </Exits>
 
 			<SenderPipe
@@ -25,9 +26,16 @@
                     javaListener="GetZgwZaak">
                     <Param name="Identificatie" sessionKey="ZaakIdentificatie"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CallGetZgwBesluiten"/>
+                <Forward name="success" path="CheckForGetZgwZaakResult"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
+
+            <XmlIfPipe name="CheckForGetZgwZaakResult"
+                xpathExpression="count(ZgwZaken/ZgwZaak) = 1"
+            >
+                <Forward name="then" path="CallGetZgwBesluiten"/>
+                <Forward name="else" path="TRANSLATIONERROR"/>
+            </XmlIfPipe>
 
 			<SenderPipe
                 name="CallGetZgwBesluiten"
@@ -51,6 +59,7 @@
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
+            
         </Pipeline>
     </Adapter>
 </Module>

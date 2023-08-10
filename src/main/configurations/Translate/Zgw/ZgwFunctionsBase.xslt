@@ -1,4 +1,4 @@
-<xsl:stylesheet exclude-result-prefixes="xs xsl zgw" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://google.com/zgw" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" >
+<xsl:stylesheet exclude-result-prefixes="xs xsl zgw" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZDS="http://www.stufstandaarden.nl/koppelvlak/zds0120" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://google.com/zgw" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" >
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="yes" exclude-result-prefixes="xsi"/>
     <xsl:function name="zgw:toZgwDatetime" as="xs:dateTime">
         <xsl:param name="dateTimeStr" as="xs:string"/>
@@ -13,6 +13,14 @@
         <xsl:if test="string-length($dateStr) > 0">
             <xsl:value-of select="concat(substring($dateStr,1,4), '-', substring($dateStr,5,2), '-', substring($dateStr,7,2))"/>
         </xsl:if>
+    </xsl:function>
+
+    <xsl:function name="zgw:toZdsDate">
+        <xsl:param name="dateStr"/>
+        <xsl:choose>
+            <xsl:when test="string-length($dateStr) > 0"><xsl:value-of select="concat(substring($dateStr,1,4), substring($dateStr,6,2), substring($dateStr,9,2))"/></xsl:when>
+            <xsl:otherwise/>
+        </xsl:choose>
     </xsl:function>
 
     <xsl:function name="zgw:toZgwDocumentStatus">
@@ -76,6 +84,18 @@
                 <xsl:element name="{$elementName}" />
             </xsl:when>
             <xsl:otherwise/>
+        </xsl:choose>
+    </xsl:function>
+
+    <xsl:function name="zgw:IsNullOrEmpty" as="xs:string">
+        <xsl:param name="value" />
+        <xsl:choose>
+            <xsl:when test="$value/@nil = 'true' or $value/@xsi:nil = 'true'">
+                <xsl:sequence select="'null'" />
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:sequence select="'empty'" />
+            </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
 

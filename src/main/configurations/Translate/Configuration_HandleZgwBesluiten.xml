@@ -27,21 +27,13 @@
 
             <XsltPipe
                 name="MapLeidtTot"
-                removeNamespaces="true"
                 getInputFromSessionKey="originalMessage"
-                skipEmptyTags="true"
-                styleSheetName="GeefLijstBesluiten_ZakLv01\xsl\ZdsLeidtTot.xsl"
+                styleSheetName="Zgw/Besluiten/Model/ZdsLeidtTot.xslt"
                 >
                 <Param name="ZgwBesluitType" sessionKey="GetZgwBesluitTypeResult" type="DOMDOC"/>
-                <Forward name="success" path="RemoveNullNodes"/>
-            </XsltPipe>
-
-            <XsltPipe name="RemoveNullNodes" 
-                skipEmptyTags="true"
-                styleSheetName="Common/xsl/RemoveNullNodes.xslt" 
-                >
                 <Forward name="success" path="EXIT"/>
             </XsltPipe>
+
         </Pipeline>
     </Adapter>
 </Module>

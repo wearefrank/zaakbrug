@@ -66,12 +66,13 @@
                 </IbisLocalSender>
                 <Forward name="success" path="WrapZakLa01Response" />
                 <Forward name="exception" path="BackEndError" />
+                <Forward name="400" path="TranslationError" />
             </SenderPipe>
             
             <!-- SoapWrapperPipes -->
             <SoapWrapperPipe
                 name="WrapZakLa01Response"
-                soapBodyStyleSheet="Common/xsl/CreatebesluitenResponse.xslt"
+                soapBodyStyleSheet="Zgw/Besluiten/Model/CreatebesluitenResponse.xslt"
                 >
                 <Param name="UnwrapMessageResult"   sessionKey="UnwrapMessageResult" type="DOMDOC"/>
                 <Forward name="success" path="EXIT"/>
@@ -96,10 +97,16 @@
                 <Param name="errorReason" value="XML was invalid"/>
                 <Forward name="success" path="WrapFo03Response" />
             </PutInSessionPipe>
+            
+            <PutInSessionPipe name="TranslationError">
+                <Param name="errorCode" value="TranslationError"/>
+                <Param name="errorReason" value="Unable to translate XML"/>
+                <Forward name="success" path="WrapFo03Response" />
+            </PutInSessionPipe>
 
             <PutInSessionPipe name="NotWellFormed">
                 <Param name="errorCode" value="NOT_WELL_FORMED_XML"/>
-                <Param name="errorReason" value="XML was not according to xsd"/>                
+                <Param name="errorReason" value="XML was not according to xsd"/>
                 <Forward name="success" path="WrapFo03Response"/>
             </PutInSessionPipe>
 
