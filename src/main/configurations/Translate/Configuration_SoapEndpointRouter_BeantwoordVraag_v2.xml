@@ -72,7 +72,7 @@
             <!-- SoapWrapperPipes -->
             <SoapWrapperPipe
                 name="WrapZakLa01Response"
-                soapBodyStyleSheet="Zgw/Besluiten/Model/CreatebesluitenResponse.xslt"
+                soapBodyStyleSheet="Zgw/Besluiten/Model/CreateGeefLijstBesluiten_ZakLa01Response.xslt"
                 >
                 <Param name="UnwrapMessageResult"   sessionKey="UnwrapMessageResult" type="DOMDOC"/>
                 <Forward name="success" path="EXIT"/>
