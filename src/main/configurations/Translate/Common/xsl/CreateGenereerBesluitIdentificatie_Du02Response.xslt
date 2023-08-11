@@ -21,9 +21,9 @@
                 <StUF:crossRefnummer><xsl:value-of select="$UnwrapMessageResult/*/stuurgegevens/referentienummer"/></StUF:crossRefnummer>
                 <StUF:functie>genereerBesluitidentificatie</StUF:functie>
             </ZDS:stuurgegevens>
-            <ZKN:besluit StUF:entiteittype="BSL" StUF:functie="entiteit">
+            <ZDS:besluit StUF:entiteittype="BSL" StUF:functie="entiteit">
                 <ZKN:identificatie xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310"><xsl:value-of select="$Identificatie"/></ZKN:identificatie>
-            </ZKN:besluit>
+            </ZDS:besluit>
         </ZDS:genereerBesluitIdentificatie_Du02>
 	</xsl:template>
 </xsl:stylesheet>
