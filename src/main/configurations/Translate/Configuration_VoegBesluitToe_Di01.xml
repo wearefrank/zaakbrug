@@ -1,254 +1,258 @@
-<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="VoegBesluitToe_Di01"
         active="${VoegBesluitToe_Di01.Active}"
         description="">
 
         <Receiver name="VoegBesluitToe_Di01">
-            <JavaListener name="VoegBesluitToe_Di01"/>
+            <JavaListener name="VoegBesluitToe_Di01" />
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
                 datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/voegBesluitToe"/>
+                slotId="${instance.name}/voegBesluitToe" />
         </Receiver>
 
         <Pipeline>
             <Exits>
-                <Exit name="EXIT" state="SUCCESS"/>
-                <Exit name="EXCEPTION" state="ERROR"/>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <!-- Get Zaak by using the zaak identificatie
-                Get Zaaktype in that zaak
-                Get BesluitTypen by zaaktype, burada bir de status parametresini de ekleyeceksin param'a
-                    - Eger result yoksa exception
-                    - Eger tek result varsa bir de Besluittype-omschrijving degeri verilmisse zds input mesajinda sonra bulunan besluittype'in omschrijving degeri ile gelen zds mesajinda saglanan
-                    Besluittype-omschrijving mesaji esit mi karsilastirilir. uymuyosa yine exception. Eger uyuyosa bu zaman muhabbetinin kontrolu yapilir.
-                    - Eger tek result olup gelen zds Besluittype-omschrijving degeri de yoksa, success ?????
-                    - Eger cok result varsa ve Besluittype-omschrijving yoksa zds mesajinda exception.
-                    - Eger cok result varsa, Besluittype-omschrijving varsa ona esit olan bulunur.
-            
-            
-                Catalog API'da olanlarla ilgili ne wsdl'de ne de zds spec'te bir sey yok sadece o api'a biseyler gonderim kayit yapmamiz gerekiyor besluittype zaaktype fln gibi-->
-            
+            <!-- Check if BesluitType Omschrijving is provided -->
+            <XmlIfPipe 
+                name="CheckIfInputMessageHasBesluitTypeOmschriving"
+                xpathExpression="string-length(/voegBesluitToe_Di01/object/besluit/bst.omschrijving) > 0">
+                <Forward name="then" path="StoreBesluitTypeOmschriving" />
+                <Forward name="else" path="No_BesluitType_Omschrijving_Exception" />
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="No_BesluitType_Omschrijving_Exception"
+                styleSheetName="Common/xsl/BuildError.xsl">
+                <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError,
+                TranslationError, ConfigurationError-->
+                <Param name="reason"
+                    pattern="No Besluit Type Omschrijving found in the input message."
+                    ignoreUnresolvablePatternElements="true" />
+                <!-- <Param name="details" sessionKey="" /> -->
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="error" path="EXCEPTION" />
+            </XsltPipe>
+
+            <PutInSessionPipe
+                name="StoreBesluitTypeOmschriving">
+                <Param name="BesluitTypeOmschrijving"
+                    xpathExpression="/voegBesluitToe_Di01/object/besluit/bst.omschrijving" />
+                <Forward name="success" path="CallGetZgwZaak" />
+            </PutInSessionPipe>
+
+            <!-- Retrieve zgwZaak -->
             <SenderPipe
-                name="CallGetZgwZaak"
-                getInputFromSessionKey="ZdsZaakDocumentInhoudDataRef">
+                name="CallGetZgwZaak">
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
                     javaListener="GetZgwZaak">
-                    <Param name="Identificatie" xpathExpression="object/isRelevantVoor/gerelateerde/identificatie"/>
+                    <Param name="Identificatie"
+                        xpathExpression="/voegBesluitToe_Di01/object/zaak/identificatie" />
                 </IbisLocalSender>
-                <Forward name="success" path="CheckForGetZgwZaakResult"/>
-                <Forward name="exception" path="UncaughtException" />
-            </SenderPipe>
-            
-            <SenderPipe
-                name="CallGetBesluitType"
-                storeResultInSessionKey="GetBesluitTypeResult">
-                <IbisLocalSender
-                    name="CallGetBesluitTypeSender"
-                    javaListener="GetBesluitTypeByUrl">
-                    <Param name="BesluitTypeUrl" xpathExpression="/zakLk01/object/isVan/gerelateerde/code"/>
-                </IbisLocalSender>
-                <Forward name="success" path="SetZgwZaakType"/>
+                <Forward name="success" path="CheckForGetZgwZaakResult" />
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
 
-            <SenderPipe 
+            <XmlIfPipe name="CheckForGetZgwZaakResult"
+                xpathExpression="string-length(ZgwZaken) > 0"
+            >
+                <Forward name="then" path="GetSingleZgwZaakFromZgwZakenList" />
+                <Forward name="else" path="UncaughtException" />
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="GetSingleZgwZaakFromZgwZakenList"
+                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
+            >
+                <Forward name="success" path="StoreZgwZaak" />
+                <Forward name="error" path="UncaughtException" />
+            </XsltPipe>
+
+            <!-- Retrieve and Store zgwZaakUrl and zgwZaaktypeUrl -->
+            <PutInSessionPipe
+                name="StoreZgwZaak">
+                <Param name="ZgwZaakUrl" xpathExpression="/ZgwZaak/url" />
+                <Param name="ZgwZaakTypeUrl" xpathExpression="/ZgwZaak/zaaktype" />
+                <Forward name="success" path="CallGetBesluitTypen" />
+            </PutInSessionPipe>
+
+            <!-- Retrieve BesluitType -->
+            <SenderPipe
+                name="CallGetBesluitTypen"
+                storeResultInSessionKey="GetBesluitTypenByZaakTypeResult">
+                <IbisLocalSender
+                    name="CallGetBesluitTypenSender"
+                    javaListener="GetBesluitTypenByZaakType">
+                    <Param name="ZgwZaakTypeUrl" sessionKey="ZgwZaakTypeUrl" />
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForGetBesluitTypenByZaakTypeResult" />
+                <Forward name="exception" path="UncaughtException" />
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForGetBesluitTypenByZaakTypeResult"
+                xpathExpression="count(/ZgwBesluitTypen/ZgwBesluitType) > 0"
+            >
+                <Forward name="then" path="GetBesluitTypeMatchingOmschrijvingFromList" />
+                <Forward name="else" path="No_BesluitType_By_Zaak_Exception" />
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="No_BesluitType_By_Zaak_Exception"
+                styleSheetName="Common/xsl/BuildError.xsl">
+                <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError,
+                TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="No Besluit Type found by Zaak."
+                    ignoreUnresolvablePatternElements="true" />
+                <!-- <Param name="details" sessionKey="" /> -->
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="error" path="EXCEPTION" />
+            </XsltPipe>
+
+            <XsltPipe
+                name="GetBesluitTypeMatchingOmschrijvingFromList"
+                styleSheetName="Common/xsl/GetElementsFromList.xslt"
+                getInputFromSessionKey="GetBesluitTypenByZaakTypeResult"
+                storeResultInSessionKey="GetBesluitTypeMatchingOmschrijving"
+            >
+                <Param name="Where" value="omschrijving" />
+                <Param name="StartsWith" sessionKey="BesluitTypeOmschrijving"/>
+                <Forward name="success" path="CheckForBesluitTypeResultFilteredByOmschrijving" />
+                <Forward name="error" path="UncaughtException" />
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForBesluitTypeResultFilteredByOmschrijving"
+                xpathExpression="count(/ZgwBesluitTypen/ZgwBesluitType) > 0">
+                <Forward name="then" path="SetBesluitType" />
+                <Forward name="else" path="No_BesluitType_With_This_Omschrijving_Exception" />
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="No_BesluitType_With_This_Omschrijving_Exception"
+                getInputFromSessionKey="originalMessage"
+                styleSheetName="Common/xsl/BuildError.xsl">
+                <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError,
+                TranslationError, ConfigurationError-->
+                <Param name="reason"
+                    pattern="No Besluit Type found with this BesluitType Omschriving value: {BesluitTypeOmschrijving}"
+                    ignoreUnresolvablePatternElements="true" />
+                <!-- <Param name="details" sessionKey="" /> -->
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="error" path="EXCEPTION" />
+            </XsltPipe>
+            
+            <XsltPipe
+                name="SetBesluitType"
+                styleSheetName="VoegBesluitToe_Di01/xsl/FilterBesluitTypenForGeldigheid.xslt"
+                getInputFromSessionKey="GetBesluitTypeMatchingOmschrijving"
+                storeResultInSessionKey="GetBesluitTypeResult"
+                >
+                <Forward name="success" path="CheckForFilteredBesluitTypeResult"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForFilteredBesluitTypeResult"
+                xpathExpression="count(/ZgwBesluitTypen/ZgwBesluitType) = 1">
+                <Forward name="then" path="GetSingleBesluitTypeFromList" />
+                <Forward name="else" path="No_Valid_BesluitType_Exception" />
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="No_Valid_BesluitType_Exception"
+                getInputFromSessionKey="originalMessage"
+                styleSheetName="Common/xsl/BuildError.xsl">
+                <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError,
+                TranslationError, ConfigurationError-->
+                <Param name="reason"
+                    pattern="No or not unique Besluit Type found"
+                    ignoreUnresolvablePatternElements="true" />
+                <!-- <Param name="details" sessionKey="" /> -->
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="error" path="EXCEPTION" />
+            </XsltPipe>
+
+            <XsltPipe
+                name="GetSingleBesluitTypeFromList"
+                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
+                getInputFromSessionKey="GetBesluitTypeResult"
+            >
+                <Forward name="success" path="StoreZgwBesluitTypeUrl" />
+                <Forward name="error" path="UncaughtException" />
+            </XsltPipe>
+
+            <PutInSessionPipe
+                name="StoreZgwBesluitTypeUrl">
+                <Param name="ZgwBesluitType" xpathExpression="/ZgwBesluitType/url" />
+                <Forward name="success" path="GetGlobalConfigFromLocalFS" />
+            </PutInSessionPipe>
+
+            <!-- End of Retrieve BesluitType-->
+
+            <!-- Get Rsin -->
+            <SenderPipe
                 name="GetGlobalConfigFromLocalFS"
                 storeResultInSessionKey="GlobalConfig"
-                >
+            >
                 <IbisLocalSender
                     name="CallImportFromLocalFS"
                     javaListener="ImportFromLocalFS"
-                    >
-                    <Param name="FileName" value="${FilePath_1}" />                   
+                >
+                    <Param name="FileName" value="${FilePath_1}" />
                 </IbisLocalSender>
-                <Forward name="success" path="CallGetRsin"/>
+                <Forward name="success" path="CallGetRsin" />
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
 
-            <SenderPipe 
+            <SenderPipe
                 name="CallGetRsin"
                 storeResultInSessionKey="Rsin">
                 <IbisLocalSender
                     name="CallGetRsinSender"
                     javaListener="GetRsinByGemeenteCode">
-                    <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
+                    <Param name="GemeenteCode" sessionKey="originalMessage"
+                        xpathExpression="/*/stuurgegevens/zender/organisatie" />
                 </IbisLocalSender>
-                <Forward name="success" path="StoreTaal"/>
-                <Forward name="exception" path="UncaughtException"/>
-            </SenderPipe>
-
-            <PutInSessionPipe 
-                name="StoreTaal"
-                getInputFromSessionKey="ZdsZaakDocumentInhoudDataRef"
-                >
-                <Param name="Taal" xpathExpression="object/taal"/>            
-                <Forward name="success" path="CheckForTaalLength"/>
-            </PutInSessionPipe>
-
-            <XmlSwitchPipe 
-                name="CheckForTaalLength"
-                xpathExpression="3 > string-length($Taal)"
-                >
-                <Param name="Taal" sessionKey="Taal" />
-                <Forward name="true" path="ConvertISO639TaalSender" />
-                <Forward name="false" path="MapZgwEnkelvoudigInformatieObject" />
-                <Forward name="error" path="UncaughtException" />
-            </XmlSwitchPipe>
-
-            <SenderPipe 
-                name="ConvertISO639TaalSender"
-                storeResultInSessionKey="Taal"
-                >
-                <IbisLocalSender
-                    name="ConvertISO639TaalLocalSender"
-                    javaListener="ConvertISO639Taal">
-                    <Param name="Alpha2" sessionKey="Taal" />                   
-                </IbisLocalSender>
-                <Forward name="success" path="MapZgwEnkelvoudigInformatieObject"/>
+                <Forward name="success" path="CreateBesluitBody" />
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
 
             <XsltPipe
-                name="MapZgwEnkelvoudigInformatieObject"
-                getInputFromFixedValue="&lt;dummy/&gt;"
-                styleSheetName="Zgw/Documenten/Model/ZgwEnkelvoudigInformatieObject.xslt"
-                storeResultInSessionKey="ZgwEnkelvoudigInformatieObject"
+                name="CreateBesluitBody"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="BesluitBody"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="Zgw/Besluiten/Model/ZgwBesluit.xslt"
                 >
-                <Param name="ZdsZaakDocumentInhoud" sessionKey="ZdsZaakDocumentInhoudDataRef" type="DOMDOC"/>
-                <Param name="ZgwInformatieObjectType" sessionKey="ZgwInformatieObjectType" type="DOMDOC"/>
-                <Param name="Bronorganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
-                <Param name="IndicatieGebruiksrecht" value="false" />
-                <Param name="Taal" sessionKey="Taal" />
-                <Forward name="success" path="PostZgwEnkelvoudigInformatieObjectSender"/>
-                <Forward name="error" path="UncaughtException"/>
-            </XsltPipe>
-            <SenderPipe
-                name="PostZgwEnkelvoudigInformatieObjectSender"
-                storeResultInSessionKey="PostZgwEnkelvoudigInformatieObject"
-                >
-                <IbisLocalSender
-                    name="PostZgwEnkelvoudigInformatieObjectLocalSender"
-                    javaListener="Documenten_PostZgwEnkelvoudigInformatieObject">
-                    <Param name="inhoud" sessionKey="ref_inhoud" />
-                </IbisLocalSender>
-                <Forward name="success" path="EnrichZgwEnkelvoudigInformatieObject"/>
-                <Forward name="exception" path="UncaughtException" />
-            </SenderPipe>
-
-            <XsltPipe
-                name="EnrichZgwEnkelvoudigInformatieObject"
-                getInputFromSessionKey="ZgwEnkelvoudigInformatieObject"
-                styleSheetName="Zgw/Documenten/Model/ZgwEnkelvoudigInformatieObject.xslt"
-                storeResultInSessionKey="ZgwEnkelvoudigInformatieObject"
-                >
-                <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="PostZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
-                <Forward name="success" path="MapZgwZaakInformatieObject"/>
-                <Forward name="error" path="UncaughtException"/>
-            </XsltPipe>
-
-            <XsltPipe
-                name="MapZgwZaakInformatieObject"
-                getInputFromFixedValue="&lt;dummy/&gt;"
-                styleSheetName="Zgw/Zaken/Model/ZgwZaakInformatieObject.xslt"
-                storeResultInSessionKey="ZgwZaakInformatieObject"
-                >
-                <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
-                <Param name="Zaak" xpathExpression="$Zaak/ZgwZaak/url">
-                    <Param name="Zaak" sessionKey="ZgwZaak" type="DOMDOC"/>
-                </Param>
-                <Forward name="success" path="PostZgwZaakInformatieObjectSender"/>
-                <Forward name="error" path="UncaughtException"/>
-            </XsltPipe>
-
-            <SenderPipe 
-                name="PostZgwZaakInformatieObjectSender"
-                storeResultInSessionKey="PostZgwZaakInformatieObject"
-                >
-                <IbisLocalSender
-                    name="PostZgwZaakInformatieObjectLocalSender"
-                    javaListener="Zaken_PostZgwZaakInformatieObject">                
-                </IbisLocalSender>
-                <Forward name="success" path="EnrichZgwZaakInformatieObject"/>
-                <Forward name="exception" path="UncaughtException" />
-            </SenderPipe>
-
-            <XsltPipe
-                name="EnrichZgwZaakInformatieObject"
-                getInputFromSessionKey="ZgwZaakInformatieObject"
-                styleSheetName="Zgw/Zaken/Model/ZgwZaakInformatieObject.xslt"
-                storeResultInSessionKey="ZgwZaakInformatieObject"
-                >
-                <Param name="ZgwZaakInformatieObject" sessionKey="PostZgwZaakInformatieObject" type="DOMDOC"/>
-                <Forward name="success" path="GetZgwStatusTypeByZaakTypeAndOmschrijvingSender"/>
-                <Forward name="error" path="UncaughtException"/>
+                <Param name="VerantwoordelijkeOrganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
+                <Param name="Besluittype" sessionKey="ZgwBesluitType"/>
+                <Param name="Zaak" sessionKey="ZgwZaakUrl"/>
+                <Param name="ZdsBesluit" xpathExpression="/voegBesluitToe_Di01/object/besluit[@entiteittype='BSL']"></Param>
+                <Param name="ZdsZaak" xpathExpression="/voegBesluitToe_Di01/object/zaak[@entiteittype='ZAK']"></Param>
+                <Forward name="success" path="CallPostBesluit"/>
             </XsltPipe>
 
             <SenderPipe
-                name="GetZgwStatusTypeByZaakTypeAndOmschrijvingSender"
-                getInputFromSessionKey="ZdsZaakDocumentInhoudDataRef"
-                storeResultInSessionKey="ZgwStatusType">
+                name="CallPostBesluit">
                 <IbisLocalSender
-                    name="GetZgwStatusTypeByZaakTypeAndOmschrijvingLocalSender"
-                    javaListener="GetStatusTypeByZaakTypeAndOmschrijving">
-                    <Param name="ZaakTypeUrl" xpathExpression="$ZgwZaakType/ZgwZaakType/url">
-                        <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
-                    </Param>
-                    <Param name="Omschrijving" xpathExpression="object/isRelevantVoor/stt.omschrijving"/>
-                    <Param name="Volgnummer" xpathExpression="object/isRelevantVoor/stt.volgnummer"/>
-                </IbisLocalSender>
-                <Forward name="success" path="CheckForZgwStatusTypeResult"/>
-                <Forward name="exception" path="UncaughtException" />
-            </SenderPipe>
-
-            <XmlIfPipe name="CheckForZgwStatusTypeResult"
-                xpathExpression="count(*/ZgwStatusType) = 1"
-                >
-                <Forward name="then" path="GetSingleZgwStatusTypeFromList"/>
-                <Forward name="else" path="EXIT"/>
-            </XmlIfPipe>
-
-            <XsltPipe
-                name="GetSingleZgwStatusTypeFromList"
-                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
-                storeResultInSessionKey="ZgwStatusType"
-                >
-                <Forward name="success" path="CreateStatusBody"/>
-                <Forward name="error" path="UncaughtException"/>
-            </XsltPipe>
-
-            <XsltPipe
-                name="CreateStatusBody"
-                getInputFromSessionKey="ZdsZaakDocumentInhoudDataRef"
-                styleSheetName="Zgw/Zaken/Model/ZgwStatus.xslt"
-                >
-                <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
-                <Param name="ZgwStatusType" sessionKey="ZgwStatusType" type="DOMDOC"/>
-                <Param name="ZdsStatusDatum" xpathExpression="concat(object/isRelevantVoor/sta.datumStatusGezet,'000000')"/>
-                <Forward name="success" path="PostZgwStatusSender"/>
-            </XsltPipe>
-
-            <SenderPipe
-                name="PostZgwStatusSender"
-                storeResultInSessionKey="ZgwStatus"
-                >
-                <IbisLocalSender
-                    name="PostZgwStatusLocalSender"
-                    javaListener="Zaken_PostZgwStatus"
-                    >
+                    name="CallPostBesluitSender"
+                    javaListener="PostZgwBesluitAdapter">
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="UncaughtException" />
-            </SenderPipe>
+            </SenderPipe> 
 
-            <XsltPipe 
+            <XsltPipe
                 name="UncaughtException"
                 emptyInputReplacement="&lt;EmptyInput/&gt;"
                 styleSheetName="Common/xsl/BuildError.xsl">
-                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
-                <Param name="reason" pattern="Uncaught exception" /> 
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError,
+                TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Uncaught exception" />
                 <!-- <Param name="details" sessionKey="" /> -->
                 <Param name="detailsXml" type="DOMDOC" />
                 <Forward name="success" path="EXCEPTION" />
