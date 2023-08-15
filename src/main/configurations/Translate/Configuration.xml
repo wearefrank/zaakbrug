@@ -14,6 +14,7 @@
   <!ENTITY GeefZaakdocumentLezen_Lv01                     SYSTEM "./Configuration_GeefZaakdocumentLezen_Lv01.xml">
   <!ENTITY GenereerIdentificatieEmulator                  SYSTEM "./Configuration_GenereerIdentificatieEmulator.xml">
   <!ENTITY GetBas64Inhoud                                 SYSTEM "./Configuration_GetBas64Inhoud.xml">
+  <!ENTITY GetBesluitTypenByZaakType                       SYSTEM "./Configuration_GetBesluitTypenByZaakType.xml">
   <!ENTITY GetResultaatTypeByZaakTypeAndOmschrijving      SYSTEM "./Configuration_GetResultaatTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetResultatenByZaakUrl                         SYSTEM "./Configuration_GetResultatenByZaakUrl.xml">
   <!ENTITY GetRolByZaakUrlAndRolTypeUrl                   SYSTEM "./Configuration_GetRolByZaakUrlAndRolTypeUrl.xml">
@@ -46,6 +47,7 @@
   <!ENTITY MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken   SYSTEM "./Configuration_MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken.xml">
   <!ENTITY MapZdsRolFromZgwRol                            SYSTEM "./Configuration_MapZdsRolFromZgwRol.xml">
   <!ENTITY PatchRelevanteAndereZaak                       SYSTEM "./Configuration_PatchRelevanteAndereZaak.xml">
+  <!ENTITY PostZgwBesluit                                 SYSTEM "./Configuration_PostZgwBesluit.xml">
   <!ENTITY PostResultaat                                  SYSTEM "./Configuration_PostResultaat.xml">
   <!ENTITY Zaken_PostZgwRol                               SYSTEM "./Configuration_Zaken_PostZgwRol.xml">
   <!ENTITY Zaken_PostZgwStatus                            SYSTEM "./Configuration_Zaken_PostZgwStatus.xml">
@@ -85,6 +87,7 @@
   &GeefZaakdocumentLezen_Lv01;
   &GenereerIdentificatieEmulator;
   &GetBas64Inhoud;
+  &GetBesluitTypenByZaakType;
   &GetResultaatTypeByZaakTypeAndOmschrijving;
   &GetResultatenByZaakUrl;
   &GetRolByZaakUrlAndRolTypeUrl;
@@ -117,6 +120,7 @@
   &MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken;
   &MapZdsRolFromZgwRol;
   &PatchRelevanteAndereZaak;
+  &PostZgwBesluit;
   &PostResultaat;
   &Zaken_PostZgwRol;
   &Zaken_PostZgwStatus;
