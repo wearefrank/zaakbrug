@@ -92,6 +92,12 @@ data:
   zaakbrug.zgw.documenten-api.auth-type: {{ .authType }}
   zaakbrug.zgw.documenten-api.auth-alias: {{ .authAlias }}
   {{- end }}
+  {{- with .besluitenApi }}
+  zaakbrug.zgw.besluiten-api.root-url: {{ .rootUrl }}
+  zaakbrug.zgw.besluiten-api.timeout: {{ toString (.timeout | default 20000 | quote) }}
+  zaakbrug.zgw.besluiten-api.auth-type: {{ .authType }}
+  zaakbrug.zgw.besluiten-api.auth-alias: {{ .authAlias }}
+  {{- end }}
   {{- with .catalogiApi }}
   zaakbrug.zgw.catalogi-api.root-url: {{ .rootUrl }}
   zaakbrug.zgw.catalogi-api.timeout: {{ toString (.timeout | default 20000 | quote) }}
@@ -102,6 +108,7 @@ data:
   {{- with .Values.staging }}
   zaakbrug.staging.zaken-api.root-url: {{ .zakenApi.rootUrl }}
   zaakbrug.staging.documenten-api.root-url: {{ .documentenApi.rootUrl }}
+  zaakbrug.staging.besluiten-api.root-url: {{ .besluitenApi.rootUrl }}
   zaakbrug.staging.catalogi-api.root-url: {{ .catalogiApi.rootUrl }}
   {{- end }}
 ---
