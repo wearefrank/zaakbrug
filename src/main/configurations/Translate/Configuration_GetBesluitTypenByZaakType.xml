@@ -1,0 +1,55 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="GetBesluitTypenByZaakType"
+        active="${GetBesluitTypenByZaakType.Active}"
+        description="">
+
+        <Receiver name="GetBesluitTypenByZaakType">
+            <JavaListener name="GetBesluitTypenByZaakType"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+			<SenderPipe name="GetZgwBesluitTypenByZaakTypeSender"
+                getInputFromFixedValue="&lt;dummy/&gt;">
+				<HttpSender 
+					name="GetZgwBesluitTypenByZaakTypeHttpSender" 
+					methodType="GET"
+					headersParams="Authorization"
+                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
+				/>
+                <Param name="url" value="${zaakbrug.zgw.catalogi-api.root-url}besluittypen"/>
+                <Param name="zaaktypen" sessionKey="ZgwZaakTypeUrl"/>
+                <Param name="status" value="definitief"/>
+                <Param name="Authorization" value="Bearer @@catalogi-api.jwt@@"/>
+                <Forward name="success" path="JsonToXml" />
+                <Forward name="exception" path="ErrorJsonToXml" />
+			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="GetBesluitTypenByZaakTypeSender" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
+
+            <JsonPipe name="JsonToXml">
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToSingle"/>
+            </JsonPipe>
+
+            <XsltPipe
+                name="UnwrapOpenZaakApiEnvelopeToSingle"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
+                >
+                <Param name="Type" value="ZgwBesluitType"/>
+                <Param name="List" value="ZgwBesluitTypen"/>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>
