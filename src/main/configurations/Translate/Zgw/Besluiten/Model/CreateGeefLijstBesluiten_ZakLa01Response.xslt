@@ -32,7 +32,7 @@
                             <ZKN:gerelateerde StUF:entiteittype="BSL">
                             <!--filter scope-->
                             <xsl:for-each select="gerelateerde/*">
-                                <xsl:if test="$UnwrapMessageResult/*/scope/object/leidtTot/gerelateerde/*[local-name() = local-name(current())]">
+                                <xsl:if test="$UnwrapMessageResult/*/scope/object/@scope = 'alles' or $UnwrapMessageResult/*/scope/object/leidtTot/gerelateerde/*[local-name() = local-name(current())]">
                                     <xsl:copy-of select="."/>
                                 </xsl:if>
                             </xsl:for-each>
