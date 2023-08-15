@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="ZgwBesluit">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="identificatie" type="zgwIdentificatie" minOccurs="0"/>
+                <xs:element name="verantwoordelijkeOrganisatie" type="zgwRsin"/>
+                <xs:element name="besluittype" type="zgwUri"/>
+                <xs:element name="zaak" type="zgwUri" minOccurs="0"/>
+                <xs:element name="datum" type="xs:date"/>
+                <xs:element name="toelichting" type="xs:string" minOccurs="0"/>
+                <xs:element name="bestuursorgaan" type="zgwBestuursorgaan" minOccurs="0"/>
+                <xs:element name="ingangsdatum" type="xs:date"/>
+                <xs:element name="vervaldatumdatum" type="xs:date" minOccurs="0"/>
+                <xs:element name="vervalreden" type="zgwVervalreden" minOccurs="0"/>
+                <xs:element name="publicatiedatum" type="xs:date" minOccurs="0"/>
+                <xs:element name="verzenddatum" type="xs:date" minOccurs="0"/>
+                <xs:element name="uiterlijkeReactiedatum" type="xs:date" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="zgwIdentificatie">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="40"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwRsin">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{9}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwUri">
+        <xs:restriction base="xs:anyURI">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1000"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwBestuursorgaan">
+        <xs:restriction base="xs:string">
+                <xs:maxLength value="50"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwVervalreden">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="tijdelijk"/>
+            <xs:enumeration value="ingetrokken_overheid"/>
+            <xs:enumeration value="ingetrokken_belanghebbende"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema> 
