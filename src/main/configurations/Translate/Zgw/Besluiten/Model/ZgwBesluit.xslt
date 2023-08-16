@@ -3,6 +3,8 @@
     <xsl:include href="../../ZgwFunctionsBase.xslt" />
         <!-- Map -->
     <xsl:param name="ZdsBesluit" as="node()"><ZdsBesluit/></xsl:param>
+    <xsl:param name="ZgwBesluitType" as="node()"><ZgwBesluitType/></xsl:param>
+    <xsl:param name="ZgwZaak" as="node()"><ZgwZaak/></xsl:param>
 
       <!-- Create/Enrich -->
     <xsl:param name="ZgwBesluit" as="node()"><ZgwBesluit/></xsl:param>
@@ -48,7 +50,7 @@
             <xsl:copy-of select="zgw:WrapNullOrSkip('zaak', 'empty', zgw:FromOrderedSource(
                     $Zaak,
                     $ZgwBesluit/ZgwBesluit/zaak,
-                    '', 
+                    $ZgwZaak/ZgwZaak/url, 
                     ZgwBesluit/zaak))"/>
             <xsl:copy-of select="zgw:WrapNullOrSkip('datum', 'null', zgw:FromOrderedSource(
                     $Datum,
