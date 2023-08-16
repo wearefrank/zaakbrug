@@ -558,6 +558,9 @@ public class Parameter implements IConfigurable, IWithParameters {
 					} else if(strResult.contains("@@catalogi-api.jwt@@")){
 						authType = appConstants.getProperty("zaakbrug.zgw.catalogi-api.auth-type", ""); // "jwt", "basic", "value"
 						authAlias = appConstants.getProperty("zaakbrug.zgw.catalogi-api.auth-alias", "");
+					} else if(strResult.contains("@@besluiten-api.jwt@@")){
+						authType = appConstants.getProperty("zaakbrug.zgw.besluiten-api.auth-type", ""); // "jwt", "basic", "value"
+						authAlias = appConstants.getProperty("zaakbrug.zgw.besluiten-api.auth-alias", "");	
 					} else {
 						throw new ParameterException("Parameter ["+getName()+"] unable to resolve ["+strResult+"] to a known api type");
 					}
