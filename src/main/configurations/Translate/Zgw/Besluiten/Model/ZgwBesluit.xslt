@@ -3,8 +3,9 @@
     <xsl:include href="../../ZgwFunctionsBase.xslt" />
         <!-- Map -->
     <xsl:param name="ZdsBesluit" as="node()"><ZdsBesluit/></xsl:param>
-    <xsl:param name="ZdsZaak" as="node()"><ZdsZaak/></xsl:param> 
-    <!-- We can remove ZdsZaak since we do not use it because it only has Zaak Identificatie Which is not needed on Zgw part -->
+
+      <!-- Create/Enrich -->
+    <xsl:param name="ZgwBesluit" as="node()"><ZgwBesluit/></xsl:param>
 
     <xsl:param name="Url" select="''" as="xs:string" />
     <xsl:param name="Identificatie" select="''" as="xs:string" />
@@ -26,77 +27,77 @@
         <ZgwBesluit>
             <xsl:copy-of select="zgw:WrapNullOrSkip('url', 'skip', zgw:FromOrderedSource(
                     $Url, 
-                    '', 
-                    '', 
-                    ''))"/>
+                    $ZgwBesluit/ZgwBesluit/url, 
+                    $ZdsBesluit/besluit/url, 
+                    ZgwBesluit/url))"/>
             <xsl:copy-of select="zgw:WrapNullOrSkip('identificatie', 'empty', zgw:FromOrderedSource(
-                    $Identificatie, 
-                    $ZdsBesluit/identificatie,
-                    '', 
-                    ''))"/>
+                    $Identificatie,
+                    $ZgwBesluit/ZgwBesluit/identificatie,
+                    $ZdsBesluit/besluit/identificatie, 
+                    ZgwBesluit/identificatie))"/>
             <xsl:copy-of select="zgw:WrapNullOrSkip('verantwoordelijkeOrganisatie', 'null', zgw:FromOrderedSource(
-                    $VerantwoordelijkeOrganisatie, 
+                    $VerantwoordelijkeOrganisatie,
+                    $ZgwBesluit/ZgwBesluit/verantwoordelijkeOrganisatie,
                     '', 
-                    '', 
-                    ''))"/>
+                    ZgwBesluit/verantwoordelijkeOrganisatie))"/>
             <xsl:copy-of select="zgw:WrapNullOrSkip('besluittype', 'null', zgw:FromOrderedSource(
-                    $Besluittype, 
+                    $Besluittype,
+                    $ZgwBesluit/ZgwBesluit/besluittype,
                     '', 
-                    '', 
-                    ''))"/>
+                    ZgwBesluit/besluittype))"/>
             <xsl:copy-of select="zgw:WrapNullOrSkip('zaak', 'empty', zgw:FromOrderedSource(
-                    $Zaak, 
-                    '',
+                    $Zaak,
+                    $ZgwBesluit/ZgwBesluit/zaak,
                     '', 
-                    ''))"/>
+                    ZgwBesluit/zaak))"/>
             <xsl:copy-of select="zgw:WrapNullOrSkip('datum', 'null', zgw:FromOrderedSource(
-                    $Datum, 
-                    $ZdsBesluit/datumBeslissing,
-                    '', 
-                    ''))"/>
+                    $Datum,
+                    $ZgwBesluit/ZgwBesluit/datum,
+                    zgw:toZgwDate($ZdsBesluit/besluit/datumBeslissing), 
+                    ZgwBesluit/datum))"/>
             <xsl:copy-of select="zgw:WrapNullOrSkip('toelichting', 'empty', zgw:FromOrderedSource(
-                    $Toelichting, 
-                    $ZdsBesluit/toelichting,
-                    '', 
-                    ''))"/>
+                    $Toelichting,
+                    $ZgwBesluit/ZgwBesluit/toelichting,
+                    $ZdsBesluit/besluit/toelichting, 
+                    ZgwBesluit/toelichting))"/>
 
                     <!-- There is no bestuursorgaan in ZDS side -->
             <xsl:copy-of select="zgw:WrapNullOrSkip('bestuursorgaan', 'empty', zgw:FromOrderedSource(
-                    $Bestuursorgaan, 
-                    '',
-                    '', 
-                    ''))"/>
+                    $Bestuursorgaan,
+                    $ZgwBesluit/ZgwBesluit/bestuursorgaan,
+                    $ZdsBesluit/besluit/bestuursorgaan, 
+                    ZgwBesluit/bestuursorgaan))"/>
 
             <xsl:copy-of select="zgw:WrapNullOrSkip('ingangsdatum', 'null', zgw:FromOrderedSource(
-                $Ingangsdatum, 
-                $ZdsBesluit/ingangsdatumWerking,
-                '', 
-                ''))"/>
+                    $Ingangsdatum,
+                    $ZgwBesluit/ZgwBesluit/ingangsdatum,
+                    zgw:toZgwDate($ZdsBesluit/besluit/ingangsdatumWerking), 
+                    ZgwBesluit/ingangsdatum))"/>
             <xsl:copy-of select="zgw:WrapNullOrSkip('vervaldatum', 'empty', zgw:FromOrderedSource(
-                $Vervaldatum, 
-                $ZdsBesluit/einddatumWerking,
-                '', 
-                ''))"/>
+                    $Vervaldatum,
+                    $ZgwBesluit/ZgwBesluit/vervaldatum,
+                    zgw:toZgwDate($ZdsBesluit/besluit/einddatumWerking), 
+                    ZgwBesluit/vervaldatum))"/>
             <xsl:copy-of select="zgw:WrapNullOrSkip('vervalreden', 'empty', zgw:FromOrderedSource(
-                $Vervalreden, 
-                $ZdsBesluit/vervalreden,
-                '', 
-                ''))"/>
+                    $Vervalreden,
+                    $ZgwBesluit/ZgwBesluit/vervalreden,
+                    $ZdsBesluit/besluit/vervalreden, 
+                    ZgwBesluit/vervalreden))"/>
             <xsl:copy-of select="zgw:WrapNullOrSkip('publicatiedatum', 'empty', zgw:FromOrderedSource(
-                $Publicatiedatum, 
-                $ZdsBesluit/datumPublicatie,
-                '', 
-                ''))"/>
+                    $Publicatiedatum,
+                    $ZgwBesluit/ZgwBesluit/publicatiedatum,
+                    zgw:toZgwDate($ZdsBesluit/besluit/datumPublicatie), 
+                    ZgwBesluit/publicatiedatum))"/>
             <xsl:copy-of select="zgw:WrapNullOrSkip('verzenddatum', 'empty', zgw:FromOrderedSource(
-                $Verzenddatum, 
-                $ZdsBesluit/datumVerzending,
-                '', 
-                ''))"/>
+                    $Verzenddatum, 
+                    $ZgwBesluit/ZgwBesluit/verzenddatum,
+                    zgw:toZgwDate($ZdsBesluit/besluit/datumVerzending),
+                    ZgwBesluit/publicatiedatum))"/>
             <xsl:copy-of select="zgw:WrapNullOrSkip('uiterlijkeReactiedatum', 'empty', zgw:FromOrderedSource(
-                $UiterlijkeReactiedatum, 
-                $ZdsBesluit/datumUiterlijkeReactie,
-                '', 
-                ''))"/>
+                    $UiterlijkeReactiedatum, 
+                    $ZgwBesluit/ZgwBesluit/uiterlijkeReactiedatum,
+                    zgw:toZgwDate($ZdsBesluit/besluit/datumUiterlijkeReactie),
+                    ZgwBesluit/publicatiedatum))"/>
         </ZgwBesluit>
     </xsl:template>
 </xsl:stylesheet>

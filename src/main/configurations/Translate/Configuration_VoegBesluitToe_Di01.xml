@@ -231,8 +231,7 @@
                 <Param name="VerantwoordelijkeOrganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
                 <Param name="Besluittype" sessionKey="ZgwBesluitType"/>
                 <Param name="Zaak" sessionKey="ZgwZaakUrl"/>
-                <Param name="ZdsBesluit" xpathExpression="/voegBesluitToe_Di01/object/besluit[@entiteittype='BSL']"></Param>
-                <Param name="ZdsZaak" xpathExpression="/voegBesluitToe_Di01/object/zaak[@entiteittype='ZAK']"></Param>
+                <Param name="ZdsBesluit" xpathExpression="/voegBesluitToe_Di01/object/besluit" type="DOMDOC"></Param>
                 <Forward name="success" path="CallPostBesluit"/>
             </XsltPipe>
 
