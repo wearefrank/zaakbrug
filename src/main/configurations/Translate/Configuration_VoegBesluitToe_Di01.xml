@@ -186,7 +186,7 @@
 
             <PutInSessionPipe
                 name="StoreZgwBesluitTypeUrl">
-                <Param name="ZgwBesluitType" xpathExpression="/ZgwBesluitType/url" />
+                <Param name="ZgwBesluitTypeUrl" xpathExpression="/ZgwBesluitType/url" />
                 <Forward name="success" path="GetGlobalConfigFromLocalFS" />
             </PutInSessionPipe>
 
@@ -229,7 +229,7 @@
                 styleSheetName="Zgw/Besluiten/Model/ZgwBesluit.xslt"
                 >
                 <Param name="VerantwoordelijkeOrganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
-                <Param name="Besluittype" sessionKey="ZgwBesluitType"/>
+                <Param name="Besluittype" sessionKey="ZgwBesluitTypeUrl"/>
                 <Param name="Zaak" sessionKey="ZgwZaakUrl"/>
                 <Param name="ZdsBesluit" xpathExpression="/voegBesluitToe_Di01/object/besluit" type="DOMDOC"></Param>
                 <Forward name="success" path="CallPostBesluit"/>
