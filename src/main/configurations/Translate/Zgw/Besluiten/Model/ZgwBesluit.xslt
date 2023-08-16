@@ -43,7 +43,7 @@
             <xsl:copy-of select="zgw:WrapNullOrSkip('besluittype', 'null', zgw:FromOrderedSource(
                     $Besluittype,
                     $ZgwBesluit/ZgwBesluit/besluittype,
-                    '', 
+                    $ZgwBesluitType/ZgwBesluitType/url, 
                     ZgwBesluit/besluittype))"/>
             <xsl:copy-of select="zgw:WrapNullOrSkip('zaak', 'empty', zgw:FromOrderedSource(
                     $Zaak,
@@ -60,14 +60,11 @@
                     $ZgwBesluit/ZgwBesluit/toelichting,
                     $ZdsBesluit/besluit/toelichting, 
                     ZgwBesluit/toelichting))"/>
-
-                    <!-- There is no bestuursorgaan in ZDS side -->
-            <xsl:copy-of select="zgw:WrapNullOrSkip('bestuursorgaan', 'empty', zgw:FromOrderedSource(
+            <xsl:copy-of select="zgw:WrapNullOrSkip('bestuursorgaan', 'skip', zgw:FromOrderedSource(
                     $Bestuursorgaan,
                     $ZgwBesluit/ZgwBesluit/bestuursorgaan,
-                    $ZdsBesluit/besluit/bestuursorgaan, 
+                    '', 
                     ZgwBesluit/bestuursorgaan))"/>
-
             <xsl:copy-of select="zgw:WrapNullOrSkip('ingangsdatum', 'null', zgw:FromOrderedSource(
                     $Ingangsdatum,
                     $ZgwBesluit/ZgwBesluit/ingangsdatum,
