@@ -1,0 +1,215 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="GeefZaakdocumentbewerken_Di02"
+        active="${GeefZaakdocumentbewerken_Di02.Active}"
+        description="">
+
+        <Receiver name="GeefZaakdocumentbewerken_Di02">
+            <JavaListener 
+                name="GeefZaakdocumentbewerken_Di02"
+                returnedSessionKeys="ZgwLock"
+                />
+            <JdbcErrorStorage
+                name="JdbcErrorStorage"
+                datasourceName="jdbc/${database.instance.name}"
+                slotId="${instance.name}/GeefZaakdocumentbewerken_Di02"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+			<SenderPipe
+                name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatie"
+                storeResultInSessionKey="ZgwEnkelvoudigInformatieObject">
+                <IbisLocalSender
+                    name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatieSender"
+                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie">
+                    <Param name="Identificatie" sessionKey="DocumentIdentificatie" />
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForGetZgwEnkelvoudigInformatieObjectResult"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForGetZgwEnkelvoudigInformatieObjectResult"
+                xpathExpression="string-length(/ZgwEnkelvoudigInformatieObject) > 0"
+                >
+                <Forward name="then" path="CallGetZgwInformatieObjectTypeByUrl"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="CallGetZgwInformatieObjectTypeByUrl"
+                storeResultInSessionKey="ZgwInformatieObjectType">
+                <IbisLocalSender
+                    name="CallGetZgwInformatieObjectTypeByUrlSender"
+                    javaListener="GetZgwInformatieObjectTypeByUrl">
+                    <Param name="Url" xpathExpression="/ZgwEnkelvoudigInformatieObject/informatieobjecttype"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForGetZgwInformatieObjectTypeResult"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForGetZgwInformatieObjectTypeResult"
+                xpathExpression="string-length(/ZgwInformatieObjectType) > 0"
+                >
+                <Forward name="then" path="CallGetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="CallGetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl"
+                storeResultInSessionKey="ZgwZaakInformatieObject">
+                <IbisLocalSender
+                    name="CallGetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrlSender"
+                    javaListener="GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl">
+                    <Param name="Url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/url">
+                        <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForGetZgwZaakInformatieObjectResult"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForGetZgwZaakInformatieObjectResult"
+                xpathExpression="string-length(/ZgwZaakInformatieObject) > 0"
+                >
+                <Forward name="then" path="CallGetZaakByUrl"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="CallGetZaakByUrl"
+                storeResultInSessionKey="GetZgwZaakResult">
+                <IbisLocalSender
+                    name="CallGetZaakByUrlSender"
+                    javaListener="GetZgwZaakByUrl">
+                    <Param name="Url" xpathExpression="$ZgwZaakInformatieObject/ZgwZaakInformatieObject/zaak">
+                        <Param name="ZgwZaakInformatieObject" sessionKey="ZgwZaakInformatieObject" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForGetGetZaakResult"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckForGetGetZaakResult"
+                xpathExpression="string-length(/ZgwZaak) > 0"
+                >
+                <Forward name="then" path="CallGetBas64Inhoud"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="CallGetBas64Inhoud"
+                storeResultInSessionKey="Bas64Inhoud">
+                <IbisLocalSender
+                    name="CallGetBas64InhoudSender"
+                    javaListener="GetBas64Inhoud">
+                    <Param name="Url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/inhoud">
+                        <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForGetBas64InhoudResult"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XmlSwitchPipe 
+                name="CheckForGetBas64InhoudResult"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                xpathExpression="string-length($Bas64Inhoud) &gt; 0"
+                >
+                <!-- <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="BASE64"/> -->
+                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud"/>
+                <Forward name="true" path="MapZdsZaakDocumentInhoud"/>
+                <Forward name="false" path="EXCEPTION"/>
+            </XmlSwitchPipe>
+
+            <!-- <LocalFileSystemPipe name="ReadFile" action="read">
+				<Param name="filename" value="${FilePath_4}" />
+				<Forward name="success" path="JsonToXml" />
+			</LocalFileSystemPipe>
+
+            <XsltPipe
+                name="GetContentType"
+                storeResultInSessionKey="ContentType"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="ZaakDocument/xsl/GetContentType.xslt"
+                >
+                <Param name="ZgwInformatieObjectType" sessionKey="ZgwInformatieObjectType" type="DOMDOC"/>
+                <Param name="ZgwZaak" sessionKey="GetZgwZaakResult" type="DOMDOC"/>
+                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="DOMDOC"/>
+                <Forward name="success" path="EXIT"/>
+            </XsltPipe> -->
+
+            <XsltPipe
+                name="MapZdsZaakDocumentInhoud"
+                getInputFromSessionKey="ZgwEnkelvoudigInformatieObject"
+                storeResultInSessionKey="ZdsZaakDocumentInhoud"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="ZaakDocument/xsl/ZdsZaakDocumentInhoud.xsl"
+                >
+                <Param name="ZgwInformatieObjectType" sessionKey="ZgwInformatieObjectType" type="DOMDOC"/>
+                <Param name="ZgwZaak" sessionKey="GetZgwZaakResult" type="DOMDOC"/>
+                <!-- <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="BASE64"/> -->
+                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" />
+                <Forward name="success" path="CheckForLock"/>
+            </XsltPipe>
+
+            <XmlIfPipe 
+                name="CheckForLock"
+                getInputFromSessionKey="ZgwEnkelvoudigInformatieObject"
+                xpathExpression="/ZgwEnkelvoudigInformatieObject/locked = 'true'"
+                >
+                <Forward name="then" path="CheckForLock_LockAlreadyActiveException"/>
+                <Forward name="else" path="ReadFile"/>
+            </XmlIfPipe>
+
+            <XsltPipe 
+                name="CheckForLock_LockAlreadyActiveException"
+                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                >
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Lock already active for document with identification: {DocumentIdentificatie}" />
+                <!-- <Param name="details" sessionKey="" /> -->
+                <!-- <Param name="detailsXml" type="DOMDOC" /> -->
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <!-- TODO: Refactor lockfile to use database instead, so that locks will work on read-only filesystems and can be shared between instances -->
+            <LocalFileSystemPipe 
+                name="ReadFile" 
+                action="read"
+                >
+				<Param name="filename" value="${FilePath_3}" />
+				<Forward name="success" path="CallPostZgwLock" />
+			</LocalFileSystemPipe>
+
+            <SenderPipe
+                name="CallPostZgwLock"
+                storeResultInSessionKey="ZgwLock"
+                >
+                <IbisLocalSender
+                    name="CallPostZgwLockSender"
+                    javaListener="PostZgwLock"
+                    >
+                    <Param name="ZgwLockUrl" sessionKey="ZgwEnkelvoudigInformatieObject" xpathExpression="concat(/ZgwEnkelvoudigInformatieObject/url, '/lock')" />
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <EchoPipe 
+                name="RestoreZdsZaakDocumentInhoudForReturn"
+                getInputFromSessionKey="ZdsZaakDocumentInhoud"
+                >
+                <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </EchoPipe>
+        </Pipeline>
+    </Adapter>
+</Module>
