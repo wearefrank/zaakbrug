@@ -16,7 +16,7 @@
             <xs:element name="lock" type="zgw:Lock" minOccurs="1" maxOccurs="1" />
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="Itegriteit">
+    <xs:complexType name="Integriteit">
         <xs:sequence>
             <xs:element name="algoritme" type="zgw:Algoritme" minOccurs="1" maxOccurs="1" />
             <xs:element name="waarde" type="zgw:AN1_128" minOccurs="1" maxOccurs="1" />

@@ -27,7 +27,7 @@
                 <xs:element name="verzenddatum" type="xs:date" minOccurs="0" maxOccurs="1" nillable="true" />
                 <xs:element name="indicatieGebruiksrecht" type="xs:boolean" minOccurs="0" maxOccurs="1" nillable="true" />
                 <xs:element name="ondertekening" type="zgw:Ondertekening" minOccurs="0" maxOccurs="1" nillable="true" />
-                <xs:element name="integriteit" type="zgw:Itegriteit" minOccurs="0" maxOccurs="1" nillable="true" />
+                <xs:element name="integriteit" type="zgw:Integriteit" minOccurs="0" maxOccurs="1" nillable="true" />
                 <xs:element name="bestandsdelen" type="zgw:Bestandsdelen" minOccurs="0" maxOccurs="unbounded" />
                 <xs:element name="beschrijving" type="zgw:AN1000" minOccurs="0" maxOccurs="1" />
                 <xs:element name="inhoud" type="xs:string" minOccurs="0" maxOccurs="1" nillable="true" />
