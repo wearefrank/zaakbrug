@@ -199,7 +199,7 @@
                     >
                     <Param name="ZgwLockUrl" sessionKey="ZgwEnkelvoudigInformatieObject" xpathExpression="concat(/ZgwEnkelvoudigInformatieObject/url, '/lock')" />
                 </IbisLocalSender>
-                <Forward name="success" path="EXIT"/>
+                <Forward name="success" path="RestoreZdsZaakDocumentInhoudForReturn"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
