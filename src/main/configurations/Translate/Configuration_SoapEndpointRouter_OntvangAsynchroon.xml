@@ -49,7 +49,7 @@
                 <Param name="Stuurgegevens" xpathExpression="/*/stuurgegevens" defaultValue="&lt;stuurgegevens/&gt;" type="DOMDOC" />
                 <Param name="Parameters" xpathExpression="/*/parameters" defaultValue="&lt;parameters/&gt;" type="DOMDOC" />
                 <Forward name="success" path="LegalizeSoapActionForPipeName"/>
-                <Forward name="error" path="BackEndError"/>
+                <Forward name="exception" path="BackEndError"/>
             </PutInSessionPipe>
 
             <XsltPipe
@@ -60,7 +60,7 @@
                 >
                 <Param name="Action" sessionKey="SOAPAction"/>
                 <Forward name="success" path="ForwardBySoapActionSwitch"/>
-                <Forward name="error" path="BackEndError"/>
+                <Forward name="exception" path="BackEndError"/>
             </XsltPipe>
 
             <XmlSwitchPipe 
@@ -132,12 +132,12 @@
 
             <!-- ERRORS -->
             <XsltPipe 
-                    name="UnsupportedSoapActionError"
-                    emptyInputReplacement="&lt;EmptyInput/&gt;"
-                    styleSheetName="Common/xsl/BuildError.xsl"
-                    >
-                    <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
-                    <Param name="reason" pattern="Unsupported SOAP-action. No implementation found for: {SOAPAction}" /> 
+                name="UnsupportedSoapActionError"
+                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                >
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Unsupported SOAP-action. No implementation found for: {SOAPAction}" />
                 <!-- <Param name="details" sessionKey="" /> -->
                 <!-- <Param name="detailsXml" type="DOMDOC" /> -->
                 <Forward name="success" path="BackEndError" />

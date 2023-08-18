@@ -51,7 +51,7 @@
                 <Param name="Stuurgegevens" xpathExpression="/*/stuurgegevens" defaultValue="&lt;stuurgegevens/&gt;" type="DOMDOC" />
                 <Param name="Parameters" xpathExpression="/*/parameters" defaultValue="&lt;parameters/&gt;" type="DOMDOC" />
                 <Forward name="success" path="LegalizeSoapActionForPipeName"/>
-                <Forward name="error" path="BackEndError"/>
+                <Forward name="exception" path="BackEndError"/>
             </PutInSessionPipe>
 
             <XsltPipe
@@ -62,7 +62,7 @@
                 >
                 <Param name="Action" sessionKey="SOAPAction"/>
                 <Forward name="success" path="ForwardBySoapActionSwitch"/>
-                <Forward name="error" path="BackEndError"/>
+                <Forward name="exception" path="BackEndError"/>
             </XsltPipe>
 
             <XmlSwitchPipe
@@ -116,31 +116,6 @@
                 <Forward name="success" path="WrapGeefZaakdocumentbewerken_Di02Response"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
-
-            <!-- <SenderPipe
-                name="CallGetZaakDocumentLezen"
-                storeResultInSessionKey="GetZaakDocumentLezenResult">
-                <IbisLocalSender
-                    name="CallGetZaakDocumentLezenSender"
-                    javaListener="GeefZaakdocumentLezen_Lv01">
-                    <Param name="DocumentIdentificatie" xpathExpression="/geefZaakdocumentbewerken_Di02/edcLv01/gelijk/identificatie"/>
-                </IbisLocalSender>
-                <Forward name="success" path="CallCheckOutZaakDocument"/>
-                <Forward name="exception" path="EXCEPTION" />
-            </SenderPipe>
-
-            <SenderPipe
-                name="CallCheckOutZaakDocument"
-                getInputFromSessionKey="UnwrapMessageResult"
-                storeResultInSessionKey="CheckOutZaakDocumentResult">
-                <IbisLocalSender
-                    name="CallCheckOutZaakDocumentSender"
-                    javaListener="CheckOutZaakDocument">
-                    <Param name="DocumentIdentificatie" xpathExpression="/geefZaakdocumentbewerken_Di02/edcLv01/gelijk/identificatie"/>
-                </IbisLocalSender>
-                <Forward name="success" path="WrapGeefZaakdocumentbewerken_Di02Response"/>
-                <Forward name="exception" path="EXCEPTION" />
-            </SenderPipe> -->
 
             <!-- CancelCheckout_Di02 -->
             <SenderPipe
@@ -225,12 +200,12 @@
 
             <!-- ERRORS -->
             <XsltPipe 
-                    name="UnsupportedSoapActionError"
-                    emptyInputReplacement="&lt;EmptyInput/&gt;"
-                    styleSheetName="Common/xsl/BuildError.xsl"
-                    >
-                    <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
-                    <Param name="reason" pattern="Unsupported SOAP-action. No implementation found for: {SOAPAction}" /> 
+                name="UnsupportedSoapActionError"
+                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                >
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Unsupported SOAP-action. No implementation found for: {SOAPAction}" />
                 <!-- <Param name="details" sessionKey="" /> -->
                 <!-- <Param name="detailsXml" type="DOMDOC" /> -->
                 <Forward name="success" path="BackEndError" />
