@@ -166,7 +166,7 @@
             <!-- not tested -->
             <XmlIfPipe name="ZgwZaakHasZdsRelevanteAndereZaken"
                 getInputFromSessionKey="ZgwZaak"
-                xpathExpression="string-length(/ZgwZaak/relevanteAndereZaken) > 4"
+                xpathExpression="count(/ZgwZaak/relevanteAndereZaken) > 0"
                 >
                 <Forward name="then" path="MapZdsRelevanteAndereZakenIterator"/>
                 <Forward name="else" path="GetZgwStatusByZaakUrlSender"/>
@@ -188,7 +188,7 @@
                 getInputFromSessionKey="ZdsZaak"
                 storeResultInSessionKey="ZdsZaak"
                 skipEmptyTags="true"
-                styleSheetName="Common/xsl/EnrichEntity.xslt"
+                styleSheetName="Common/xsl/EnrichEntity_ForEachPipeWrapped.xslt"
                 >
                 <Param name="With" sessionKey="ZdsRelevanteAndereZaken" type="DOMDOC"/>
                 <Forward name="success" path="GetZgwStatusByZaakUrlSender"/>

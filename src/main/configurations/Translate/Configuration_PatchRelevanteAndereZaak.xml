@@ -24,6 +24,7 @@
 
             <Json2XmlValidatorPipe
                 name="XmlToJson"
+                root="container"
                 schema="CreeerZaak_LK01/xsd/AndereZaakBodyToJson.xsd"
                 outputFormat="JSON"
                 compactJsonArrays="false"

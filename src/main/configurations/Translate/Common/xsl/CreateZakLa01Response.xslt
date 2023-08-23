@@ -147,7 +147,7 @@
                     </xsl:for-each>
                     <xsl:apply-templates select="ZgwZaak/heeftAlsDeelzaak/gerelateerde"/>
                     <xsl:apply-templates select="ZgwZaak/heeftAlsHoofdzaak/gerelateerde"/>
-                    <xsl:apply-templates select="ZgwZaak/root/heeftBetrekkingOp/gerelateerde"/>
+                    <xsl:apply-templates select="ZgwZaak/heeftBetrekkingOpAndere/gerelateerde"/>
                     <xsl:apply-templates select="ZgwZaak/heeft"/>
                     <xsl:apply-templates select="results/result/heeftRelevant"/>
                 </ZKN:object>
@@ -252,13 +252,13 @@
         <ZKN:gerelateerde>
             <ZKN:medewerker StUF:entiteittype="MDW">
                 <xsl:if test="identificatie">
-                    <BG:identificatie><xsl:value-of select="identificatie"/></BG:identificatie>
+                    <ZKN:identificatie><xsl:value-of select="identificatie"/></ZKN:identificatie>
                 </xsl:if>
                 <xsl:if test="achternaam">
-                    <BG:achternaam><xsl:value-of select="achternaam"/></BG:achternaam>
+                    <ZKN:achternaam><xsl:value-of select="achternaam"/></ZKN:achternaam>
                 </xsl:if>
                 <xsl:if test="voorletters">
-                    <BG:voorletters><xsl:value-of select="voorletters"/></BG:voorletters>
+                    <ZKN:voorletters><xsl:value-of select="voorletters"/></ZKN:voorletters>
                 </xsl:if>
             </ZKN:medewerker>
         </ZKN:gerelateerde>
@@ -338,9 +338,9 @@
         </ZKN:heeftAlsHoofdzaak>
     </xsl:template>
 
-    <xsl:template match="ZgwZaak/root/heeftBetrekkingOp/gerelateerde">
+    <xsl:template match="ZgwZaak/heeftBetrekkingOpAndere/gerelateerde">
         <ZKN:heeftBetrekkingOpAndere StUF:entiteittype="ZAKZAKBTR">
-            <ZKN:gerelateerde>
+            <ZKN:gerelateerde StUF:entiteittype="ZAK">
                 <xsl:if test="code">
                     <ZKN:identificatie><xsl:value-of select="code"/></ZKN:identificatie>
                 </xsl:if>
