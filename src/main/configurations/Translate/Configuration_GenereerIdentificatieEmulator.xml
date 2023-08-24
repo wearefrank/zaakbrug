@@ -11,7 +11,7 @@
                 slotId="${instance.name}/genereerIdentificatieEmulator"/>
         </Receiver>
 
-        <Pipeline>
+        <Pipeline transactionAttribute="RequiresNew">
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
@@ -22,7 +22,8 @@
                 <FixedQuerySender 
                     query="SELECT IDENTIFICATIE FROM IDENTIFICATIE WHERE TYPE  = ?{IdentificatieType}" 
                     queryType="SELECT" 
-                    />
+                    lockWait="10"
+                    lockRows="true"/>
                     <Param name="IdentificatieType" sessionKey="IdentificatieType"/>
                 <Forward name="success" path="CheckForDBResult" />
             </SenderPipe>
