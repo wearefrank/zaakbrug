@@ -17,6 +17,23 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
+            <EchoPipe 
+                name="StoreInhoud"
+                elementToMove="inhoud"
+                removeCompactMsgNamespaces="false"
+                >
+                <Forward name="success" path="ReplaceInhoudRefWithBase64EncodedRef" />
+            </EchoPipe>
+
+            <ReplacerPipe
+                name="ReplaceInhoudRefWithBase64EncodedRef"
+                storeResultInSessionKey="SafeOriginalMessage"
+                find="{sessionKey:ref_inhoud}"
+                replace="e3Nlc3Npb25LZXk6cmVmX2luaG91ZH0="
+                >
+                <Forward name="success" path="ValidateInput" />
+            </ReplacerPipe>
+
             <WsdlXmlValidatorPipe
                 name="ValidateInput"
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
@@ -108,7 +125,7 @@
                 >
                 <IbisLocalSender
                     name="GeefZaakdocumentbewerken_Di02LocalSender"
-                    returnedSessionKeys="ZgwLock"
+                    returnedSessionKeys="ZgwLock,ref_inhoud"
                     javaListener="GeefZaakdocumentbewerken_Di02"
                     >
                     <Param name="DocumentIdentificatie" xpathExpression="/*/edcLv01/gelijk/identificatie" type="STRING" />
@@ -143,6 +160,7 @@
                     <Param name="ZdsWasInformatieObject" xpathExpression="/*/edcLk02/object[1]" defaultValue="&lt;object/&gt;" type="DOMDOC" />
                     <Param name="ZdsWordtInformatieObject" xpathExpression="/*/edcLk02/object[2]" defaultValue="&lt;object/&gt;" type="DOMDOC" />
                     <Param name="Lock" xpathExpression="/*/parameters/checkedOutId" type="STRING" />
+                    <Param name="ref_inhoud" sessionKey="ref_inhoud" />
                 </IbisLocalSender>
                 <Forward name="success" path="WrapUpdateZaakDocument_Di02Response"/>
                 <Forward name="exception" path="EXCEPTION" />
@@ -177,8 +195,23 @@
                 <!-- <Param name="Parameters" sessionKey="Parameters" type="DOMDOC"/> -->
                 <Param name="ZgwLock" sessionKey="ZgwLock" type="DOMDOC" />
                 <Param name="ZdsZaakDocumentInhoud" sessionKey="ZdsZaakDocumentInhoud" type="DOMDOC" />
-                <Forward name="success" path="EXIT"/>
+                <Forward name="success" path="ReplaceBase64EncodedRefWithInhoudRef"/>
             </SoapWrapperPipe>
+
+            <ReplacerPipe
+                name="ReplaceBase64EncodedRefWithInhoudRef"
+                find="e3Nlc3Npb25LZXk6cmVmX2luaG91ZH0="
+                replace="{sessionKey:ref_inhoud}"
+                >
+                <Forward name="success" path="SubstituteDocumentDataRef" />
+            </ReplacerPipe>
+
+            <EchoPipe
+                name="SubstituteDocumentDataRef"
+                restoreMovedElements="true"
+                >
+                <Forward name="success" path="EXIT" />
+            </EchoPipe>
 
             <SoapWrapperPipe
                 name="WrapCheckOutZaakDocument_Di02Response"
@@ -220,7 +253,7 @@
 
             <PutInSessionPipe name="NotWellFormed">
                 <Param name="errorCode" value="NOT_WELL_FORMED_XML"/>
-                <Param name="errorReason" value="XML was not according to xsd"/>                
+                <Param name="errorReason" value="XML was not according to xsd"/>             
                 <Forward name="success" path="WrapFo03Response"/>
             </PutInSessionPipe>
 

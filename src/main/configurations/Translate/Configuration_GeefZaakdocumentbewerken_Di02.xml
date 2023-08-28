@@ -6,7 +6,7 @@
         <Receiver name="GeefZaakdocumentbewerken_Di02">
             <JavaListener 
                 name="GeefZaakdocumentbewerken_Di02"
-                returnedSessionKeys="ZgwLock"
+                returnedSessionKeys="ZgwLock,ref_inhoud"
                 />
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
@@ -102,10 +102,13 @@
 
             <SenderPipe
                 name="CallGetBas64Inhoud"
-                storeResultInSessionKey="Bas64Inhoud">
+                storeResultInSessionKey="Bas64Inhoud"
+                >
                 <IbisLocalSender
                     name="CallGetBas64InhoudSender"
-                    javaListener="GetBas64Inhoud">
+                    javaListener="GetBas64Inhoud"
+                    returnedSessionKeys="ref_inhoud"
+                    >
                     <Param name="Url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/inhoud">
                         <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
                     </Param>
@@ -114,12 +117,12 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
+            <!-- TODO: Improve error handling for when "GetBas64Inhoud" throws an error -->
             <XmlSwitchPipe 
                 name="CheckForGetBas64InhoudResult"
                 getInputFromFixedValue="&lt;dummy/&gt;"
                 xpathExpression="string-length($Bas64Inhoud) &gt; 0"
                 >
-                <!-- <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="BASE64"/> -->
                 <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud"/>
                 <Forward name="true" path="MapZdsZaakDocumentInhoud"/>
                 <Forward name="false" path="EXCEPTION"/>
@@ -153,7 +156,6 @@
                 >
                 <Param name="ZgwInformatieObjectType" sessionKey="ZgwInformatieObjectType" type="DOMDOC"/>
                 <Param name="ZgwZaak" sessionKey="GetZgwZaakResult" type="DOMDOC"/>
-                <!-- <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="BASE64"/> -->
                 <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" />
                 <Forward name="success" path="CheckForLock"/>
             </XsltPipe>
