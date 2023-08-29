@@ -3,7 +3,7 @@
         active="${GenereerIdentificatieEmulator.Active}"
         description="">
 
-        <Receiver name="GenereerIdentificatieEmulator">
+        <Receiver name="GenereerIdentificatieEmulator" transactionAttribute="Required">
             <JavaListener name="GenereerIdentificatieEmulator"/>
             <JdbcErrorStorage
                 name="JdbcErrorStorage"
@@ -11,7 +11,7 @@
                 slotId="${instance.name}/genereerIdentificatieEmulator"/>
         </Receiver>
 
-        <Pipeline transactionAttribute="RequiresNew">
+        <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
