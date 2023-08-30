@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.34](https://github.com/ibissource/zaakbrug/compare/v1.12.33...v1.12.34) (2023-08-30)
+
+
+### 🔁 Continuous Integration
+
+* revert semantic-release dependecies due to breaking change ([247909a](https://github.com/ibissource/zaakbrug/commit/247909a6e08a15279fe68efcb94e53679e4c13ab))
+
 ## [1.12.33](https://github.com/ibissource/zaakbrug/compare/v1.12.32...v1.12.33) (2023-08-10)
 
 
