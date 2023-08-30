@@ -354,11 +354,11 @@
     <xsl:template match="ZgwZaak/heeft">
         <ZKN:heeft StUF:entiteittype="ZAKSTT">
             <ZKN:gerelateerde StUF:entiteittype="STT">
-                <xsl:if test="gerelateerde/zktOmschrijving">
-                    <ZKN:zkt.code><xsl:value-of select="gerelateerde/zktOmschrijving"/></ZKN:zkt.code>
-                </xsl:if>
                 <xsl:if test="gerelateerde/zktCode">
-                    <ZKN:zkt.omschrijving><xsl:value-of select="gerelateerde/zktCode"/></ZKN:zkt.omschrijving>
+                    <ZKN:zkt.code><xsl:value-of select="gerelateerde/zktCode"/></ZKN:zkt.code>
+                </xsl:if>
+                <xsl:if test="gerelateerde/zktOmschrijving">
+                    <ZKN:zkt.omschrijving><xsl:value-of select="gerelateerde/zktOmschrijving"/></ZKN:zkt.omschrijving>
                 </xsl:if>
                 <xsl:if test="gerelateerde/omschrijving">
                     <ZKN:omschrijving><xsl:value-of select="gerelateerde/omschrijving"/></ZKN:omschrijving>

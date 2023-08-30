@@ -151,7 +151,7 @@
 
             <XmlIfPipe name="CheckForHeeftBetrekkingOpAndere"
                 getInputFromSessionKey="originalMessage"
-                xpathExpression="count(/zakLk01/object/heeftBetrekkingOpAndere) > 0"
+                xpathExpression="/zakLk01/object/heeftBetrekkingOpAndere/gerelateerde[string-length(identificatie) > 0]"
                 thenForwardName="AndereZaakIterator"
                 elseForwardName="CallSetResultaatAndStatus">
             </XmlIfPipe>

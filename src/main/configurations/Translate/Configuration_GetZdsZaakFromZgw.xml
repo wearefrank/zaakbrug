@@ -166,7 +166,7 @@
             <!-- not tested -->
             <XmlIfPipe name="ZgwZaakHasZdsRelevanteAndereZaken"
                 getInputFromSessionKey="ZgwZaak"
-                xpathExpression="count(/ZgwZaak/relevanteAndereZaken) > 0"
+                xpathExpression="/ZgwZaak/relevanteAndereZaken[string-length(url) > 0]"
                 >
                 <Forward name="then" path="MapZdsRelevanteAndereZakenIterator"/>
                 <Forward name="else" path="GetZgwStatusByZaakUrlSender"/>
