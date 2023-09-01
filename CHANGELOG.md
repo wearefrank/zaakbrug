@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.35](https://github.com/ibissource/zaakbrug/compare/v1.12.34...v1.12.35) (2023-09-01)
+
+
+### 🐛 Bug Fixes
+
+* error message not returned to CLO ([6bf900a](https://github.com/ibissource/zaakbrug/commit/6bf900a22726bf629d90eaca41444d764d99d8bd))
+
 ## [1.12.34](https://github.com/ibissource/zaakbrug/compare/v1.12.33...v1.12.34) (2023-08-30)
 
 
