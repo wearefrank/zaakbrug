@@ -63,3 +63,30 @@ Open Formulieren can be accessed from `host.docker.internal:9000/openforms/`
 Open Formulieren is also exposed on `host.docker.internal:9003/`
 
 TODO
+
+## docker-compose.sentry.dev
+Contains a Sentry instance for monitoring applications in the environment. Particularly useful for troubleshooting OpenZaak, OpenForms, etc.
+
+The Sentry GUI can be accessed at `host.docker.internal:9500` or `localhost:9500`.
+
+#### Configuration
+Running Sentry for the first time requires some configuration.
+
+TODO: Automate configuration
+
+1. Makes sure the `docker-compose.sentry.dev.yml` is included in your ` docker-compose up` and is running.
+2. Open a CMD or Powershell in this repository folder and run `docker-compose -f ./docker-compose.sentry.dev.yml exec sentry sentry upgrade`.
+3. After approx. a minute you will get asked if you want to create a user account. Choose `y` and hit enter.
+4. We use the following defaults: email=`admin@wearefrank.nl`, password: `admin`.
+5. Once finished, run the command: `docker-compose -f ./docker-compose.sentry.dev.yml restart sentry` to restart the sentry container.
+6. Open a browser and navigate to `host.docker.internal:9500` or `localhost:9500`. You should see the Sentry login page. Login we the email and password from step 4.
+7. Make sure the root url is `http://host.docker.internal:9500` and choose `Please keep my usage information anonymous` under Usage Statistics.
+8. In the top-right corner hit the `add...` button and choose `project`.
+9. Select the appropriate platform. For OpenZaak, ZaakBrug-Staging and OpenForms this will be `Django`. Change the project name appropriately and hit the `Create Project` button.
+10. On the next page look for the word `dsn` and copy the value.
+11. In the appropriate docker-compose file, add the following to the environment variables of the `open-zaak`, `zaakbrug-staging` and/or `open-forms` service:
+```
+- SENTRY_DSN=<Your copied DSN from step 10>
+- SDK_SENTRY_DSN=<Your copied DSN from step 10>
+```
+12. Repeat step 8 - 11 for each application you want to monitor.
