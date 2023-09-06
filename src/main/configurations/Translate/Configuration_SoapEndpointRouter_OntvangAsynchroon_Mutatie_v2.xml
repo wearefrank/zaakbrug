@@ -1,0 +1,106 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="SoapEndpointRouter_OntvangAsynchroon_Mutatie_v2"
+        active="${SoapEndpointRouter_OntvangAsynchroon_Mutatie_v2.Active}"
+        description="">
+        <Receiver name="SoapEndpointRouter_OntvangAsynchroon_Mutatie_v2">
+            <WebServiceListener name="SoapEndpointRouter_OntvangAsynchroon_Mutatie_v2" address="${zaakbrug.soap.ontvang-asynchroon-mutatie.v2.endpoint}" soap="false"/>
+            <JdbcErrorStorage
+                name="JdbcErrorStorage"
+                datasourceName="jdbc/${database.instance.name}"
+                slotId="${instance.name}/ontvangAsynchroonMutatie_v2"/>
+        </Receiver>
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <WsdlXmlValidatorPipe 
+                name="ValidateInput"
+                wsdl="Common/xsd/Zaak-_Documentservices_1_2/zds0120/berichten/zds0120_ontvangAsynchroon_mutatie_zs-dms.wsdl"
+                >
+                <Forward name="success" path="UnwrapSoapMessage"/>
+                <Forward name="failure" path="WsdlValidationSoftFailForwarder"/>
+            </WsdlXmlValidatorPipe>
+
+            <XmlSwitchPipe 
+                name="WsdlValidationSoftFailForwarder"
+                xpathExpression="$SoftFail = true()"
+                >
+                <Param name="SoftFail" value="${zaakbrug.soap.ontvang-asynchroon-mutatie.v2.validation-soft-fail}" type="BOOLEAN"/>
+                <Forward name="true" path="UnwrapSoapMessage" />
+                <Forward name="false" path="InvalidXml" />
+            </XmlSwitchPipe>
+
+            <SoapWrapperPipe 
+                name="UnwrapSoapMessage"
+                storeResultInSessionKey="UnwrapMessageResult"
+                direction="UNWRAP"
+                removeOutputNamespaces="true">
+                <Forward name="success" path="SanitizeSoapAction"/>
+            </SoapWrapperPipe>
+
+            <XsltPipe
+                name="SanitizeSoapAction"
+                xpathExpression="replace($Action, '/', '_')"
+                storeResultInSessionKey="SanitizedSoapAction"
+                preserveInput="true"
+                >
+                <Param name="Action" sessionKey="SOAPAction"/>
+                <Forward name="success" path="ActionSwitch"/>
+                <Forward name="error" path="BackEndError"/>
+            </XsltPipe>
+
+            <XmlSwitchPipe name="ActionSwitch"
+                forwardNameSessionKey="SanitizedSoapAction"
+                notFoundForwardName="UnsupportedSoapActionError"
+                />
+
+            <!-- SenderPipes -->
+
+            <!-- SoapWrapperPipes -->
+
+            <!-- ERRORS -->
+            <XsltPipe 
+                name="UnsupportedSoapActionError"
+                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                >
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Unsupported SOAP-action. No implementation found for: {SOAPAction}" /> 
+                <!-- <Param name="details" sessionKey="" /> -->
+                <!-- <Param name="detailsXml" type="DOMDOC" /> -->
+                <Forward name="success" path="BackEndError" />
+                <Forward name="exception" path="BackEndError" />
+            </XsltPipe>
+            <PutInSessionPipe name="InvalidXml">
+                <Param name="errorCode" value="INVALID_XML"/>
+                <Param name="errorReason" value="XML was invalid"/>
+                <Forward name="success" path="WrapFo03Response" />
+            </PutInSessionPipe>
+            <PutInSessionPipe name="NotWellFormed">
+                <Param name="errorCode" value="NOT_WELL_FORMED_XML"/>
+                <Param name="errorReason" value="XML was not according to xsd"/>                
+                <Forward name="success" path="WrapFo03Response"/>
+            </PutInSessionPipe>
+            <PutInSessionPipe name="BackEndError" unlessSessionKey="errorCode">
+                <Param name="errorCode" styleSheetName="Common/xsl/BackEndError.xsl"/>
+                <Param name="errorReason" xpathExpression="/error/reason"/>
+                <Param name="errorDetailText" xpathExpression="concat(/error/code, ' ', /error/reason, ' ', /error/details)"/>
+                <Param name="errorDetailXML" xpathExpression="/error/detailsXml" type="DOMDOC" />
+                <Forward name="success" path="WrapFo03Response"/>
+            </PutInSessionPipe>
+            <SoapWrapperPipe
+                name="WrapFo03Response"
+                soapBodyStyleSheet="Common/xsl/CreateFo03Response.xslt"
+                >
+                <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC"/>
+                <Param name="errorCode"   sessionKey="errorCode"/>
+                <Param name="errorReason" sessionKey="errorReason"/>
+                <Param name="errorDetailText" sessionKey="errorDetailText"/>
+                <Param name="errorDetailXML" sessionKey="errorDetailXML" type="DOMDOC"/>
+                <Forward name="success" path="EXIT"/>
+            </SoapWrapperPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

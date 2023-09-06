@@ -11,6 +11,7 @@
 				name="zaakobject_partial_update" 
 				method="PATCH"
 				uriPattern="/zaken/api/v1/zaakobjecten/{uuid}"
+				headerParams="Host"
 				produces="JSON"
 				consumes="JSON"
 				/>
@@ -27,7 +28,45 @@
 				<Exit name="Timeout" state="ERROR" code="504"/>
 			</Exits>
 
-			<FixedResultPipe name="Helloworld" returnString="{&quot;count&quot;:123,&quot;next&quot;:&quot;http://api.example.org/accounts/?page=4&quot;,&quot;previous&quot;:&quot;http://api.example.org/accounts/?page=2&quot;,&quot;results&quot;:[{&quot;url&quot;:&quot;string&quot;,&quot;uuid&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;,&quot;zaak&quot;:&quot;string&quot;,&quot;resultaattype&quot;:&quot;string&quot;,&quot;toelichting&quot;:&quot;string&quot;}]}" />
+			<!-- <FixedResultPipe name="Helloworld" returnString="{&quot;count&quot;:123,&quot;next&quot;:&quot;http://api.example.org/accounts/?page=4&quot;,&quot;previous&quot;:&quot;http://api.example.org/accounts/?page=2&quot;,&quot;results&quot;:[{&quot;url&quot;:&quot;string&quot;,&quot;uuid&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;,&quot;zaak&quot;:&quot;string&quot;,&quot;resultaattype&quot;:&quot;string&quot;,&quot;toelichting&quot;:&quot;string&quot;}]}" /> -->
+			
+			<XsltPipe
+                name="SetZaakObjectUrl"
+                styleSheetName="Common/xsl/CreateURL.xsl"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="UrlParam"
+                >
+                <Param name="BaseUrl" value="${zaakbrug.staging.zaken-api.root-url}" /> 
+                <Param name="UrlParam" sessionKey="uri" /> 
+                <Forward name="success" path="UpdateZaakObjectSender"/>
+            </XsltPipe>
+            
+            <SenderPipe name="UpdateZaakObjectSender"
+            	getInputFromSessionKey="originalMessage">
+                <HttpSender name="UpdateZaakObjectSender"
+                    methodType="PATCH"
+                    headersParams="Authorization,Accept-Crs,Content-Crs,Accept,Host"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    maxExecuteRetries="5"
+                    contentType="application/json">
+                    <Param name="url" sessionKey="UrlParam" />
+                	<Param name="Accept-Crs" value="EPSG:4326" />
+                    <Param name="Accept" value="application/json" />
+                    <Param name="Content-Crs" value="EPSG:4326" />
+					<Param name="Host" sessionKey="headers" xpathExpression="/headers/header[@name = 'Host']/text()" />
+                    <Param name="Authorization" value="Bearer @@zaken-api.jwt@@"/>
+                </HttpSender>
+
+                <Forward name="success" path="EXIT"/>
+                <Forward name="304" path="NotModified"/>
+                <Forward name="400" path="BadRequest"/>
+                <Forward name="401" path="NotAuthorized"/>
+                <Forward name="403" path="NotAllowed"/>
+                <Forward name="412" path="PreconditionFailed"/>
+                <Forward name="500" path="ServerError"/>
+                <Forward name="504" path="Timeout"/>
+                
+			</SenderPipe>
 		</Pipeline>
 	</Adapter>
 </Module>

@@ -6,7 +6,7 @@ services:
     volumes:
       - ./docker/zaakbrug-nginx/default.conf:/etc/nginx/conf.d/default.conf
     networks:
-      - zaakbrug
+      - zaakbrug-stack
       - zaakbrug-backend
     ports:
       - 9000:9000
@@ -16,7 +16,7 @@ services:
   zaakbrug:
     build: .
     image: wearefrank/zaakbrug:latest
-    container_name: zaakbrug
+    container_name: zaakbrug.dev
     environment:
       - zaakbrug.zds.timezone=UTC
       - TZ=Europe/Amsterdam
@@ -24,8 +24,9 @@ services:
       - ../frank-runner/data:/usr/local/tomcat/data
       - logs:/usr/local/tomcat/logs
       # - ./data:/usr/local/tomcat/data
+      - ./src/main/configurations:/opt/frank/configurations:ro
     networks:
-      - zaakbrug
+      - zaakbrug-stack
       - zaakbrug-backend
     ports:
       - 8080:8080
@@ -37,6 +38,5 @@ volumes:
   private-media:
 
 networks:
-  zaakbrug:
-    name: zaakbrug-stack
+  zaakbrug-stack:
   zaakbrug-backend:

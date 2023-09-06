@@ -116,7 +116,8 @@
                 getInputFromFixedValue="&lt;dummy/&gt;"
                 xpathExpression="string-length($Bas64Inhoud) &gt; 0"
                 >
-                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="BASE64"/>
+                <!-- <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="BASE64"/> -->
+                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud"/>
                 <Forward name="true" path="MapZdsZaakDocumentInhoud"/>
                 <Forward name="false" path="EXCEPTION"/>
             </XmlSwitchPipe>
@@ -149,7 +150,8 @@
                 >
                 <Param name="ZgwInformatieObjectType" sessionKey="ZgwInformatieObjectType" type="DOMDOC"/>
                 <Param name="ZgwZaak" sessionKey="GetZgwZaakResult" type="DOMDOC"/>
-                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="BASE64"/>
+                <!-- <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="BASE64"/> -->
+                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" />
                 <Forward name="success" path="EXIT"/>
             </XsltPipe>
         </Pipeline>

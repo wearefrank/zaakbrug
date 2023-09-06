@@ -11,23 +11,67 @@
 				name="catalogus_create" 
 				method="POST"
 				uriPattern="/catalogi/api/v1/catalogussen"
+				headerParams="Host"
 				produces="JSON"
 				consumes="JSON"
 				/>
 		</Receiver>
 		<Pipeline>
 			<Exits>
-				<Exit name="EXIT" state="SUCCESS" code="200"/>
-				<Exit name="NotModified" state="SUCCESS" code="304"/>
-				<Exit name="BadRequest" state="ERROR" code="400"/>
-				<Exit name="NotAuthorized" state="ERROR" code="401" empty="true"/>
-				<Exit name="NotAllowed" state="ERROR" code="403" empty="true"/>
-				<Exit name="PreconditionFailed" state="ERROR" code="412"/>
-				<Exit name="ServerError" state="ERROR" code="500"/>
-				<Exit name="Timeout" state="ERROR" code="504"/>
+				<Exit name="Created" state="SUCCESS" code="201" />
+				<Exit name="BadRequest" state="ERROR" code="400" />
+				<Exit name="Unauthorized" state="ERROR" code="401" />
+				<Exit name="Forbidden" state="ERROR" code="403" />
+				<Exit name="NotAcceptable" state="ERROR" code="406" />
+				<Exit name="Conflict" state="ERROR" code="409" />
+				<Exit name="Gone" state="ERROR" code="410" />
+				<Exit name="PreconditionFailed" state="ERROR" code="412" />
+				<Exit name="UnsupportedMediaType" state="ERROR" code="415" />
+				<Exit name="TooManyRequests" state="ERROR" code="429" />
+				<Exit name="InternalServerError" state="ERROR" code="500" />
 			</Exits>
 
-			<FixedResultPipe name="Helloworld" returnString="{&quot;count&quot;:123,&quot;next&quot;:&quot;http://api.example.org/accounts/?page=4&quot;,&quot;previous&quot;:&quot;http://api.example.org/accounts/?page=2&quot;,&quot;results&quot;:[{&quot;url&quot;:&quot;string&quot;,&quot;uuid&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;,&quot;zaak&quot;:&quot;string&quot;,&quot;resultaattype&quot;:&quot;string&quot;,&quot;toelichting&quot;:&quot;string&quot;}]}" />
+			<!-- <FixedResultPipe name="Helloworld" returnString="{&quot;count&quot;:123,&quot;next&quot;:&quot;http://api.example.org/accounts/?page=4&quot;,&quot;previous&quot;:&quot;http://api.example.org/accounts/?page=2&quot;,&quot;results&quot;:[{&quot;url&quot;:&quot;string&quot;,&quot;uuid&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;,&quot;zaak&quot;:&quot;string&quot;,&quot;resultaattype&quot;:&quot;string&quot;,&quot;toelichting&quot;:&quot;string&quot;}]}" /> -->
+			<XsltPipe
+                name="SetCatalogusUrl"
+                styleSheetName="Common/xsl/CreateURL.xsl"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="UrlParam"
+                >
+                <Param name="BaseUrl" value="${zaakbrug.staging.catalogi-api.root-url}" /> 
+                <Param name="UrlParam" sessionKey="uri" /> 
+                <Forward name="success" path="PostCatalogusSender"/>
+            </XsltPipe>
+            
+            <SenderPipe name="PostCatalogusSender"
+            	getInputFromSessionKey="originalMessage">
+                <HttpSender name="PostBesluittypeSender"
+                    methodType="POST"
+                    headersParams="Authorization,Accept-Crs,Content-Crs,Accept,Host"
+                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
+                    maxExecuteRetries="5"
+                    contentType="application/json">
+                    <!-- <Param name="url" value="http://zaakbrug.staging.nginx:9002/catalogi/api/v1/besluittypen" /> -->
+                	<Param name="url" sessionKey="UrlParam" />
+                	<Param name="Accept-Crs" value="EPSG:4326" />
+                    <Param name="Accept" value="application/json" />
+                    <Param name="Content-Crs" value="EPSG:4326" />
+					<Param name="Host" sessionKey="headers" xpathExpression="/headers/header[@name = 'Host']/text()" />
+                    <Param name="Authorization" value="Bearer @@catalogi-api.jwt@@"/>
+                </HttpSender>
+
+                <Forward name="201" path="Created" />
+                <Forward name="400" path="BadRequest" />
+                <Forward name="401" path="Unauthorized" />
+                <Forward name="403" path="Forbidden" />
+				<Forward name="406" path="NotAcceptable" />
+				<Forward name="409" path="Conflict" />
+				<Forward name="410" path="Gone" />
+                <Forward name="412" path="PreconditionFailed" />
+				<Forward name="415" path="UnsupportedMediaType" />
+				<Forward name="429" path="TooManyRequests" />
+                <Forward name="500" path="InternalServerError" />
+			</SenderPipe>
 		</Pipeline>
 	</Adapter>
 </Module>
