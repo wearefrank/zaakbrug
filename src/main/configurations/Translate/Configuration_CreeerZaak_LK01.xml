@@ -73,7 +73,7 @@
                 getInputFromSessionKey="Rsin"
                 xpathExpression="string-length(/RSIN) gt 0"
                 >
-                <Forward name="then" path="GetRolTypenByUUID"/>
+                <Forward name="then" path="GetRolTypenByUrl"/>
                 <Forward name="else" path="Rsin_NotEmpty_Exception"/>
                 <Forward name="exception" path="UncaughtException"/>
             </XmlIfPipe>
@@ -90,18 +90,19 @@
                 <Forward name="exception" path="UncaughtException" />
             </XsltPipe>
 
-            <ForEachChildElementPipe name="GetRolTypenByUUID"
+            <ForEachChildElementPipe name="GetRolTypenByUrl"
              storeResultInSessionKey="ZgwRolTypen"
                 elementXPathExpression="ZgwZaakTypen/ZgwZaakType/roltypen"
                 getInputFromSessionKey="GetZaakTypeResult">
-                <IbisLocalSender javaListener="GetRolTypenByUUID"/>
+                <IbisLocalSender javaListener="GetRolTypenByUrl">
+                    <Param name="Url" xpathExpression="/roltypen" />
+                </IbisLocalSender>
             </ForEachChildElementPipe>
 
             <XsltPipe
                 name="UnwrapOpenZaakApiEnvelopeToList"
-                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToListRoltypen.xslt"
+                styleSheetName="Common/xsl/UnwrapForEachChildPipeEnvelopeToList.xslt"
                 >
-                <Param name="Type" value="ZgwRolType"/>
                 <Param name="List" value="ZgwRolTypen"/>
                 <Forward name="success" path="SetRoles"/>
                 <Forward name="exception" path="UncaughtException" />
