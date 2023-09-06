@@ -1,5 +1,13 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.36](https://github.com/ibissource/zaakbrug/compare/v1.12.35...v1.12.36) (2023-09-06)
+
+
+### ✅ Tests
+
+* add commented out pgadmin container to sentry docker-compose for postgres browsing ([bb42fbc](https://github.com/ibissource/zaakbrug/commit/bb42fbca1968886c4173a034b3f4c65db12f0019))
+* add sentry instance in test-environment and add instructions to contributing.md ([e210682](https://github.com/ibissource/zaakbrug/commit/e2106827c30b246ef51387fd9a3d688b9908c50a))
+
 ## [1.12.35](https://github.com/ibissource/zaakbrug/compare/v1.12.34...v1.12.35) (2023-09-01)
 
 
