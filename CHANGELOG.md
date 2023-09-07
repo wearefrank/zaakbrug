@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.38](https://github.com/ibissource/zaakbrug/compare/v1.12.37...v1.12.38) (2023-09-07)
+
+
+### 🐛 Bug Fixes
+
+* Error message not returned to CLO in ForEachChildElementPipe in GeefLijstZaakdocumenten adapter ([#150](https://github.com/ibissource/zaakbrug/issues/150)) ([7d574c9](https://github.com/ibissource/zaakbrug/commit/7d574c994d85ada4896e00e6d0620dc3a8e6c0fa))
+
 ## [1.12.37](https://github.com/ibissource/zaakbrug/compare/v1.12.36...v1.12.37) (2023-09-06)
 
 
