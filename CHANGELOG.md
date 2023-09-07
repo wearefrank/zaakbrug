@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.39](https://github.com/ibissource/zaakbrug/compare/v1.12.38...v1.12.39) (2023-09-07)
+
+
+### ⏩ Reverts
+
+* Revert "fix: identificatie generation producing duplicates during highly-concurrent workload (#143)" (#151) ([db33368](https://github.com/ibissource/zaakbrug/commit/db333682b8ec1a8966903dfce6e6fcbbdcc1e59a)), closes [#143](https://github.com/ibissource/zaakbrug/issues/143) [#151](https://github.com/ibissource/zaakbrug/issues/151)
+
 ## [1.12.38](https://github.com/ibissource/zaakbrug/compare/v1.12.37...v1.12.38) (2023-09-07)
 
 
