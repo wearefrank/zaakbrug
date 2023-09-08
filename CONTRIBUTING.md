@@ -1,5 +1,18 @@
 # Contributing
 
+# Bumping dependencies
+## Frank!Framework version
+We like to stay up-to-date with the latest version of the Frank!Framework to get the latest features, improvements, bug fixes and security patches. For stability reasons we do not want to use the "latest" tag for this. Instead we periodically(~weekly) do a manual bump to the latest available snapshot build of Frank!Framework at that time. Mainly because we use custom code that needs to be manual checked and updated with changes made in the Frank!Framework. 
+
+Execute the following steps when bumping the Frank!Framework version:
+1. Look up the latest framework snapshot build on [DockerHub - Frank!Framework](https://hub.docker.com/r/wearefrank/frank-framework/tags). The format of the tag should be: `<major>.<minor>-<date>.<build>`. For example: 7.9-20230907.223421.
+2. Replace the tag in the `Dockerfile` with the new tag.
+3. Replace the tag in `frank-runner.properties` with the new tag.
+4. Start ZaakBrug with the `Frank!Runner` to automatically replace the `./src/main/configuration/<configuration-name>/FrankConfig.xsd` and `./src/main/configuration/FrankConfig.xsd` with the newer version. You can stop the Frank!Runner once the files are replaced. Note that currently the Frank!Runner will also add `FrankConfig.xsd` to the `.gitignore` file. Make sure to revert the change to `.gitignore`.
+5. Check [GitHub - Frank!Framework - Parameter.java commit history](https://github.com/ibissource/iaf/commits/master/core/src/main/java/nl/nn/adapterframework/parameters/Parameter.java) for any changes to this class. If there are indeed changes, update the corresponding file under `./src/main/java/nl/nn/adapterframework/...`. The `.java-orig` file content should be 1 on 1 equal to the new version on GitHub. Take care to not accidentally remove the intended customization of the code in the `.java` file.
+6. Run the e2e testsuite by using the below Docker-Compose and configuration to validate the changes. You should only need `docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml up --build --force-recreate` for this. (TODO: Automate running of e2e tests in ci/cd).
+7. Commit you changes on a branch with as message: `build(dependencies): bump f!f version to <new tag>`. Create a PR to have you changes merged to master.
+
 # Docker-compose
 The docker-compose development environment is designed to be flexible and composable. This prevents the need for developers to run the entire stack eventhough their work requires only a small part of the stack. For this we make use of a docker-compose feature that merges a given array of docker-compose files together. Simply provide a `-f ./docker-compose.<application>.yml` argument for each docker-compose file you wish to include in the `docker-compose up`command.
 
