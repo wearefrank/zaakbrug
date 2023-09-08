@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.9-20230907.223421">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.9-20230905.223421">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>Container of Adapters that belong together.
@@ -4107,7 +4107,7 @@
    &lt;li&gt;Define a Receiver with a JavaListener&lt;/li&gt;
    &lt;li&gt;Set the attribute &lt;code&gt;serviceName&lt;/code&gt; to &lt;i&gt;yourExternalServiceName&lt;/i&gt;&lt;/li&gt;
  &lt;/ul&gt;
- N.B. Please make sure that the IbisServiceDispatcher-1.4.jar or newer is present on the class path of the server.</xs:documentation>
+ N.B. Please make sure that the IbisServiceDispatcher-1.1.jar is present on the class path of the server.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:complexContent>
@@ -8815,7 +8815,7 @@
    &lt;li&gt;Define a Receiver with a JavaListener&lt;/li&gt;
    &lt;li&gt;Set the attribute &lt;code&gt;serviceName&lt;/code&gt; to &lt;i&gt;yourExternalServiceName&lt;/i&gt;&lt;/li&gt;
  &lt;/ul&gt;
- N.B. Please make sure that the IbisServiceDispatcher-1.4.jar or newer is present on the class path of the server.</xs:documentation>
+ N.B. Please make sure that the IbisServiceDispatcher-1.1.jar is present on the class path of the server.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:complexContent>
@@ -17664,7 +17664,7 @@
     </xs:attribute>
     <xs:attribute name="message" type="xs:string">
       <xs:annotation>
-        <xs:documentation>message to be sent into the pipeline</xs:documentation>
+        <xs:documentation>message to be send into the pipeline</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
