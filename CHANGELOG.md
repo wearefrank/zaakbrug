@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.40](https://github.com/ibissource/zaakbrug/compare/v1.12.39...v1.12.40) (2023-09-11)
+
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 7.9-20230905.223421 ([8c2f24d](https://github.com/ibissource/zaakbrug/commit/8c2f24dae98798901b717bb3e58d88fcd24b83d1))
+
 ## [1.12.39](https://github.com/ibissource/zaakbrug/compare/v1.12.38...v1.12.39) (2023-09-07)
 
 
