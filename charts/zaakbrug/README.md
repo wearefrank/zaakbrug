@@ -1,69 +1,177 @@
 # ZaakBrug 2.0
 
-## Installation
+> [!WARNING]
+> This Helm Chart has been moved. This Chart is deprecated but will stay for some time, so the users can migrate.
 
-### Required values
+## New location
 
-Some values need to be filled in for the Frank! to work. 
+The source of the moved (and updated) Helm Chart can be found at: https://github.com/wearefrank/charts/tree/main/charts/zaakbrug
 
-These values are:
+## Changes
 
-- frank.instance.name
-- frank.dtap.stage
-- connections.jdbc (we're working on a disable database option)
+The most notably changes are to the values.yaml  
 
-### ZaakBrug values
+Here is a diff with all changes:
 
-For the ZaakBrug to work correctly some values need to be verified and other have to be filled in. 
+```diff
+ replicaCount: 1
+ 
+ image:
+-  repository: wearefrank/zaakbrug
+-  pullPolicy: IfNotPresent
++  registry: wearefrank
++  repository: zaakbrug
+   tag: ""
+-
+-imagePullSecrets: [ ]
++  pullPolicy: IfNotPresent
++  pullSecrets: [ ]
+ 
+ nameOverride: ""
+ fullnameOverride: ""
+@@ -44,27 +44,14 @@ livenessProbe:
+   timeoutSeconds: 1
+   failureThreshold: 6
+   successThreshold: 1
+-
+-readinessProbe:
+-  initialDelaySeconds: 40
+-  periodSeconds: 10
+-  timeoutSeconds: 1
+-  failureThreshold: 6
+-  successThreshold: 1
+-
+-resources:
+-  limits:
+-    cpu: 2000m
+-    memory: 2200M
+-  requests:
+-    cpu: 2000m
+-    memory: 2200M
++resources: { }
+ 
+ autoscaling:
+   enabled: false
+   minReplicas: 1
+   maxReplicas: 100
+   targetCPUUtilizationPercentage: 80
++  targetMemoryUtilizationPercentage: 80
+ 
+ nodeSelector: { }
+ 
+@@ -144,33 +131,39 @@ zaakbrug:
+           coalesceResultaat: "Toegekend"
+ 
+ frank:
+-  memory: 2G
++  memory: 4G
+   security:
+     http:
+       authentication: false
+-      enforceHttps: false
+-      tomcatUsers: [ ]
+-      ad: { }
++      localUsers: [ ]
++      activeDirectory:
++        enabled: false
++        url: ""
++        baseDn: ""
++        roleMapping:
++          tester: ""
++          dataAdmin: ""
++          admin: ""
++          webService: ""
++          observer: ""
++  server:
++    transactionManager: NARAYANA
+   credentials:
+-    secret:
+-    key:
++    secret: ""
++    key: ""
+   instance:
+-    name: "ZaakBrug"
++    name: ""
+   dtap:
+-    stage:
+-    side: ""
++    stage: TST
++    side: cluster
+   configurations:
+-    names: "Translate"
+-  properties: { }
++    names: [ ]
++  environmentVariables: { }
+ 
+ connections:
+-  jdbc:
+-    - name: ""
+-      type:
+-      host:
+-      ssl: ""
+-      port: ""
+-      database: ""
++  create: true
++  jdbc: [ ]
++  jms: [ ]
+ 
+ staging:
+   enabled: false
+@@ -199,6 +192,7 @@ staging:
+     autoscaling:
+       enabled: false
+     replicaCount: 1
++    podAnnotations: { }
+     podLabels: { }
+     securityContext:
+       readOnlyRootFilesystem: true
+@@ -206,9 +200,11 @@ staging:
+       runAsNonRoot: true
+       runAsUser: 1000
+     image:
++      registry: ""
+       repository: nginxinc/nginx-unprivileged
+       tag: stable
+       pullPolicy: IfNotPresent
++      pullSecrets: [ ]
+     resources: { }
+     existingConfigmap: ''
+     service:
+```
 
-Check if all the zaakbrug.zgw.endpoints are configured right. Add a configMap to both zaakbrug.zgw.globalsConfigMap and zaakbrug.zgs.profilesConfigMap
+Note that some types have changes. E.g. the `frank.configuration.names` has changes from comma separates string to a list.
 
-#### Globals and Profiles
-
-The Globals should contain organizations and role mappings. 
-
-The Profiles contain information about zaakTypes. The reason this file is separate, is to make it more sharable with other gemeentes.
-
-The data should be entered as yaml inside the values.yaml at zaakbrug.globals and zaakbrug.profiles. The JSON files will be created by the Helm Chart. 
-
-### Credentials
-
-The credentials are added differently so the server can handle them differently. The credentials won't be logged or shown, in contrary to all other properties. 
-
-#### Database credentials
-
-User and password can be set with values like so:
+So, this: 
 
 ```yaml
-username: postgres
-password: ExamplePassword
-# Or with property parameters
-username: ${database/username}
-password: ${database/password}
+frank: 
+    configuration:
+        names: "Configuration1,Configuration2,Configuration3"
 ```
 
-A nice way to set the variables is with a credentials.properties. 
+Is changes to: 
 
-The property parameters used for the values will point to the right credential in the credentials.properties (you can call it differently) file. 
-
-Create a secret with the properties you want to set, for example:
-
-```properties
-database/username=test
-database/password=test
+```yaml
+frank:
+  configuration:
+    names: 
+      - Configuration1
+      - Configuration2
+      - Configuration3
 ```
 
-Now set the values: frank.credentials.secret (secret name) and frank.credentials.key (key of the data)
+## Why?
 
-#### Zaak JWT
+There are a couple of reasons that lead to this decision. 
 
-The ZaakBrug will automatically generate a JWT token. 
+For one, we wanted a central repository to store our Charts.
+This makes it possible to create complex GitHub Actions without needing to create duplicates at different projects. 
+This is more maintainable and simple. 
 
-To set the client id and secret, add these credentials to your credentials secret (the one mentioned above).
+The central repository has GitHub Actions to release every Chart. The releases are available on GitHub as artifact and through the registry.
+The registry is [wearefrank.github.io/charts](https://wearefrank.github.io/charts) and has its own website, for easy discovery.
 
-```properties
-zaken-api.jwt/username=ZaakBrug
-zaken-api.jwt/password=secret1234
-```
-
-The username is used for the client is and the password is used for the secret.
+The Chart has also been updated a bit (as mentioned in [Changes](#changes)). 
+This is because it is now based on `ff-common`, a common library Chart for applications based on the Frank!Framework. 
+Every change applied in `ff-common` will be easy to apply in `zaakbrug`. 
+This way it stays up to date and gives the user a lot of possibilities in their configuration.
