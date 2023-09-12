@@ -158,15 +158,41 @@
 
             <ForEachChildElementPipe name="AndereZaakIterator"
                 getInputFromSessionKey="originalMessage"
-                elementXPathExpression="/zakLk01/object/heeftBetrekkingOpAndere">
+                elementXPathExpression="/zakLk01/object/heeftBetrekkingOpAndere"
+                storeResultInSessionKey="AndereZakenResult">
+
                 <IbisLocalSender
                     name="CallAndereZaakAdapter"
                     javaListener="AndereZaakAdapter">
-                    <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
+                    <Param name="Url" sessionKey="PostZgwZaakResult" xpathExpression="ZgwZaak/url" />
+                    <Param name="Identificatie" xpathExpression="heeftBetrekkingOpAndere/gerelateerde/identificatie" />
+                    <!-- <Param name="PostZgwZaakResult" sessionKey="GetZgwWasZaakResult" type="DOMDOC"/> -->
                 </IbisLocalSender>
-                <Forward name="success" path="CallSetResultaatAndStatus"/>
+                
+                <Forward name="success" path="createListAndereUrls"/>
                 <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
+
+            <XsltPipe
+                name="createListAndereUrls"
+                styleSheetName="UpdateZaak_LK01/xsl/CreateAndereUrlsBody.xslt"
+                storeResultInSessionKey="AndereZakenResult"
+                omitXmlDeclaration="true"
+                >
+                <Forward name="success" path="CallPatchAndereZaak"/>
+            </XsltPipe>
+
+            <SenderPipe
+                name="CallPatchAndereZaak" getInputFromSessionKey="PostZgwZaakResult">
+                <IbisLocalSender
+                    name="CallPatchAndereZaakSender"
+                    javaListener="PatchRelevanteAndereZaak">
+                    <Param name="Url" xpathExpression="ZgwZaak/url" defaultValue="&lt;dummy/&gt;" />
+                    <Param name="AndereUrls" sessionKey="AndereZakenResult" defaultValue="&lt;dummy/&gt;"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CallSetResultaatAndStatus"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
 
             <SenderPipe
                 name="CallSetResultaatAndStatus"
