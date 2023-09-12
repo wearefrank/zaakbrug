@@ -13,12 +13,15 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-			<XsltPipe
+            <XsltPipe
                 name="CreatePatchZaakBody"
+                getInputFromSessionKey="originalMessage"
                 skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/CreateZgwAndereZaakBody.xsl"
                 >
-                <Param name="Url" sessionKey="AndereUrl"/>
+                <Param name="VerwerkingsSoort" sessionKey="VerwerkingsSoort"/>
+                <Param name="AndereUrl" sessionKey="AndereUrl"/>
+                <Param name="AndereUrls" sessionKey="AndereUrls" type="DOMDOC"/>
                 <Forward name="success" path="XmlToJson"/>
             </XsltPipe>
 
