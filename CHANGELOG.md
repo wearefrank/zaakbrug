@@ -1,5 +1,33 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.12.41](https://github.com/ibissource/zaakbrug/compare/v1.12.40...v1.12.41) (2023-09-13)
+
+
+### 🔥 Performance Improvements
+
+* base64 to disk before validation & from disk after response wrapping ([8cf6ca1](https://github.com/ibissource/zaakbrug/commit/8cf6ca1b75e787e813be454f8c8b9e8cad825cbb))
+* soap-endpoints refactor to reduce large file memory usage ([757a003](https://github.com/ibissource/zaakbrug/commit/757a00374c5371a8af54656807dc4a6c9978cc67))
+* zds 1.2 soap-endpoint refactor to reduce large file memory usage ([31bb8ab](https://github.com/ibissource/zaakbrug/commit/31bb8ab4ef8797b3f44401fbd0ba08a2fa904050))
+
+
+### 🧑‍💻 Code Refactoring
+
+* dedicated handler for GeefZaakdocumentbewerken soap action ([69caceb](https://github.com/ibissource/zaakbrug/commit/69caceb219e4ca5737f94e1b6e315b7ba9d5a907))
+
+
+### ✅ Tests
+
+* assertions added to match base64 in requests & responses ([f1ff11d](https://github.com/ibissource/zaakbrug/commit/f1ff11d2f571330b3a932cfb35a7d3d34326b31f))
+* performance tests for large documents & identificatie concurrency ([9d5adb3](https://github.com/ibissource/zaakbrug/commit/9d5adb3dca9be4929c4cdd240db8d06394b6bd1e))
+* supplemental docker-compose for performance testing ([41abdf3](https://github.com/ibissource/zaakbrug/commit/41abdf3db05c0274546b85eba285f5582354fe65))
+
+
+### 🤖 Build System
+
+* add experimental java 11 Dockerfile ([0c45e0e](https://github.com/ibissource/zaakbrug/commit/0c45e0eb79328aba303b10bfe83f8a0cccebb38d))
+* **depencies:** bump f!f version to 7.9-20230810.190012 ([fa5ac85](https://github.com/ibissource/zaakbrug/commit/fa5ac8584fa6707579be331d4a278a94fb845909))
+* improved java 11 dockefile by building from tomcat image ([6016c5a](https://github.com/ibissource/zaakbrug/commit/6016c5a0a194c1be26f1c65dcd36742dbaae5e3b))
+
 ## [1.12.40](https://github.com/ibissource/zaakbrug/compare/v1.12.39...v1.12.40) (2023-09-11)
 
 
