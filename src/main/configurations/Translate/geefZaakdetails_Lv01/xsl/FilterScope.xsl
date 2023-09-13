@@ -1,6 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" version="2.0">
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
-    <xsl:param name="ZdsZaak"/>
+    <xsl:param name="ZdsZaak" as="node()" />
+    <xsl:param name="Scope" as="node()" />
 
     <xsl:template match="@*|node()">
         <xsl:copy>
@@ -11,13 +12,13 @@
 	<xsl:template match="/">
         <ZgwZaak>
             <identificatie><xsl:value-of select="$ZdsZaak/root/identificatie"/></identificatie>
-            <xsl:if test="zakLv01/scope/object/omschrijving">
+            <xsl:if test="$Scope/scope/object/omschrijving">
                 <omschrijving><xsl:value-of select="$ZdsZaak/root/omschrijving"/></omschrijving>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/toelichting">
+            <xsl:if test="$Scope/scope/object/toelichting">
                 <toelichting><xsl:value-of select="$ZdsZaak/root/toelichting"/></toelichting>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/kenmerk">
+            <xsl:if test="$Scope/scope/object/kenmerk">
                 <xsl:for-each select="$ZdsZaak/root/kenmerk">
                     <kenmerk>
                         <kenmerk><xsl:value-of select="kenmerk"/></kenmerk>
@@ -25,7 +26,7 @@
                     </kenmerk>
                 </xsl:for-each>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/anderZaakObject">
+            <xsl:if test="$Scope/scope/object/anderZaakObject">
                 <xsl:for-each select="$ZdsZaak/root/anderZaakObject">
                     <anderZaakObject>
                         <omschrijving><xsl:value-of select="omschrijving"/></omschrijving>
@@ -35,31 +36,31 @@
                     </anderZaakObject>
                 </xsl:for-each>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/resultaat">
+            <xsl:if test="$Scope/scope/object/resultaat">
                 <resultaat>
                     <omschrijving><xsl:value-of select="$ZdsZaak/root/resultaat/omschrijving"/></omschrijving>
                     <toelichting><xsl:value-of select="$ZdsZaak/root/resultaat/toelichting"/></toelichting>
                 </resultaat>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/startdatum">
+            <xsl:if test="$Scope/scope/object/startdatum">
                 <startdatum><xsl:value-of select="$ZdsZaak/root/startdatum"/></startdatum>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/registratiedatum">
+            <xsl:if test="$Scope/scope/object/registratiedatum">
                 <registratiedatum><xsl:value-of select="$ZdsZaak/root/registratiedatum"/></registratiedatum>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/publicatiedatum">
+            <xsl:if test="$Scope/scope/object/publicatiedatum">
                 <publicatiedatum><xsl:value-of select="$ZdsZaak/root/publicatiedatum"/></publicatiedatum>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/einddatumGepland">
+            <xsl:if test="$Scope/scope/object/einddatumGepland">
                 <einddatumGepland><xsl:value-of select="$ZdsZaak/root/einddatumGepland"/></einddatumGepland>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/uiterlijkeEinddatum">
+            <xsl:if test="$Scope/scope/object/uiterlijkeEinddatum">
                 <uiterlijkeEinddatum><xsl:value-of select="$ZdsZaak/root/uiterlijkeEinddatum"/></uiterlijkeEinddatum>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/einddatum">
+            <xsl:if test="$Scope/scope/object/einddatum">
                 <einddatum><xsl:value-of select="$ZdsZaak/root/einddatum"/></einddatum>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/opschorting">
+            <xsl:if test="$Scope/scope/object/opschorting">
                 <xsl:for-each select="$ZdsZaak/root/opschorting">
                     <opschorting>
                         <indicatie><xsl:value-of select="indicatie"/></indicatie>
@@ -67,7 +68,7 @@
                     </opschorting>
                 </xsl:for-each>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/verlenging">
+            <xsl:if test="$Scope/scope/object/verlenging">
                 <xsl:for-each select="$ZdsZaak/root/verlenging">
                     <verlenging>
                         <duur><xsl:value-of select="duur"/></duur>
@@ -75,25 +76,25 @@
                     </verlenging>
                 </xsl:for-each>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/betalingsIndicatie">
+            <xsl:if test="$Scope/scope/object/betalingsIndicatie">
                 <betalingsIndicatie><xsl:value-of select="$ZdsZaak/root/betalingsIndicatie"/></betalingsIndicatie>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/laatsteBetaaldatum">
+            <xsl:if test="$Scope/scope/object/laatsteBetaaldatum">
                 <laatsteBetaaldatum><xsl:value-of select="$ZdsZaak/root/laatsteBetaaldatum"/></laatsteBetaaldatum>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/archiefnominatie">
+            <xsl:if test="$Scope/scope/object/archiefnominatie">
                 <archiefnominatie><xsl:value-of select="$ZdsZaak/root/archiefnominatie"/></archiefnominatie>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/datumVernietigingDossier">
+            <xsl:if test="$Scope/scope/object/datumVernietigingDossier">
                 <datumVernietigingDossier><xsl:value-of select="$ZdsZaak/root/datumVernietigingDossier"/></datumVernietigingDossier>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/zaakniveau">
+            <xsl:if test="$Scope/scope/object/zaakniveau">
                 <zaakniveau><xsl:value-of select="$ZdsZaak/root/zaakniveau"/></zaakniveau>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/deelzakenIndicatie">
+            <xsl:if test="$Scope/scope/object/deelzakenIndicatie">
                 <deelzakenIndicatie><xsl:value-of select="$ZdsZaak/root/deelzakenIndicatie"/></deelzakenIndicatie>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/isVan">
+            <xsl:if test="$Scope/scope/object/isVan">
                 <isVan>
                     <gerelateerde>
                         <omschrijving><xsl:value-of select="$ZdsZaak/root/isVan/gerelateerde/omschrijving"/></omschrijving>
@@ -101,14 +102,14 @@
                     </gerelateerde>
                 </isVan>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/heeftBetrekkingOp">
+            <xsl:if test="$Scope/scope/object/heeftBetrekkingOp">
                 <xsl:for-each select="$ZdsZaak/root/heeftBetrekkingOp">
                     <heeftBetrekkingOp>
                         <xsl:apply-templates select="@*|node()"/>
                     </heeftBetrekkingOp>
                 </xsl:for-each>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/heeftAlsBelanghebbende">
+            <xsl:if test="$Scope/scope/object/heeftAlsBelanghebbende">
                 <xsl:for-each select="$ZdsZaak/root/heeftAlsBelanghebbende">
                     <heeftAlsBelanghebbende>
                         <xsl:if test="current() != 'tijdvakRelatie' and current() != 'tijdvakGeldigheid' and current() != 'tijdstipRegistratie' and current() != 'extraElementen' and current() != 'historieMaterieel' and current() != 'historieFormeel' and current() != 'historieFormeelRelatie'">
@@ -117,7 +118,7 @@
                     </heeftAlsBelanghebbende>
                 </xsl:for-each>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/heeftAlsGemachtigde">
+            <xsl:if test="$Scope/scope/object/heeftAlsGemachtigde">
                 <xsl:for-each select="$ZdsZaak/root/heeftAlsGemachtigde">
                     <heeftAlsGemachtigde>
                         <xsl:if test="current() != 'tijdvakRelatie' and current() != 'tijdvakGeldigheid' and current() != 'tijdstipRegistratie' and current() != 'extraElementen' and current() != 'historieMaterieel' and current() != 'historieFormeel' and current() != 'historieFormeelRelatie'">
@@ -126,7 +127,7 @@
                     </heeftAlsGemachtigde>
                 </xsl:for-each>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/heeftAlsInitiator">
+            <xsl:if test="$Scope/scope/object/heeftAlsInitiator">
                 <xsl:for-each select="$ZdsZaak/root/heeftAlsInitiator">
                     <heeftAlsInitiator>
                         <xsl:if test="current() != 'tijdvakRelatie' and current() != 'tijdvakGeldigheid' and current() != 'tijdstipRegistratie' and current() != 'extraElementen' and current() != 'historieMaterieel' and current() != 'historieFormeel' and current() != 'historieFormeelRelatie'">
@@ -135,7 +136,7 @@
                     </heeftAlsInitiator>
                 </xsl:for-each>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/heeftAlsUitvoerende">
+            <xsl:if test="$Scope/scope/object/heeftAlsUitvoerende">
                 <xsl:for-each select="$ZdsZaak/root/heeftAlsUitvoerende">
                     <heeftAlsUitvoerende>
                         <xsl:if test="current() != 'tijdvakRelatie' and current() != 'tijdvakGeldigheid' and current() != 'tijdstipRegistratie' and current() != 'extraElementen' and current() != 'historieMaterieel' and current() != 'historieFormeel' and current() != 'historieFormeelRelatie'">
@@ -144,7 +145,7 @@
                     </heeftAlsUitvoerende>
                 </xsl:for-each>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/heeftAlsVerantwoordelijke">
+            <xsl:if test="$Scope/scope/object/heeftAlsVerantwoordelijke">
                 <xsl:for-each select="$ZdsZaak/root/heeftAlsVerantwoordelijke">
                     <heeftAlsVerantwoordelijke>
                         <xsl:if test="current() != 'tijdvakRelatie' and current() != 'tijdvakGeldigheid' and current() != 'tijdstipRegistratie' and current() != 'extraElementen' and current() != 'historieMaterieel' and current() != 'historieFormeel' and current() != 'historieFormeelRelatie'">
@@ -153,7 +154,7 @@
                     </heeftAlsVerantwoordelijke>
                 </xsl:for-each>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/heeftAlsOverigBetrokkene">
+            <xsl:if test="$Scope/scope/object/heeftAlsOverigBetrokkene">
                 <xsl:for-each select="$ZdsZaak/root/heeftAlsOverigBetrokkene">
                     <heeftAlsOverigBetrokkene>
                         <xsl:if test="current() != 'tijdvakRelatie' and current() != 'tijdvakGeldigheid' and current() != 'tijdstipRegistratie' and current() != 'extraElementen' and current() != 'historieMaterieel' and current() != 'historieFormeel' and current() != 'historieFormeelRelatie'">
@@ -162,7 +163,7 @@
                     </heeftAlsOverigBetrokkene>
                 </xsl:for-each>
             </xsl:if>
-            <xsl:if test="zakLv01/scope/object/heeft">
+            <xsl:if test="$Scope/scope/object/heeft">
                 <xsl:for-each select="$ZdsZaak/root/heeft">
                     <heeft>
                         <toelichting><xsl:value-of select="toelichting"/></toelichting>
