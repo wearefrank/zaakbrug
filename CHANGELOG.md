@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.1](https://github.com/ibissource/zaakbrug/compare/v1.13.0...v1.13.1) (2023-09-13)
+
+
+### 🧑‍💻 Code Refactoring
+
+* replace get roltypen query by zaaktype with individual calls to roltype by their uuid to make them cachable ([#113](https://github.com/ibissource/zaakbrug/issues/113)) ([0df9e15](https://github.com/ibissource/zaakbrug/commit/0df9e157003d20ce418ec3a96211ca40e567f109))
+
 ## [1.13.0](https://github.com/ibissource/zaakbrug/compare/v1.12.41...v1.13.0) (2023-09-13)
 
 
