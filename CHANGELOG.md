@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.0](https://github.com/ibissource/zaakbrug/compare/v1.12.41...v1.13.0) (2023-09-13)
+
+
+### 🍕 Features
+
+* migrate Helm chart to dedicated chart repository ([#153](https://github.com/ibissource/zaakbrug/issues/153)) ([d71dd0f](https://github.com/ibissource/zaakbrug/commit/d71dd0f253f08a7953885e8aac63aa6ea02544a1))
+
 ## [1.12.41](https://github.com/ibissource/zaakbrug/compare/v1.12.40...v1.12.41) (2023-09-13)
 
 
