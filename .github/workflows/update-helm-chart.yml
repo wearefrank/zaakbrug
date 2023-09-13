@@ -16,7 +16,7 @@ jobs:
           repo: charts
           owner: wearefrank
           workflow: update-app-version.yml
-          workflow_inputs: { "chart": "charts/zaakbrug", "version": "1337" }
+          workflow_inputs: '{ "chart": "charts/zaakbrug", "version": "1337" }'
 
       - name: Use the output run ID
         run: echo ${{steps.return_dispatch.outputs.run_id}}
