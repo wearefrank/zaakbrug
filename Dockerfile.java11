@@ -21,9 +21,9 @@ RUN set -eux && \
 USER tomcat
 
 # Copy environment configuration
-COPY --from=docker.io/wearefrank/frank-framework:7.9-20230810.190012 --chown=tomcat /usr/local/tomcat/conf/catalina.properties /usr/local/tomcat/conf/catalina.properties
-COPY --from=docker.io/wearefrank/frank-framework:7.9-20230810.190012 --chown=tomcat /usr/local/tomcat/lib/ /usr/local/tomcat/lib/
-COPY --from=docker.io/wearefrank/frank-framework:7.9-20230810.190012 --chown=tomcat /usr/local/tomcat/webapps/ROOT /usr/local/tomcat/webapps/ROOT
+COPY --from=docker.io/wearefrank/frank-framework:7.9-20230905.223421 --chown=tomcat /usr/local/tomcat/conf/catalina.properties /usr/local/tomcat/conf/catalina.properties
+COPY --from=docker.io/wearefrank/frank-framework:7.9-20230905.223421 --chown=tomcat /usr/local/tomcat/lib/ /usr/local/tomcat/lib/
+COPY --from=docker.io/wearefrank/frank-framework:7.9-20230905.223421 --chown=tomcat /usr/local/tomcat/webapps/ROOT /usr/local/tomcat/webapps/ROOT
 
 # TempFix TODO: Move this to the credentialprovider.properties
 ENV credentialFactory.class=nl.nn.credentialprovider.PropertyFileCredentialFactory
