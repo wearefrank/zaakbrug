@@ -149,7 +149,7 @@ frank:
         names: "Configuration1,Configuration2,Configuration3"
 ```
 
-Is changes to: 
+Is changed to: 
 
 ```yaml
 frank:
