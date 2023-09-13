@@ -1,7 +1,12 @@
 name: Update Helm Chart
 
 on:
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+        description: New version of ZaakBrug Docker image
 
 jobs:
   update:
@@ -16,7 +21,6 @@ jobs:
           repo: charts
           owner: wearefrank
           workflow: update-app-version.yml
-          workflow_inputs: '{ "chart": "charts/zaakbrug", "appVersion": "1337" }'
-
+          workflow_inputs: '{ "chart": "charts/zaakbrug", "appVersion": "${{ inputs.version }}" }'
       - name: Use the output run ID
         run: echo ${{steps.return_dispatch.outputs.run_id}}
