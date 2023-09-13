@@ -54,54 +54,35 @@
                     >
                     <Param name="FileName" value="${FilePath_1}" />                   
                 </IbisLocalSender>
-                <Forward name="success" path="GetRsin"/>
+                <Forward name="success" path="CallGetRsin"/>
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
 
-            <PutInSessionPipe
-                name="GetRsin"
-                >
-                <Param name="Rsin" xpathExpression="/root/organizations[gemeenteCode = $GemeenteCode]/RSIN" defaultValue="&lt;RSIN/&gt;" type="XML">
+            <SenderPipe 
+                name="CallGetRsin"
+                storeResultInSessionKey="Rsin">
+                <IbisLocalSender
+                    name="CallGetRsinSender"
+                    javaListener="GetRsinByGemeenteCode">
                     <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
-                </Param>
-                <Forward name="success" path="Rsin_NotEmpty"/>
-                <Forward name="exception" path="UncaughtException" />
-            </PutInSessionPipe>
-
-            <XmlIfPipe 
-                name="Rsin_NotEmpty"
-                getInputFromSessionKey="Rsin"
-                xpathExpression="string-length(/RSIN) gt 0"
-                >
-                <Forward name="then" path="GetRolTypenByUUID"/>
-                <Forward name="else" path="Rsin_NotEmpty_Exception"/>
+                </IbisLocalSender>
+                <Forward name="success" path="GetRolTypenByUrl"/>
                 <Forward name="exception" path="UncaughtException"/>
-            </XmlIfPipe>
+            </SenderPipe>
 
-            <XsltPipe 
-                name="Rsin_NotEmpty_Exception"
-                styleSheetName="Common/xsl/BuildError.xsl">
-                <Param name="code" value="ConfigurationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
-                <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
-                <Param name="reason" pattern="No organization configured for gemeente code: [{GemeenteCode}]" ignoreUnresolvablePatternElements="true"/> 
-                <!-- <Param name="details" sessionKey="" /> -->
-                <Param name="detailsXml" sessionKey="GlobalConfig" type="DOMDOC" />
-                <Forward name="success" path="EXCEPTION" />
-                <Forward name="exception" path="UncaughtException" />
-            </XsltPipe>
-
-            <ForEachChildElementPipe name="GetRolTypenByUUID"
+            <ForEachChildElementPipe name="GetRolTypenByUrl"
              storeResultInSessionKey="ZgwRolTypen"
                 elementXPathExpression="ZgwZaakTypen/ZgwZaakType/roltypen"
                 getInputFromSessionKey="GetZaakTypeResult">
-                <IbisLocalSender javaListener="GetRolTypenByUUID"/>
+                <IbisLocalSender javaListener="GetRolTypenByUrl">
+                    <Param name="Url" xpathExpression="/roltypen" />
+                </IbisLocalSender>
             </ForEachChildElementPipe>
 
             <XsltPipe
                 name="UnwrapOpenZaakApiEnvelopeToList"
-                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToListRoltypen.xslt"
+                styleSheetName="Common/xsl/UnwrapForEachChildPipeEnvelopeToList.xslt"
                 >
-                <Param name="Type" value="ZgwRolType"/>
                 <Param name="List" value="ZgwRolTypen"/>
                 <Forward name="success" path="SetRoles"/>
                 <Forward name="exception" path="UncaughtException" />

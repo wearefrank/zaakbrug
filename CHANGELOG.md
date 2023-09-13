@@ -1,5 +1,259 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.1](https://github.com/ibissource/zaakbrug/compare/v1.13.0...v1.13.1) (2023-09-13)
+
+
+### 🧑‍💻 Code Refactoring
+
+* replace get roltypen query by zaaktype with individual calls to roltype by their uuid to make them cachable ([#113](https://github.com/ibissource/zaakbrug/issues/113)) ([0df9e15](https://github.com/ibissource/zaakbrug/commit/0df9e157003d20ce418ec3a96211ca40e567f109))
+
+## [1.13.0](https://github.com/ibissource/zaakbrug/compare/v1.12.41...v1.13.0) (2023-09-13)
+
+
+### 🍕 Features
+
+* migrate Helm chart to dedicated chart repository ([#153](https://github.com/ibissource/zaakbrug/issues/153)) ([d71dd0f](https://github.com/ibissource/zaakbrug/commit/d71dd0f253f08a7953885e8aac63aa6ea02544a1))
+
+## [1.12.41](https://github.com/ibissource/zaakbrug/compare/v1.12.40...v1.12.41) (2023-09-13)
+
+
+### 🔥 Performance Improvements
+
+* base64 to disk before validation & from disk after response wrapping ([8cf6ca1](https://github.com/ibissource/zaakbrug/commit/8cf6ca1b75e787e813be454f8c8b9e8cad825cbb))
+* soap-endpoints refactor to reduce large file memory usage ([757a003](https://github.com/ibissource/zaakbrug/commit/757a00374c5371a8af54656807dc4a6c9978cc67))
+* zds 1.2 soap-endpoint refactor to reduce large file memory usage ([31bb8ab](https://github.com/ibissource/zaakbrug/commit/31bb8ab4ef8797b3f44401fbd0ba08a2fa904050))
+
+
+### 🧑‍💻 Code Refactoring
+
+* dedicated handler for GeefZaakdocumentbewerken soap action ([69caceb](https://github.com/ibissource/zaakbrug/commit/69caceb219e4ca5737f94e1b6e315b7ba9d5a907))
+
+
+### ✅ Tests
+
+* assertions added to match base64 in requests & responses ([f1ff11d](https://github.com/ibissource/zaakbrug/commit/f1ff11d2f571330b3a932cfb35a7d3d34326b31f))
+* performance tests for large documents & identificatie concurrency ([9d5adb3](https://github.com/ibissource/zaakbrug/commit/9d5adb3dca9be4929c4cdd240db8d06394b6bd1e))
+* supplemental docker-compose for performance testing ([41abdf3](https://github.com/ibissource/zaakbrug/commit/41abdf3db05c0274546b85eba285f5582354fe65))
+
+
+### 🤖 Build System
+
+* add experimental java 11 Dockerfile ([0c45e0e](https://github.com/ibissource/zaakbrug/commit/0c45e0eb79328aba303b10bfe83f8a0cccebb38d))
+* **depencies:** bump f!f version to 7.9-20230810.190012 ([fa5ac85](https://github.com/ibissource/zaakbrug/commit/fa5ac8584fa6707579be331d4a278a94fb845909))
+* improved java 11 dockefile by building from tomcat image ([6016c5a](https://github.com/ibissource/zaakbrug/commit/6016c5a0a194c1be26f1c65dcd36742dbaae5e3b))
+
+## [1.12.40](https://github.com/ibissource/zaakbrug/compare/v1.12.39...v1.12.40) (2023-09-11)
+
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 7.9-20230905.223421 ([8c2f24d](https://github.com/ibissource/zaakbrug/commit/8c2f24dae98798901b717bb3e58d88fcd24b83d1))
+
+## [1.12.39](https://github.com/ibissource/zaakbrug/compare/v1.12.38...v1.12.39) (2023-09-07)
+
+
+### ⏩ Reverts
+
+* Revert "fix: identificatie generation producing duplicates during highly-concurrent workload (#143)" (#151) ([db33368](https://github.com/ibissource/zaakbrug/commit/db333682b8ec1a8966903dfce6e6fcbbdcc1e59a)), closes [#143](https://github.com/ibissource/zaakbrug/issues/143) [#151](https://github.com/ibissource/zaakbrug/issues/151)
+
+## [1.12.38](https://github.com/ibissource/zaakbrug/compare/v1.12.37...v1.12.38) (2023-09-07)
+
+
+### 🐛 Bug Fixes
+
+* Error message not returned to CLO in ForEachChildElementPipe in GeefLijstZaakdocumenten adapter ([#150](https://github.com/ibissource/zaakbrug/issues/150)) ([7d574c9](https://github.com/ibissource/zaakbrug/commit/7d574c994d85ada4896e00e6d0620dc3a8e6c0fa))
+
+## [1.12.37](https://github.com/ibissource/zaakbrug/compare/v1.12.36...v1.12.37) (2023-09-06)
+
+
+### 🐛 Bug Fixes
+
+* identificatie generation producing duplicates during highly-concurrent workload ([#143](https://github.com/ibissource/zaakbrug/issues/143)) ([3235a62](https://github.com/ibissource/zaakbrug/commit/3235a6242e00550ae0cd42189035e4bc326d02ef))
+
+## [1.12.36](https://github.com/ibissource/zaakbrug/compare/v1.12.35...v1.12.36) (2023-09-06)
+
+
+### ✅ Tests
+
+* add commented out pgadmin container to sentry docker-compose for postgres browsing ([bb42fbc](https://github.com/ibissource/zaakbrug/commit/bb42fbca1968886c4173a034b3f4c65db12f0019))
+* add sentry instance in test-environment and add instructions to contributing.md ([e210682](https://github.com/ibissource/zaakbrug/commit/e2106827c30b246ef51387fd9a3d688b9908c50a))
+
+## [1.12.35](https://github.com/ibissource/zaakbrug/compare/v1.12.34...v1.12.35) (2023-09-01)
+
+
+### 🐛 Bug Fixes
+
+* error message not returned to CLO ([6bf900a](https://github.com/ibissource/zaakbrug/commit/6bf900a22726bf629d90eaca41444d764d99d8bd))
+
+## [1.12.34](https://github.com/ibissource/zaakbrug/compare/v1.12.33...v1.12.34) (2023-08-30)
+
+
+### 🔁 Continuous Integration
+
+* revert semantic-release dependecies due to breaking change ([247909a](https://github.com/ibissource/zaakbrug/commit/247909a6e08a15279fe68efcb94e53679e4c13ab))
+
+## [1.12.33](https://github.com/ibissource/zaakbrug/compare/v1.12.32...v1.12.33) (2023-08-10)
+
+
+### 🧑‍💻 Code Refactoring
+
+* moved gemeentecode to rsin logic to dedicated adapter ([#138](https://github.com/ibissource/zaakbrug/issues/138)) ([9c866c0](https://github.com/ibissource/zaakbrug/commit/9c866c0ecf2711b1859aa37ea6e1c79ee20f0788))
+
+## [1.12.32](https://github.com/ibissource/zaakbrug/compare/v1.12.31...v1.12.32) (2023-08-10)
+
+
+### 🧑‍💻 Code Refactoring
+
+* add besluiten endpoint configuration ([#139](https://github.com/ibissource/zaakbrug/issues/139)) ([a6af85f](https://github.com/ibissource/zaakbrug/commit/a6af85fb86041e798f808cf2ae454e14d166417d))
+
+## [1.12.31](https://github.com/ibissource/zaakbrug/compare/v1.12.30...v1.12.31) (2023-07-31)
+
+
+### 🧑‍💻 Code Refactoring
+
+* scaffold zds 1.2 soap-endpoint OntvangAsynchroonMutatie v2 ([#136](https://github.com/ibissource/zaakbrug/issues/136)) ([e0a14f8](https://github.com/ibissource/zaakbrug/commit/e0a14f8a0b36799c32e31489e85e21b6dfd374a9))
+
+## [1.12.30](https://github.com/ibissource/zaakbrug/compare/v1.12.29...v1.12.30) (2023-07-28)
+
+
+### 🧑‍💻 Code Refactoring
+
+* scaffold zds 1.2 soap-endpoint BeantwoordVraag ([#134](https://github.com/ibissource/zaakbrug/issues/134)) ([efdcb33](https://github.com/ibissource/zaakbrug/commit/efdcb33a7494f32fd898e335c272aa2341c5fe3c))
+* scaffold zds 1.2 soap-endpoint OntvangAsynchroon_Overdragen_v2 ([#135](https://github.com/ibissource/zaakbrug/issues/135)) ([492ea99](https://github.com/ibissource/zaakbrug/commit/492ea994000bbe7bf1d467a583dfc430e07febc4))
+
+## [1.12.29](https://github.com/ibissource/zaakbrug/compare/v1.12.28...v1.12.29) (2023-07-27)
+
+
+### 🧑‍💻 Code Refactoring
+
+* implement zds 1.2 genereerBesluitIdentificatie_Di02 SOAP-action ([#133](https://github.com/ibissource/zaakbrug/issues/133)) ([d31f315](https://github.com/ibissource/zaakbrug/commit/d31f315f7ab3ddc6ca121d56e2b955c7816dcab3))
+
+## [1.12.28](https://github.com/ibissource/zaakbrug/compare/v1.12.27...v1.12.28) (2023-07-27)
+
+
+### 🐛 Bug Fixes
+
+* authorization token missing for GetZaakDocumentByUrl ([#132](https://github.com/ibissource/zaakbrug/issues/132)) ([4f9c780](https://github.com/ibissource/zaakbrug/commit/4f9c7800c1846091b6f2c23b0dd34599fc880a3c))
+
+## [1.12.27](https://github.com/ibissource/zaakbrug/compare/v1.12.26...v1.12.27) (2023-07-12)
+
+
+### 🐛 Bug Fixes
+
+* docker-compose network name correction due to changes in latest docker-compose version ([#131](https://github.com/ibissource/zaakbrug/issues/131)) ([a9806a2](https://github.com/ibissource/zaakbrug/commit/a9806a26c954017988ef0737d80207db1e6bdec0))
+
+## [1.12.26](https://github.com/ibissource/zaakbrug/compare/v1.12.25...v1.12.26) (2023-07-04)
+
+
+### 🐛 Bug Fixes
+
+* host header for apiProxy ([a0f0bac](https://github.com/ibissource/zaakbrug/commit/a0f0baca3f898124c14fc346c10c3a819dcf0a83))
+
+## [1.12.25](https://github.com/ibissource/zaakbrug/compare/v1.12.24...v1.12.25) (2023-07-04)
+
+
+### 🐛 Bug Fixes
+
+* make nginx able to run as non-root and on a read-only filesystem ([70f0690](https://github.com/ibissource/zaakbrug/commit/70f0690f767eb8e7adf1e044d9019ab474089a10))
+
+## [1.12.24](https://github.com/ibissource/zaakbrug/compare/v1.12.23...v1.12.24) (2023-07-03)
+
+
+### 🐛 Bug Fixes
+
+* nginxLabelSelectors ([0399aff](https://github.com/ibissource/zaakbrug/commit/0399affd0e86291573eb6cb8debf49e62295d166))
+
+## [1.12.23](https://github.com/ibissource/zaakbrug/compare/v1.12.22...v1.12.23) (2023-07-03)
+
+
+### 🐛 Bug Fixes
+
+* disable zgw api's by default ([e320fc6](https://github.com/ibissource/zaakbrug/commit/e320fc65deb7abb8045ec39bb49196927181a532))
+
+## [1.12.22](https://github.com/ibissource/zaakbrug/compare/v1.12.21...v1.12.22) (2023-07-03)
+
+
+### 🧑‍💻 Code Refactoring
+
+* proxy calls to zgw api's to staging ([#110](https://github.com/ibissource/zaakbrug/issues/110)) ([0371c12](https://github.com/ibissource/zaakbrug/commit/0371c12a4411b26074ffee70f941dc982af03706))
+
+## [1.12.21](https://github.com/ibissource/zaakbrug/compare/v1.12.20...v1.12.21) (2023-06-29)
+
+
+### 🧑‍💻 Code Refactoring
+
+* add NGinX reverse proxy to the Helm Chart ([#128](https://github.com/ibissource/zaakbrug/issues/128)) ([660310b](https://github.com/ibissource/zaakbrug/commit/660310b288f9e843fc2f5cf51a63dba6706b5faf))
+
+## [1.12.20](https://github.com/ibissource/zaakbrug/compare/v1.12.19...v1.12.20) (2023-06-26)
+
+
+### 🐛 Bug Fixes
+
+* optional staging is enabled by default ([e54e657](https://github.com/ibissource/zaakbrug/commit/e54e6574a4a7687e60945ae14b5b13506031db3f))
+
+## [1.12.19](https://github.com/ibissource/zaakbrug/compare/v1.12.18...v1.12.19) (2023-06-23)
+
+
+### 🐛 Bug Fixes
+
+* **helm:** tomcatUsers default should be an empty array ([#126](https://github.com/ibissource/zaakbrug/issues/126)) ([b4bfe7e](https://github.com/ibissource/zaakbrug/commit/b4bfe7e2063d42296c1876a8e236b7e4161375d0))
+
+## [1.12.18](https://github.com/ibissource/zaakbrug/compare/v1.12.17...v1.12.18) (2023-06-23)
+
+
+### 🤖 Build System
+
+* lock frank-framework base image to tag instead of snapshot ([#125](https://github.com/ibissource/zaakbrug/issues/125)) ([77b8031](https://github.com/ibissource/zaakbrug/commit/77b803125ab358e82a7871908ebc47b47a41c9f9))
+
+
+### 🔁 Continuous Integration
+
+* add workflow to create a base image for the zaakbrug ([#122](https://github.com/ibissource/zaakbrug/issues/122)) ([b7d1383](https://github.com/ibissource/zaakbrug/commit/b7d13832822564f0033e2d2a36d4a7b96c81e25c))
+* remove docker image artifact automatically after one day ([#123](https://github.com/ibissource/zaakbrug/issues/123)) ([61b8b1d](https://github.com/ibissource/zaakbrug/commit/61b8b1d9c7f52a7368853afd21178df06e410200))
+
+## [1.12.17](https://github.com/ibissource/zaakbrug/compare/v1.12.16...v1.12.17) (2023-06-23)
+
+
+### 🐛 Bug Fixes
+
+* every call to a subadapter is shown as a seperate message in Ladybug ([#121](https://github.com/ibissource/zaakbrug/issues/121)) ([259c444](https://github.com/ibissource/zaakbrug/commit/259c4448e96ca915b64470a080411dfd7490de54))
+
+## [1.12.16](https://github.com/ibissource/zaakbrug/compare/v1.12.15...v1.12.16) (2023-06-22)
+
+
+### 🧑‍💻 Code Refactoring
+
+* add optional staging openzaak deployment to helm for zgw to zds translation ([#104](https://github.com/ibissource/zaakbrug/issues/104)) ([4dd4af1](https://github.com/ibissource/zaakbrug/commit/4dd4af189b7a10b9819ef16b473635434af66692))
+
+## [1.12.15](https://github.com/ibissource/zaakbrug/compare/v1.12.14...v1.12.15) (2023-06-16)
+
+
+### ✅ Tests
+
+* added aanvraag collectieve zorgverzekering zaaktype as e2e test… ([#109](https://github.com/ibissource/zaakbrug/issues/109)) ([dc9a2de](https://github.com/ibissource/zaakbrug/commit/dc9a2de293c566ec373c2d4d5fbec47d195d50d1))
+
+## [1.12.14](https://github.com/ibissource/zaakbrug/compare/v1.12.13...v1.12.14) (2023-06-16)
+
+
+### 🔁 Continuous Integration
+
+* include chart yaml in semantic release git commit ([83e2a91](https://github.com/ibissource/zaakbrug/commit/83e2a91e3d07ebfad464bc78cb28980e5979a4a3))
+
+## [1.12.13](https://github.com/ibissource/zaakbrug/compare/v1.12.12...v1.12.13) (2023-06-16)
+
+
+### 🔁 Continuous Integration
+
+* auto bump helm chart version added to semantic-release ([#118](https://github.com/ibissource/zaakbrug/issues/118)) ([03b44bc](https://github.com/ibissource/zaakbrug/commit/03b44bcf740e265259cc924ce3e460cb8f06176c))
+* helm chart plugin dependency fix during release ([#119](https://github.com/ibissource/zaakbrug/issues/119)) ([aa1ffe7](https://github.com/ibissource/zaakbrug/commit/aa1ffe77024c8ea1f084c3a9b7afb409ef4ffc86))
+
+## [1.12.12](https://github.com/ibissource/zaakbrug/compare/v1.12.11...v1.12.12) (2023-06-16)
+
+
+### 🔁 Continuous Integration
+
+* breaking release parser opts fixed to allow for major releases ([#115](https://github.com/ibissource/zaakbrug/issues/115)) ([04744eb](https://github.com/ibissource/zaakbrug/commit/04744ebbeee84bdd72fe6e8d24a7c254aa73c899))
+
 ## [1.12.11](https://github.com/ibissource/zaakbrug/compare/v1.12.10...v1.12.11) (2023-06-08)
 
 
