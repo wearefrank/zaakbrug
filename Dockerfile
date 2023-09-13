@@ -1,4 +1,8 @@
-FROM docker.io/wearefrank/zaakbrug-base:5357284526
+# Keep in sync with version in frank-runner.properties. Detailed instructions can be found in CONTRIBUTING.md.
+# Check whether java-orig files have changed in F!F and update custom code (java and java-orig files) accordingly
+
+# Before bumping make sure https://github.com/ibissource/iaf/issues/5356 is resolved or stuurgegevens-refactor PR is merged.
+FROM docker.io/wearefrank/frank-framework:7.9-20230905.223421
 
 # TempFix TODO: Move this to the credentialprovider.properties
 ENV credentialFactory.class=nl.nn.credentialprovider.PropertyFileCredentialFactory
@@ -25,5 +29,6 @@ RUN javac \
       -verbose -d /usr/local/tomcat/webapps/ROOT/WEB-INF/classes
 RUN rm -rf /tmp/java
 
+# The part after "||" is to make sure the response of the health-endpoint call is included in the logs, for debugging purposes.
 HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=60 \
   CMD curl --fail --silent http://localhost:8080/iaf/api/server/health || (curl --silent http://localhost:8080/iaf/api/server/health && exit 1)

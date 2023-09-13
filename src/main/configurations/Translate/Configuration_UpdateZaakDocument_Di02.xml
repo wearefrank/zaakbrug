@@ -100,15 +100,18 @@
                 <Forward name="success" path="CallPutZaakDocument"/>
             </PutInSessionPipe>
 
-            <SenderPipe 
+            <SenderPipe
                 name="CallPutZaakDocument"
-                getInputFromSessionKey="ZgwEnkelvoudigInformatieObject">
+                getInputFromSessionKey="ZgwEnkelvoudigInformatieObject"
+                >
                 <IbisLocalSender
                     name="CallPutZaakDocumentSender"
-                    javaListener="PutZgwZaakDocument">
-                    <Param name="Url" sessionKey="Url"/>                   
+                    javaListener="PutZgwZaakDocument"
+                    >
+                    <Param name="Url" sessionKey="Url" />
+                    <Param name="ref_inhoud" sessionKey="ref_inhoud" />                
                 </IbisLocalSender>
-                <Forward name="success" path="CallGetZgwInformatieObjectUnlock"/>
+                <Forward name="success" path="CallGetZgwInformatieObjectUnlock" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 

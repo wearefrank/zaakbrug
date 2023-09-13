@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  zaakbrug:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.java11
+    environment:
+      - zaakbrug.zgw.zaken-api.timeout=120000
+      - zaakbrug.zgw.catalogi-api.timeout=120000
+      - zaakbrug.zgw.documenten-api.timeout=120000
+      - zaakbrug.zgw.besluiten-api.timeout=120000
+      - soap.bus.org.apache.cxf.stax.maxTextLength=1000000000
+      - CATALINA_OPTS=$CATALINA_OPTS -Xmx24g
