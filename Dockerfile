@@ -1,7 +1,14 @@
-FROM tomcat:8-jre11-temurin-jammy AS base
-
+# Keep in sync with version in frank-runner.properties. Detailed instructions can be found in CONTRIBUTING.md.
+# Check whether java-orig files have changed in F!F and update custom code (java and java-orig files) accordingly
+ARG FF_VERSION=7.9-20230905.223421
 ARG GID=1000
 ARG UID=1000
+
+FROM tomcat:8-jre11-temurin-jammy AS base
+
+ARG FF_VERSION
+ARG GID
+ARG UID
 
 # Secure files (CIS-DI-0008)
 RUN chmod -R 751 /usr/bin /usr/sbin
@@ -20,10 +27,15 @@ RUN set -eux && \
 # All previous actions are performed as root. Run following instructions and start container as tomcat.
 USER tomcat
 
+# Needed to created a valid "from" image when using ARG variable
+# COPY "--from=docker.io/wearefrank/frank-framework:${FF_VERSION}" doesn't work
+FROM docker.io/wearefrank/frank-framework:${FF_VERSION} AS ff-builder
+FROM base AS ff-base
+
 # Copy environment configuration
-COPY --from=docker.io/wearefrank/frank-framework:7.9-20230905.223421 --chown=tomcat /usr/local/tomcat/conf/catalina.properties /usr/local/tomcat/conf/catalina.properties
-COPY --from=docker.io/wearefrank/frank-framework:7.9-20230905.223421 --chown=tomcat /usr/local/tomcat/lib/ /usr/local/tomcat/lib/
-COPY --from=docker.io/wearefrank/frank-framework:7.9-20230905.223421 --chown=tomcat /usr/local/tomcat/webapps/ROOT /usr/local/tomcat/webapps/ROOT
+COPY --from=ff-builder --chown=tomcat /usr/local/tomcat/conf/catalina.properties /usr/local/tomcat/conf/catalina.properties
+COPY --from=ff-builder --chown=tomcat /usr/local/tomcat/lib/ /usr/local/tomcat/lib/
+COPY --from=ff-builder --chown=tomcat /usr/local/tomcat/webapps/ROOT /usr/local/tomcat/webapps/ROOT
 
 # TempFix TODO: Move this to the credentialprovider.properties
 ENV credentialFactory.class=nl.nn.credentialprovider.PropertyFileCredentialFactory
@@ -43,10 +55,10 @@ COPY --chown=tomcat src/main/resources/ /opt/frank/resources/
 COPY --chown=tomcat src/test/testtool/ /opt/frank/testtool/
 
 # Compile custom class
-FROM eclipse-temurin:8-jdk-jammy AS build
+FROM eclipse-temurin:8-jdk-jammy AS custom-code-builder
 
-COPY --from=base /usr/local/tomcat/lib/ /usr/local/tomcat/lib/
-COPY --from=base /usr/local/tomcat/webapps/ROOT /usr/local/tomcat/webapps/ROOT
+COPY --from=ff-base /usr/local/tomcat/lib/ /usr/local/tomcat/lib/
+COPY --from=ff-base /usr/local/tomcat/webapps/ROOT /usr/local/tomcat/webapps/ROOT
 
 COPY src/main/java /tmp/java
 RUN mkdir /tmp/classes \
@@ -55,9 +67,9 @@ RUN mkdir /tmp/classes \
       -classpath "/usr/local/tomcat/webapps/ROOT/WEB-INF/lib/*:/usr/local/tomcat/lib/*" \
       -verbose -d /tmp/classes 
 
-FROM base AS final
+FROM ff-base AS final
 
-COPY --from=build --chown=tomcat /tmp/classes/ /usr/local/tomcat/webapps/ROOT/WEB-INF/classes
+COPY --from=custom-code-builder --chown=tomcat /tmp/classes/ /usr/local/tomcat/webapps/ROOT/WEB-INF/classes
 
 HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=60 \
   CMD curl --fail --silent http://localhost:8080/iaf/api/server/health || (curl --silent http://localhost:8080/iaf/api/server/health && exit 1)
