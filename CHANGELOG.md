@@ -1,5 +1,13 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.2](https://github.com/ibissource/zaakbrug/compare/v1.13.1...v1.13.2) (2023-09-15)
+
+
+### 🤖 Build System
+
+* migration to java 11 runtime for better performance and memory usage ([b273991](https://github.com/ibissource/zaakbrug/commit/b273991945db534333e57bb961864ef14becf152))
+* pass ff version to dockerfile with variables ([f110c38](https://github.com/ibissource/zaakbrug/commit/f110c3878485bca34f4f5a46e58a99458902f195))
+
 ## [1.13.1](https://github.com/ibissource/zaakbrug/compare/v1.13.0...v1.13.1) (2023-09-13)
 
 
