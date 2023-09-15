@@ -120,7 +120,9 @@ jobs:
 
   update-helm:
     uses: ./.github/workflows/update-helm-chart.yml
-    needs: release
+    needs: 
+      - release
+      - analyze-commits
     secrets: inherit
     with:
       version: ${{ needs.analyze-commits.outputs.release-version }}
