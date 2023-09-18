@@ -1,0 +1,33 @@
+version: '3.8'
+
+x-zaakbrug-postgres-env:
+  environment: &zaakbrug-postgres-env
+    POSTGRES_USER: zaakbrug
+    POSTGRES_PASSWORD: zaakbrug
+    POSTGRES_DB: zaakbrug
+
+services:
+  zaakbrug-postgres:
+    image: postgres:${POSTGRES_VERSION:-14}
+    environment: 
+      <<: *zaakbrug-postgres-env
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - 5400:5432
+    networks:
+      - zaakbrug-backend
+    volumes:
+      - zaakbrug-postgres-data:/var/lib/postgresql/data
+
+  zaakbrug:
+    environment: 
+      <<: *zaakbrug-postgres-env
+      DB_HOSTNAME: zaakbrug-postgres
+      DB_PORT: 5432
+    volumes:
+      - ./docker/zaakbrug-postgres/context.xml:/usr/local/tomcat/conf/Catalina/localhost/ROOT.xml:rw
+    depends_on:
+      - zaakbrug-postgres
+
+volumes:
+  zaakbrug-postgres-data:

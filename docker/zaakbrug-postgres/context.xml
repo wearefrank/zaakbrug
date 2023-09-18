@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<JarScanner scanClassPath="false" scanAllFiles="false" scanAllDirectories="false"/>
+	<Resource name="jdbc/${database.instance.name:-zaakbrug}" auth="Container"
+              type="javax.sql.DataSource"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://${DB_HOSTNAME:-zaakbrug-postgres}:${DB_PORT:-5432}/${POSTGRES_DB:-zaakbrug}"
+              username="${POSTGRES_USER:-zaakbrug}"
+              password="${POSTGRES_PASSWORD:-zaakbrug}" />
+</Context>

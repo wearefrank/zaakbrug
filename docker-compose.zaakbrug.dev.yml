@@ -23,7 +23,7 @@ services:
     environment:
       - zaakbrug.zds.timezone=UTC
       - TZ=Europe/Amsterdam
-    volumes: &zaakbrug-database-data
+    volumes:
       - ../frank-runner/data:/usr/local/tomcat/data
       - logs:/usr/local/tomcat/logs
       # - ./data:/usr/local/tomcat/data
@@ -36,7 +36,6 @@ services:
 
 volumes:
   logs:
-  database-data:
   media:
   private-media:
 
