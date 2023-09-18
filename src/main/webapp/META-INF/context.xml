@@ -11,8 +11,8 @@
 	<!-- <Resource name="jdbc/zaakbrug" auth="Container"
               type="javax.sql.DataSource"
               driverClassName="org.postgresql.Driver"
-              url="jdbc:postgresql://${jdbc.hostname:-host.docker.internal}:5432/zaakbrug"
-              username="${database/username:-postgres}"
-              password="${database/password:-admin}"
+              url="jdbc:postgresql://${jdbc.hostname:-localhost}:5400/zaakbrug"
+              username="${database/username:-zaakbrug}"
+              password="${database/password:-zaakbrug}"
     /> -->
 </Context>

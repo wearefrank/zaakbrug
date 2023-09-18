@@ -12,6 +12,8 @@ services:
     environment: 
       <<: *zaakbrug-postgres-env
       POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - 5400:5432
     networks:
       - zaakbrug-backend
     volumes:
