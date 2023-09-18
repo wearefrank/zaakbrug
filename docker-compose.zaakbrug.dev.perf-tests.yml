@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   zaakbrug:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.java11
+    build: .
     environment:
       - zaakbrug.zgw.zaken-api.timeout=120000
       - zaakbrug.zgw.catalogi-api.timeout=120000
