@@ -56,6 +56,16 @@ For example: `docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-co
 
 > Note: Database data is not seamlessly shared with the Frank!Runner out-off-the-box. In `src/webapp/META_INF/context.xml` you can comment out the H2 configuration and uncomment the Postgress one. The Frank!Runner will then use the Postgres database used in the docker-compose.
 
+#### PgAdmin4
+To aid with debugging you can use PgAdmin4 to browse/edit the Postgres database. PgAdmin4 is included and pre-configured in `docker-compose.zaakbrug.postgres` and can be enabled by adding `--profile pgadmin` to your `docker-compose up` command.
+
+The PgAdmin4 web-GUI is exposed on port `5050`, so can be accessed with `localhost:5050` or `host.docker.internal:5050`
+
+**default login:**  
+email: `admin@wearefrank.nl`  
+password: `admin` 
+
+For example: `docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml --profile pgadmin up --build`
 
 ## docker-compose.zaakbrug.staging.dev
 Contains an instance of OpenZaak specifically configured to act as cache or staging for ZGW to ZDS translations. It shares a network with ZaakBrug, and should be considered a component of the ZaakBrug deployment for when ZGW to ZDS translations are required.
