@@ -73,6 +73,10 @@ Contains an instance of OpenZaak specifically configured to act as cache or stag
 The ZaakBrug "staging" OpenZaak admin console can be accessed from `host.docker.internal:9000/zaakbrug/staging/`  
 The ZaakBrug "staging" OpenZaak is not exposed.
 
+**default web-GUI login:**  
+username: `admin`  
+password: `admin`
+
 #### Configuration
 When running OpenZaak for the first time or after the database data has been lost, it is necessary to configure an application in the OpenZaak admin gui with the correct JWT client_id and secret at `API Authorisaties -> Applicaties -> Applicatie toevoegen +`. For development, the default credentials can be found in `./src/main/resources/credentials.properties`. Makes sure to also click the `Heeft alle autorisaties` checkbox. The Label can be anything.
 
@@ -83,6 +87,10 @@ Contains an instance of OpenZaak for testing ZDS to ZGW translations.
 
 OpenZaak Admin console can be accessed from `host.docker.internal:9000/openzaak/`  
 OpenZaak is also exposed on `host.docker.internal:9001/`
+
+**default web-GUI login:**  
+username: `admin`  
+password: `admin`
 
 #### Configuration
 When running OpenZaak for the first time or after the database data has been lost, it is necessary to configure an application in the OpenZaak admin gui with the correct JWT client_id and secret at `API Authorisaties -> Applicaties -> Applicatie toevoegen +`. For development, the default credentials can be found in `./src/main/resources/credentials.properties`. Makes sure to also click the `Heeft alle autorisaties` checkbox. The Label can be anything.
