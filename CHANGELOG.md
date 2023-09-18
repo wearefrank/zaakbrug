@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.4](https://github.com/ibissource/zaakbrug/compare/v1.13.3...v1.13.4) (2023-09-18)
+
+
+### ✅ Tests
+
+* **docker-compose:** add optional pgadmin behind profile for zaakbrug postgres db ([a98cc27](https://github.com/ibissource/zaakbrug/commit/a98cc271f00f5062f8677fc7bea9f69dbf16396d))
+
 ## [1.13.3](https://github.com/ibissource/zaakbrug/compare/v1.13.2...v1.13.3) (2023-09-18)
 
 
