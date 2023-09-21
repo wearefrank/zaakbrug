@@ -87,7 +87,7 @@
                 getInputFromFixedValue="&lt;dummy/&gt;"
                 soapBodyStyleSheet="Common/xsl/CreateBv03Response.xslt"
             >
-                <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC" />
+                <Param name="Stuurgegevens" sessionKey="Stuurgegevens" type="DOMDOC" />
                 <Forward name="success" path="EXIT" />
             </SoapWrapperPipe>
 
