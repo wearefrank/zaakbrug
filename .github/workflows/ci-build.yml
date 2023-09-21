@@ -26,7 +26,7 @@ jobs:
         node-version: 18.x
     - 
       name: Install dependencies
-      run: yarn global add semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/exec @semantic-release/release-notes-generator @semantic-release/commit-analyzer conventional-changelog-conventionalcommits semantic-release-helm
+      run: yarn global add semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/exec @semantic-release/release-notes-generator @semantic-release/commit-analyzer@10.0.1 conventional-changelog-conventionalcommits@6.1.0
     -
       name: Get next version
       id: next-version
@@ -110,10 +110,27 @@ jobs:
         node-version: 18.x
     - 
       name: Install dependencies
-      run: yarn global add semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/exec @semantic-release/release-notes-generator @semantic-release/commit-analyzer conventional-changelog-conventionalcommits semantic-release-helm
+      run: yarn global add semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/exec @semantic-release/release-notes-generator @semantic-release/commit-analyzer@10.0.1 conventional-changelog-conventionalcommits@6.1.0 semantic-release-helm
     - 
       name: Semantic Release
       run: "semantic-release"
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+  update-helm:
+    uses: ./.github/workflows/update-helm-chart.yml
+    needs: 
+      - release
+      - analyze-commits
+    secrets: inherit
+    if: >- 
+      ${{ (startsWith(github.ref, 'refs/tags/') ||
+          github.ref == 'refs/heads/main' ||
+          github.ref == 'refs/heads/master') &&
+          github.event_name == 'push' &&
+          needs.analyze-commits.outputs.release-version != '' &&
+          needs.analyze-commits.outputs.release-version != null }}
+    with:
+      version: ${{ needs.analyze-commits.outputs.release-version }}
+

@@ -1,5 +1,119 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.4](https://github.com/ibissource/zaakbrug/compare/v1.13.3...v1.13.4) (2023-09-18)
+
+
+### ✅ Tests
+
+* **docker-compose:** add optional pgadmin behind profile for zaakbrug postgres db ([a98cc27](https://github.com/ibissource/zaakbrug/commit/a98cc271f00f5062f8677fc7bea9f69dbf16396d))
+
+## [1.13.3](https://github.com/ibissource/zaakbrug/compare/v1.13.2...v1.13.3) (2023-09-18)
+
+
+### ✅ Tests
+
+* **docker-compose:** add optional postgres db for zaakbrug ([#107](https://github.com/ibissource/zaakbrug/issues/107)) ([3d1ab2b](https://github.com/ibissource/zaakbrug/commit/3d1ab2b01309a7aada4c4a2ec3d1f6b520134060))
+
+## [1.13.2](https://github.com/ibissource/zaakbrug/compare/v1.13.1...v1.13.2) (2023-09-15)
+
+
+### 🤖 Build System
+
+* migration to java 11 runtime for better performance and memory usage ([b273991](https://github.com/ibissource/zaakbrug/commit/b273991945db534333e57bb961864ef14becf152))
+* pass ff version to dockerfile with variables ([f110c38](https://github.com/ibissource/zaakbrug/commit/f110c3878485bca34f4f5a46e58a99458902f195))
+
+## [1.13.1](https://github.com/ibissource/zaakbrug/compare/v1.13.0...v1.13.1) (2023-09-13)
+
+
+### 🧑‍💻 Code Refactoring
+
+* replace get roltypen query by zaaktype with individual calls to roltype by their uuid to make them cachable ([#113](https://github.com/ibissource/zaakbrug/issues/113)) ([0df9e15](https://github.com/ibissource/zaakbrug/commit/0df9e157003d20ce418ec3a96211ca40e567f109))
+
+## [1.13.0](https://github.com/ibissource/zaakbrug/compare/v1.12.41...v1.13.0) (2023-09-13)
+
+
+### 🍕 Features
+
+* migrate Helm chart to dedicated chart repository ([#153](https://github.com/ibissource/zaakbrug/issues/153)) ([d71dd0f](https://github.com/ibissource/zaakbrug/commit/d71dd0f253f08a7953885e8aac63aa6ea02544a1))
+
+## [1.12.41](https://github.com/ibissource/zaakbrug/compare/v1.12.40...v1.12.41) (2023-09-13)
+
+
+### 🔥 Performance Improvements
+
+* base64 to disk before validation & from disk after response wrapping ([8cf6ca1](https://github.com/ibissource/zaakbrug/commit/8cf6ca1b75e787e813be454f8c8b9e8cad825cbb))
+* soap-endpoints refactor to reduce large file memory usage ([757a003](https://github.com/ibissource/zaakbrug/commit/757a00374c5371a8af54656807dc4a6c9978cc67))
+* zds 1.2 soap-endpoint refactor to reduce large file memory usage ([31bb8ab](https://github.com/ibissource/zaakbrug/commit/31bb8ab4ef8797b3f44401fbd0ba08a2fa904050))
+
+
+### 🧑‍💻 Code Refactoring
+
+* dedicated handler for GeefZaakdocumentbewerken soap action ([69caceb](https://github.com/ibissource/zaakbrug/commit/69caceb219e4ca5737f94e1b6e315b7ba9d5a907))
+
+
+### ✅ Tests
+
+* assertions added to match base64 in requests & responses ([f1ff11d](https://github.com/ibissource/zaakbrug/commit/f1ff11d2f571330b3a932cfb35a7d3d34326b31f))
+* performance tests for large documents & identificatie concurrency ([9d5adb3](https://github.com/ibissource/zaakbrug/commit/9d5adb3dca9be4929c4cdd240db8d06394b6bd1e))
+* supplemental docker-compose for performance testing ([41abdf3](https://github.com/ibissource/zaakbrug/commit/41abdf3db05c0274546b85eba285f5582354fe65))
+
+
+### 🤖 Build System
+
+* add experimental java 11 Dockerfile ([0c45e0e](https://github.com/ibissource/zaakbrug/commit/0c45e0eb79328aba303b10bfe83f8a0cccebb38d))
+* **depencies:** bump f!f version to 7.9-20230810.190012 ([fa5ac85](https://github.com/ibissource/zaakbrug/commit/fa5ac8584fa6707579be331d4a278a94fb845909))
+* improved java 11 dockefile by building from tomcat image ([6016c5a](https://github.com/ibissource/zaakbrug/commit/6016c5a0a194c1be26f1c65dcd36742dbaae5e3b))
+
+## [1.12.40](https://github.com/ibissource/zaakbrug/compare/v1.12.39...v1.12.40) (2023-09-11)
+
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 7.9-20230905.223421 ([8c2f24d](https://github.com/ibissource/zaakbrug/commit/8c2f24dae98798901b717bb3e58d88fcd24b83d1))
+
+## [1.12.39](https://github.com/ibissource/zaakbrug/compare/v1.12.38...v1.12.39) (2023-09-07)
+
+
+### ⏩ Reverts
+
+* Revert "fix: identificatie generation producing duplicates during highly-concurrent workload (#143)" (#151) ([db33368](https://github.com/ibissource/zaakbrug/commit/db333682b8ec1a8966903dfce6e6fcbbdcc1e59a)), closes [#143](https://github.com/ibissource/zaakbrug/issues/143) [#151](https://github.com/ibissource/zaakbrug/issues/151)
+
+## [1.12.38](https://github.com/ibissource/zaakbrug/compare/v1.12.37...v1.12.38) (2023-09-07)
+
+
+### 🐛 Bug Fixes
+
+* Error message not returned to CLO in ForEachChildElementPipe in GeefLijstZaakdocumenten adapter ([#150](https://github.com/ibissource/zaakbrug/issues/150)) ([7d574c9](https://github.com/ibissource/zaakbrug/commit/7d574c994d85ada4896e00e6d0620dc3a8e6c0fa))
+
+## [1.12.37](https://github.com/ibissource/zaakbrug/compare/v1.12.36...v1.12.37) (2023-09-06)
+
+
+### 🐛 Bug Fixes
+
+* identificatie generation producing duplicates during highly-concurrent workload ([#143](https://github.com/ibissource/zaakbrug/issues/143)) ([3235a62](https://github.com/ibissource/zaakbrug/commit/3235a6242e00550ae0cd42189035e4bc326d02ef))
+
+## [1.12.36](https://github.com/ibissource/zaakbrug/compare/v1.12.35...v1.12.36) (2023-09-06)
+
+
+### ✅ Tests
+
+* add commented out pgadmin container to sentry docker-compose for postgres browsing ([bb42fbc](https://github.com/ibissource/zaakbrug/commit/bb42fbca1968886c4173a034b3f4c65db12f0019))
+* add sentry instance in test-environment and add instructions to contributing.md ([e210682](https://github.com/ibissource/zaakbrug/commit/e2106827c30b246ef51387fd9a3d688b9908c50a))
+
+## [1.12.35](https://github.com/ibissource/zaakbrug/compare/v1.12.34...v1.12.35) (2023-09-01)
+
+
+### 🐛 Bug Fixes
+
+* error message not returned to CLO ([6bf900a](https://github.com/ibissource/zaakbrug/commit/6bf900a22726bf629d90eaca41444d764d99d8bd))
+
+## [1.12.34](https://github.com/ibissource/zaakbrug/compare/v1.12.33...v1.12.34) (2023-08-30)
+
+
+### 🔁 Continuous Integration
+
+* revert semantic-release dependecies due to breaking change ([247909a](https://github.com/ibissource/zaakbrug/commit/247909a6e08a15279fe68efcb94e53679e4c13ab))
+
 ## [1.12.33](https://github.com/ibissource/zaakbrug/compare/v1.12.32...v1.12.33) (2023-08-10)
 
 

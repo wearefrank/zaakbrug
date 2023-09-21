@@ -34,26 +34,39 @@
 
             <SoapWrapperPipe 
                 name="UnwrapSoapMessage"
-                storeResultInSessionKey="UnwrapMessageResult"
                 direction="UNWRAP"
-                removeOutputNamespaces="true">
-                <Forward name="success" path="SanitizeSoapAction"/>
+                removeOutputNamespaces="true"
+                >
+                <Forward name="success" path="StoreResponeContextSessionKeys"/>
+                <Forward name="exception" path="BackEndError"/>
             </SoapWrapperPipe>
 
+            <PutInSessionPipe
+                name="StoreResponeContextSessionKeys"
+                >
+                <Param name="Stuurgegevens" xpathExpression="/*/stuurgegevens" defaultValue="&lt;stuurgegevens/&gt;" type="DOMDOC" />
+                <Param name="Parameters" xpathExpression="/*/parameters" defaultValue="&lt;parameters/&gt;" type="DOMDOC" />
+                <Param name="Scope" xpathExpression="/*/scope" defaultValue="&lt;scope/&gt;" type="DOMDOC" />
+                <Forward name="success" path="LegalizeSoapActionForPipeName"/>
+                <Forward name="exception" path="BackEndError"/>
+            </PutInSessionPipe>
+
             <XsltPipe
-                name="SanitizeSoapAction"
+                name="LegalizeSoapActionForPipeName"
+                preserveInput="true"
                 xpathExpression="replace($Action, '/', '_')"
-                storeResultInSessionKey="SatitizedSoapAction"
+                storeResultInSessionKey="LegalizedSoapAction"
                 >
                 <Param name="Action" sessionKey="SOAPAction"/>
-                <Forward name="success" path="ActionSwitch"/>
-                <Forward name="error" path="BackEndError"/>
+                <Forward name="success" path="ForwardBySoapActionSwitch"/>
+                <Forward name="exception" path="BackEndError"/>
             </XsltPipe>
 
-            <XmlSwitchPipe name="ActionSwitch"
-                forwardNameSessionKey="SatitizedSoapAction"
+            <XmlSwitchPipe 
+                name="ForwardBySoapActionSwitch"
+                forwardNameSessionKey="LegalizedSoapAction"
                 notFoundForwardName="UnsupportedSoapActionError"
-            />
+                />
             
             <!-- SenderPipes -->
 
@@ -61,12 +74,12 @@
 
             <!-- ERRORS -->
             <XsltPipe 
-                    name="UnsupportedSoapActionError"
-                    emptyInputReplacement="&lt;EmptyInput/&gt;"
-                    styleSheetName="Common/xsl/BuildError.xsl"
-                    >
-                    <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
-                    <Param name="reason" pattern="Unsupported SOAP-action. No implementation found for: {SOAPAction}" /> 
+                name="UnsupportedSoapActionError"
+                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                >
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Unsupported SOAP-action. No implementation found for: {SOAPAction}" />
                 <!-- <Param name="details" sessionKey="" /> -->
                 <!-- <Param name="detailsXml" type="DOMDOC" /> -->
                 <Forward name="success" path="BackEndError" />

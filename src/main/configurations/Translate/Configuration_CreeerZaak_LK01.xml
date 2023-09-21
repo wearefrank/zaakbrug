@@ -66,11 +66,29 @@
                     javaListener="GetRsinByGemeenteCode">
                     <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
                 </IbisLocalSender>
-                <Forward name="success" path="CallGetZgwRolType"/>
+                <Forward name="success" path="GetRolTypenByUrl"/>
                 <Forward name="exception" path="UncaughtException"/>
             </SenderPipe>
 
-            <SenderPipe
+            <ForEachChildElementPipe name="GetRolTypenByUrl"
+             storeResultInSessionKey="ZgwRolTypen"
+                elementXPathExpression="ZgwZaakTypen/ZgwZaakType/roltypen"
+                getInputFromSessionKey="GetZaakTypeResult">
+                <IbisLocalSender javaListener="GetRolTypenByUrl">
+                    <Param name="Url" xpathExpression="/roltypen" />
+                </IbisLocalSender>
+            </ForEachChildElementPipe>
+
+            <XsltPipe
+                name="UnwrapOpenZaakApiEnvelopeToList"
+                styleSheetName="Common/xsl/UnwrapForEachChildPipeEnvelopeToList.xslt"
+                >
+                <Param name="List" value="ZgwRolTypen"/>
+                <Forward name="success" path="SetRoles"/>
+                <Forward name="exception" path="UncaughtException" />
+            </XsltPipe>
+
+            <!-- <SenderPipe
                 name="CallGetZgwRolType"
                 storeResultInSessionKey="ZgwRolTypen">
                 <IbisLocalSender
@@ -82,7 +100,7 @@
                 </IbisLocalSender>
                 <Forward name="success" path="SetRoles"/>
                 <Forward name="exception" path="UncaughtException" />
-            </SenderPipe>   
+            </SenderPipe>    -->
 
             <XsltPipe
                 name="SetRoles"
