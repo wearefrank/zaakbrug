@@ -132,7 +132,7 @@
                 name="WrapFo03Response"
                 soapBodyStyleSheet="Common/xsl/CreateFo03Response.xslt"
             >
-                <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC" />
+                <Param name="Stuurgegevens" sessionKey="Stuurgegevens" type="DOMDOC" />
                 <Param name="errorCode" sessionKey="errorCode" />
                 <Param name="errorReason" sessionKey="errorReason" />
                 <Param name="errorDetailText" sessionKey="errorDetailText" />
