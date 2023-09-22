@@ -15,8 +15,23 @@
             
             <JsonPipe name="XmlToJson"
                 direction="XML2JSON">
-                <Forward name="success" path="PutZaakDocument"/>
+                <Forward name="success" path="ReplaceBase64EncodedRefWithInhoudRef"/>
             </JsonPipe>
+
+            <ReplacerPipe
+                name="ReplaceBase64EncodedRefWithInhoudRef"
+                find="e3Nlc3Npb25LZXk6cmVmX2luaG91ZH0="
+                replace="{sessionKey:ref_inhoud}"
+                >
+                <Forward name="success" path="SubstituteDocumentDataRef" />
+            </ReplacerPipe>
+
+            <EchoPipe
+                name="SubstituteDocumentDataRef"
+                restoreMovedElements="true"
+                >
+                <Forward name="success" path="PutZaakDocument"/>
+            </EchoPipe>
 
             <SenderPipe name="PutZaakDocument">
 				<HttpSender 
