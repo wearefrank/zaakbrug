@@ -71,7 +71,7 @@
             <SenderPipe
                 name="http:__www.stufstandaarden.nl_koppelvlak_zds0120_geefLijstBesluiten_ZakLv01"
                 storeResultInSessionKey="GeefLijstBesluitenResult"
-                getInputFromSessionKey="UnwrapMessageResult">
+                preserveInput="true">
                 <IbisLocalSender
                     name="GeefLijstBesluiten_ZakLv01LocalSender"
                     javaListener="GeefLijstBesluiten_ZakLv01"> 
@@ -87,7 +87,7 @@
                 name="WrapZakLa01Response"
                 soapBodyStyleSheet="Zgw/Besluiten/Model/CreateGeefLijstBesluiten_ZakLa01Response.xslt"
                 >
-                <Param name="UnwrapMessageResult"   sessionKey="UnwrapMessageResult" type="DOMDOC"/>
+                <Param name="UnwrapMessageResult" type="DOMDOC"/>
                 <Forward name="success" path="EXIT"/>
             </SoapWrapperPipe>
 
