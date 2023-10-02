@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.5](https://github.com/wearefrank/zaakbrug/compare/v1.13.4...v1.13.5) (2023-10-02)
+
+
+### 🐛 Bug Fixes
+
+* errors due to missing roltype field when adding roles ([#162](https://github.com/wearefrank/zaakbrug/issues/162)) ([84e4921](https://github.com/wearefrank/zaakbrug/commit/84e49218032c0558719979b5dee0835f972b4190))
+
 ## [1.13.4](https://github.com/ibissource/zaakbrug/compare/v1.13.3...v1.13.4) (2023-09-18)
 
 
