@@ -70,10 +70,11 @@
                 <Forward name="exception" path="UncaughtException"/>
             </SenderPipe>
 
-            <ForEachChildElementPipe name="GetRolTypenByUrl"
-             storeResultInSessionKey="ZgwRolTypen"
+            <ForEachChildElementPipe
+                name="GetRolTypenByUrl"
                 elementXPathExpression="ZgwZaakTypen/ZgwZaakType/roltypen"
-                getInputFromSessionKey="GetZaakTypeResult">
+                getInputFromSessionKey="GetZaakTypeResult"
+                >
                 <IbisLocalSender javaListener="GetRolTypenByUrl">
                     <Param name="Url" xpathExpression="/roltypen" />
                 </IbisLocalSender>
@@ -82,6 +83,7 @@
             <XsltPipe
                 name="UnwrapOpenZaakApiEnvelopeToList"
                 styleSheetName="Common/xsl/UnwrapForEachChildPipeEnvelopeToList.xslt"
+                storeResultInSessionKey="ZgwRolTypen"
                 >
                 <Param name="List" value="ZgwRolTypen"/>
                 <Forward name="success" path="SetRoles"/>
