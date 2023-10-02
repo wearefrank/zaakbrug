@@ -39,13 +39,13 @@
 
             <JsonPipe
                 name="JsonToXml">
-                <Forward name="success" path="UnwrapZgwEnkelvoudigInformatieObjectToSingle" />
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToSingle" />
             </JsonPipe>
 
             <XsltPipe
-                name="UnwrapZgwEnkelvoudigInformatieObjectToSingle"
+                name="UnwrapOpenZaakApiEnvelopeToSingle"
                 styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToSingle.xslt" >
-                <Param name="Type" value="ZgwEnkelvoudigInformatieObject" />
+                <Param name="Type" value="ZgwRolType" />
                 <Forward name="success" path="EXIT" />
                 <Forward name="error" path="EXCEPTION" />
             </XsltPipe>
