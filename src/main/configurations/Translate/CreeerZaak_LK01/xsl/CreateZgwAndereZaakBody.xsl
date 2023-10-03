@@ -24,9 +24,7 @@
                     </xsl:if>
                 </xsl:otherwise>
             </xsl:choose>
-            <xsl:if test="$VerwerkingsSoort != 'W'">
-                <xsl:apply-templates select="ZgwZaak/relevanteAndereZaken" />
-            </xsl:if>
+            <xsl:apply-templates select="ZgwZaak/relevanteAndereZaken" />
         </container>
     </xsl:template>
 

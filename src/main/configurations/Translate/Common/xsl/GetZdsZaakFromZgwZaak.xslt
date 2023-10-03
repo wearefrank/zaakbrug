@@ -44,7 +44,7 @@
         <xsl:if test="string-length(reden) > 0">
             <verlenging>
                 <reden><xsl:value-of select="reden"/></reden>
-                <duur><xsl:value-of select="replace(replace(replace(replace(reden, 'D', ''), 'M', ''), 'Y', ''), 'P', '')"/></duur>
+                <duur><xsl:value-of select="replace(replace(replace(replace(duur, 'D', ''), 'M', ''), 'Y', ''), 'P', '')"/></duur>
             </verlenging>
         </xsl:if>
     </xsl:template>

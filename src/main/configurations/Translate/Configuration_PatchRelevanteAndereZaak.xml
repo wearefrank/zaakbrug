@@ -19,7 +19,6 @@
                 skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/CreateZgwAndereZaakBody.xsl"
                 >
-                <Param name="VerwerkingsSoort" sessionKey="VerwerkingsSoort"/>
                 <Param name="AndereUrl" sessionKey="AndereUrl"/>
                 <Param name="AndereUrls" sessionKey="AndereUrls" type="DOMDOC"/>
                 <Forward name="success" path="XmlToJson"/>

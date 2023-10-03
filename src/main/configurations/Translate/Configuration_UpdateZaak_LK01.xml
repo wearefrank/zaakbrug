@@ -259,7 +259,6 @@
                 <IbisLocalSender
                     name="CallPatchAndereZaakSender"
                     javaListener="PatchRelevanteAndereZaak">
-                    <Param name="VerwerkingsSoort" sessionKey="originalMessage" xpathExpression="/zakLk01/object/heeftBetrekkingOpAndere[1]/@verwerkingssoort" defaultValue="T" />
                     <Param name="Url" sessionKey="ZgwZaakUrl" defaultValue="&lt;dummy/&gt;" />
                     <Param name="AndereUrls" sessionKey="AndereZakenResult" defaultValue="&lt;dummy/&gt;"/>
                 </IbisLocalSender>
