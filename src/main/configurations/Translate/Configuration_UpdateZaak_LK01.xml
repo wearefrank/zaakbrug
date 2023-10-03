@@ -225,7 +225,7 @@
                 getInputFromSessionKey="originalMessage"
                 xpathExpression="/zakLk01/object/heeftBetrekkingOpAndere/gerelateerde[string-length(identificatie) > 0]"
                 thenForwardName="AndereZaakIterator"
-                elseForwardName="CallSetResultaatAndStatus">
+                elseForwardName="WrapZdsWordtZaak">
             </XmlIfPipe>
 
             <ForEachChildElementPipe name="AndereZaakIterator"
