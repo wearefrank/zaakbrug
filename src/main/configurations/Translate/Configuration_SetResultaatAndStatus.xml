@@ -362,6 +362,7 @@
                 <Forward name="success" path="PostStatusIterator"/>
             </XsltPipe>
 
+            <!-- https://github.com/ibissource/zaakbrug/issues/144 -->
             <ForEachChildElementPipe name="PostStatusIterator"
                 getInputFromSessionKey="NewStatuses"
                 elementXPathExpression="ZgwStatussen/ZgwStatus">

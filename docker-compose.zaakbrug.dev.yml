@@ -14,13 +14,16 @@ services:
       - zaakbrug
 
   zaakbrug:
-    build: .
+    build:
+      context: .
+      args:
+        FF_VERSION: ${FF_VERSION:-7.9-20230905.223421}
     image: wearefrank/zaakbrug:latest
     container_name: zaakbrug.dev
     environment:
       - zaakbrug.zds.timezone=UTC
       - TZ=Europe/Amsterdam
-    volumes: &zaakbrug-database-data
+    volumes:
       - ../frank-runner/data:/usr/local/tomcat/data
       - logs:/usr/local/tomcat/logs
       # - ./data:/usr/local/tomcat/data
@@ -33,7 +36,6 @@ services:
 
 volumes:
   logs:
-  database-data:
   media:
   private-media:
 

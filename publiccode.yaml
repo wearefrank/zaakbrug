@@ -1,0 +1,58 @@
+publiccodeYmlVersion: "0.2"
+name: ZaakBrug
+url: "https://github.com/wearefrank/zaakbrug.git"
+releaseDate: "2023-09-07"
+platforms:
+  - web
+  - haven
+  - kubernetes
+  - azure
+  - aws
+
+categories:
+  - integration.
+  - migration
+
+developmentStatus: stable
+
+softwareType: "application-development"
+
+description:
+  en:
+    shortDescription: >
+          Successor of Open-ZaakBrug, an app for Dutch municipalities that supports the transition from "zaak- en documentatieservices" (zds) to "zaakgericht werken" (zgw).
+          
+    longDescription: >
+          This project, ZaakBrug, is meant to be a successor of Open-ZaakBrug. 
+          It leverages the Frank!Framework and its debugger Ladybug. The debugger shows for 
+          each incoming request which steps are executed to process the message. 
+          If there are errors, this information can be used for easy debugging. 
+          ZaakBrug does not only connect zds systems with case register system OpenZaak, 
+          but with any case register system that implements zgw.
+          
+    features:
+      - Statelessness
+      - Atomicity
+      - Loose Coupling
+      - Error Tracking
+      - Standardized Interface
+
+legal:
+  license: European Union Public License 1.2
+
+maintenance:
+  type: "community"
+
+  contacts:
+    - name: Erwin Beets
+
+localisation:
+  localisationReady: true
+  availableLanguages:
+    - en
+# De Nederlandse uitbreiding op de Common Ground standaard
+nl:
+  countryExtensionVersion: "1.0"
+  commonground:
+  - layerType: "interface"
+  - installationType: "helm"

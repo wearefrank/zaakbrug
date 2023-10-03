@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  sentry-redis:
+    image: redis:${REDIS_VERSION:-6}
+    command: ["redis-server", "--appendonly", "yes"]
+    networks:
+      - sentry-backend
+    volumes:
+      - sentry-redis-data:/data
+
+  sentry-postgres:
+    image: postgres:${POSTGRES_VERSION:-14}
+    environment:
+      POSTGRES_USER: sentry
+      POSTGRES_PASSWORD: sentry
+      POSTGRES_DB: sentry
+      POSTGRES_HOST_AUTH_METHOD: trust
+    networks:
+      - sentry-backend
+    volumes:
+      - sentry-postgres-data:/var/lib/postgresql/data
+
+  # sentry-pgadmin:
+  #   image: dpage/pgadmin4:${PGADMIN_VERSION:-latest}
+  #   user: root
+  #   depends_on:
+  #     - sentry-postgres
+  #   ports:
+  #     - 5050:80
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@wearefrank.nl
+  #     PGADMIN_DEFAULT_PASSWORD: admin
+  #   # volumes:
+  #   #   - sentry-postgres-data:/var/lib/pgadmin
+  #   networks:
+  #     - sentry-backend
+
+  sentry:
+    image: sentry:${SENTRY_VERSION:-latest}
+    depends_on:
+      - sentry-redis
+      - sentry-postgres
+    ports:
+      - 9500:9000
+    environment: &sentry-env
+      SENTRY_SECRET_KEY: ${SECRET_KEY:-t$9llt$7fu65$nt$rmm4y^(xt)!%imecnia87ta(p4t^vf(w(+}
+      SENTRY_POSTGRES_HOST: sentry-postgres
+      SENTRY_DB_USER: sentry
+      SENTRY_DB_PASSWORD: sentry
+      SENTRY_REDIS_HOST: sentry-redis
+    networks:
+      - sentry-backend
+      - zaakbrug-stack
+
+  sentry-cron:
+    image: sentry:${SENTRY_VERSION:-latest}
+    depends_on:
+     - sentry-redis
+     - sentry-postgres
+    command: "sentry run cron"
+    environment: *sentry-env
+    networks:
+      - sentry-backend
+
+  sentry-worker:
+    image: sentry:${SENTRY_VERSION:-latest}
+    depends_on:
+     - sentry-redis
+     - sentry-postgres
+    command: "sentry run worker"
+    environment: *sentry-env
+    networks:
+      - sentry-backend
+
+volumes:
+  sentry-redis-data:
+  sentry-postgres-data:
+
+networks:
+  zaakbrug-stack:
+  sentry-backend:
