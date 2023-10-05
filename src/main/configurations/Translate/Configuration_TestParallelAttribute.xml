@@ -1,0 +1,29 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="TestParallelAttribute"
+        active="${TestParallelAttribute.Active}"
+        description="">
+
+        <Receiver name="TestParallelAttribute">
+            <JavaListener name="TestParallelAttribute" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="EXCEPTION" state="ERROR" />
+            </Exits>
+
+            <ForEachChildElementPipe 
+                name="GetManualException"
+                parallel="true">
+                <IbisLocalSender 
+                    name="CallManualException" 
+                    javaListener="TestThrowException">
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </ForEachChildElementPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

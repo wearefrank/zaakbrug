@@ -62,6 +62,8 @@
   <!ENTITY SoapEndpointRouter_OntvangAsynchroon_Overdragen_v2  SYSTEM "./Configuration_SoapEndpointRouter_OntvangAsynchroon_Overdragen_v2.xml">
   <!ENTITY SoapEndpointRouter_VrijeBerichten              SYSTEM "./Configuration_SoapEndpointRouter_VrijeBerichten.xml">
   <!ENTITY SoapEndpointRouter_VrijeBerichten_v2           SYSTEM "./Configuration_SoapEndpointRouter_VrijeBerichten_v2.xml">
+  <!ENTITY TestParallelAttribute                          SYSTEM "./Configuration_TestParallelAttribute.xml">
+  <!ENTITY TestThrowException                             SYSTEM "./Configuration_TestThrowException.xml">
   <!ENTITY UpdateZaak_Lk01                                SYSTEM "./Configuration_UpdateZaak_LK01.xml">
   <!ENTITY UpdateZaakDocument_Di02                        SYSTEM "./Configuration_UpdateZaakDocument_Di02.xml">
   <!ENTITY VoegZaakdocumentToe_Lk01                       SYSTEM "./Configuration_VoegZaakdocumentToe_Lk01.xml">
@@ -134,6 +136,8 @@
   &SoapEndpointRouter_OntvangAsynchroon_Overdragen_v2;
   &SoapEndpointRouter_VrijeBerichten;
   &SoapEndpointRouter_VrijeBerichten_v2;
+  &TestParallelAttribute;
+  &TestThrowException;
   &UpdateZaak_Lk01;
   &UpdateZaakDocument_Di02;
   &VoegZaakdocumentToe_Lk01;
