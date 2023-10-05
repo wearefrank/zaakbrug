@@ -336,6 +336,7 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 							if (senderResult.isSuccess()) {
 								itemResult = senderResult.getResult().asString();
 							} else {
+								System.out.println("This is the line throwing exception when it is not parallel");
 								throw new SenderException(senderResult.getErrorMessage()); // This is the line throwing exception when it is not parallel.
 							}
 						} else {
