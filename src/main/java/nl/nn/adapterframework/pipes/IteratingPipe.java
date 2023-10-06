@@ -337,10 +337,10 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 								itemResult = senderResult.getResult().asString();
 							} else {
 								System.out.println("This is the line throwing exception when it is not parallel");
-								throw new SenderException(senderResult.getErrorMessage()); // This is the line throwing exception when it is not parallel.
+								throw new SenderException(senderResult.getErrorMessage());
 							}
 						} else {
-							itemResult = sender.sendMessageOrThrow(message, session).asString();
+							itemResult = sender.sendMessageOrThrow(message, session).asString(); // This is the line throwing exception when it is not parallel.
 						}
 						long senderEndTime = System.currentTimeMillis();
 						long senderDuration = senderEndTime - senderStartTime;
@@ -360,6 +360,7 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 						log.info("ignoring SenderException after execution of sender for item [{}]", item, e);
 						itemResult="<exception>"+ XmlEncodingUtils.encodeChars(e.getMessage())+"</exception>";
 					} else {
+						System.out.println("This is the place exception is thrown when it is not parallel.");
 						throw e;
 					}
 				} catch (TimeoutException e) {
@@ -427,6 +428,7 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 					for (ParallelSenderExecutor pse : executorList) {
 						count++;
 						String itemResult;
+						System.out.println("pse data: getReply(): " + pse.getReply() + " getRequest: " + pse.getRequest() + " getThrowable:" + pse.getThrowable() + " getSession: " + pse.getSession());
 						if (pse.getThrowable() == null) {
 							System.out.println("First if in for loop is called.");
 							SenderResult senderResult = pse.getReply();
@@ -438,13 +440,13 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 							} else {
 								System.out.println("Second else in for loop is called.");
 								itemResult = "<exception>"+ XmlEncodingUtils.encodeChars(senderResult.getResult().asString())+"</exception>";
-								throw new SenderException("exceptionOnResult in Second else in for loop");
 							}
 						} else {
 							System.out.println("First else in for loop is called.");
 							itemResult = "<exception>"+ XmlEncodingUtils.encodeChars(pse.getThrowable().getMessage())+"</exception>";
 							System.out.println("itemResult in first else block: " + itemResult);
-							throw new SenderException("exceptionOnResult in First else in for loop");
+							System.out.println("pse.getThrowable().getMessage(): " + pse.getThrowable().getMessage());
+							throw new SenderException("Something went wrong during parallel execution of iterating pipe: " + pse.getThrowable().getMessage());
 						}
 						addResult(count, pse.getRequest(), itemResult);
 					}
