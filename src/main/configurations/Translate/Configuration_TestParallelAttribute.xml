@@ -14,12 +14,25 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <ForEachChildElementPipe 
+            <!-- <ForEachChildElementPipe 
                 name="GetManualException"
-                parallel="true">
+                parallel="true"
+                transactionAttribute="Required">
                 <IbisLocalSender 
                     name="CallManualException" 
                     javaListener="TestThrowException">
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </ForEachChildElementPipe> -->
+
+            <ForEachChildElementPipe name="PostStatusIterator"
+                elementXPathExpression="ZgwStatussen/ZgwStatus"
+                parallel="true"
+                transactionAttribute="Required">
+                <IbisLocalSender
+                    name="PostZgwStatusLocalSender"
+                    javaListener="Zaken_PostZgwStatus">
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />

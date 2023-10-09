@@ -1,4 +1,4 @@
-<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchemjsonOriginalMessagea-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="Zaken_PostZgwStatus"
         active="${Zaken_PostZgwStatus.Active}"
         description="">
@@ -8,14 +8,16 @@
         </Receiver>
 
         <Pipeline>
+
             <Json2XmlInputValidator
                 name="ValidatePostBody"
                 schema="Zgw/Zaken/Model/ZgwStatus.xsd"
                 root="ZgwStatus"
                 outputFormat="JSON"
                 deepSearch="true"
-                throwException="true">
-                <Forward name="success" path="PostZgwStatus"/>
+                throwException="true"
+                storeResultInSessionKey="jsonOriginalMessage">
+                <Forward name="success" path="CheckForInternalElement"/>
             </Json2XmlInputValidator>
 
             <Exits>
@@ -23,7 +25,24 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <SenderPipe name="PostZgwStatus" 
+            <XmlIfPipe name="CheckForInternalElement"
+                xpathExpression="/ZgwStatus/statustoelichting = 'Geaccepteerd'"
+                getInputFromSessionKey="originalMessage"
+                >
+                <Forward name="then" path="PostZgwStatus"/>
+                <Forward name="else" path="throwManualException"/>
+                <Forward name="exception" path="EXIT"/>
+            </XmlIfPipe>
+
+            <ExceptionPipe 
+                name="throwManualException"
+                throwException="true">
+                <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </ExceptionPipe>
+
+            <SenderPipe name="PostZgwStatus"
+                getInputFromSessionKey="jsonOriginalMessage" 
                 storeResultInSessionKey="PostZgwStatusResult">
 				<HttpSender 
 					name="PostZgwStatusSender" 
