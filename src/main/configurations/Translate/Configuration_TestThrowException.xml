@@ -1,43 +1,42 @@
-<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="TestThrowException"
         active="${TestThrowException.Active}"
         description="">
 
         <Receiver name="TestThrowException">
-            <JavaListener name="TestThrowException" />
+            <JavaListener name="TestThrowException"/>
         </Receiver>
 
         <Pipeline>
             <Exits>
-                <Exit name="EXIT" state="SUCCESS" />
-                <Exit name="EXCEPTION" state="ERROR" />
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
-            <!-- 
+
             <XmlIfPipe name="CheckForInternalElement"
                 xpathExpression="/InternalElement[@name='InternalElement2']"
                 >
                 <Forward name="then" path="throwManualException"/>
                 <Forward name="else" path="HelloWorld"/>
                 <Forward name="exception" path="EXIT"/>
-            </XmlIfPipe> -->
+            </XmlIfPipe>
 
             <FixedResultPipe
                 name="HelloWorld"
                 returnString="Hello World!"
-            >
-                <Forward name="success" path="GiveItToMeBaby" />
+                >
+                <Forward name="success" path="EXIT" />
             </FixedResultPipe>
 
-            <XsltPipe name="GiveItToMeBaby"
-                styleSheetName="Common/xsl/BuildError.xsl" />
-
-            <!-- <ExceptionPipe 
+            <ExceptionPipe 
                 name="throwManualException"
                 throwException="true">
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
-            </ExceptionPipe> -->
+            </ExceptionPipe>
+
+            <!-- <XsltPipe name="GiveItToMeBaby"
+                styleSheetName="Common/xsl/BuildError.xsl" /> -->
         </Pipeline>
     </Adapter>
 </Module>
