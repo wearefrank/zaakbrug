@@ -440,6 +440,7 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 							} else {
 								System.out.println("Second else in for loop is called.");
 								itemResult = "<exception>"+ XmlEncodingUtils.encodeChars(senderResult.getResult().asString())+"</exception>";
+								throw new SenderException("Something went wrong during parallel execution of iterating pipe: " + senderResult.getResult().asString());
 							}
 						} else {
 							System.out.println("First else in for loop is called.");
