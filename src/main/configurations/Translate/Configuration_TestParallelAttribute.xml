@@ -28,8 +28,7 @@
 
             <ForEachChildElementPipe name="PostStatusIterator"
                 elementXPathExpression="ZgwStatussen/ZgwStatus"
-                parallel="true"
-                transactionAttribute="Required">
+                parallel="true">
                 <IbisLocalSender
                     name="PostZgwStatusLocalSender"
                     javaListener="Zaken_PostZgwStatus">

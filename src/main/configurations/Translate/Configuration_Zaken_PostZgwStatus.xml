@@ -30,20 +30,36 @@
                 getInputFromSessionKey="originalMessage"
                 >
                 <Forward name="then" path="PostZgwStatus"/>
-                <Forward name="else" path="throwManualException"/>
+                <Forward name="else" path="PostZgwStatusException"/>
                 <Forward name="exception" path="EXIT"/>
             </XmlIfPipe>
 
-            <ExceptionPipe 
+            <!-- <ExceptionPipe 
                 name="throwManualException"
                 throwException="true">
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
-            </ExceptionPipe>
+            </ExceptionPipe> -->
+
+            <SenderPipe name="PostZgwStatusException">
+				<HttpSender 
+					name="PostZgwStatusSender" 
+					methodType="POST"
+					headersParams="Authorization,Accept-Crs,Content-Crs"
+                    contentType="application/json"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    maxExecuteRetries="5"
+				/>
+                <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}statussen"/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Content-Crs"  value="EPSG:4326"/>
+                <Param name="Authorization" value="Bearer @@zaken-api.jwt@@" />
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="ErrorJsonToXml" />
+			</SenderPipe>
 
             <SenderPipe name="PostZgwStatus"
-                getInputFromSessionKey="jsonOriginalMessage" 
-                storeResultInSessionKey="PostZgwStatusResult">
+                getInputFromSessionKey="jsonOriginalMessage">
 				<HttpSender 
 					name="PostZgwStatusSender" 
 					methodType="POST"
@@ -70,3 +86,29 @@
         </Pipeline>
     </Adapter>
 </Module>
+
+<!-- XML data to test the scenario above. If statustoelichting value of the input is equal to Geaccepteerd then regular flow goes and no exception.
+Otherwise it goes to the PostZgwStatusException pipe which gets the xml input because of not having "getInputFromSessionKey" and xml input is not valid 
+for this senderpipe so we get exception. -->
+<!-- <ZgwStatussen>
+<ZgwStatus xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://google.com/zgw">
+<zaak>http://open-zaak.nginx:9001/zaken/api/v1/zaken/99e81a7a-55ed-46f0-b47e-84352e691eba</zaak>
+<statustype>http://open-zaak.nginx:9001/catalogi/api/v1/statustypen/50f7e857-c2d7-4d5f-a21f-bc76ed1ce187</statustype>
+<datumStatusGezet>2023-10-01T14:22:59Z</datumStatusGezet>
+<statustoelichting>Geaccepteerd</statustoelichting>
+</ZgwStatus>
+
+<ZgwStatus xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://google.com/zgw">
+<zaak>http://open-zaak.nginx:9001/zaken/api/v1/zaken/99e81a7a-55ed-46f0-b47e-84352e691eba</zaak>
+<statustype>http://open-zaak.nginx:9001/catalogi/api/v1/statustypen/50f7e857-c2d7-4d5f-a21f-bc76ed1ce187</statustype>
+<datumStatusGezet>2023-10-02T14:22:59Z</datumStatusGezet>
+<statustoelichting>Geaccepteerd</statustoelichting>
+</ZgwStatus>
+
+<ZgwStatus xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://google.com/zgw">
+<zaak>http://open-zaak.nginx:9001/zaken/api/v1/zaken/99e81a7a-55ed-46f0-b47e-84352e691eba</zaak>
+<statustype>http://open-zaak.nginx:9001/catalogi/api/v1/statustypen/108a296a-dd7d-484e-b569-b3ccc48b240f</statustype>
+<datumStatusGezet>2023-10-03T14:22:59Z</datumStatusGezet>
+<statustoelichting>Ontvangen</statustoelichting>
+</ZgwStatus>
+</ZgwStatussen> -->
