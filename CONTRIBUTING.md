@@ -5,7 +5,7 @@
 We like to stay up-to-date with the latest version of the Frank!Framework to get the latest features, improvements, bug fixes and security patches. For stability reasons we do not want to use the "latest" tag for this. Instead we periodically(~weekly) do a manual bump to the latest available snapshot build of Frank!Framework at that time. Mainly because we use custom code that needs to be manual checked and updated with changes made in the Frank!Framework. 
 
 Execute the following steps when bumping the Frank!Framework version:
-1. Look up the latest framework snapshot build on [DockerHub - Frank!Framework](https://hub.docker.com/r/wearefrank/frank-framework/tags). The format of the tag should be: `<major>.<minor>-<date>.<build>`. For example: 7.9-20230907.223421.
+1. Look up the latest framework snapshot build on [DockerHub - Frank!Framework](https://hub.docker.com/r/frankframework/frankframework/tags). The format of the tag should be: `<major>.<minor>-<date>.<build>`. For example: 7.9-20230907.223421.
 2. Replace the value of `FF_VERSION` in the `Dockerfile` with the new tag.
 3. Replace the value of `FF_VERSION` in the `Dockerfile.java8` with the new tag.
 4. Replace the default value for `FF_VERSION` under `services.zaakbrug.build.args` in `docker-compose.zaakbrug.dev.yml` with the new tag. NOTE: Watch out to not replace the '-' in front of the tag: ${FF_VERSION:-<new tag>}

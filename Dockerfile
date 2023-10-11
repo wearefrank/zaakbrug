@@ -1,6 +1,6 @@
 # Keep in sync with version in frank-runner.properties. Detailed instructions can be found in CONTRIBUTING.md.
 # Check whether java-orig files have changed in F!F and update custom code (java and java-orig files) accordingly
-ARG FF_VERSION=7.9-20230905.223421
+ARG FF_VERSION=7.9-20231006.001807
 ARG GID=1000
 ARG UID=1000
 
@@ -28,8 +28,8 @@ RUN set -eux && \
 USER tomcat
 
 # Needed to created a valid "from" image when using ARG variable
-# COPY "--from=docker.io/wearefrank/frank-framework:${FF_VERSION}" doesn't work
-FROM docker.io/wearefrank/frank-framework:${FF_VERSION} AS ff-builder
+# COPY "--from=docker.io/frankframework/frankframework:${FF_VERSION}" doesn't work
+FROM docker.io/frankframework/frankframework:${FF_VERSION} AS ff-builder
 FROM base AS ff-base
 
 # Copy environment configuration
