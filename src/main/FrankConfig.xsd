@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.9-20230905.223421">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="7.9-20231006.001807">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>Container of Adapters that belong together.
@@ -171,7 +171,9 @@
     </xs:sequence>
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Name of the Receiver as known to the Adapter</xs:documentation>
+        <xs:documentation>Sets the name of the Receiver, as known to the Adapter.
+ If the listener implements the name interface and &lt;code&gt;getName()&lt;/code&gt;
+ of the listener is empty, the name of this object is given to the listener.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="onError">
@@ -194,7 +196,7 @@
     </xs:attribute>
     <xs:attribute name="pollInterval" type="frankInt">
       <xs:annotation>
-        <xs:documentation>The number of seconds waited after an unsuccesful poll attempt before another poll attempt is made. Only for polling listeners, not for e.g. ifsa, jms, webservice or javaListeners Default: 10</xs:documentation>
+        <xs:documentation>The number of seconds waited after an unsuccessful poll attempt, before another poll attempt is made. Only for polling listeners, not for e.g. ifsa, jms, webservice or javaListeners Default: 10</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="startTimeout" type="frankInt">
@@ -272,12 +274,12 @@
     </xs:attribute>
     <xs:attribute name="elementToMove" type="xs:string">
       <xs:annotation>
-        <xs:documentation>If set, the character data in this element is stored under a session key and in the message replaced by a reference to this session key: {sessionkey: + &lt;code&gt;elementToMoveSessionKey&lt;/code&gt; + }</xs:documentation>
+        <xs:documentation>If set, the character data in this XML element is stored inside a session key and in the message it is replaced by a reference to this session key: {sessionKey: + &lt;code&gt;elementToMoveSessionKey&lt;/code&gt; + }</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="elementToMoveSessionKey" type="xs:string">
       <xs:annotation>
-        <xs:documentation>(Only used when &lt;code&gt;elementToMove&lt;/code&gt; is set) Name of the session key under which the character data is stored Default: ref_ + the name of the element</xs:documentation>
+        <xs:documentation>(Only used when &lt;code&gt;elementToMove&lt;/code&gt; or &lt;code&gt;elementToMoveChain&lt;/code&gt; is set) Name of the session key wherein the character data is stored Default: ref_ + the name of the element</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="elementToMoveChain" type="xs:string">
@@ -311,7 +313,7 @@
     </xs:attribute>
     <xs:attribute name="numberOfExceptionsCaughtWithoutMessageBeingReceivedThreshold" type="frankInt">
       <xs:annotation>
-        <xs:documentation>Number of connection attemps to put the adapter in warning status Default: 5</xs:documentation>
+        <xs:documentation>Number of connection attempts to put the adapter in warning status Default: 5</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute ref="transactionTimeout" />
@@ -1453,18 +1455,6 @@
           </xs:complexContent>
         </xs:complexType>
       </xs:element>
-      <xs:element name="JmsListenerBaseListener">
-        <xs:annotation>
-          <xs:documentation>Common baseclass for Pulling and Pushing JMS Listeners.</xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-          <xs:complexContent>
-            <xs:extension base="JmsListenerBaseType">
-              <xs:attribute name="elementRole" type="xs:string" fixed="listener" use="prohibited" />
-            </xs:extension>
-          </xs:complexContent>
-        </xs:complexType>
-      </xs:element>
       <xs:element name="MessageStoreListener">
         <xs:annotation>
           <xs:documentation>Read messages from the IBISSTORE database table previously stored by a
@@ -2113,11 +2103,6 @@
     <xs:attribute ref="lookupDestination" />
     <xs:attributeGroup ref="JndiBaseDeclaredAttributeGroup" />
   </xs:attributeGroup>
-  <xs:complexType name="JmsListenerBaseType">
-    <xs:group ref="JmsListenerBaseDeclaredChildGroup" />
-    <xs:attributeGroup ref="JmsListenerBaseCumulativeAttributeGroup" />
-    <xs:attribute name="className" type="xs:string" fixed="nl.nn.adapterframework.jms.JmsListenerBase" use="prohibited" />
-  </xs:complexType>
   <xs:group name="JmsListenerBaseDeclaredChildGroup">
     <xs:sequence>
       <xs:element name="Param" minOccurs="0" maxOccurs="unbounded" type="ParamType" />
@@ -4107,7 +4092,7 @@
    &lt;li&gt;Define a Receiver with a JavaListener&lt;/li&gt;
    &lt;li&gt;Set the attribute &lt;code&gt;serviceName&lt;/code&gt; to &lt;i&gt;yourExternalServiceName&lt;/i&gt;&lt;/li&gt;
  &lt;/ul&gt;
- N.B. Please make sure that the IbisServiceDispatcher-1.1.jar is present on the class path of the server.</xs:documentation>
+ N.B. Please make sure that the IbisServiceDispatcher-1.4.jar or newer is present on the class path of the server.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:complexContent>
@@ -8815,7 +8800,7 @@
    &lt;li&gt;Define a Receiver with a JavaListener&lt;/li&gt;
    &lt;li&gt;Set the attribute &lt;code&gt;serviceName&lt;/code&gt; to &lt;i&gt;yourExternalServiceName&lt;/i&gt;&lt;/li&gt;
  &lt;/ul&gt;
- N.B. Please make sure that the IbisServiceDispatcher-1.1.jar is present on the class path of the server.</xs:documentation>
+ N.B. Please make sure that the IbisServiceDispatcher-1.4.jar or newer is present on the class path of the server.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:complexContent>
@@ -12909,7 +12894,7 @@
       </xs:element>
       <xs:element name="CompareStringPipe">
         <xs:annotation>
-          <xs:documentation>Pipe that compares lexicographically two strings.</xs:documentation>
+          <xs:documentation>Pipe that lexicographically compares two strings, that must NOT be empty.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:complexContent>
@@ -13609,6 +13594,18 @@
         <xs:complexType>
           <xs:complexContent>
             <xs:extension base="JsonXsltPipeType">
+              <xs:attribute name="elementRole" type="xs:string" fixed="pipe" use="prohibited" />
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="JwtPipe">
+        <xs:annotation>
+          <xs:documentation>Creates a JWT with a shared secret using the HmacSHA256 algorithm.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension base="JwtPipeType">
               <xs:attribute name="elementRole" type="xs:string" fixed="pipe" use="prohibited" />
             </xs:extension>
           </xs:complexContent>
@@ -15201,7 +15198,7 @@
   <xs:attributeGroup name="CrlPipeDeclaredAttributeGroup">
     <xs:attribute name="issuerSessionKey" type="xs:string">
       <xs:annotation>
-        <xs:documentation>name of the sessionkey that holds a stream to the certificate of the issuer who signed the crl. the steam is closed after reading</xs:documentation>
+        <xs:documentation>Name of the sessionKey that holds the certificate of the issuer who signed the CRL.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -15885,6 +15882,32 @@
   <xs:attributeGroup name="XsltPipeCumulativeAttributeGroup">
     <xs:attributeGroup ref="XsltPipeDeclaredAttributeGroup" />
     <xs:attributeGroup ref="StreamingPipeCumulativeAttributeGroup" />
+  </xs:attributeGroup>
+  <xs:complexType name="JwtPipeType">
+    <xs:group ref="AbstractPipeDeclaredChildGroup" />
+    <xs:attributeGroup ref="JwtPipeCumulativeAttributeGroup" />
+    <xs:attribute name="className" type="xs:string" fixed="nl.nn.adapterframework.pipes.JwtPipe" use="prohibited" />
+  </xs:complexType>
+  <xs:attributeGroup name="JwtPipeDeclaredAttributeGroup">
+    <xs:attribute name="authAlias" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Alias for the SharedSecret to be used when signing the JWT (using the HmacSHA256 algorithm)</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="sharedSecret" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Shared secret to be used when signing the JWT (using the HmacSHA256 algorithm)</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="expirationTime" type="frankInt">
+      <xs:annotation>
+        <xs:documentation>JWT expirationTime in seconds, 0 to disable Default: 600</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="JwtPipeCumulativeAttributeGroup">
+    <xs:attributeGroup ref="JwtPipeDeclaredAttributeGroup" />
+    <xs:attributeGroup ref="FixedForwardPipeCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="LabelFormatType">
     <xs:group ref="AbstractPipeDeclaredChildGroup" />
@@ -17664,7 +17687,7 @@
     </xs:attribute>
     <xs:attribute name="message" type="xs:string">
       <xs:annotation>
-        <xs:documentation>message to be send into the pipeline</xs:documentation>
+        <xs:documentation>message to be sent into the pipeline</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -19928,7 +19951,7 @@
   </xs:attribute>
   <xs:attribute name="elementToMove" type="xs:string">
     <xs:annotation>
-      <xs:documentation>If set, the character data in this element is stored under a session key and in the message replaced by a reference to this session key: {sessionkey: + &lt;code&gt;elementToMoveSessionKey&lt;/code&gt; + }</xs:documentation>
+      <xs:documentation>If set, the character data in this element is stored under a session key and in the message replaced by a reference to this session key: {sessionKey: + &lt;code&gt;elementToMoveSessionKey&lt;/code&gt; + }</xs:documentation>
     </xs:annotation>
   </xs:attribute>
   <xs:attribute name="elementToMoveSessionKey" type="xs:string">
@@ -20005,7 +20028,7 @@
   </xs:attribute>
   <xs:attribute name="ignoreUnknownNamespaces" type="frankBoolean">
     <xs:annotation>
-      <xs:documentation>Ignore namespaces in the input message which are unknown. If the XSD used has elementFormDefault=unqualified, it is necessary to set this to true. Be aware, however, that 
+      <xs:documentation>Ignore namespaces in the input message which are unknown. If the XSD used has elementFormDefault=unqualified, it is necessary to set this to true. Be aware, however, that
  this will inhibit the validator to detect validation failures of namespaceless subelements of the SoapBody. Default: true when &lt;code&gt;schema&lt;/code&gt; or &lt;code&gt;noNamespaceSchemaLocation&lt;/code&gt; is used, false otherwise</xs:documentation>
     </xs:annotation>
   </xs:attribute>
