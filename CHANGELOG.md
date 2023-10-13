@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.7](https://github.com/wearefrank/zaakbrug/compare/v1.13.6...v1.13.7) (2023-10-13)
+
+
+### 🐛 Bug Fixes
+
+* identificatie generation producing duplicates during highly-concurrent workload & first identificatie always failing ([#166](https://github.com/wearefrank/zaakbrug/issues/166)) ([7027fd8](https://github.com/wearefrank/zaakbrug/commit/7027fd8a74a49d518a6eef9eceebd22701c89de1))
+
 ## [1.13.6](https://github.com/wearefrank/zaakbrug/compare/v1.13.5...v1.13.6) (2023-10-11)
 
 
