@@ -65,6 +65,7 @@ RUN mkdir /tmp/classes \
       && javac \
       /tmp/java/nl/nn/adapterframework/parameters/Parameter.java \
       /tmp/java/nl/nn/adapterframework/pipes/IteratingPipe.java \
+      /tmp/java/nl/nn/adapterframework/pipes/ForEachChildElementPipe.java \
       -classpath "/usr/local/tomcat/webapps/ROOT/WEB-INF/lib/*:/usr/local/tomcat/lib/*" \
       -verbose -d /tmp/classes 
 
