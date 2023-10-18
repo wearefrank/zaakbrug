@@ -15,6 +15,7 @@ services:
       - open-zaak-db:/var/lib/postgresql/data
     networks:
       - open-zaak-backend
+      - zaakbrug-stack
     ports:
       - 5432
 
@@ -55,6 +56,7 @@ services:
     volumes: &open-zaak-volumes
       - open-zaak-media:/app/media
       - open-zaak-private-media:/app/private-media
+      - ./docker/open-zaak:/app/fixtures
     depends_on:
       - open-zaak-db
       - open-zaak-redis
