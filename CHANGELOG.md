@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.8](https://github.com/wearefrank/zaakbrug/compare/v1.13.7...v1.13.8) (2023-10-27)
+
+
+### ⏩ Reverts
+
+* Revert "Bump F!F version to fix document retreival (#5625) (#168)" (#169) ([1ebd2e1](https://github.com/wearefrank/zaakbrug/commit/1ebd2e11ebd06cc1142b8c00072e5765061210d4)), closes [#5625](https://github.com/wearefrank/zaakbrug/issues/5625) [#168](https://github.com/wearefrank/zaakbrug/issues/168) [#169](https://github.com/wearefrank/zaakbrug/issues/169)
+
 ## [1.13.7](https://github.com/wearefrank/zaakbrug/compare/v1.13.6...v1.13.7) (2023-10-13)
 
 
