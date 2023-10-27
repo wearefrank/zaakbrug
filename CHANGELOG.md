@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.9](https://github.com/wearefrank/zaakbrug/compare/v1.13.8...v1.13.9) (2023-10-27)
+
+
+### 🐛 Bug Fixes
+
+* redo ff bump for doucment retreival nulls ([#172](https://github.com/wearefrank/zaakbrug/issues/172)) ([cd68d6f](https://github.com/wearefrank/zaakbrug/commit/cd68d6f2ecdf7c9be8c998da58600cf3f70d5b4f))
+
 ## [1.13.8](https://github.com/wearefrank/zaakbrug/compare/v1.13.7...v1.13.8) (2023-10-27)
 
 
