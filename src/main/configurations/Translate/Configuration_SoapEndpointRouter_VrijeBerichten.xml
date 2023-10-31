@@ -76,7 +76,7 @@
                 outputFormat="XML"
                 autoFormat="false"
                 >
-				<Forward name="success" path="UnwrapSoapMessage"/>
+				<Forward name="success" path="StoreResponeContextSessionKeys"/>
 				<Forward name="failure" path="WsdlValidationSoftFailForwarder"/>
 			</WsdlXmlValidatorPipe>
 
@@ -85,7 +85,7 @@
                 xpathExpression="$SoftFail = true()"
                 >
                 <Param name="SoftFail" value="${zaakbrug.soap.vrije-berichten.validation-soft-fail}" type="BOOLEAN"/>
-                <Forward name="true" path="UnwrapSoapMessage" />
+                <Forward name="true" path="StoreResponeContextSessionKeys" />
                 <Forward name="false" path="InvalidXml" />
             </XmlSwitchPipe>
 
