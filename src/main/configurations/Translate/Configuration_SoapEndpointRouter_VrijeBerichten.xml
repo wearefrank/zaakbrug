@@ -17,9 +17,35 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
+            <XmlIfPipe name="CheckInputDocumentObjectCount"
+                getInputFromSessionKey="originalMessage"
+                xpathExpression="count(//object) = 2"
+                >
+                <Forward name="then" path="StoreZdsWordtZaak_1"/>
+                <Forward name="else" path="StoreZdsWordtZaak_2"/>
+            </XmlIfPipe>
+
+            <PutInSessionPipe 
+                name="StoreZdsWordtZaak_1">
+                <Param name="ZdsWordtZaak" xpathExpression="//object[2]" type="DOMDOC">
+                    <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="StoreInhoud" />
+            </PutInSessionPipe>
+
+            <PutInSessionPipe 
+                name="StoreZdsWordtZaak_2">
+                <Param name="ZdsWordtZaak" xpathExpression="//object[1]" type="DOMDOC">
+                    <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="StoreInhoud" />
+            </PutInSessionPipe>
+
+
             <EchoPipe 
                 name="StoreInhoud"
                 elementToMove="inhoud"
+                getInputFromSessionKey="ZdsWordtZaak"
                 removeCompactMsgNamespaces="false"
                 >
                 <Forward name="success" path="ReplaceInhoudRefWithBase64EncodedRef" />
@@ -27,6 +53,7 @@
 
             <ReplacerPipe
                 name="ReplaceInhoudRefWithBase64EncodedRef"
+                getInputFromSessionKey="originalMessage"
                 storeResultInSessionKey="SafeOriginalMessage"
                 find="{sessionKey:ref_inhoud}"
                 replace="e3Nlc3Npb25LZXk6cmVmX2luaG91ZH0="
