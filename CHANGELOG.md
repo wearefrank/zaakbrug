@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.10](https://github.com/wearefrank/zaakbrug/compare/v1.13.9...v1.13.10) (2023-10-31)
+
+
+### 🐛 Bug Fixes
+
+* update document fails when input has 2 document objects ([#173](https://github.com/wearefrank/zaakbrug/issues/173)) ([9f37267](https://github.com/wearefrank/zaakbrug/commit/9f372675133046c535fe61f9aacc9b04850540ec))
+
 ## [1.13.9](https://github.com/wearefrank/zaakbrug/compare/v1.13.8...v1.13.9) (2023-10-27)
 
 
