@@ -17,6 +17,15 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
+            <SoapWrapperPipe
+                name="UnwrapOriginalMessage"
+                direction="UNWRAP"
+                removeOutputNamespaces="true"
+                >
+                <Forward name="success" path="CheckInputDocumentObjectCount"/>
+                <Forward name="exception" path="BackEndError"/>
+            </SoapWrapperPipe>
+          
             <XmlIfPipe name="CheckInputDocumentObjectCount"
                 getInputFromSessionKey="originalMessage"
                 xpathExpression="count(//object) = 2"
