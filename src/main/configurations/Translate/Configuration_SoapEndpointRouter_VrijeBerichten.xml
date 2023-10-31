@@ -21,13 +21,13 @@
                 name="UnwrapOriginalMessage"
                 direction="UNWRAP"
                 removeOutputNamespaces="true"
+                storeResultInSessionKey="UnwrapOriginalMessage"
                 >
                 <Forward name="success" path="CheckInputDocumentObjectCount"/>
                 <Forward name="exception" path="BackEndError"/>
             </SoapWrapperPipe>
           
             <XmlIfPipe name="CheckInputDocumentObjectCount"
-                getInputFromSessionKey="originalMessage"
                 xpathExpression="count(//object) = 2"
                 >
                 <Forward name="then" path="StoreZdsWordtZaak_1"/>
@@ -89,17 +89,9 @@
                 <Forward name="false" path="InvalidXml" />
             </XmlSwitchPipe>
 
-            <SoapWrapperPipe
-                name="UnwrapSoapMessage"
-                direction="UNWRAP"
-                removeOutputNamespaces="true"
-                >
-                <Forward name="success" path="StoreResponeContextSessionKeys"/>
-                <Forward name="exception" path="BackEndError"/>
-            </SoapWrapperPipe>
-
             <PutInSessionPipe
                 name="StoreResponeContextSessionKeys"
+                getInputFromSessionKey="UnwrapOriginalMessage"
                 >
                 <Param name="Stuurgegevens" xpathExpression="/*/stuurgegevens" defaultValue="&lt;stuurgegevens/&gt;" type="DOMDOC" />
                 <Param name="Parameters" xpathExpression="/*/parameters" defaultValue="&lt;parameters/&gt;" type="DOMDOC" />
