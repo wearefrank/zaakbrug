@@ -17,9 +17,44 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
+            <SoapWrapperPipe
+                name="UnwrapOriginalMessage"
+                direction="UNWRAP"
+                removeOutputNamespaces="true"
+                storeResultInSessionKey="UnwrapOriginalMessage"
+                >
+                <Forward name="success" path="CheckInputDocumentObjectCount"/>
+                <Forward name="exception" path="BackEndError"/>
+            </SoapWrapperPipe>
+          
+            <XmlIfPipe name="CheckInputDocumentObjectCount"
+                xpathExpression="count(//object) = 2"
+                >
+                <Forward name="then" path="StoreZdsWordtZaak_1"/>
+                <Forward name="else" path="StoreZdsWordtZaak_2"/>
+            </XmlIfPipe>
+
+            <PutInSessionPipe 
+                name="StoreZdsWordtZaak_1">
+                <Param name="ZdsWordtZaak" xpathExpression="//object[2]" type="DOMDOC">
+                    <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="StoreInhoud" />
+            </PutInSessionPipe>
+
+            <PutInSessionPipe 
+                name="StoreZdsWordtZaak_2">
+                <Param name="ZdsWordtZaak" xpathExpression="//object[1]" type="DOMDOC">
+                    <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="StoreInhoud" />
+            </PutInSessionPipe>
+
+
             <EchoPipe 
                 name="StoreInhoud"
                 elementToMove="inhoud"
+                getInputFromSessionKey="ZdsWordtZaak"
                 removeCompactMsgNamespaces="false"
                 >
                 <Forward name="success" path="ReplaceInhoudRefWithBase64EncodedRef" />
@@ -27,6 +62,7 @@
 
             <ReplacerPipe
                 name="ReplaceInhoudRefWithBase64EncodedRef"
+                getInputFromSessionKey="originalMessage"
                 storeResultInSessionKey="SafeOriginalMessage"
                 find="{sessionKey:ref_inhoud}"
                 replace="e3Nlc3Npb25LZXk6cmVmX2luaG91ZH0="
@@ -40,7 +76,7 @@
                 outputFormat="XML"
                 autoFormat="false"
                 >
-				<Forward name="success" path="UnwrapSoapMessage"/>
+				<Forward name="success" path="StoreResponeContextSessionKeys"/>
 				<Forward name="failure" path="WsdlValidationSoftFailForwarder"/>
 			</WsdlXmlValidatorPipe>
 
@@ -49,21 +85,13 @@
                 xpathExpression="$SoftFail = true()"
                 >
                 <Param name="SoftFail" value="${zaakbrug.soap.vrije-berichten.validation-soft-fail}" type="BOOLEAN"/>
-                <Forward name="true" path="UnwrapSoapMessage" />
+                <Forward name="true" path="StoreResponeContextSessionKeys" />
                 <Forward name="false" path="InvalidXml" />
             </XmlSwitchPipe>
 
-            <SoapWrapperPipe
-                name="UnwrapSoapMessage"
-                direction="UNWRAP"
-                removeOutputNamespaces="true"
-                >
-                <Forward name="success" path="StoreResponeContextSessionKeys"/>
-                <Forward name="exception" path="BackEndError"/>
-            </SoapWrapperPipe>
-
             <PutInSessionPipe
                 name="StoreResponeContextSessionKeys"
+                getInputFromSessionKey="UnwrapOriginalMessage"
                 >
                 <Param name="Stuurgegevens" xpathExpression="/*/stuurgegevens" defaultValue="&lt;stuurgegevens/&gt;" type="DOMDOC" />
                 <Param name="Parameters" xpathExpression="/*/parameters" defaultValue="&lt;parameters/&gt;" type="DOMDOC" />
