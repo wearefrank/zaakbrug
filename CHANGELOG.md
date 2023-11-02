@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.12](https://github.com/wearefrank/zaakbrug/compare/v1.13.11...v1.13.12) (2023-11-02)
+
+
+### ✅ Tests
+
+* lock openzaak to 1.9.0 in test docker-compose ([4a573d7](https://github.com/wearefrank/zaakbrug/commit/4a573d78b6287e656b4aff6d6c21af671e4761d0))
+
 ## [1.13.11](https://github.com/wearefrank/zaakbrug/compare/v1.13.10...v1.13.11) (2023-11-02)
 
 
