@@ -1,5 +1,17 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.11](https://github.com/wearefrank/zaakbrug/compare/v1.13.10...v1.13.11) (2023-11-02)
+
+
+### 🔥 Performance Improvements
+
+* updateDocument with old and new state large documents performance improvement ([3287e8b](https://github.com/wearefrank/zaakbrug/commit/3287e8b4ab6906447540481ed135a49366c94a5a))
+
+
+### ✅ Tests
+
+* add updateDocument large documents performance test ([f5f0ba4](https://github.com/wearefrank/zaakbrug/commit/f5f0ba48467d445e9f69b92fe3df13dbbb40ed7d))
+
 ## [1.13.10](https://github.com/wearefrank/zaakbrug/compare/v1.13.9...v1.13.10) (2023-10-31)
 
 
