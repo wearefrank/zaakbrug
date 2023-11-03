@@ -1,0 +1,76 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="GetZdsZaakTypeByIdentificatie"
+        active="${GetZdsZaakTypeByIdentificatie.Active}"
+        description="">
+
+        <Receiver name="GetZdsZaakTypeByIdentificatie">
+            <JavaListener name="GetZdsZaakTypeByIdentificatie"/>
+        </Receiver>
+        
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+			<!-- <SenderPipe name="GetZgwZaakTypeByIdentificatie"
+                getInputFromFixedValue="&lt;dummy/&gt;">
+				<HttpSender 
+					name="GetZgwZaakTypeByIdentificatieSender" 
+					methodType="GET"
+					headersParams="Authorization,Accept-Crs"
+                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
+				/>
+                <Param name="url" value="${zaakbrug.zgw.catalogi-api.root-url}zaaktypen"/>
+                <Param name="identificatie" sessionKey="ZaakTypeCode"/>
+                <Param name="status" value="definitief"/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Authorization" value="Bearer @@catalogi-api.jwt@@" />
+                <Forward name="success" path="JsonToXml" />
+                <Forward name="exception" path="ErrorJsonToXml" />
+			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="GetZgwZaakTypeByIdentificatie" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
+            <JsonPipe name="JsonToXml">
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList"/>
+            </JsonPipe> -->
+            
+            <XsltPipe
+                name="StoreUrl"
+                xpathExpression="concat($root-url,$endpoint)"
+                storeResultInSessionKey="BaseUrl">
+                <Param name="root-url" value="${zaakbrug.zds.soap.root-url}"/>
+                <Param name="endpoint" value="${zaakbrug.zds.ontvang-asynchroon.endpoint}"/>
+                <Forward name="success" path="CallGetZdsZaak"/>
+            </XsltPipe>
+
+            <SenderPipe
+                name="CallGetZdsZaak"
+                getInputFromSessionKey="originalMessage">
+                
+                <WebServiceSender name="GetZdsZaakSender" soapAction="http://www.egem.nl/StUF/sector/zkn/0310/creeerZaak_Lk01"
+                 >
+                 <Param name="url" sessionKey="BaseUrl" />
+                 </WebServiceSender>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <!-- <XsltPipe
+                name="UnwrapOpenZaakApiEnvelopeToList"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
+                >
+                <Param name="Type" value="ZgwZaakType"/>
+                <Param name="List" value="ZgwZaakTypen"/>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe> -->
+        </Pipeline>
+    </Adapter>
+</Module>

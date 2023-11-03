@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2015 sp2 (http://www.altova.com) by Johan Boer (Kwaliteits Instituut Nederlandse Gemeenten) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:RZS="http://www.stufstandaarden.nl/sectormodel/rzs0310" targetNamespace="http://www.stufstandaarden.nl/sectormodel/rzs0310" elementFormDefault="qualified" attributeFormDefault="unqualified" version="031000">
+	<annotation>
+		<documentation>
+			Bestand bevat de berichtdefinities voor het opvragen van gegenereerde zaakidentificatie i.h.k.v. de Regie-Zaak koppelvlak. 
+        </documentation>
+		<appinfo>
+			<StUF:onderdeel>http://www.stufstandaarden.nl/sectormodel/rzs0310</StUF:onderdeel>
+			<StUF:patch>-</StUF:patch>
+			<StUF:patchdatum>-</StUF:patchdatum>
+			<StUF:schemaversie>0</StUF:schemaversie>
+		</appinfo>
+	</annotation>
+	<import namespace="http://www.egem.nl/StUF/sector/zkn/0310" schemaLocation="../entiteiten/rzs0310_zkn0310_ent.xsd"/>
+	<import namespace="http://www.egem.nl/StUF/StUF0301" schemaLocation="rzs0310_msg_stuf_rzsberichten.xsd"/>
+	<!--bericht elementen-->
+	<!--notificeerOverZaak -->
+	<element name="notificeerOverZaak_Di01">
+		<complexType>
+			<sequence>
+				<element name="Stuurgegevens" type="StUF:Di01-Stuurgegevens-noz"/>
+				<element name="Melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="object" type="ZKN:ZAK-notificatie-e"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="initieerNotificeerOverZaak_Di01">
+		<complexType>
+			<sequence>
+				<element name="Stuurgegevens" type="StUF:Di01-Stuurgegevens-inoz"/>
+				<element name="Melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="object" type="ZKN:ZAK-notificatie-e"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!--overdragenZaak -->
+	<element name="overdragenZaak_Di01">
+		<complexType>
+			<sequence>
+				<element name="Stuurgegevens" type="StUF:Di01-Stuurgegevens-noz"/>
+				<element name="Melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="object" type="ZKN:ZAK-opdracht-e"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="overdragenZaak_Du01">
+		<complexType>
+			<sequence>
+				<element name="Stuurgegevens" type="StUF:Di01-Stuurgegevens-noz"/>
+				<element name="Melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="object" type="ZKN:ZAK-opdrachtbevestiging-e"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

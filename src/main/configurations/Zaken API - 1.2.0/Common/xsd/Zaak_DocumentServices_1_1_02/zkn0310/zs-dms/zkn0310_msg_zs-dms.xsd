@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 rel. 2 sp2 (http://www.altova.com) by Robert Melskens (Kwaliteits Instituut Nederlandse Gemeenten) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" targetNamespace="http://www.egem.nl/StUF/sector/zkn/0310" elementFormDefault="qualified" attributeFormDefault="unqualified" version="031001">
+	<annotation>
+		<documentation>
+			   Bestand bevat de berichtdefinities voor het opvragen van gegenereerde zaakidentificatie i.h.k.v. de ZS-DMS berichtencatalogus 
+			
+			   Wijzigingen t.b.v. patch 21 (1-4-2015) vergeleken met versie 031000 zijn de volgende wijzigingen doorgevoerd:			
+			   - ERR0353: Het schema is voorzien van de afgesproken structuur in 'appinfo'
+			
+        </documentation>
+		<appinfo>
+			<StUF:onderdeel>http://www.egem.nl/StUF/sector/zkn/0310</StUF:onderdeel>
+			<StUF:patch>22</StUF:patch>
+			<StUF:patchdatum>20150701</StUF:patchdatum>
+			<StUF:schemaversie>1</StUF:schemaversie>
+		</appinfo>
+	</annotation>
+	<include schemaLocation="zkn0310_ent_zs-dms.xsd"/>
+	<import namespace="http://www.egem.nl/StUF/StUF0301" schemaLocation="zkn0310_msg_stuf_zs-dms.xsd"/>
+	<import namespace="http://www.egem.nl/StUF/StUF0301" schemaLocation="../../zkn0310/mutatie/zkn0310_msg_stuf_mutatie.xsd"/>
+	<import namespace="http://www.egem.nl/StUF/StUF0301" schemaLocation="../../zkn0310/vraagAntwoord/zkn0310_msg_stuf_vraagAntwoord.xsd"/>
+	<!--bericht elementen-->
+	<!-- #6 'genereerZaakIdentificatie' (GZI) -->
+	<element name="genereerZaakIdentificatie_Di02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Di02-Stuurgegevens-gzi"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="genereerZaakIdentificatie_Du02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Du02-Stuurgegevens-gzi"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="zaak" type="ZKN:ZAK-gzi-e"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- #9 'geefZaakdocumentbewerken' (GZDB) -->
+	<element name="geefZaakdocumentbewerken_Di02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Di02-Stuurgegevens-gzdb"/>
+				<element name="edcLv01" type="ZKN:Vraag-EDC"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="geefZaakdocumentbewerken_Du02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Du02-Stuurgegevens-gzdb"/>
+				<element name="parameters" type="ZKN:Parameters-zs-dms"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="edcLa01" type="ZKN:Antwoord-EDC"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- #12 'updateZaakdocument' (UZD) -->
+	<element name="updateZaakdocument_Di02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Di02-Stuurgegevens-uzd"/>
+				<element name="parameters" type="ZKN:Parameters-zs-dms-r"/>
+				<element name="edcLk02" type="ZKN:Kennisgeving-EDC"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- #13 'genereerDocumentIdentificatie' (GZI) -->
+	<element name="genereerDocumentIdentificatie_Di02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Di02-Stuurgegevens-gdi"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="genereerDocumentIdentificatie_Du02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Du02-Stuurgegevens-gdi"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="document" type="ZKN:EDC-gdi-e"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- #14 'cancelCheckout' (CC) -->
+	<element name="cancelCheckout_Di02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Di02-Stuurgegevens-cc"/>
+				<element name="parameters" type="ZKN:Parameters-zs-dms-r"/>
+				<element name="document" type="ZKN:EDC-cc-e"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

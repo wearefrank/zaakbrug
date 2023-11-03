@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2016 rel. 2 sp1 (http://www.altova.com) by Michiel Verhoef (Kwaliteitsinstituut Nederlandse Gemeenten) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:ZDS="http://www.stufstandaarden.nl/koppelvlak/zds0120" targetNamespace="http://www.stufstandaarden.nl/koppelvlak/zds0120" elementFormDefault="qualified" attributeFormDefault="unqualified" version="031001">
+	<annotation>
+		<documentation>
+			   Bestand bevat de berichtdefinities voor het opvragen van gegenereerde zaakidentificatie i.h.k.v. de ZS-DMS berichtencatalogus 
+			
+			   Wijzigingen t.b.v. patch 21 (1-4-2015) vergeleken met versie 031000 zijn de volgende wijzigingen doorgevoerd:			
+			   - ERR0353: Het schema is voorzien van de afgesproken structuur in 'appinfo'
+			
+			2015-07-01 Issue #406291 Michiel Verhoef Berichten GeefDocumentenBijZaak_Lv01 en GeefDocumentenBijZaak_La01 toegevoegd
+			2015-10-07 RFC #408621 op basis van RFC0382 Michiel Verhoef Vrije berichten opgenomen in eigen namespace.
+			2015-11-23 RFC #472258 Michiel Verhoef genereerDocumentIdentificatie_Di02 uitgebreid met zaaktype en documenttype
+			                 RFC #487325 Michiel Verhoef aangescherpte berichten op basis van StUF ZKN
+        </documentation>
+		<appinfo>
+			<StUF:onderdeel>http://www.stufstandaarden.nl/koppelvlak/zds0120</StUF:onderdeel>
+			<StUF:patch>zds120_20170401</StUF:patch>
+			<StUF:patchdatum>20170401</StUF:patchdatum>
+			<StUF:schemaversie>1</StUF:schemaversie>
+		</appinfo>
+	</annotation>
+	<import namespace="http://www.egem.nl/StUF/sector/zkn/0310" schemaLocation="../entiteiten/zds0120_ent_zs-dms.xsd"/>
+	<import namespace="http://www.egem.nl/StUF/StUF0301" schemaLocation="zds0120_msg_stuf_zs-dms.xsd"/>
+	<import namespace="http://www.egem.nl/StUF/StUF0301" schemaLocation="../../zkn0310/mutatie/zkn0310_msg_stuf_mutatie.xsd"/>
+	<import namespace="http://www.egem.nl/StUF/StUF0301" schemaLocation="../../zkn0310/vraagAntwoord/zkn0310_msg_stuf_vraagAntwoord.xsd"/>
+	<import namespace="http://www.egem.nl/StUF/sector/zkn/0310" schemaLocation="../../zkn0310/vraagAntwoord/zkn0310_msg_vraagAntwoord.xsd"/>
+	<import namespace="http://www.egem.nl/StUF/sector/zkn/0310" schemaLocation="../entiteiten/zds0120_simpleTypes_zkn0310.xsd"/>
+	<import namespace="http://www.egem.nl/StUF/sector/zkn/0310" schemaLocation="../../zkn0310/mutatie/zkn0310_msg_mutatie.xsd"/>
+	<include schemaLocation="../entiteiten/zds0120_simpletypes_zs-dms.xsd"/>
+	<!--bericht elementen-->
+	<!-- #6 'genereerZaakIdentificatie' (GZI) -->
+	<element name="genereerZaakIdentificatie_Di02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Di02-Stuurgegevens-gzi"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="genereerZaakIdentificatie_Du02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Du02-Stuurgegevens-gzi"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="zaak" type="ZKN:ZAK-gzi-e"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- #9 'geefZaakdocumentbewerken' (GZDB) -->
+	<element name="geefZaakdocumentBewerken_Di02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Di02-Stuurgegevens-gzdb"/>
+				<element name="edcLv01" type="ZKN:Vraag-EDC"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="geefZaakdocumentBewerken_Du02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Du02-Stuurgegevens-gzdb"/>
+				<element name="parameters" type="ZDS:Parameters-zs-dms"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="edcLa01" type="ZKN:Antwoord-EDC"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- #10 voegZaakdocumentToe' (VZDT) -->
+	<element name="voegZaakdocumentToe_EdcLk01" type="ZKN:VoegZaakdocumentToe-EDC-Lk01"/>
+	<!-- #12 'updateZaakdocument' (UZD) -->
+	<element name="updateZaakdocument_Di02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Di02-Stuurgegevens-uzd"/>
+				<element name="parameters" type="ZDS:Parameters-zs-dms-r"/>
+				<element name="edcLk02" type="ZKN:Kennisgeving-EDC"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- #13 'genereerDocumentIdentificatie' (GZI) -->
+	<element name="genereerDocumentIdentificatie_Di02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Di02-Stuurgegevens-gdi"/>
+				<element name="parameters" minOccurs="0" maxOccurs="1">
+					<complexType>
+						<sequence>
+							<element ref="StUF:extraElementen" minOccurs="0"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="genereerDocumentIdentificatie_Du02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Du02-Stuurgegevens-gdi"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="document" type="ZKN:EDC-gdi-e"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- #14 'cancelCheckout' (CC) -->
+	<element name="cancelCheckout_Di02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Di02-Stuurgegevens-cc"/>
+				<element name="parameters" type="ZDS:Parameters-zs-dms-r"/>
+				<element name="document" type="ZKN:EDC-cc-e"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- nieuwe vrije berichten ivm 	zds namespace -->
+	<!-- #1 vraagbericht geefZaakStatus -->
+	<element name="geefZaakstatus_ZakLv01" type="ZKN:GeefZaakStatus-ZAK-Lv01"/>
+	<!-- #1 antwoordbericht geefZaakStatus -->
+	<element name="geefZaakstatus_ZakLa01" type="ZKN:GeefZaakStatus-ZAK-La01"/>
+	<!-- #2 vraagbericht geefZaakDetails -->
+	<element name="geefZaakdetails_ZakLv01" type="ZKN:GeefZaakDetails-ZAK-Lv01"/>
+	<!-- #2 antwoordbericht geefZaakDetails -->
+	<element name="geefZaakdetails_ZakLa01" type="ZKN:GeefZaakDetails-ZAK-La01"/>
+	<!-- #3 kennisgevingsbericht actualiseerZaakstatus_Lk01-->
+	<element name="actualiseerZaakstatus_ZakLk01" type="ZKN:ActualiseerZaakstatus-ZAK-Lk01"/>
+	<!-- #4 kennisgevingsbericht creeerZaak_Lk01 -->
+	<element name="creeerZaak_ZakLk01" type="ZKN:CreeerZaak-ZAK-Lk01"/>
+	<!-- #5 kennisgevingsbericht updateZaak_Lk01 -->
+	<element name="updateZaak_ZakLk01" type="ZKN:UpdateZaak-ZAK-Lk01"/>
+	<!-- #7 vraagbericht geefLijstZaakDocumenten -->
+	<element name="geefLijstZaakdocumenten_ZakLv01" type="ZKN:GeefLijstZaakDocumenten-ZAK-Lv01"/>
+	<!-- #7 antwoordbericht geefLijstZaakDocumenten-->
+	<element name="geefLijstZaakdocumenten_ZakLa01" type="ZKN:GeefLijstZaakDocumenten-ZAK-La01"/>
+	<!-- v#8 raagbericht geefZaakdocumentLezen -->
+	<element name="geefZaakdocumentLezen_EdcLv01" type="ZKN:GeefZaakdocumentLezen-EDC-Lv01"/>
+	<!-- #8 antwoordbericht geefZaakdocumentLezen-->
+	<element name="geefZaakdocumentLezen_EdcLa01" type="ZKN:GeefZaakdocumentLezen-EDC-La01"/>
+	<!-- #11 kennisgevingsbericht maakZaakdocument_Lk01 -->
+	<element name="maakZaakdocument_EdcLk01" type="ZKN:MaakZaakdocument-EDC-Lk01"/>
+	<!-- RFC 356683 omgaan met Besluiten -->
+	<!--element name="voegBesluitToe_BslLk01" type="ZKN:VoegBesluitToe-BSL-Lk01"/-->
+	<element name="voegBesluitToe_Di01" type="ZKN:Di01_VoegBesluitToe"/>
+	<element name="updateBesluit_BslLk01" type="ZKN:UpdateBesluit-BSL-Lk01"/>
+	<!--overdragenZaak -->
+	<element name="overdragenZaak_Di01" type="ZKN:DI01_overdragenZaak"/>
+	<element name="overdragenZaak_Du01" type="ZKN:Du01_overdragenZaak"/>
+	<!-- #13 'genereerBesluitIdentificatie' -->
+	<element name="genereerBesluitIdentificatie_Di02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Di02-Stuurgegevens-gbi"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="genereerBesluitIdentificatie_Du02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Du02-Stuurgegevens-gbi"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="besluit" type="ZKN:BSL-gbi-e"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- #2 vraagbericht geefBesluitDetails -->
+	<element name="geefBesluitdetails_BslLv01" type="ZKN:GeefBesluitdetails-BSL-Lv01"/>
+	<!-- #2 antwoordbericht geefBesluitDetails -->
+	<element name="geefBesluitdetails_BslLa01" type="ZKN:GeefBesluitdetails-BSL-La01"/>
+	<!-- ontkoppelzaakdocument-->
+	<element name="ontkoppelZaakdocument_Di02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:Di02-Stuurgegevens-ozd"/>
+				<element name="parameters" type="ZDS:Parameters-zs-dms-r"/>
+				<element name="edcLk02" type="ZKN:Kennisgeving-EDC-ozd"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- #22 vraagbericht geefLijstBesluiten -->
+	<element name="geefLijstBesluiten_ZakLv01" type="ZKN:GeefLijstBesluiten-ZAK-Lv01"/>
+	<!-- #22 antwoordbericht geefLijstBesluiten -->
+	<element name="geefLijstBesluiten_ZakLa01" type="ZKN:GeefLijstBesluiten-ZAK-La01"/>
+</schema>

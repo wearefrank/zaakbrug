@@ -11,7 +11,6 @@
 				name="zaak_read" 
 				method="GET"
 				uriPattern="/zaken/api/v1/zaken/{uuid}"
-				headerParams="Host"
 				produces="JSON"
 				consumes="ANY"
 				/>
@@ -45,7 +44,7 @@
             	getInputFromSessionKey="originalMessage">
                 <HttpSender name="GetZaakSender"
                     methodType="GET"
-                    headersParams="Authorization,Accept-Crs,Content-Crs,Accept,Host"
+                    headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
                     timeout="${zaakbrug.zgw.zaken-api.timeout}"
                     maxExecuteRetries="5"
                     contentType="application/json">
@@ -53,7 +52,6 @@
                 	<Param name="Accept-Crs" value="EPSG:4326" />
                     <Param name="Accept" value="application/json" />
                     <Param name="Content-Crs" value="EPSG:4326" />
-					<Param name="Host" sessionKey="headers" xpathExpression="/headers/header[@name = 'Host']/text()" />
                     <Param name="Authorization" value="Bearer @@zaken-api.jwt@@"/>
                 </HttpSender>
 

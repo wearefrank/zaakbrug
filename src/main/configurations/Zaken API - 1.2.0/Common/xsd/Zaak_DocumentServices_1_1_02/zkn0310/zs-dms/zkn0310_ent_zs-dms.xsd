@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 rel. 2 sp2 (http://www.altova.com) by Robert Melskens (Kwaliteits Instituut Nederlandse Gemeenten) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" targetNamespace="http://www.egem.nl/StUF/sector/zkn/0310" elementFormDefault="qualified" attributeFormDefault="unqualified" version="031001">
+	<annotation>
+		<documentation>
+			   Bestand bevat de complexTypes voor de berichtdefinities voor het opvragen van gegenereerde zaakidentificatie i.h.k.v. het ZS-DMS koppelvlak.
+			
+			   Wijzigingen t.b.v. patch 21 (1-4-2015) vergeleken met versie 031000 zijn de volgende wijzigingen doorgevoerd:			
+			   - ERR0353: Het schema is voorzien van de afgesproken structuur in 'appinfo'
+			#405665 element versioningState toegevoegd aan complexType Parameters-zs-dms
+        </documentation>
+		<appinfo>
+			<StUF:onderdeel>http://www.egem.nl/StUF/sector/zkn/0310</StUF:onderdeel>
+			<StUF:patch>22</StUF:patch>
+			<StUF:patchdatum>20150701</StUF:patchdatum>
+			<StUF:schemaversie>1</StUF:schemaversie>
+		</appinfo>
+	</annotation>
+	<import namespace="http://www.egem.nl/StUF/StUF0301" schemaLocation="../../0301/stuf0301mtom.xsd"/>
+	<import namespace="http://www.w3.org/2005/05/xmlmime" schemaLocation="../../xmlmime/xmlmime.xsd"/>
+	<include schemaLocation="../../zkn0310/entiteiten/zkn0310_ent_basis.xsd"/>
+	<include schemaLocation="../../zkn0310/mutatie/zkn0310_ent_mutatie.xsd"/>
+	<include schemaLocation="../../zkn0310/vraagAntwoord/zkn0310_ent_vraagAntwoord.xsd"/>
+	<include schemaLocation="zkn0310_simpleTypes_zs-dms.xsd"/>
+	<import namespace="http://www.egem.nl/StUF/StUF0301" schemaLocation="zkn0310_msg_stuf_zs-dms.xsd"/>
+	<import namespace="http://www.egem.nl/StUF/sector/bg/0310" schemaLocation="../../zkn0310/entiteiten/zkn0310_bg0310_ent.xsd"/>
+	<import namespace="http://www.egem.nl/StUF/sector/bg/0310" schemaLocation="zkn0310_bg0310_simpleTypes_zs-dms.xsd"/>
+	<import namespace="http://www.egem.nl/StUF/StUF0301" schemaLocation="../../zkn0310/vraagAntwoord/zkn0310_msg_stuf_vraagAntwoord.xsd"/>
+	<!-- ComplexTypes voor gespecialiseerde entiteittypen. -->
+	<!-- Definities voor #6 'genereerZaakIdentificatie' (GZI) -->
+	<complexType name="ZAK-gzi">
+		<complexContent>
+			<restriction base="ZKN:ZAK-antwoord">
+				<sequence>
+					<element name="identificatie" type="ZKN:ZaakIdentificatie-r"/>
+					<element name="omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="toelichting" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="kenmerk" type="ZKN:KenmerkGrp" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="anderZaakObject" type="ZKN:ZaakobjectGrp" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="resultaat" type="ZKN:ResultaatGrp" nillable="true" minOccurs="0"/>
+					<element name="startdatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="registratiedatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="publicatiedatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="einddatumGepland" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="uiterlijkeEinddatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="einddatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="opschorting" type="ZKN:OpschortingGrp" nillable="true" minOccurs="0"/>
+					<element name="verlenging" type="ZKN:VerlengingGrp" nillable="true" minOccurs="0"/>
+					<element name="betalingsIndicatie" type="ZKN:BetalingsIndicatie-e" nillable="true" minOccurs="0"/>
+					<element name="laatsteBetaaldatum" type="StUF:Tijdstip-e" nillable="true" minOccurs="0"/>
+					<element name="archiefnominatie" type="BG:Indicatie-e" nillable="true" minOccurs="0"/>
+					<element name="datumVernietigingDossier" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="zaakniveau" type="ZKN:ZaakNiveau-e" nillable="true" minOccurs="0"/>
+					<element name="deelzakenIndicatie" type="BG:Indicatie-e" nillable="true" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="historieMaterieel" type="ZKN:ZAK-historieMaterieel" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="historieFormeel" type="ZKN:ZAK-historieFormeel" minOccurs="0"/>
+					<element name="isVan" type="ZKN:ZAKZKT-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftBetrekkingOp" type="ZKN:ZAKOBJ-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsBelanghebbende" type="ZKN:ZAKBTRBLH-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsGemachtigde" type="ZKN:ZAKBTRGMC-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsInitiator" type="ZKN:ZAKBTRINI-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsUitvoerende" type="ZKN:ZAKBTRUTV-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsVerantwoordelijke" type="ZKN:ZAKBTRVRA-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsOverigBetrokkene" type="ZKN:ZAKBTROVR-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsDeelzaak" type="ZKN:ZAKZAKDEL-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftAlsHoofdzaak" type="ZKN:ZAKZAKHFD-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftBetrekkingOpAndere" type="ZKN:ZAKZAKBTR-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeft" type="ZKN:ZAKSTT-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heeftRelevant" type="ZKN:ZAKEDC-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="leidtTot" type="ZKN:ZAKBSL-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ZAK-gzi-e">
+		<complexContent>
+			<extension base="ZKN:ZAK-gzi">
+				<attribute ref="StUF:functie" use="required" fixed="entiteit"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- Definities voor #9 'geefZaakdocumentbewerken' (GZDB) -->
+	<complexType name="EDC-vraagSelectie-gzdb">
+		<complexContent>
+			<restriction base="ZKN:EDC-vraagSelectie">
+				<sequence>
+					<element name="identificatie" type="ZKN:DocumentIdentificatie-r"/>
+					<element name="dct.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="dct.omschrijvingGeneriek" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="dct.categorie" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="creatiedatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="ontvangstdatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="titel" type="ZKN:DocumentTitel-e" nillable="true" minOccurs="0"/>
+					<element name="beschrijving" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="formaat" type="ZKN:Bestandsformaat-e" nillable="true" minOccurs="0"/>
+					<element name="taal" type="ZKN:DocumentTaal-e" nillable="true" minOccurs="0"/>
+					<element name="versie" type="ZKN:DocumentVersie-e" nillable="true" minOccurs="0"/>
+					<element name="status" type="ZKN:DocumentStatus-e" nillable="true" minOccurs="0"/>
+					<element name="verzenddatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="vertrouwelijkAanduiding" type="ZKN:VertrouwelijkAanduiding-e" nillable="true" minOccurs="0"/>
+					<element name="auteur" type="ZKN:DocumentAuteur-e" nillable="true" minOccurs="0"/>
+					<element name="link" type="BG:Url-e" nillable="true" minOccurs="0"/>
+					<element name="inhoud" type="StUF:BinaireInhoud-vraag" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="isRelevantVoor" type="ZKN:EDCZAK-vraagSelectie" nillable="true" minOccurs="0"/>
+					<element name="kanVastleggingZijnVan" type="ZKN:EDCBSL-vraag" nillable="true" minOccurs="0"/>
+					<element name="maaktDeelUitVan" type="ZKN:EDCSDC-vraag" nillable="true" minOccurs="0"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="Vraag-EDC">
+		<sequence>
+			<element name="parameters" type="StUF:ParametersVraag-gzdb"/>
+			<element name="gelijk" type="ZKN:EDC-vraagSelectie-gzdb"/>
+			<element name="scope" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:EDC-vraagScope-gzdb"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+		<attribute ref="StUF:entiteittype" use="required" fixed="EDC"/>
+		<attribute ref="StUF:functie" use="required" fixed="selectie"/>
+	</complexType>
+	<complexType name="EDC-vraagScope-gzdb">
+		<complexContent>
+			<restriction base="ZKN:EDC-vraagScope">
+				<sequence>
+					<element name="identificatie" type="ZKN:DocumentIdentificatie-r"/>
+					<element name="dct.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="dct.omschrijvingGeneriek" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="dct.categorie" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="creatiedatum" type="StUF:Datum-r"/>
+					<element name="ontvangstdatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="titel" type="ZKN:DocumentTitel-r"/>
+					<element name="beschrijving" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="formaat" type="ZKN:Bestandsformaat-r"/>
+					<element name="taal" type="ZKN:DocumentTaal-r"/>
+					<element name="versie" type="ZKN:DocumentVersie-e" nillable="true" minOccurs="0"/>
+					<element name="status" type="ZKN:DocumentStatus-e" nillable="true" minOccurs="0"/>
+					<element name="verzenddatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="vertrouwelijkAanduiding" type="ZKN:VertrouwelijkAanduiding-r"/>
+					<element name="auteur" type="ZKN:DocumentAuteur-r"/>
+					<element name="link" type="BG:Url-e" nillable="true" minOccurs="0"/>
+					<element name="inhoud" type="StUF:BinaireInhoud-vraag" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="isRelevantVoor" type="ZKN:EDCZAK-vraagScope" nillable="true" minOccurs="0"/>
+					<element name="kanVastleggingZijnVan" type="ZKN:EDCBSL-vraag" nillable="true" minOccurs="0"/>
+					<element name="maaktDeelUitVan" type="ZKN:EDCSDC-vraag" nillable="true" minOccurs="0"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="EDC-antwoord-gzdb">
+		<complexContent>
+			<restriction base="ZKN:EDC-antwoord">
+				<sequence>
+					<element name="identificatie" type="ZKN:DocumentIdentificatie-r"/>
+					<element name="dct.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="dct.omschrijvingGeneriek" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="dct.categorie" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="creatiedatum" type="StUF:Datum-r"/>
+					<element name="ontvangstdatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="titel" type="ZKN:DocumentTitel-r"/>
+					<element name="beschrijving" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="formaat" type="ZKN:Bestandsformaat-r"/>
+					<element name="taal" type="ZKN:DocumentTaal-r"/>
+					<element name="versie" type="ZKN:DocumentVersie-e" nillable="true" minOccurs="0"/>
+					<element name="status" type="ZKN:DocumentStatus-e" nillable="true" minOccurs="0"/>
+					<element name="verzenddatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="vertrouwelijkAanduiding" type="ZKN:VertrouwelijkAanduiding-r"/>
+					<element name="auteur" type="ZKN:DocumentAuteur-r"/>
+					<element name="link" type="BG:Url-r"/>
+					<element name="inhoud" type="StUF:BinaireInhoud"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="historieMaterieel" type="ZKN:EDC-historieMaterieel" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="historieFormeel" type="ZKN:EDC-historieFormeel" minOccurs="0"/>
+					<element name="isRelevantVoor" type="ZKN:EDCZAK-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="kanVastleggingZijnVan" type="ZKN:EDCBSL-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="maaktDeelUitVan" type="ZKN:EDCSDC-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="Antwoord-EDC">
+		<sequence>
+			<element name="parameters" type="StUF:ParametersAntwoord-gzdb"/>
+			<element name="antwoord">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:EDC-antwoord-gzdb"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+		<attribute ref="StUF:entiteittype" use="required" fixed="EDC"/>
+		<attribute ref="StUF:functie" use="required" fixed="antwoord"/>
+	</complexType>
+	<!-- Definities voor #12 'updateZaakdocument' (UZD) 	en voor #14 'cancelCheckout' (CC) -->
+	<complexType name="EDC-kennisgeving-uzd">
+		<complexContent>
+			<restriction base="ZKN:EDC-kennisgeving">
+				<sequence>
+					<element name="identificatie" type="ZKN:DocumentIdentificatie-r"/>
+					<element name="dct.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="creatiedatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="ontvangstdatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="titel" type="ZKN:DocumentTitel-e" nillable="true" minOccurs="0"/>
+					<element name="beschrijving" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="formaat" type="ZKN:Bestandsformaat-e" nillable="true" minOccurs="0"/>
+					<element name="taal" type="ZKN:DocumentTaal-e" nillable="true" minOccurs="0"/>
+					<element name="versie" type="ZKN:DocumentVersie-e" nillable="true" minOccurs="0"/>
+					<element name="status" type="ZKN:DocumentStatus-e" nillable="true" minOccurs="0"/>
+					<element name="verzenddatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="vertrouwelijkAanduiding" type="ZKN:VertrouwelijkAanduiding-e" nillable="true" minOccurs="0"/>
+					<element name="auteur" type="ZKN:DocumentAuteur-e" nillable="true" minOccurs="0"/>
+					<element name="link" type="BG:Url-e" nillable="true" minOccurs="0"/>
+					<element name="inhoud" type="StUF:BinaireInhoud" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="isRelevantVoor" type="ZKN:EDCZAK-kennisgeving" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="Kennisgeving-EDC">
+		<sequence>
+			<element name="parameters" type="StUF:ParametersLk02"/>
+			<element name="object" type="ZKN:EDC-kennisgeving-uzd" minOccurs="0" maxOccurs="2"/>
+		</sequence>
+		<attribute ref="StUF:entiteittype" use="required" fixed="EDC"/>
+		<attribute ref="StUF:functie" use="required" fixed="update"/>
+	</complexType>
+	<complexType name="EDC-cc-e">
+		<complexContent>
+			<extension base="ZKN:EDC-kennisgeving-uzd">
+				<attribute ref="StUF:functie" use="required" fixed="entiteit"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- Definities voor #13 'genereerDocumentIdentificatie' (GDI) -->
+	<complexType name="EDC-gdi">
+		<complexContent>
+			<restriction base="ZKN:EDC-antwoord">
+				<sequence>
+					<element name="identificatie" type="ZKN:DocumentIdentificatie-r"/>
+					<element name="dct.omschrijving" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="dct.omschrijvingGeneriek" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="dct.categorie" type="ZKN:Omschrijving-e" nillable="true" minOccurs="0"/>
+					<element name="creatiedatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="ontvangstdatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="titel" type="ZKN:DocumentTitel-e" nillable="true" minOccurs="0"/>
+					<element name="beschrijving" type="ZKN:Toelichting-e" nillable="true" minOccurs="0"/>
+					<element name="formaat" type="ZKN:Bestandsformaat-e" nillable="true" minOccurs="0"/>
+					<element name="taal" type="ZKN:DocumentTaal-e" nillable="true" minOccurs="0"/>
+					<element name="versie" type="ZKN:DocumentVersie-e" nillable="true" minOccurs="0"/>
+					<element name="status" type="ZKN:DocumentStatus-e" nillable="true" minOccurs="0"/>
+					<element name="verzenddatum" type="StUF:Datum-e" nillable="true" minOccurs="0"/>
+					<element name="vertrouwelijkAanduiding" type="ZKN:VertrouwelijkAanduiding-e" nillable="true" minOccurs="0"/>
+					<element name="auteur" type="ZKN:DocumentAuteur-e" nillable="true" minOccurs="0"/>
+					<element name="link" type="BG:Url-e" nillable="true" minOccurs="0"/>
+					<element name="inhoud" type="StUF:BinaireInhoud" minOccurs="0"/>
+					<element ref="StUF:tijdvakGeldigheid" minOccurs="0"/>
+					<element ref="StUF:tijdstipRegistratie" minOccurs="0"/>
+					<element ref="StUF:extraElementen" minOccurs="0"/>
+					<element name="historieMaterieel" type="ZKN:EDC-historieMaterieel" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="historieFormeel" type="ZKN:EDC-historieFormeel" minOccurs="0"/>
+					<element name="isRelevantVoor" type="ZKN:EDCZAK-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="kanVastleggingZijnVan" type="ZKN:EDCBSL-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="maaktDeelUitVan" type="ZKN:EDCSDC-antwoord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="EDC-gdi-e">
+		<complexContent>
+			<extension base="ZKN:EDC-gdi">
+				<attribute ref="StUF:functie" use="required" fixed="entiteit"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- ComplexTypes voor parameters. -->
+	<complexType name="Parameters-zs-dms">
+		<sequence>
+			<element name="checkedOutId" type="ZKN:checkedOutId" minOccurs="0"/>
+			<element name="checkedOutBy" type="ZKN:checkedOutBy" nillable="true" minOccurs="0"/>
+			<element name="versioningState" type="ZKN:versioningState" nillable="true" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="Parameters-zs-dms-r">
+		<complexContent>
+			<restriction base="ZKN:Parameters-zs-dms">
+				<sequence>
+					<element name="checkedOutId" type="ZKN:checkedOutId" minOccurs="0"/>
+					<element name="versioningState" type="ZKN:versioningState" nillable="true" minOccurs="0"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+</schema>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsi="http://ws-i.org/schemas/conformanceClaim/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns="http://www.opengis.net/gml" xmlns:ns1="http://www.w3.org/1999/xlink" xmlns:ns2="http://www.w3.org/2001/SMIL20/" xmlns:ns3="http://www.w3.org/2001/SMIL20/Language" xmlns:ns4="http://www.w3.org/2005/05/xmlmime" targetNamespace="http://www.egem.nl/StUF/sector/bg/0310">
+	<import namespace="http://www.egem.nl/StUF/StUF0301" location="../../0301/stuf0301_types.wsdl"/>
+	<documentation>
+		<xs:documentation>
+			   Dit document definieert de webservices voor de berichtencatalogus prs persoonsgegevens (ontwikkeld in het kader van Prefill e-Formulieren services )
+			
+			   Versie 031001, wijzigingen t.b.v. patch 21 (1-4-2015) vergeleken met versie 031000 zijn de volgende wijzigingen doorgevoerd:			
+			   - ERR0353: Het documentation element is voorzien van een standaard 'appinfo' structuur met daarin informatie over het schema.
+			
+		</xs:documentation>
+		<xs:appinfo>
+			<StUF:onderdeel>http://www.egem.nl/StUF/sector/bg/0310</StUF:onderdeel>
+			<StUF:patch>22</StUF:patch>
+			<StUF:patchdatum>20150701</StUF:patchdatum>
+			<StUF:schemaversie>1</StUF:schemaversie>
+		</xs:appinfo>
+	</documentation>
+	<types>
+		<xs:schema>
+			<xs:import namespace="http://www.egem.nl/StUF/sector/bg/0310" schemaLocation="bg0310_msg_prs.xsd"/>
+		</xs:schema>
+	</types>
+	<message name="npsLv01-prs-NatuurlijkPersoon">
+		<part name="body" element="BG:npsLv01-prs-NatuurlijkPersoon"/>
+	</message>
+	<message name="npsLa01-prs-NatuurlijkPersoon">
+		<part name="body" element="BG:npsLa01-prs-NatuurlijkPersoon"/>
+	</message>
+	<message name="vesLv01-prs-Vestiging">
+		<part name="body" element="BG:vesLv01-prs-Vestiging"/>
+	</message>
+	<message name="vesLa01-prs-Vestiging">
+		<part name="body" element="BG:vesLa01-prs-Vestiging"/>
+	</message>
+	<message name="npsLv01-prs-GezinssituatieOpAdresAanvrager">
+		<part name="body" element="BG:npsLv01-prs-GezinssituatieOpAdresAanvrager"/>
+	</message>
+	<message name="npsLa01-prs-GezinssituatieOpAdresAanvrager">
+		<part name="body" element="BG:npsLa01-prs-GezinssituatieOpAdresAanvrager"/>
+	</message>
+	<message name="npsLv01-prs-KinderenVanAanvrager">
+		<part name="body" element="BG:npsLv01-prs-KinderenVanAanvrager"/>
+	</message>
+	<message name="npsLa01-prs-KinderenVanAanvrager">
+		<part name="body" element="BG:npsLa01-prs-KinderenVanAanvrager"/>
+	</message>
+	<portType name="OntvangSynchroon">
+		<documentation> 
+			Dit portType ondersteunt als operaties alle synchrone berichten gedefinieerd inde berichtcatalogus bg0310-prs
+		</documentation>
+		<operation name="npsLv01-prs-NatuurlijkPersoon">
+			<input message="BG:npsLv01-prs-NatuurlijkPersoon"/>
+			<output message="BG:npsLa01-prs-NatuurlijkPersoon"/>
+			<fault name="fout" message="StUF:Fo02"/>
+		</operation>
+		<operation name="vesLv01-prs-Vestiging">
+			<input message="BG:vesLv01-prs-Vestiging"/>
+			<output message="BG:vesLa01-prs-Vestiging"/>
+			<fault name="fout" message="StUF:Fo02"/>
+		</operation>
+		<operation name="npsLv01-prs-GezinssituatieOpAdresAanvrager">
+			<input message="BG:npsLv01-prs-GezinssituatieOpAdresAanvrager"/>
+			<output message="BG:npsLa01-prs-GezinssituatieOpAdresAanvrager"/>
+			<fault name="fout" message="StUF:Fo02"/>
+		</operation>
+		<operation name="npsLv01-prs-KinderenVanAanvrager">
+			<input message="BG:npsLv01-prs-KinderenVanAanvrager"/>
+			<output message="BG:npsLa01-prs-KinderenVanAanvrager"/>
+			<fault name="fout" message="StUF:Fo02"/>
+		</operation>
+	</portType>
+	<binding name="SOAPOntvangSynchroon" type="BG:OntvangSynchroon">
+		<documentation>
+			Omdat de uit te wisselen berichten volledig gedefinieerd zijn in de berichtcatalogus, kunnen we ze zonder verdere encoding (“literal”) opnemen in de body.
+			Wijzigingen:
+			2015-01-19 Michiel Verhoef soapActions uitgebreid met namespace zodat deze conform StUF.bindingen.030200 document zijn (RM 384609)
+		</documentation>
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="npsLv01-prs-NatuurlijkPersoon">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/bg/0310/npsLv01-prs-NatuurlijkPersoon"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="vesLv01-prs-Vestiging">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/bg/0310/vesLv01-prs-Vestiging"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="npsLv01-prs-GezinssituatieOpAdresAanvrager">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/bg/0310/npsLv01-prs-GezinssituatieOpAdresAanvrager"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="npsLv01-prs-KinderenVanAanvrager">
+			<soap:operation soapAction="http://www.egem.nl/StUF/sector/bg/0310/npsLv01-prs-KinderenVanAanvrager"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="fout">
+				<soap:fault name="fout" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="vraagAntwoord-prs">
+		<documentation>
+			Hier wordt de concreet aan te roepen service voor het ontvangen van synchrone bg0310-prs-berichten gedefinieerd. 
+		</documentation>
+		<port name="OntvangSynchroon" binding="BG:SOAPOntvangSynchroon">
+			<documentation>
+				<wsi:Claim conformsTo="http://ws-i.org/profiles/basic/1.1"/>
+			</documentation>
+			<soap:address location="http://example.com/Hier_Uw_Url"/>
+		</port>
+	</service>
+</definitions>

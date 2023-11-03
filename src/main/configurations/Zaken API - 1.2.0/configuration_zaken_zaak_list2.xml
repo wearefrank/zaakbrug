@@ -1,0 +1,82 @@
+<Module 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../FrankConfig.xsd"
+	>
+	<Adapter 
+		name="zaak_list2">
+		<Receiver name="zaak_list2">
+			<ApiListener 
+				name="zaak_list2" 
+				method="GET"
+				uriPattern="/zaken/api/v1/zaken"
+				produces="JSON"
+				consumes="ANY"
+				/>
+		</Receiver>
+		<Pipeline>
+			<Exits>
+				<Exit name="EXIT" state="SUCCESS" code="200"/>
+				<Exit name="NotModified" state="SUCCESS" code="304"/>
+				<Exit name="BadRequest" state="ERROR" code="400"/>
+				<Exit name="NotAuthorized" state="ERROR" code="401" empty="true"/>
+				<Exit name="NotAllowed" state="ERROR" code="403" empty="true"/>
+				<Exit name="PreconditionFailed" state="ERROR" code="412"/>
+				<Exit name="ServerError" state="ERROR" code="500"/>
+				<Exit name="Timeout" state="ERROR" code="504"/>
+			</Exits>
+
+			<JsonPipe name="JsonToXml">
+                <Forward name="success" path="Create Request" />
+            </JsonPipe>
+            
+            <XsltPipe
+                name="Create Request"
+                styleSheetName="Common/xsl/CreateReq.xsl">
+                <Param name="dateTime" pattern="{now,date,yyyy-MM-dd'T'HH:mm:ss:SSS}" />
+                <Forward name="success" path="CallZaakdetails_TranslationHandler"/>
+            </XsltPipe>
+			
+			 <SenderPipe
+                name="CallZaakdetails_TranslationHandler">
+                <!-- <SoapInputValidator soapBody="zakLv01" schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 GetZaakDetails/xsd/vraagAntwoord/zkn0310_msg_vraagAntwoord.xsd">
+                	<Forward name="failure" path="Error" />
+				<Forward name="parserError" path="Error" />
+                </SoapInputValidator> -->
+                <SoapInputWrapper ></SoapInputWrapper>
+                <!-- <EsbSoapInputWrapper direction="WRAP" ></EsbSoapInputWrapper> -->
+                <WsdlXmlInputValidator 
+	                wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_beantwoordVraag_zs-dms.wsdl"
+	                soapBody="zakLv01"
+	                ignoreUndeclaredElements="true"
+	                ignoreUnknownNamespaces="true"
+	                >
+					<Forward name="failure" path="Error"/>
+	                <Forward name="parserError" path="Error"/>
+				</WsdlXmlInputValidator>
+                <IbisLocalSender
+                    name="Zaakdetails_TranslationHandler"
+                    javaListener="Zaakdetails_TranslationHandler">
+                    <!-- <Param name="Identificatie" xpathExpression="//identificatie" sessionKey="InputMessage"/> -->
+                </IbisLocalSender>
+                <Forward name="success" path="XmlTOJson"/>
+                <Forward name="exception" path="ServerError" />
+            </SenderPipe>
+            
+            
+           <!--  <XsltPipe
+                name="CreateResponse"
+                styleSheetName="Common/xsl/CreateResponse.xsl">
+                <Forward name="success" path="XmlTOJson"/>
+            </XsltPipe> -->
+            
+            <FixedResultPipe name="Error"
+				returnString="&lt;Error/&gt;" >
+				<Forward name="success" path="XmlTOJson"/>
+			</FixedResultPipe>
+            
+            <JsonPipe name="XmlTOJson" direction="XML2JSON">
+                <Forward name="success" path="EXIT" />
+            </JsonPipe>
+		</Pipeline>
+	</Adapter>
+</Module>

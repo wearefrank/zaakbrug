@@ -1,0 +1,69 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="AddRolToZds"
+    active="${AddRolToZds.Active}"
+    description="">
+    
+    <Receiver name="AddRolToZds">
+        <JavaListener name="AddRolToZds"/>
+    </Receiver>
+    
+    <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <XmlIfPipe
+                name="CheckForZdsGerelateerde"
+                xpathExpression="string-length(role/gerelateerde)>0"
+                >
+                <Forward name="then" path="CreateZdsBetrokkeneIdentificatie"/>
+                <Forward name="else" path="EXIT"/>
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="CreateZdsBetrokkeneIdentificatie"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="ZdsBetrokkeneIdentificatie"
+                styleSheetName="CreateZaak_LK01/xsl/CreateZdsBetrokkeneIdentificatie.xsl"
+                >
+                <Param name="TypeRolOmschrijving" xpathExpression="role/typeRolOmschrijving"/>
+                <Forward name="success" path="CheckForZdsBetrokkeneIdentificatie"/>
+            </XsltPipe>
+
+            <XmlIfPipe
+                name="CheckForZdsBetrokkeneIdentificatie"
+                xpathExpression="string-length(zdsRol/betrokkeneIdentificatie)>0"
+                >
+                <Forward name="then" path="CreateRolBody"/>
+                <Forward name="else" path="EmptyResult"/>
+                <Forward name="exception" path="EXIT"/> <!-- Temporary solution for lack of adres processing -->
+            </XmlIfPipe>
+
+            <EchoPipe name="EmptyResult"
+                getInputFromFixedValue="&lt;dummy/&gt;">
+                <Forward name="success" path="EXIT"/>
+            </EchoPipe>
+
+            <XsltPipe
+                name="CreateRolBody"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="RolBody"
+                styleSheetName="CreateZaak_LK01/xsl/CreateRolBody.xsl"
+                >
+                <Param name="ZdsRolTypen" sessionKey="ZdsRolTypen" type="DOMDOC"/>
+                <Param name="ZdsBetrokkeneIdentificatie" sessionKey="ZdsBetrokkeneIdentificatie" type="DOMDOC"/>
+                <Param name="TypeRolOmschrijving" xpathExpression="role/typeRolOmschrijving"/>
+                <Forward name="success" path="CheckForZdsRolType"/>
+            </XsltPipe>
+
+            <XmlIfPipe
+                name="CheckForZdsRolType"
+                xpathExpression="string-length(zdsRol/roltype)>0"
+                >
+                <Forward name="then" path="EXIT"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </XmlIfPipe>   
+        </Pipeline>
+    </Adapter>
+</Module>

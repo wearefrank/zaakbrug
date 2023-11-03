@@ -1,0 +1,201 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+	<Adapter name="ManageAPI" description="Manage the API" active="${ManageAPI.active}">
+
+        <Receiver name="ManageAPI">
+            <JavaListener name="ManageAPI" returnedSessionKeys="catalogus_url,informatieobjecttype_url,resultaattypeomschrijving_url,roltype_url,zaaktype_rly,skip_next"/>            
+        </Receiver>
+
+		<Pipeline>
+			<XmlInputValidator
+				schema="ManageAPI/xsd/ManageAPI.xsd" root="ManageApiRequest">
+				<Forward name="failure" path="Error" />
+				<Forward name="parserError" path="Error" />
+			</XmlInputValidator>
+			<!-- <OutputValidator
+				className="al.nn.adapterframework.pipes.XmlValidator"
+				schema="ManageAPI/xsd/ManageAPI.xsd" root="ManageApiResponse">
+				<Forward name="failure" path="Error" />
+				<Forward name="parserError" path="Error" />
+			</OutputValidator> -->
+			<Exits>
+				<Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+			</Exits>
+
+			<ForEachChildElementPipe name="APIIterator"
+                elementXPathExpression="ManageApiRequest/*">
+                <IbisLocalSender
+                    name="CallManageAPI_Child1"
+                    javaListener="ManageAPI_Child1"
+                    returnedSessionKeys="catalogus_url,informatieobjecttype_url,resultaattypeomschrijving_url,roltype_url,zaaktype_rly,skip_next">
+                    <Param name="catalogus_url" sessionKey="catalogus_url" />
+                    <Param name="informatieobjecttype_url" sessionKey="informatieobjecttype_url" />
+                    <Param name="resultaattypeomschrijving_url" sessionKey="resultaattypeomschrijving_url" />
+                    <Param name="roltype_url" sessionKey="roltype_url" />
+                    <Param name="zaaktype_rly" sessionKey="zaaktype_rly" />
+                    <Param name="skip_next" sessionKey="skip_next" />
+                <!-- <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC"/>
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType/url">
+                        <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
+                    </Param> -->
+                </IbisLocalSender>
+                    <Forward name="success" path="ManageApiResponse"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </ForEachChildElementPipe>
+
+			<XsltPipe
+                name="ManageApiResponse"
+                styleSheetName="ManageAPI/xsl/ManageApiRly.xsl">
+                <Forward name="success" path="EXIT"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+			<!-- ERRORS -->
+			<FixedResultPipe name="Error"
+				returnString="&lt;Error/&gt;" />
+		</Pipeline>
+	</Adapter>
+	
+	<Adapter name="ManageAPI_Child1" description="Manage the API" active="${ManageAPI.active}">
+
+        <Receiver name="ManageAPI_Child1">
+            <JavaListener name="ManageAPI_Child1" returnedSessionKeys="catalogus_url,informatieobjecttype_url,resultaattypeomschrijving_url,roltype_url,zaaktype_rly,skip_next"/>            
+        </Receiver>
+
+		<Pipeline>
+			<Exits>
+				<Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+			</Exits>
+			
+			<XsltPipe
+                name="StoreUrl"
+                xpathExpression="//Url"
+                storeResultInSessionKey="BaseUrl">
+                <!-- <Param name="newId" sessionKey="newId"/> -->
+                <Forward name="success" path="StoreMessage"/>
+            </XsltPipe>
+            
+            <!-- <XsltPipe
+                name="StoreMessage"
+                getInputFromSessionKey="originalMessage"
+                xpathExpression="//Body"
+                storeResultInSessionKey="Message">
+                <Param name="newId" sessionKey="newId"/>
+                <Forward name="success" path="CreateUrl"/>
+            </XsltPipe> -->
+            
+             <XsltPipe
+                name="StoreMessage"
+                styleSheetName="ManageAPI/xsl/CreateMessage.xsl"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="Message">
+                <Param name="catalogus_url" sessionKey="catalogus_url" /> 
+                <Forward name="success" path="CreateUrl"/>
+            </XsltPipe>
+            
+            <XsltPipe
+                name="CreateUrl"
+                styleSheetName="ManageAPI/xsl/CreateURL.xsl"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="UrlParam">
+                <Param name="BaseUrl" sessionKey="BaseUrl" /> 
+                <Forward name="success" path="CheckMethod"/>
+            </XsltPipe>
+            
+            <XmlSwitchPipe 
+                name="CheckMethod"
+                getInputFromSessionKey="originalMessage"
+                styleSheetName="Common/xsl/Switch.xsl">
+                <Param name="mode" value="method" />
+                <Param name="skip_next" sessionKey="skip_next" />
+                <Forward name="SKIP" path="EXIT"/>
+                <Forward name="POST" path="callPostMethod"/>
+                <Forward name="GET" path="callGetMethod"/>
+            </XmlSwitchPipe>
+            
+             <SenderPipe name="callPostMethod"
+            	getInputFromSessionKey="Message">
+                <HttpSender name="postSender"
+                    methodType="POST"
+                    headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    maxExecuteRetries="5"
+                    contentType="application/json">
+                    <Param name="url" sessionKey="UrlParam" />
+                	<Param name="Accept-Crs" value="EPSG:4326" />
+                    <Param name="Accept" value="application/json" />
+                    <Param name="Content-Crs" value="EPSG:4326" />
+                    <Param name="Authorization" value="Bearer @@zaken-api.jwt@@"/>
+                </HttpSender>
+
+                <Forward name="success" path="JsonToXml"/>
+                <Forward name="304" path="EXIT"/>
+                <Forward name="400" path="EXIT"/>
+                <Forward name="401" path="EXIT"/>
+                <Forward name="403" path="EXIT"/>
+                <Forward name="412" path="EXIT"/>
+                <Forward name="500" path="EXIT"/>
+                <Forward name="504" path="EXIT"/>
+                
+			</SenderPipe>
+			
+			<SenderPipe name="callGetMethod"
+            	getInputFromSessionKey="Message">
+                <HttpSender name="getSender"
+                    methodType="GET"
+                    headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    maxExecuteRetries="5"
+                    contentType="application/json">
+                    <Param name="url" sessionKey="UrlParam" />
+                	<Param name="Accept-Crs" value="EPSG:4326" />
+                    <Param name="Accept" value="application/json" />
+                    <Param name="Content-Crs" value="EPSG:4326" />
+                    <Param name="Authorization" value="Bearer @@zaken-api.jwt@@"/>
+                </HttpSender>
+
+                <Forward name="success" path="JsonToXml"/>
+                <Forward name="304" path="EXIT"/>
+                <Forward name="400" path="EXIT"/>
+                <Forward name="401" path="EXIT"/>
+                <Forward name="403" path="EXIT"/>
+                <Forward name="412" path="EXIT"/>
+                <Forward name="500" path="EXIT"/>
+                <Forward name="504" path="EXIT"/>
+                
+			</SenderPipe>
+			
+			<JsonPipe name="JsonToXml">
+                <Forward name="success" path="check result" />
+            </JsonPipe>
+			
+			<XmlSwitchPipe 
+                name="check result" 
+                styleSheetName="Common/xsl/Switch.xsl">
+                <Param name="Method" xpathExpression="Method/@name" sessionKey="originalMessage" />
+                <Param name="url" sessionKey="BaseUrl" />
+                <Forward name="catalogus_url" path="Storecatalogus_url"/>
+                <!-- <Forward name="Delete" path="CallDeleteRolFromZgw"/>
+                <Forward name="Changed" path="DeleteRolBeforeUpdate"/> -->
+                <Forward name="Exit" path="EXIT"/>
+            </XmlSwitchPipe>
+			
+			<XsltPipe
+                name="Storecatalogus_url"
+                xpathExpression="//url"
+                storeResultInSessionKey="catalogus_url">
+                <!-- <Param name="newId" sessionKey="newId"/> -->
+                <Forward name="success" path="StoreSkip_next"/>
+            </XsltPipe>
+            
+            <XsltPipe
+                name="StoreSkip_next"
+                xpathExpression="'true'"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="skip_next">
+                <Forward name="success" path="EXIT"/>
+            </XsltPipe>
+		</Pipeline>
+	</Adapter>
+</Module>	
