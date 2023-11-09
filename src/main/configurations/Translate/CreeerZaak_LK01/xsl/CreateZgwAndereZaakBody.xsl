@@ -4,7 +4,7 @@
 
     <xsl:template match="/">
         <relevanteAndereZaken>
-            <url><xsl:value-of select="Url"/></url>
+            <url><xsl:value-of select="$Url"/></url>
             <aardRelatie>onderwerp</aardRelatie>
         </relevanteAndereZaken>
     </xsl:template>
