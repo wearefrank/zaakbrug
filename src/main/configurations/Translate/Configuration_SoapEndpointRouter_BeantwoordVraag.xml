@@ -3,6 +3,12 @@
         active="${SoapEndpointRouter_BeantwoordVraag.Active}"
         description="">
 
+        <!--
+            Never use "originalMessage" in this adapter. Use "SafeOriginalMessage" instead. 
+            This is due "originalMessage" potentially containing very large document base64. 
+            "SafeOriginalMessage" has the base64 already stored to disk and removed from the message.
+        -->
+
         <Receiver name="SoapEndpointRouter_BeantwoordVraag">
             <WebServiceListener name="SoapEndpointRouter_BeantwoordVraag" address="${zaakbrug.soap.beantwoord-vraag.endpoint}" soap="false"/>
             <JdbcErrorStorage
@@ -17,6 +23,11 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
+            <!--
+                Dont touch the input message before this pipe. Especially no xslt/xpath. 
+                It can potentially contain very large document base64 still. 
+                This pipe stores it to disk and removes it from the message.
+            -->
             <EchoPipe 
                 name="StoreInhoud"
                 elementToMove="inhoud"
