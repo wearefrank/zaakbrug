@@ -1,5 +1,45 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.12](https://github.com/wearefrank/zaakbrug/compare/v1.13.11...v1.13.12) (2023-11-02)
+
+
+### ✅ Tests
+
+* lock openzaak to 1.9.0 in test docker-compose ([4a573d7](https://github.com/wearefrank/zaakbrug/commit/4a573d78b6287e656b4aff6d6c21af671e4761d0))
+
+## [1.13.11](https://github.com/wearefrank/zaakbrug/compare/v1.13.10...v1.13.11) (2023-11-02)
+
+
+### 🔥 Performance Improvements
+
+* updateDocument with old and new state large documents performance improvement ([3287e8b](https://github.com/wearefrank/zaakbrug/commit/3287e8b4ab6906447540481ed135a49366c94a5a))
+
+
+### ✅ Tests
+
+* add updateDocument large documents performance test ([f5f0ba4](https://github.com/wearefrank/zaakbrug/commit/f5f0ba48467d445e9f69b92fe3df13dbbb40ed7d))
+
+## [1.13.10](https://github.com/wearefrank/zaakbrug/compare/v1.13.9...v1.13.10) (2023-10-31)
+
+
+### 🐛 Bug Fixes
+
+* update document fails when input has 2 document objects ([#173](https://github.com/wearefrank/zaakbrug/issues/173)) ([9f37267](https://github.com/wearefrank/zaakbrug/commit/9f372675133046c535fe61f9aacc9b04850540ec))
+
+## [1.13.9](https://github.com/wearefrank/zaakbrug/compare/v1.13.8...v1.13.9) (2023-10-27)
+
+
+### 🐛 Bug Fixes
+
+* redo ff bump for doucment retreival nulls ([#172](https://github.com/wearefrank/zaakbrug/issues/172)) ([cd68d6f](https://github.com/wearefrank/zaakbrug/commit/cd68d6f2ecdf7c9be8c998da58600cf3f70d5b4f))
+
+## [1.13.8](https://github.com/wearefrank/zaakbrug/compare/v1.13.7...v1.13.8) (2023-10-27)
+
+
+### ⏩ Reverts
+
+* Revert "Bump F!F version to fix document retreival (#5625) (#168)" (#169) ([1ebd2e1](https://github.com/wearefrank/zaakbrug/commit/1ebd2e11ebd06cc1142b8c00072e5765061210d4)), closes [#5625](https://github.com/wearefrank/zaakbrug/issues/5625) [#168](https://github.com/wearefrank/zaakbrug/issues/168) [#169](https://github.com/wearefrank/zaakbrug/issues/169)
+
 ## [1.13.7](https://github.com/wearefrank/zaakbrug/compare/v1.13.6...v1.13.7) (2023-10-13)
 
 

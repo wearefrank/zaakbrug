@@ -3,6 +3,12 @@
         active="${SoapEndpointRouter_VrijeBerichten.Active}"
         description="">
 
+        <!--
+            Never use "originalMessage" in this adapter. Use "SafeOriginalMessage" instead. 
+            This is due "originalMessage" potentially containing very large document base64. 
+            "SafeOriginalMessage" has the base64 already stored to disk and removed from the message.
+        -->
+
         <Receiver name="SoapEndpointRouter_VrijeBerichten">
             <WebServiceListener name="SoapEndpointRouter_VrijeBerichten" address="${zaakbrug.soap.vrije-berichten.endpoint}" soap="false"/>
             <JdbcErrorStorage
@@ -17,18 +23,54 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
+            <!--
+                Dont touch the input message before this pipe. Especially no xslt/xpath. 
+                It can potentially contain very large document base64 still. 
+                This pipe stores it to disk and removes it from the message.
+            -->
             <EchoPipe 
                 name="StoreInhoud"
                 elementToMove="inhoud"
                 removeCompactMsgNamespaces="false"
                 >
-                <Forward name="success" path="ReplaceInhoudRefWithBase64EncodedRef" />
+                <Forward name="success" path="CheckInputDocumentObjectCount" />
             </EchoPipe>
+
+            <!--
+                In the rare case of the new base64 AND the old base64 of a document being present during an updateDocument action, the elementsToMove will make a
+                ref_inhoud# sessionKey for both "inhoud" elements. Normally there is only one because there is only 1 inhoud element with the NEW base64.
+                Only in this scenario "ref_inhoud" will be the OLD base64 and "ref_inhoud2" will be the NEW base64. We are only interested in the NEW base64,
+                so we are overwriting the "ref_inhoud" sessionkey with the content of "ref_inhoud2" and replace "{sessionKey:ref_inhoud2} with "{sessionKey:ref_inhoud}".
+            -->
+            <XmlIfPipe name="CheckInputDocumentObjectCount"
+                xpathExpression="count(//*:inhoud) = 2"
+                preserveInput="true"
+                >
+                <Forward name="then" path="OverwriteRefInhoudWithRefInhoud2"/>
+                <Forward name="else" path="ReplaceInhoudRefWithBase64EncodedRef"/>
+            </XmlIfPipe>
+
+            <PutInSessionPipe
+                name="OverwriteRefInhoudWithRefInhoud2"
+                >
+                <Param name="ref_inhoud" sessionKey="ref_inhoud2" />
+                <Forward name="success" path="ReplaceInhoudRefWithBase64EncodedRef"/>
+                <Forward name="exception" path="BackEndError"/>
+            </PutInSessionPipe>
 
             <ReplacerPipe
                 name="ReplaceInhoudRefWithBase64EncodedRef"
                 storeResultInSessionKey="SafeOriginalMessage"
                 find="{sessionKey:ref_inhoud}"
+                replace="e3Nlc3Npb25LZXk6cmVmX2luaG91ZH0="
+                >
+                <Forward name="success" path="ReplaceInhoudRef2WithBase64EncodedRef" />
+            </ReplacerPipe>
+
+            <ReplacerPipe
+                name="ReplaceInhoudRef2WithBase64EncodedRef"
+                storeResultInSessionKey="SafeOriginalMessage"
+                find="{sessionKey:ref_inhoud2}"
                 replace="e3Nlc3Npb25LZXk6cmVmX2luaG91ZH0="
                 >
                 <Forward name="success" path="ValidateInput" />
@@ -40,7 +82,7 @@
                 outputFormat="XML"
                 autoFormat="false"
                 >
-				<Forward name="success" path="UnwrapSoapMessage"/>
+				<Forward name="success" path="UnwrapOriginalMessage"/>
 				<Forward name="failure" path="WsdlValidationSoftFailForwarder"/>
 			</WsdlXmlValidatorPipe>
 
@@ -49,12 +91,12 @@
                 xpathExpression="$SoftFail = true()"
                 >
                 <Param name="SoftFail" value="${zaakbrug.soap.vrije-berichten.validation-soft-fail}" type="BOOLEAN"/>
-                <Forward name="true" path="UnwrapSoapMessage" />
+                <Forward name="true" path="UnwrapOriginalMessage" />
                 <Forward name="false" path="InvalidXml" />
             </XmlSwitchPipe>
 
             <SoapWrapperPipe
-                name="UnwrapSoapMessage"
+                name="UnwrapOriginalMessage"
                 direction="UNWRAP"
                 removeOutputNamespaces="true"
                 >
