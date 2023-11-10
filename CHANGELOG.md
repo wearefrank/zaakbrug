@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.13](https://github.com/wearefrank/zaakbrug/compare/v1.13.12...v1.13.13) (2023-11-10)
+
+
+### 🧑‍💻 Code Refactoring
+
+* improve error feedback when informatieobjectype with omschrijving not found ([#167](https://github.com/wearefrank/zaakbrug/issues/167)) ([65aaf56](https://github.com/wearefrank/zaakbrug/commit/65aaf56f80fc98282c668c9b70d7b955afa64f09))
+
 ## [1.13.12](https://github.com/wearefrank/zaakbrug/compare/v1.13.11...v1.13.12) (2023-11-02)
 
 
