@@ -1,0 +1,20 @@
+[
+    {
+        "model": "authorizations.applicatie",
+        "pk": 1,
+        "fields": {
+            "uuid": "4223b169-ebc7-4410-900f-0ea2bf75dd83",
+            "client_ids": "[\"ZaakBrug\"]",
+            "label": "ZaakBrug",
+            "heeft_alle_autorisaties": true
+        }
+    },
+    {
+        "model": "vng_api_common.jwtsecret",
+        "pk": 1,
+        "fields": {
+            "identifier": "ZaakBrug",
+            "secret": "secret1234"
+        }
+    }
+]
