@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.14](https://github.com/wearefrank/zaakbrug/compare/v1.13.13...v1.13.14) (2023-11-13)
+
+
+### ✅ Tests
+
+* add zaakbrug app credentials in openzaak automatically and replace manual catalog import with add&delete calls in testcase setup and teardown ([#174](https://github.com/wearefrank/zaakbrug/issues/174)) ([4f1140d](https://github.com/wearefrank/zaakbrug/commit/4f1140ddc4a87236c0fb6c35d521fefa429a80d3))
+
 ## [1.13.13](https://github.com/wearefrank/zaakbrug/compare/v1.13.12...v1.13.13) (2023-11-10)
 
 
