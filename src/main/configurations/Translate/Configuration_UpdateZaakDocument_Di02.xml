@@ -5,10 +5,6 @@
 
         <Receiver name="UpdateZaakDocument_Di02">
             <JavaListener name="UpdateZaakDocument_Di02"/>
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/updateZaakDocument_Di02"/>
         </Receiver>
 
         <Pipeline>  

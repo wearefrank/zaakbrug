@@ -11,10 +11,6 @@
 
         <Receiver name="SoapEndpointRouter_OntvangAsynchroon">
             <WebServiceListener name="SoapEndpointRouter_OntvangAsynchroon" address="${zaakbrug.soap.ontvang-asynchroon.endpoint}" soap="false"/>
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/ontvangAsynchroon"/>
         </Receiver>
 
         <Pipeline>

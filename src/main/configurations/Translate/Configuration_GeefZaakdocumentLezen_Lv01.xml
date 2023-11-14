@@ -10,10 +10,6 @@
                 name="GeefZaakdocumentLezen_Lv01"
                 returnedSessionKeys="ref_inhoud"
                 />
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/geefZaakdocumentLezen_Lv01"/>
         </Receiver>
 
         <Pipeline>
