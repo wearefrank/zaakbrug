@@ -5,10 +5,6 @@
 
         <Receiver name="VoegZaakdocumentToe_Lk01">
             <JavaListener name="VoegZaakdocumentToe_Lk01"/>
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/voegZaakdocumentToe"/>
         </Receiver>
 
         <Pipeline>

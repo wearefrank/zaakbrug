@@ -11,10 +11,6 @@
 
         <Receiver name="SoapEndpointRouter_BeantwoordVraag">
             <WebServiceListener name="SoapEndpointRouter_BeantwoordVraag" address="${zaakbrug.soap.beantwoord-vraag.endpoint}" soap="false"/>
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/beantwoordVraag"/>
         </Receiver>
 
         <Pipeline>
