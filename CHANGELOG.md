@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.15](https://github.com/wearefrank/zaakbrug/compare/v1.13.14...v1.13.15) (2023-11-14)
+
+
+### 🧑‍💻 Code Refactoring
+
+* remove errorstores on all adapters so that errors are not accidentally ignored ([#179](https://github.com/wearefrank/zaakbrug/issues/179)) ([adf1b67](https://github.com/wearefrank/zaakbrug/commit/adf1b67eeed25f509c02e30a2074209fd995f01a))
+
 ## [1.13.14](https://github.com/wearefrank/zaakbrug/compare/v1.13.13...v1.13.14) (2023-11-13)
 
 
