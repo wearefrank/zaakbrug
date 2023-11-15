@@ -1,5 +1,20 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.16](https://github.com/wearefrank/zaakbrug/compare/v1.13.15...v1.13.16) (2023-11-15)
+
+
+### 🐛 Bug Fixes
+
+* change zgwzaak to root createZakLa1response ([cdfc9f9](https://github.com/wearefrank/zaakbrug/commit/cdfc9f91b0f7f453dc54f98a3bfcd0c40c3a652b))
+* create zaak with relevante andere zaken ([2ab1873](https://github.com/wearefrank/zaakbrug/commit/2ab1873f7dcf71937a8a9ea9a2f7ddb13dcce103))
+* creeerZaak and updateZaak are not correctly handling relevanteAndereZaken relations ([e616ecf](https://github.com/wearefrank/zaakbrug/commit/e616ecf67d1e5caf63ed409e03b470e4aab0e9ec))
+* creeerZaak reflects new changes made to andereZaken configuration ([cebbb1b](https://github.com/wearefrank/zaakbrug/commit/cebbb1bd40bf2132c0efefd098b6a80a3e6fb657))
+* Error when gerelateerde is not present ([fcfc026](https://github.com/wearefrank/zaakbrug/commit/fcfc02685c5dc47cc4998d7bb0b155bb466fdcd1))
+* rollmapping in catalogi ([d071819](https://github.com/wearefrank/zaakbrug/commit/d071819314b336cc835458d43cbf66a4ef1caf62))
+* updateZaak createupdateZaakbody ([712bc72](https://github.com/wearefrank/zaakbrug/commit/712bc7294d0fb8cb030d076bfb5e12bffe3938d2))
+* updateZaak now properly relates relevanteAndereZaken ([d159b29](https://github.com/wearefrank/zaakbrug/commit/d159b29c0c4685fd9907199639feabc2554c1f05))
+* updateZaak status wrong forward ([fb7f0da](https://github.com/wearefrank/zaakbrug/commit/fb7f0dac7be4f83207c3e08292767809529ad918))
+
 ## [1.13.15](https://github.com/wearefrank/zaakbrug/compare/v1.13.14...v1.13.15) (2023-11-14)
 
 
