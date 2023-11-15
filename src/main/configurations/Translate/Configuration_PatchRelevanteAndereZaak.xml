@@ -13,19 +13,26 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-			<XsltPipe
+            <XsltPipe
                 name="CreatePatchZaakBody"
+                getInputFromSessionKey="originalMessage"
                 skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/CreateZgwAndereZaakBody.xsl"
                 >
-                <Param name="Url" sessionKey="AndereUrl"/>
+                <Param name="AndereUrl" sessionKey="AndereUrl"/>
+                <Param name="AndereUrls" sessionKey="AndereUrls" type="DOMDOC"/>
                 <Forward name="success" path="XmlToJson"/>
             </XsltPipe>
 
-            <JsonPipe name="XmlToJson"
-                direction="XML2JSON">
-                <Forward name="success" path="PatchZaak"/>
-            </JsonPipe>
+            <Json2XmlValidatorPipe
+                name="XmlToJson"
+                root="container"
+                schema="CreeerZaak_LK01/xsd/AndereZaakBodyToJson.xsd"
+                outputFormat="JSON"
+                compactJsonArrays="false"
+                throwException="true">
+                <Forward name="success" path="PatchZaak" />
+            </Json2XmlValidatorPipe>
 
             <SenderPipe name="PatchZaak">
 				<HttpSender 

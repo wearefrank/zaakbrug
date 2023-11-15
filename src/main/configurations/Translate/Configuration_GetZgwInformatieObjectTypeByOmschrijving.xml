@@ -17,8 +17,7 @@
                 name="ZaakTypeInformatieObjectTypeUrlIterator"
                 getInputFromSessionKey="ZgwZaakType"
                 storeResultInSessionKey="ZgwInformatieObjectTypen"
-                elementXPathExpression="/ZgwZaakType/informatieobjecttypen"
-                parallel="true">
+                elementXPathExpression="/ZgwZaakType/informatieobjecttypen">
                 <IbisLocalSender
                     name="GetZgwInformatieObjectTypeByUrlLocalSender"
                     javaListener="GetZgwInformatieObjectTypeByUrl">

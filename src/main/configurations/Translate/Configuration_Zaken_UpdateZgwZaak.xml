@@ -13,10 +13,15 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <JsonPipe name="XmlToJson"
-                direction="XML2JSON">
-                <Forward name="success" path="UpdateZgwZaak"/>
-            </JsonPipe>
+            <Json2XmlValidatorPipe
+                name="XmlToJson"
+                root="ZgwZaakPut"
+                schema="UpdateZaak_LK01/xsd/ZgwZaakPut.xsd"
+                outputFormat="JSON"
+                compactJsonArrays="false"
+                throwException="true">
+                <Forward name="success" path="UpdateZgwZaak" />
+            </Json2XmlValidatorPipe>
 
             <SenderPipe name="UpdateZgwZaak">
 				<HttpSender name="UpdateZgwZaakSender" 

@@ -74,8 +74,7 @@
 
             <ForEachChildElementPipe name="ZdsHeeftIterator"
                 getInputFromSessionKey="originalMessage"
-                elementXPathExpression="/*/object/heeft"
-                parallel="true">
+                elementXPathExpression="/*/object/heeft">
                 <IbisLocalSender
                     name="CallZdsHeeftAdapter"
                     javaListener="ZdsHeeftAdapter"
@@ -127,8 +126,7 @@
             </SenderPipe>
 
             <ForEachChildElementPipe name="ZgwResultatenIterator"
-                elementXPathExpression="/root/results"
-                parallel="true">
+                elementXPathExpression="/root/results">
                 <HttpSender
                     name="DeleteZaakResultaatSender" 
 					methodType="DELETE"

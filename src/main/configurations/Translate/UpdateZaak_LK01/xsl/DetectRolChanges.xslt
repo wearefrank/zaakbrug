@@ -6,8 +6,8 @@
         <xsl:for-each select="roles/role">
             <xsl:if test="typeRolOmschrijving = $ZdsWordtZaakRol/role/typeRolOmschrijving">
                 <xsl:choose>
-                    <xsl:when test="string-length(gerelateerde) = 0 and string-length($ZdsWordtZaakRol/role/gerelateerde) > 0">New</xsl:when>
-                    <xsl:when test="string-length(gerelateerde) > 0 and string-length($ZdsWordtZaakRol/role/gerelateerde) = 0">Delete</xsl:when>
+                    <xsl:when test="count(gerelateerde/*) = 0 and string-length($ZdsWordtZaakRol/role/gerelateerde) > 0">New</xsl:when>
+                    <xsl:when test="count(gerelateerde/*) > 0 and string-length($ZdsWordtZaakRol/role/gerelateerde) = 0">Delete</xsl:when>
                     <xsl:when test="gerelateerde != $ZdsWordtZaakRol/role/gerelateerde">Changed</xsl:when>
                     <xsl:otherwise>Exit</xsl:otherwise>
                 </xsl:choose>
