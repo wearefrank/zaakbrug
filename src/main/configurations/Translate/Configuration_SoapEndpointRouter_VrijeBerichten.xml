@@ -76,6 +76,7 @@
                 name="ValidateInput"
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
                 outputFormat="XML"
+                ignoreUnknownNamespaces="true"
                 autoFormat="false"
                 >
 				<Forward name="success" path="UnwrapOriginalMessage"/>

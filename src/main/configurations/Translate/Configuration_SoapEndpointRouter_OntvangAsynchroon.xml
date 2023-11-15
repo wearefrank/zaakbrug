@@ -43,6 +43,7 @@
 
             <WsdlXmlValidatorPipe 
                 name="ValidateInput"
+                ignoreUnknownNamespaces="true"
                 wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl"
                 >
                 <Forward name="success" path="UnwrapSoapMessage"/>
