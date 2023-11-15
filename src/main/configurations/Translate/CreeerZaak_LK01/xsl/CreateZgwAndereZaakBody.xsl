@@ -2,7 +2,7 @@
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" />
     <xsl:param name="VerwerkingsSoort"/>
     <xsl:param name="AndereUrl"/>
-    <xsl:param name="AndereUrls" select="parse-xml('&lt;urls&gt;&lt;url/&gt;&lt;/urls&gt;')" />
+    <xsl:param name="AndereUrls" as="node()"><urls><url/></urls></xsl:param>
 
     <xsl:template match="/">
         <container>
