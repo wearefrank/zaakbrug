@@ -6,10 +6,6 @@
 
         <Receiver name="GenereerIdentificatieEmulator">
             <JavaListener name="GenereerIdentificatieEmulator" />
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/genereerIdentificatieEmulator" />
         </Receiver>
 
         <Pipeline>

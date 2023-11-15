@@ -5,10 +5,6 @@
 
         <Receiver name="GeefLijstZaakdocumenten_Lv01">
             <JavaListener name="GeefLijstZaakdocumenten_Lv01"/>
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/geefLijstZaakdocumenten_Lv01"/>
         </Receiver>
 
         <Pipeline>  

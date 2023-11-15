@@ -8,10 +8,6 @@
                 name="GeefZaakdocumentbewerken_Di02"
                 returnedSessionKeys="ZgwLock,ref_inhoud"
                 />
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/GeefZaakdocumentbewerken_Di02"/>
         </Receiver>
 
         <Pipeline>

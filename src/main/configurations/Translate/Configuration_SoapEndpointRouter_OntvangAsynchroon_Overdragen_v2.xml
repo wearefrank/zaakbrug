@@ -4,10 +4,6 @@
         description="">
         <Receiver name="SoapEndpointRouter_OntvangAsynchroon_Overdragen_v2">
             <WebServiceListener name="SoapEndpointRouter_OntvangAsynchroon_Overdragen_v2" address="${zaakbrug.soap.ontvang-asynchroon-overdragen.v2.endpoint}" soap="false"/>
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/OntvangAsynchroonOverdragen_v2"/>
         </Receiver>
         <Pipeline>
             <Exits>
