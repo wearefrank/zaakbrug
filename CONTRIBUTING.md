@@ -17,10 +17,21 @@ Execute the following steps when bumping the Frank!Framework version:
 
 # Testing with SoapUI
 
-## Changes to the project file
+
+
+## Configuring SoapUI
 Out-of-the-box SoapUI saves the dynamic properties set during execution of the tests to the project file. Having these dynamic properties value changes in the project file, makes it harder for Git to merge without a merge conflict. Git does not know the context of the changes and will simply see local and incoming changes to the same part of the project file, leading to a merge conflict that is hard to manually solve due to the sheer size of the projec t file. To combat this, we added a save script to the project that automatically clears all dynamic property values when saving the project, so that only functional changes end up in the project file. 
 
-Unfortunatly Load and Save scripts are disabled by default in SoapUI. You can enable them by unchecking **"Disable the Load and Save scripts"** under `File -> Preferences -> Global Security Settings`.
+Unfortunatly Load and Save scripts are disabled by default in SoapUI. You can enable them by unchecking **Disable the Load and Save scripts** under `File -> Preferences -> Global Security Settings`.
+
+Additionally, to help out diff tools, also enable the option **Pretty Print Project Files** under `File -> Preferences -> WSDL Settings`.
+
+## Coding standards
+- Put dynamic properties(temporary values during test execution) in the **"Properties" TestStep**. Their values get cleared when saving the project.
+- Put static properties in the **Custom Properties** section of TestCase, TestSuite or Project.
+- When you open the SoapUI project in a new version of SoapUI, Save the project and create a seperate PR for any changes in the project file.
+- Try to keep to one change at a time and keep them small.
+- Whenever possible, avoid combining changes that both add and remove lots of things.
 
 # Docker-compose
 The docker-compose development environment is designed to be flexible and composable. This prevents the need for developers to run the entire stack eventhough their work requires only a small part of the stack. For this we make use of a docker-compose feature that merges a given array of docker-compose files together. Simply provide a `-f ./docker-compose.<application>.yml` argument for each docker-compose file you wish to include in the `docker-compose up`command.
