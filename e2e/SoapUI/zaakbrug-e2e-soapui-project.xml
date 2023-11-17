@@ -11941,62 +11941,6 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:property><con:name>JwtToken</con:name><con:value/></con:property></con:properties>
         </con:config>
       </con:testStep>
-      <con:testStep type="groovy" name="00-zgw-generateJwt" id="eb447d78-39c8-4422-bc0b-275a8501cb0b">
-        <con:settings/>
-        <con:config>
-          <script>import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-import javax.crypto.spec.SecretKeySpec
-import javax.crypto.Mac
-import java.time.Duration
-
-def jwtClientId = context.expand( '${#Project#jwtClientId}' )
-def jwtSecret = context.expand( '${#Project#jwtSecret}' )
-
-def createJwt(Integer validSeconds, String clientId, String secret) {
-    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
-    def rightNowMilli = System.currentTimeMillis()
-    def rightNowSec = Math.round(rightNowMilli / 1000)
-    def expirationSec = rightNowSec + validSeconds
-    def jtiValue = UUID.randomUUID().toString()
-
-    Map header = [alg: "HS256", typ: "JWT"]
-    def headerJson = JsonOutput.toJson(header)
-    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-    
-    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
-    def payloadJson = JsonOutput.toJson(payload)
-    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    def toBeSigned = headerBase64 + "." + payloadBase64
-    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
-    
-    Mac mac = Mac.getInstance("HmacSHA256")
-    mac.init(secretKeySpec)
-    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
-    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    headerBase64 + "." + payloadBase64 + "." + signature
-}
-
-// Create the JWT.
-def token = createJwt(600, jwtClientId, jwtSecret)
-testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
-        </con:config>
-      </con:testStep>
       <con:testStep type="calltestcase" name="00-zgw-postZaakTypeOmgevingsvergunningAndSubTypes" id="045ef26a-b36b-457a-b950-e0bc807dff2b">
         <con:settings/>
         <con:config xsi:type="con:RunTestCaseStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -12256,6 +12200,62 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.egem.nl/StUF/sector/zkn/0310/creeerZaak_Lk01"/>
             <con:wsrmConfig version="1.2"/>
           </con:request>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="groovy" name="99-zgw-generateJwt" id="eb447d78-39c8-4422-bc0b-275a8501cb0b">
+        <con:settings/>
+        <con:config>
+          <script>import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import javax.crypto.spec.SecretKeySpec
+import javax.crypto.Mac
+import java.time.Duration
+
+def jwtClientId = context.expand( '${#Project#jwtClientId}' )
+def jwtSecret = context.expand( '${#Project#jwtSecret}' )
+
+def createJwt(Integer validSeconds, String clientId, String secret) {
+    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
+    def rightNowMilli = System.currentTimeMillis()
+    def rightNowSec = Math.round(rightNowMilli / 1000)
+    def expirationSec = rightNowSec + validSeconds
+    def jtiValue = UUID.randomUUID().toString()
+
+    Map header = [alg: "HS256", typ: "JWT"]
+    def headerJson = JsonOutput.toJson(header)
+    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+    
+    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
+    def payloadJson = JsonOutput.toJson(payload)
+    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+
+    def toBeSigned = headerBase64 + "." + payloadBase64
+    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
+    
+    Mac mac = Mac.getInstance("HmacSHA256")
+    mac.init(secretKeySpec)
+    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
+    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+
+    headerBase64 + "." + payloadBase64 + "." + signature
+}
+
+// Create the JWT.
+def token = createJwt(600, jwtClientId, jwtSecret)
+testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
         </con:config>
       </con:testStep>
       <con:testStep type="httprequest" name="99-zgw-getZaakByIdentificatie" id="2bd3b499-733a-4688-97d3-8826cdf3c23a">
@@ -21571,62 +21571,8 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
     </con:testCase>
     <con:testCase id="9ac1ee4a-3c8a-4f2c-ab84-cea741edc0b8" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase Translate Verint KANA" searchProperties="true" disabled="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
-      <con:testStep type="properties" name="Properties" id="aac5a2d1-63e9-4264-8c31-62deac9765c5"><con:settings/><con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:properties><con:property><con:name>JwtToken</con:name><con:value/></con:property></con:properties></con:config></con:testStep>
-      <con:testStep type="groovy" name="00-zgw-generate-jwt" id="a0b32b58-a5e4-4e22-95d0-493bdba2cfda">
-        <con:settings/>
-        <con:config>
-          <script>import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-import javax.crypto.spec.SecretKeySpec
-import javax.crypto.Mac
-import java.time.Duration
-
-def jwtClientId = context.expand( '${#Project#jwtClientId}' )
-def jwtSecret = context.expand( '${#Project#jwtSecret}' )
-
-def createJwt(Integer validSeconds, String clientId, String secret) {
-    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
-    def rightNowMilli = System.currentTimeMillis()
-    def rightNowSec = Math.round(rightNowMilli / 1000)
-    def expirationSec = rightNowSec + validSeconds
-    def jtiValue = UUID.randomUUID().toString()
-
-    Map header = [alg: "HS256", typ: "JWT"]
-    def headerJson = JsonOutput.toJson(header)
-    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-    
-    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
-    def payloadJson = JsonOutput.toJson(payload)
-    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    def toBeSigned = headerBase64 + "." + payloadBase64
-    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
-    Mac mac = Mac.getInstance("HmacSHA256")
-    mac.init(secretKeySpec)
-    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
-    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    headerBase64 + "." + payloadBase64 + "." + signature
-}
-
-// Create the JWT.
-def token = createJwt(600, jwtClientId, jwtSecret)
-testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
-        </con:config>
-      </con:testStep>
+      
+      
       <con:testStep type="request" id="bac8f045-e3df-45ef-815c-a05b6bd96914" name="01-stufzkn-zakLv01initiator aangepast (zonder WRITE_XML_DECLARATION)">
         <con:settings/>
         <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -21976,64 +21922,10 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:name>DocumentIdentificatie</con:name>
               <con:value xsi:nil="true"/>
             </con:property>
-          <con:property><con:name>JwtToken</con:name><con:value/></con:property></con:properties>
+          </con:properties>
         </con:config>
       </con:testStep>
-      <con:testStep type="groovy" name="00-zgw-generate-jwt" id="5bb1a718-ce23-4d05-b715-8bc9216ca020">
-        <con:settings/>
-        <con:config>
-          <script>import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-import javax.crypto.spec.SecretKeySpec
-import javax.crypto.Mac
-import java.time.Duration
-
-def jwtClientId = context.expand( '${#Project#jwtClientId}' )
-def jwtSecret = context.expand( '${#Project#jwtSecret}' )
-
-def createJwt(Integer validSeconds, String clientId, String secret) {
-    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
-    def rightNowMilli = System.currentTimeMillis()
-    def rightNowSec = Math.round(rightNowMilli / 1000)
-    def expirationSec = rightNowSec + validSeconds
-    def jtiValue = UUID.randomUUID().toString()
-
-    Map header = [alg: "HS256", typ: "JWT"]
-    def headerJson = JsonOutput.toJson(header)
-    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-    
-    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
-    def payloadJson = JsonOutput.toJson(payload)
-    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    def toBeSigned = headerBase64 + "." + payloadBase64
-    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
-    Mac mac = Mac.getInstance("HmacSHA256")
-    mac.init(secretKeySpec)
-    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
-    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    headerBase64 + "." + payloadBase64 + "." + signature
-}
-
-// Create the JWT.
-def token = createJwt(600, jwtClientId, jwtSecret)
-testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
-        </con:config>
-      </con:testStep>
+      
       <con:testStep type="request" id="c14ed82f-0fff-4745-991d-4d335538d098" name="01-zds-genereerZaakIdentificatie_Di02">
         <con:settings/>
         <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -23243,62 +23135,8 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
     </con:testCase>
     <con:testCase id="374df95a-2d19-40e5-9ded-ebfd1fdc28c2" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase Replicate Suites4SociaalDomein" searchProperties="true" disabled="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
-      <con:testStep type="properties" name="Properties" id="3c695524-49af-4773-9740-bc38001132ff"><con:settings/><con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:properties><con:property><con:name>JwtToken</con:name><con:value/></con:property></con:properties></con:config></con:testStep>
-      <con:testStep type="groovy" name="00-zgw-generate-jwt" id="7ac7bb4e-2a7b-4bc4-9b2c-76f2a948bf71">
-        <con:settings/>
-        <con:config>
-          <script>import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-import javax.crypto.spec.SecretKeySpec
-import javax.crypto.Mac
-import java.time.Duration
-
-def jwtClientId = context.expand( '${#Project#jwtClientId}' )
-def jwtSecret = context.expand( '${#Project#jwtSecret}' )
-
-def createJwt(Integer validSeconds, String clientId, String secret) {
-    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
-    def rightNowMilli = System.currentTimeMillis()
-    def rightNowSec = Math.round(rightNowMilli / 1000)
-    def expirationSec = rightNowSec + validSeconds
-    def jtiValue = UUID.randomUUID().toString()
-
-    Map header = [alg: "HS256", typ: "JWT"]
-    def headerJson = JsonOutput.toJson(header)
-    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-    
-    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
-    def payloadJson = JsonOutput.toJson(payload)
-    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    def toBeSigned = headerBase64 + "." + payloadBase64
-    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
-    Mac mac = Mac.getInstance("HmacSHA256")
-    mac.init(secretKeySpec)
-    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
-    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    headerBase64 + "." + payloadBase64 + "." + signature
-}
-
-// Create the JWT.
-def token = createJwt(600, jwtClientId, jwtSecret)
-testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
-        </con:config>
-      </con:testStep>
+      
+      
       <con:testStep type="request" id="b5b334f6-8c72-4d63-9cf6-43be9a955b39" name="Repliceer">
         <con:settings/>
         <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -23627,64 +23465,10 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:name>ZaakIdentificatie</con:name>
               <con:value/>
             </con:property>
-          <con:property><con:name>JwtToken</con:name><con:value/></con:property></con:properties>
+          </con:properties>
         </con:config>
       </con:testStep>
-      <con:testStep type="groovy" name="00-zgw-generate-jwt" id="fd90eb3e-6bbc-4450-8cbe-efae21f742aa">
-        <con:settings/>
-        <con:config>
-          <script>import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-import javax.crypto.spec.SecretKeySpec
-import javax.crypto.Mac
-import java.time.Duration
-
-def jwtClientId = context.expand( '${#Project#jwtClientId}' )
-def jwtSecret = context.expand( '${#Project#jwtSecret}' )
-
-def createJwt(Integer validSeconds, String clientId, String secret) {
-    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
-    def rightNowMilli = System.currentTimeMillis()
-    def rightNowSec = Math.round(rightNowMilli / 1000)
-    def expirationSec = rightNowSec + validSeconds
-    def jtiValue = UUID.randomUUID().toString()
-
-    Map header = [alg: "HS256", typ: "JWT"]
-    def headerJson = JsonOutput.toJson(header)
-    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-    
-    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
-    def payloadJson = JsonOutput.toJson(payload)
-    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    def toBeSigned = headerBase64 + "." + payloadBase64
-    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
-    Mac mac = Mac.getInstance("HmacSHA256")
-    mac.init(secretKeySpec)
-    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
-    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    headerBase64 + "." + payloadBase64 + "." + signature
-}
-
-// Create the JWT.
-def token = createJwt(600, jwtClientId, jwtSecret)
-testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
-        </con:config>
-      </con:testStep>
+      
       <con:testStep type="request" id="b6633c2e-1026-4bd1-9947-493e67716d79" name="genereerZaakidentificatie">
         <con:settings/>
         <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -24058,61 +23842,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
     </con:testCase>
     <con:testCase id="cfce6fdc-3219-4d55-a799-9e8bb12321d9" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase Todo Portaal Leefomgeving" searchProperties="true" disabled="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
-      <con:testStep type="groovy" name="00-zgw-generate-jwt" id="add7f331-28f2-473b-a54a-ea40f954dd5a">
-        <con:settings/>
-        <con:config>
-          <script>import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-import javax.crypto.spec.SecretKeySpec
-import javax.crypto.Mac
-import java.time.Duration
-
-def jwtClientId = context.expand( '${#Project#jwtClientId}' )
-def jwtSecret = context.expand( '${#Project#jwtSecret}' )
-
-def createJwt(Integer validSeconds, String clientId, String secret) {
-    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
-    def rightNowMilli = System.currentTimeMillis()
-    def rightNowSec = Math.round(rightNowMilli / 1000)
-    def expirationSec = rightNowSec + validSeconds
-    def jtiValue = UUID.randomUUID().toString()
-
-    Map header = [alg: "HS256", typ: "JWT"]
-    def headerJson = JsonOutput.toJson(header)
-    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-    
-    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
-    def payloadJson = JsonOutput.toJson(payload)
-    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    def toBeSigned = headerBase64 + "." + payloadBase64
-    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
-    Mac mac = Mac.getInstance("HmacSHA256")
-    mac.init(secretKeySpec)
-    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
-    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    headerBase64 + "." + payloadBase64 + "." + signature
-}
-
-// Create the JWT.
-def token = createJwt(600, jwtClientId, jwtSecret)
-testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
-        </con:config>
-      </con:testStep>
+      
       <con:testStep type="request" id="1173fd31-50e9-4dd0-ae27-2e13d9f7574b" name="genereerZaakIdentificatie_Di02 - genereerZaakidentificatie.xml">
         <con:settings/>
         <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -24970,64 +24700,10 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:name>BesluitIdentificatie</con:name>
               <con:value/>
             </con:property>
-          <con:property><con:name>JwtToken</con:name><con:value/></con:property></con:properties>
+          </con:properties>
         </con:config>
       </con:testStep>
-      <con:testStep type="groovy" name="00-zgw-generate-jwt" id="c4dde69b-41ec-4c86-bc6e-c3d2ce25e966">
-        <con:settings/>
-        <con:config>
-          <script>import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-import javax.crypto.spec.SecretKeySpec
-import javax.crypto.Mac
-import java.time.Duration
-
-def jwtClientId = context.expand( '${#Project#jwtClientId}' )
-def jwtSecret = context.expand( '${#Project#jwtSecret}' )
-
-def createJwt(Integer validSeconds, String clientId, String secret) {
-    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
-    def rightNowMilli = System.currentTimeMillis()
-    def rightNowSec = Math.round(rightNowMilli / 1000)
-    def expirationSec = rightNowSec + validSeconds
-    def jtiValue = UUID.randomUUID().toString()
-
-    Map header = [alg: "HS256", typ: "JWT"]
-    def headerJson = JsonOutput.toJson(header)
-    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-    
-    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
-    def payloadJson = JsonOutput.toJson(payload)
-    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    def toBeSigned = headerBase64 + "." + payloadBase64
-    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
-    Mac mac = Mac.getInstance("HmacSHA256")
-    mac.init(secretKeySpec)
-    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
-    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    headerBase64 + "." + payloadBase64 + "." + signature
-}
-
-// Create the JWT.
-def token = createJwt(600, jwtClientId, jwtSecret)
-testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
-        </con:config>
-      </con:testStep>
+      
       <con:testStep type="request" name="01-zds-genereerBesluitIdentificatie_Di02" id="0ca8604d-435e-4432-80e0-77040ade26d6">
         <con:settings/>
         <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
