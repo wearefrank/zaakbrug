@@ -1,5 +1,13 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.17](https://github.com/wearefrank/zaakbrug/compare/v1.13.16...v1.13.17) (2023-11-17)
+
+
+### ✅ Tests
+
+* reduce SoapUI project size so that merge editors dont crash ([2867474](https://github.com/wearefrank/zaakbrug/commit/2867474baddf0888208bad6c401e14d98f6f5102))
+* testcases continue running when a teststep fails ([#189](https://github.com/wearefrank/zaakbrug/issues/189)) ([01ab1ff](https://github.com/wearefrank/zaakbrug/commit/01ab1fff0a00d8178c2e2959a0efc5030fb86a95))
+
 ## [1.13.16](https://github.com/wearefrank/zaakbrug/compare/v1.13.15...v1.13.16) (2023-11-15)
 
 
