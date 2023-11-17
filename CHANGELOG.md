@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.18](https://github.com/wearefrank/zaakbrug/compare/v1.13.17...v1.13.18) (2023-11-17)
+
+
+### 🐛 Bug Fixes
+
+* soap endpoints invalidates input messages when unknown namespaces are present in the soap header ([#185](https://github.com/wearefrank/zaakbrug/issues/185)) ([e10adbc](https://github.com/wearefrank/zaakbrug/commit/e10adbc4e01317ae6eb5a21d59c9e3f59addb80e))
+
 ## [1.13.17](https://github.com/wearefrank/zaakbrug/compare/v1.13.16...v1.13.17) (2023-11-17)
 
 
