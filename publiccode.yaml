@@ -28,7 +28,25 @@ description:
           each incoming request which steps are executed to process the message. 
           If there are errors, this information can be used for easy debugging. 
           ZaakBrug does not only connect zds systems with case register system OpenZaak, 
-          but with any case register system that implements zgw.
+          but with any case register system that implements zgw API's.
+          
+    features:
+      - Statelessness
+      - Atomicity
+      - Loose Coupling
+      - Error Tracking
+      - Standardized Interface
+  nl:
+    shortDescription: >
+          Opvolger van Open-ZaakBrug, een app voor Nederlandse gemeentes, dat de transitie van  "zaak- en documentatieservices" (zds) naar "zaakgericht werken" (zgw) ondersteunt.
+          
+    longDescription: >
+          Dit project, ZaakBrug, is bedoeld als opvolger van Open-ZaakBrug.
+          Het maakt gebruik van het Frank!Framework en de debugger Ladybug. De debugger toont voor
+          elk binnenkomend verzoek welke stappen worden uitgevoerd om het bericht te verwerken.
+          Als er fouten zijn, kan deze informatie worden gebruikt voor eenvoudig debuggen.
+          ZaakBrug koppelt niet alleen zds-systemen aan zaakregistratiesysteem OpenZaak,
+          maar met ieder zaakregistersysteem dat zgw API's ge​​implementeert.
           
     features:
       - Statelessness
