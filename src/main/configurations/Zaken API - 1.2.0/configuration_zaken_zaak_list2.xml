@@ -37,22 +37,8 @@
             </XsltPipe>
 			
 			 <SenderPipe
-                name="CallZaakdetails_TranslationHandler">
-                <!-- <SoapInputValidator soapBody="zakLv01" schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 GetZaakDetails/xsd/vraagAntwoord/zkn0310_msg_vraagAntwoord.xsd">
-                	<Forward name="failure" path="Error" />
-				<Forward name="parserError" path="Error" />
-                </SoapInputValidator> -->
-                <SoapInputWrapper ></SoapInputWrapper>
-                <!-- <EsbSoapInputWrapper direction="WRAP" ></EsbSoapInputWrapper> -->
-                <WsdlXmlInputValidator 
-	                wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_beantwoordVraag_zs-dms.wsdl"
-	                soapBody="zakLv01"
-	                ignoreUndeclaredElements="true"
-	                ignoreUnknownNamespaces="true"
-	                >
-					<Forward name="failure" path="Error"/>
-	                <Forward name="parserError" path="Error"/>
-				</WsdlXmlInputValidator>
+                name="CallZaakdetails_TranslationHandler"
+				>
                 <IbisLocalSender
                     name="Zaakdetails_TranslationHandler"
                     javaListener="Zaakdetails_TranslationHandler">
