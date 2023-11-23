@@ -34,6 +34,22 @@ services:
     ports:
       - 8080:8080
 
+  soapui-testrunner:
+    profiles:
+      - soapui
+    image: smartbear/soapuios-testrunner:latest
+    volumes:
+      - ./e2e/SoapUI/zaakbrug-e2e-soapui-project.xml:/project/zaakbrug-e2e-soapui-project.xml
+      - ./e2e/Reports:/reports
+    environment:
+      - COMMAND_LINE=-s TestSuite -f/%reports% '/%project%/zaakbrug-e2e-soapui-project.xml' -a
+    depends_on:
+      zaakbrug:
+        condition: service_healthy
+    networks:
+      - zaakbrug-stack
+      - zaakbrug-backend
+
 volumes:
   logs:
   media:
