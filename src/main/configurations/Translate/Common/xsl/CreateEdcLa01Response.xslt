@@ -88,7 +88,6 @@
         <ZKN:isRelevantVoor StUF:entiteittype="EDCZAK">
             <ZKN:gerelateerde StUF:entiteittype="ZAK">
                 <ZKN:identificatie><xsl:value-of select="gerelateerde/identificatie"/></ZKN:identificatie>
-                <ZKN:omschrijving><xsl:value-of select="gerelateerde/omschrijving"/></ZKN:omschrijving>
             </ZKN:gerelateerde>
         </ZKN:isRelevantVoor>
     </xsl:template>
