@@ -5093,14 +5093,12 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             <con:request/>
             <con:originalUri>http://localhost/catalogi/api/v1//catalogussen</con:originalUri>
             <con:assertion type="Valid HTTP Status Codes" id="beb44b4d-8b6f-4654-87e1-2ac1760cc886" name="Valid HTTP Status Codes">
-              <con:configuration>
-                <codes>200</codes>
-              </con:configuration>
+              <con:configuration><codes>200,201</codes></con:configuration>
             </con:assertion>
             <con:assertion type="GroovyScriptAssertion" id="1c93552e-5ab9-4e2d-95b9-7d3f528a6df0" name="Script Assertion">
               <con:configuration/>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="77619a10-af2f-46d2-b7dd-5d8de7024d76" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5162,7 +5160,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="4a09367d-e78b-4d9e-905e-fc11329ba1b5" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="3ede78b3-c43b-40f6-922f-00f44b94af7c" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:username>1</con:username>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
@@ -5273,7 +5271,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="29a10a85-6b96-4a56-984b-32d958a6df1a" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="feca096b-2041-4d58-9f35-cbf55a2e45db" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5336,7 +5334,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="574eb796-7446-4f3f-8e04-48f162f6eca5" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="02f3b1c5-e184-4d09-9521-96263b6b2e18" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5383,7 +5381,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="068eb91f-dc9b-449f-9c22-22372376be4e" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="5302a86b-6dbc-4cab-8714-9e276480d385" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5418,7 +5416,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="2b466224-477c-4a8e-a272-4a975aea0425" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="6fc797ca-f3af-4d7b-9e93-c2d83770bacf" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5453,7 +5451,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="1d661248-d409-4f4e-ba6f-03f267d5ce16" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="536ba94e-929a-49e6-8f37-ff1adf2300a3" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5488,7 +5486,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="4d8ee2d2-57a7-45e7-ac41-300be9b7a653" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="2e47f5c8-b81b-4c1c-9232-14029f8da913" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5523,7 +5521,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="d5f81103-b311-4d54-a0b3-c9a6c5b879ce" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="b4a40bb9-c62f-45c8-bc19-e5697c23b2d6" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5558,7 +5556,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="d7fda8dc-4284-47ad-9d67-d1bff713ac53" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="39ddc03c-2176-4ceb-b107-e578f7a7806b" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5596,7 +5594,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="248df8b3-6138-495a-98a0-38ae4c707281" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="f00dd17e-d2b1-43cb-bf48-5bf3c1b39caf" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5634,7 +5632,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="8a5d108e-7664-4a9e-8908-d8fe673440a1" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="0b872e72-f631-48af-903b-ef2a4267ab66" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5672,7 +5670,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="e265d025-6ed4-4086-81a4-cef284bc6950" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="11e0cc4b-ec04-4a5b-97eb-a0b494377154" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5710,7 +5708,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="58612ed8-2584-4280-b130-e4983931cf17" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="f6e11d55-d92a-4e70-8dac-1920e78da4d0" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5748,7 +5746,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="7cecd48d-5e83-49b6-9204-277e01c60874" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="3c6fa818-b611-42d3-935e-0b325e337990" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5786,7 +5784,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="106624d0-34b0-47ff-b505-0276df4e6f37" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="7e297b75-e36c-415c-ab39-19101e208102" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5824,7 +5822,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="cd112d35-f88c-46df-ae35-2ca2cddf231d" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="8b5ec678-80e2-471f-81e8-2a8dc009a724" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5861,7 +5859,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="d0287a4e-f18e-423b-b6b7-2d706c5240a8" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="42452fc4-3138-46a7-96f6-6457f6264959" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5914,7 +5912,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="4e03dbcd-5814-4571-b463-246bb033e0c7" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="b39db04b-bc7f-41f7-864e-a6002c6ce741" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5942,7 +5940,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <ignoreComments>false</ignoreComments>
             </con:configuration>
           </con:assertion>
-          <con:credentials>
+          <con:assertion type="Valid HTTP Status Codes" id="43ffda97-58f0-4203-82d3-5dd46201f984" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="e918fd68-45e7-402c-bb31-1e6c51c16c5a" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
             <con:authType>No Authorization</con:authType>
           </con:credentials>
           <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -5984,7 +5982,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <ignoreComments>false</ignoreComments>
             </con:configuration>
           </con:assertion>
-          <con:credentials>
+          <con:assertion type="Invalid HTTP Status Codes" id="323bbd1a-ece2-4d43-babc-0f47eaacbdbd" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="921650f8-4d0f-47b9-b99b-d19a18793ddb" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
             <con:authType>No Authorization</con:authType>
           </con:credentials>
           <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -6091,7 +6089,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="18ca3e91-13ed-4d5d-951f-992518c27752" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="3de50fd2-3310-4ecb-92a2-e449e968d1c5" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="7426bdb1-9dbf-472c-8917-1d571ecb5332" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -6320,7 +6318,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="77aec6d5-bcd1-489e-878f-f49b93530cf5" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="03f3218c-cbec-4575-8f14-d3e30b7d4ccc" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="17d59df4-723b-452e-aeb4-3e44ccbde4bc" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -6686,7 +6684,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="bad8bffb-54d0-4321-8b6e-0c2213566492" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="29bf3504-b036-4c95-94e2-b330f547ecb0" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="e1a0c0c7-d8d1-462a-b0fe-dd60954f0b7b" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -6801,7 +6799,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="3a014adf-7813-4ba1-8ec8-58edd197a485" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="9c1669c8-e2f5-4e9f-a3ec-9c21103334a0" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="26b3bbc7-2a9b-4b26-b86f-82b34797b924" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -6857,7 +6855,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="f476e285-b257-43c5-954a-f86326287be7" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="d2773962-1a3a-4f4a-a9d2-ef2145f3c4f4" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="810dcc2c-fe5b-4077-9830-55c25f453a81" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -6952,7 +6950,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="d05e420e-587b-42b1-8259-8909b87bb540" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="5745ec69-aad2-4010-a744-4b4e78bdb2ce" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="ce5f80d6-0bf6-4e89-8a56-96f23ad63f2b" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -7008,7 +7006,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="7b40b478-ffac-43b7-928f-26ae1c06cc22" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="6751efdd-6c3a-4147-9044-ecf1f6c4d423" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="82a03583-d7f2-4fcd-9793-670a98da9d7f" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -7077,7 +7075,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="375ea3c5-6b87-436e-9343-79031dec73d2" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="4daed8da-0dbf-4d0f-bb8e-f763f3ea3ad2" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="6b845f3d-1171-484c-9aed-7ad2709b4288" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -7310,7 +7308,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="602d0e8d-2e9b-4e40-93c9-85b2b8a2c595" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="42cedea8-33ce-45ee-8306-5c9009e8895c" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="70b9d510-2af1-45e9-8263-c10dc5d12933" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -7401,7 +7399,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="a7a5d2f6-a379-4f0b-8a43-242378cb60d1" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="2b9e6433-6be9-49ca-afa1-9dcbfe1f7a62" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="f8a0962c-44a5-47b5-b67a-0bc28b4ad290" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -7486,7 +7484,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="4e1a2739-85b4-4334-a536-aac45c86649c" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="23c09afa-a56a-486c-a609-ae6f6e3671ea" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="399c09c9-b869-4dc3-9458-27abff3461aa" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -7571,7 +7569,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ba1882c2-f41f-4dc6-a1a3-2d859b772f8a" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="5f45de33-b683-4ae6-b2b2-d0f7b561184d" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="be6473f9-8cb7-4f87-8544-dfee64dd94bc" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -7653,7 +7651,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="602d0e8d-2e9b-4e40-93c9-85b2b8a2c595" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="411bd6e9-b124-44c9-8582-dba8e905ea92" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="a8c728cc-6cab-4de5-865a-748196f4a450" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -7744,7 +7742,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="78d6daa4-4776-49d0-b83f-5b91f570ddb6" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="6b327a1d-25a8-4ad8-8a57-6ec4c284faa9" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="548a360e-2ada-4d6d-a8b6-083530b9a5a4" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -7845,7 +7843,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="b90ca0d8-cb3c-4619-b5ad-a90db97956f5" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="0d35e3f0-e499-407a-82e4-4542948c0494" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="e2400719-065f-434a-bb19-ea6719c31561" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -7956,7 +7954,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="9c97fd53-2cda-48ab-b3c8-c4bf1358d3d6" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="5da92232-5e07-4a6f-a9fc-43319016a3ea" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="c792bd11-c0a2-418a-8f4b-c09f4a6b0862" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -8112,7 +8110,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="45ebd243-719d-43dc-9c0b-40a78e4d9ded" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="303069a1-e13a-45fc-b33e-5be8d3258134" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -8506,7 +8504,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="18ca3e91-13ed-4d5d-951f-992518c27752" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="5b5157f0-ba2c-47aa-a4a0-9f7bcb50e4fb" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="dd9a6aa4-7e94-4f42-b413-24e99a8af27d" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -8731,7 +8729,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="d4a4374c-f7f8-4e40-a7c1-8a25215bb312" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="549e39ea-dfad-4a3f-92bc-16e1feb5c925" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="b9baa11c-77e5-48b9-807c-bc6ac6f38cb9" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -8800,7 +8798,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="a43172d2-8beb-42ee-bd40-34a3888413a0" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="5c93bb94-05dd-4c13-bc9c-a323f665ba82" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -8883,7 +8881,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <ignoreComments>false</ignoreComments>
             </con:configuration>
           </con:assertion>
-          <con:credentials>
+          <con:assertion type="Valid HTTP Status Codes" id="32a8e771-ccd8-4d42-bbdc-d62c6d54c015" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
             <con:authType>No Authorization</con:authType>
           </con:credentials>
           <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -9168,11 +9166,9 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             <con:request/>
             <con:originalUri>http://localhost/catalogi/api/v1//catalogussen</con:originalUri>
             <con:assertion type="Valid HTTP Status Codes" id="beb44b4d-8b6f-4654-87e1-2ac1760cc886" name="Valid HTTP Status Codes">
-              <con:configuration>
-                <codes>200</codes>
-              </con:configuration>
+              <con:configuration><codes>200,201</codes></con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="261ec4cb-06a4-433a-b12b-4af6692f9172" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -9234,7 +9230,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="a09d08b8-a1b9-4983-bc65-a4c91f22bdd7" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="e34b7a63-1d6d-4d2d-8605-58f7fac104c3" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:username>1</con:username>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
@@ -9345,7 +9341,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="ef5f7b15-5df4-457c-8fc4-911e7f59ef4d" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="cd19bf9a-e7d3-49b8-b66e-85d176885e8c" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -9408,7 +9404,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="33d3ad90-e8d1-482c-b5da-6cc8f7743e9b" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="80f473d7-13a8-4041-be6e-a86699f5e806" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -9455,7 +9451,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="182bd97a-9dae-443c-9992-2fff67bbcdb2" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="91ce18c1-7a7d-41f1-b400-fa8420fec072" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -9502,7 +9498,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="a29760ad-27ab-4df3-abf0-6774242da17c" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="a3c279b1-0399-4a49-ba84-36eef2b96f8f" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -9549,7 +9545,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="1f44ad86-0465-41e4-960a-5afb00e01ec6" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="210eca42-13c5-49f5-9b0a-2a5e13e2a484" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -9596,7 +9592,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="33d8f72e-e469-4221-9c4a-84d36dfbc13d" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="f6b7c10d-e8e1-4349-92f6-6c09c88ae8d6" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -9631,7 +9627,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="dca254fb-3242-4c8b-993d-e036dcf83c90" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="ea3e1e2e-0e44-47d5-b1d9-82cc30b91116" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -9666,7 +9662,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="45d94d3b-a78c-4e2d-9a3d-ebeac18c0c15" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="4f6ab891-c837-414b-a909-a7ccd375a207" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -9701,7 +9697,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="8dcc5949-6afe-4119-be75-0cb59fdfabff" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="9aa4dd75-192b-4b19-8cbb-7f4f75d7bec3" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -9739,7 +9735,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="90f9a629-167a-4b6e-a049-51b385cc50b4" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="81508746-f97c-42ae-aa6d-bffd5d7c4554" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -9777,7 +9773,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="fbb373b1-f0a6-4d3e-9b34-79b7c748d66c" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="36a674ea-795d-414d-9acf-0f52a8a80af1" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -9815,7 +9811,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="7977a994-748b-4ab2-9227-fd7dc6a85042" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="f8766934-368f-4276-92d9-dcf931f6c217" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -9853,7 +9849,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="46f3c71c-67d0-41b5-81fc-718aa8e3e5a7" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="d42332e2-ca48-47d0-a733-017d82ae5b26" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -9891,7 +9887,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="0e06d263-3274-492f-bcec-c967a0b7d613" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="ee123536-454e-44b7-bad4-c29936fb4823" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -9929,7 +9925,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="7c38b89a-d414-4839-aa65-2adeedd18fd4" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="2c5e633c-b0a6-4848-914e-cbea4c32a98c" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -9967,7 +9963,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="7d1f1614-ade0-4ad9-a495-6a9fb3ee56b3" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="35e6a348-571e-44f5-a601-4576780cedb6" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -10005,7 +10001,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="240ca46d-9f1b-44e2-930e-07032be4faa9" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="503a3a04-3354-4006-bb99-36d171fdcc39" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -10043,7 +10039,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="09795b97-64a5-4a06-8a80-a87e94235535" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="3775a57f-faeb-40fe-a4be-b592eb686438" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -10081,7 +10077,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="961bdeb8-3167-4909-b6be-17d6ca282a36" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="b2bfcc35-b722-4b6b-9997-238976f74612" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -10206,7 +10202,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="18ca3e91-13ed-4d5d-951f-992518c27752" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="b1d5d25a-5a6b-42a2-9767-d7ca9a460041" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="e1a7ab50-7def-47e3-885f-1765961021b5" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -10359,7 +10355,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="77aec6d5-bcd1-489e-878f-f49b93530cf5" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="2560ced8-d8e1-42f6-95c3-3b0db1e90bb3" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="a04f398f-5009-4b96-86e2-34e6c66af86e" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -10489,7 +10485,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="ce524ecc-ac82-4903-8d85-240ffb6fe8e2" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="2b449e23-d8f6-4b59-b775-809e63752a6a" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -10589,7 +10585,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="b90ca0d8-cb3c-4619-b5ad-a90db97956f5" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="152d7fe5-bb5c-465f-ae52-eddfe6a9ba96" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="25b1fd15-e3db-4bd8-88e7-da5373768bd8" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -10719,7 +10715,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="aab85220-548f-4492-9494-a4813646cba7" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="f0032a60-1759-46cd-a637-b7053b060c6d" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -10768,7 +10764,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="bad8bffb-54d0-4321-8b6e-0c2213566492" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="6154b3f7-80da-4725-8ebe-eeec227d2afd" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="e8e72a6e-a0f1-47fa-bea3-5ad312242fc3" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -10862,7 +10858,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ba1882c2-f41f-4dc6-a1a3-2d859b772f8a" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="5f1d6a86-1e03-4842-9671-1be9fc8eedfe" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="66d4c622-69fa-4e11-b54f-a261a5d6389e" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -10967,7 +10963,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="78d6daa4-4776-49d0-b83f-5b91f570ddb6" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="438e40f6-e528-4130-ac2f-80ef5b13bd4a" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="8e29e9a3-2703-4b1b-87ec-112b98e23bd3" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -11221,7 +11217,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="18ca3e91-13ed-4d5d-951f-992518c27752" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="93da8562-b948-45f9-80ba-eb9f4993ad05" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="1db38288-ea41-4e67-9c35-56f8b10ba6ac" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -11398,7 +11394,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="77aec6d5-bcd1-489e-878f-f49b93530cf5" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="75d1daa7-fb1c-4bad-a4c6-b0d82156cc19" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="7ca1e57f-24fc-48f8-aebc-7223ce464b76" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -11498,7 +11494,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="b90ca0d8-cb3c-4619-b5ad-a90db97956f5" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="85528d1b-b4d8-4533-a628-b3e5180e9865" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="a57ac776-14b2-42f5-b550-8dab526df9fe" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -11603,7 +11599,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="78d6daa4-4776-49d0-b83f-5b91f570ddb6" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="5e8a00c5-8813-4cb3-ad98-e50e8cd9902d" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="346cab27-76a0-4671-9b49-cd6e4d80e08a" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -11733,7 +11729,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="ecaa90bf-737b-4494-8995-49cb4c83261a" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="31ff4757-8301-4dd4-8b47-e99a8e410b33" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -11987,7 +11983,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="18ca3e91-13ed-4d5d-951f-992518c27752" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="839435d9-9844-459b-97b3-f27d412c3b48" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="1d66eab8-c1ca-494a-a22d-57e43bed191c" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -12192,7 +12188,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="77aec6d5-bcd1-489e-878f-f49b93530cf5" name="Not SOAP Fault"/>
             <con:assertion type="Not SOAP Fault Assertion" id="f2e5e648-6e02-4c74-b845-9ac0182ffa1e" name="SOAP Fault" disabled="true"/>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="ab3d774d-aadc-4867-8375-e687ef26303c" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="fc1b05f3-d165-4f8e-9818-48d73125b5fe" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -12526,11 +12522,9 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             <con:request/>
             <con:originalUri>http://localhost/catalogi/api/v1//catalogussen</con:originalUri>
             <con:assertion type="Valid HTTP Status Codes" id="beb44b4d-8b6f-4654-87e1-2ac1760cc886" name="Valid HTTP Status Codes">
-              <con:configuration>
-                <codes>200</codes>
-              </con:configuration>
+              <con:configuration><codes>200</codes></con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="883006d4-46c5-4f04-97cf-b70031c50d34" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -12592,7 +12586,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="3ae1225b-3630-4250-96f2-00f21514b6c0" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="aa4626e3-6767-41e9-b28c-973713051577" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:username>1</con:username>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
@@ -12703,7 +12697,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="05df0453-5ca7-4a02-a4c6-ca3e174d7733" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="578c442e-07e2-49db-964a-485ca13eca4f" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -12766,7 +12760,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="47d5c583-f4ff-43be-b109-1db33d047530" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="548246ef-5858-456c-8324-6febd3066040" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -12813,7 +12807,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="4ac7c180-ed21-4bfb-9296-38b87a94f754" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="843bf179-4eef-4a64-87fe-fc2e36e89347" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -12860,7 +12854,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="0e0fb6a4-896a-4ab4-a7ef-1fbb4b747f1b" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="6a5358da-2bd3-489b-8229-72de8f4bc66d" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -12907,7 +12901,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="7b422077-59c4-4808-801c-10663ca83098" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="039a87d2-6601-4ff9-b628-836c114aa97d" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -12954,7 +12948,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="97b2b380-8543-4c40-97d1-8666988c4a4d" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="85ba1209-a70c-44e5-84ec-2347be0610ad" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -12989,7 +12983,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="ea024c34-8bf6-4962-85e4-1e4369bfcedf" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="d9fa6e51-3f60-48c6-9853-d91850be9897" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -13024,7 +13018,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="76552593-ee4a-48d4-a70a-c3d45832ebc1" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="19324709-08e7-4fae-8f27-b406cbc2fa1a" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -13062,7 +13056,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="091c1e27-291c-44f9-b2ed-5290b527400b" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="a93e8d34-ff7f-43ae-afe1-b7a6cf3dfa23" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -13100,7 +13094,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="a54d5ca9-cf91-45c2-98e7-2e1593c443a8" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="4f8fa671-feca-4820-ae6c-3a1e0494f620" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -13138,7 +13132,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="3d7cb6de-fffe-4ccf-8a3e-ee79747cc2a4" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="5b110bff-a5e1-4651-b33a-cfb35629bc68" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -13176,7 +13170,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="a246bdcf-c9b1-44e4-85c9-9ea4ebb2d423" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="1f639b28-66ac-491a-842f-a3fafd65b5f2" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -13214,7 +13208,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="97b3f3d8-2509-40a2-8e13-6573a10a1837" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="d071c808-ffe8-4416-a713-0dc223ecb134" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -13252,7 +13246,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="5ec014c3-7b7e-4f13-a964-a6d4167f9ea3" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="4d137b88-821b-48d8-b821-30afe3b755b7" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -13290,7 +13284,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="d6260b1a-b19b-4d47-84c2-7706d79e1b69" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="df283ae7-92d3-4415-be59-2532ea9f096a" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -13328,7 +13322,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="31e2cafc-e474-4eaf-96c9-9f9c32595c1a" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="d6ed3fb7-821a-40f9-b97a-53a8d4058a02" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -13457,7 +13451,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="18ca3e91-13ed-4d5d-951f-992518c27752" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="603f0977-c2b7-43cc-907b-0f0f8a9bdf6f" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="a3b30ee4-c18e-4dec-8b37-548ac05644ce" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -13608,7 +13602,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="77aec6d5-bcd1-489e-878f-f49b93530cf5" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="6ac3805e-6aff-4560-a080-0615851324d6" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="bbe367e6-a732-46a0-8ef8-d0a483ae51a6" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -13823,7 +13817,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="78d6daa4-4776-49d0-b83f-5b91f570ddb6" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="7ab5d8c1-72b6-4e35-a301-e7c7f84ea14c" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="eb1ab841-6e1b-4de5-91c3-01e88b7c5cde" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -14034,7 +14028,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="78d6daa4-4776-49d0-b83f-5b91f570ddb6" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="ab0ea375-8aaf-4428-b2c7-285611b3b6f3" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="5b1bfa4a-5755-4a1e-8431-39fea5fd3c8c" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -14386,11 +14380,9 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             <con:request/>
             <con:originalUri>http://localhost/catalogi/api/v1//catalogussen</con:originalUri>
             <con:assertion type="Valid HTTP Status Codes" id="beb44b4d-8b6f-4654-87e1-2ac1760cc886" name="Valid HTTP Status Codes">
-              <con:configuration>
-                <codes>200</codes>
-              </con:configuration>
+              <con:configuration><codes>200</codes></con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="06af8c66-f713-448a-bc86-aa845b316713" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -14452,7 +14444,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="7486a193-9777-45fb-8177-1e24637f7338" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="da7dec06-6be1-4934-9778-153a0e493a2f" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:username>1</con:username>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
@@ -14563,7 +14555,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="ab8cf5c3-d482-4326-8014-4e441dfd3267" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="1e14c2e0-8075-4c53-af43-5ce50e394812" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -14626,7 +14618,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="28f9a230-d6a3-4cb9-a226-8bd793a0442b" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="a0c1a41f-ea36-4a57-a025-f74ad3e69c1f" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -14673,7 +14665,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="f63464eb-d3d5-49f5-a224-5310cc5e290f" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="bbaaf1bb-61e1-4300-b09a-78a76ce5c2a5" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -14720,7 +14712,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="7ed8b1f6-5abb-44f7-b6a2-858667dd3d80" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="22bf3b39-3107-467d-98ae-d1d816800721" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -14767,7 +14759,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="bb562640-3b75-479e-ab42-33e86ddb06a8" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="5959a1e1-af7a-41f3-83e5-4b6460cbf6b5" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -14802,7 +14794,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="94b94289-3919-4a9b-af38-b8d8c64cf21d" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="34c0fe5a-24bc-4816-bf94-286ec4890715" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -14837,7 +14829,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="12e65314-720b-421a-905f-1f0949f21f68" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="dd72aa30-7ef5-4b4e-8e8a-cd8a0e691b06" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -14872,7 +14864,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="47086c59-fef9-45a9-84f8-cde2999eca1f" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="8a8318e9-047b-4679-94cb-f2d9d520071d" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -14907,7 +14899,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="b9a82936-efc3-47a2-9eef-4dc021bf1002" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="6b3fd975-9ef2-4f7f-a468-1ca19b4d8c6c" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -14942,7 +14934,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="2a682eca-5119-4a61-a5c0-42d417391814" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="ff375dbe-82ca-46d4-9a12-e89bbfc875e7" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -14980,7 +14972,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="9061f974-b481-41d8-a84c-0059ea7426f3" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="f0085f7a-af3e-4057-bf45-fa57faecab60" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15018,7 +15010,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="092e190b-f24d-461c-9fc2-94ae54de43bc" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="52998bec-33fc-4b87-9862-a9749d8b590e" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15056,7 +15048,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="19945c87-3158-417a-adf1-601abe8805c5" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="0e8a6ee1-96ee-4a22-90b4-a4e60141f366" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15094,7 +15086,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="bfd70c2a-4358-4950-8c12-4702c83ea05a" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="ebef64f7-0ce3-4cf2-8402-9bd65da94886" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15132,7 +15124,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="8e573c91-06f6-48c7-95e2-128cf1619ff9" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="a12a6e67-5bc5-46c4-8d04-33e8dc0665a0" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15170,7 +15162,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="fdddf59c-2e89-4f5e-b9fe-4f18f652bb30" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="67faf6a9-cc95-4182-8e01-5ac921dfceee" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15208,7 +15200,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="dc7cb48d-7d2a-4960-ae8e-1d89615ff487" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="ccdff201-f3f5-473b-86ba-dcfc01c89d02" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15246,7 +15238,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="a864bd7e-9a7e-4ac5-a3c9-4002836481a3" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="0f901c02-e3da-4dbe-b228-4bd3d0055f86" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15283,7 +15275,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="fac0d599-7b33-413c-81c9-f945ec1c7e4e" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="63688b82-40b0-40c5-a503-cf603743e67a" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15336,7 +15328,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="f115eb02-0f2e-4809-b721-e942fc694b81" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="ba502329-c556-4e44-bb1b-04a21d90c2bc" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15522,7 +15514,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <codes>200</codes>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="00482902-91d1-4314-87c0-6c530fab1eec" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15584,7 +15576,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="0d637790-820c-48bb-8faa-cc91fd3163dd" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="e1dc1634-abdc-4d82-b28a-266e00d6a32c" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:username>1</con:username>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
@@ -15701,7 +15693,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="fcf087ac-1665-4894-a475-5ea9611c7399" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="1d93f150-3aa5-4fb3-9f9e-98274b59a25f" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15764,7 +15756,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="8c7d961f-23b4-462f-a0c3-7522efa31883" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="3e4a0806-5171-4ab2-b635-3da00924dfd7" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15811,7 +15803,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="17285b2a-1b5b-4d21-9dc3-d64cedff0575" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="711f2321-5f57-4a61-997d-6a6f9d8f6e7f" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15846,7 +15838,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="860fafe3-e0be-4e56-99f8-90cf627ae5fc" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="ade526a6-4cf0-4528-8398-5fa458928ffb" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15881,7 +15873,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="4e9950d2-09f8-4cc7-95e4-4ec4f7b9d75d" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="a36fa465-eb1a-48ff-942c-52be0e1cfcc3" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15916,7 +15908,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="d91eecd7-5108-46b4-a9e9-34539c8c16af" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="3abe3440-4c90-44b3-bd84-560a94fa1b98" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15951,7 +15943,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="c2966640-98b1-4391-ae61-ca061b478444" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="13f9f0bc-24b0-4e10-a7d8-f4f0a98254f1" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -15986,7 +15978,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="f1ce8b4b-f4d3-4cc8-b026-bc9dcc3326ba" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="be16236e-9343-4062-b002-b2b7be554734" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -16024,7 +16016,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="95b0423a-682d-412d-9db1-018e93befa87" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="aaef3efe-a6b5-4ce0-b942-d332fc03a4c6" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -16062,7 +16054,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="17d47f5a-7ebb-45d4-8c02-96953e0f937a" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="ed2bf374-df45-4758-8f2b-55c757b0e22e" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -16100,7 +16092,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="3a296787-8ac4-4bd9-9bbe-68820ac3a66a" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="8545a77c-d884-45a9-86bd-f16f81cc7b9a" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -16138,7 +16130,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="abbda2ba-fd7c-44b3-ad35-c21d676f5b8d" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="c4be7dc6-e40c-402d-ae0a-dbe0976fa56a" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -16176,7 +16168,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="8a5f0be6-8233-4053-bd28-08a6033c5197" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="98523228-d8f5-4145-81b3-c64afebcf2e0" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -16328,7 +16320,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="18ca3e91-13ed-4d5d-951f-992518c27752" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="b65b9405-7b69-4602-8a79-09d03f5f260d" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="256c5cff-f404-4406-a155-68a71f2c9f90" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -16455,7 +16447,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="77aec6d5-bcd1-489e-878f-f49b93530cf5" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="1edc7ddd-f825-4df5-a20d-438f3bd277b0" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="ac3ec1a9-0ab2-4e77-8a23-4d3330a40e8f" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -16509,7 +16501,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="ed9c2779-7c09-49cb-8aab-436d197b2fa1" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="f58f3c1a-c02f-4c7f-a185-11b646fab7df" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -16583,7 +16575,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ba1882c2-f41f-4dc6-a1a3-2d859b772f8a" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="f5a0a8af-0e80-43f9-8371-1525104603da" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="2879bc4b-797a-4ff8-b762-952c39f67a90" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -16667,7 +16659,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="4e1a2739-85b4-4334-a536-aac45c86649c" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="bad9111a-348a-46c6-ab05-30edb6b90416" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="706a6de8-dcd7-428a-a688-074908ea71c9" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -16711,7 +16703,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="bad8bffb-54d0-4321-8b6e-0c2213566492" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="1aa6d6a3-9a0b-4c6e-9bd3-49fa04a1260d" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="25efea3f-6553-41b8-9a48-82d420f21123" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -16807,7 +16799,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="3a014adf-7813-4ba1-8ec8-58edd197a485" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="61840723-0e2b-4af4-96a1-f77f6254efa6" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="e88ba690-f03c-4341-a7b2-79790ab2b2b7" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -16889,7 +16881,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="602d0e8d-2e9b-4e40-93c9-85b2b8a2c595" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="6f74f0f8-cf36-44c4-954c-7872e1dbd805" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="b1921ad1-6114-41c2-ba84-39c9941526fa" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -16969,7 +16961,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="4e1a2739-85b4-4334-a536-aac45c86649c" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="e890f911-a462-4372-8e6d-7f9b85fe12a1" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="bfbdf97d-d41f-470e-973c-da00a3391ca0" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -17013,7 +17005,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="18ca3e91-13ed-4d5d-951f-992518c27752" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="556ad059-e492-482a-8b92-7157892acae8" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="1626cace-3f82-4635-9ce4-928da6b4b09d" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -17164,7 +17156,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="77aec6d5-bcd1-489e-878f-f49b93530cf5" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="2399500b-b823-4b60-8b0e-84974d542610" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="958943b6-dad0-4c1d-be0b-6b76b181c5e7" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -17218,7 +17210,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="1d37433e-ef1e-4151-b2b8-8372a95f33ac" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="66ba9621-63b9-4545-99a2-faa892dc8672" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -17272,7 +17264,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="f0b5570f-479a-4734-b29b-480c6790477a" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="5a9ce9e8-502e-4793-9359-686312374d25" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -17703,7 +17695,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="18ca3e91-13ed-4d5d-951f-992518c27752" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="eabd3cbb-050a-4261-98b7-bb0380d87585" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="3c2625d8-33f8-4fcb-ac9c-5f4fe8ade2cc" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -17830,7 +17822,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="77aec6d5-bcd1-489e-878f-f49b93530cf5" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="2de7acf6-301d-4e35-8137-7d6fdd03fcbd" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="79bc1f97-7d38-4959-80f1-522ab4ed1d74" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -17901,7 +17893,7 @@ assert identificaties.size() == 0, "Expected 0 values, but found ${identificatie
 log.info("Assertions passed successfully")</scriptText>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="4c700d5b-97ce-40dd-bcaa-0439e17c8c78" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="6d7cdb9c-3c4f-4233-bd5d-2fc7adbfc7d4" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -17945,7 +17937,7 @@ log.info("Assertions passed successfully")</scriptText>
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="18ca3e91-13ed-4d5d-951f-992518c27752" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="732dd6b5-4b4a-4d40-b564-836848141840" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="17eba887-456d-465f-8d5b-47dea82f1732" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -18004,7 +17996,7 @@ log.info("Assertions passed successfully")</scriptText>
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="18ca3e91-13ed-4d5d-951f-992518c27752" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="b2b9e356-77a5-43fa-9a12-27259f14dc50" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="c682d4e6-9e8c-4812-8352-d73f129968f3" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -18152,7 +18144,7 @@ log.info("Assertions passed successfully")</scriptText>
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="77aec6d5-bcd1-489e-878f-f49b93530cf5" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="c5660a5e-174c-4121-8f93-1d1ade029da2" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="4033d8b8-0bcb-4148-a49a-9bec4d7e9bc2" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -18225,7 +18217,7 @@ assert identificaties.size() == 1, "Expected 1 value, but found ${identificaties
 log.info("Assertions passed successfully")</scriptText>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="8c382012-b6fb-465e-b01c-a4c6802af0fb" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="97b5d5dd-4416-4cdb-991c-2776265da30a" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -18298,7 +18290,7 @@ assert identificaties.size() == 1, "Expected 1 value, but found ${identificaties
 log.info("Assertions passed successfully")</scriptText>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="d3ebb3cb-e233-43d6-aa51-7b17b3f7c13b" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="20315b8f-84d8-4d00-a5e7-6ee8272497a3" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -18425,7 +18417,7 @@ log.info("Assertions passed successfully")</scriptText>
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="77aec6d5-bcd1-489e-878f-f49b93530cf5" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="016ac4d9-4888-4736-8123-b2be992bab01" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="2818c414-8d9e-45c8-91ff-905e2dbda77e" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -18496,7 +18488,7 @@ assert identificaties.size() == 0, "Expected 0 values, but found ${identificatie
 log.info("Assertions passed successfully")</scriptText>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="152390d5-1291-4ac3-8757-6f96837eb6c3" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="68c48a4e-4ffc-405e-a3a9-278a2439538e" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -18620,7 +18612,7 @@ log.info("Assertions passed successfully")</scriptText>
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="4e1a2739-85b4-4334-a536-aac45c86649c" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="32b627eb-119d-4871-bd55-2ff8e9f6d0e2" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="d4f50c8e-72db-4ff6-b9c1-56868137c740" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -18693,7 +18685,7 @@ assert identificaties.size() == 1, "Expected 1 value, but found ${identificaties
 log.info("Assertions passed successfully")</scriptText>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="2f38e5e1-8b4d-4caf-9bf3-3209326217db" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="4eacc1a6-e6a8-4224-ba51-d267e15bf438" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -18769,7 +18761,7 @@ assert identificaties.size() == 2, "Expected 2 values, but found ${identificatie
 log.info("Assertions passed successfully")</scriptText>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="9cdf0e74-0712-4aaf-9f4e-c0c9c8f7b2ff" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="f546fb1e-c8bc-4014-b5f3-9867418f9d4f" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -18842,7 +18834,7 @@ assert identificaties.size() == 1, "Expected 1 value, but found ${identificaties
 log.info("Assertions passed successfully")</scriptText>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="4c64e256-ad89-44c7-ac0e-4ff6ddaace6c" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="0ca9f2e2-b143-4c5d-997d-ecb1c5b31b7f" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -19525,7 +19517,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <codes>200</codes>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="ad3aa060-7406-4c3e-bba6-5be8dc220eae" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -19587,7 +19579,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="792daa21-9c2a-4936-b28d-5b6bf62f8074" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="75143e10-bf8b-4d1e-afc5-485728d6aca5" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:username>1</con:username>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
@@ -19696,7 +19688,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="032b5af6-4eca-4c91-9fbc-83a0063ddd19" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="2b94494f-f772-43f3-a693-2dbf28f4b6ff" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -19759,7 +19751,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="fd758dcd-4e45-4230-8e69-bc1e580da2d9" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="0aa9a744-66bf-4ccd-afa1-ac88c2ea3a2f" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -19806,7 +19798,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="41fdd65e-350a-4e3c-ac8e-f092a651c67d" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="732f280c-3cc6-4f92-8e8a-b32c9b48121e" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -19853,7 +19845,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="17a51dc0-e3f5-4f1e-af6b-5ec5b3da95d7" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="056bb082-3702-4f40-960f-c91e1fa73b29" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -19900,7 +19892,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="e3df43de-1e3c-4c8b-ae2b-1b7103ceeafa" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="cb35686c-0a9e-471e-a0c8-c0ac66b3ee76" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -19935,7 +19927,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="c0d9b4a9-2a55-4a2e-8ff3-ae2a6c5e1813" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="2898f5ef-cf70-4465-a327-b4176a8838cc" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -19970,7 +19962,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="eee2b92a-eb59-4931-8650-bc2f73ab8883" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="f2afe060-c6b1-4842-b26d-d65f896007a5" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -20005,7 +19997,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="6498062e-7d98-497e-ab0b-2863e223913d" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="0af7cbcf-fc5b-43ab-8d18-259d3db1e3e5" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -20040,7 +20032,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="71eb1887-20fa-4bf2-87d6-80e702b916b4" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="81153b49-04be-43bf-9afb-4b8047a68286" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -20075,7 +20067,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="d299d8b3-5c0b-4db0-89dd-1bde6b444175" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="8f727763-21b5-41ab-ab4b-ad3bcfddbb6d" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -20110,7 +20102,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="3d160baa-f499-4c9c-9265-4646225b9a1c" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="04004a2b-a8dc-458b-9732-5f09342a1bd8" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -20145,7 +20137,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="f8c2b9a3-0d8a-4006-b99e-8cb1de5babd3" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="904a9594-1185-4d18-a972-7e473837e54b" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -20183,7 +20175,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="27667e7b-f1f3-4d67-954c-5cffe494966e" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="64335660-5348-4eda-974d-405c54d654e1" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -20221,7 +20213,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="042a9fb6-7853-4e82-99c2-739e8a4705b7" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="b12c91f2-268f-456e-84e5-30b77742cfc3" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -20259,7 +20251,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="2e794023-0269-4aca-95c4-15854a1a4213" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="e0f8a9d3-67ea-4f66-945e-7d4353e33c5d" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -20297,7 +20289,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:credentials>
+            <con:assertion type="Valid HTTP Status Codes" id="2d2c3d65-ab2a-45de-9448-5d1ed3ee9a3c" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="a41d2233-ed86-4f2e-9925-2dd11bc45aa1" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -20428,7 +20420,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="18ca3e91-13ed-4d5d-951f-992518c27752" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="2dac0361-3546-4e12-adf1-87292e28ac4d" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="859c39c5-988c-4b3d-aea1-dbf4d77aa451" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -20715,7 +20707,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="77aec6d5-bcd1-489e-878f-f49b93530cf5" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="c91bdf12-0348-45b4-ab9b-7a5a773a85fb" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="43dd5378-d99f-4c66-8a27-6d173f367fbe" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -20815,7 +20807,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="b90ca0d8-cb3c-4619-b5ad-a90db97956f5" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="635eb132-5818-4177-8110-c67e29c1c6ec" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="3f7d8649-8224-4a10-aab7-de84296e4e58" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -20921,7 +20913,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="b90ca0d8-cb3c-4619-b5ad-a90db97956f5" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="52bd0422-694d-41dc-8ba6-f5a6669c0fd0" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="eb66b7e9-e5ef-4bf1-915a-1b18b302c1dc" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -21027,7 +21019,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="b90ca0d8-cb3c-4619-b5ad-a90db97956f5" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="3f936cb6-e976-45db-b677-61603fc81ae2" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="16c47682-32a7-4076-9efb-71d43d24fc9e" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -21114,7 +21106,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="4e1a2739-85b4-4334-a536-aac45c86649c" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="0473fd9e-bbaf-489b-94d0-1c155b1c961b" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="4737deea-6e23-4f8b-a43d-8b9bfa62360b" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -21199,7 +21191,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="4e1a2739-85b4-4334-a536-aac45c86649c" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="e233f605-20ea-4c5b-b6e1-9471ddd694bd" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="6e8527eb-5947-4a85-94a7-f8a7e55677de" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -21299,7 +21291,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="b90ca0d8-cb3c-4619-b5ad-a90db97956f5" name="Not SOAP Fault"/>
-            <con:credentials>
+            <con:assertion type="Invalid HTTP Status Codes" id="33d658b9-e58e-48f2-b7a2-de05845e0316" name="Invalid HTTP Status Codes"><con:configuration><codes>400,401,403,404,500,503,504</codes></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="383ed530-3ce2-465d-867d-58a35561da62" name="Valid HTTP Status Codes"><con:configuration><codes>200,201</codes></con:configuration></con:assertion><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
