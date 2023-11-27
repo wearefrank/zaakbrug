@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.20](https://github.com/wearefrank/zaakbrug/compare/v1.13.19...v1.13.20) (2023-11-24)
+
+
+### 🐛 Bug Fixes
+
+* statusMapping problem and vertrouwelijk attribute ([9641cec](https://github.com/wearefrank/zaakbrug/commit/9641cec3eedb91e3e755b6e8bd6d2f287b21263c))
+
 ## [1.13.19](https://github.com/wearefrank/zaakbrug/compare/v1.13.18...v1.13.19) (2023-11-20)
 
 

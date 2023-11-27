@@ -377,9 +377,6 @@
                 <xsl:if test="gerelateerde/identificatie">
                     <ZKN:identificatie><xsl:value-of select="gerelateerde/identificatie"/></ZKN:identificatie>
                 </xsl:if>
-                <xsl:if test="gerelateerde/omschrijving">
-                    <ZKN:dct.omschrijving><xsl:value-of select="gerelateerde/omschrijving"/></ZKN:dct.omschrijving>
-                </xsl:if>
                 <xsl:if test="gerelateerde/creatiedatum">
                     <ZKN:creatiedatum><xsl:value-of select="format-date(gerelateerde/creatiedatum, '[Y0001][M01][D01]')"/></ZKN:creatiedatum>
                 </xsl:if>
@@ -402,7 +399,7 @@
                     <ZKN:versie><xsl:value-of select="gerelateerde/versie"/></ZKN:versie>
                 </xsl:if>
                 <xsl:if test="gerelateerde/status">
-                    <ZKN:status><xsl:value-of select="gerelateerde/status"/></ZKN:status>
+                    <ZKN:status><xsl:value-of select="$statusMap(gerelateerde/status)"/></ZKN:status>
                 </xsl:if>
                 <xsl:if test="gerelateerde/verzenddatum">
                     <ZKN:verzenddatum><xsl:value-of select="format-date(gerelateerde/verzenddatum, '[Y0001][M01][D01]')"/></ZKN:verzenddatum>
@@ -428,4 +425,14 @@
             </xsl:if>
         </ZKN:heeftRelevant>
     </xsl:template>
+
+    <xsl:variable name="statusMap" as="map(*)">
+        <xsl:map>
+          <xsl:map-entry key="'in_bewerking'" select="'In bewerking'" />
+          <xsl:map-entry key="'ter_vaststelling'" select="'Ter vaststelling'" />
+          <xsl:map-entry key="'definitief'" select="'Definitief'" />
+          <xsl:map-entry key="'gearchiveerd'" select="'Gearchiveerd'" />
+        </xsl:map>
+      </xsl:variable>
+
 </xsl:stylesheet>
