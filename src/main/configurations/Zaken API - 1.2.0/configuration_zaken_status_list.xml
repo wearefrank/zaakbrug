@@ -27,8 +27,6 @@
 				<Exit name="Timeout" state="ERROR" code="504"/>
 			</Exits>
 
-			<!-- <FixedResultPipe name="Helloworld" returnString="{&quot;count&quot;:123,&quot;next&quot;:&quot;http://api.example.org/accounts/?page=4&quot;,&quot;previous&quot;:&quot;http://api.example.org/accounts/?page=2&quot;,&quot;results&quot;:[{&quot;url&quot;:&quot;string&quot;,&quot;uuid&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;,&quot;zaak&quot;:&quot;string&quot;,&quot;Statustype&quot;:&quot;string&quot;,&quot;toelichting&quot;:&quot;string&quot;}]}" /> -->
-			
 			<XsltPipe
                 name="SetStatusUrl"
                 styleSheetName="Common/xsl/CreateURL.xsl"
@@ -37,34 +35,81 @@
                 >
                 <Param name="BaseUrl" value="${zaakbrug.staging.zaken-api.root-url}" /> 
                 <Param name="UrlParam" sessionKey="uri" /> 
-                <Forward name="success" path="GetStatusSender"/>
+                <Forward name="success" path="ExtractUUIDFromZaak"/>
             </XsltPipe>
             
-            <SenderPipe name="GetStatusSender"
-            	getInputFromSessionKey="originalMessage">
-                <HttpSender name="GetStatusSender"
-                    methodType="GET"
-                    headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
-                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
-                    maxExecuteRetries="5"
-                    contentType="application/json">
-                    <Param name="url" sessionKey="UrlParam" />
-                	<Param name="Accept-Crs" value="EPSG:4326" />
-                    <Param name="Accept" value="application/json" />
-                    <Param name="Content-Crs" value="EPSG:4326" />
-                    <Param name="Authorization" value="Bearer @@zaken-api.jwt@@"/>
-                </HttpSender>
-
-                <Forward name="success" path="EXIT"/>
-                <Forward name="304" path="NotModified"/>
-                <Forward name="400" path="BadRequest"/>
-                <Forward name="401" path="NotAuthorized"/>
-                <Forward name="403" path="NotAllowed"/>
-                <Forward name="412" path="PreconditionFailed"/>
-                <Forward name="500" path="ServerError"/>
-                <Forward name="504" path="Timeout"/>
-                
-			</SenderPipe>
+            <XsltPipe
+                name="ExtractUUIDFromZaak"
+                styleSheetName="Common/xsl/UUID.xsl"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="uuid"
+                >
+                <Param name="zaak" sessionKey="zaak" /> 
+                <Forward name="success" path="GetUUIDFromDB"/>
+            </XsltPipe>
+            
+            <SenderPipe name="GetUUIDFromDB"
+                storeResultInSessionKey="GetIdResult">
+                <FixedQuerySender 
+                    query="SELECT IDENTIFICATIE FROM ZAAKDETAILS WHERE UUID  = ?{uuid}" 
+                    queryType="SELECT" 
+                    />
+                    <Param name="uuid" sessionKey="uuid"/>
+	            <Forward name="success" path="CheckForDBResult" />
+            </SenderPipe>
+            
+            <XmlIfPipe name="CheckForDBResult"
+                xpathExpression="string-length(result/rowset/row[@number='0']) > 0"
+                >
+                <Forward name="then" path="Create Request"/>
+                <Forward name="else" path="Error"/>
+            </XmlIfPipe>
+            
+            <XsltPipe
+                name="Create Request"
+                styleSheetName="Common/xsl/CreateReq.xsl"
+                getInputFromFixedValue="&lt;Dummy/&gt;">
+                <Param name="dateTime" pattern="{now,date,yyyy-MM-dd'T'HH:mm:ss:SSS}" />
+                <Param name="mode" value="status_list" />
+                <Param name="zaak" sessionKey="zaak" />
+                <Param name="Identificatie" xpathExpression="/result/rowset/row/field" sessionKey="GetIdResult" />
+	            <Param name="omschrijving" sessionKey="omschrijving" /> 
+                <Forward name="success" path="CallStatus_TranslationHandler"/>
+            </XsltPipe>
+            
+            <SenderPipe
+                name="CallStatus_TranslationHandler">
+                <SoapInputWrapper ></SoapInputWrapper>
+                <WsdlXmlInputValidator 
+	                wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_beantwoordVraag_zs-dms.wsdl"
+	                soapBody="zakLv01"
+	                ignoreUndeclaredElements="true"
+	                ignoreUnknownNamespaces="true"
+	                >
+					<Forward name="failure" path="Error"/>
+	                <Forward name="parserError" path="Error"/>
+				</WsdlXmlInputValidator>
+                <IbisLocalSender
+                    name="Status_TranslationHandler"
+                    javaListener="Status_TranslationHandler">
+                    <Param name="zaak" sessionKey="zaak" /> 
+	                <Param name="omschrijving" sessionKey="omschrijving" /> 
+	                <Param name="omschrijvingGeneriek" sessionKey="omschrijvingGeneriek" /> 
+                	<Param name="uuid" sessionKey="uuid" /> 
+	                
+                </IbisLocalSender>
+                <Forward name="success" path="XmlTOJson"/>
+                <Forward name="exception" path="ServerError" />
+            </SenderPipe>
+             
+            <FixedResultPipe name="Error"
+				returnString="&lt;Error/&gt;" >
+				<Forward name="success" path="XmlTOJson"/>
+			</FixedResultPipe>
+            
+            <JsonPipe name="XmlTOJson" direction="XML2JSON">
+                <Forward name="success" path="EXIT" />
+            </JsonPipe>
 		</Pipeline>
 	</Adapter>
 </Module>

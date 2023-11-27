@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2012 sp1 (http://www.altova.com) by Maarten van den Broek (messageDesign) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:RZS="http://www.stufstandaarden.nl/sectormodel/rzs0310" targetNamespace="http://www.stufstandaarden.nl/sectormodel/rzs0310" elementFormDefault="qualified" attributeFormDefault="unqualified" version="031000">
+	<annotation>
+		<documentation>
+			   Dit schema bevat verwijzingen naar de schema's met de elementdefinities, zodat vanuit één schema alle berichtelementen gevalideerd kunnen worden. Dit schema zal elke keer als er een berichtcatalogus wordt
+			   toegevoegd in de namespace http://www.stufstandaarden.nl/sectormodel/rzs0310 worden uitgebreid met een verwijzing naar het msg-schema voor die berichtencatalogus.
+
+        </documentation>
+		<appinfo>
+			<StUF:onderdeel>http://www.stufstandaarden.nl/sectormodel/rzs0310</StUF:onderdeel>
+			<StUF:patch>-</StUF:patch>
+			<StUF:patchdatum>-</StUF:patchdatum>
+			<StUF:schemaversie>0</StUF:schemaversie>
+		</appinfo>
+	</annotation>
+	<include schemaLocation="rzsberichten/rzs0310_msg_rzsberichten.xsd"/>
+</schema>

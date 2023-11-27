@@ -1,0 +1,3392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 rel. 2 (http://www.altova.com) by Maarten van den Broek (messageDesign) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" targetNamespace="http://www.egem.nl/StUF/sector/zkn/0310" elementFormDefault="qualified" attributeFormDefault="unqualified" version="031002">
+	<annotation>
+		<documentation>
+			   Nieuw bestand in verband met nieuwe werkwijze maken sectormodellen.
+		
+			   Wijzigingen t.b.v. patch 1-7-2012 vergeleken met versie zkn0310_ent_vraagAntwoord.xsd v031000:
+			   - ERR281: De naam van het bestand 'zkn0310_msg_vraagAntwoord_stuf.xsd' is gewijzigd in 'zkn0310_msg_stuf_vraagAntwoord.xsd'. 
+							   De import in dit bestand conform die wijziging aangepast.
+			
+			   Wijzigingen t.b.v. patch 21 (1-4-2015) vergeleken met versie 031001 zijn de volgende wijzigingen doorgevoerd:			
+			   - ERR0353: Het schema is voorzien van de afgesproken structuur in 'appinfo'
+			
+        </documentation>
+		<appinfo>
+			<StUF:onderdeel>http://www.egem.nl/StUF/sector/zkn/0310</StUF:onderdeel>
+			<StUF:patch>22</StUF:patch>
+			<StUF:patchdatum>20150701</StUF:patchdatum>
+			<StUF:schemaversie>2</StUF:schemaversie>
+		</appinfo>
+	</annotation>
+	<include schemaLocation="zkn0310_ent_vraagAntwoord.xsd"/>
+	<import namespace="http://www.egem.nl/StUF/StUF0301" schemaLocation="zkn0310_msg_stuf_vraagAntwoord.xsd"/>
+	<!--bericht elementen voor fundamentele entiteiten-->
+	<element name="bslLa01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLa01"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BSL-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLa02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLa02"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BSL-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLa03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLa03"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BSL-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLa04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLa04"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BSL-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLa05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLa05"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BSL-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLa06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLa06"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BSL-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLa07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLa07"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BSL-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLa08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLa08"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BSL-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLa09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLa09"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BSL-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLa10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLa10"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BSL-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLv01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLv01"/>
+				<element name="parameters" type="StUF:BSL-parametersVraagSynchroon"/>
+				<group ref="ZKN:bslVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLv02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLv02"/>
+				<element name="parameters" type="StUF:BSL-parametersVraagAsynchroon"/>
+				<group ref="ZKN:bslVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLv03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLv03"/>
+				<element name="parameters" type="StUF:BSL-parametersVraagSynchroonMaterieel"/>
+				<group ref="ZKN:bslVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLv04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLv04"/>
+				<element name="parameters" type="StUF:BSL-parametersVraagAsynchroonMaterieel"/>
+				<group ref="ZKN:bslVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLv05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLv05"/>
+				<element name="parameters" type="StUF:BSL-parametersVraagSynchroonFormeel"/>
+				<group ref="ZKN:bslVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLv06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLv06"/>
+				<element name="parameters" type="StUF:BSL-parametersVraagAsynchroonFormeel"/>
+				<group ref="ZKN:bslVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLv07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLv07"/>
+				<element name="parameters" type="StUF:BSL-parametersVraagSynchroon"/>
+				<group ref="ZKN:bslVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLv08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLv08"/>
+				<element name="parameters" type="StUF:BSL-parametersVraagAsynchroon"/>
+				<group ref="ZKN:bslVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLv09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLv09"/>
+				<element name="parameters" type="StUF:BSL-parametersVraagSynchroon"/>
+				<group ref="ZKN:bslVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bslLv10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BSL-StuurgegevensLv10"/>
+				<element name="parameters" type="StUF:BSL-parametersVraagAsynchroon"/>
+				<group ref="ZKN:bslVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLa01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLa01"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BST-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLa02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLa02"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BST-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLa03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLa03"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BST-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLa04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLa04"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BST-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLa05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLa05"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BST-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLa06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLa06"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BST-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLa07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLa07"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BST-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLa08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLa08"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BST-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLa09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLa09"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BST-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLa10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLa10"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:BST-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLv01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLv01"/>
+				<element name="parameters" type="StUF:BST-parametersVraagSynchroon"/>
+				<group ref="ZKN:bstVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLv02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLv02"/>
+				<element name="parameters" type="StUF:BST-parametersVraagAsynchroon"/>
+				<group ref="ZKN:bstVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLv03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLv03"/>
+				<element name="parameters" type="StUF:BST-parametersVraagSynchroonMaterieel"/>
+				<group ref="ZKN:bstVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLv04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLv04"/>
+				<element name="parameters" type="StUF:BST-parametersVraagAsynchroonMaterieel"/>
+				<group ref="ZKN:bstVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLv05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLv05"/>
+				<element name="parameters" type="StUF:BST-parametersVraagSynchroonFormeel"/>
+				<group ref="ZKN:bstVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLv06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLv06"/>
+				<element name="parameters" type="StUF:BST-parametersVraagAsynchroonFormeel"/>
+				<group ref="ZKN:bstVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLv07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLv07"/>
+				<element name="parameters" type="StUF:BST-parametersVraagSynchroon"/>
+				<group ref="ZKN:bstVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLv08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLv08"/>
+				<element name="parameters" type="StUF:BST-parametersVraagAsynchroon"/>
+				<group ref="ZKN:bstVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLv09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLv09"/>
+				<element name="parameters" type="StUF:BST-parametersVraagSynchroon"/>
+				<group ref="ZKN:bstVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="bstLv10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:BST-StuurgegevensLv10"/>
+				<element name="parameters" type="StUF:BST-parametersVraagAsynchroon"/>
+				<group ref="ZKN:bstVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ctpLa01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:CTP-StuurgegevensLa01"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:CTP-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ctpLa02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:CTP-StuurgegevensLa02"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:CTP-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ctpLv01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:CTP-StuurgegevensLv01"/>
+				<element name="parameters" type="StUF:CTP-parametersVraagSynchroon"/>
+				<group ref="ZKN:ctpVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ctpLv02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:CTP-StuurgegevensLv02"/>
+				<element name="parameters" type="StUF:CTP-parametersVraagAsynchroon"/>
+				<group ref="ZKN:ctpVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLa01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLa01"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:DCT-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLa02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLa02"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:DCT-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLa03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLa03"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:DCT-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLa04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLa04"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:DCT-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLa05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLa05"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:DCT-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLa06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLa06"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:DCT-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLa07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLa07"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:DCT-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLa08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLa08"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:DCT-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLa09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLa09"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:DCT-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLa10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLa10"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:DCT-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLv01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLv01"/>
+				<element name="parameters" type="StUF:DCT-parametersVraagSynchroon"/>
+				<group ref="ZKN:dctVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLv02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLv02"/>
+				<element name="parameters" type="StUF:DCT-parametersVraagAsynchroon"/>
+				<group ref="ZKN:dctVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLv03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLv03"/>
+				<element name="parameters" type="StUF:DCT-parametersVraagSynchroonMaterieel"/>
+				<group ref="ZKN:dctVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLv04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLv04"/>
+				<element name="parameters" type="StUF:DCT-parametersVraagAsynchroonMaterieel"/>
+				<group ref="ZKN:dctVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLv05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLv05"/>
+				<element name="parameters" type="StUF:DCT-parametersVraagSynchroonFormeel"/>
+				<group ref="ZKN:dctVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLv06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLv06"/>
+				<element name="parameters" type="StUF:DCT-parametersVraagAsynchroonFormeel"/>
+				<group ref="ZKN:dctVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLv07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLv07"/>
+				<element name="parameters" type="StUF:DCT-parametersVraagSynchroon"/>
+				<group ref="ZKN:dctVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLv08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLv08"/>
+				<element name="parameters" type="StUF:DCT-parametersVraagAsynchroon"/>
+				<group ref="ZKN:dctVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLv09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLv09"/>
+				<element name="parameters" type="StUF:DCT-parametersVraagSynchroon"/>
+				<group ref="ZKN:dctVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dctLv10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DCT-StuurgegevensLv10"/>
+				<element name="parameters" type="StUF:DCT-parametersVraagAsynchroon"/>
+				<group ref="ZKN:dctVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dtgLa01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DTG-StuurgegevensLa01"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:DTG-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dtgLa02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DTG-StuurgegevensLa02"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:DTG-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dtgLv01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DTG-StuurgegevensLv01"/>
+				<element name="parameters" type="StUF:DTG-parametersVraagSynchroon"/>
+				<group ref="ZKN:dtgVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="dtgLv02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:DTG-StuurgegevensLv02"/>
+				<element name="parameters" type="StUF:DTG-parametersVraagAsynchroon"/>
+				<group ref="ZKN:dtgVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLa01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLa01"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:EDC-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLa02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLa02"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:EDC-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLa03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLa03"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:EDC-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLa04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLa04"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:EDC-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLa05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLa05"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:EDC-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLa06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLa06"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:EDC-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLa07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLa07"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:EDC-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLa08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLa08"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:EDC-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLa09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLa09"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:EDC-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLa10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLa10"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:EDC-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLv01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLv01"/>
+				<element name="parameters" type="StUF:EDC-parametersVraagSynchroon"/>
+				<group ref="ZKN:edcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLv02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLv02"/>
+				<element name="parameters" type="StUF:EDC-parametersVraagAsynchroon"/>
+				<group ref="ZKN:edcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLv03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLv03"/>
+				<element name="parameters" type="StUF:EDC-parametersVraagSynchroonMaterieel"/>
+				<group ref="ZKN:edcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLv04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLv04"/>
+				<element name="parameters" type="StUF:EDC-parametersVraagAsynchroonMaterieel"/>
+				<group ref="ZKN:edcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLv05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLv05"/>
+				<element name="parameters" type="StUF:EDC-parametersVraagSynchroonFormeel"/>
+				<group ref="ZKN:edcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLv06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLv06"/>
+				<element name="parameters" type="StUF:EDC-parametersVraagAsynchroonFormeel"/>
+				<group ref="ZKN:edcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLv07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLv07"/>
+				<element name="parameters" type="StUF:EDC-parametersVraagSynchroon"/>
+				<group ref="ZKN:edcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLv08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLv08"/>
+				<element name="parameters" type="StUF:EDC-parametersVraagAsynchroon"/>
+				<group ref="ZKN:edcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLv09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLv09"/>
+				<element name="parameters" type="StUF:EDC-parametersVraagSynchroon"/>
+				<group ref="ZKN:edcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="edcLv10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:EDC-StuurgegevensLv10"/>
+				<element name="parameters" type="StUF:EDC-parametersVraagAsynchroon"/>
+				<group ref="ZKN:edcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLa01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLa01"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:MDW-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLa02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLa02"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:MDW-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLa03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLa03"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:MDW-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLa04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLa04"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:MDW-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLa05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLa05"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:MDW-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLa06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLa06"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:MDW-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLa07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLa07"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:MDW-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLa08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLa08"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:MDW-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLa09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLa09"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:MDW-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLa10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLa10"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:MDW-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLv01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLv01"/>
+				<element name="parameters" type="StUF:MDW-parametersVraagSynchroon"/>
+				<group ref="ZKN:mdwVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLv02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLv02"/>
+				<element name="parameters" type="StUF:MDW-parametersVraagAsynchroon"/>
+				<group ref="ZKN:mdwVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLv03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLv03"/>
+				<element name="parameters" type="StUF:MDW-parametersVraagSynchroonMaterieel"/>
+				<group ref="ZKN:mdwVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLv04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLv04"/>
+				<element name="parameters" type="StUF:MDW-parametersVraagAsynchroonMaterieel"/>
+				<group ref="ZKN:mdwVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLv05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLv05"/>
+				<element name="parameters" type="StUF:MDW-parametersVraagSynchroonFormeel"/>
+				<group ref="ZKN:mdwVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLv06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLv06"/>
+				<element name="parameters" type="StUF:MDW-parametersVraagAsynchroonFormeel"/>
+				<group ref="ZKN:mdwVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLv07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLv07"/>
+				<element name="parameters" type="StUF:MDW-parametersVraagSynchroon"/>
+				<group ref="ZKN:mdwVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLv08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLv08"/>
+				<element name="parameters" type="StUF:MDW-parametersVraagAsynchroon"/>
+				<group ref="ZKN:mdwVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLv09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLv09"/>
+				<element name="parameters" type="StUF:MDW-parametersVraagSynchroon"/>
+				<group ref="ZKN:mdwVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="mdwLv10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:MDW-StuurgegevensLv10"/>
+				<element name="parameters" type="StUF:MDW-parametersVraagAsynchroon"/>
+				<group ref="ZKN:mdwVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLa01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLa01"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:OEH-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLa02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLa02"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:OEH-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLa03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLa03"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:OEH-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLa04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLa04"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:OEH-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLa05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLa05"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:OEH-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLa06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLa06"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:OEH-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLa07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLa07"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:OEH-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLa08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLa08"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:OEH-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLa09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLa09"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:OEH-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLa10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLa10"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:OEH-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLv01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLv01"/>
+				<element name="parameters" type="StUF:OEH-parametersVraagSynchroon"/>
+				<group ref="ZKN:oehVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLv02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLv02"/>
+				<element name="parameters" type="StUF:OEH-parametersVraagAsynchroon"/>
+				<group ref="ZKN:oehVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLv03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLv03"/>
+				<element name="parameters" type="StUF:OEH-parametersVraagSynchroonMaterieel"/>
+				<group ref="ZKN:oehVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLv04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLv04"/>
+				<element name="parameters" type="StUF:OEH-parametersVraagAsynchroonMaterieel"/>
+				<group ref="ZKN:oehVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLv05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLv05"/>
+				<element name="parameters" type="StUF:OEH-parametersVraagSynchroonFormeel"/>
+				<group ref="ZKN:oehVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLv06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLv06"/>
+				<element name="parameters" type="StUF:OEH-parametersVraagAsynchroonFormeel"/>
+				<group ref="ZKN:oehVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLv07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLv07"/>
+				<element name="parameters" type="StUF:OEH-parametersVraagSynchroon"/>
+				<group ref="ZKN:oehVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLv08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLv08"/>
+				<element name="parameters" type="StUF:OEH-parametersVraagAsynchroon"/>
+				<group ref="ZKN:oehVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLv09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLv09"/>
+				<element name="parameters" type="StUF:OEH-parametersVraagSynchroon"/>
+				<group ref="ZKN:oehVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="oehLv10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:OEH-StuurgegevensLv10"/>
+				<element name="parameters" type="StUF:OEH-parametersVraagAsynchroon"/>
+				<group ref="ZKN:oehVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLa01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLa01"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:SDC-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLa02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLa02"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:SDC-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLa03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLa03"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:SDC-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLa04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLa04"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:SDC-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLa05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLa05"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:SDC-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLa06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLa06"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:SDC-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLa07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLa07"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:SDC-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLa08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLa08"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:SDC-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLa09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLa09"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:SDC-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLa10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLa10"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:SDC-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLv01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLv01"/>
+				<element name="parameters" type="StUF:SDC-parametersVraagSynchroon"/>
+				<group ref="ZKN:sdcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLv02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLv02"/>
+				<element name="parameters" type="StUF:SDC-parametersVraagAsynchroon"/>
+				<group ref="ZKN:sdcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLv03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLv03"/>
+				<element name="parameters" type="StUF:SDC-parametersVraagSynchroonMaterieel"/>
+				<group ref="ZKN:sdcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLv04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLv04"/>
+				<element name="parameters" type="StUF:SDC-parametersVraagAsynchroonMaterieel"/>
+				<group ref="ZKN:sdcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLv05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLv05"/>
+				<element name="parameters" type="StUF:SDC-parametersVraagSynchroonFormeel"/>
+				<group ref="ZKN:sdcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLv06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLv06"/>
+				<element name="parameters" type="StUF:SDC-parametersVraagAsynchroonFormeel"/>
+				<group ref="ZKN:sdcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLv07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLv07"/>
+				<element name="parameters" type="StUF:SDC-parametersVraagSynchroon"/>
+				<group ref="ZKN:sdcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLv08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLv08"/>
+				<element name="parameters" type="StUF:SDC-parametersVraagAsynchroon"/>
+				<group ref="ZKN:sdcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLv09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLv09"/>
+				<element name="parameters" type="StUF:SDC-parametersVraagSynchroon"/>
+				<group ref="ZKN:sdcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sdcLv10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:SDC-StuurgegevensLv10"/>
+				<element name="parameters" type="StUF:SDC-parametersVraagAsynchroon"/>
+				<group ref="ZKN:sdcVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLa01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLa01"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STA-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLa02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLa02"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STA-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLa03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLa03"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STA-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLa04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLa04"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STA-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLa05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLa05"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STA-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLa06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLa06"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STA-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLa07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLa07"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STA-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLa08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLa08"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STA-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLa09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLa09"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STA-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLa10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLa10"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STA-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLv01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLv01"/>
+				<element name="parameters" type="StUF:STA-parametersVraagSynchroon"/>
+				<group ref="ZKN:staVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLv02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLv02"/>
+				<element name="parameters" type="StUF:STA-parametersVraagAsynchroon"/>
+				<group ref="ZKN:staVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLv03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLv03"/>
+				<element name="parameters" type="StUF:STA-parametersVraagSynchroonMaterieel"/>
+				<group ref="ZKN:staVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLv04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLv04"/>
+				<element name="parameters" type="StUF:STA-parametersVraagAsynchroonMaterieel"/>
+				<group ref="ZKN:staVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLv05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLv05"/>
+				<element name="parameters" type="StUF:STA-parametersVraagSynchroonFormeel"/>
+				<group ref="ZKN:staVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLv06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLv06"/>
+				<element name="parameters" type="StUF:STA-parametersVraagAsynchroonFormeel"/>
+				<group ref="ZKN:staVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLv07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLv07"/>
+				<element name="parameters" type="StUF:STA-parametersVraagSynchroon"/>
+				<group ref="ZKN:staVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLv08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLv08"/>
+				<element name="parameters" type="StUF:STA-parametersVraagAsynchroon"/>
+				<group ref="ZKN:staVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLv09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLv09"/>
+				<element name="parameters" type="StUF:STA-parametersVraagSynchroon"/>
+				<group ref="ZKN:staVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="staLv10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STA-StuurgegevensLv10"/>
+				<element name="parameters" type="StUF:STA-parametersVraagAsynchroon"/>
+				<group ref="ZKN:staVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLa01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLa01"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STT-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLa02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLa02"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STT-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLa03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLa03"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STT-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLa04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLa04"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STT-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLa05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLa05"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STT-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLa06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLa06"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STT-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLa07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLa07"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STT-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLa08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLa08"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STT-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLa09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLa09"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STT-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLa10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLa10"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:STT-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLv01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLv01"/>
+				<element name="parameters" type="StUF:STT-parametersVraagSynchroon"/>
+				<group ref="ZKN:sttVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLv02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLv02"/>
+				<element name="parameters" type="StUF:STT-parametersVraagAsynchroon"/>
+				<group ref="ZKN:sttVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLv03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLv03"/>
+				<element name="parameters" type="StUF:STT-parametersVraagSynchroonMaterieel"/>
+				<group ref="ZKN:sttVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLv04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLv04"/>
+				<element name="parameters" type="StUF:STT-parametersVraagAsynchroonMaterieel"/>
+				<group ref="ZKN:sttVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLv05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLv05"/>
+				<element name="parameters" type="StUF:STT-parametersVraagSynchroonFormeel"/>
+				<group ref="ZKN:sttVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLv06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLv06"/>
+				<element name="parameters" type="StUF:STT-parametersVraagAsynchroonFormeel"/>
+				<group ref="ZKN:sttVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLv07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLv07"/>
+				<element name="parameters" type="StUF:STT-parametersVraagSynchroon"/>
+				<group ref="ZKN:sttVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLv08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLv08"/>
+				<element name="parameters" type="StUF:STT-parametersVraagAsynchroon"/>
+				<group ref="ZKN:sttVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLv09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLv09"/>
+				<element name="parameters" type="StUF:STT-parametersVraagSynchroon"/>
+				<group ref="ZKN:sttVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sttLv10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:STT-StuurgegevensLv10"/>
+				<element name="parameters" type="StUF:STT-parametersVraagAsynchroon"/>
+				<group ref="ZKN:sttVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="vzoLa01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:VZO-StuurgegevensLa01"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:VZO-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="vzoLa02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:VZO-StuurgegevensLa02"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:VZO-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="vzoLa05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:VZO-StuurgegevensLa05"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:VZO-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="vzoLa06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:VZO-StuurgegevensLa06"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:VZO-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="vzoLa09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:VZO-StuurgegevensLa09"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:VZO-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="vzoLa10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:VZO-StuurgegevensLa10"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:VZO-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="vzoLv01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:VZO-StuurgegevensLv01"/>
+				<element name="parameters" type="StUF:VZO-parametersVraagSynchroon"/>
+				<group ref="ZKN:vzoVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="vzoLv02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:VZO-StuurgegevensLv02"/>
+				<element name="parameters" type="StUF:VZO-parametersVraagAsynchroon"/>
+				<group ref="ZKN:vzoVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="vzoLv05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:VZO-StuurgegevensLv05"/>
+				<element name="parameters" type="StUF:VZO-parametersVraagSynchroonFormeel"/>
+				<group ref="ZKN:vzoVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="vzoLv06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:VZO-StuurgegevensLv06"/>
+				<element name="parameters" type="StUF:VZO-parametersVraagAsynchroonFormeel"/>
+				<group ref="ZKN:vzoVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="vzoLv09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:VZO-StuurgegevensLv09"/>
+				<element name="parameters" type="StUF:VZO-parametersVraagSynchroon"/>
+				<group ref="ZKN:vzoVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="vzoLv10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:VZO-StuurgegevensLv10"/>
+				<element name="parameters" type="StUF:VZO-parametersVraagAsynchroon"/>
+				<group ref="ZKN:vzoVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLa01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLa01"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZAK-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLa02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLa02"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZAK-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLa03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLa03"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZAK-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLa04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLa04"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZAK-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLa05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLa05"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZAK-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLa06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLa06"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZAK-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLa07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLa07"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZAK-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLa08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLa08"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZAK-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLa09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLa09"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZAK-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLa10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLa10"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZAK-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLv01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLv01"/>
+				<element name="parameters" type="StUF:ZAK-parametersVraagSynchroon"/>
+				<group ref="ZKN:zakVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLv02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLv02"/>
+				<element name="parameters" type="StUF:ZAK-parametersVraagAsynchroon"/>
+				<group ref="ZKN:zakVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLv03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLv03"/>
+				<element name="parameters" type="StUF:ZAK-parametersVraagSynchroonMaterieel"/>
+				<group ref="ZKN:zakVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLv04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLv04"/>
+				<element name="parameters" type="StUF:ZAK-parametersVraagAsynchroonMaterieel"/>
+				<group ref="ZKN:zakVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLv05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLv05"/>
+				<element name="parameters" type="StUF:ZAK-parametersVraagSynchroonFormeel"/>
+				<group ref="ZKN:zakVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLv06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLv06"/>
+				<element name="parameters" type="StUF:ZAK-parametersVraagAsynchroonFormeel"/>
+				<group ref="ZKN:zakVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLv07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLv07"/>
+				<element name="parameters" type="StUF:ZAK-parametersVraagSynchroon"/>
+				<group ref="ZKN:zakVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLv08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLv08"/>
+				<element name="parameters" type="StUF:ZAK-parametersVraagAsynchroon"/>
+				<group ref="ZKN:zakVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLv09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLv09"/>
+				<element name="parameters" type="StUF:ZAK-parametersVraagSynchroon"/>
+				<group ref="ZKN:zakVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zakLv10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZAK-StuurgegevensLv10"/>
+				<element name="parameters" type="StUF:ZAK-parametersVraagAsynchroon"/>
+				<group ref="ZKN:zakVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLa01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLa01"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZKT-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLa02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLa02"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZKT-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLa03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLa03"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZKT-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLa04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLa04"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonMaterieel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZKT-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLa05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLa05"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZKT-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLa06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLa06"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroonFormeel"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZKT-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLa07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLa07"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZKT-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLa08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLa08"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZKT-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLa09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLa09"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZKT-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLa10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLa10"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZKT-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLv01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLv01"/>
+				<element name="parameters" type="StUF:ZKT-parametersVraagSynchroon"/>
+				<group ref="ZKN:zktVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLv02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLv02"/>
+				<element name="parameters" type="StUF:ZKT-parametersVraagAsynchroon"/>
+				<group ref="ZKN:zktVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLv03">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLv03"/>
+				<element name="parameters" type="StUF:ZKT-parametersVraagSynchroonMaterieel"/>
+				<group ref="ZKN:zktVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLv04">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLv04"/>
+				<element name="parameters" type="StUF:ZKT-parametersVraagAsynchroonMaterieel"/>
+				<group ref="ZKN:zktVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLv05">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLv05"/>
+				<element name="parameters" type="StUF:ZKT-parametersVraagSynchroonFormeel"/>
+				<group ref="ZKN:zktVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLv06">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLv06"/>
+				<element name="parameters" type="StUF:ZKT-parametersVraagAsynchroonFormeel"/>
+				<group ref="ZKN:zktVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLv07">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLv07"/>
+				<element name="parameters" type="StUF:ZKT-parametersVraagSynchroon"/>
+				<group ref="ZKN:zktVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLv08">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLv08"/>
+				<element name="parameters" type="StUF:ZKT-parametersVraagAsynchroon"/>
+				<group ref="ZKN:zktVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLv09">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLv09"/>
+				<element name="parameters" type="StUF:ZKT-parametersVraagSynchroon"/>
+				<group ref="ZKN:zktVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="zktLv10">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZKT-StuurgegevensLv10"/>
+				<element name="parameters" type="StUF:ZKT-parametersVraagAsynchroon"/>
+				<group ref="ZKN:zktVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ztgLa01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZTG-StuurgegevensLa01"/>
+				<element name="parameters" type="StUF:ParametersAntwoordSynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZTG-antwoord" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ztgLa02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZTG-StuurgegevensLa02"/>
+				<element name="parameters" type="StUF:ParametersAntwoordAsynchroon"/>
+				<element name="melding" type="StUF:Melding" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="antwoord" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="object" type="ZKN:ZTG-antwoord"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ztgLv01">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZTG-StuurgegevensLv01"/>
+				<element name="parameters" type="StUF:ZTG-parametersVraagSynchroon"/>
+				<group ref="ZKN:ztgVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ztgLv02">
+		<complexType>
+			<sequence>
+				<element name="stuurgegevens" type="StUF:ZTG-StuurgegevensLv02"/>
+				<element name="parameters" type="StUF:ZTG-parametersVraagAsynchroon"/>
+				<group ref="ZKN:ztgVraagBody"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!--Group's voor de vraagbody's-->
+	<group name="bslVraagBody">
+		<sequence>
+			<element name="gelijk" type="ZKN:BSL-vraagSelectie" minOccurs="0"/>
+			<element name="vanaf" type="ZKN:BSL-vraagSelectie" minOccurs="0"/>
+			<element name="totEnMet" type="ZKN:BSL-vraagSelectie" minOccurs="0"/>
+			<element name="scope" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:BSL-vraagScope"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="start" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:BSL-antwoord"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</group>
+	<group name="bstVraagBody">
+		<sequence>
+			<element name="gelijk" type="ZKN:BST-vraag" minOccurs="0"/>
+			<element name="vanaf" type="ZKN:BST-vraag" minOccurs="0"/>
+			<element name="totEnMet" type="ZKN:BST-vraag" minOccurs="0"/>
+			<element name="scope" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:BST-vraag"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="start" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:BST-antwoord"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</group>
+	<group name="ctpVraagBody">
+		<sequence>
+			<element name="gelijk" type="ZKN:CTP-vraagSelectie" minOccurs="0"/>
+			<element name="vanaf" type="ZKN:CTP-vraagSelectie" minOccurs="0"/>
+			<element name="totEnMet" type="ZKN:CTP-vraagSelectie" minOccurs="0"/>
+			<element name="scope" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:CTP-vraagScope"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="start" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:CTP-antwoord"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</group>
+	<group name="dctVraagBody">
+		<sequence>
+			<element name="gelijk" type="ZKN:DCT-vraag" minOccurs="0"/>
+			<element name="vanaf" type="ZKN:DCT-vraag" minOccurs="0"/>
+			<element name="totEnMet" type="ZKN:DCT-vraag" minOccurs="0"/>
+			<element name="scope" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:DCT-vraag"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="start" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:DCT-antwoord"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</group>
+	<group name="dtgVraagBody">
+		<sequence>
+			<element name="gelijk" type="ZKN:DTG-vraag" minOccurs="0"/>
+			<element name="vanaf" type="ZKN:DTG-vraag" minOccurs="0"/>
+			<element name="totEnMet" type="ZKN:DTG-vraag" minOccurs="0"/>
+			<element name="scope" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:DTG-vraag"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="start" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:DTG-antwoord"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</group>
+	<group name="edcVraagBody">
+		<sequence>
+			<element name="gelijk" type="ZKN:EDC-vraagSelectie" minOccurs="0"/>
+			<element name="vanaf" type="ZKN:EDC-vraagSelectie" minOccurs="0"/>
+			<element name="totEnMet" type="ZKN:EDC-vraagSelectie" minOccurs="0"/>
+			<element name="scope" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:EDC-vraagScope"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="start" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:EDC-antwoord"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</group>
+	<group name="mdwVraagBody">
+		<sequence>
+			<element name="gelijk" type="ZKN:MDW-vraag" minOccurs="0"/>
+			<element name="vanaf" type="ZKN:MDW-vraag" minOccurs="0"/>
+			<element name="totEnMet" type="ZKN:MDW-vraag" minOccurs="0"/>
+			<element name="scope" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:MDW-vraag"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="start" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:MDW-antwoord"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</group>
+	<group name="oehVraagBody">
+		<sequence>
+			<element name="gelijk" type="ZKN:OEH-vraag" minOccurs="0"/>
+			<element name="vanaf" type="ZKN:OEH-vraag" minOccurs="0"/>
+			<element name="totEnMet" type="ZKN:OEH-vraag" minOccurs="0"/>
+			<element name="scope" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:OEH-vraag"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="start" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:OEH-antwoord"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</group>
+	<group name="sdcVraagBody">
+		<sequence>
+			<element name="gelijk" type="ZKN:SDC-vraag" minOccurs="0"/>
+			<element name="vanaf" type="ZKN:SDC-vraag" minOccurs="0"/>
+			<element name="totEnMet" type="ZKN:SDC-vraag" minOccurs="0"/>
+			<element name="scope" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:SDC-vraag"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="start" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:SDC-antwoord"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</group>
+	<group name="staVraagBody">
+		<sequence>
+			<element name="gelijk" type="ZKN:STA-vraagSelectie" minOccurs="0"/>
+			<element name="vanaf" type="ZKN:STA-vraagSelectie" minOccurs="0"/>
+			<element name="totEnMet" type="ZKN:STA-vraagSelectie" minOccurs="0"/>
+			<element name="scope" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:STA-vraagScope"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="start" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:STA-antwoord"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</group>
+	<group name="sttVraagBody">
+		<sequence>
+			<element name="gelijk" type="ZKN:STT-vraag" minOccurs="0"/>
+			<element name="vanaf" type="ZKN:STT-vraag" minOccurs="0"/>
+			<element name="totEnMet" type="ZKN:STT-vraag" minOccurs="0"/>
+			<element name="scope" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:STT-vraag"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="start" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:STT-antwoord"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</group>
+	<group name="vzoVraagBody">
+		<sequence>
+			<element name="gelijk" type="ZKN:VZO-vraag" minOccurs="0"/>
+			<element name="vanaf" type="ZKN:VZO-vraag" minOccurs="0"/>
+			<element name="totEnMet" type="ZKN:VZO-vraag" minOccurs="0"/>
+			<element name="scope" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:VZO-vraag"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="start" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:VZO-antwoord"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</group>
+	<group name="zakVraagBody">
+		<sequence>
+			<element name="gelijk" type="ZKN:ZAK-vraagSelectie" minOccurs="0"/>
+			<element name="vanaf" type="ZKN:ZAK-vraagSelectie" minOccurs="0"/>
+			<element name="totEnMet" type="ZKN:ZAK-vraagSelectie" minOccurs="0"/>
+			<element name="scope" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:ZAK-vraagScope"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="start" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:ZAK-antwoord"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</group>
+	<group name="zktVraagBody">
+		<sequence>
+			<element name="gelijk" type="ZKN:ZKT-vraag" minOccurs="0"/>
+			<element name="vanaf" type="ZKN:ZKT-vraag" minOccurs="0"/>
+			<element name="totEnMet" type="ZKN:ZKT-vraag" minOccurs="0"/>
+			<element name="scope" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:ZKT-vraag"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="start" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:ZKT-antwoord"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</group>
+	<group name="ztgVraagBody">
+		<sequence>
+			<element name="gelijk" type="ZKN:ZTG-vraag" minOccurs="0"/>
+			<element name="vanaf" type="ZKN:ZTG-vraag" minOccurs="0"/>
+			<element name="totEnMet" type="ZKN:ZTG-vraag" minOccurs="0"/>
+			<element name="scope" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:ZTG-vraag"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="start" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="object" type="ZKN:ZTG-antwoord"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</group>
+</schema>

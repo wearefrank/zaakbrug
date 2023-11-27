@@ -11,6 +11,7 @@
 				name="zaakeigenschap_read" 
 				method="GET"
 				uriPattern="/zaken/api/v1/zaken/{zaak_uuid}/zaakeigenschappen/{uuid}"
+				headerParams="Host"
 				produces="JSON"
 				consumes="ANY"
 				/>
@@ -27,44 +28,74 @@
 				<Exit name="Timeout" state="ERROR" code="504"/>
 			</Exits>
 
-			<!-- <FixedResultPipe name="Helloworld" returnString="{&quot;count&quot;:123,&quot;next&quot;:&quot;http://api.example.org/accounts/?page=4&quot;,&quot;previous&quot;:&quot;http://api.example.org/accounts/?page=2&quot;,&quot;results&quot;:[{&quot;url&quot;:&quot;string&quot;,&quot;uuid&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;,&quot;zaak&quot;:&quot;string&quot;,&quot;resultaattype&quot;:&quot;string&quot;,&quot;toelichting&quot;:&quot;string&quot;}]}" /> -->
-			
-			<XsltPipe
-                name="SetZaakKeigenschapUrl"
-                styleSheetName="Common/xsl/CreateURL.xsl"
-                getInputFromFixedValue="&lt;dummy/&gt;"
-                storeResultInSessionKey="UrlParam"
-                >
-                <Param name="BaseUrl" value="${zaakbrug.staging.zaken-api.root-url}" /> 
-                <Param name="UrlParam" sessionKey="uri" /> 
-                <Forward name="success" path="ReadZaakKeigenschapSender"/>
-            </XsltPipe>
+			<SenderPipe name="GetUUIDFromDB"
+                storeResultInSessionKey="GetIdResult">
+                <FixedQuerySender 
+                    query="SELECT IDENTIFICATIE FROM ZAAKDETAILS WHERE UUID = ?{uuid}" 
+                    queryType="SELECT" 
+                    />
+                    <Param name="uuid" sessionKey="uuid"/>
+	            <Forward name="success" path="CheckForDBResult" />
+            </SenderPipe>
             
-            <SenderPipe name="ReadZaakKeigenschapSender"
-            	getInputFromSessionKey="originalMessage">
-                <HttpSender name="ReadZaakKeigenschapSender"
-                    methodType="GET"
-                    headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
-                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
-                    maxExecuteRetries="5"
-                    contentType="application/json">
-                    <Param name="url" sessionKey="UrlParam" />
-                	<Param name="Accept-Crs" value="EPSG:4326" />
-                    <Param name="Accept" value="application/json" />
-                    <Param name="Content-Crs" value="EPSG:4326" />
-                    <Param name="Authorization" value="Bearer @@zaken-api.jwt@@"/>
-                </HttpSender>
-
-                <Forward name="success" path="EXIT"/>
-                <Forward name="304" path="NotModified"/>
-                <Forward name="400" path="BadRequest"/>
-                <Forward name="401" path="NotAuthorized"/>
-                <Forward name="403" path="NotAllowed"/>
-                <Forward name="412" path="PreconditionFailed"/>
-                <Forward name="500" path="ServerError"/>
-                <Forward name="504" path="Timeout"/>
-                
-			</SenderPipe>
+            <XmlIfPipe name="CheckForDBResult"
+                xpathExpression="string-length(result/rowset/row[@number='0']) > 0"
+                >
+                <Forward name="then" path="Create Request"/>
+                <Forward name="else" path="Error"/>
+            </XmlIfPipe>
+			
+			 <XsltPipe
+                name="Create Request"
+                getInputFromFixedValue="&lt;Dummy/&gt;"
+                styleSheetName="Common/xsl/CreateReq.xsl">
+                <Param name="dateTime" pattern="{now,date,yyyy-MM-dd'T'HH:mm:ss:SSS}" />
+                <Param name="mode" value="eigenschap_list" />
+                <Param name="Identificatie" xpathExpression="/result/rowset/row/field" sessionKey="GetIdResult" />
+                <Forward name="success" path="CallZaakeigenschap_TranslationHandler"/>
+            </XsltPipe>
+			
+			 <SenderPipe
+                name="CallZaakeigenschap_TranslationHandler">
+                <!-- <SoapInputValidator soapBody="zakLv01" schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 GetZaakDetails/xsd/vraagAntwoord/zkn0310_msg_vraagAntwoord.xsd">
+                	<Forward name="failure" path="Error" />
+				<Forward name="parserError" path="Error" />
+                </SoapInputValidator> -->
+                <SoapInputWrapper ></SoapInputWrapper>
+                <!-- <EsbSoapInputWrapper direction="WRAP" ></EsbSoapInputWrapper> -->
+                <WsdlXmlInputValidator 
+	                wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_beantwoordVraag_zs-dms.wsdl"
+	                soapBody="zakLv01"
+	                ignoreUndeclaredElements="true"
+	                ignoreUnknownNamespaces="true"
+	                >
+					<Forward name="failure" path="Error"/>
+	                <Forward name="parserError" path="Error"/>
+				</WsdlXmlInputValidator>
+                <IbisLocalSender
+                    name="Zaakeigenschap_TranslationHandler"
+                    javaListener="Zaakeigenschap_TranslationHandler">
+                    <Param name="Host" xpathExpression="/headers/header[@name = 'Host']/text()" sessionKey="headers"/>
+                </IbisLocalSender>
+                <Forward name="success" path="XmlTOJson"/>
+                <Forward name="exception" path="Error" />
+            </SenderPipe>
+            
+            
+           <!--  <XsltPipe
+                name="CreateResponse"
+                styleSheetName="Common/xsl/CreateResponse.xsl">
+                <Forward name="success" path="XmlTOJson"/>
+            </XsltPipe> -->
+            
+            <FixedResultPipe name="Error"
+				returnString="&lt;Error/&gt;" >
+				<Forward name="success" path="XmlTOJson"/>
+			</FixedResultPipe>
+            
+            <JsonPipe name="XmlTOJson" direction="XML2JSON">
+                <Forward name="success" path="EXIT" />
+            </JsonPipe>
 		</Pipeline>
 	</Adapter>
 </Module>

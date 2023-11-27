@@ -1,5 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:math="http://www.w3.org/2005/xpath-functions/math" xmlns:array="http://www.w3.org/2005/xpath-functions/array" xmlns:map="http://www.w3.org/2005/xpath-functions/map" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:err="http://www.w3.org/2005/xqt-errors" xmlns:zgw="http://google.com/zgw" exclude-result-prefixes="array fn map math xhtml xs err zgw" version="2.0">
-	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
+	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="yes"/>
     <xsl:param name="GetRsinResult"/>
     <xsl:param name="GetZaakTypeResult"/>
     <xsl:param name="communicatiekanaal" select="''" as="xs:string"/>
@@ -19,7 +19,7 @@
 	<xsl:template match="object[@entiteittype='ZAK']">
 		<ZgwZaak>
             <url><xsl:value-of select="concat($Host,'/zaken/api/v1/',$uuid)"/></url>
-            <identificatie><xsl:value-of select="identificatie"/></identificatie>
+            <identificatie><xsl:value-of select="(//identificatie)[1]"/></identificatie>
             <bronorganisatie><xsl:value-of select="$GetRsinResult/rsin"/></bronorganisatie>
             <omschrijving><xsl:value-of select="omschrijving"/></omschrijving>
             <toelichting><xsl:value-of select="toelichting"/></toelichting>

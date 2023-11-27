@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2015 sp2 (http://www.altova.com) by Johan Boer (Kwaliteits Instituut Nederlandse Gemeenten) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" targetNamespace="http://www.egem.nl/StUF/sector/zkn/0310" elementFormDefault="qualified" attributeFormDefault="unqualified" version="031000">
+	<annotation>
+		<documentation>
+			Bestand bevat de simpleTypes voor het Regie-Zaak koppelvlak.
+        </documentation>
+		<appinfo>
+			<StUF:onderdeel>http://www.egem.nl/StUF/sector/zkn/0310</StUF:onderdeel>
+			<StUF:patch>-</StUF:patch>
+			<StUF:patchdatum>-</StUF:patchdatum>
+			<StUF:schemaversie>0</StUF:schemaversie>
+		</appinfo>
+	</annotation>
+	<import namespace="http://www.egem.nl/StUF/StUF0301" schemaLocation="../../0301/stuf0301mtom.xsd"/>
+	<import namespace="http://www.w3.org/2005/05/xmlmime" schemaLocation="../../xmlmime/xmlmime.xsd"/>
+	<include schemaLocation="../../zkn0310/entiteiten/zkn0310_ent_basis.xsd"/>
+	<!-- simpleTypes op alfabet -->
+	<simpleType name="antwoord">
+		<restriction base="string">
+			<enumeration value="Overdracht geaccepteerd"/>
+			<enumeration value="Overdracht geweigerd"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="checkedOutBy">
+		<restriction base="string"/>
+	</simpleType>
+	<simpleType name="checkedOutId">
+		<restriction base="string"/>
+	</simpleType>
+</schema>

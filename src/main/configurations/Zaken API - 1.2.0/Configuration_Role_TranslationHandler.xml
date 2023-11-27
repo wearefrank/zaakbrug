@@ -1,0 +1,268 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="Role_TranslationHandler"
+        active="${Role_TranslationHandler.Active}"
+        description="">
+
+        <Receiver name="Role_TranslationHandler">
+            <JavaListener name="Role_TranslationHandler"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+            
+            <SoapWrapperPipe
+                name="UnwrapMessage"
+                storeResultInSessionKey="UnwrapMessageResult"
+                direction="UNWRAP"
+                removeOutputNamespaces="true">
+                <Forward name="success" path="generateUuid"/>
+            </SoapWrapperPipe>
+            
+            <UUIDGeneratorPipe name="generateUuid" storeResultInSessionKey="uuid" >
+            	<Forward name="success" path="StoreUrl"/>
+            </UUIDGeneratorPipe>
+                        
+            <XsltPipe
+                name="StoreUrl"
+                xpathExpression="concat($root-url,$endpoint)"
+                getInputFromFixedValue="&lt;Dummy/&gt;"
+                storeResultInSessionKey="BaseUrl">
+                <Param name="root-url" value="${zaakbrug.zds.soap.root-url}"/>
+                <Param name="endpoint" value="${zaakbrug.zds.beantwoord-vraag.endpoint}"/>
+                <Forward name="success" path="CallGetZdsZaak"/>
+            </XsltPipe>
+
+            <SenderPipe
+                name="CallGetZdsZaak"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="GetZdsZaakResult">
+                
+                <WebServiceSender name="GetZdsZaakSender" soapAction="http://www.egem.nl/StUF/sector/zkn/0310/geefZaakdetails_Lv01"
+                 >
+                 <Param name="url" sessionKey="BaseUrl" />
+                 </WebServiceSender>
+                <Forward name="success" path="CallGetZgwZaakType"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+            
+            <SenderPipe
+                name="CallGetZgwZaakType"
+                storeResultInSessionKey="GetZaakTypeResult">
+                <IbisLocalSender
+                    name="CallGetZgwZaakTypeSender"
+                    javaListener="GetZgwZaakTypeByIdentificatie">
+                    <Param name="ZaakTypeCode" xpathExpression="//object/isVan/gerelateerde/code"/>
+                </IbisLocalSender>
+                <Forward name="success" path="SetZgwZaakType"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="SetZgwZaakType"
+                styleSheetName="CreateZaak_LK01/xsl/FilterZdsZaakTypenForGeldigheid.xsl"
+                storeResultInSessionKey="GetZaakTypeResult"
+                >
+                  <Forward name="success" path="CheckForSetZgwZaakTypeResult"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForSetZgwZaakTypeResult"
+                xpathExpression="count(/ZgwZaakTypen/ZgwZaakType) = 1"
+                >
+                <Forward name="then" path="GetGlobalConfigFromLocalFS"/>
+                <Forward name="else" path="buildErrorMsg400"/>
+            </XmlIfPipe>
+            
+             <SenderPipe name="GetGlobalConfigFromLocalFS">
+                <IbisLocalSender
+                    name="CallImportFromLocalFS"
+                    javaListener="ImportFromLocalFS">
+                    <Param name="FileName" value="${FilePath_1}"/>                   
+                </IbisLocalSender>
+                <Forward name="success" path="GetRsin"/>
+                <Forward name="exception" path="buildErrorMsg400" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="GetRsin"
+                storeResultInSessionKey="GetRsinResult"
+                skipEmptyTags="true"
+                styleSheetName="CreateZaak_LK01/xsl/GetRsin.xsl"
+                >
+                <Param name="GemeenteCode" xpathExpression="$OriginalMessage/*/stuurgegevens/zender/organisatie">
+                    <Param name="OriginalMessage" sessionKey="UnwrapMessageResult" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="Rsin_NotEmpty"/>
+            </XsltPipe>
+            
+            <XmlIfPipe 
+                name="Rsin_NotEmpty"
+                xpathExpression="string-length(/rsin) gt 0"
+                >
+                <Forward name="then" path="CallGetZgwRolType"/>
+                <Forward name="else" path="Rsin_NotEmpty_Exception"/>
+                <Forward name="exception" path="EXCEPTION"/>
+            </XmlIfPipe>
+
+            <XsltPipe 
+                name="Rsin_NotEmpty_Exception"
+                styleSheetName="Common/xsl/BuildError.xsl">
+                <Param name="code" value="ConfigurationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="GemeenteCode" sessionKey="UnwrapMessageResult" xpathExpression="/*/stuurgegevens/zender/organisatie" />
+                <Param name="reason" pattern="No organization configured for gemeente code: [{GemeenteCode}]" ignoreUnresolvablePatternElements="true"/> 
+                <!-- <Param name="details" sessionKey="" /> -->
+                <Param name="detailsXml" sessionKey="GlobalConfig" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <SenderPipe
+                name="CallGetZgwRolType"
+                storeResultInSessionKey="ZgwRolTypen">
+                <IbisLocalSender
+                    name="GetZgwRolTypeByZaakTypeLocalSender"
+                    javaListener="Zaken_GetZgwRolTypeByZaakType_Local"
+                    returnedSessionKeys="ZgwRolTypen">
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType/url">
+                        <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="SetRoles"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>   
+
+            <XsltPipe
+                name="SetRoles"
+                getInputFromSessionKey="UnwrapMessageResult"
+                storeResultInSessionKey="RolBody"
+                removeNamespaces="true"
+                styleSheetName="CreateZaak_LK01/xsl/SetRoles.xsl"
+                >
+                <Forward name="success" path="RolMappingIterator"/>
+            </XsltPipe>
+            
+            <ForEachChildElementPipe name="RolMappingIterator"
+                storeResultInSessionKey="RolMappingResults"
+                elementXPathExpression="/roles/role"
+                parallel="true">
+                <IbisLocalSender
+                    name="CallAddRolToZgw"
+                    javaListener="AddRolToZgw">
+                    <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC"/>
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType/url">
+                        <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="CreateZaakBody"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </ForEachChildElementPipe>
+            
+            <XsltPipe
+                name="CreateZaakBody"
+                getInputFromSessionKey="UnwrapMessageResult"
+                storeResultInSessionKey="ZaakBody"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="CreateZaak_LK01/xsl/CreateZaakBody.xsl"
+                >
+                <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC" defaultValue="&lt;Dummy/&gt;"/>
+                <Param name="GetRsinResult" sessionKey="GetRsinResult" type="DOMDOC" defaultValue="&lt;Dummy/&gt;"/>
+                <Param name="Host" pattern="{hostname}" />
+                <Param name="uuid" sessionKey="uuid" />
+                <Forward name="success" path="EXIT"/>
+            </XsltPipe>
+            
+            <XsltPipe name="buildErrorMsg400"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="CheckForSetZgwZaakTypeResult" />
+                <Param name="ErrorCode" value="400" />
+                <Param name="ErrorTitle" value="" />
+                <Param name="ErrorStatus" value="Error" />
+                <Param name="ErrorDetail" value="Multiple ZgwZaakType" />
+                <Forward name="success" path="EXIT" />
+            </XsltPipe>
+            
+            <FixedResultPipe name="Error"
+				returnString="&lt;Error/&gt;" >
+				<Forward name="success" path="EXIT"/>
+			</FixedResultPipe>
+        </Pipeline>
+    </Adapter>
+    
+    <Adapter name="Zaken_GetZgwRolTypeByZaakType_Local"
+        description="">
+
+        <Receiver name="Zaken_GetZgwRolTypeByZaakType_Local">
+            <JavaListener name="Zaken_GetZgwRolTypeByZaakType_Local" returnedSessionKeys="ZgwRolTypen"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+			<SenderPipe 
+                name="GetZgwRolTypeByZaakTypeSender" 
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                >
+				<HttpSender 
+					name="GetZgwRolTypeByZaakTypeHttpSender" 
+					methodType="GET"
+					headersParams="Authorization,Accept-Crs"
+                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
+                    maxExecuteRetries="5"
+				/>
+                <Param name="url" value="${zaakbrug.zgw.catalogi-api.root-url}roltypen"/>
+                <Param name="zaaktype" sessionKey="ZaakTypeUrl" />
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Authorization" value="Bearer @@catalogi-api.jwt@@" />
+                <Forward name="success" path="JsonToXml" />
+                <Forward name="exception" path="ErrorJsonToXml" />
+			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml" storeResultInSessionKey="TempZgwRolTypen">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="GetZgwRolTypeByZaakTypeSender" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
+
+            <JsonPipe 
+                name="JsonToXml"
+                >
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList"/>
+            </JsonPipe>
+
+            <XsltPipe
+                name="UnwrapOpenZaakApiEnvelopeToList"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
+                storeResultInSessionKey="ZgwRolTypen">
+                <Param name="Type" value="ZgwRolType"/>
+                <Param name="List" value="ZgwRolTypen"/>
+                <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC" defaultValue="&lt;dummy/&gt;"/>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+            
+             <XmlIfPipe name="CheckForNextURL"
+                xpathExpression="string-length(/root/next ) > 0"
+                getInputFromSessionKey="TempZgwRolTypen">
+                <Forward name="then" path="setZaakTypeUrl"/>
+                <Forward name="else" path="EXIT"/>
+            </XmlIfPipe>
+            
+            <XsltPipe
+                name="setZaakTypeUrl"
+                xpathExpression="$root-url"
+                storeResultInSessionKey="ZaakTypeUrl">
+                <Param name="root-url" xpathExpression="/root/next"/>
+                <Forward name="success" path="GetZgwRolTypeByZaakTypeSender"/>
+            </XsltPipe>
+            
+        </Pipeline>
+    </Adapter>
+</Module>

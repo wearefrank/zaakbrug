@@ -1,0 +1,109 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="Resultaat_TranslationHandler"
+        active="${Resultaat_TranslationHandler.Active}"
+        description="">
+
+        <Receiver name="Resultaat_TranslationHandler">
+            <JavaListener name="Resultaat_TranslationHandler"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+            
+            <SoapWrapperPipe
+                name="UnwrapMessage"
+                storeResultInSessionKey="UnwrapMessageResult"
+                direction="UNWRAP"
+                removeOutputNamespaces="true">
+                <Forward name="success" path="generateUuid"/>
+            </SoapWrapperPipe>
+            
+            <UUIDGeneratorPipe name="generateUuid" storeResultInSessionKey="uuid" >
+            	<Forward name="success" path="StoreUrl"/>
+            </UUIDGeneratorPipe>
+                        
+            <XsltPipe
+                name="StoreUrl"
+                xpathExpression="concat($root-url,substring-after($endpoint,'/zaken/api/v1/'))"
+                getInputFromFixedValue="&lt;Dummy/&gt;"
+                storeResultInSessionKey="BaseUrl">
+                <Param name="root-url" value="${zaakbrug.zds.soap.root-url}"/>
+                <Param name="endpoint" sessionKey="url"/>
+                <!-- <Param name="uuid" sessionKey="uuid"/> -->
+                <Forward name="success" path="CallGetZdsZaak"/>
+            </XsltPipe>
+
+            <SenderPipe
+                name="CallGetZdsZaak"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="GetZdsZaakResult">
+                
+                <WebServiceSender name="GetZdsZaakSender" soapAction="http://www.egem.nl/StUF/sector/zkn/0310/geefZaakdetails_Lv01">
+                 <Param name="url" sessionKey="BaseUrl" />
+                 </WebServiceSender>
+                <Forward name="success" path="CallGetZgwZaakType"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+            
+            <SenderPipe
+                name="CallGetZgwZaakType"
+                storeResultInSessionKey="GetZaakTypeResult">
+                <IbisLocalSender
+                    name="CallGetZgwZaakTypeSender"
+                    javaListener="GetZgwZaakTypeByIdentificatie">
+                    <Param name="ZaakTypeCode" xpathExpression="//zakLa01//object/isVan/gerelateerde/code"/>
+                </IbisLocalSender>
+                <Forward name="success" path="SetZgwZaakType"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="SetZgwZaakType"
+                styleSheetName="CreateZaak_LK01/xsl/FilterZdsZaakTypenForGeldigheid.xsl"
+                storeResultInSessionKey="GetZaakTypeResult"
+                >
+                  <Forward name="success" path="CheckForSetZgwZaakTypeResult"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForSetZgwZaakTypeResult"
+                xpathExpression="count(/ZgwZaakTypen/ZgwZaakType) = 1"
+                >
+                <Forward name="then" path="CreateZaakBody"/>
+                <Forward name="else" path="buildErrorMsg400"/>
+            </XmlIfPipe>
+            
+            <XsltPipe
+                name="CreateZaakBody"
+                getInputFromSessionKey="UnwrapMessageResult"
+                storeResultInSessionKey="ZaakBody"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="CreateZaak_LK01/xsl/CreateZaakBody.xsl"
+                >
+                <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC" defaultValue="&lt;Dummy/&gt;"/>
+                <Param name="GetRsinResult" sessionKey="GetRsinResult" type="DOMDOC" defaultValue="&lt;Dummy/&gt;"/>
+                <Param name="Host" pattern="{hostname}" />
+                <Param name="uuid" sessionKey="uuid" />
+                <Forward name="success" path="EXIT"/>
+            </XsltPipe>
+            
+            <XsltPipe name="buildErrorMsg400"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="CheckForSetZgwZaakTypeResult" />
+                <Param name="ErrorCode" value="400" />
+                <Param name="ErrorTitle" value="" />
+                <Param name="ErrorStatus" value="Error" />
+                <Param name="ErrorDetail" value="Multiple ZgwZaakType" />
+                <Forward name="success" path="EXIT" />
+            </XsltPipe>
+            
+            <FixedResultPipe name="Error"
+				returnString="&lt;Error/&gt;" >
+				<Forward name="success" path="EXIT"/>
+			</FixedResultPipe>
+        </Pipeline>
+    </Adapter>
+</Module>
