@@ -18,7 +18,7 @@ services:
       context: .
       args:
         FF_VERSION: ${FF_VERSION:-7.9-20231026.224138}
-    image: wearefrank/zaakbrug:${ZAAKBRUG_VERSION:-latest}
+    image: wearefrank/zaakbrug:pr-208
     container_name: zaakbrug.dev
     environment:
       - zaakbrug.zds.timezone=UTC
