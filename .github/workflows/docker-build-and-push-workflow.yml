@@ -227,10 +227,10 @@ jobs:
         if [ ${{ inputs.latest-tag }} == true ]
           then
             docker image inspect ${{ inputs.docker-image-repo }}:latest
-            docker-compose -f ../docker-compose.zaakbrug.dev.yml -f ../docker-compose.openzaak.dev.yml --profile soapui up ${{ inputs.docker-image-repo }}:latest
+            docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up ${{ inputs.docker-image-repo }}:latest
           else
             docker image inspect ${{ needs.build.outputs.docker-meta-tags }}
-            docker-compose -f ../docker-compose.zaakbrug.dev.yml -f ../docker-compose.openzaak.dev.yml --profile soapui up ${{ needs.build.outputs.docker-meta-tags }}
+            docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up ${{ needs.build.outputs.docker-meta-tags }}
         fi
     - 
       name: "Upload Sarif report as artifact"
