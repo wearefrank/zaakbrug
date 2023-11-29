@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.21](https://github.com/wearefrank/zaakbrug/compare/v1.13.20...v1.13.21) (2023-11-29)
+
+
+### 🐛 Bug Fixes
+
+* geefLijstZaakdocument missing dct.omschrijving in response ([#215](https://github.com/wearefrank/zaakbrug/issues/215)) ([5701b14](https://github.com/wearefrank/zaakbrug/commit/5701b14704392cfbb312b2ec7ee66a39233d77d7))
+
 ## [1.13.20](https://github.com/wearefrank/zaakbrug/compare/v1.13.19...v1.13.20) (2023-11-24)
 
 
