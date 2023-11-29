@@ -377,6 +377,9 @@
                 <xsl:if test="gerelateerde/identificatie">
                     <ZKN:identificatie><xsl:value-of select="gerelateerde/identificatie"/></ZKN:identificatie>
                 </xsl:if>
+                <xsl:if test="gerelateerde/omschrijving">
+                    <ZKN:dct.omschrijving><xsl:value-of select="gerelateerde/omschrijving"/></ZKN:dct.omschrijving>
+                </xsl:if>
                 <xsl:if test="gerelateerde/creatiedatum">
                     <ZKN:creatiedatum><xsl:value-of select="format-date(gerelateerde/creatiedatum, '[Y0001][M01][D01]')"/></ZKN:creatiedatum>
                 </xsl:if>
