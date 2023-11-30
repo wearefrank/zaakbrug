@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.24](https://github.com/wearefrank/zaakbrug/compare/v1.13.23...v1.13.24) (2023-11-30)
+
+
+### 🐛 Bug Fixes
+
+* updateZaakdocument error when translating taal when only the new object state sent ([#217](https://github.com/wearefrank/zaakbrug/issues/217)) ([6e8b847](https://github.com/wearefrank/zaakbrug/commit/6e8b847bb6176c74a237f1f49d10a15fbc2dbd0f))
+
 ## [1.13.23](https://github.com/wearefrank/zaakbrug/compare/v1.13.22...v1.13.23) (2023-11-30)
 
 
