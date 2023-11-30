@@ -225,8 +225,8 @@
                 <xsl:if test="statutaireNaam">
                     <BG:statutaireNaam><xsl:value-of select="statutaireNaam"/></BG:statutaireNaam>
                 </xsl:if>
-                <xsl:if test="inn.Rechtsvorm">
-                    <BG:inn.Rechtsvorm><xsl:value-of select="inn.Rechtsvorm"/></BG:inn.Rechtsvorm>
+                <xsl:if test="inn.rechtsvorm">
+                    <BG:inn.rechtsvorm><xsl:value-of select="inn.rechtsvorm"/></BG:inn.rechtsvorm>
                 </xsl:if>
                 <!-- Missing bezoekadres -->
                 <!-- Missing subVerblijfBuitenland -->
