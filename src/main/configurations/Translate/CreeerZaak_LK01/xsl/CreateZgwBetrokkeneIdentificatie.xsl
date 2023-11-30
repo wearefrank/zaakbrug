@@ -41,7 +41,7 @@
             <voorletters><xsl:value-of select="voorletters"/></voorletters>
             <voornamen><xsl:value-of select="voornamen"/></voornamen>
             <geslachtsaanduiding><xsl:value-of select="lower-case(geslachtsaanduiding)"/></geslachtsaanduiding>
-            <geboortedatum><xsl:value-of select="zgw:convertZdsDateToZgwDate(geboortedatum)"/></geboortedatum>
+            <geboortedatum><xsl:value-of select="zgw:toZgwDate(geboortedatum)"/></geboortedatum>
             <xsl:if test="verblijfsadres/aoa.identificatie != '' and verblijfsadres/wpl.woonplaatsNaam != '' and verblijfsadres/gor.openbareRuimteNaam != '' and verblijfsadres/aoa.huisnummer != ''">
                 <xsl:apply-templates select="verblijfsadres"/>
             </xsl:if>
@@ -166,8 +166,10 @@
         </verblijfsadres>
     </xsl:template>
 
-    <xsl:function name="zgw:convertZdsDateToZgwDate" as="xs:date">
-        <xsl:param name="dateStr" as="xs:string"/>
-        <xsl:value-of select="concat(substring($dateStr,1,4), '-', substring($dateStr,5,2), '-', substring($dateStr,7,2))"/>
-	</xsl:function>
+    <xsl:function name="zgw:toZgwDate">
+        <xsl:param name="dateStr"/>
+        <xsl:if test="string-length($dateStr) > 0">
+            <xsl:value-of select="concat(substring($dateStr,1,4), '-', substring($dateStr,5,2), '-', substring($dateStr,7,2))"/>
+        </xsl:if>
+    </xsl:function>
 </xsl:stylesheet>
