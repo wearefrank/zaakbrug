@@ -4,10 +4,12 @@
     <xsl:param name="RolNaam" />
     <xsl:param name="RolEntiteitType" />
     
-    <xsl:function name="zgw:convertZdsDateToZgwDate" as="xs:string">
-        <xsl:param name="dateStr" as="xs:string"/>
-        <xsl:value-of select="concat(substring($dateStr,1,4), substring($dateStr,6,2), substring($dateStr,9,2))"/>
-	</xsl:function>
+    <xsl:function name="zgw:toZgwDate">
+        <xsl:param name="dateStr"/>
+        <xsl:if test="string-length($dateStr) > 0">
+            <xsl:value-of select="concat(substring($dateStr,1,4), '-', substring($dateStr,5,2), '-', substring($dateStr,7,2))"/>
+        </xsl:if>
+    </xsl:function>
 
     <xsl:template match="/">
             <xsl:apply-templates select="@*|node()"/>
@@ -25,7 +27,7 @@
                     <voorletters><xsl:value-of select="betrokkeneIdentificatie/voorletters"/></voorletters>
                     <voornamen><xsl:value-of select="betrokkeneIdentificatie/voornamen"/></voornamen>
                     <geslachtsaanduiding><xsl:value-of select="upper-case(betrokkeneIdentificatie/geslachtsaanduiding)"/></geslachtsaanduiding>
-                    <geboortedatum><xsl:value-of select="zgw:convertZdsDateToZgwDate(betrokkeneIdentificatie/geboortedatum)"/></geboortedatum>
+                    <geboortedatum><xsl:value-of select="zgw:toZgwDate(betrokkeneIdentificatie/geboortedatum)"/></geboortedatum>
                     <xsl:apply-templates select="betrokkeneIdentificatie/verblijfsadres"/>
                 </natuurlijkPersoon>
             </gerelateerde>
@@ -41,7 +43,7 @@
                     <authentiek>J</authentiek>
                     <ann.identificatie><xsl:value-of select="betrokkeneIdentificatie/annIdentificatie"/></ann.identificatie>
                     <statutaireNaam><xsl:value-of select="betrokkeneIdentificatie/statutaireNaam"/></statutaireNaam>
-                    <inn.Rechtsvorm><xsl:value-of select="betrokkeneIdentificatie/innRechtsvorm"/></inn.Rechtsvorm>
+                    <inn.rechtsvorm><xsl:value-of select="betrokkeneIdentificatie/innRechtsvorm"/></inn.rechtsvorm>
                     <!-- Missing bezoekadres -->
                     <!-- Missing subVerblijfBuitenland -->
                 </nietNatuurlijkPersoon>
