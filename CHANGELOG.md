@@ -1,5 +1,16 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.23](https://github.com/wearefrank/zaakbrug/compare/v1.13.22...v1.13.23) (2023-11-30)
+
+
+### 🐛 Bug Fixes
+
+* empty geboortedatum under gerelateerde nps causes xslt error ([13398e8](https://github.com/wearefrank/zaakbrug/commit/13398e851602ddcd89534b3f12c19c3624285d3d))
+* geboortedatum under gerelateerde nps incorrectly translates to zgw date format ([1902ec0](https://github.com/wearefrank/zaakbrug/commit/1902ec0e10647614d6b574f2d657149e2d75bca5))
+* inn.rechtsvorm name typo causes invalid geefZaakDetails response ([c014ae5](https://github.com/wearefrank/zaakbrug/commit/c014ae5c2d36d19ec5e9e8eedab1e436d4f35591))
+* updateZaak incorrectly detects new changed or delete roles ([789d696](https://github.com/wearefrank/zaakbrug/commit/789d69691574ba62622db847790dc3f159a61c3e))
+* updateZaak wrongly translates heefBetrekkingOp adres as rol ([d8e1362](https://github.com/wearefrank/zaakbrug/commit/d8e1362196dc9cc0aa4bd8e05b833cb41a6c4c48))
+
 ## [1.13.22](https://github.com/wearefrank/zaakbrug/compare/v1.13.21...v1.13.22) (2023-11-30)
 
 
