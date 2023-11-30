@@ -4,12 +4,12 @@
     <xsl:param name="RolNaam" />
     <xsl:param name="RolEntiteitType" />
     
-    <xsl:function name="zgw:toZgwDate">
-        <xsl:param name="dateStr"/>
+    <xsl:function name="zgw:toZdsDate" as="xs:string">
+        <xsl:param name="dateStr" as="xs:string"/>
         <xsl:if test="string-length($dateStr) > 0">
-            <xsl:value-of select="concat(substring($dateStr,1,4), '-', substring($dateStr,5,2), '-', substring($dateStr,7,2))"/>
+            <xsl:value-of select="concat(substring($dateStr,1,4), substring($dateStr,6,2), substring($dateStr,9,2))"/>
         </xsl:if>
-    </xsl:function>
+	</xsl:function>
 
     <xsl:template match="/">
             <xsl:apply-templates select="@*|node()"/>
@@ -27,7 +27,7 @@
                     <voorletters><xsl:value-of select="betrokkeneIdentificatie/voorletters"/></voorletters>
                     <voornamen><xsl:value-of select="betrokkeneIdentificatie/voornamen"/></voornamen>
                     <geslachtsaanduiding><xsl:value-of select="upper-case(betrokkeneIdentificatie/geslachtsaanduiding)"/></geslachtsaanduiding>
-                    <geboortedatum><xsl:value-of select="zgw:toZgwDate(betrokkeneIdentificatie/geboortedatum)"/></geboortedatum>
+                    <geboortedatum><xsl:if test="betrokkeneIdentificatie/geboortedatum"><xsl:value-of select="zgw:toZdsDate(betrokkeneIdentificatie/geboortedatum)"/></xsl:if></geboortedatum>
                     <xsl:apply-templates select="betrokkeneIdentificatie/verblijfsadres"/>
                 </natuurlijkPersoon>
             </gerelateerde>
