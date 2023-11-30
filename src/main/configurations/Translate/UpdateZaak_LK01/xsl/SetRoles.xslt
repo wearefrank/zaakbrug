@@ -6,7 +6,9 @@
     <xsl:template match="/">
 		<roles>
             <role>
-                <xsl:copy-of select="*/heeftBetrekkingOp/gerelateerde"/>
+                <xsl:if test="*/heeftBetrekkingOp/gerelateerde/*[name != 'adres']">
+                    <xsl:copy-of select="*/heeftBetrekkingOp/gerelateerde"/>
+                </xsl:if>
                 <typeRolOmschrijving><xsl:value-of select="$RolMapping/root/rolMapping/heeftBetrekkingOp"/></typeRolOmschrijving>
             </role>
             <role>
