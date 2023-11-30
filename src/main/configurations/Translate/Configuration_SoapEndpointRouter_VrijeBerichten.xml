@@ -117,9 +117,24 @@
                 storeResultInSessionKey="LegalizedSoapAction"
                 >
                 <Param name="Action" sessionKey="SOAPAction"/>
-                <Forward name="success" path="ForwardBySoapActionSwitch"/>
+                <Forward name="success" path="checkObjectCount"/>
                 <Forward name="exception" path="BackEndError"/>
             </XsltPipe>
+
+            <XmlIfPipe name="checkObjectCount" xpathExpression="count(/*/edcLk02/object)=2">
+                <Forward name="then" path="StoreZdsWordtInformatieObject1" />
+                <Forward name="else" path="StoreZdsWordtInformatieObject2" />
+            </XmlIfPipe>
+
+            <PutInSessionPipe name="StoreZdsWordtInformatieObject1">
+                <Param name="ZdsWordtInformatieObject" xpathExpression="/*/edcLk02/object[2]" defaultValue="&lt;object/&gt;" type="DOMDOC" />
+                <Forward name="success" path="ForwardBySoapActionSwitch" />
+            </PutInSessionPipe>
+
+            <PutInSessionPipe name="StoreZdsWordtInformatieObject2">
+                <Param name="ZdsWordtInformatieObject" xpathExpression="/*/edcLk02/object[1]" defaultValue="&lt;object/&gt;" type="DOMDOC" />
+                <Forward name="success" path="ForwardBySoapActionSwitch" />
+            </PutInSessionPipe>
 
             <XmlSwitchPipe
                 name="ForwardBySoapActionSwitch"
@@ -196,8 +211,7 @@
                     name="UpdateZaakdocument_Di02LocalSender"
                     javaListener="UpdateZaakDocument_Di02"
                     >
-                    <Param name="ZdsWasInformatieObject" xpathExpression="/*/edcLk02/object[1]" defaultValue="&lt;object/&gt;" type="DOMDOC" />
-                    <Param name="ZdsWordtInformatieObject" xpathExpression="/*/edcLk02/object[2]" defaultValue="&lt;object/&gt;" type="DOMDOC" />
+                    <Param name="ZdsWordtInformatieObject" sessionKey="ZdsWordtInformatieObject" />
                     <Param name="Lock" xpathExpression="/*/parameters/checkedOutId" type="STRING" />
                     <Param name="ref_inhoud" sessionKey="ref_inhoud" />
                 </IbisLocalSender>
