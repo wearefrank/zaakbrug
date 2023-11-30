@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.22](https://github.com/wearefrank/zaakbrug/compare/v1.13.21...v1.13.22) (2023-11-30)
+
+
+### 🔁 Continuous Integration
+
+* automatically create jira issue when github issues are created ([#199](https://github.com/wearefrank/zaakbrug/issues/199)) ([b4dd9f7](https://github.com/wearefrank/zaakbrug/commit/b4dd9f7346547bff192ef30029a4a7dc78a88b4f))
+
 ## [1.13.21](https://github.com/wearefrank/zaakbrug/compare/v1.13.20...v1.13.21) (2023-11-29)
 
 
