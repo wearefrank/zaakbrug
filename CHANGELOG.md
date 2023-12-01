@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.26](https://github.com/wearefrank/zaakbrug/compare/v1.13.25...v1.13.26) (2023-12-01)
+
+
+### 🔁 Continuous Integration
+
+* update jiraCreateIssue to full sha ([#223](https://github.com/wearefrank/zaakbrug/issues/223)) ([4122d5f](https://github.com/wearefrank/zaakbrug/commit/4122d5f853e2d4a096535dbb71a1f9b6ba6993b2))
+
 ## [1.13.25](https://github.com/wearefrank/zaakbrug/compare/v1.13.24...v1.13.25) (2023-12-01)
 
 
