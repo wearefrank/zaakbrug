@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.25](https://github.com/wearefrank/zaakbrug/compare/v1.13.24...v1.13.25) (2023-12-01)
+
+
+### 🐛 Bug Fixes
+
+* missing error feedback when GetZaakByIdentificatie succeeds but no zaak with the given identificatie is found in geefLijstZaakDocumenten ([#212](https://github.com/wearefrank/zaakbrug/issues/212)) ([8130c68](https://github.com/wearefrank/zaakbrug/commit/8130c685c03583801acf998796b993f64484584e))
+
 ## [1.13.24](https://github.com/wearefrank/zaakbrug/compare/v1.13.23...v1.13.24) (2023-11-30)
 
 
