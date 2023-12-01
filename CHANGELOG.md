@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.27](https://github.com/wearefrank/zaakbrug/compare/v1.13.26...v1.13.27) (2023-12-01)
+
+
+### 🐛 Bug Fixes
+
+* missing error feedback when no roltype with matching omschrijving is found in AddRolToZgw adapter ([#211](https://github.com/wearefrank/zaakbrug/issues/211)) ([356773c](https://github.com/wearefrank/zaakbrug/commit/356773c487c98f87eb21fec77978bc97fbf5d085))
+
 ## [1.13.26](https://github.com/wearefrank/zaakbrug/compare/v1.13.25...v1.13.26) (2023-12-01)
 
 
