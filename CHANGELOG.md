@@ -1,5 +1,58 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.27](https://github.com/wearefrank/zaakbrug/compare/v1.13.26...v1.13.27) (2023-12-01)
+
+
+### 🐛 Bug Fixes
+
+* missing error feedback when no roltype with matching omschrijving is found in AddRolToZgw adapter ([#211](https://github.com/wearefrank/zaakbrug/issues/211)) ([356773c](https://github.com/wearefrank/zaakbrug/commit/356773c487c98f87eb21fec77978bc97fbf5d085))
+
+## [1.13.26](https://github.com/wearefrank/zaakbrug/compare/v1.13.25...v1.13.26) (2023-12-01)
+
+
+### 🔁 Continuous Integration
+
+* update jiraCreateIssue to full sha ([#223](https://github.com/wearefrank/zaakbrug/issues/223)) ([4122d5f](https://github.com/wearefrank/zaakbrug/commit/4122d5f853e2d4a096535dbb71a1f9b6ba6993b2))
+
+## [1.13.25](https://github.com/wearefrank/zaakbrug/compare/v1.13.24...v1.13.25) (2023-12-01)
+
+
+### 🐛 Bug Fixes
+
+* missing error feedback when GetZaakByIdentificatie succeeds but no zaak with the given identificatie is found in geefLijstZaakDocumenten ([#212](https://github.com/wearefrank/zaakbrug/issues/212)) ([8130c68](https://github.com/wearefrank/zaakbrug/commit/8130c685c03583801acf998796b993f64484584e))
+
+## [1.13.24](https://github.com/wearefrank/zaakbrug/compare/v1.13.23...v1.13.24) (2023-11-30)
+
+
+### 🐛 Bug Fixes
+
+* updateZaakdocument error when translating taal when only the new object state sent ([#217](https://github.com/wearefrank/zaakbrug/issues/217)) ([6e8b847](https://github.com/wearefrank/zaakbrug/commit/6e8b847bb6176c74a237f1f49d10a15fbc2dbd0f))
+
+## [1.13.23](https://github.com/wearefrank/zaakbrug/compare/v1.13.22...v1.13.23) (2023-11-30)
+
+
+### 🐛 Bug Fixes
+
+* empty geboortedatum under gerelateerde nps causes xslt error ([13398e8](https://github.com/wearefrank/zaakbrug/commit/13398e851602ddcd89534b3f12c19c3624285d3d))
+* geboortedatum under gerelateerde nps incorrectly translates to zgw date format ([1902ec0](https://github.com/wearefrank/zaakbrug/commit/1902ec0e10647614d6b574f2d657149e2d75bca5))
+* inn.rechtsvorm name typo causes invalid geefZaakDetails response ([c014ae5](https://github.com/wearefrank/zaakbrug/commit/c014ae5c2d36d19ec5e9e8eedab1e436d4f35591))
+* updateZaak incorrectly detects new changed or delete roles ([789d696](https://github.com/wearefrank/zaakbrug/commit/789d69691574ba62622db847790dc3f159a61c3e))
+* updateZaak wrongly translates heefBetrekkingOp adres as rol ([d8e1362](https://github.com/wearefrank/zaakbrug/commit/d8e1362196dc9cc0aa4bd8e05b833cb41a6c4c48))
+
+## [1.13.22](https://github.com/wearefrank/zaakbrug/compare/v1.13.21...v1.13.22) (2023-11-30)
+
+
+### 🔁 Continuous Integration
+
+* automatically create jira issue when github issues are created ([#199](https://github.com/wearefrank/zaakbrug/issues/199)) ([b4dd9f7](https://github.com/wearefrank/zaakbrug/commit/b4dd9f7346547bff192ef30029a4a7dc78a88b4f))
+
+## [1.13.21](https://github.com/wearefrank/zaakbrug/compare/v1.13.20...v1.13.21) (2023-11-29)
+
+
+### 🐛 Bug Fixes
+
+* geefLijstZaakdocument missing dct.omschrijving in response ([#215](https://github.com/wearefrank/zaakbrug/issues/215)) ([5701b14](https://github.com/wearefrank/zaakbrug/commit/5701b14704392cfbb312b2ec7ee66a39233d77d7))
+
 ## [1.13.20](https://github.com/wearefrank/zaakbrug/compare/v1.13.19...v1.13.20) (2023-11-24)
 
 
