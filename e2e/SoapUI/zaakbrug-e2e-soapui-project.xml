@@ -25787,7 +25787,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             <con:property><con:name>ZaakUrl</con:name><con:value/></con:property>
             
             
-          <con:property><con:name>ZaakIdentificatie</con:name><con:value/></con:property><con:property><con:name>JwtToken</con:name><con:value/></con:property><con:property><con:name>DocumentUrl</con:name><con:value/></con:property><con:property><con:name>DocumentIdentificatie</con:name><con:value/></con:property><con:property><con:name>DocumentBase64</con:name><con:value/></con:property><con:property><con:name>datumStatusGezet</con:name><con:value/></con:property><con:property><con:name>CheckedOutId</con:name><con:value/></con:property></con:properties>
+          <con:property><con:name>ZaakIdentificatie</con:name><con:value/></con:property><con:property><con:name>JwtToken</con:name><con:value/></con:property><con:property><con:name>DocumentUrl</con:name><con:value/></con:property><con:property><con:name>DocumentIdentificatie</con:name><con:value/></con:property><con:property><con:name>DocumentBase64</con:name><con:value/></con:property><con:property><con:name>CheckedOutId</con:name><con:value/></con:property><con:property><con:name>datumStatusGezet</con:name><con:value>20231129094727010</con:value></con:property><con:property></con:property></con:properties>
         </con:config>
       </con:testStep>
       <con:testStep type="calltestcase" name="00-setUp-zgw-postZaakTypeMinimaregelingAndInformatieObjectTypeBrief" id="a4971332-f2d5-44c8-b323-b4c6ccc7731c">
@@ -27129,8 +27129,8 @@ concept</ZKN:status>
             <con:assertion type="Schema Compliance" id="750b8651-93c2-411c-b399-14831a38f014" name="Schema Compliance">
               <con:configuration/>
             </con:assertion>
-            <con:assertion type="SOAP Fault Assertion" id="b90ca0d8-cb3c-4619-b5ad-a90db97956f5" name="Not SOAP Fault"/>
-            <con:credentials>
+            
+            <con:assertion type="Not SOAP Fault Assertion" id="f451ca02-03b4-4325-82f4-225c3e9baaf6" name="SOAP Fault"/><con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -27391,7 +27391,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:value>0.1</con:value>
         </con:property>
       </con:properties>
-    </con:testCase><con:testCase id="34aa70ef-48c0-4e83-b921-fe29127bebe5" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="6C-TearDown Delete ZaakTypeMinimaregeling And InformatieObjectTypeBrief" searchProperties="true" disabled="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+    </con:testCase><con:testCase id="34aa70ef-48c0-4e83-b921-fe29127bebe5" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="6D-TearDown Delete ZaakTypeMinimaregeling And InformatieObjectTypeBrief" searchProperties="true" disabled="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="ffdb9b4f-6404-4de8-a2b7-24744ca475f5"><con:settings/><con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:properties><con:property><con:name>JwtToken</con:name><con:value/></con:property></con:properties></con:config></con:testStep>
       <con:testStep type="groovy" name="00-zgw-generateJwt" id="48b7821b-8a14-4114-b1ff-bad701f5522c">
