@@ -232,7 +232,7 @@ jobs:
             export ZAAKBRUG_VERSION="${ZAAKBRUG_VERSION##*:}"
         fi
         docker image inspect ${{ inputs.docker-image-repo }}:${ZAAKBRUG_VERSION}
-        docker-compose -d -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up
+        docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up -d
         docker ps
 
         sleep 90
@@ -240,7 +240,7 @@ jobs:
         STATUS=$(docker inspect --format='{{json .State.Status}}' soapui-testrunner)
         until [ "$STATUS" = '"exited"' ]
         do
-          STATE=$(docker inspect --format='{{json .State.Status}}' soapui-testrunner)
+          STATUS=$(docker inspect --format='{{json .State.Status}}' soapui-testrunner)
           sleep 15
         done
         docker-compose down
