@@ -225,8 +225,8 @@
                 <xsl:if test="statutaireNaam">
                     <BG:statutaireNaam><xsl:value-of select="statutaireNaam"/></BG:statutaireNaam>
                 </xsl:if>
-                <xsl:if test="inn.Rechtsvorm">
-                    <BG:inn.Rechtsvorm><xsl:value-of select="inn.Rechtsvorm"/></BG:inn.Rechtsvorm>
+                <xsl:if test="inn.rechtsvorm">
+                    <BG:inn.rechtsvorm><xsl:value-of select="inn.rechtsvorm"/></BG:inn.rechtsvorm>
                 </xsl:if>
                 <!-- Missing bezoekadres -->
                 <!-- Missing subVerblijfBuitenland -->
@@ -376,6 +376,9 @@
             <ZKN:gerelateerde StUF:entiteittype="EDC">
                 <xsl:if test="gerelateerde/identificatie">
                     <ZKN:identificatie><xsl:value-of select="gerelateerde/identificatie"/></ZKN:identificatie>
+                </xsl:if>
+                <xsl:if test="gerelateerde/omschrijving">
+                    <ZKN:dct.omschrijving><xsl:value-of select="gerelateerde/omschrijving"/></ZKN:dct.omschrijving>
                 </xsl:if>
                 <xsl:if test="gerelateerde/creatiedatum">
                     <ZKN:creatiedatum><xsl:value-of select="format-date(gerelateerde/creatiedatum, '[Y0001][M01][D01]')"/></ZKN:creatiedatum>
