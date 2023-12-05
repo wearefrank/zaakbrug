@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.30](https://github.com/wearefrank/zaakbrug/compare/v1.13.29...v1.13.30) (2023-12-05)
+
+
+### 🐛 Bug Fixes
+
+* missing error feedback when adding a new status fails that has datumstatusgezet exactly equal to an existing status ([#216](https://github.com/wearefrank/zaakbrug/issues/216)) ([1a90839](https://github.com/wearefrank/zaakbrug/commit/1a90839c1c7803d891b7b73de44c245ff2078e72))
+
 ## [1.13.29](https://github.com/wearefrank/zaakbrug/compare/v1.13.28...v1.13.29) (2023-12-04)
 
 
