@@ -232,7 +232,7 @@ jobs:
             export ZAAKBRUG_VERSION="${ZAAKBRUG_VERSION##*:}"
         fi
         docker image inspect ${{ inputs.docker-image-repo }}:${ZAAKBRUG_VERSION}
-        docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up
+        docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml -f with the docker-compose.postgres --profile soapui up
         docker ps
 
         sleep 90
