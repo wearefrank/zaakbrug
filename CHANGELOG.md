@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.31](https://github.com/wearefrank/zaakbrug/compare/v1.13.30...v1.13.31) (2023-12-05)
+
+
+### 🐛 Bug Fixes
+
+* missing error feedback when adding a new status fails ([#228](https://github.com/wearefrank/zaakbrug/issues/228)) ([e1a1f01](https://github.com/wearefrank/zaakbrug/commit/e1a1f017ac0684c96a75748a638d112ab5b1f41d))
+
 ## [1.13.30](https://github.com/wearefrank/zaakbrug/compare/v1.13.29...v1.13.30) (2023-12-05)
 
 
