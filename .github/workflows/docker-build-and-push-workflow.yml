@@ -244,7 +244,7 @@ jobs:
           sleep 15
         done
         docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml down
-      timeout-minutes: 14
+      timeout-minutes: 15
     - 
       name: "Upload Sarif report as artifact"
       uses: actions/upload-artifact@v2
