@@ -1,5 +1,19 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.29](https://github.com/wearefrank/zaakbrug/compare/v1.13.28...v1.13.29) (2023-12-04)
+
+
+### 🔁 Continuous Integration
+
+* **dependencies:** bump jira create and login to latest commit tag ([#227](https://github.com/wearefrank/zaakbrug/issues/227)) ([b6724c2](https://github.com/wearefrank/zaakbrug/commit/b6724c226cba75f681e2e8d81a7165e327d624b7))
+
+## [1.13.28](https://github.com/wearefrank/zaakbrug/compare/v1.13.27...v1.13.28) (2023-12-04)
+
+
+### 🔁 Continuous Integration
+
+* rename jiraCreateIssue to jiraCreateIssue.yml ([#225](https://github.com/wearefrank/zaakbrug/issues/225)) ([b738f67](https://github.com/wearefrank/zaakbrug/commit/b738f67afcf83735c10c952fcebc1d8d5333a7a7))
+
 ## [1.13.27](https://github.com/wearefrank/zaakbrug/compare/v1.13.26...v1.13.27) (2023-12-01)
 
 
