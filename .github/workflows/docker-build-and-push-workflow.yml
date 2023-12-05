@@ -243,7 +243,7 @@ jobs:
           STATUS=$(docker inspect --format='{{json .State.Status}}' soapui-testrunner)
           sleep 15
         done
-        docker-compose down
+        docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml down
       timeout-minutes: 15
     - 
       name: "Upload Sarif report as artifact"
