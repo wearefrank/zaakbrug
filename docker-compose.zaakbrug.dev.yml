@@ -38,6 +38,7 @@ services:
     profiles:
       - soapui
     image: smartbear/soapuios-testrunner:latest
+    container_name: soapui-testrunner
     volumes:
       - ./e2e/SoapUI/zaakbrug-e2e-soapui-project.xml:/project/zaakbrug-e2e-soapui-project.xml
       - ./e2e/Reports:/reports

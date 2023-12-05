@@ -226,12 +226,24 @@ jobs:
       run: |
         if [ ${{ inputs.latest-tag }} == true ]
           then
-            docker image inspect ${{ inputs.docker-image-repo }}:latest
-            docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up ${{ inputs.docker-image-repo }}:latest
+            export ZAAKBRUG_VERSION="latest"
           else
-            docker image inspect ${{ needs.build.outputs.docker-meta-tags }}
-            docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up ${{ needs.build.outputs.docker-meta-tags }}
+            export ZAAKBRUG_VERSION="${{ needs.build.outputs.docker-meta-tags }}"
+            export ZAAKBRUG_VERSION="${ZAAKBRUG_VERSION##*:}"
         fi
+        docker image inspect ${{ inputs.docker-image-repo }}:${ZAAKBRUG_VERSION}
+        docker-compose -d -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up
+        docker ps
+
+        sleep 90
+
+        STATE=$(docker inspect --format='{{json .}}' soapui-testrunner)
+        until [ "$STATE" = '"Exited"' ]
+        do
+          STATE=$(docker inspect --format='{{json .State.Health.Status}}' soapui-testrunner)
+          sleep 15
+        done
+        docker-compose down
       timeout-minutes: 15
     - 
       name: "Upload Sarif report as artifact"
