@@ -237,10 +237,10 @@ jobs:
 
         sleep 90
 
-        STATE=$(docker inspect --format='{{json .}}' soapui-testrunner)
-        until [ "$STATE" = '"Exited"' ]
+        STATUS=$(docker inspect --format='{{json .State.Status}}' soapui-testrunner)
+        until [ "$STATUS" = '"exited"' ]
         do
-          STATE=$(docker inspect --format='{{json .State.Health.Status}}' soapui-testrunner)
+          STATE=$(docker inspect --format='{{json .State.Status}}' soapui-testrunner)
           sleep 15
         done
         docker-compose down
