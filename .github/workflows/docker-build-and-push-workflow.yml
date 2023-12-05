@@ -206,7 +206,6 @@ jobs:
   run-soapui-tests:
     runs-on: ubuntu-latest
     needs: build
-    timeout-minutes: 15
     steps:
     - 
       name: Checkout
@@ -233,6 +232,7 @@ jobs:
             docker image inspect ${{ needs.build.outputs.docker-meta-tags }}
             docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up ${{ needs.build.outputs.docker-meta-tags }}
         fi
+      timeout-minutes: 15
     - 
       name: "Upload Sarif report as artifact"
       uses: actions/upload-artifact@v2
