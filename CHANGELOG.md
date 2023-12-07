@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.33](https://github.com/wearefrank/zaakbrug/compare/v1.13.32...v1.13.33) (2023-12-07)
+
+
+### 🔁 Continuous Integration
+
+* prevent exploit usage on jira action ([#230](https://github.com/wearefrank/zaakbrug/issues/230)) ([c60abba](https://github.com/wearefrank/zaakbrug/commit/c60abbaded843120f60b7be0616e5060340e97f0))
+
 ## [1.13.32](https://github.com/wearefrank/zaakbrug/compare/v1.13.31...v1.13.32) (2023-12-05)
 
 
