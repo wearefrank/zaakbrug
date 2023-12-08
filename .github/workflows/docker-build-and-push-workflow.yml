@@ -238,7 +238,7 @@ jobs:
         sleep 90
 
         STATUS=$(docker inspect --format='{{json .State.Status}}' soapui-testrunner)
-        until [ "$STATUS" = '"exited"' ]
+        until [ "$STATUS" = '"Exited"' ]
         do
           STATUS=$(docker inspect --format='{{json .State.Status}}' soapui-testrunner)
           sleep 15
