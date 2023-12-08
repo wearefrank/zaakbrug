@@ -249,5 +249,5 @@ jobs:
       name: "Upload Sarif report as artifact"
       uses: actions/upload-artifact@v2
       with:
-        name: checkov-results
-        path: reports
+        name: test-results
+        path: e2e/reports

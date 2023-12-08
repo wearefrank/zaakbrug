@@ -41,7 +41,7 @@ services:
     container_name: soapui-testrunner
     volumes:
       - ./e2e/SoapUI/zaakbrug-e2e-soapui-project.xml:/project/zaakbrug-e2e-soapui-project.xml
-      - ./e2e/Reports:/reports
+      - ./e2e/reports:/reports
     environment:
       - COMMAND_LINE=-s TestSuite -f/%reports% '/%project%/zaakbrug-e2e-soapui-project.xml' -a -A
     depends_on:
