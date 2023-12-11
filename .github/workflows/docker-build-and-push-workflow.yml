@@ -243,6 +243,14 @@ jobs:
           STATUS=$(docker inspect --format='{{json .State.Status}}' soapui-testrunner)
           sleep 15
         done
+
+        EXIT_CODE=$(docker inspect --format='{{json .State.ExitCode}}' soapui-testrunner)
+        echo "Exit Code: $EXIT_CODE"
+        if [ "$EXIT_CODE" -ne 0 ]; then
+          echo "Test(s) failed. Failing the job."
+          exit 1
+        fi
+        
         docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml down
       timeout-minutes: 30
     - 
