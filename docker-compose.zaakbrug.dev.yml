@@ -48,9 +48,6 @@ services:
       zaakbrug:
         condition: service_healthy
     network_mode: host
-    # networks:
-    #   - zaakbrug-stack
-    #   - zaakbrug-backend
 
 volumes:
   logs:
