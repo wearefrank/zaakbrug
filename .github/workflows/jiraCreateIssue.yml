@@ -23,6 +23,6 @@ jobs:
         project: GT
         issuetype: Task
         summary: ${{ github.event.issue.title  }} 
-        description: ${{ github.event.issue.url }}
+        description: ${{ github.event.issue.html_url }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
