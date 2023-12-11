@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.34](https://github.com/wearefrank/zaakbrug/compare/v1.13.33...v1.13.34) (2023-12-11)
+
+
+### 🔁 Continuous Integration
+
+* change api url to html url for issues link ([#233](https://github.com/wearefrank/zaakbrug/issues/233)) ([ad5129c](https://github.com/wearefrank/zaakbrug/commit/ad5129cd28a58b9d45208c2c06602f2f3f761b5c))
+
 ## [1.13.33](https://github.com/wearefrank/zaakbrug/compare/v1.13.32...v1.13.33) (2023-12-07)
 
 
