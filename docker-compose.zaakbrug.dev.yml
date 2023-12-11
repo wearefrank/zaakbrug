@@ -47,9 +47,10 @@ services:
     depends_on:
       zaakbrug:
         condition: service_healthy
-    networks:
-      - zaakbrug-stack
-      - zaakbrug-backend
+    network_mode: host
+    # networks:
+    #   - zaakbrug-stack
+    #   - zaakbrug-backend
 
 volumes:
   logs:
