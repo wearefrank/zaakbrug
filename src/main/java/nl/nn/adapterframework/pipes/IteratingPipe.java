@@ -15,8 +15,10 @@
 */
 package nl.nn.adapterframework.pipes;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,9 +49,9 @@ import nl.nn.adapterframework.senders.ParallelSenderExecutor;
 import nl.nn.adapterframework.statistics.StatisticsKeeper;
 import nl.nn.adapterframework.statistics.StatisticsKeeperIterationHandler;
 import nl.nn.adapterframework.stream.Message;
-import nl.nn.adapterframework.stream.MessageOutputStream;
-import nl.nn.adapterframework.stream.StreamingException;
+import nl.nn.adapterframework.stream.PathMessage;
 import nl.nn.adapterframework.util.ClassUtils;
+import nl.nn.adapterframework.util.FileUtils;
 import nl.nn.adapterframework.util.Guard;
 import nl.nn.adapterframework.util.Semaphore;
 import nl.nn.adapterframework.util.TransformerPool;
@@ -123,8 +125,6 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 
 	private Semaphore childThreadSemaphore=null;
 
-	private boolean stopForwardConfigured = false;
-
 	protected enum StopReason {
 		MAX_ITEMS_REACHED(MAX_ITEMS_REACHED_FORWARD),
 		STOP_CONDITION_MET(STOP_CONDITION_MET_FORWARD);
@@ -155,7 +155,6 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 		if (getMaxChildThreads()>0) {
 			childThreadSemaphore=new Semaphore(getMaxChildThreads());
 		}
-		stopForwardConfigured = getForwards()!=null && (getForwards().get(StopReason.MAX_ITEMS_REACHED.getForwardName())!=null || getForwards().get(StopReason.STOP_CONDITION_MET.getForwardName())!=null);
 	}
 
 	protected IDataIterator<I> getIterator(Message input, PipeLineSession session, Map<String,Object> threadContext) throws SenderException {
@@ -171,7 +170,6 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 	}
 
 	protected StopReason iterateOverInput(Message input, PipeLineSession session, Map<String,Object> threadContext, ItemCallback callback) throws SenderException, TimeoutException, IOException {
-		System.out.println("iterateOverInput method called");
 		IDataIterator<I> it=null;
 		StopReason stopReason = null;
 		if (StringUtils.isNotEmpty(getItemNoSessionKey())) {
@@ -179,17 +177,14 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 		}
 		it = getIterator(input,session, threadContext);
 		try {
-			System.out.println("just before calling startIterating");
 			callback.startIterating(); // perform startIterating even when it=null, to avoid empty result
 			if (it!=null) {
 				try {
-
 					boolean keepGoing = true;
 					while (keepGoing && (it.hasNext())) {
 						if (Thread.currentThread().isInterrupted()) {
 							throw new TimeoutException("Thread has been interrupted");
 						}
-						System.out.println("just before handleItem method is called in iterateOverInput method.");
 						stopReason = callback.handleItem(getItem(it));
 						keepGoing = stopReason == null;
 					}
@@ -217,7 +212,7 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 		private int totalItems=0;
 		private boolean blockOpen=false;
 		private Object blockHandle;
-		private Vector<I> inputItems = new Vector<I>();
+		private Vector<I> inputItems = new Vector<>();
 		private Guard guard;
 		private List<ParallelSenderExecutor> executorList;
 
@@ -227,23 +222,20 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 			this.results=out;
 			if (isParallel() && isCollectResults()) {
 				guard = new Guard();
-				executorList = new ArrayList<ParallelSenderExecutor>();
+				executorList = new ArrayList<>();
 			}
 		}
 
 		public void startIterating() throws SenderException, TimeoutException, IOException {
-			System.out.println("sender is the instance of: " + sender.getClass());
 			if (isCollectResults()) {
-				System.out.println("start iterating test inside isCollectResults");
 				results.append("<results>\n");
 			}
 			if (!isParallel() && sender instanceof IBlockEnabledSender<?>) {
-				System.out.println("start iterating test inside !isParallel");
 				blockHandle = ((IBlockEnabledSender)sender).openBlock(session);
 				blockOpen=true;
 			}
 		}
-		public void endIterating() throws SenderException, TimeoutException, IOException {
+		public void endIterating() throws SenderException, IOException, TimeoutException {
 			if (blockOpen && sender instanceof IBlockEnabledSender<?>) {
 				((IBlockEnabledSender)sender).closeBlock(blockHandle, session);
 			}
@@ -254,7 +246,7 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 				results.append("<results count=\""+getCount()+"\"/>");
 			}
 		}
-		public void startBlock() throws SenderException, TimeoutException, IOException {
+		public void startBlock() throws SenderException, TimeoutException {
 			if (!isParallel() && !blockOpen && sender instanceof IBlockEnabledSender<?>) {
 				blockHandle = ((IBlockEnabledSender)sender).openBlock(session);
 				blockOpen=true;
@@ -263,7 +255,7 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 		/**
 		 * @return true when looping should continue, false when stop is required.
 		 */
-		public boolean endBlock() throws SenderException, TimeoutException, IOException {
+		public boolean endBlock() throws SenderException {
 			if (!isParallel() && sender instanceof IBlockEnabledSender<?>) {
 				((IBlockEnabledSender)sender).closeBlock(blockHandle, session);
 				blockOpen=false;
@@ -276,7 +268,6 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 		 * @return a non null StopReason when stop is required
 		 */
 		public StopReason handleItem(I item) throws SenderException, TimeoutException, IOException {
-			System.out.println("handleItem method is called.");
 			if (isRemoveDuplicates()) {
 				if (inputItems.indexOf(item)>=0) {
 					log.debug("duplicate item [{}] will not be processed", item);
@@ -339,7 +330,7 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 								throw new SenderException(senderResult.getErrorMessage());
 							}
 						} else {
-							itemResult = sender.sendMessageOrThrow(message, session).asString(); // This is the line throwing exception when it is not parallel.
+							itemResult = sender.sendMessageOrThrow(message, session).asString();
 						}
 						long senderEndTime = System.currentTimeMillis();
 						long senderDuration = senderEndTime - senderStartTime;
@@ -359,7 +350,6 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 						log.info("ignoring SenderException after execution of sender for item [{}]", item, e);
 						itemResult="<exception>"+ XmlEncodingUtils.encodeChars(e.getMessage())+"</exception>";
 					} else {
-						System.out.println("This is the place exception is thrown when it is not parallel.");
 						throw e;
 					}
 				} catch (TimeoutException e) {
@@ -418,60 +408,40 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 		}
 
 		public void waitForResults() throws SenderException, IOException {
-			System.out.println("waitForResults method is called.");
 			if (isParallel()) {
-				System.out.println("if block in waitForResults is called.");
 				try {
 					guard.waitForAllResources();
-					int count = 0;
-					List<Throwable> exceptions = new ArrayList<>();
-					for (ParallelSenderExecutor pse : executorList) {
-						count++;
-						String itemResult="";
-						System.out.println("pse data: getReply(): " + pse.getReply() + " getRequest: " + pse.getRequest() + " getThrowable:" + pse.getThrowable() + " getSession: " + pse.getSession());
-						if (pse.getThrowable() == null) {
-							System.out.println("First if in for loop is called.");
-							SenderResult senderResult = pse.getReply();
-							System.out.println("senderResult: " + senderResult);
-							if (senderResult.isSuccess()) {
-								System.out.println("Second if in for loop is called.");
-								itemResult = senderResult.getResult().asString();
-								System.out.println("itemResult: " + itemResult);
-							} 
-							else {
-								System.out.println("Second else in for loop is called.");
-								System.out.println("isIgnoreExceptions() in second else: " + isIgnoreExceptions());
-								if(isIgnoreExceptions()){
-									itemResult = "<exception>"+ XmlEncodingUtils.encodeChars(senderResult.getResult().asString())+"</exception>";
-								} else {
-									SenderException se = new SenderException(senderResult.getResult().asString());
-									exceptions.add(se);
-								}
-							}
-						} else {
-							System.out.println("First else in for loop is called.");
-							System.out.println("pse.getThrowable().getMessage(): " + pse.getThrowable().getMessage());
-							System.out.println("isIgnoreExceptions() in first else: " + isIgnoreExceptions());
-							if(isIgnoreExceptions()){
-								itemResult = "<exception>"+ XmlEncodingUtils.encodeChars(pse.getThrowable().getMessage())+"</exception>";
-								System.out.println("itemResult in isIgnoreExceptions in first else block: " + itemResult);
-							} else {
-								// SenderException se = new SenderException("Something went wrong in one of the parallel running pipes: " + pse.getThrowable().getMessage());
-								exceptions.add(pse.getThrowable());
-							}
-						}
-						if(!exceptions.isEmpty()){
-							SenderException se = new SenderException("Something went wrong in one of the parallel running pipes: ");
-							exceptions.stream().forEach(se::addSuppressed);
-							throw se;
-						}
-						addResult(count, pse.getRequest(), itemResult);
-					}
-					System.out.println("try block is worked without exception.");
+					collectResultsOrThrowExceptions();
 				} catch (InterruptedException e) {
-					System.out.println("catch block is called.");
 					throw new SenderException("was interrupted",e);
 				}
+			}
+		}
+
+		private void collectResultsOrThrowExceptions() throws SenderException, IOException {
+			int count = 0;
+			List<Throwable> exceptions = new ArrayList<>();
+			for(ParallelSenderExecutor pse : executorList) {
+				count++;
+				final String itemResult;
+				if(pse.getThrowable() == null) {
+					SenderResult senderResult = pse.getReply();
+					if(senderResult.isSuccess()) {
+						itemResult = senderResult.getResult().asString();
+					} else {
+						itemResult = "<exception>" + XmlEncodingUtils.encodeChars(senderResult.getResult().asString()) + "</exception>";
+						exceptions.add(new SenderException(senderResult.getResult().asString()));
+					}
+				} else {
+					itemResult = "<exception>" + XmlEncodingUtils.encodeChars(pse.getThrowable().getMessage()) + "</exception>";
+					exceptions.add(pse.getThrowable());
+				}
+				addResult(count, pse.getRequest(), itemResult);
+			}
+			if(!isIgnoreExceptions() && !exceptions.isEmpty()) {
+				SenderException se = new SenderException("an error occurred during parallel execution");
+				exceptions.stream().forEach(se::addSuppressed);
+				throw se;
 			}
 		}
 
@@ -481,32 +451,16 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 	}
 
 	@Override
-	protected MessageOutputStream provideOutputStream(PipeLineSession session) throws StreamingException {
-		log.debug("pipe [{}] has no implementation to provide an outputstream", () -> getName());
-		return null; // ancestor MessageSendingPipe forwards provideOutputStream to sender, which is not correct for IteratingPipe
-	}
-
-	@Override
-	protected boolean canStreamToNextPipe() {
-		if(stopForwardConfigured) { // streaming is not possible since the forward is not known before hand
-			return false;
-		}
-		return !isCollectResults() // when collectResults is false, streaming is not necessary or useful
-				&& StringUtils.isEmpty(getItemNoSessionKey())
-				&& super.canStreamToNextPipe();
-	}
-
-	@Override
 	protected PipeRunResult sendMessage(Message input, PipeLineSession session, ISender sender, Map<String,Object> threadContext) throws SenderException, TimeoutException, IOException {
 		// sendResult has a messageID for async senders, the result for sync senders
-		StopReason stopReason = null;
-		System.out.println("sendMessage method is called");
-		try (MessageOutputStream target=getTargetStream(session)) {
-			try (Writer resultWriter = target.asWriter()) {
+		StopReason stopReason;
+		File tempFile = FileUtils.createTempFile();
+		try {
+			try (Writer resultWriter = Files.newBufferedWriter(tempFile.toPath())) {
 				ItemCallback callback = createItemCallBack(session,sender, resultWriter);
 				stopReason = iterateOverInput(input,session,threadContext, callback);
 			}
-			PipeRunResult prr = target.getPipeRunResult();
+			PipeRunResult prr = new PipeRunResult(getSuccessForward(), PathMessage.asTemporaryMessage(tempFile.toPath()));
 			if(stopReason != null) {
 				PipeForward forward = getForwards().get(stopReason.getForwardName());
 				if(forward != null) {
