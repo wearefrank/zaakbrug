@@ -21,6 +21,7 @@
 			<SenderPipe 
                 name="CallGetBas64Inhoud"
                 getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="ref_inhoud"
                 >
 				<HttpSender 
 					name="CallGetBas64InhoudSender" 
@@ -53,24 +54,10 @@
             <Base64Pipe 
                 name="EncodeInhoud"
                 lineLength="0"
-                >
-                <Forward name="success" path="Base64ToXml" />
-            </Base64Pipe>
-
-            <Text2XmlPipe
-                name="Base64ToXml"
-                xmlTag="inhoud"
-                >
-                <Forward name="success" path="StoreInhoud" />
-            </Text2XmlPipe>
-
-            <EchoPipe 
-                name="StoreInhoud"
-                elementToMove="inhoud"
-                removeCompactMsgNamespaces="false"
+                storeResultInSessionKey="ref_inhoud"
                 >
                 <Forward name="success" path="ReplaceInhoudRefWithBase64EncodedRef" />
-            </EchoPipe>
+            </Base64Pipe>
 
             <!-- Fixed value is "{sessionKey:ref_inhoud}" encoded to base64, so that it remains valid base64 for validation -->
             <FixedResultPipe
