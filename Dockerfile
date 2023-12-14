@@ -4,7 +4,7 @@ ARG FF_VERSION=8.0-20231123.223429
 ARG GID=1000
 ARG UID=1000
 
-FROM tomcat:8-jre11-temurin-jammy AS base
+FROM tomcat:8-jdk11-temurin-jammy AS base
 
 ARG FF_VERSION
 ARG GID
