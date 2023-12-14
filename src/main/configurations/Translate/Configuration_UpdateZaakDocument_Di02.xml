@@ -5,10 +5,6 @@
 
         <Receiver name="UpdateZaakDocument_Di02">
             <JavaListener name="UpdateZaakDocument_Di02"/>
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/updateZaakDocument_Di02"/>
         </Receiver>
 
         <Pipeline>  
@@ -23,8 +19,8 @@
                 <IbisLocalSender
                     name="CallGetZgwEnkelvoudigInformatieObjectSender"
                     javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie">
-                    <Param name="Identificatie" xpathExpression="$ZdsWasInformatieObject/object/identificatie">
-                        <Param name="ZdsWasInformatieObject" sessionKey="ZdsWasInformatieObject" type="DOMDOC"/>
+                    <Param name="Identificatie" xpathExpression="$ZdsWordtInformatieObject/object/identificatie">
+                        <Param name="ZdsWordtInformatieObject" sessionKey="ZdsWordtInformatieObject" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForStatus"/>

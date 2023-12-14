@@ -5,7 +5,7 @@
 We like to stay up-to-date with the latest version of the Frank!Framework to get the latest features, improvements, bug fixes and security patches. For stability reasons we do not want to use the "latest" tag for this. Instead we periodically(~weekly) do a manual bump to the latest available snapshot build of Frank!Framework at that time. Mainly because we use custom code that needs to be manual checked and updated with changes made in the Frank!Framework. 
 
 Execute the following steps when bumping the Frank!Framework version:
-1. Look up the latest framework snapshot build on [DockerHub - Frank!Framework](https://hub.docker.com/r/wearefrank/frank-framework/tags). The format of the tag should be: `<major>.<minor>-<date>.<build>`. For example: 7.9-20230907.223421.
+1. Look up the latest framework snapshot build on [DockerHub - Frank!Framework](https://hub.docker.com/r/frankframework/frankframework/tags). The format of the tag should be: `<major>.<minor>-<date>.<build>`. For example: 7.9-20230907.223421.
 2. Replace the value of `FF_VERSION` in the `Dockerfile` with the new tag.
 3. Replace the value of `FF_VERSION` in the `Dockerfile.java8` with the new tag.
 4. Replace the default value for `FF_VERSION` under `services.zaakbrug.build.args` in `docker-compose.zaakbrug.dev.yml` with the new tag. NOTE: Watch out to not replace the '-' in front of the tag: ${FF_VERSION:-<new tag>}
@@ -14,6 +14,24 @@ Execute the following steps when bumping the Frank!Framework version:
 7. Check [GitHub - Frank!Framework - Parameter.java commit history](https://github.com/ibissource/iaf/commits/master/core/src/main/java/nl/nn/adapterframework/parameters/Parameter.java) for any changes to this class. If there are indeed changes, update the corresponding file under `./src/main/java/nl/nn/adapterframework/...`. The `.java-orig` file content should be 1 on 1 equal to the new version on GitHub. Take care to not accidentally remove the intended customization of the code in the `.java` file.
 8. Run the e2e testsuite by using the below Docker-Compose and configuration to validate the changes. You should only need `docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml up --build --force-recreate` for this. (TODO: Automate running of e2e tests in ci/cd).
 9. Commit you changes on a branch with as message: `build(dependencies): bump f!f version to <new tag>`. Create a PR to have you changes merged to master.
+
+# Testing with SoapUI
+
+
+
+## Configuring SoapUI
+Out-of-the-box SoapUI saves the dynamic properties set during execution of the tests to the project file. Having these dynamic properties value changes in the project file, makes it harder for Git to merge without a merge conflict. Git does not know the context of the changes and will simply see local and incoming changes to the same part of the project file, leading to a merge conflict that is hard to manually solve due to the sheer size of the projec t file. To combat this, we added a save script to the project that automatically clears all dynamic property values when saving the project, so that only functional changes end up in the project file. 
+
+Unfortunatly Load and Save scripts are disabled by default in SoapUI. You can enable them by unchecking **Disable the Load and Save scripts** under `File -> Preferences -> Global Security Settings`.
+
+Additionally, to help out diff tools, also enable the option **Pretty Print Project Files** under `File -> Preferences -> WSDL Settings`.
+
+## Coding standards
+- Put dynamic properties(temporary values during test execution) in the **"Properties" TestStep**. Their values get cleared when saving the project.
+- Put static properties in the **Custom Properties** section of TestCase, TestSuite or Project.
+- When you open the SoapUI project in a new version of SoapUI, Save the project and create a seperate PR for any changes in the project file.
+- Try to keep to one change at a time and keep them small.
+- Whenever possible, avoid combining changes that both add and remove lots of things.
 
 # Docker-compose
 The docker-compose development environment is designed to be flexible and composable. This prevents the need for developers to run the entire stack eventhough their work requires only a small part of the stack. For this we make use of a docker-compose feature that merges a given array of docker-compose files together. Simply provide a `-f ./docker-compose.<application>.yml` argument for each docker-compose file you wish to include in the `docker-compose up`command.

@@ -90,7 +90,7 @@
                 xpathExpression="/beeindigd = 'true'"
                 thenForwardName="SetStatusExists"
                 elseForwardName="CompareDatumStatusGezet">
-            </XmlIfPipe>
+            </XmlIfPipe> 
 
             <XsltPipe
                 name="SetStatusExists"
@@ -100,7 +100,7 @@
                 <Param name="StatusBody" sessionKey="StatusBody" type="DOMDOC"/>
                 <Param name="ZgwStatussen" sessionKey="ZgwStatussen" type="DOMDOC"/>
                 <Forward name="success" path="CheckForStatusExists"/>
-            </XsltPipe>
+            </XsltPipe> 
 
             <XsltPipe
                 name="CompareDatumStatusGezet"
@@ -116,9 +116,21 @@
                 preserveInput="true"
                 xpathExpression="exists(/result/exception)"
                 >
-                <Forward name="then" path="EXCEPTION"/>
+                <Forward name="then" path="ResultWithErrorMessage"/>
                 <Forward name="else" path="CheckForStatusExists"/>
             </XmlIfPipe>
+
+            <XsltPipe
+                name="ResultWithErrorMessage"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                >
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="ActualiseerStatus datumstatusgezet equal to existing status" />
+                <Param name="details" sessionKey="StatusBody" xpathExpression="concat(ZgwStatus/datumStatusGezet, ' is equal to existing status')"/>
+                <Param name="detailsXml" sessionKey="ZgwStatussen" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
 
             <XmlIfPipe name="CheckForStatusExists"
                 emptyInputReplacement="&lt;statusExists&gt;false&lt;/statusExists&gt;"

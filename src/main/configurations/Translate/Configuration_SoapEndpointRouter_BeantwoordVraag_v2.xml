@@ -4,10 +4,6 @@
         description="">
         <Receiver name="SoapEndpointRouter_BeantwoordVraag_v2">
             <WebServiceListener name="SoapEndpointRouter_BeantwoordVraag_v2" address="${zaakbrug.soap.beantwoord-vraag.v2.endpoint}" soap="false"/>
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/beantwoordVraag_v2"/>
         </Receiver>
         <Pipeline>
             <Exits>
@@ -17,6 +13,7 @@
 
             <WsdlXmlValidatorPipe 
                 name="ValidateInput"
+                ignoreUnknownNamespaces="true"
                 wsdl="Common/xsd/Zaak-_Documentservices_1_2/zds0120/berichten/zds0120_beantwoordVraag_zs-dms.wsdl"
                 >
                 <Forward name="success" path="UnwrapSoapMessage"/>

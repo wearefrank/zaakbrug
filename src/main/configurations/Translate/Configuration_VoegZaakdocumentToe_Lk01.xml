@@ -5,10 +5,6 @@
 
         <Receiver name="VoegZaakdocumentToe_Lk01">
             <JavaListener name="VoegZaakdocumentToe_Lk01"/>
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/voegZaakdocumentToe"/>
         </Receiver>
 
         <Pipeline>
@@ -84,8 +80,32 @@
                 styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
                 storeResultInSessionKey="ZgwInformatieObjectType"
                 >
-                <Forward name="success" path="GetGlobalConfigFromLocalFS"/>
+                <Forward name="success" path="GetZgwInformatieObjectTypeByOmschrijvingSender_OmschrijvingNotFoundCondition"/>
                 <Forward name="error" path="UncaughtException"/>
+            </XsltPipe>
+
+            <XmlIfPipe 
+                name="GetZgwInformatieObjectTypeByOmschrijvingSender_OmschrijvingNotFoundCondition"
+                emptyInputReplacement="&lt;ZgwInformatieObjectType/&gt;"
+                xpathExpression="string-length(/ZgwInformatieObjectType) = 0"
+                >
+                <Forward name="then" path="GetZgwInformatieObjectTypeByOmschrijvingSender_OmschrijvingNotFoundException"/>
+                <Forward name="else" path="GetGlobalConfigFromLocalFS"/>
+                <Forward name="exception" path="UncaughtException"/>
+            </XmlIfPipe>
+
+            <XsltPipe 
+                name="GetZgwInformatieObjectTypeByOmschrijvingSender_OmschrijvingNotFoundException"
+                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                >
+                <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="omschrijving" sessionKey="ZdsZaakDocumentInhoud" xpathExpression="object/dct.omschrijving/text()" defaultValue="''" />
+                <Param name="reason" pattern="No InformatieObjectType found with omschrijving: {omschrijving}" ignoreUnresolvablePatternElements="true"/>
+                <!-- <Param name="details" sessionKey="" /> -->
+                <!-- <Param name="detailsXml" type="DOMDOC" /> -->
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>
 
             <SenderPipe 

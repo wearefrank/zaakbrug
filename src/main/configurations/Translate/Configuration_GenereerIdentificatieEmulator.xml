@@ -1,97 +1,100 @@
-<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="GenereerIdentificatieEmulator"
         active="${GenereerIdentificatieEmulator.Active}"
-        description="">
+        description="functioining as id generator for zaak or document identifiers">
 
         <Receiver name="GenereerIdentificatieEmulator">
-            <JavaListener name="GenereerIdentificatieEmulator"/>
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/genereerIdentificatieEmulator"/>
+            <JavaListener name="GenereerIdentificatieEmulator" />
         </Receiver>
 
         <Pipeline>
+
             <Exits>
-                <Exit name="EXIT" state="SUCCESS"/>
-                <Exit name="EXCEPTION" state="ERROR"/>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <SenderPipe name="GetIdFromDB"
+            <XmlSwitchPipe name="switcher" forwardNameSessionKey="IdentificatieType">
+
+            </XmlSwitchPipe>
+            <SenderPipe name="ZaakIdentificatie"
                 storeResultInSessionKey="GetIdResult">
-                <FixedQuerySender 
-                    query="SELECT IDENTIFICATIE FROM IDENTIFICATIE WHERE TYPE  = ?{IdentificatieType}" 
-                    queryType="SELECT" 
-                    />
-                    <Param name="IdentificatieType" sessionKey="IdentificatieType"/>
+                <FixedQuerySender
+                    query="UPDATE IDENTIFICATIE  SET IDENTIFICATIE=(IDENTIFICATIE + 1 ) WHERE TYPE=?{IdentificatieType}"
+                    queryType="OTHER"
+                    resultQuery="SELECT IDENTIFICATIE FROM IDENTIFICATIE WHERE TYPE  = 'ZaakIdentificatie'"
+                />
+                <Param name="IdentificatieType" sessionKey="IdentificatieType" />
+                <Locker objectId="LockIdZaak" numRetries="20" />
+                <Forward name="success" path="CheckForDBResult" />
+
+
+            </SenderPipe>
+
+            <SenderPipe name="DocumentIdentificatie"
+                storeResultInSessionKey="GetIdResult">
+                <FixedQuerySender
+                    query="UPDATE IDENTIFICATIE  SET IDENTIFICATIE=( IDENTIFICATIE + 1) WHERE TYPE=?{IdentificatieType}"
+                    queryType="OTHER"
+                    resultQuery="SELECT IDENTIFICATIE FROM IDENTIFICATIE WHERE TYPE  = 'DocumentIdentificatie'"
+                />
+                <Param name="IdentificatieType" sessionKey="IdentificatieType" />
+                <Locker objectId="LockIdDoc" numRetries="20" />
+                <Forward name="success" path="CheckForDBResult" />
+
+            </SenderPipe>
+
+            <SenderPipe name="BesluitIdentificatie"
+                storeResultInSessionKey="GetIdResult">
+                <FixedQuerySender
+                    query="UPDATE IDENTIFICATIE  SET IDENTIFICATIE=( IDENTIFICATIE + 1) WHERE TYPE=?{IdentificatieType}"
+                    queryType="OTHER"
+                    resultQuery="SELECT IDENTIFICATIE FROM IDENTIFICATIE WHERE TYPE  = 'BesluitIdentificatie'"
+                />
+                <Param name="IdentificatieType" sessionKey="IdentificatieType" />
+                <!--remove
+                comment when version FF >20231002         <Locker objectId="LockIdBesluit" numRetries="20"
+                />-->
                 <Forward name="success" path="CheckForDBResult" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForDBResult"
                 xpathExpression="string-length(result/rowset/row[@number='0']) > 0"
-                >
-                <Forward name="then" path="StoreIdentificatie"/>
-                <Forward name="else" path="InsertIdentificatie"/>
+            >
+                <Forward name="then" path="CreateNewId" />
+                <Forward name="else" path="InsertIdentificatie" />
             </XmlIfPipe>
 
-            <PutInSessionPipe name="StoreIdentificatie">
-				<Param name="LastIdentificatie" xpathExpression="result/rowset/row[@number='0']" type="INTEGER"/>
-				<Param name="NewIdentificatie" xpathExpression="result/rowset/row[@number='0']" type="INTEGER"/>
-                <Forward name="success" path="IncrementNewIdentificatie"/>
-			</PutInSessionPipe>
 
-			<IncreaseIntegerPipe 
-                name="IncrementNewIdentificatie"
-                sessionKey="NewIdentificatie">
-                <Forward name="success" path="CreateNewId" />
-            </IncreaseIntegerPipe>
-
-            <XsltPipe name="CreateNewId" styleSheetName="Common/xsl/CreateIdentication.xslt" storeResultInSessionKey="newId" omitXmlDeclaration="true">
-                <Param name="IdentificatieType" sessionKey="IdentificatieType"/>
-                <Param name="zaak-identificatie-template" value="${zaakbrug.zgw.zaak-identificatie-template}"/>
-                <Param name="document-identificatie-template" value="${zaakbrug.zgw.document-identificatie-template}"/>
-                <Param name="besluit-identificatie-template" value="${zaakbrug.zgw.besluit-identificatie-template}"/>
+            <XsltPipe name="CreateNewId" styleSheetName="Common/xsl/CreateIdentication.xslt"
+                storeResultInSessionKey="newId" omitXmlDeclaration="true">
+                <Param name="IdentificatieType" sessionKey="IdentificatieType" />
+                <Param name="zaak-identificatie-template"
+                    value="${zaakbrug.zgw.zaak-identificatie-template}" />
+                <Param name="document-identificatie-template"
+                    value="${zaakbrug.zgw.document-identificatie-template}" />
+                <Param name="besluit-identificatie-template"
+                    value="${zaakbrug.zgw.besluit-identificatie-template}" />
+                <Forward name="success" path="SetExitMessage" />
             </XsltPipe>
-            
-            <SenderPipe name="UpdateIdentificatie">
-                <FixedQuerySender 
-                    query="UPDATE IDENTIFICATIE  SET IDENTIFICATIE=?{NewIdentificatie} WHERE TYPE=?{IdentificatieType}"
-                    queryType="OTHER" 
-                    />
-                    <Param name="NewIdentificatie" sessionKey="NewIdentificatie"/>
-                    <Param name="IdentificatieType" sessionKey="IdentificatieType"/>
-                <Forward name="success" path="GenerateIdentificatie" />
-            </SenderPipe>
+
 
             <SenderPipe name="InsertIdentificatie">
-                <FixedQuerySender 
-                    query="INSERT INTO IDENTIFICATIE (IDENTIFICATIE, TYPE) VALUES (1, ?{IdentificatieType})" 
-                    queryType="OTHER" 
-                    />
-                    <Param name="IdentificatieType" sessionKey="IdentificatieType"/>
-                <Forward name="success" path="StoreLastIdentification" />
+                <FixedQuerySender
+                    query="INSERT INTO IDENTIFICATIE (IDENTIFICATIE, TYPE) VALUES (0, ?{IdentificatieType})"
+                    queryType="OTHER"
+                />
+                <Param name="IdentificatieType" sessionKey="IdentificatieType" />
+                <Forward name="success" path="switcher" />
             </SenderPipe>
 
-            <PutInSessionPipe name="StoreLastIdentification">
-				<Param name="LastIdentificatie" value="1" type="INTEGER"/>
-                <Forward name="success" path="GenerateIdentificatie"/>
-			</PutInSessionPipe>
 
-            <XsltPipe
-                name="GenerateIdentificatie"
-                xpathExpression="$newId"
-                storeResultInSessionKey="Identificatie"
-                >
-                <Param name="newId" sessionKey="newId"/>
-                <Forward name="success" path="SetExitMessage"/>
-            </XsltPipe>
-
-            <PutInSessionPipe 
+            <PutInSessionPipe
                 name="SetExitMessage"
-                getInputFromSessionKey="Identificatie"
-                >
-                <Forward name="success" path="EXIT"/>
-			</PutInSessionPipe>
+                getInputFromSessionKey="newId">
+                <Forward name="success" path="EXIT" />
+            </PutInSessionPipe>
         </Pipeline>
     </Adapter>
 </Module>

@@ -15,11 +15,12 @@ services:
       - open-zaak-db:/var/lib/postgresql/data
     networks:
       - open-zaak-backend
+      - zaakbrug-stack
     ports:
       - 5432
 
   open-zaak:
-    image: openzaak/open-zaak:latest
+    image: openzaak/open-zaak:1.9.0
     container_name: open-zaak.dev
     environment: &open-zaak-env
       - DJANGO_SETTINGS_MODULE=openzaak.conf.docker
@@ -55,12 +56,13 @@ services:
     volumes: &open-zaak-volumes
       - open-zaak-media:/app/media
       - open-zaak-private-media:/app/private-media
+      - ./docker/open-zaak:/app/fixtures
     depends_on:
       - open-zaak-db
       - open-zaak-redis
 
   open-zaak-celery:
-    image: openzaak/open-zaak:latest
+    image: openzaak/open-zaak:1.9.0
     environment: *open-zaak-env
     command: /celery_worker.sh
     volumes: *open-zaak-volumes
@@ -71,7 +73,7 @@ services:
       - open-zaak-redis
 
   open-zaak-celery-flower:
-    image: openzaak/open-zaak:latest
+    image: openzaak/open-zaak:1.9.0
     environment: *open-zaak-env
     command: /celery_flower.sh
     networks:

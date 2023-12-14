@@ -27,8 +27,7 @@
 
             <ForEachChildElementPipe name="RolIterator"
                 storeResultInSessionKey="GetZaakDetailsByRolResults"
-                elementXPathExpression="/ZgwRollen/ZgwRol"
-                parallel="true">
+                elementXPathExpression="/ZgwRollen/ZgwRol">
                 <IbisLocalSender
                     name="CallGetZaakDetailsByRol"
                     javaListener="GetZaakDetailsByRol">

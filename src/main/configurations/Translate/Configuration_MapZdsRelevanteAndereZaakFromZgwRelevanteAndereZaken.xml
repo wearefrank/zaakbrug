@@ -19,15 +19,14 @@
                 <IbisLocalSender
                     name="GetZgwRelevanteAndereZaakLocalSender"
                     javaListener="GetZgwZaakByUrl">
-                    <Param name="Url" sessionKey="Url" type="STRING"/>
+                    <Param name="Url" xpathExpression="/relevanteAndereZaken/url" type="STRING"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CreateZdsHeeftBetrekkingOp"/>
+                <Forward name="success" path="CreateZdsHeeftBetrekkingOpAndere"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XsltPipe name="CreateZdsHeeftBetrekkingOp"
-                getInputFromSessionKey="ZgwRol"
-                styleSheetName="CreeerZaak_LK01/xsl/CreateZdsHeeftBetrekkingOp.xslt"
+            <XsltPipe name="CreateZdsHeeftBetrekkingOpAndere"
+                styleSheetName="geefZaakdetails_Lv01/xsl/CreateZdsHeeftBetrekkingOpAndere.xslt"
                 >
                 <Param name="ZgwZaak" sessionKey="ZgwRelevanteAndereZaak" type="DOMDOC"/>
                 <Forward name="success" path="EXIT"/>

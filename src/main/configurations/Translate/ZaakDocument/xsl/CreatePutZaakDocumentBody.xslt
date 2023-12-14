@@ -57,7 +57,7 @@
                     $Vertrouwelijkheidaanduiding,
                     '',
                     '', 
-                    lower-case(object/vertrouwelijkheidaanduiding)))"/>
+                    lower-case(object/vertrouwelijkAanduiding)))"/>
                 <xsl:copy-of select="zgw:WrapNullOrSkip('auteur', 'empty', zgw:FromOrderedSource(
                     $Auteur,
                     '',

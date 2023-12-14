@@ -12,73 +12,51 @@
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
-            
-            <XmlIfPipe name="CheckForEntiteitType"
-                xpathExpression="string-length(heeftBetrekkingOpAndere/gerelateerde) > 0 and
-                                 heeftBetrekkingOpAndere/gerelateerde[@entiteittype ='ZAK']"
-                >
-                <Forward name="then" path="CallGetZgwZaak"/>
-                <Forward name="else" path="EXIT"/>
-            </XmlIfPipe>
 
             <SenderPipe
-                name="CallGetZgwZaak"
-                storeResultInSessionKey="GetZaakResult">
+                name="CallGetZgwAndereZaak"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="ZgwZaakAndereResult">
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
                     javaListener="GetZgwZaak">
-                    <Param name="Identificatie" xpathExpression="heeftBetrekkingOpAndere/gerelateerde/identificatie"/>
+                    <Param name="Identificatie" sessionKey="Identificatie"/>
                 </IbisLocalSender>
-                <Forward name="success" path="GetSingleZgwZaakFromZgwZakenList"/>
+                <Forward name="success" path="GetSingleZgwAndereZaakFromZgwZakenList"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
-                name="GetSingleZgwZaakFromZgwZakenList"
+                name="GetSingleZgwAndereZaakFromZgwZakenList"
+                storeResultInSessionKey="ZgwAndereZaakResult"
                 styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
                 >
-                <Forward name="success" path="CheckForGetZgwZaakResult"/>
+                <Forward name="success" path="CheckForGetZgwAndereZaakResult"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
 
-            <XmlIfPipe name="CheckForGetZgwZaakResult"
+            <XmlIfPipe name="CheckForGetZgwAndereZaakResult"
                 xpathExpression="string-length(ZgwZaak) > 0"
                 >
-                <Forward name="then" path="CallPatchZaak"/>
+                <Forward name="then" path="CallPatchAndereZaak"/>
                 <Forward name="else" path="EXIT"/>
             </XmlIfPipe>
 
             <SenderPipe
-                name="CallPatchZaak">
-                <IbisLocalSender
-                    name="CallPatchZaakSender"
-                    javaListener="PatchRelevanteAndereZaak">
-                    <Param name="AndereUrl" xpathExpression="$ZgwZaakResult/ZgwZaak/url">
-                        <Param name="ZgwZaakResult" sessionKey="ZgwZaakResult"/>
-                    </Param>
-                    <Param name="Url" xpathExpression="$PostZgwZaakResult/ZgwZaak/url">
-                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult"/>
-                    </Param>
-                </IbisLocalSender>
-                <Forward name="success" path="CallPatchAndereZaak"/>
-                <Forward name="exception" path="EXCEPTION" />
-            </SenderPipe>
-
-            <SenderPipe
-                name="CallPatchAndereZaak">
+                name="CallPatchAndereZaak" getInputFromSessionKey="ZgwAndereZaakResult">
                 <IbisLocalSender
                     name="CallPatchAndereZaakSender"
                     javaListener="PatchRelevanteAndereZaak">
-                    <Param name="AndereUrl" xpathExpression="$PostZgwZaakResult/ZgwZaak/url">
-                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
-                    </Param>
-                    <Param name="Url" xpathExpression="$ZgwZaakResult/ZgwZaak/url">
-                        <Param name="ZgwZaakResult" sessionKey="ZgwZaakResult" type="DOMDOC"/>
-                    </Param>
+                    <Param name="Url" xpathExpression="/ZgwZaak/url" defaultValue="&lt;dummy/&gt;" />
+                    <Param name="AndereUrl" sessionKey="Url" defaultValue="&lt;dummy/&gt;"/>
                 </IbisLocalSender>
-                <Forward name="success" path="EXIT"/>
+                <Forward name="success" path="JsonToXml"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
+
+            <JsonPipe name="JsonToXml">
+                <Forward name="success" path="EXIT"/>
+            </JsonPipe>
         </Pipeline>
     </Adapter>
 </Module>

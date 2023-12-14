@@ -55,7 +55,7 @@
                         <ZKN:versie><xsl:value-of select="$ZdsZaakDocumentInhoud/ZdsZaakDocumentInhoud/versie"/></ZKN:versie>
                     </xsl:if>
                     <xsl:if test="$ZdsZaakDocumentInhoud/ZdsZaakDocumentInhoud/status">
-                        <ZKN:status><xsl:value-of select="$ZdsZaakDocumentInhoud/ZdsZaakDocumentInhoud/status"/></ZKN:status>
+                        <ZKN:status><xsl:value-of select="$statusMap($ZdsZaakDocumentInhoud/ZdsZaakDocumentInhoud/status)"/></ZKN:status>
                     </xsl:if>
                     <xsl:if test="$ZdsZaakDocumentInhoud/ZdsZaakDocumentInhoud/verzenddatum">
                         <ZKN:verzenddatum><xsl:value-of select="$ZdsZaakDocumentInhoud/ZdsZaakDocumentInhoud/verzenddatum"/></ZKN:verzenddatum>
@@ -88,8 +88,17 @@
         <ZKN:isRelevantVoor StUF:entiteittype="EDCZAK">
             <ZKN:gerelateerde StUF:entiteittype="ZAK">
                 <ZKN:identificatie><xsl:value-of select="gerelateerde/identificatie"/></ZKN:identificatie>
-                <ZKN:omschrijving><xsl:value-of select="gerelateerde/omschrijving"/></ZKN:omschrijving>
             </ZKN:gerelateerde>
         </ZKN:isRelevantVoor>
     </xsl:template>
+
+    <xsl:variable name="statusMap" as="map(*)">
+        <xsl:map>
+          <xsl:map-entry key="'in_bewerking'" select="'In bewerking'" />
+          <xsl:map-entry key="'ter_vaststelling'" select="'Ter vaststelling'" />
+          <xsl:map-entry key="'definitief'" select="'Definitief'" />
+          <xsl:map-entry key="'gearchiveerd'" select="'Gearchiveerd'" />
+        </xsl:map>
+      </xsl:variable>
+
 </xsl:stylesheet>
