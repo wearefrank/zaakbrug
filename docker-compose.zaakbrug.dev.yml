@@ -23,6 +23,7 @@ services:
     environment:
       - zaakbrug.zds.timezone=UTC
       - TZ=Europe/Amsterdam
+      - JAVA_OPTS=-XX:InitialRAMPercentage=25.0 -XX:MaxRAMPercentage=75.0
     volumes:
       - ../frank-runner/data:/usr/local/tomcat/data
       - logs:/usr/local/tomcat/logs
