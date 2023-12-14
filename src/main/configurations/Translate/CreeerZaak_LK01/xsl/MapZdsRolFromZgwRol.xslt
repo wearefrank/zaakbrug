@@ -78,6 +78,19 @@
         </xsl:element>
     </xsl:template>
 
+    <xsl:template match="root[betrokkeneType='organisatorische_eenheid']">
+        <xsl:element name="{$RolNaam}">
+            <xsl:attribute name="entiteittype" select="$RolEntiteitType"/>
+            <gerelateerde>
+                <organisatorischeEenheid entiteittype="OEH">
+                    <identificatie><xsl:value-of select="betrokkeneIdentificatie/identificatie"/></identificatie>
+                    <naam><xsl:value-of select="betrokkeneIdentificatie/naam"/></naam>
+                    <isGehuisvestIn><xsl:value-of select="betrokkeneIdentificatie/isGehuisvestIn"/></isGehuisvestIn>
+                </organisatorischeEenheid>
+            </gerelateerde>
+        </xsl:element>
+    </xsl:template>
+
     <xsl:template match="verblijfsadres">
         <verblijfsadres>
             <aoa.identificatie><xsl:value-of select="aoaIdentificatie"/></aoa.identificatie>
