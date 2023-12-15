@@ -53,7 +53,7 @@ COPY --chown=tomcat src/main/webapp/META-INF/context.xml /usr/local/tomcat/conf/
 COPY --chown=tomcat src/main/configurations/ /opt/frank/configurations/
 COPY --chown=tomcat src/main/resources/ /opt/frank/resources/
 COPY --chown=tomcat src/test/testtool/ /opt/frank/testtool/
-COPY --chown=tomcat /docker/entrypoint.sh /scripts/entrypoint.sh
+COPY --chown=tomcat docker/entrypoint.sh /scripts/entrypoint.sh
 
 # Compile custom class
 FROM eclipse-temurin:11-jdk-jammy AS custom-code-builder
