@@ -1,6 +1,6 @@
 # Keep in sync with version in frank-runner.properties. Detailed instructions can be found in CONTRIBUTING.md.
 # Check whether java-orig files have changed in F!F and update custom code (java and java-orig files) accordingly
-ARG FF_VERSION=8.0-20231123.223429
+ARG FF_VERSION=7.9-20231026.224138
 ARG GID=1000
 ARG UID=1000
 
@@ -56,7 +56,7 @@ COPY --chown=tomcat src/test/testtool/ /opt/frank/testtool/
 COPY --chown=tomcat docker/entrypoint.sh /scripts/entrypoint.sh
 
 # Compile custom class
-FROM eclipse-temurin:11-jdk-jammy AS custom-code-builder
+FROM eclipse-temurin:8-jdk-jammy AS custom-code-builder
 
 COPY --from=ff-base /usr/local/tomcat/lib/ /usr/local/tomcat/lib/
 COPY --from=ff-base /usr/local/tomcat/webapps/ROOT /usr/local/tomcat/webapps/ROOT
