@@ -1,5 +1,35 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.35](https://github.com/wearefrank/zaakbrug/compare/v1.13.34...v1.13.35) (2023-12-15)
+
+
+### 🐛 Bug Fixes
+
+* add execution permissions to entrypoint script ([eea7859](https://github.com/wearefrank/zaakbrug/commit/eea78592178522ee224ff3dc650b3c598e4adf28))
+
+
+### 🔥 Performance Improvements
+
+* fix bottleneck with large documents during read actions ([0769940](https://github.com/wearefrank/zaakbrug/commit/076994079557790dd540465fc46e34c1d87ba2c3))
+
+
+### ⏩ Reverts
+
+* revert "build(dependencies): bump f!f version to 8.0-20231123.223429 (#203)" ([98180d2](https://github.com/wearefrank/zaakbrug/commit/98180d2514b55865d4246a497f422033ce497a00)), closes [#203](https://github.com/wearefrank/zaakbrug/issues/203)
+
+
+### ✅ Tests
+
+* add InitialRAMPercentatage and MaxRAMPercentage to zaakbrug ([9dd925f](https://github.com/wearefrank/zaakbrug/commit/9dd925f89bc37eb9434dff8314befefa0a66bece))
+
+
+### 🤖 Build System
+
+* add docker entrypoint with heapdump java_opts ([fdf600e](https://github.com/wearefrank/zaakbrug/commit/fdf600ee617330ab268be373524ad52c29dbdfdf))
+* add jvm settings and flags dump on zaakbrug startup ([24b83ba](https://github.com/wearefrank/zaakbrug/commit/24b83ba0f068ad0c5f0d2812d604982a37513567))
+* replace jre11 with jdk11 for debugging and profiling tooling ([218442d](https://github.com/wearefrank/zaakbrug/commit/218442d0c6a6b26ac60bc90b5291dcce43e22160))
+* switch to better suited G1GC garbarge collector ([23c7963](https://github.com/wearefrank/zaakbrug/commit/23c7963cbec6ab99cfa45ce787eec9540ffce5ad))
+
 ## [1.13.34](https://github.com/wearefrank/zaakbrug/compare/v1.13.33...v1.13.34) (2023-12-11)
 
 
