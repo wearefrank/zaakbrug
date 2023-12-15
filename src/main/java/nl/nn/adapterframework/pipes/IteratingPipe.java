@@ -419,6 +419,7 @@ public abstract class IteratingPipe<I> extends MessageSendingPipe {
 		}
 
 		private void collectResultsOrThrowExceptions() throws SenderException, IOException {
+			System.out.println("collectResultsOrThrowExceptions method is called");
 			int count = 0;
 			List<Throwable> exceptions = new ArrayList<>();
 			for(ParallelSenderExecutor pse : executorList) {
