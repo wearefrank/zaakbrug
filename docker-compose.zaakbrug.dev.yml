@@ -17,12 +17,13 @@ services:
     build:
       context: .
       args:
-        FF_VERSION: ${FF_VERSION-8.0-20231123.223429}
+        FF_VERSION: ${FF_VERSION:-7.9-20231026.224138}
     image: wearefrank/zaakbrug:latest
     container_name: zaakbrug.dev
     environment:
       - zaakbrug.zds.timezone=UTC
       - TZ=Europe/Amsterdam
+      - JAVA_OPTS=-XX:InitialRAMPercentage=25.0 -XX:MaxRAMPercentage=75.0
     volumes:
       - ../frank-runner/data:/usr/local/tomcat/data
       - logs:/usr/local/tomcat/logs
