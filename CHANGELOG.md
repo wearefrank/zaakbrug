@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.36](https://github.com/wearefrank/zaakbrug/compare/v1.13.35...v1.13.36) (2023-12-19)
+
+
+### ✅ Tests
+
+* add jmx config and port to compose for debugging heapsize ([#240](https://github.com/wearefrank/zaakbrug/issues/240)) ([04fa0ee](https://github.com/wearefrank/zaakbrug/commit/04fa0ee09ed7b4f3eeea1cff896f8c7961f91873))
+
 ## [1.13.35](https://github.com/wearefrank/zaakbrug/compare/v1.13.34...v1.13.35) (2023-12-15)
 
 
