@@ -23,4 +23,9 @@ export JAVA_OPTS="$JAVA_OPTS \
     -XX:+PrintFlagsFinal \
     -XshowSettings"
 
+# Enables writing of GC logs to /usr/local/tomcat/logs. Impacts performance!
+if [ ${GC_LOGGING_ENABLED:-false} == true ] then
+	export JAVA_OPTS="$JAVA_OPTS -Xlog:codecache+sweep*=trace,class+unload,class+load,os+thread,safepoint,gc*,gc+stringdedup=debug,gc+ergo=trace,gc+age=trace,gc+phases=trace,gc+humongous=trace,jit+compilation=debug:file=/usr/local/tomcat/logs/zaakbrug-gc-log.log:level,tags,time,uptime:filesize=104857600,filecount=5"
+fi
+
 exec "$@"
