@@ -1,5 +1,17 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.37](https://github.com/wearefrank/zaakbrug/compare/v1.13.36...v1.13.37) (2023-12-22)
+
+
+### 🐛 Bug Fixes
+
+* verlenging with empty reason or duur of zero should be ignored ([45f16e5](https://github.com/wearefrank/zaakbrug/commit/45f16e5bd2eaf0293404347f09a95ea099ba2825))
+
+
+### ✅ Tests
+
+* add verlenging testcases and fix for equal datumstatusgezet status testcase ([1acb7d2](https://github.com/wearefrank/zaakbrug/commit/1acb7d2eac89b45712c4c98b7510c00af3c8a4bb))
+
 ## [1.13.36](https://github.com/wearefrank/zaakbrug/compare/v1.13.35...v1.13.36) (2023-12-19)
 
 
