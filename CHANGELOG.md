@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.38](https://github.com/wearefrank/zaakbrug/compare/v1.13.37...v1.13.38) (2023-12-22)
+
+
+### 🐛 Bug Fixes
+
+* increase max number of checkpoints increased to 5000 ([#242](https://github.com/wearefrank/zaakbrug/issues/242)) ([6b19867](https://github.com/wearefrank/zaakbrug/commit/6b198679cec54fe445e7e4c2b53e5e817d4429f2))
+
 ## [1.13.37](https://github.com/wearefrank/zaakbrug/compare/v1.13.36...v1.13.37) (2023-12-22)
 
 
