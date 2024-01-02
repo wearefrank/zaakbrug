@@ -67,6 +67,16 @@
                 throwException="true">
                 <Forward name="success" path="PostZgwRol"/>
             </Json2XmlValidatorPipe>
+            
+            <Json2XmlValidatorPipe
+                name="organisatorische_eenheid"
+                schema="CreeerZaak_LK01/xsd/ZgwRolOrganisatorischeEenheid.xsd"
+                root="zgwRol"
+                outputFormat="JSON"
+                deepSearch="true"
+                throwException="true">
+                <Forward name="success" path="PostZgwRol"/>
+            </Json2XmlValidatorPipe>
 
             <SenderPipe name="PostZgwRol" 
                 storeResultInSessionKey="PostZgwRolResult">
