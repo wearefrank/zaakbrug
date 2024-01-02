@@ -41,6 +41,7 @@ COPY --from=ff-builder --chown=tomcat /usr/local/tomcat/webapps/ROOT /usr/local/
 ENV credentialFactory.class=nl.nn.credentialprovider.PropertyFileCredentialFactory
 ENV credentialFactory.map.properties=/opt/frank/resources/credentials.properties
 ENV zaakbrug.zds.timezone=UTC
+ENV log.level=INFO
 
 # Copy dependencies
 COPY --chown=tomcat lib/server/ /usr/local/tomcat/lib/

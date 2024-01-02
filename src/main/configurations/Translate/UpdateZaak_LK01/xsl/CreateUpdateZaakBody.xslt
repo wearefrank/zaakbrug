@@ -84,7 +84,7 @@
                 <xsl:when test="string-length($ZgwZaak/ZgwZaak/zaakgeometrie) > 0"><xsl:copy-of select="$ZgwZaak/ZgwZaak/zaakgeometrie"/></xsl:when>
             </xsl:choose>
             <xsl:choose>
-                <xsl:when test="string-length(object/verlenging) > 0">
+                <xsl:when test="string-length(object/verlenging/reden) > 0 and object/verlenging/duur != '0'">
                     <verlenging>
                         <reden><xsl:value-of select="object/verlenging/reden"/></reden>
                         <duur><xsl:value-of select="concat('P', object/verlenging/duur, 'D')"/></duur>

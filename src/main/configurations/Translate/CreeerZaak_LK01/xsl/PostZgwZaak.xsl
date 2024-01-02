@@ -62,7 +62,7 @@
         </zaken>
 	</xsl:template>
     <xsl:template match="verlenging">
-        <xsl:if test="string-length(reden) > 0">
+        <xsl:if test="string-length(reden) > 0 and duur != '0'">
             <verlenging>
                 <reden><xsl:value-of select="reden"/></reden>
                 <duur><xsl:value-of select="concat('P', duur, 'D')"/></duur> <!-- Vertaling? -->

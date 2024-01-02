@@ -1,5 +1,58 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.40](https://github.com/wearefrank/zaakbrug/compare/v1.13.39...v1.13.40) (2024-01-02)
+
+
+### 🤖 Build System
+
+* remove ConcGCThreads override causing threadcount error on low cpu-limit environments ([33fc4e9](https://github.com/wearefrank/zaakbrug/commit/33fc4e93533d9bbd58a189354207aa187bad3fcb))
+
+## [1.13.39](https://github.com/wearefrank/zaakbrug/compare/v1.13.38...v1.13.39) (2023-12-22)
+
+
+### 🐛 Bug Fixes
+
+* default log.level to INFO instead of DEBUG due to performance ([2aabbc5](https://github.com/wearefrank/zaakbrug/commit/2aabbc50d691f694c011585a4d2c463243c2a8d8))
+* disable prometheus endpoint to stop metrics building up in memory ([46ee4e2](https://github.com/wearefrank/zaakbrug/commit/46ee4e2299626de6a2594b18a6271d824384f272))
+
+
+### ✅ Tests
+
+* changed JAVA_OPTS to add to exiting instead of replace in zaakbrug docker-compose ([eded492](https://github.com/wearefrank/zaakbrug/commit/eded49279bdf42b453379285751e34834042fbcf))
+
+
+### 🤖 Build System
+
+* add GC_LOGGING_ENABLED environment variable to enabled trace level gc logs ([bf69134](https://github.com/wearefrank/zaakbrug/commit/bf691340a75b58f45b124114eaa1681cfc4f5496))
+* disable zds 1.2 soap-endpoints to reduce static memory usage ([1cff562](https://github.com/wearefrank/zaakbrug/commit/1cff5620766b6178f51e95b9aa3cc3cb30ae087d))
+* garbage collector tuning to increase stability with large document processing ([e5c8c26](https://github.com/wearefrank/zaakbrug/commit/e5c8c2631b9e5ba5ca9029e1b00e0f89f7afcbf0))
+
+## [1.13.38](https://github.com/wearefrank/zaakbrug/compare/v1.13.37...v1.13.38) (2023-12-22)
+
+
+### 🐛 Bug Fixes
+
+* increase max number of checkpoints increased to 5000 ([#242](https://github.com/wearefrank/zaakbrug/issues/242)) ([6b19867](https://github.com/wearefrank/zaakbrug/commit/6b198679cec54fe445e7e4c2b53e5e817d4429f2))
+
+## [1.13.37](https://github.com/wearefrank/zaakbrug/compare/v1.13.36...v1.13.37) (2023-12-22)
+
+
+### 🐛 Bug Fixes
+
+* verlenging with empty reason or duur of zero should be ignored ([45f16e5](https://github.com/wearefrank/zaakbrug/commit/45f16e5bd2eaf0293404347f09a95ea099ba2825))
+
+
+### ✅ Tests
+
+* add verlenging testcases and fix for equal datumstatusgezet status testcase ([1acb7d2](https://github.com/wearefrank/zaakbrug/commit/1acb7d2eac89b45712c4c98b7510c00af3c8a4bb))
+
+## [1.13.36](https://github.com/wearefrank/zaakbrug/compare/v1.13.35...v1.13.36) (2023-12-19)
+
+
+### ✅ Tests
+
+* add jmx config and port to compose for debugging heapsize ([#240](https://github.com/wearefrank/zaakbrug/issues/240)) ([04fa0ee](https://github.com/wearefrank/zaakbrug/commit/04fa0ee09ed7b4f3eeea1cff896f8c7961f91873))
+
 ## [1.13.35](https://github.com/wearefrank/zaakbrug/compare/v1.13.34...v1.13.35) (2023-12-15)
 
 
