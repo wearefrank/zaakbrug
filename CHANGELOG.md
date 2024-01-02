@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.14.0](https://github.com/wearefrank/zaakbrug/compare/v1.13.40...v1.14.0) (2024-01-02)
+
+
+### 🍕 Features
+
+* implement translation for zds rol gerelateerde organisatorische eenheid to zgw rol betrokkenetype ([#239](https://github.com/wearefrank/zaakbrug/issues/239)) ([c265068](https://github.com/wearefrank/zaakbrug/commit/c2650684da32916306b55789899091359d1498a8))
+
 ## [1.13.40](https://github.com/wearefrank/zaakbrug/compare/v1.13.39...v1.13.40) (2024-01-02)
 
 
