@@ -16,7 +16,6 @@ export JAVA_OPTS="$JAVA_OPTS \
 	-XX:MaxTenuringThreshold=3 \
 	-XX:MaxGCPauseMillis=200 \
 	-XX:+UseStringDeduplication \
-	-XX:ConcGCThreads=4 \
 	-XX:MaxMetaspaceSize=256m \
 	-XX:G1HeapRegionSize=16m \
 	-XX:G1NewSizePercent=30 \
