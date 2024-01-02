@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.13.40](https://github.com/wearefrank/zaakbrug/compare/v1.13.39...v1.13.40) (2024-01-02)
+
+
+### 🤖 Build System
+
+* remove ConcGCThreads override causing threadcount error on low cpu-limit environments ([33fc4e9](https://github.com/wearefrank/zaakbrug/commit/33fc4e93533d9bbd58a189354207aa187bad3fcb))
+
 ## [1.13.39](https://github.com/wearefrank/zaakbrug/compare/v1.13.38...v1.13.39) (2023-12-22)
 
 
