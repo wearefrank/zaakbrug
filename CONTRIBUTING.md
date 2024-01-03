@@ -17,8 +17,6 @@ Execute the following steps when bumping the Frank!Framework version:
 
 # Testing with SoapUI
 
-
-
 ## Configuring SoapUI
 Out-of-the-box SoapUI saves the dynamic properties set during execution of the tests to the project file. Having these dynamic properties value changes in the project file, makes it harder for Git to merge without a merge conflict. Git does not know the context of the changes and will simply see local and incoming changes to the same part of the project file, leading to a merge conflict that is hard to manually solve due to the sheer size of the projec t file. To combat this, we added a save script to the project that automatically clears all dynamic property values when saving the project, so that only functional changes end up in the project file. 
 
@@ -38,12 +36,22 @@ Additionally, to help out diff tools, also enable the option **Pretty Print Proj
 If you would like to create and run your own test cases in SoapUI then you should complete the configuration under "docker-compose.openzaak.dev" section below to be able to have the catalog imported. Afterwards, you could create your own test cases in SoapUI.
 
 ## Manual testing with already prepared test cases in the repo
-If you would like to run the test cases already prepared in the repo, then you don't need to import catalog at all. However, you first need to import the test cases in SoapUI. To do so:
+If you would like to run the test cases which are already prepared in the repo, then you don't need to import catalog at all. However, you first need to import the test cases in SoapUI. To do so:
 - Click on the 'Import' button on SoapUI.
 - Go to the directory that has the ZaakBrug project downloaded.
 - Go to the folder ./e2e/SoapUI and select the zaakbrug-e2e-soapui-project.xml file
 
 When you have imported the tests you can run any test case under the TestSuite, the test case will manage creating own catalog with required data and delete everything created after the test run is completed. These processes will be done by "SetUp" and "TearDown" test cases which are disabled as default and no need to enable them because they are called inside the main test case.
+
+## Running test cases automatically in Docker container on your local
+If you would like to run the test cases which are already prepared in the repo automatically in the docker container on your local then the command would be as follows:
+`docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up --build`
+This command will first have Zaakbrug and Openzaak up and running and afterwards it will automatically run the SoapUI test cases in 'soapui-testrunner' docker container.
+The test reports will be created under "./e2e/reports" folder.
+
+## Running test cases automatically on Github CI
+There is nothing to do explicitly to run the test cases on Github environment. When you create a PR to master branch, the test cases will be automatically run on Github CI to see if everything is still working on your own branch.
+In case you would like to do any change on Zaakbrug project you can create a PR and this PR will trigger the test automation on Github environment so you can see if anything is broken.
 
 
 # Docker-compose
@@ -97,6 +105,12 @@ email: `admin@wearefrank.nl`
 password: `admin` 
 
 For example: `docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml --profile pgadmin up --build`
+
+### SoapUI
+As mentioned under *'Running test cases automatically in Docker container on your local'* under *'Testing with SoapUI'* section we could run SoapUI application in a Docker container. Afterwards, we could run our test cases in this SoapUI application automatically in this container. This is why we created **soapui-testrunner** service in docker-compose.zaakbrug.dev.yml file.
+#### soapui-testrunner
+To be able to use this service and to run the test cases automatically use the following command which is also mentioned under *'Running test cases automatically in Docker container on your local'* section:
+`docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up --build`
 
 ## docker-compose.zaakbrug.staging.dev
 Contains an instance of OpenZaak specifically configured to act as cache or staging for ZGW to ZDS translations. It shares a network with ZaakBrug, and should be considered a component of the ZaakBrug deployment for when ZGW to ZDS translations are required.
