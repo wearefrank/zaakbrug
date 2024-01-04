@@ -3,7 +3,7 @@
   <con:settings/>
   <con:interface xsi:type="con:WsdlInterface" id="aaaaa6d3-e786-4ca8-956d-c92d65b06ea5" wsaVersion="NONE" name="ZdsBeantwoordVraag" type="wsdl" bindingName="{http://www.egem.nl/StUF/sector/zkn/0310}SOAPBeantwoordVraag" soapVersion="1_1" anonymous="optional" definition="../../src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_beantwoordVraag_zs-dms.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
-    <con:endpoints>
+    <con:definitionCache/><con:endpoints>
       <con:endpoint>http://localhost:8080/BeantwoordVraag</con:endpoint>
     </con:endpoints>
     <con:operation id="c876e01e-8701-40db-ba15-af7a0ad28fb3" isOneWay="false" action="http://www.egem.nl/StUF/sector/zkn/0310/geefLijstZaakdocumenten_Lv01" name="geefLijstZaakdocumenten_Lv01" bindingOperationName="geefLijstZaakdocumenten_Lv01" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional">
@@ -21,7 +21,7 @@
   </con:interface>
   <con:interface xsi:type="con:WsdlInterface" id="7d7603a1-a9ce-4bb6-ab23-ee84463191de" wsaVersion="NONE" name="ZdsOntvangAsynchroon" type="wsdl" bindingName="{http://www.egem.nl/StUF/sector/zkn/0310}SOAPOntvangAsynchroon" soapVersion="1_1" anonymous="optional" definition="../../src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
-    <con:endpoints>
+    <con:definitionCache/><con:endpoints>
       <con:endpoint>http://localhost:8080/translate/OntvangAsynchroon</con:endpoint>
     </con:endpoints>
     <con:operation id="d75804b6-2181-4a6c-91ca-61991a71de86" isOneWay="false" action="http://www.egem.nl/StUF/sector/zkn/0310/actualiseerZaakstatus_Lk01" name="actualiseerZaakstatus_Lk01" bindingOperationName="actualiseerZaakstatus_Lk01" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional">
@@ -51,7 +51,7 @@
   </con:interface>
   <con:interface xsi:type="con:WsdlInterface" id="cdcf3af6-4513-4908-af56-1a52ea8c43c3" wsaVersion="NONE" name="ZdsVrijeBerichten" type="wsdl" bindingName="{http://www.egem.nl/StUF/sector/zkn/0310}SOAPVrijeBerichten" soapVersion="1_1" anonymous="optional" definition="../../src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
-    <con:endpoints>
+    <con:definitionCache/><con:endpoints>
       <con:endpoint>http://LT1929:8090/</con:endpoint>
       <con:endpoint>http://localhost:8080/translate/VrijBerichtService</con:endpoint>
     </con:endpoints>
@@ -73,7 +73,7 @@
   </con:interface>
   <con:interface xsi:type="con:WsdlInterface" id="d4da60f9-fd31-4ea7-a6fe-3c6ebba0d6e7" wsaVersion="NONE" name="StufZknBeantwoordVraag" type="wsdl" bindingName="{http://www.egem.nl/StUF/sector/zkn/0310}SOAPBeantwoordVraag" soapVersion="1_1" anonymous="optional" definition="../../src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/vraagAntwoord/zkn0310_beantwoordVraag.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
-    <con:endpoints>
+    <con:definitionCache/><con:endpoints>
       <con:endpoint>http://example.com/BeantwoordVraag</con:endpoint>
       <con:endpoint>http://localhost:8080/stufzkn/OntvangAsynchroon</con:endpoint>
     </con:endpoints>
@@ -263,7 +263,7 @@
   </con:interface>
   <con:interface xsi:type="con:WsdlInterface" id="aadc71fd-d5f4-4fbd-a512-27f3f767b434" wsaVersion="NONE" name="SOAPVerwerkSynchroonVrijBericht" type="wsdl" bindingName="{http://www.stufstandaarden.nl/koppelvlak/zds0120}SOAPVerwerkSynchroonVrijBericht" soapVersion="1_1" anonymous="optional" definition="../../src/main/configurations/Translate/Common/xsd/Zaak-_Documentservices_1_2/zds0120/berichten/zds0120_vrijeBerichten_zs-dms.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
-    <con:endpoints>
+    <con:definitionCache/><con:endpoints>
       <con:endpoint>http://example.com/VerwerkSynchroonVrijBericht</con:endpoint>
     </con:endpoints>
     <con:operation id="224f8f96-8df4-4409-83d2-f6406a4f84d4" isOneWay="false" action="http://www.stufstandaarden.nl/koppelvlak/zds0120/cancelCheckout_Di02" name="cancelCheckout_Di02" bindingOperationName="cancelCheckout_Di02" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional">
@@ -401,7 +401,7 @@ Deze API publiceert notificaties op het kanaal `informatieobjecttypen`.
 * [Zaakgericht werken](https://www.vngrealisatie.nl/producten/api-standaarden-zaakgericht-werken)
 * [Open Zaak GitHub](https://github.com/open-zaak/open-zaak)</con:description>
     <con:settings/>
-    <con:endpoints/>
+    <con:definitionCache/><con:endpoints/>
     <con:resource name="/besluittypen" path="/besluittypen" id="63608a6a-2ee1-4ce1-8218-be4c9402f079">
       <con:settings/>
       <con:parameters/>
@@ -5095,7 +5095,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
             <con:request/>
-            <con:originalUri>http://localhost/catalogi/api/v1//catalogussen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/catalogussen</con:originalUri>
             <con:assertion type="Valid HTTP Status Codes" id="beb44b4d-8b6f-4654-87e1-2ac1760cc886" name="Valid HTTP Status Codes">
               <con:configuration>
                 <codes>200</codes>
@@ -5267,7 +5267,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
   "eindeGeldigheid": null,
   "versiedatum": "2021-03-29"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//zaaktypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/zaaktypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="8a8ac1b8-eafa-4e30-a90e-cd60e9d97924" name="JsonPath Match">
               <con:configuration>
                 <path>$.identificatie</path>
@@ -5330,7 +5330,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -5377,7 +5377,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -5412,7 +5412,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Uitvoerende",
 "omschrijvingGeneriek": "belanghebbende"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -5447,7 +5447,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Initiator",
 "omschrijvingGeneriek": "initiator"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -5482,7 +5482,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "BetrekkingOp",
 "omschrijvingGeneriek": "belanghebbende"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -5517,7 +5517,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Verantwoordelijke",
 "omschrijvingGeneriek": "beslisser"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -5552,7 +5552,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Belanghebbende",
 "omschrijvingGeneriek": "belanghebbende"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -5590,7 +5590,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 1,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -5628,7 +5628,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 2,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -5666,7 +5666,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 3,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -5704,7 +5704,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 5,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -5742,7 +5742,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 6,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -5780,7 +5780,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 7,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -5818,7 +5818,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 10,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -5855,7 +5855,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "beginGeldigheid": "2021-03-29",
 "eindeGeldigheid": null
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//informatieobjecttypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/informatieobjecttypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="9d85d4fc-a9f7-4a89-b4c6-a537e182a322" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -5908,7 +5908,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "richting": "intern",
 "statustype": null
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//zaaktype-informatieobjecttypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/zaaktype-informatieobjecttypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="8b2fa55d-13d4-48c9-bb9a-9db186d6b78b" name="JsonPath Match">
               <con:configuration>
                 <path>$.zaaktype</path>
@@ -8256,7 +8256,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}zaken</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
           <con:request/>
           <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JsonPath Match">
             <con:configuration>
@@ -8352,7 +8352,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakDocumentenApiRootUrl}enkelvoudiginformatieobjecten</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakDocumentenApiRootUrl}/enkelvoudiginformatieobjecten</con:endpoint>
           <con:request/>
           <con:assertion type="JsonPath Match" id="d471f2c1-c3aa-450a-b4c8-6f0936324ff8" name="JsonPath Match">
             <con:configuration>
@@ -8885,7 +8885,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}zaken</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
           <con:request/>
           <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JsonPath Match">
             <con:configuration>
@@ -9524,7 +9524,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}zaken</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
           <con:request/>
           <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JsonPath Match">
             <con:configuration>
@@ -10145,7 +10145,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}zaken</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
           <con:request/>
           <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JsonPath Match">
             <con:configuration>
@@ -10766,7 +10766,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}zaken</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
           <con:request/>
           <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JsonPath Match">
             <con:configuration>
@@ -11076,7 +11076,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
             <con:request/>
-            <con:originalUri>http://localhost/catalogi/api/v1//catalogussen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/catalogussen</con:originalUri>
             <con:assertion type="Valid HTTP Status Codes" id="beb44b4d-8b6f-4654-87e1-2ac1760cc886" name="Valid HTTP Status Codes">
               <con:configuration>
                 <codes>200</codes>
@@ -11245,7 +11245,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
   "eindeGeldigheid": null,
   "versiedatum": "2021-04-03"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//zaaktypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/zaaktypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="8a8ac1b8-eafa-4e30-a90e-cd60e9d97924" name="JsonPath Match">
               <con:configuration>
                 <path>$.identificatie</path>
@@ -11308,7 +11308,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -11355,7 +11355,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -11402,7 +11402,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -11449,7 +11449,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -11496,7 +11496,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -11531,7 +11531,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Behandelaar",
 "omschrijvingGeneriek": "behandelaar"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -11566,7 +11566,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Initiator",
 "omschrijvingGeneriek": "initiator"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -11601,7 +11601,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Belanghebbende",
 "omschrijvingGeneriek": "belanghebbende"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -11639,7 +11639,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 1,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -11677,7 +11677,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 2,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -11715,7 +11715,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 3,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -11753,7 +11753,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 4,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -11791,7 +11791,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 5,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -11829,7 +11829,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 6,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -11867,7 +11867,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 7,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -11905,7 +11905,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 8,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -11943,7 +11943,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 9,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -11981,7 +11981,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 10,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -12954,7 +12954,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}zaken</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
           <con:request/>
           <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JsonPath Match">
             <con:configuration>
@@ -13724,7 +13724,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}zaken</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
           <con:request/>
           <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JsonPath Match">
             <con:configuration>
@@ -14370,7 +14370,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}zaken</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
           <con:request/>
           <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JsonPath Match">
             <con:configuration>
@@ -14833,7 +14833,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}zaken</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
           <con:request/>
           <con:credentials>
             <con:authType>No Authorization</con:authType>
@@ -15109,7 +15109,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
             <con:request/>
-            <con:originalUri>http://localhost/catalogi/api/v1//catalogussen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/catalogussen</con:originalUri>
             <con:assertion type="Valid HTTP Status Codes" id="beb44b4d-8b6f-4654-87e1-2ac1760cc886" name="Valid HTTP Status Codes">
               <con:configuration>
                 <codes>200</codes>
@@ -15278,7 +15278,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
   "eindeGeldigheid": null,
   "versiedatum": "2021-04-03"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//zaaktypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/zaaktypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="8a8ac1b8-eafa-4e30-a90e-cd60e9d97924" name="JsonPath Match">
               <con:configuration>
                 <path>$.identificatie</path>
@@ -15341,7 +15341,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -15388,7 +15388,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -15435,7 +15435,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -15482,7 +15482,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -15529,7 +15529,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -15564,7 +15564,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Uitvoerende",
 "omschrijvingGeneriek": "behandelaar"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -15599,7 +15599,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Initiator",
 "omschrijvingGeneriek": "initiator"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -15637,7 +15637,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 1,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -15675,7 +15675,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 2,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -15713,7 +15713,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 3,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -15751,7 +15751,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 4,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -15789,7 +15789,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 5,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -15827,7 +15827,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 6,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -15865,7 +15865,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 7,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -15903,7 +15903,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 8,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -16696,7 +16696,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}zaken</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
           <con:request/>
           <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JsonPath Match">
             <con:configuration>
@@ -16986,7 +16986,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
             <con:request/>
-            <con:originalUri>http://localhost/catalogi/api/v1//catalogussen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/catalogussen</con:originalUri>
             <con:assertion type="Valid HTTP Status Codes" id="beb44b4d-8b6f-4654-87e1-2ac1760cc886" name="Valid HTTP Status Codes">
               <con:configuration>
                 <codes>200</codes>
@@ -17155,7 +17155,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
   "eindeGeldigheid": null,
   "versiedatum": "2021-08-05"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//zaaktypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/zaaktypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="8a8ac1b8-eafa-4e30-a90e-cd60e9d97924" name="JsonPath Match">
               <con:configuration>
                 <path>$.identificatie</path>
@@ -17218,7 +17218,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17265,7 +17265,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17312,7 +17312,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17359,7 +17359,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17394,7 +17394,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Uitvoerende",
 "omschrijvingGeneriek": "behandelaar"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17429,7 +17429,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Initiator",
 "omschrijvingGeneriek": "initiator"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17464,7 +17464,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Belanghebbende",
 "omschrijvingGeneriek": "belanghebbende"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17499,7 +17499,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "BetrekkingOp",
 "omschrijvingGeneriek": "belanghebbende"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17534,7 +17534,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Verantwoordelijke",
 "omschrijvingGeneriek": "beslisser"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17572,7 +17572,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 1,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17610,7 +17610,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 2,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17648,7 +17648,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 3,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17686,7 +17686,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 4,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17724,7 +17724,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 5,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17762,7 +17762,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 6,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17800,7 +17800,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 7,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17838,7 +17838,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 8,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17875,7 +17875,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "beginGeldigheid": "2021-08-05",
 "eindeGeldigheid": null
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//informatieobjecttypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/informatieobjecttypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="9d85d4fc-a9f7-4a89-b4c6-a537e182a322" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -17928,7 +17928,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "richting": "inkomend",
 "statustype": null
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//zaaktype-informatieobjecttypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/zaaktype-informatieobjecttypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="8b2fa55d-13d4-48c9-bb9a-9db186d6b78b" name="JsonPath Match">
               <con:configuration>
                 <path>$.zaaktype</path>
@@ -18118,7 +18118,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
             <con:request/>
-            <con:originalUri>http://localhost/catalogi/api/v1//catalogussen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/catalogussen</con:originalUri>
             <con:assertion type="Valid HTTP Status Codes" id="beb44b4d-8b6f-4654-87e1-2ac1760cc886" name="Valid HTTP Status Codes">
               <con:configuration>
                 <codes>200</codes>
@@ -18293,7 +18293,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
   "eindeGeldigheid": null,
   "versiedatum": "2021-08-09"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//zaaktypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/zaaktypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="8a8ac1b8-eafa-4e30-a90e-cd60e9d97924" name="JsonPath Match">
               <con:configuration>
                 <path>$.identificatie</path>
@@ -18356,7 +18356,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -18403,7 +18403,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -18438,7 +18438,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Uitvoerende",
 "omschrijvingGeneriek": "behandelaar"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -18473,7 +18473,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Initiator",
 "omschrijvingGeneriek": "initiator"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -18508,7 +18508,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Belanghebbende",
 "omschrijvingGeneriek": "belanghebbende"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -18543,7 +18543,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "BetrekkingOp",
 "omschrijvingGeneriek": "belanghebbende"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -18578,7 +18578,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Verantwoordelijke",
 "omschrijvingGeneriek": "beslisser"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -18616,7 +18616,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 1,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -18654,7 +18654,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 2,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -18692,7 +18692,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 3,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -18730,7 +18730,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 4,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -18768,7 +18768,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 8,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -19946,7 +19946,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}zaken</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
           <con:request/>
           <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JsonPath Match">
             <con:configuration>
@@ -20047,7 +20047,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakDocumentenApiRootUrl}enkelvoudiginformatieobjecten</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakDocumentenApiRootUrl}/enkelvoudiginformatieobjecten</con:endpoint>
           <con:request/>
           <con:assertion type="JsonPath Match" id="d471f2c1-c3aa-450a-b4c8-6f0936324ff8" name="JsonPath Match">
             <con:configuration>
@@ -20132,7 +20132,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}zaken</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
           <con:request/>
           <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JsonPath Match">
             <con:configuration>
@@ -21516,7 +21516,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}zaken</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
           <con:request/>
           <con:assertion type="Valid HTTP Status Codes" id="a9cd7600-4664-4c28-8515-0a7582c141d3" name="Valid HTTP Status Codes">
             <con:configuration>
@@ -21613,7 +21613,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}zaken</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
           <con:request/>
           <con:assertion type="Valid HTTP Status Codes" id="1ae74225-1fb6-4a3b-8589-e7ab9b48acae" name="Valid HTTP Status Codes">
             <con:configuration>
@@ -21710,7 +21710,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}zaken</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
           <con:request/>
           <con:assertion type="Valid HTTP Status Codes" id="a5f16f00-dcc8-4b9a-93b1-15234837a104" name="Valid HTTP Status Codes">
             <con:configuration>
@@ -22530,7 +22530,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}zaken</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
           <con:request/>
           <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JsonPath Match">
             <con:configuration>
@@ -22727,7 +22727,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
             <con:request/>
-            <con:originalUri>http://localhost/catalogi/api/v1//catalogussen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/catalogussen</con:originalUri>
             <con:assertion type="Valid HTTP Status Codes" id="beb44b4d-8b6f-4654-87e1-2ac1760cc886" name="Valid HTTP Status Codes">
               <con:configuration>
                 <codes>200</codes>
@@ -22894,7 +22894,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
   "eindeGeldigheid": null,
   "versiedatum": "2023-06-01"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//zaaktypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/zaaktypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="8a8ac1b8-eafa-4e30-a90e-cd60e9d97924" name="JsonPath Match">
               <con:configuration>
                 <path>$.identificatie</path>
@@ -22957,7 +22957,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -23004,7 +23004,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -23051,7 +23051,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -23098,7 +23098,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -23133,7 +23133,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Uitvoerende",
 "omschrijvingGeneriek": "behandelaar"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -23168,7 +23168,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Initiator",
 "omschrijvingGeneriek": "initiator"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -23203,7 +23203,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "BetrekkingOp",
 "omschrijvingGeneriek": "belanghebbende"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -23238,7 +23238,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Verantwoordelijke",
 "omschrijvingGeneriek": "behandelaar"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -23273,7 +23273,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Belanghebbende",
 "omschrijvingGeneriek": "belanghebbende"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -23308,7 +23308,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "OverigeBetrokkene",
 "omschrijvingGeneriek": "behandelaar"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -23343,7 +23343,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Gemachtigde",
 "omschrijvingGeneriek": "beslisser"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -23381,7 +23381,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 1,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -23419,7 +23419,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 2,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -23457,7 +23457,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 3,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -23495,7 +23495,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 4,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -24583,7 +24583,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}zaken</con:endpoint>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
           <con:request/>
           <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JsonPath Match">
             <con:configuration>
@@ -28086,7 +28086,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
             <con:request/>
-            <con:originalUri>http://localhost/catalogi/api/v1//catalogussen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/catalogussen</con:originalUri>
             <con:assertion type="Valid HTTP Status Codes" id="beb44b4d-8b6f-4654-87e1-2ac1760cc886" name="Valid HTTP Status Codes">
               <con:configuration>
                 <codes>200</codes>
@@ -28258,7 +28258,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
   "eindeGeldigheid": null,
   "versiedatum": "2021-03-29"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//zaaktypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/zaaktypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="8a8ac1b8-eafa-4e30-a90e-cd60e9d97924" name="JsonPath Match">
               <con:configuration>
                 <path>$.identificatie</path>
@@ -28321,7 +28321,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -28368,7 +28368,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "procestermijn": null
 }
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -28403,7 +28403,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Uitvoerende",
 "omschrijvingGeneriek": "belanghebbende"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -28438,7 +28438,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Initiator",
 "omschrijvingGeneriek": "initiator"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -28473,7 +28473,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "BetrekkingOp",
 "omschrijvingGeneriek": "belanghebbende"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -28508,7 +28508,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Verantwoordelijke",
 "omschrijvingGeneriek": "beslisser"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -28543,7 +28543,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Belanghebbende",
 "omschrijvingGeneriek": "belanghebbende"
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//resultaattypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="0f1c2845-ec68-45f7-a762-0eaf911955ce" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -28581,7 +28581,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 1,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -28619,7 +28619,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 2,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -28657,7 +28657,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 3,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -28695,7 +28695,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 5,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -28733,7 +28733,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 6,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -28771,7 +28771,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 7,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -28809,7 +28809,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "volgnummer": 10,
 "informeren": false
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//statustypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="437c7590-78b1-4e6e-adcc-5a6639b19b01" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -28846,7 +28846,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "beginGeldigheid": "2021-03-29",
 "eindeGeldigheid": null
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//informatieobjecttypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/informatieobjecttypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="9d85d4fc-a9f7-4a89-b4c6-a537e182a322" name="JsonPath Match">
               <con:configuration>
                 <path>$.omschrijving</path>
@@ -28899,7 +28899,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "richting": "intern",
 "statustype": null
 }</con:request>
-            <con:originalUri>http://localhost/catalogi/api/v1//zaaktype-informatieobjecttypen</con:originalUri>
+            <con:originalUri>http://localhost/catalogi/api/v1/zaaktype-informatieobjecttypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="8b2fa55d-13d4-48c9-bb9a-9db186d6b78b" name="JsonPath Match">
               <con:configuration>
                 <path>$.zaaktype</path>
@@ -30022,15 +30022,15 @@ loadTestRunner.loadTest.testCase.getTestStepByName("Properties").setPropertyValu
     </con:property>
     <con:property>
       <con:name>OpenZaakZakenApiRootUrl</con:name>
-      <con:value>http://localhost:9001/zaken/api/v1/</con:value>
+      <con:value>http://localhost:9001/zaken/api/v1</con:value>
     </con:property>
     <con:property>
       <con:name>OpenZaakCatalogiApiRootUrl</con:name>
-      <con:value>http://localhost:9001/catalogi/api/v1/</con:value>
+      <con:value>http://localhost:9001/catalogi/api/v1</con:value>
     </con:property>
     <con:property>
       <con:name>OpenZaakDocumentenApiRootUrl</con:name>
-      <con:value>http://localhost:9001/documenten/api/v1/</con:value>
+      <con:value>http://localhost:9001/documenten/api/v1</con:value>
     </con:property>
     <con:property>
       <con:name>ZaakUrl</con:name>
