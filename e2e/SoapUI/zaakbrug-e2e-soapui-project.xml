@@ -3,7 +3,7 @@
   <con:settings/>
   <con:interface xsi:type="con:WsdlInterface" id="aaaaa6d3-e786-4ca8-956d-c92d65b06ea5" wsaVersion="NONE" name="ZdsBeantwoordVraag" type="wsdl" bindingName="{http://www.egem.nl/StUF/sector/zkn/0310}SOAPBeantwoordVraag" soapVersion="1_1" anonymous="optional" definition="../../src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_beantwoordVraag_zs-dms.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
-    <con:definitionCache/><con:endpoints>
+    <con:endpoints>
       <con:endpoint>http://localhost:8080/BeantwoordVraag</con:endpoint>
     </con:endpoints>
     <con:operation id="c876e01e-8701-40db-ba15-af7a0ad28fb3" isOneWay="false" action="http://www.egem.nl/StUF/sector/zkn/0310/geefLijstZaakdocumenten_Lv01" name="geefLijstZaakdocumenten_Lv01" bindingOperationName="geefLijstZaakdocumenten_Lv01" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional">
@@ -21,7 +21,7 @@
   </con:interface>
   <con:interface xsi:type="con:WsdlInterface" id="7d7603a1-a9ce-4bb6-ab23-ee84463191de" wsaVersion="NONE" name="ZdsOntvangAsynchroon" type="wsdl" bindingName="{http://www.egem.nl/StUF/sector/zkn/0310}SOAPOntvangAsynchroon" soapVersion="1_1" anonymous="optional" definition="../../src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
-    <con:definitionCache/><con:endpoints>
+    <con:endpoints>
       <con:endpoint>http://localhost:8080/translate/OntvangAsynchroon</con:endpoint>
     </con:endpoints>
     <con:operation id="d75804b6-2181-4a6c-91ca-61991a71de86" isOneWay="false" action="http://www.egem.nl/StUF/sector/zkn/0310/actualiseerZaakstatus_Lk01" name="actualiseerZaakstatus_Lk01" bindingOperationName="actualiseerZaakstatus_Lk01" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional">
@@ -51,7 +51,7 @@
   </con:interface>
   <con:interface xsi:type="con:WsdlInterface" id="cdcf3af6-4513-4908-af56-1a52ea8c43c3" wsaVersion="NONE" name="ZdsVrijeBerichten" type="wsdl" bindingName="{http://www.egem.nl/StUF/sector/zkn/0310}SOAPVrijeBerichten" soapVersion="1_1" anonymous="optional" definition="../../src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
-    <con:definitionCache/><con:endpoints>
+    <con:endpoints>
       <con:endpoint>http://LT1929:8090/</con:endpoint>
       <con:endpoint>http://localhost:8080/translate/VrijBerichtService</con:endpoint>
     </con:endpoints>
@@ -73,7 +73,7 @@
   </con:interface>
   <con:interface xsi:type="con:WsdlInterface" id="d4da60f9-fd31-4ea7-a6fe-3c6ebba0d6e7" wsaVersion="NONE" name="StufZknBeantwoordVraag" type="wsdl" bindingName="{http://www.egem.nl/StUF/sector/zkn/0310}SOAPBeantwoordVraag" soapVersion="1_1" anonymous="optional" definition="../../src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/vraagAntwoord/zkn0310_beantwoordVraag.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
-    <con:definitionCache/><con:endpoints>
+    <con:endpoints>
       <con:endpoint>http://example.com/BeantwoordVraag</con:endpoint>
       <con:endpoint>http://localhost:8080/stufzkn/OntvangAsynchroon</con:endpoint>
     </con:endpoints>
@@ -263,7 +263,7 @@
   </con:interface>
   <con:interface xsi:type="con:WsdlInterface" id="aadc71fd-d5f4-4fbd-a512-27f3f767b434" wsaVersion="NONE" name="SOAPVerwerkSynchroonVrijBericht" type="wsdl" bindingName="{http://www.stufstandaarden.nl/koppelvlak/zds0120}SOAPVerwerkSynchroonVrijBericht" soapVersion="1_1" anonymous="optional" definition="../../src/main/configurations/Translate/Common/xsd/Zaak-_Documentservices_1_2/zds0120/berichten/zds0120_vrijeBerichten_zs-dms.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
-    <con:definitionCache/><con:endpoints>
+    <con:endpoints>
       <con:endpoint>http://example.com/VerwerkSynchroonVrijBericht</con:endpoint>
     </con:endpoints>
     <con:operation id="224f8f96-8df4-4409-83d2-f6406a4f84d4" isOneWay="false" action="http://www.stufstandaarden.nl/koppelvlak/zds0120/cancelCheckout_Di02" name="cancelCheckout_Di02" bindingOperationName="cancelCheckout_Di02" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional">
@@ -401,7 +401,7 @@ Deze API publiceert notificaties op het kanaal `informatieobjecttypen`.
 * [Zaakgericht werken](https://www.vngrealisatie.nl/producten/api-standaarden-zaakgericht-werken)
 * [Open Zaak GitHub](https://github.com/open-zaak/open-zaak)</con:description>
     <con:settings/>
-    <con:definitionCache/><con:endpoints/>
+    <con:endpoints/>
     <con:resource name="/besluittypen" path="/besluittypen" id="63608a6a-2ee1-4ce1-8218-be4c9402f079">
       <con:settings/>
       <con:parameters/>
