@@ -22,7 +22,7 @@ Out-of-the-box SoapUI saves the dynamic properties set during execution of the t
 
 Unfortunatly Load and Save scripts are disabled by default in SoapUI. You can enable them by unchecking **Disable the Load and Save scripts** under `File -> Preferences -> Global Security Settings`.
 
-Additionally, to help out diff tools, also enable the option **Pretty Print Project Files** under `File -> Preferences -> WSDL Settings`.
+Additionally, to help out diff tools, also enable the option **Pretty Print Project Files** and disable the option **Cache WSDLs** under `File -> Preferences -> WSDL Settings`.
 
 ## Coding standards
 - Put dynamic properties(temporary values during test execution) in the **"Properties" TestStep**. Their values get cleared when saving the project.
