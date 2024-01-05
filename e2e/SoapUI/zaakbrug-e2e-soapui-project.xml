@@ -28561,7 +28561,7 @@ loadTestRunner.loadTest.testCase.getTestStepByName("Properties").setPropertyValu
   <con:properties>
     <con:property>
       <con:name>ZaakbrugEndpoint</con:name>
-      <con:value>http://host.docker.internal:8080/services/</con:value>
+      <con:value>http://localhost:8080/services/</con:value>
     </con:property>
     <con:property>
       <con:name>ReplicationZaakIdentiticatie</con:name>
@@ -28569,7 +28569,7 @@ loadTestRunner.loadTest.testCase.getTestStepByName("Properties").setPropertyValu
     </con:property>
     <con:property>
       <con:name>ReplicationLegacyBeantwoorvraag</con:name>
-      <con:value>http://host.docker.internal:8080/services/</con:value>
+      <con:value>http://localhost:8080/services/</con:value>
     </con:property>
     <con:property>
       <con:name>ReplicationZaakDocumentIdentificatie</con:name>
@@ -28589,15 +28589,15 @@ loadTestRunner.loadTest.testCase.getTestStepByName("Properties").setPropertyValu
     </con:property>
     <con:property>
       <con:name>OpenZaakZakenApiRootUrl</con:name>
-      <con:value>http://host.docker.internal:9001/zaken/api/v1</con:value>
+      <con:value>http://localhost:9001/zaken/api/v1</con:value>
     </con:property>
     <con:property>
       <con:name>OpenZaakCatalogiApiRootUrl</con:name>
-      <con:value>http://host.docker.internal:9001/catalogi/api/v1</con:value>
+      <con:value>http://localhost:9001/catalogi/api/v1</con:value>
     </con:property>
     <con:property>
       <con:name>OpenZaakDocumentenApiRootUrl</con:name>
-      <con:value>http://host.docker.internal:9001/documenten/api/v1</con:value>
+      <con:value>http://localhost:9001/documenten/api/v1</con:value>
     </con:property>
     <con:property>
       <con:name>ZaakUrl</con:name>
