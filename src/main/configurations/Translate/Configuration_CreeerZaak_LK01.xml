@@ -108,8 +108,22 @@
                 skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/SetRoles.xsl"
                 >
-                <Forward name="success" path="RolMappingIterator"/>
+                <Forward name="success" path="CheckForRoles"/>
             </XsltPipe>
+
+            <XmlIfPipe name="CheckForRoles"
+                xpathExpression="string-length(/roles) &gt; 0"
+                transactionAttribute="NotSupported"
+                >
+                <Forward name="then" path="RolMappingIterator"/>
+                <Forward name="else" path="StoreRolMappingResults"/>
+                <Forward name="exception" path="StoreRolMappingResults"/>
+            </XmlIfPipe>
+
+            <PutInSessionPipe name="StoreRolMappingResults">
+                <Param name="RolMappingResults" value="&lt;dummy/&gt;"/>
+                <Forward name="success" path="CreateZaakBody"/>
+            </PutInSessionPipe>
 
             <ForEachChildElementPipe name="RolMappingIterator"
                 storeResultInSessionKey="RolMappingResults"
