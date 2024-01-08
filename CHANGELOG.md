@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.14.1](https://github.com/wearefrank/zaakbrug/compare/v1.14.0...v1.14.1) (2024-01-08)
+
+
+### 🤖 Build System
+
+* append user JAVA_OPTS to end of application JAVA_OPTS ([#254](https://github.com/wearefrank/zaakbrug/issues/254)) ([9538af7](https://github.com/wearefrank/zaakbrug/commit/9538af7ba941346ceb05fc3595af77ad2b39141f))
+
 ## [1.14.0](https://github.com/wearefrank/zaakbrug/compare/v1.13.40...v1.14.0) (2024-01-02)
 
 
