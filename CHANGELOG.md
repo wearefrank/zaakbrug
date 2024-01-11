@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.14.3](https://github.com/wearefrank/zaakbrug/compare/v1.14.2...v1.14.3) (2024-01-11)
+
+
+### 🐛 Bug Fixes
+
+* error handling Pipe ResultWithErrorMessage fails on TypeRolOmschrijving ([#255](https://github.com/wearefrank/zaakbrug/issues/255)) ([6d9db22](https://github.com/wearefrank/zaakbrug/commit/6d9db22db4931878dc8810eaca148168f7ba298a))
+
 ## [1.14.2](https://github.com/wearefrank/zaakbrug/compare/v1.14.1...v1.14.2) (2024-01-08)
 
 
