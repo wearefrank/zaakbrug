@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.15.0](https://github.com/wearefrank/zaakbrug/compare/v1.14.3...v1.15.0) (2024-01-11)
+
+
+### 🍕 Features
+
+* add column to ladybug ([#251](https://github.com/wearefrank/zaakbrug/issues/251)) ([c3f1708](https://github.com/wearefrank/zaakbrug/commit/c3f170864a024fb4819cf4c819cdc80c16af429f))
+
 ## [1.14.3](https://github.com/wearefrank/zaakbrug/compare/v1.14.2...v1.14.3) (2024-01-11)
 
 
