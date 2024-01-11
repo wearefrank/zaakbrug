@@ -34,7 +34,7 @@
             <XmlIfPipe
                 name="CheckForZgwBetrokkeneIdentificatie"
                 xpathExpression="string-length(zgwRol/betrokkeneIdentificatie)>0"
-                >
+            >
                 <Forward name="then" path="CreateRolBody"/>
                 <Forward name="else" path="EmptyResult"/>
                 <Forward name="exception" path="EXIT"/> <!-- Temporary solution for lack of adres processing -->
@@ -71,7 +71,11 @@
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason"
                     pattern="No roltype with matching omschrijving is found" />
-                <Param name="details" pattern="omschrijving:{TypeRolOmschrijving} cannot be found in the list of roltypes"/>
+                <Param name="TypeRolOmschrijving" sessionKey="originalMessage" 
+                    xpathExpression="role/typeRolOmschrijving"/>
+                <Param name="details"
+                    pattern="omschrijving:{TypeRolOmschrijving} cannot be found in the list of roltypes" ignoreUnresolvablePatternElements="true" >
+                </Param>
                 <Param name="detailsXml" sessionKey="ZgwRolTypen" type="DOMDOC" />
                 <Forward name="success" path="EXCEPTION" />
                 <Forward name="exception" path="EXCEPTION" />
