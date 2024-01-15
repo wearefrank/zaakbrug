@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.15.1](https://github.com/wearefrank/zaakbrug/compare/v1.15.0...v1.15.1) (2024-01-15)
+
+
+### 🔁 Continuous Integration
+
+* lock semantic-release to 22 major ([#256](https://github.com/wearefrank/zaakbrug/issues/256)) ([be0f219](https://github.com/wearefrank/zaakbrug/commit/be0f219ffaf94dabe068adef3deb0b9489901478))
+
 ## [1.15.0](https://github.com/wearefrank/zaakbrug/compare/v1.14.3...v1.15.0) (2024-01-11)
 
 
