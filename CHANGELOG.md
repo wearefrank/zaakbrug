@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.15.2](https://github.com/wearefrank/zaakbrug/compare/v1.15.1...v1.15.2) (2024-01-16)
+
+
+### ✅ Tests
+
+* move each e2e test into it's own testsuite for more intuitive way running tests with or without setup and teardown ([#252](https://github.com/wearefrank/zaakbrug/issues/252)) ([72151b2](https://github.com/wearefrank/zaakbrug/commit/72151b2dec762a2bc9268959027cbb6643037d3c))
+
 ## [1.15.1](https://github.com/wearefrank/zaakbrug/compare/v1.15.0...v1.15.1) (2024-01-15)
 
 
