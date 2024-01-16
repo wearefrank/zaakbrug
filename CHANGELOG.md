@@ -1,5 +1,47 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.15.2](https://github.com/wearefrank/zaakbrug/compare/v1.15.1...v1.15.2) (2024-01-16)
+
+
+### ✅ Tests
+
+* move each e2e test into it's own testsuite for more intuitive way running tests with or without setup and teardown ([#252](https://github.com/wearefrank/zaakbrug/issues/252)) ([72151b2](https://github.com/wearefrank/zaakbrug/commit/72151b2dec762a2bc9268959027cbb6643037d3c))
+
+## [1.15.1](https://github.com/wearefrank/zaakbrug/compare/v1.15.0...v1.15.1) (2024-01-15)
+
+
+### 🔁 Continuous Integration
+
+* lock semantic-release to 22 major ([#256](https://github.com/wearefrank/zaakbrug/issues/256)) ([be0f219](https://github.com/wearefrank/zaakbrug/commit/be0f219ffaf94dabe068adef3deb0b9489901478))
+
+## [1.15.0](https://github.com/wearefrank/zaakbrug/compare/v1.14.3...v1.15.0) (2024-01-11)
+
+
+### 🍕 Features
+
+* add column to ladybug ([#251](https://github.com/wearefrank/zaakbrug/issues/251)) ([c3f1708](https://github.com/wearefrank/zaakbrug/commit/c3f170864a024fb4819cf4c819cdc80c16af429f))
+
+## [1.14.3](https://github.com/wearefrank/zaakbrug/compare/v1.14.2...v1.14.3) (2024-01-11)
+
+
+### 🐛 Bug Fixes
+
+* error handling Pipe ResultWithErrorMessage fails on TypeRolOmschrijving ([#255](https://github.com/wearefrank/zaakbrug/issues/255)) ([6d9db22](https://github.com/wearefrank/zaakbrug/commit/6d9db22db4931878dc8810eaca148168f7ba298a))
+
+## [1.14.2](https://github.com/wearefrank/zaakbrug/compare/v1.14.1...v1.14.2) (2024-01-08)
+
+
+### 🐛 Bug Fixes
+
+* CreeerZaak does not result in an error when there is no role ([#253](https://github.com/wearefrank/zaakbrug/issues/253)) ([7739146](https://github.com/wearefrank/zaakbrug/commit/77391467e9745911710aa199318707cefb71beee))
+
+## [1.14.1](https://github.com/wearefrank/zaakbrug/compare/v1.14.0...v1.14.1) (2024-01-08)
+
+
+### 🤖 Build System
+
+* append user JAVA_OPTS to end of application JAVA_OPTS ([#254](https://github.com/wearefrank/zaakbrug/issues/254)) ([9538af7](https://github.com/wearefrank/zaakbrug/commit/9538af7ba941346ceb05fc3595af77ad2b39141f))
+
 ## [1.14.0](https://github.com/wearefrank/zaakbrug/compare/v1.13.40...v1.14.0) (2024-01-02)
 
 
