@@ -53,7 +53,7 @@ services:
       - ./e2e/SoapUI/zaakbrug-e2e-soapui-project.xml:/project/zaakbrug-e2e-soapui-project.xml
       - ./e2e/reports:/reports
     environment:
-      - COMMAND_LINE=-f/%reports% '/%project%/zaakbrug-e2e-soapui-project.xml' -a -A
+      - COMMAND_LINE=-f/%reports% '/%project%/zaakbrug-e2e-soapui-project.xml' -a -A -j -r
     depends_on:
       zaakbrug:
         condition: service_healthy
