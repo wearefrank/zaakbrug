@@ -249,8 +249,19 @@ jobs:
 
         STARTED_AT=$(docker inspect --format='{{json .State.StartedAt}}' soapui-testrunner)
         STARTED_AT_TIME=$(cut -dT -f2 <<< "$STARTED_AT" | cut -d. -f1)
+        FINISHED_AT=$(docker inspect --format='{{json .State.FinishedAt}}' soapui-testrunner)
+        FINISHED_AT_TIME=$(cut -dT -f2 <<< "$FINISHED_AT" | cut -d. -f1)
+        STARTED_AT_SECONDS=&(date -d "&STARTED_AT_TIME" +%s)
+        FINISHED_AT_SECONDS=&(date -d "&FINISHED_AT_TIME" +%s)
+        TIME_DIFFERENCE=&((FINISHED_AT_SECONDS - STARTED_AT_SECONDS))
+
         echo "started at: $STARTED_AT"
         echo "started time: $STARTED_AT_TIME"
+        echo "started at: $FINISHED_AT"
+        echo "started time: $FINISHED_AT_AT_TIME"
+        echo "started at seconds: $STARTED_AT_SECONDS"
+        echo "finished at seconds: $FINISHED_AT_SECONDS"
+        echo "time difference: $TIME_DIFFERENCE"
 
         docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml down
         
