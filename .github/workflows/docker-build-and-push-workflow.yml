@@ -248,7 +248,7 @@ jobs:
         echo "Exit Code: $EXIT_CODE"
 
         STARTED_AT=$(docker inspect --format='{{json .State.StartedAt}}' soapui-testrunner)
-        STARTED_AT_TIME="$STARTED_AT | cut -dT -f2 | cut -d. -f1"
+        STARTED_AT_TIME=$("$STARTED_AT" | cut -dT -f2 | cut -d. -f1)
         echo "started at: $STARTED_AT"
         echo "started time: $STARTED_AT_TIME"
 
