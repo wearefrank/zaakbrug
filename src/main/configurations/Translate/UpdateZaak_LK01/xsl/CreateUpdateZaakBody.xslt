@@ -146,9 +146,11 @@
 	</xsl:template>
 
     <xsl:template match="object/kenmerk">
-        <kenmerken>
-            <kenmerk><xsl:value-of select="kenmerk"/></kenmerk>
-            <bron><xsl:value-of select="bron"/></bron>
-        </kenmerken>
+        <xsl:if test="string-length(kenmerk) > 0 and string-length(bron) > 0">
+            <kenmerken>
+                <kenmerk><xsl:value-of select="kenmerk"/></kenmerk>
+                <bron><xsl:value-of select="bron"/></bron>
+            </kenmerken>
+        </xsl:if>
     </xsl:template>
 </xsl:stylesheet>
