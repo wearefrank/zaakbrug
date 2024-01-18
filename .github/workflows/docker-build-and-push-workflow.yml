@@ -249,7 +249,10 @@ jobs:
 
         docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml down
 
-        docker image inspect ${{ inputs.docker-image-repo }}:${ZAAKBRUG_VERSION}
+        STARTED_AT=$(docker inspect --format='{{json .State.StartedAt}}' soapui-testrunner)
+        STARTED_AT_TIME=$STARTED_AT | cut -dT -f2 | cut -d. -f1
+        echo "started at: $STARTED_AT"
+        echo "started time: $STARTED_AT_TIME"
         
         if [ "$EXIT_CODE" -ne 0 ]
           then
