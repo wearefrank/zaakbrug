@@ -35,7 +35,7 @@
                     <xsl:if test="root/toelichting">
                         <ZKN:toelichting><xsl:value-of select="root/toelichting"/></ZKN:toelichting>
                     </xsl:if>
-                    <xsl:apply-templates select="root/kenmerk"/>
+                    <xsl:apply-templates select="root/kenmerken"/>
                     <!-- <xsl:apply-templates select="root/anderZaakObject"/> --> <!-- not provided -->
                     <!-- <ZKN:resultaat>
                         <ZKN:omschrijving><xsl:value-of select="root/resultaat/omschrijving"/></ZKN:omschrijving>
@@ -178,7 +178,7 @@
         </ZKN:anderZaakObject>
     </xsl:template> -->
 
-    <xsl:template match="root/kenmerk">
+    <xsl:template match="root/kenmerken">
         <ZKN:kenmerk>
             <ZKN:kenmerk><xsl:value-of select="kenmerk"/></ZKN:kenmerk>
             <ZKN:bron><xsl:value-of select="bron"/></ZKN:bron>
