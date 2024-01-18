@@ -251,9 +251,9 @@ jobs:
         STARTED_AT_TIME=$(cut -dT -f2 <<< "$STARTED_AT" | cut -d. -f1)
         FINISHED_AT=$(docker inspect --format='{{json .State.FinishedAt}}' soapui-testrunner)
         FINISHED_AT_TIME=$(cut -dT -f2 <<< "$FINISHED_AT" | cut -d. -f1)
-        STARTED_AT_SECONDS=&(date -d "&STARTED_AT_TIME" +%s)
-        FINISHED_AT_SECONDS=&(date -d "&FINISHED_AT_TIME" +%s)
-        TIME_DIFFERENCE=&((FINISHED_AT_SECONDS - STARTED_AT_SECONDS))
+        STARTED_AT_SECONDS=$(date -d "$STARTED_AT_TIME" +%s)
+        FINISHED_AT_SECONDS=$(date -d "$FINISHED_AT_TIME" +%s)
+        TIME_DIFFERENCE=$((FINISHED_AT_SECONDS - STARTED_AT_SECONDS))
 
         echo "started at: $STARTED_AT"
         echo "started time: $STARTED_AT_TIME"
