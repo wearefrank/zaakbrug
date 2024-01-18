@@ -248,6 +248,8 @@ jobs:
         echo "Exit Code: $EXIT_CODE"
 
         docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml down
+
+        docker image inspect ${{ inputs.docker-image-repo }}:${ZAAKBRUG_VERSION}
         
         if [ "$EXIT_CODE" -ne 0 ]
           then
