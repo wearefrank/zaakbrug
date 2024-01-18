@@ -267,7 +267,7 @@ jobs:
         
         if [ "$EXIT_CODE" -ne 0 ] || [ "$TIME_DIFFERENCE" -lt 60]
           then
-            echo "Test(s) either failed or not run. Failing the job."
+            echo "Test(s) either failed or not run. Failing the job.."
             exit 1
         fi
 
