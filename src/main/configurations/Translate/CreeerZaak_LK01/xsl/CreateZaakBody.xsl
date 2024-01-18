@@ -79,12 +79,10 @@
         </xsl:if>
     </xsl:template>
     <xsl:template match="kenmerk">
-        <xsl:if test="string-length(kenmerk) > 0 and string-length(bron) > 0">
-            <kenmerken>
-                <kenmerk><xsl:value-of select="kenmerk"/></kenmerk>
-                <bron><xsl:value-of select="bron"/></bron>
-            </kenmerken>
-        </xsl:if>
+        <kenmerken>
+            <kenmerk><xsl:value-of select="kenmerk"/></kenmerk>
+            <bron><xsl:value-of select="bron"/></bron>
+        </kenmerken>
     </xsl:template>
     <xsl:template match="productenOfDiensten">
         <productenOfDiensten><xsl:value-of select="."/></productenOfDiensten>
