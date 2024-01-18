@@ -50,10 +50,11 @@ services:
     image: smartbear/soapuios-testrunner:latest
     container_name: soapui-testrunner
     volumes:
-      - ./e2e/SoapUI/zaakbrug-e2e-soapui-project.xml:/project/zaakbrug-e2e-soapui-project.xml
+      - ./src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02:/zaakbrug/src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02
+      - ./e2e/SoapUI/zaakbrug-e2e-soapui-project.xml:/zaakbrug/e2e/SoapUI/zaakbrug-e2e-soapui-project.xml
       - ./e2e/reports:/reports
     environment:
-      - COMMAND_LINE=-f/%reports% '/%project%/zaakbrug-e2e-soapui-project.xml' -a -A -j -r
+      - COMMAND_LINE=-f/%reports% '/zaakbrug/e2e/SoapUI/zaakbrug-e2e-soapui-project.xml' -a -A -j -r
     depends_on:
       zaakbrug:
         condition: service_healthy
