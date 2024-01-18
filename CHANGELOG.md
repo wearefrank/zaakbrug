@@ -1,5 +1,31 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.15.4](https://github.com/wearefrank/zaakbrug/compare/v1.15.3...v1.15.4) (2024-01-18)
+
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 8.1.0-20240111.192324 ([7807661](https://github.com/wearefrank/zaakbrug/commit/780766140d0e95470247b6fa3171e81d8e0ed884))
+
+## [1.15.3](https://github.com/wearefrank/zaakbrug/compare/v1.15.2...v1.15.3) (2024-01-18)
+
+
+### 🐛 Bug Fixes
+
+* zaak kenmerk with empty kenmerk or bron causing zgw api validation error will now be ignored ([1b62a26](https://github.com/wearefrank/zaakbrug/commit/1b62a265b18c78731e9ac013469da853a1cc4c36))
+* zaak kenmerken in creeerZaak are not translated to zgw ([e0d26e8](https://github.com/wearefrank/zaakbrug/commit/e0d26e89c9c2ef2e98f5126c0b62bcfb4cc62a97))
+* zaak kenmerken not properly translated in creeerZaak updateZaak and geefZaakDetails ([89f991e](https://github.com/wearefrank/zaakbrug/commit/89f991ed44ac204d07563c375660a97dc74005ad))
+
+
+### 🧑‍💻 Code Refactoring
+
+* remove obsolete zgw zaak translation ([20cf1a5](https://github.com/wearefrank/zaakbrug/commit/20cf1a5da013393534329fa3975fc323f6525486))
+
+
+### ✅ Tests
+
+* unit test zaak kenmerken happyflow and empty sub-elements cases ([4cf16ad](https://github.com/wearefrank/zaakbrug/commit/4cf16ad1364cf9040c12d1fe6cf36d83effa7bcf))
+
 ## [1.15.2](https://github.com/wearefrank/zaakbrug/compare/v1.15.1...v1.15.2) (2024-01-16)
 
 

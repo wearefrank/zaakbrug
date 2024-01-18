@@ -51,7 +51,7 @@
             <!-- <selectielijstklasse><xsl:value-of select="$GetResultaattypeResult/results/selectielijstklasse"/></selectielijstklasse> --> <!-- from resultaattype -->
             <!-- <hoofdzaak><xsl:value-of select="$hoofdzaak"/></hoofdzaak> --> <!-- doesn't exist in zds -->
             <relevanteAndereZaken><xsl:value-of select="$relevanteAndereZaken"/></relevanteAndereZaken>
-            <xsl:apply-templates select="object/kenmerk"/>
+            <xsl:apply-templates select="kenmerk" />
             <xsl:if test="string-length(archiefnominatie) > 0">
                 <archiefnominatie><xsl:value-of select="zgw:convertZdsArchiefNominatieToZgwArchiefNominatie(archiefnominatie)"/></archiefnominatie>
             </xsl:if>
@@ -78,11 +78,13 @@
             </opschorting>
         </xsl:if>
     </xsl:template>
-    <xsl:template match="object/kenmerk">
-        <kenmerken>
-            <kenmerk><xsl:value-of select="kenmerk"/></kenmerk>
-            <bron><xsl:value-of select="bron"/></bron>
-        </kenmerken>
+    <xsl:template match="kenmerk">
+        <xsl:if test="string-length(kenmerk) > 0 and string-length(bron) > 0">
+            <kenmerken>
+                <kenmerk><xsl:value-of select="kenmerk"/></kenmerk>
+                <bron><xsl:value-of select="bron"/></bron>
+            </kenmerken>
+        </xsl:if>
     </xsl:template>
     <xsl:template match="productenOfDiensten">
         <productenOfDiensten><xsl:value-of select="."/></productenOfDiensten>

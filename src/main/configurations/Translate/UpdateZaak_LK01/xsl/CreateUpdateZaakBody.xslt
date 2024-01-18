@@ -125,8 +125,10 @@
                 <xsl:when test="$ZgwZaak/ZgwZaak/relevanteAndereZaken/*"><xsl:copy-of select="$ZgwZaak/ZgwZaak/relevanteAndereZaken"/></xsl:when>
             </xsl:choose>
             <xsl:choose>
-                <xsl:when test="object/kenmerk/*"><xsl:copy-of select="object/kenmerk"/></xsl:when>
-                <xsl:when test="$ZgwZaak/ZgwZaak/kenmerk/*"><xsl:copy-of select="$ZgwZaak/ZgwZaak/kenmerk"/></xsl:when>
+                <xsl:when test="object/kenmerk/*">
+                    <xsl:apply-templates select="object/kenmerk" />
+                </xsl:when>
+                <xsl:when test="$ZgwZaak/ZgwZaak/kenmerken/*"><xsl:copy-of select="$ZgwZaak/ZgwZaak/kenmerken"/></xsl:when>
             </xsl:choose>
             <xsl:choose>
                 <xsl:when test="string-length(object/archiefnominatie) > 0"><archiefnominatie><xsl:value-of select="zgw:convertZdsArchiefNominatieToZgwArchiefNominatie(object/archiefnominatie)"/></archiefnominatie></xsl:when>
@@ -142,4 +144,13 @@
             </xsl:choose>
         </ZgwZaakPut>
 	</xsl:template>
+
+    <xsl:template match="object/kenmerk">
+        <xsl:if test="string-length(kenmerk) > 0 and string-length(bron) > 0">
+            <kenmerken>
+                <kenmerk><xsl:value-of select="kenmerk"/></kenmerk>
+                <bron><xsl:value-of select="bron"/></bron>
+            </kenmerken>
+        </xsl:if>
+    </xsl:template>
 </xsl:stylesheet>

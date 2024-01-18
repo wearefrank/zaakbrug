@@ -55,7 +55,9 @@
         </opschorting>
     </xsl:template>
     <xsl:template match="kenmerken">
-        <kenmerk><xsl:value-of select="kenmerk"/></kenmerk>
-        <bron><xsl:value-of select="bron"/></bron>
+        <kenmerk>
+            <kenmerk><xsl:value-of select="kenmerk"/></kenmerk>
+            <bron><xsl:value-of select="bron"/></bron>
+        </kenmerk>
     </xsl:template>
 </xsl:stylesheet>

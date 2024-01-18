@@ -13,10 +13,10 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package nl.nn.adapterframework.parameters;
+package org.frankframework.parameters;
 
-import static nl.nn.adapterframework.functional.FunctionalUtil.logValue;
-import static nl.nn.adapterframework.util.StringUtil.hide;
+import static org.frankframework.functional.FunctionalUtil.logValue;
+import static org.frankframework.util.StringUtil.hide;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -42,38 +42,39 @@ import javax.xml.transform.dom.DOMResult;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.frankframework.configuration.ConfigurationException;
+import org.frankframework.configuration.ConfigurationUtils;
+import org.frankframework.configuration.ConfigurationWarning;
+import org.frankframework.core.IConfigurable;
+import org.frankframework.core.IWithParameters;
+import org.frankframework.core.ParameterException;
+import org.frankframework.core.PipeLineSession;
+import org.frankframework.doc.DocumentedEnum;
+import org.frankframework.doc.EnumLabel;
+import org.frankframework.jdbc.StoredProcedureQuerySender;
+import org.frankframework.pipes.PutSystemDateInSession;
+import org.frankframework.stream.Message;
+import org.frankframework.util.AppConstants;
+import org.frankframework.util.CredentialFactory;
+import org.frankframework.util.DateFormatUtils;
+import org.frankframework.util.DomBuilderException;
+import org.frankframework.util.EnumUtils;
+import org.frankframework.util.Misc;
+import org.frankframework.util.StringUtil;
+import org.frankframework.util.TransformerPool;
+import org.frankframework.util.TransformerPool.OutputType;
+import org.frankframework.util.UUIDUtil;
+import org.frankframework.util.XmlBuilder;
+import org.frankframework.util.XmlException;
+import org.frankframework.util.XmlUtils;
 import org.springframework.context.ApplicationContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 import io.fusionauth.jwt.Signer;
 import io.fusionauth.jwt.hmac.HMACSigner;
 import lombok.Getter;
 import lombok.Setter;
-import nl.nn.adapterframework.configuration.ConfigurationException;
-import nl.nn.adapterframework.configuration.ConfigurationUtils;
-import nl.nn.adapterframework.configuration.ConfigurationWarning;
-import nl.nn.adapterframework.core.IConfigurable;
-import nl.nn.adapterframework.core.IWithParameters;
-import nl.nn.adapterframework.core.ParameterException;
-import nl.nn.adapterframework.core.PipeLineSession;
-import nl.nn.adapterframework.doc.DocumentedEnum;
-import nl.nn.adapterframework.doc.EnumLabel;
-import nl.nn.adapterframework.pipes.PutSystemDateInSession;
-import nl.nn.adapterframework.stream.Message;
-import nl.nn.adapterframework.util.AppConstants;
-import nl.nn.adapterframework.util.CredentialFactory;
-import nl.nn.adapterframework.util.DateUtils;
-import nl.nn.adapterframework.util.DomBuilderException;
-import nl.nn.adapterframework.util.EnumUtils;
-import nl.nn.adapterframework.util.Misc;
-import nl.nn.adapterframework.util.StringUtil;
-import nl.nn.adapterframework.util.TransformerPool;
-import nl.nn.adapterframework.util.TransformerPool.OutputType;
-import nl.nn.adapterframework.util.UUIDUtil;
-import nl.nn.adapterframework.util.XmlBuilder;
-import nl.nn.adapterframework.util.XmlUtils;
 
 import static java.time.ZonedDateTime.now;
 
@@ -119,7 +120,8 @@ public class Parameter implements IConfigurable, IWithParameters {
 	public static final String TYPE_DATE_PATTERN="yyyy-MM-dd";
 	public static final String TYPE_TIME_PATTERN="HH:mm:ss";
 	public static final String TYPE_DATETIME_PATTERN="yyyy-MM-dd HH:mm:ss";
-	public static final String TYPE_TIMESTAMP_PATTERN=DateUtils.FORMAT_FULL_GENERIC;
+
+	public static final String TYPE_TIMESTAMP_PATTERN= DateFormatUtils.FORMAT_FULL_GENERIC;
 
 	public static final String FIXEDUID ="0a1b234c--56de7fa8_9012345678b_-9cd0";
 	public static final String FIXEDHOSTNAME ="MYHOST000012345";
@@ -151,11 +153,10 @@ public class Parameter implements IConfigurable, IWithParameters {
 	private Number maxInclusive;
 	private @Getter boolean hidden = false;
 	private @Getter boolean removeNamespaces=false;
-	private @Getter int xsltVersion=0; // set to 0 for auto detect.
+	private @Getter int xsltVersion = 0; // set to 0 for auto-detect.
 
 	private @Getter DecimalFormatSymbols decimalFormatSymbols = null;
 	private TransformerPool transformerPool = null;
-	private TransformerPool transformerPoolRemoveNamespaces;
 	private TransformerPool tpDynamicSessionKey = null;
 	protected ParameterList paramList = null;
 	private boolean configured = false;
@@ -233,8 +234,12 @@ public class Parameter implements IConfigurable, IWithParameters {
 		 * When applied as a JDBC parameter, the method setCharacterStream() or setString() is used */
 		CHARACTER,
 
-		/** (Used in larva only) Converts a List to a xml-string (&lt;items&gt;&lt;item&gt;...&lt;/item&gt;&lt;item&gt;...&lt;/item&gt;&lt;/items&gt;) */
-		@Deprecated LIST,
+		/**
+		 * Used for StoredProcedure OUT parameters when the database type is a {@code CURSOR} or {@link java.sql.JDBCType#REF_CURSOR}.
+		 * See also {@link org.frankframework.jdbc.StoredProcedureQuerySender}.
+		 * <br/>
+		 * DEPRECATED: Type LIST can also be used in larva test to Convert a List to an xml-string (&lt;items&gt;&lt;item&gt;...&lt;/item&gt;&lt;item&gt;...&lt;/item&gt;&lt;/items&gt;) */
+		LIST,
 
 		/** (Used in larva only) Converts a Map&lt;String, String&gt; object to a xml-string (&lt;items&gt;&lt;item name='...'&gt;...&lt;/item&gt;&lt;item name='...'&gt;...&lt;/item&gt;&lt;/items&gt;) */
 		@Deprecated MAP;
@@ -300,9 +305,6 @@ public class Parameter implements IConfigurable, IWithParameters {
 			if (paramList != null && StringUtils.isEmpty(getPattern())) {
 				throw new ConfigurationException("Parameter [" + getName() + "] can only have parameters itself if a styleSheetName, xpathExpression or pattern is specified");
 			}
-		}
-		if (isRemoveNamespaces()) {
-			transformerPoolRemoveNamespaces = XmlUtils.getRemoveNamespacesTransformerPool(true,false);
 		}
 		if (StringUtils.isNotEmpty(getSessionKeyXPath())) {
 			tpDynamicSessionKey = TransformerPool.configureTransformer(this, getNamespaceDefs(), getSessionKeyXPath(), null, OutputType.TEXT,false,null);
@@ -377,7 +379,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 		return defaultValueMethodsList;
 	}
 
-	private Document transformToDocument(Source xmlSource, ParameterValueList pvl) throws ParameterException, TransformerException, IOException {
+	private Document transformToDocument(Source xmlSource, ParameterValueList pvl) throws TransformerException, IOException {
 		TransformerPool pool = getTransformerPool();
 		DOMResult transformResult = new DOMResult();
 		pool.transform(xmlSource,transformResult, pvl);
@@ -500,8 +502,9 @@ public class Parameter implements IConfigurable, IWithParameters {
 					}
 				}
 				if (source!=null) {
-					if (transformerPoolRemoveNamespaces != null) {
-						String rnResult = transformerPoolRemoveNamespaces.transform(source);
+					if (isRemoveNamespaces()) {
+						// TODO: There should be a more efficient way to do this
+						String rnResult = XmlUtils.removeNamespaces(XmlUtils.source2String(source));
 						source = XmlUtils.stringToSource(rnResult);
 					}
 					ParameterValueList pvl = paramList==null ? null : paramList.getValues(message, session, namespaceAware);
@@ -698,8 +701,8 @@ public class Parameter implements IConfigurable, IWithParameters {
 			switch(getType()) {
 				case NODE:
 					try {
-						if (transformerPoolRemoveNamespaces != null) {
-							requestMessage = new Message(transformerPoolRemoveNamespaces.transform(requestMessage, null));
+						if (isRemoveNamespaces()) {
+							requestMessage = XmlUtils.removeNamespaces(requestMessage);
 						}
 						if(requestObject instanceof Document) {
 							return ((Document)requestObject).getDocumentElement();
@@ -710,14 +713,14 @@ public class Parameter implements IConfigurable, IWithParameters {
 						result = XmlUtils.buildDomDocument(requestMessage.asInputSource(), namespaceAware).getDocumentElement();
 						final Object finalResult = result;
 						LOG.debug("final result [{}][{}]", ()->finalResult.getClass().getName(), ()-> finalResult);
-					} catch (DomBuilderException | TransformerException | IOException | SAXException e) {
+					} catch (DomBuilderException | IOException | XmlException e) {
 						throw new ParameterException("Parameter ["+getName()+"] could not parse result ["+requestMessage+"] to XML nodeset",e);
 					}
 					break;
 				case DOMDOC:
 					try {
-						if (transformerPoolRemoveNamespaces != null) {
-							requestMessage = new Message(transformerPoolRemoveNamespaces.transform(requestMessage, null));
+						if (isRemoveNamespaces()) {
+							requestMessage = XmlUtils.removeNamespaces(requestMessage);
 						}
 						if(requestObject instanceof Document) {
 							return requestObject;
@@ -725,7 +728,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 						result = XmlUtils.buildDomDocument(requestMessage.asInputSource(), namespaceAware);
 						final Object finalResult = result;
 						LOG.debug("final result [{}][{}]", ()->finalResult.getClass().getName(), ()-> finalResult);
-					} catch (DomBuilderException | TransformerException | IOException | SAXException e) {
+					} catch (DomBuilderException | IOException | XmlException e) {
 						throw new ParameterException("Parameter ["+getName()+"] could not parse result ["+requestMessage+"] to XML document",e);
 					}
 					break;
@@ -752,7 +755,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 					}
 					Message finalRequestMessage = requestMessage;
 					LOG.debug("Parameter [{}] converting result [{}] from XML dateTime to Date", this::getName, () -> finalRequestMessage);
-					result = DateUtils.parseXmlDateTime(requestMessage.asString());
+					result = XmlUtils.parseXmlDateTime(requestMessage.asString());
 					break;
 				}
 				case NUMBER: {
@@ -847,7 +850,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 			if (rawValue instanceof Date) {
 				return rawValue;
 			}
-			DateFormat df = new SimpleDateFormat(StringUtils.isNotEmpty(patternFormatString) ? patternFormatString : DateUtils.FORMAT_GENERICDATETIME);
+			DateFormat df = new SimpleDateFormat(StringUtils.isNotEmpty(patternFormatString) ? patternFormatString : DateFormatUtils.FORMAT_DATETIME_GENERIC);
 			try {
 				return df.parse(Message.asString(rawValue));
 			} catch (ParseException | IOException e) {
@@ -855,7 +858,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 			}
 		}
 		if (rawValue instanceof Date) {
-			DateFormat df = new SimpleDateFormat(StringUtils.isNotEmpty(patternFormatString) ? patternFormatString : DateUtils.FORMAT_GENERICDATETIME);
+			DateFormat df = new SimpleDateFormat(StringUtils.isNotEmpty(patternFormatString) ? patternFormatString : DateFormatUtils.FORMAT_DATETIME_GENERIC);
 			return df.format(rawValue);
 		}
 		try {
@@ -910,7 +913,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 					}
 					Object fixedDateTime = session.get(PutSystemDateInSession.FIXEDDATE_STUB4TESTTOOL_KEY);
 					if (fixedDateTime == null) {
-						DateFormat df = new SimpleDateFormat(DateUtils.FORMAT_GENERICDATETIME);
+						DateFormat df = new SimpleDateFormat(DateFormatUtils.FORMAT_DATETIME_GENERIC);
 						try {
 							fixedDateTime = df.parse(PutSystemDateInSession.FIXEDDATETIME);
 						} catch (ParseException e) {
@@ -1010,16 +1013,11 @@ public class Parameter implements IConfigurable, IWithParameters {
 	}
 
 	/**
-	 * If set to <code>2</code> or <code>3</code> a Saxon (net.sf.saxon) xslt processor 2.0 or 3.0 respectively will be used, otherwise xslt processor 1.0 (org.apache.xalan). <code>0</code> will auto detect	 * @ff.default 0
+	 * If set to <code>2</code> or <code>3</code> a Saxon (net.sf.saxon) xslt processor 2.0 or 3.0 respectively will be used, otherwise xslt processor 1.0 (org.apache.xalan). <code>0</code> will auto-detect
+	 * @ff.default 0
 	 */
 	public void setXsltVersion(int xsltVersion) {
 		this.xsltVersion=xsltVersion;
-	}
-
-	@Deprecated
-	@ConfigurationWarning("Its value is now auto detected. If necessary, replace with a setting of xsltVersion")
-	public void setXslt2(boolean b) {
-		xsltVersion=b?2:1;
 	}
 
 	/**
@@ -1053,8 +1051,11 @@ public class Parameter implements IConfigurable, IWithParameters {
 
 	/**
 	 * Value of parameter is determined using substitution and formatting, following MessageFormat syntax with named parameters. The expression can contain references
-	 * to session-variables or other parameters using {name-of-parameter} and is formatted using java.text.MessageFormat.
-	 * <br/>If for instance <code>fname</code> is a parameter or session variable that resolves to Eric, then the pattern
+	 * to <code>session-variables</code> or other <code>parameters</code> using the {name-of-parameter} and is formatted using java.text.MessageFormat.
+	 * <br/><b>NB: When referencing other <code>parameters</code> these MUST be defined before the parameter using pattern substitution.</b>
+	 * <br/>
+	 * <br/>
+	 * If for instance <code>fname</code> is a parameter or session-variable that resolves to Eric, then the pattern
 	 * 'Hi {fname}, how do you do?' resolves to 'Hi Eric, do you do?'.<br/>
 	 * The following predefined reference can be used in the expression too:<ul>
 	 * <li>{now}: the current system time</li>
@@ -1086,11 +1087,6 @@ public class Parameter implements IConfigurable, IWithParameters {
 	/** Default username that is used when a <code>pattern</code> containing {username} is specified */
 	public void setUsername(String string) {
 		username = string;
-	}
-	@Deprecated
-	@ConfigurationWarning("Please use attribute username instead")
-	public void setUserName(String username) {
-		setUsername(username);
 	}
 
 	/** Default password that is used when a <code>pattern</code> containing {password} is specified */
@@ -1163,10 +1159,10 @@ public class Parameter implements IConfigurable, IWithParameters {
 
 	/**
 	 * Set the mode of the parameter, which determines if the parameter is an INPUT, OUTPUT, or INOUT.
-	 * This parameter only has effect for {@link nl.nn.adapterframework.jdbc.StoredProcedureQuerySender}.
+	 * This parameter only has effect for {@link StoredProcedureQuerySender}.
 	 * An OUTPUT parameter does not need to have a value specified, but does need to have the type specified.
 	 * Parameter values will not be updated, but output values will be put into the result of the
-	 * {@link nl.nn.adapterframework.jdbc.StoredProcedureQuerySender}.
+	 * {@link StoredProcedureQuerySender}.
 	 * <b/>
 	 * If not specified, the default is INPUT.
 	 *
