@@ -259,7 +259,7 @@ jobs:
     -
       name: Check if e2e/reports folder exists
       run: |
-        if [ -z "$(ls -A e2e/reports)" ]
+        if ! [ -z "$(ls -A e2e/reports)" ]
           then
             echo "There is no test report found, tests might not have been run. Failing the job."
             exit 1
