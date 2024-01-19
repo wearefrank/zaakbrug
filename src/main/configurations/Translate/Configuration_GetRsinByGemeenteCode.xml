@@ -35,6 +35,7 @@
             <XsltPipe 
                 name="Rsin_NotEmpty_Exception"
                 styleSheetName="Common/xsl/BuildError.xsl">
+                <Param name="cause" xpathExpression="/error" type="DOMDOC" />
                 <Param name="code" value="ConfigurationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="GemeenteCode" sessionKey="GemeenteCode"/>
                 <Param name="reason" pattern="No organization configured for gemeente code: [{GemeenteCode}]" ignoreUnresolvablePatternElements="true"/> 

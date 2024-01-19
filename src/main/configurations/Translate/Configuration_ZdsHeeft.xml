@@ -124,6 +124,7 @@
                 name="ResultWithErrorMessage"
                 styleSheetName="Common/xsl/BuildError.xsl"
                 >
+                <Param name="cause" xpathExpression="/error" type="DOMDOC"/>
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason" pattern="ActualiseerStatus datumstatusgezet equal to existing status" />
                 <Param name="details" sessionKey="StatusBody" xpathExpression="concat(ZgwStatus/datumStatusGezet, ' is equal to existing status')"/>

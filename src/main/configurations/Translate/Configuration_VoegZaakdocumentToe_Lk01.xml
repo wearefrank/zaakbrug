@@ -99,6 +99,7 @@
                 emptyInputReplacement="&lt;EmptyInput/&gt;"
                 styleSheetName="Common/xsl/BuildError.xsl"
                 >
+                <Param name="cause" xpathExpression="/error" type="DOMDOC" />
                 <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="omschrijving" sessionKey="ZdsZaakDocumentInhoud" xpathExpression="object/dct.omschrijving/text()" defaultValue="''" />
                 <Param name="reason" pattern="No InformatieObjectType found with omschrijving: {omschrijving}" ignoreUnresolvablePatternElements="true"/>
@@ -302,6 +303,7 @@
                 name="UncaughtException"
                 emptyInputReplacement="&lt;EmptyInput/&gt;"
                 styleSheetName="Common/xsl/BuildError.xsl">
+                <Param name="cause" xpathExpression="/error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason" pattern="Uncaught exception" /> 
                 <!-- <Param name="details" sessionKey="" /> -->

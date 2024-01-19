@@ -68,6 +68,7 @@
             <XsltPipe
                 name="ResultWithErrorMessage"
                 styleSheetName="Common/xsl/BuildError.xsl">
+                <Param name="cause" xpathExpression="/error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason"
                     pattern="No roltype with matching omschrijving is found" />
