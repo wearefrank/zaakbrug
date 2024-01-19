@@ -8,17 +8,11 @@
     
     <xsl:template match="/">
         <error>
-            <xsl:choose>
-                <xsl:when test="//error">
-                    <cause><xsl:copy-of select="$cause" /></cause>
-                </xsl:when>
-                <xsl:otherwise>
-                    <code><xsl:value-of select="$code" /></code>
-                    <reason><xsl:value-of select="$reason" /></reason>
-                    <details><xsl:value-of select="$details" /></details>
-                    <detailsXml><xsl:copy-of select="$detailsXml"/></detailsXml>
-                </xsl:otherwise>
-            </xsl:choose>
+            <code><xsl:value-of select="$code" /></code>
+            <reason><xsl:value-of select="$reason" /></reason>
+            <cause><xsl:copy-of select="$cause" /></cause>
+            <details><xsl:value-of select="$details" /></details>
+            <detailsXml><xsl:copy-of select="$detailsXml"/></detailsXml>
         </error>
     </xsl:template>
 </xsl:stylesheet>
