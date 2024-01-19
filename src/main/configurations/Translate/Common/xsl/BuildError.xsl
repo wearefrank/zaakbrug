@@ -8,9 +8,9 @@
     
     <xsl:template match="/">
         <error>
+            <cause><xsl:copy-of select="$cause" /></cause>
             <code><xsl:value-of select="$code" /></code>
             <reason><xsl:value-of select="$reason" /></reason>
-            <cause><xsl:copy-of select="$cause" /></cause>
             <details><xsl:value-of select="$details" /></details>
             <detailsXml><xsl:copy-of select="$detailsXml"/></detailsXml>
         </error>
