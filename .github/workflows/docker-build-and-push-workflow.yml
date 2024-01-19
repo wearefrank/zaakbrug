@@ -257,9 +257,9 @@ jobs:
 
       timeout-minutes: 30
     -
-      name: Check if e2e/reports folder exists
+      name: Check if test reports created
       run: |
-        if ! [ -z "$(ls -A e2e/reports)" ]
+        if [ -z "$(ls -A e2e/reports)" ]
           then
             echo "There is no test report found, tests might not have been run. Failing the job."
             exit 1
