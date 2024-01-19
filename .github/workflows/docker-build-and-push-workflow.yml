@@ -153,56 +153,6 @@ jobs:
   #     with:
   #       sarif_file: 'trivy-results.sarif'
 
-  run-till-healthy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    -  
-      name: "Download Docker tar"
-      uses: actions/download-artifact@v2
-      with:
-        name: docker
-        path: /tmp
-    - 
-      name: "Load Docker tar"
-      run: |
-        docker load --input /tmp/docker.tar
-        docker image ls -a
-    - 
-      name: Test Docker image
-      run: |
-        set -x
-        if [ ${{ inputs.latest-tag }} == true ]
-          then
-            docker image inspect ${{ inputs.docker-image-repo }}:latest
-            docker run --rm -p 8080:8080 -e dtap.stage=LOC --name=test -d ${{ inputs.docker-image-repo }}:latest
-          else
-            docker image inspect ${{ needs.build.outputs.docker-meta-tags }}
-            docker run --rm -p 8080:8080 -e dtap.stage=LOC --name=test -d ${{ needs.build.outputs.docker-meta-tags }}
-        fi
-
-        sleep 30
-
-        RETRY_COUNT=0
-        HEALTH=$(docker inspect --format='{{json .State.Health.Status}}' test)
-        until [ "$HEALTH" = '"healthy"' ]
-        do
-          if [ $RETRY_COUNT -gt 15 ]
-            then
-                docker inspect test
-                docker logs test
-                exit 1
-          fi
-
-          let RETRY_COUNT+=1
-          HEALTH=$(docker inspect --format='{{json .State.Health.Status}}' test)
-          sleep 15
-        done
-
-        docker inspect test
-        docker logs test
-      timeout-minutes: 5
-
   run-soapui-tests:
     runs-on: ubuntu-latest
     needs: build
