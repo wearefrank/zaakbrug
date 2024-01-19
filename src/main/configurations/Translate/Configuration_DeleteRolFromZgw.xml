@@ -55,7 +55,8 @@
             </XmlIfPipe>
 
             <SenderPipe
-                name="CallGetRolByZaakUrlAndRolTypeUrl">
+                name="CallGetRolByZaakUrlAndRolTypeUrl"
+                getInputFromSessionKey="originalMessage">
                 <IbisLocalSender
                     name="GetRolByZaakUrlAndRolTypeUrlSender"
                     javaListener="GetRolByZaakUrlAndRolTypeUrl"
@@ -64,33 +65,44 @@
                     <Param name="RolTypeUrl" xpathExpression="$ZgwRolType/ZgwRolType/url">
                         <Param name="ZgwRolType" sessionKey="ZgwRolType" type="DOMDOC"/>
                     </Param>
+                    <Param name="inpBsn" xpathExpression="role/gerelateerde/natuurlijkPersoon/inp.bsn"/>
+                    <Param name="anpIdentificatie" xpathExpression="role/gerelateerde/natuurlijkPersoon/anp.Identificatie"/>
+                    <Param name="inpA_nummer" xpathExpression="role/gerelateerde/natuurlijkPersoon/inpA_nummer"/>
+                    <Param name="innNnpId" xpathExpression="role/gerelateerde/nietNatuurlijkPersoon/inn.nnpId"/>
+                    <Param name="annIdentificatie" xpathExpression="role/gerelateerde/nietNatuurlijkPersoon/ann.identificatie"/>
+                    <Param name="vestigingsNummer" xpathExpression="role/gerelateerde/vestiging/vestigingsNummer"/>
+                    <Param name="OEHidentificatie" xpathExpression="role/gerelateerde/organisatorischeEenheid/identificatie"/>
+                    <Param name="MDWidentificatie" xpathExpression="role/gerelateerde/medewerker/identificatie"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CheckForGetRolResult"/>
-                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XmlIfPipe 
                 name="CheckForGetRolResult"
-                xpathExpression="string-length(/Rol) > 0"
+                xpathExpression="count(/Rollen/Rol) > 0"
                 >
-                <Forward name="then" path="DeleteRol"/>
+                <Forward name="then" path="DeleteRollen"/>
                 <Forward name="else" path="EXIT"/>
             </XmlIfPipe>
 
-            <SenderPipe 
-                name="DeleteRol">
-                <HttpSender
-                    name="DeleteRolSender" 
-					methodType="DELETE"
-					headersParams="Authorization,Accept-Crs"
-                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
-				/>
-                <Param name="url" xpathExpression="/Rol/url"/>
-                <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Authorization" value="Bearer @@zaken-api.jwt@@"/>
+            <ForEachChildElementPipe
+                name="DeleteRollen"
+                elementXPathExpression="Rollen/Rol"
+                >
+                    <HttpSender
+                        name="DeleteRolSender" 
+                        methodType="DELETE"
+                        headersParams="Authorization,Accept-Crs"
+                        timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    >
+                        <Param name="url" xpathExpression="/Rol/url"/>
+                        <Param name="Accept-Crs" value="EPSG:4326"/>
+                        <Param name="Authorization" value="Bearer @@zaken-api.jwt@@"/>
+                    </HttpSender>
+                
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="ErrorJsonToXml" />
-            </SenderPipe>
+            </ForEachChildElementPipe>
+
             <JsonPipe name="ErrorJsonToXml">
                 <Forward name="success" path="buildErrorMsg" />
             </JsonPipe>

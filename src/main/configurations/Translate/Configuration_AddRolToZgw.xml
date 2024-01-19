@@ -15,7 +15,7 @@
 
             <XmlIfPipe
                 name="CheckForZdsGerelateerde"
-                xpathExpression="string-length(role/gerelateerde)>0"
+                xpathExpression="count(role/gerelateerde) > 0"
                 >
                 <Forward name="then" path="CreateZgwBetrokkeneIdentificatie"/>
                 <Forward name="else" path="EXIT"/>

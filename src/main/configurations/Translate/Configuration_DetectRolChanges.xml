@@ -59,9 +59,18 @@
                     <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC"/>
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CallPostRol"/>
+                <Forward name="success" path="CheckForRol"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
+
+            <XmlIfPipe
+                name="CheckForRol"
+                xpathExpression="boolean(zgwRol/*)"
+                >
+                <Forward name="then" path="CallPostRol"/>
+                <Forward name="else" path="EXIT"/>
+                <Forward name="exception" path="CallPostRol"/> <!-- Temporary solution for lack of adres processing -->
+            </XmlIfPipe>
 
             <SenderPipe name="CallPostRol">
                 <IbisLocalSender
@@ -83,7 +92,7 @@
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION"/>
             </SenderPipe>
         </Pipeline>
     </Adapter>
