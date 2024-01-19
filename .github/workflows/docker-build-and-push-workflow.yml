@@ -247,31 +247,23 @@ jobs:
         EXIT_CODE=$(docker inspect --format='{{json .State.ExitCode}}' soapui-testrunner)
         echo "Exit Code: $EXIT_CODE"
 
-        STARTED_AT=$(docker inspect --format='{{json .State.StartedAt}}' soapui-testrunner)
-        STARTED_AT_TIME=$(cut -dT -f2 <<< "$STARTED_AT" | cut -d. -f1)
-        FINISHED_AT=$(docker inspect --format='{{json .State.FinishedAt}}' soapui-testrunner)
-        FINISHED_AT_TIME=$(cut -dT -f2 <<< "$FINISHED_AT" | cut -d. -f1)
-        STARTED_AT_SECONDS=$(date -d "$STARTED_AT_TIME" +%s)
-        FINISHED_AT_SECONDS=$(date -d "$FINISHED_AT_TIME" +%s)
-        TIME_DIFFERENCE=$((FINISHED_AT_SECONDS - STARTED_AT_SECONDS))
-
-        echo "started at: $STARTED_AT"
-        echo "started time: $STARTED_AT_TIME"
-        echo "finished at: $FINISHED_AT"
-        echo "finished time: $FINISHED_AT_TIME"
-        echo "started at seconds: $STARTED_AT_SECONDS"
-        echo "finished at seconds: $FINISHED_AT_SECONDS"
-        echo "time difference: $TIME_DIFFERENCE"
-
         docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml down
         
-        if [ "$EXIT_CODE" -ne 0 ] || [ "$TIME_DIFFERENCE" -lt 60]
+        if [ "$EXIT_CODE" -ne 0 ]
           then
-            echo "Test(s) either failed or not run. Failing the job.."
+            echo "Test(s) failed. Failing the job."
             exit 1
         fi
 
       timeout-minutes: 30
+    -
+      name: Check if e2e/reports folder exists
+      run: |
+        if [ -z "$(ls -A e2e/reports)" ]
+          then
+            echo "There is no test report found, tests might not have been run. Failing the job."
+            exit 1
+        fi
     - 
       name: "Upload Sarif report as artifact"
       if: always()
