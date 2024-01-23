@@ -19,7 +19,7 @@ services:
       - 5432
 
   zaakbrug-staging:
-    image: openzaak/open-zaak:1.10.3
+    image: openzaak/open-zaak:1.9.0
     container_name: zaakbrug.staging.dev
     environment: &zaakbrug-staging-env
       - DJANGO_SETTINGS_MODULE=openzaak.conf.docker
@@ -61,7 +61,7 @@ services:
       - zaakbrug-staging-redis
 
   zaakbrug-staging-celery:
-    image: openzaak/open-zaak:1.10.3
+    image: openzaak/open-zaak:1.9.0
     environment: *zaakbrug-staging-env
     command: /celery_worker.sh
     volumes: *zaakbrug-staging-volumes
@@ -72,7 +72,7 @@ services:
       - zaakbrug-staging-redis
 
   zaakbrug-staging-celery-flower:
-    image: openzaak/open-zaak:1.10.3
+    image: openzaak/open-zaak:1.9.0
     environment: *zaakbrug-staging-env
     command: /celery_flower.sh
     networks:
