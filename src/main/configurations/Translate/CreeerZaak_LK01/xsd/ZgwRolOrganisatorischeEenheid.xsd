@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="zgwRol">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="zaak" type="zgwUri"/>
+                <xs:element name="betrokkene" type="zgwUri" minOccurs="0"/>
+                <xs:element name="betrokkeneType" type="zgwBetrokkeneType"/>
+                <xs:element name="roltype" type="zgwUri"/>
+                <xs:element name="roltoelichting" type="zgwAN1000"/>
+                <xs:element name="indicatieMachtiging" type="zgwIndicatieMachtiging" minOccurs="0"/>
+                <xs:element name="betrokkeneIdentificatie" type="zgwOrganisatorischeEenheid" minOccurs="0"/>                    
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="zgwOrganisatorischeEenheid">
+        <xs:sequence>
+            <xs:element name="identificatie" type="zgwAN24" minOccurs="0"/>
+            <xs:element name="naam" type="zgwAN50" minOccurs="0"/>
+            <xs:element name="isGehuisvestIn" type="zgwAN24" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="zgwAN24">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="24"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwAN50">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="50"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwAN1000">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1000"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwUri">
+        <xs:restriction base="xs:anyURI">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1000"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwBetrokkeneType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="natuurlijk_persoon"/>
+            <xs:enumeration value="niet_natuurlijk_persoon"/>
+            <xs:enumeration value="vestiging"/>
+            <xs:enumeration value="organisatorische_eenheid"/>
+            <xs:enumeration value="medewerker"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwIndicatieMachtiging">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="gemachtigde"/>
+            <xs:enumeration value="machtinggever"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="zgwGeslachtsaanduiding">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="m"/>
+            <xs:enumeration value="v"/>
+            <xs:enumeration value="o"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema> 

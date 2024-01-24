@@ -1,6 +1,6 @@
 # Keep in sync with version in frank-runner.properties. Detailed instructions can be found in CONTRIBUTING.md.
 # Check whether java-orig files have changed in F!F and update custom code (java and java-orig files) accordingly
-ARG FF_VERSION=7.9-20231026.224138
+ARG FF_VERSION=8.1.0-20240111.192324
 ARG GID=1000
 ARG UID=1000
 
@@ -41,6 +41,7 @@ COPY --from=ff-builder --chown=tomcat /usr/local/tomcat/webapps/ROOT /usr/local/
 ENV credentialFactory.class=nl.nn.credentialprovider.PropertyFileCredentialFactory
 ENV credentialFactory.map.properties=/opt/frank/resources/credentials.properties
 ENV zaakbrug.zds.timezone=UTC
+ENV log.level=INFO
 
 # Copy dependencies
 COPY --chown=tomcat lib/server/ /usr/local/tomcat/lib/
@@ -56,7 +57,7 @@ COPY --chown=tomcat src/test/testtool/ /opt/frank/testtool/
 COPY --chown=tomcat docker/entrypoint.sh /scripts/entrypoint.sh
 
 # Compile custom class
-FROM eclipse-temurin:8-jdk-jammy AS custom-code-builder
+FROM eclipse-temurin:11-jdk-jammy AS custom-code-builder
 
 COPY --from=ff-base /usr/local/tomcat/lib/ /usr/local/tomcat/lib/
 COPY --from=ff-base /usr/local/tomcat/webapps/ROOT /usr/local/tomcat/webapps/ROOT
@@ -64,8 +65,8 @@ COPY --from=ff-base /usr/local/tomcat/webapps/ROOT /usr/local/tomcat/webapps/ROO
 COPY src/main/java /tmp/java
 RUN mkdir /tmp/classes \
       && javac \
-      /tmp/java/nl/nn/adapterframework/parameters/Parameter.java \
-      /tmp/java/nl/nn/adapterframework/pipes/IteratingPipe.java \
+      /tmp/java/org/frankframework/parameters/Parameter.java \
+      /tmp/java/org/frankframework/pipes/IteratingPipe.java \
       -classpath "/usr/local/tomcat/webapps/ROOT/WEB-INF/lib/*:/usr/local/tomcat/lib/*" \
       -verbose -d /tmp/classes 
 

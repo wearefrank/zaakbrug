@@ -40,6 +40,12 @@
                     <property name="sessionKey" value="SOAPAction" />
                     <property name="regex" value="\/([^\/_]*_\w+)$" />
                 </bean>
+                <bean class="nl.nn.testtool.metadata.XpathMetadataFieldExtractor">
+                    <property name="name" value="identificatie" />
+                    <property name="label" value="identificatie" />
+                    <property name="xpath"
+                        value="string-join(distinct-values(//*[local-name()='identificatie'][matches(.,'([A-Z]\d+-\d+)$')]), ', ')" />
+                </bean>
             </list>
         </property>
     </bean>
@@ -52,6 +58,7 @@
                 <value>duration</value>
                 <value>name</value>
                 <value>soapAction</value>
+                <value>identificatie</value>
                 <value>correlationId</value>
                 <value>status</value>
                 <value>numberOfCheckpoints</value>

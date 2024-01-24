@@ -11,7 +11,7 @@ Execute the following steps when bumping the Frank!Framework version:
 4. Replace the default value for `FF_VERSION` under `services.zaakbrug.build.args` in `docker-compose.zaakbrug.dev.yml` with the new tag. NOTE: Watch out to not replace the '-' in front of the tag: ${FF_VERSION:-<new tag>}
 5. Replace the value of `ff.version` in `frank-runner.properties` with the new tag.
 6. Start ZaakBrug with the `Frank!Runner` to automatically replace the `./src/main/configuration/<configuration-name>/FrankConfig.xsd` and `./src/main/configuration/FrankConfig.xsd` with the newer version. You can stop the Frank!Runner once the files are replaced. Note that currently the Frank!Runner will also add `FrankConfig.xsd` to the `.gitignore` file. Make sure to revert the change to `.gitignore`.
-7. Check [GitHub - Frank!Framework - Parameter.java commit history](https://github.com/ibissource/iaf/commits/master/core/src/main/java/nl/nn/adapterframework/parameters/Parameter.java) for any changes to this class. If there are indeed changes, update the corresponding file under `./src/main/java/nl/nn/adapterframework/...`. The `.java-orig` file content should be 1 on 1 equal to the new version on GitHub. Take care to not accidentally remove the intended customization of the code in the `.java` file.
+7. Check [GitHub - Frank!Framework - Parameter.java commit history](https://github.com/ibissource/iaf/commits/master/core/src/main/java/org/frankframework/parameters/Parameter.java) for any changes to this class. If there are indeed changes, update the corresponding file under `./src/main/java/org/frankframework/...`. The `.java-orig` file content should be 1 on 1 equal to the new version on GitHub. Take care to not accidentally remove the intended customization of the code in the `.java` file.
 8. Run the e2e testsuite by using the below Docker-Compose and configuration to validate the changes. You should only need `docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml up --build --force-recreate` for this. (TODO: Automate running of e2e tests in ci/cd).
 9. Commit you changes on a branch with as message: `build(dependencies): bump f!f version to <new tag>`. Create a PR to have you changes merged to master.
 
@@ -24,7 +24,7 @@ Out-of-the-box SoapUI saves the dynamic properties set during execution of the t
 
 Unfortunatly Load and Save scripts are disabled by default in SoapUI. You can enable them by unchecking **Disable the Load and Save scripts** under `File -> Preferences -> Global Security Settings`.
 
-Additionally, to help out diff tools, also enable the option **Pretty Print Project Files** under `File -> Preferences -> WSDL Settings`.
+Additionally, to help out diff tools, also enable the option **Pretty Print Project Files** and disable the option **Cache WSDLs** under `File -> Preferences -> WSDL Settings`.
 
 ## Coding standards
 - Put dynamic properties(temporary values during test execution) in the **"Properties" TestStep**. Their values get cleared when saving the project.
@@ -32,6 +32,19 @@ Additionally, to help out diff tools, also enable the option **Pretty Print Proj
 - When you open the SoapUI project in a new version of SoapUI, Save the project and create a seperate PR for any changes in the project file.
 - Try to keep to one change at a time and keep them small.
 - Whenever possible, avoid combining changes that both add and remove lots of things.
+
+
+## Manual testing with own test cases
+If you would like to create and run your own test cases in SoapUI then you should complete the configuration under "docker-compose.openzaak.dev" section below to be able to have the catalog imported. Afterwards, you could create your own test cases in SoapUI.
+
+## Manual testing with already prepared test cases in the repo
+If you would like to run the test cases already prepared in the repo, then you don't need to import catalog at all. However, you first need to import the test cases in SoapUI. To do so:
+- Click on the 'Import' button on SoapUI.
+- Go to the directory that has the ZaakBrug project downloaded.
+- Go to the folder ./e2e/SoapUI and select the zaakbrug-e2e-soapui-project.xml file
+
+When you have imported the tests you can run any test case under the TestSuite, the test case will manage creating own catalog with required data and delete everything created after the test run is completed. These processes will be done by "SetUp" and "TearDown" test cases which are disabled as default and no need to enable them because they are called inside the main test case.
+
 
 # Docker-compose
 The docker-compose development environment is designed to be flexible and composable. This prevents the need for developers to run the entire stack eventhough their work requires only a small part of the stack. For this we make use of a docker-compose feature that merges a given array of docker-compose files together. Simply provide a `-f ./docker-compose.<application>.yml` argument for each docker-compose file you wish to include in the `docker-compose up`command.
@@ -111,7 +124,9 @@ username: `admin`
 password: `admin`
 
 #### Configuration
-When running OpenZaak for the first time or after the database data has been lost, it is necessary to configure an application in the OpenZaak admin gui with the correct JWT client_id and secret at `API Authorisaties -> Applicaties -> Applicatie toevoegen +`. For development, the default credentials can be found in `./src/main/resources/credentials.properties`. Makes sure to also click the `Heeft alle autorisaties` checkbox. The Label can be anything.
+When starting OpenZaak, an application is configured in OpenZaak automatically with the default credentials which can be found in `./src/main/resources/credentials.properties` so there is no need to configure any other one manually. The configured application can be monitored at `API Authorisaties -> Applicaties`.
+
+*Note: If you want to run the already prepared SoapUI test cases in the repo, then you can skip the following action (importing catalog) and you can go to "Manual testing with already prepared test cases in the repo" under "Testing with SoapUI" section. If you want to run your own created test cases, then follow the following step.*
 
 Next, a catalog needs to be imported and published. Go to `Gegevens -> Catalogi -> Importeer catalogus +`. Browse to `./e2e/OpenZaak/openzaak-export-catalogus-zaaktypes-updated.zip` in the ZaakBrug repository. Make sure `Generate new UUIDs` is checked and click `Importeer`. To publish the catalog, you need to publish the individual resources contained in the catalog. You can find `Toon Zaaktypen | Toon besluittypen | Toon Informatieobjecttypen` in the `Acties` column. Start by following the right-most link, select all items in the table, select the option `Publiceer de geselecteerde...` from the dropdown just above the table and click `uitvoeren`. Repeat this for the other two links.
 
