@@ -37,9 +37,9 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <!-- https://github.com/ibissource/zaakbrug/issues/149 -->
             <ForEachChildElementPipe name="ZgwZaakInformatieObjectenIterator"
-                elementXPathExpression="/ZgwZaakInformatieObjecten/ZgwZaakInformatieObject">
+                elementXPathExpression="/ZgwZaakInformatieObjecten/ZgwZaakInformatieObject"
+                parallel="true">
                 <IbisLocalSender
                     name="CallHandleZgwZaakInformatieObjecten"
                     javaListener="HandleZgwZaakInformatieObjecten">
