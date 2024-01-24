@@ -362,10 +362,10 @@
                 <Forward name="success" path="PostStatusIterator"/>
             </XsltPipe>
 
+            <!-- https://github.com/ibissource/zaakbrug/issues/144 -->
             <ForEachChildElementPipe name="PostStatusIterator"
                 getInputFromSessionKey="NewStatuses"
-                elementXPathExpression="ZgwStatussen/ZgwStatus"
-                parallel="true">
+                elementXPathExpression="ZgwStatussen/ZgwStatus">
                 <IbisLocalSender
                     name="PostZgwStatusLocalSender"
                     javaListener="Zaken_PostZgwStatus">
