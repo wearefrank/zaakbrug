@@ -22,7 +22,7 @@
                 <Forward name="New" path="CallGetZgwRolType"/>
                 <Forward name="Delete" path="CallDeleteRolFromZgw"/>
                 <Forward name="Changed" path="DeleteRolBeforeUpdate"/>
-                <Forward name="Exit" path="EXIT"/>
+                <Forward name="Exit" path="EXCEPTION"/>
             </XmlSwitchPipe>
 
             <SenderPipe name="DeleteRolBeforeUpdate"
@@ -69,7 +69,7 @@
                 >
                 <Forward name="then" path="CallPostRol"/>
                 <Forward name="else" path="EXIT"/>
-                <Forward name="exception" path="CallPostRol"/> <!-- Temporary solution for lack of adres processing -->
+                <Forward name="exception" path="EXCEPTION"/> <!-- Temporary solution for lack of adres processing -->
             </XmlIfPipe>
 
             <SenderPipe name="CallPostRol">

@@ -5,8 +5,8 @@
     <xsl:template match="/">
         <xsl:choose>
             <xsl:when test="$ZdsWordtZaakRol/role/gerelateerde[@verwerkingssoort='T']">New</xsl:when>
-            <xsl:when test="$ZdsWordtZaakRol/role/gerelateerde[@verwerkingssoort='V'] and roles/role/typeRolOmschrijving = $ZdsWordtZaakRol/role/typeRolOmschrijving">Delete</xsl:when>
-            <xsl:when test="$ZdsWordtZaakRol/role/gerelateerde[@verwerkingssoort='W'] and roles/role/typeRolOmschrijving = $ZdsWordtZaakRol/role/typeRolOmschrijving">Changed</xsl:when>
+            <xsl:when test="$ZdsWordtZaakRol/role/gerelateerde[@verwerkingssoort='V']">Delete</xsl:when>
+            <xsl:when test="$ZdsWordtZaakRol/role/gerelateerde[@verwerkingssoort='W']">Changed</xsl:when>
             <xsl:otherwise>Exit</xsl:otherwise>
         </xsl:choose>
     </xsl:template>

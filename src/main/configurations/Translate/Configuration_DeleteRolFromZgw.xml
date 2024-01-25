@@ -81,7 +81,7 @@
                 xpathExpression="count(/Rollen/Rol) > 0"
                 >
                 <Forward name="then" path="DeleteRollen"/>
-                <Forward name="else" path="EXIT"/>
+                <Forward name="else" path="EXCEPTION"/>
             </XmlIfPipe>
 
             <ForEachChildElementPipe
