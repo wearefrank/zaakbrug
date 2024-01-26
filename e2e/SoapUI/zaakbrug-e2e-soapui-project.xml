@@ -7861,12 +7861,6 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
           </con:request>
         </con:config>
       </con:testStep>
-      <con:testStep type="delay" name="Delay" id="0fa7d16e-14dc-42c5-8099-4f14d85a4d31">
-        <con:settings/>
-        <con:config>
-          <delay>1000</delay>
-        </con:config>
-      </con:testStep>
       <con:testStep type="request" id="fbfc19b1-8f1e-48f7-8364-4a9ba2e0bfc9" name="11-zds-updateZaak_Lk01-Einde">
         <con:settings/>
         <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
