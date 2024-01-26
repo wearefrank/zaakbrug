@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.15.6](https://github.com/wearefrank/zaakbrug/compare/v1.15.5...v1.15.6) (2024-01-26)
+
+
+### 🔥 Performance Improvements
+
+* forEachChildElementPipe pipes execute in parallel without ignoring errors ([#264](https://github.com/wearefrank/zaakbrug/issues/264)) ([c4a975b](https://github.com/wearefrank/zaakbrug/commit/c4a975befec4802ae8e8aff889a6dcaa42d42c13))
+
 ## [1.15.5](https://github.com/wearefrank/zaakbrug/compare/v1.15.4...v1.15.5) (2024-01-26)
 
 
