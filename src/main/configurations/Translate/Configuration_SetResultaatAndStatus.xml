@@ -88,7 +88,7 @@
                     <Param name="Einddatum" xpathExpression="/*/object/einddatum" sessionKey="originalMessage"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForResultaat"/>
-                <Forward name="exception" path="ResultWithErrorMessage" />
+                <Forward name="exception" path="CheckTheError" />
             </ForEachChildElementPipe>
 
             <XmlIfPipe name="CheckForResultaat"
@@ -371,15 +371,30 @@
                     javaListener="Zaken_PostZgwStatus">
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="exception" path="ResultWithErrorMessage" />
+                <Forward name="exception" path="CheckTheError" />
             </ForEachChildElementPipe>
+
+            <IsXmlPipe name="CheckTheError">
+                <Forward name="then" path="storeErrorMessage" />
+                <Forward name="else" path="storeDummyErrorMessage" />
+            </IsXmlPipe>
+
+            <PutInSessionPipe name="storeErrorMessage">
+                <Param name="error" xpathExpression="/error" />
+                <Forward name="then" path="ResultWithErrorMessage" />
+            </PutInSessionPipe>
+
+            <PutInSessionPipe name="storeDummyErrorMessage">
+                <Param name="error" value="&lt;dummy/&gt;"/>
+                <Forward name="then" path="ResultWithErrorMessage" />
+            </PutInSessionPipe>
 
             <XsltPipe
                 name="ResultWithErrorMessage"
                 emptyInputReplacement="&lt;EmptyInput/&gt;"
                 styleSheetName="Common/xsl/BuildError.xsl"
                 >
-                <Param name="cause" xpathExpression="/error" type="DOMDOC" />
+                <Param name="cause" sessionKey="error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason" pattern="Adding a new status is failed" />
                 <Param name="detailsXml" type="DOMDOC" />

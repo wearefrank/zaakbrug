@@ -50,14 +50,29 @@
             </JsonPipe>
 
             <XmlIfPipe name="checkCount" xpathExpression="root/count = 0">
-                <Forward name="then" path="BuildErrorMessage" />
+                <Forward name="then" path="CheckTheError" />
                 <Forward name="else" path="UnwrapOpenZaakApiEnvelopeToList" />
             </XmlIfPipe>
+
+            <IsXmlPipe name="CheckTheError">
+                <Forward name="then" path="storeErrorMessage" />
+                <Forward name="else" path="storeDummyErrorMessage" />
+            </IsXmlPipe>
+
+            <PutInSessionPipe name="storeErrorMessage">
+                <Param name="error" xpathExpression="/error" />
+                <Forward name="then" path="BuildErrorMessage" />
+            </PutInSessionPipe>
+
+            <PutInSessionPipe name="storeDummyErrorMessage">
+                <Param name="error" value="&lt;dummy/&gt;"/>
+                <Forward name="then" path="BuildErrorMessage" />
+            </PutInSessionPipe>
 
             <XsltPipe
                 name="BuildErrorMessage"
                 styleSheetName="Common/xsl/BuildError.xsl">
-                <Param name="cause" xpathExpression="/error" type="DOMDOC" />
+                <Param name="cause" sessionKey="error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> 
                 <Param name="reason" pattern="No zaak with the identificatie:{Identificatie} is found in geefLijstZaakDocumenten" />
                 <Param name="detailsXml" type="DOMDOC"/>

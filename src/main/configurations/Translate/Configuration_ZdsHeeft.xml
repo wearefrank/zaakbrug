@@ -116,15 +116,30 @@
                 preserveInput="true"
                 xpathExpression="exists(/result/exception)"
                 >
-                <Forward name="then" path="ResultWithErrorMessage"/>
+                <Forward name="then" path="CheckTheError"/>
                 <Forward name="else" path="CheckForStatusExists"/>
             </XmlIfPipe>
+
+            <IsXmlPipe name="CheckTheError">
+                <Forward name="then" path="storeErrorMessage" />
+                <Forward name="else" path="storeDummyErrorMessage" />
+            </IsXmlPipe>
+
+            <PutInSessionPipe name="storeErrorMessage">
+                <Param name="error" xpathExpression="/error" />
+                <Forward name="then" path="ResultWithErrorMessage" />
+            </PutInSessionPipe>
+
+            <PutInSessionPipe name="storeDummyErrorMessage">
+                <Param name="error" value="&lt;dummy/&gt;"/>
+                <Forward name="then" path="ResultWithErrorMessage" />
+            </PutInSessionPipe>
 
             <XsltPipe
                 name="ResultWithErrorMessage"
                 styleSheetName="Common/xsl/BuildError.xsl"
                 >
-                <Param name="cause" xpathExpression="/error" type="DOMDOC"/>
+                <Param name="cause" sessionKey="error" type="DOMDOC"/>
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason" pattern="ActualiseerStatus datumstatusgezet equal to existing status" />
                 <Param name="details" sessionKey="StatusBody" xpathExpression="concat(ZgwStatus/datumStatusGezet, ' is equal to existing status')"/>
