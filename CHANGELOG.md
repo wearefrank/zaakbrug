@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.15.7](https://github.com/wearefrank/zaakbrug/compare/v1.15.6...v1.15.7) (2024-01-31)
+
+
+### 🤖 Build System
+
+* move default values from configuration level to instance level ([#265](https://github.com/wearefrank/zaakbrug/issues/265)) ([4aba4c9](https://github.com/wearefrank/zaakbrug/commit/4aba4c9d2b3b64215aa96cfdf625f8872276b554))
+
 ## [1.15.6](https://github.com/wearefrank/zaakbrug/compare/v1.15.5...v1.15.6) (2024-01-26)
 
 
