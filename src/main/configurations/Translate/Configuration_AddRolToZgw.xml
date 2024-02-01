@@ -4,7 +4,7 @@
     description="">
     
     <Receiver name="AddRolToZgw">
-        <JavaListener name="AddRolToZgw"/>
+        <JavaListener name="AddRolToZgw" returnedSessionKeys="Error" />
     </Receiver>
     
     <Pipeline>
@@ -13,7 +13,7 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <XmlIfPipe
+            <!-- <XmlIfPipe
                 name="CheckForZdsGerelateerde"
                 xpathExpression="string-length(role/gerelateerde)>0"
                 >
@@ -37,7 +37,7 @@
             >
                 <Forward name="then" path="CreateRolBody"/>
                 <Forward name="else" path="EmptyResult"/>
-                <Forward name="exception" path="EXIT"/> <!-- Temporary solution for lack of adres processing -->
+                <Forward name="exception" path="EXIT"/>  Temporary solution for lack of adres processing 
             </XmlIfPipe>
 
             <EchoPipe name="EmptyResult"
@@ -63,21 +63,23 @@
                 >
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="ResultWithErrorMessage"/>
-            </XmlIfPipe>   
+            </XmlIfPipe>    -->
 
             <XsltPipe
                 name="ResultWithErrorMessage"
-                styleSheetName="Common/xsl/BuildError.xsl">
-                <Param name="cause" xpathExpression="/error" type="DOMDOC" />
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason"
                     pattern="No roltype with matching omschrijving is found" />
-                <Param name="TypeRolOmschrijving" sessionKey="originalMessage" 
+                <!-- <Param name="TypeRolOmschrijving" sessionKey="originalMessage" 
                     xpathExpression="role/typeRolOmschrijving"/>
                 <Param name="details"
                     pattern="omschrijving:{TypeRolOmschrijving} cannot be found in the list of roltypes" ignoreUnresolvablePatternElements="true" >
                 </Param>
-                <Param name="detailsXml" sessionKey="ZgwRolTypen" type="DOMDOC" />
+                <Param name="detailsXml" sessionKey="ZgwRolTypen" type="DOMDOC" /> -->
                 <Forward name="success" path="EXCEPTION" />
                 <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>

@@ -6,7 +6,7 @@
         <Receiver name="GeefZaakdocumentbewerken_Di02">
             <JavaListener 
                 name="GeefZaakdocumentbewerken_Di02"
-                returnedSessionKeys="ZgwLock,ref_inhoud"
+                returnedSessionKeys="ZgwLock,ref_inhoud,Error"
                 />
         </Receiver>
 
@@ -21,7 +21,8 @@
                 storeResultInSessionKey="ZgwEnkelvoudigInformatieObject">
                 <IbisLocalSender
                     name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatieSender"
-                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie">
+                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie"
+                    returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="DocumentIdentificatie" />
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwEnkelvoudigInformatieObjectResult"/>
@@ -40,7 +41,8 @@
                 storeResultInSessionKey="ZgwInformatieObjectType">
                 <IbisLocalSender
                     name="CallGetZgwInformatieObjectTypeByUrlSender"
-                    javaListener="GetZgwInformatieObjectTypeByUrl">
+                    javaListener="GetZgwInformatieObjectTypeByUrl"
+                    returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/ZgwEnkelvoudigInformatieObject/informatieobjecttype"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwInformatieObjectTypeResult"/>
@@ -59,7 +61,8 @@
                 storeResultInSessionKey="ZgwZaakInformatieObject">
                 <IbisLocalSender
                     name="CallGetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrlSender"
-                    javaListener="GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl">
+                    javaListener="GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl"
+                    returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/url">
                         <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
                     </Param>
@@ -80,7 +83,8 @@
                 storeResultInSessionKey="GetZgwZaakResult">
                 <IbisLocalSender
                     name="CallGetZaakByUrlSender"
-                    javaListener="GetZgwZaakByUrl">
+                    javaListener="GetZgwZaakByUrl"
+                    returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="$ZgwZaakInformatieObject/ZgwZaakInformatieObject/zaak">
                         <Param name="ZgwZaakInformatieObject" sessionKey="ZgwZaakInformatieObject" type="DOMDOC"/>
                     </Param>
@@ -103,7 +107,7 @@
                 <IbisLocalSender
                     name="CallGetBas64InhoudSender"
                     javaListener="GetBas64Inhoud"
-                    returnedSessionKeys="ref_inhoud"
+                    returnedSessionKeys="ref_inhoud,Error"
                     >
                     <Param name="Url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/inhoud">
                         <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
@@ -167,10 +171,10 @@
 
             <XsltPipe 
                 name="CheckForLock_LockAlreadyActiveException"
-                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                getInputFromFixedValue="&lt;dummy/&gt;"
                 styleSheetName="Common/xsl/BuildError.xsl"
-                >
-                <Param name="cause" xpathExpression="/error" type="DOMDOC" />
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason" pattern="Lock already active for document with identification: {DocumentIdentificatie}" />
                 <!-- <Param name="details" sessionKey="" /> -->
@@ -195,7 +199,7 @@
                 <IbisLocalSender
                     name="CallPostZgwLockSender"
                     javaListener="PostZgwLock"
-                    >
+                    returnedSessionKeys="Error">
                     <Param name="ZgwLockUrl" sessionKey="ZgwEnkelvoudigInformatieObject" xpathExpression="concat(/ZgwEnkelvoudigInformatieObject/url, '/lock')" />
                 </IbisLocalSender>
                 <Forward name="success" path="RestoreZdsZaakDocumentInhoudForReturn"/>

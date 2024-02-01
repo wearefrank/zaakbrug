@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="Zaken_GetZgwRolTypeByZaakType">
-            <JavaListener name="Zaken_GetZgwRolTypeByZaakType"/>
+            <JavaListener name="Zaken_GetZgwRolTypeByZaakType" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>

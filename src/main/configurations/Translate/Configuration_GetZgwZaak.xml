@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="GetZgwZaak">
-            <JavaListener name="GetZgwZaak"/>
+            <JavaListener name="GetZgwZaak" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -56,8 +56,10 @@
 
             <XsltPipe
                 name="BuildErrorMessage"
-                styleSheetName="Common/xsl/BuildError.xsl">
-                <Param name="cause" xpathExpression="/error" type="DOMDOC" />
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> 
                 <Param name="reason" pattern="No zaak with the identificatie:{Identificatie} is found in geefLijstZaakDocumenten" />
                 <Param name="detailsXml" type="DOMDOC"/>

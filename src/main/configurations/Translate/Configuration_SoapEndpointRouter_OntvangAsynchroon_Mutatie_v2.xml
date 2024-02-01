@@ -71,10 +71,10 @@
             <!-- ERRORS -->
             <XsltPipe 
                 name="UnsupportedSoapActionError"
-                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                getInputFromFixedValue="&lt;dummy/&gt;"
                 styleSheetName="Common/xsl/BuildError.xsl"
-                >
-                <Param name="cause" xpathExpression="/error" type="DOMDOC" />
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason" pattern="Unsupported SOAP-action. No implementation found for: {SOAPAction}" /> 
                 <!-- <Param name="details" sessionKey="" /> -->

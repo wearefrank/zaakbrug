@@ -4,7 +4,8 @@
         description="">
 
         <Receiver name="GetZgwInformatieObjectTypeByOmschrijving">
-            <JavaListener name="GetZgwInformatieObjectTypeByOmschrijving"/>
+            <JavaListener name="GetZgwInformatieObjectTypeByOmschrijving" 
+                returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>   
@@ -21,7 +22,8 @@
                 parallel="true" >
                 <IbisLocalSender
                     name="GetZgwInformatieObjectTypeByUrlLocalSender"
-                    javaListener="GetZgwInformatieObjectTypeByUrl">
+                    javaListener="GetZgwInformatieObjectTypeByUrl"
+                    returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/informatieobjecttypen"/>
                 </IbisLocalSender>
                 <Forward name="success" path="UnwrapZgwInformatieObjectTypenToList"/>

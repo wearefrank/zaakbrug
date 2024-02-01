@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="PatchRelevanteAndereZaak">
-            <JavaListener name="PatchRelevanteAndereZaak"/>
+            <JavaListener name="PatchRelevanteAndereZaak" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>

@@ -101,7 +101,7 @@
                 <IbisLocalSender
                     name="GeefLijstZaakdocumenten_Lv01LocalSender"
                     javaListener="GeefLijstZaakdocumenten_Lv01"
-                    >
+                    returnedSessionKeys="Error">
                     <Param name="ZaakIdentificatie" xpathExpression="/*/gelijk/identificatie" type="STRING" />
                 </IbisLocalSender>
                 <Forward name="success" path="WrapZakLa01Response" />
@@ -116,7 +116,7 @@
                 <IbisLocalSender
                     name="GeefZaakdocumentLezen_Lv01LocalSender"
                     javaListener="GeefZaakdocumentLezen_Lv01"
-                    returnedSessionKeys="ref_inhoud"
+                    returnedSessionKeys="ref_inhoud,Error"
                     >
                     <Param name="DocumentIdentificatie" xpathExpression="/*/gelijk/identificatie" type="STRING" />
                 </IbisLocalSender>
@@ -131,7 +131,7 @@
                 <IbisLocalSender
                     name="GeefZaakdetails_Lv01LocalSender"
                     javaListener="GeefZaakdetails_Lv01"
-                    >
+                    returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Forward name="success" path="ReplaceNulls" />
                 <Forward name="exception" path="BackEndError" />
@@ -203,10 +203,10 @@
             <!-- ERRORS -->
             <XsltPipe 
                     name="UnsupportedSoapActionError"
-                    emptyInputReplacement="&lt;EmptyInput/&gt;"
+                    getInputFromFixedValue="&lt;dummy/&gt;"
                     styleSheetName="Common/xsl/BuildError.xsl"
-                    >
-                    <Param name="cause" xpathExpression="/error" type="DOMDOC" />
+                    storeResultInSessionKey="Error">
+                    <Param name="cause" sessionKey="Error" type="DOMDOC" />
                     <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                     <Param name="reason" pattern="Unsupported SOAP-action. No implementation found for: {SOAPAction}" /> 
                 <!-- <Param name="details" sessionKey="" /> -->

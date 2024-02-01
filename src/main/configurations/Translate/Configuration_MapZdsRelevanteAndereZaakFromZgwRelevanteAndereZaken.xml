@@ -4,7 +4,8 @@
     description="">
     
     <Receiver name="MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken">
-        <JavaListener name="MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken"/>
+        <JavaListener name="MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken"
+            returnedSessionKeys="Error" />
     </Receiver>
     
     <Pipeline>
@@ -18,7 +19,8 @@
                 storeResultInSessionKey="ZgwRelevanteAndereZaak">
                 <IbisLocalSender
                     name="GetZgwRelevanteAndereZaakLocalSender"
-                    javaListener="GetZgwZaakByUrl">
+                    javaListener="GetZgwZaakByUrl"
+                    returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/relevanteAndereZaken/url" type="STRING"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CreateZdsHeeftBetrekkingOpAndere"/>

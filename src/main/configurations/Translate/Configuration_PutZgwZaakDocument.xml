@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="PutZgwZaakDocument">
-            <JavaListener name="PutZgwZaakDocument"/>
+            <JavaListener name="PutZgwZaakDocument" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>

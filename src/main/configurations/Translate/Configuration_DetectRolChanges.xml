@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="DetectRolChanges">
-            <JavaListener name="DetectRolChanges"/>
+            <JavaListener name="DetectRolChanges" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -30,7 +30,8 @@
                 storeResultInSessionKey="DeleteRolResult">
                 <IbisLocalSender
                     name="CallDeleteRolSender"
-                    javaListener="DeleteRolFromZgw">
+                    javaListener="DeleteRolFromZgw"
+                    returnedSessionKeys="Error">
                     <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                 </IbisLocalSender>
@@ -43,7 +44,8 @@
                 storeResultInSessionKey="ZgwRolTypen">
                 <IbisLocalSender
                     name="GetZgwRolTypeByZaakTypeLocalSender"
-                    javaListener="Zaken_GetZgwRolTypeByZaakType">
+                    javaListener="Zaken_GetZgwRolTypeByZaakType"
+                    returnedSessionKeys="Error">
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallAddRolToZgw"/>
@@ -55,7 +57,8 @@
                 storeResultInSessionKey="AddRolResult">
                 <IbisLocalSender
                     name="CallAddRolToZgwSender"
-                    javaListener="AddRolToZgw">
+                    javaListener="AddRolToZgw"
+                    returnedSessionKeys="Error">
                     <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC"/>
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                 </IbisLocalSender>
@@ -66,7 +69,8 @@
             <SenderPipe name="CallPostRol">
                 <IbisLocalSender
                     name="CallPostRolSender"
-                    javaListener="Zaken_PostZgwRol">
+                    javaListener="Zaken_PostZgwRol"
+                    returnedSessionKeys="Error">
                     <Param name="ZaakUrl" sessionKey="ZgwZaakUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
@@ -78,7 +82,8 @@
                 storeResultInSessionKey="DeleteRolResult">
                 <IbisLocalSender
                     name="CallDeleteRolSender"
-                    javaListener="DeleteRolFromZgw">
+                    javaListener="DeleteRolFromZgw"
+                    returnedSessionKeys="Error">
                     <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                 </IbisLocalSender>

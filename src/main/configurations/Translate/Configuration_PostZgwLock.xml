@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="PostZgwLock">
-            <JavaListener name="PostZgwLock"/>
+            <JavaListener name="PostZgwLock" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
