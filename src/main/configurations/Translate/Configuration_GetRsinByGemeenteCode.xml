@@ -28,29 +28,14 @@
                 xpathExpression="string-length(/RSIN) &gt; 0"
                 >
                 <Forward name="then" path="EXIT"/>
-                <Forward name="else" path="CheckTheError"/>
+                <Forward name="else" path="Rsin_NotEmpty_Exception"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XmlIfPipe>
-
-            <IsXmlPipe name="CheckTheError">
-                <Forward name="then" path="storeErrorMessage" />
-                <Forward name="else" path="storeDummyErrorMessage" />
-            </IsXmlPipe>
-
-            <PutInSessionPipe name="storeErrorMessage">
-                <Param name="error" xpathExpression="/error" />
-                <Forward name="then" path="Rsin_NotEmpty_Exception" />
-            </PutInSessionPipe>
-
-            <PutInSessionPipe name="storeDummyErrorMessage">
-                <Param name="error" value="&lt;dummy/&gt;"/>
-                <Forward name="then" path="Rsin_NotEmpty_Exception" />
-            </PutInSessionPipe>
 
             <XsltPipe 
                 name="Rsin_NotEmpty_Exception"
                 styleSheetName="Common/xsl/BuildError.xsl">
-                <Param name="cause" sessionKey="error" type="DOMDOC" />
+                <Param name="cause" xpathExpression="/error" type="DOMDOC" />
                 <Param name="code" value="ConfigurationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="GemeenteCode" sessionKey="GemeenteCode"/>
                 <Param name="reason" pattern="No organization configured for gemeente code: [{GemeenteCode}]" ignoreUnresolvablePatternElements="true"/> 

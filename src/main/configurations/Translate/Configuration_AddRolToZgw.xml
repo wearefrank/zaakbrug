@@ -62,28 +62,13 @@
                 xpathExpression="string-length(zgwRol/roltype)>0"
                 >
                 <Forward name="then" path="EXIT"/>
-                <Forward name="else" path="CheckTheError"/>
-            </XmlIfPipe>
-
-            <IsXmlPipe name="CheckTheError">
-                <Forward name="then" path="storeErrorMessage" />
-                <Forward name="else" path="storeDummyErrorMessage" />
-            </IsXmlPipe>
-
-            <PutInSessionPipe name="storeErrorMessage">
-                <Param name="error" xpathExpression="/error" />
-                <Forward name="then" path="ResultWithErrorMessage" />
-            </PutInSessionPipe>
-
-            <PutInSessionPipe name="storeDummyErrorMessage">
-                <Param name="error" value="&lt;dummy/&gt;"/>
-                <Forward name="then" path="ResultWithErrorMessage" />
-            </PutInSessionPipe>
+                <Forward name="else" path="ResultWithErrorMessage"/>
+            </XmlIfPipe>   
 
             <XsltPipe
                 name="ResultWithErrorMessage"
                 styleSheetName="Common/xsl/BuildError.xsl">
-                <Param name="cause" sessionKey="error" type="DOMDOC" />
+                <Param name="cause" xpathExpression="/error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason"
                     pattern="No roltype with matching omschrijving is found" />
