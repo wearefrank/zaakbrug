@@ -7861,7 +7861,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
           </con:request>
         </con:config>
       </con:testStep>
-      <con:testStep type="delay" name="Delay" id="263ac432-edd3-4325-b362-4c29ce563eac">
+      <con:testStep type="delay" name="Delay" id="c3bf4b94-4ffa-4906-9efa-53aa7dbfad14">
         <con:settings/>
         <con:config>
           <delay>1000</delay>
@@ -7942,10 +7942,10 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
                   <ZKN:zkt.code>B1026</ZKN:zkt.code>\r
                   <ZKN:zkt.omschrijving>Aanvraag minima</ZKN:zkt.omschrijving>\r
                   <ZKN:volgnummer>0010</ZKN:volgnummer>\r
-                  <ZKN:code>ontv</ZKN:code>
-                  <ZKN:omschrijving>Ontvangen</ZKN:omschrijving>
-<!--                  <ZKN:code>Afgehandeld</ZKN:code>\r-->
-<!--                  <ZKN:omschrijving>Afgehandeld</ZKN:omschrijving>\r-->
+<!--                  <ZKN:code>ontv</ZKN:code>-->
+<!--                  <ZKN:omschrijving>Ontvangen</ZKN:omschrijving>-->
+                  <ZKN:code>Afgehandel</ZKN:code>\r
+                  <ZKN:omschrijving>Afgehandel</ZKN:omschrijving>\r
                   <ZKN:ingangsdatumObject xsi:nil="true" StUF:noValue="geenWaarde"/>\r
                </ZKN:gerelateerde>\r
                <ZKN:datumStatusGezet>${=import java.text.SimpleDateFormat; SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS"); sdf.setTimeZone(TimeZone.getTimeZone("${#Project#ZdsTimezone}")); sdf.format(new Date());}</ZKN:datumStatusGezet>\r
