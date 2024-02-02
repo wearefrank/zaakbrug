@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.15.8](https://github.com/wearefrank/zaakbrug/compare/v1.15.7...v1.15.8) (2024-02-02)
+
+
+### 🧑‍💻 Code Refactoring
+
+* nest previous errors when throwing a new error so that information from more the specific errors is not lost ([#261](https://github.com/wearefrank/zaakbrug/issues/261)) ([3d06c31](https://github.com/wearefrank/zaakbrug/commit/3d06c312c7763ae21c92395039afec4212ff3772))
+
 ## [1.15.7](https://github.com/wearefrank/zaakbrug/compare/v1.15.6...v1.15.7) (2024-01-31)
 
 
