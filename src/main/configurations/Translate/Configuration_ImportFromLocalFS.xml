@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="ImportFromLocalFS">
-            <JavaListener name="ImportFromLocalFS"/>
+            <JavaListener name="ImportFromLocalFS" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>

@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="GetStatusTypeByZaakTypeAndOmschrijving">
-            <JavaListener name="GetStatusTypeByZaakTypeAndOmschrijving"/>
+            <JavaListener name="GetStatusTypeByZaakTypeAndOmschrijving" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -18,7 +18,8 @@
                 getInputFromFixedValue="&lt;dummy/&gt;">
                 <IbisLocalSender
                     name="CallGetStatusTypeByZaakTypeSender"
-                    javaListener="GetZgwStatusTypes">
+                    javaListener="GetZgwStatusTypes"
+                    returnedSessionKeys="Error">
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="GetZgwStatusTypeMatchingOmschrijvingFromList"/>

@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="Zaken_UpdateZgwZaak">
-            <JavaListener name="Zaken_UpdateZgwZaak"/>
+            <JavaListener name="Zaken_UpdateZgwZaak" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>

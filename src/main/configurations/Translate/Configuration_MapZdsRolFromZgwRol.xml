@@ -4,7 +4,7 @@
     description="">
     
     <Receiver name="MapZdsRolFromZgwRol">
-        <JavaListener name="MapZdsRolFromZgwRol"/>
+        <JavaListener name="MapZdsRolFromZgwRol" returnedSessionKeys="Error" />
     </Receiver>
     
     <Pipeline>
@@ -19,7 +19,8 @@
                 storeResultInSessionKey="GetZgwRolTypeByUrlResult">
                 <IbisLocalSender
                     name="GetZgwRolTypeByUrlLocalSender"
-                    javaListener="Zaken_GetZgwRolTypeByUrl">
+                    javaListener="Zaken_GetZgwRolTypeByUrl"
+                    returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/results/roltype" type="STRING"/>
                 </IbisLocalSender>
                 <Forward name="success" path="GetSingleResultFromZgwRolEnvelope"/>

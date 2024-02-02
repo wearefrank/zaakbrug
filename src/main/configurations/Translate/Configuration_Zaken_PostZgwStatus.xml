@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="Zaken_PostZgwStatus">
-            <JavaListener name="Zaken_PostZgwStatus"/>
+            <JavaListener name="Zaken_PostZgwStatus" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>

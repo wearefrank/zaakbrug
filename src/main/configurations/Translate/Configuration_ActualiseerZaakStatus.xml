@@ -4,7 +4,7 @@
         description="">
         
         <Receiver name="ActualiseerZaakStatus">
-            <JavaListener name="ActualiseerZaakStatus"/>
+            <JavaListener name="ActualiseerZaakStatus" returnedSessionKeys="Error" />
         </Receiver>
     
         <Pipeline>   
@@ -18,7 +18,8 @@
                 storeResultInSessionKey="GetZaakResult">
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
-                    javaListener="GetZgwZaak">
+                    javaListener="GetZgwZaak"
+                    returnedSessionKeys="Error">
                     <Param name="Identificatie" xpathExpression="zakLk01/object[2]/identificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallGetZaakTypeByZaak"/>
@@ -31,7 +32,8 @@
                 storeResultInSessionKey="GetZaakTypeResult">
                 <IbisLocalSender
                     name="CallGetZgwZaakTypeSender"
-                    javaListener="GetZgwZaakTypeByIdentificatie">
+                    javaListener="GetZgwZaakTypeByIdentificatie"
+                    returnedSessionKeys="Error">
                     <Param name="ZaakTypeCode" xpathExpression="zakLk01/object[2]/isVan/gerelateerde/code"/>
                 </IbisLocalSender>
                 <Forward name="success" path="SetZgwZaakType"/>
@@ -59,7 +61,8 @@
                 storeResultInSessionKey="SetResultaatAndStatusResult">
                 <IbisLocalSender
                     name="CallSetResultaatAndStatusSender"
-                    javaListener="SetResultaatAndStatus">
+                    javaListener="SetResultaatAndStatus"
+                    returnedSessionKeys="Error">
                     <Param name="ZgwZaakType" xpathExpression="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType" type="DOMDOC">
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                     </Param>                   

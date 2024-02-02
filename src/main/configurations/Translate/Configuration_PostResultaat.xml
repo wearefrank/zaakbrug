@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="PostResultaatAdapter">
-            <JavaListener name="PostResultaatAdapter"/>
+            <JavaListener name="PostResultaatAdapter" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>

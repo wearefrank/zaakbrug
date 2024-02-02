@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="VoegZaakdocumentToe_Lk01">
-            <JavaListener name="VoegZaakdocumentToe_Lk01"/>
+            <JavaListener name="VoegZaakdocumentToe_Lk01" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -26,7 +26,8 @@
                 getInputFromSessionKey="ZdsZaakDocumentInhoud">
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
-                    javaListener="GetZgwZaak">
+                    javaListener="GetZgwZaak"
+                    returnedSessionKeys="Error">
                     <Param name="Identificatie" xpathExpression="object/isRelevantVoor/gerelateerde/identificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwZaakResult"/>
@@ -55,7 +56,8 @@
                 storeResultInSessionKey="ZgwZaakType">
                 <IbisLocalSender
                     name="CallGetZgwZaaktypeByUrlSender"
-                    javaListener="GetZaakTypeByUrl">
+                    javaListener="GetZaakTypeByUrl"
+                    returnedSessionKeys="Error">
                     <Param name="ZaakUrl" xpathExpression="ZgwZaak/zaaktype" />
                 </IbisLocalSender>
                 <Forward name="success" path="GetZgwInformatieObjectTypeByOmschrijvingSender"/>
@@ -67,7 +69,8 @@
                 getInputFromSessionKey="ZdsZaakDocumentInhoud">
                 <IbisLocalSender
                     name="GetZgwInformatieObjectTypeByOmschrijvingLocalSender"
-                    javaListener="GetZgwInformatieObjectTypeByOmschrijving">
+                    javaListener="GetZgwInformatieObjectTypeByOmschrijving"
+                    returnedSessionKeys="Error">
                     <Param name="ZgwZaakType" sessionKey="ZgwZaakType" />
                     <Param name="Omschrijving" xpathExpression="object/dct.omschrijving" />
                 </IbisLocalSender>
@@ -96,9 +99,10 @@
 
             <XsltPipe 
                 name="GetZgwInformatieObjectTypeByOmschrijvingSender_OmschrijvingNotFoundException"
-                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                getInputFromFixedValue="&lt;dummy/&gt;"
                 styleSheetName="Common/xsl/BuildError.xsl"
-                >
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="omschrijving" sessionKey="ZdsZaakDocumentInhoud" xpathExpression="object/dct.omschrijving/text()" defaultValue="''" />
                 <Param name="reason" pattern="No InformatieObjectType found with omschrijving: {omschrijving}" ignoreUnresolvablePatternElements="true"/>
@@ -115,7 +119,7 @@
                 <IbisLocalSender
                     name="CallImportFromLocalFS"
                     javaListener="ImportFromLocalFS"
-                    >
+                    returnedSessionKeys="Error">
                     <Param name="FileName" value="${FilePath_1}" />                   
                 </IbisLocalSender>
                 <Forward name="success" path="CallGetRsin"/>
@@ -127,7 +131,8 @@
                 storeResultInSessionKey="Rsin">
                 <IbisLocalSender
                     name="CallGetRsinSender"
-                    javaListener="GetRsinByGemeenteCode">
+                    javaListener="GetRsinByGemeenteCode"
+                    returnedSessionKeys="Error">
                     <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
                 </IbisLocalSender>
                 <Forward name="success" path="StoreTaal"/>
@@ -158,7 +163,8 @@
                 >
                 <IbisLocalSender
                     name="ConvertISO639TaalLocalSender"
-                    javaListener="ConvertISO639Taal">
+                    javaListener="ConvertISO639Taal"
+                    returnedSessionKeys="Error">
                     <Param name="Alpha2" sessionKey="Taal" />                   
                 </IbisLocalSender>
                 <Forward name="success" path="MapZgwEnkelvoudigInformatieObject"/>
@@ -186,7 +192,8 @@
                 >
                 <IbisLocalSender
                     name="PostZgwEnkelvoudigInformatieObjectLocalSender"
-                    javaListener="Documenten_PostZgwEnkelvoudigInformatieObject">
+                    javaListener="Documenten_PostZgwEnkelvoudigInformatieObject"
+                    returnedSessionKeys="Error">
                     <Param name="ref_inhoud" sessionKey="ref_inhoud" />
                 </IbisLocalSender>
                 <Forward name="success" path="EnrichZgwEnkelvoudigInformatieObject"/>
@@ -224,7 +231,8 @@
                 >
                 <IbisLocalSender
                     name="PostZgwZaakInformatieObjectLocalSender"
-                    javaListener="Zaken_PostZgwZaakInformatieObject">                
+                    javaListener="Zaken_PostZgwZaakInformatieObject"
+                    returnedSessionKeys="Error">                
                 </IbisLocalSender>
                 <Forward name="success" path="EnrichZgwZaakInformatieObject"/>
                 <Forward name="exception" path="UncaughtException" />
@@ -247,7 +255,8 @@
                 storeResultInSessionKey="ZgwStatusType">
                 <IbisLocalSender
                     name="GetZgwStatusTypeByZaakTypeAndOmschrijvingLocalSender"
-                    javaListener="GetStatusTypeByZaakTypeAndOmschrijving">
+                    javaListener="GetStatusTypeByZaakTypeAndOmschrijving"
+                    returnedSessionKeys="Error">
                     <Param name="ZaakTypeUrl" xpathExpression="$ZgwZaakType/ZgwZaakType/url">
                         <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
                     </Param>
@@ -292,7 +301,7 @@
                 <IbisLocalSender
                     name="PostZgwStatusLocalSender"
                     javaListener="Zaken_PostZgwStatus"
-                    >
+                    returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="UncaughtException" />
@@ -302,6 +311,7 @@
                 name="UncaughtException"
                 emptyInputReplacement="&lt;EmptyInput/&gt;"
                 styleSheetName="Common/xsl/BuildError.xsl">
+                <Param name="cause" xpathExpression="/error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason" pattern="Uncaught exception" /> 
                 <!-- <Param name="details" sessionKey="" /> -->

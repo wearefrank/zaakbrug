@@ -2,7 +2,7 @@
     xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="GetRolTypenByUrl">
         <Receiver>
-            <JavaListener name="GetRolTypenByUrl" />
+            <JavaListener name="GetRolTypenByUrl" returnedSessionKeys="Error" />
         </Receiver>
         <Pipeline>
             <Exits>
