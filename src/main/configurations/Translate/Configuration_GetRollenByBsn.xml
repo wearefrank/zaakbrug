@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="GetRollenByBsn">
-            <JavaListener name="GetRollenByBsn"/>
+            <JavaListener name="GetRollenByBsn" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>

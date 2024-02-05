@@ -4,7 +4,7 @@
         description="Handle each ZdsHeeft">
 
         <Receiver name="ZdsHeeftAdapter">
-            <JavaListener name="ZdsHeeftAdapter" returnedSessionKeys="NewStatuses,Beeindigd"/>
+            <JavaListener name="ZdsHeeftAdapter" returnedSessionKeys="NewStatuses,Beeindigd,Error" />
         </Receiver>
 
         <Pipeline>
@@ -31,7 +31,8 @@
                 storeResultInSessionKey="GetStatusTypeByZaakTypeAndOmschrijvingResult">
                 <IbisLocalSender
                     name="CallGetStatusTypeByZaakTypeAndOmschrijvingSender"
-                    javaListener="GetStatusTypeByZaakTypeAndOmschrijving">
+                    javaListener="GetStatusTypeByZaakTypeAndOmschrijving"
+                    returnedSessionKeys="Error">
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                     <Param name="Omschrijving" xpathExpression="heeft/gerelateerde/omschrijving"/>
                     <Param name="Volgnummer" xpathExpression="heeft/gerelateerde/volgnummer"/>
@@ -122,8 +123,10 @@
 
             <XsltPipe
                 name="ResultWithErrorMessage"
+                getInputFromFixedValue="&lt;dummy/&gt;"
                 styleSheetName="Common/xsl/BuildError.xsl"
-                >
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC"/>
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason" pattern="ActualiseerStatus datumstatusgezet equal to existing status" />
                 <Param name="details" sessionKey="StatusBody" xpathExpression="concat(ZgwStatus/datumStatusGezet, ' is equal to existing status')"/>

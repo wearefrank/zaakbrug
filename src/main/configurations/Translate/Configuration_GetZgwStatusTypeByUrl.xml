@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="GetZgwStatusTypeByUrl">
-            <JavaListener name="GetZgwStatusTypeByUrl"/>
+            <JavaListener name="GetZgwStatusTypeByUrl" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>

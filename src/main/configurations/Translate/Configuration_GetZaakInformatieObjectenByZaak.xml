@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="GetZaakInformatieObjectenByZaak">
-            <JavaListener name="GetZaakInformatieObjectenByZaak"/>
+            <JavaListener name="GetZaakInformatieObjectenByZaak" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>  
