@@ -14,7 +14,17 @@
     <xsl:template match="/">
         <xsl:apply-templates select="zakLk01/object[@entiteittype='ZAK']"/>
     </xsl:template>
-    
+
+    <xsl:function name="zgw:convertZdsBetalingsIndicatieToZgwBetalingsIndicatie">
+        <xsl:param name="zdsBetalingsIndicatie" />
+        <xsl:choose>
+            <xsl:when test="$zdsBetalingsIndicatie='N.v.t.'">nvt</xsl:when>
+            <xsl:when test="$zdsBetalingsIndicatie='(Nog) niet'">nog_niet</xsl:when>
+            <xsl:when test="$zdsBetalingsIndicatie='Gedeeltelijk'">gedeeltelijk</xsl:when>
+            <xsl:when test="$zdsBetalingsIndicatie='Geheel'">geheel</xsl:when>
+        </xsl:choose>
+    </xsl:function>
+
 	<xsl:template match="zakLk01/object[@entiteittype='ZAK']">
 		<ZgwZaak>
             <identificatie><xsl:value-of select="identificatie"/></identificatie>
@@ -41,7 +51,9 @@
            <!-- <communicatiekanaal><xsl:value-of select="$communicatiekanaal"/></communicatiekanaal> --> <!-- where to get? unknown -->
             <xsl:apply-templates select="productenOfDiensten"/>
             <vertrouwelijkheidaanduiding><xsl:value-of select="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType/vertrouwelijkheidaanduiding"/></vertrouwelijkheidaanduiding> <!-- from zaaktype -->
-            <betalingsindicatie><xsl:value-of select="betalingsindicatie"/></betalingsindicatie>
+            <xsl:if test="string-length(//betalingsIndicatie) > 0">
+                <betalingsindicatie><xsl:value-of select="zgw:convertZdsBetalingsIndicatieToZgwBetalingsIndicatie(//betalingsIndicatie)"/></betalingsindicatie>
+            </xsl:if>
             <xsl:if test="string-length(laatsteBetaaldatum) > 0">
                 <laatsteBetaaldatum><xsl:value-of select="zgw:convertZdsDatetimeToZgwDatetime(laatsteBetaaldatum)"/></laatsteBetaaldatum>
             </xsl:if>
