@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="CreeerZaak_Lk01">
-            <JavaListener name="CreeerZaak_Lk01"/>
+            <JavaListener name="CreeerZaak_Lk01" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -18,7 +18,8 @@
                 storeResultInSessionKey="GetZaakTypeResult">
                 <IbisLocalSender
                     name="CallGetZgwZaakTypeSender"
-                    javaListener="GetZgwZaakTypeByIdentificatie">
+                    javaListener="GetZgwZaakTypeByIdentificatie"
+                    returnedSessionKeys="Error">
                     <Param name="ZaakTypeCode" xpathExpression="/zakLk01/object/isVan/gerelateerde/code"/>
                 </IbisLocalSender>
                 <Forward name="success" path="SetZgwZaakType"/>
@@ -47,6 +48,7 @@
                 <IbisLocalSender
                     name="CallImportFromLocalFS"
                     javaListener="ImportFromLocalFS"
+                    returnedSessionKeys="Error"
                     >
                     <Param name="FileName" value="${FilePath_1}" />                   
                 </IbisLocalSender>
@@ -59,7 +61,8 @@
                 storeResultInSessionKey="Rsin">
                 <IbisLocalSender
                     name="CallGetRsinSender"
-                    javaListener="GetRsinByGemeenteCode">
+                    javaListener="GetRsinByGemeenteCode"
+                    returnedSessionKeys="Error">
                     <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
                 </IbisLocalSender>
                 <Forward name="success" path="GetRolTypenByUrl"/>
@@ -71,7 +74,7 @@
                 elementXPathExpression="ZgwZaakTypen/ZgwZaakType/roltypen"
                 getInputFromSessionKey="GetZaakTypeResult"
                 >
-                <IbisLocalSender javaListener="GetRolTypenByUrl">
+                <IbisLocalSender javaListener="GetRolTypenByUrl" returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/roltypen" />
                 </IbisLocalSender>
             </ForEachChildElementPipe>
@@ -91,7 +94,8 @@
                 storeResultInSessionKey="ZgwRolTypen">
                 <IbisLocalSender
                     name="GetZgwRolTypeByZaakTypeLocalSender"
-                    javaListener="Zaken_GetZgwRolTypeByZaakType">
+                    javaListener="Zaken_GetZgwRolTypeByZaakType"
+                    returnedSessionKeys="Error">
                     <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType/url">
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                     </Param>
@@ -130,7 +134,8 @@
                 elementXPathExpression="/roles/role">
                 <IbisLocalSender
                     name="CallAddRolToZgw"
-                    javaListener="AddRolToZgw">
+                    javaListener="AddRolToZgw"
+                    returnedSessionKeys="Error">
                     <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC"/>
                     <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType/url">
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
@@ -159,7 +164,8 @@
                 storeResultInSessionKey="PostZgwZaakResult">
                 <IbisLocalSender
                     name="CallPostZaakSender"
-                    javaListener="PostZaakAdapter">
+                    javaListener="PostZaakAdapter"
+                    returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Forward name="success" path="PostRolIterator"/>
                 <Forward name="exception" path="UncaughtException" />
@@ -170,7 +176,8 @@
                 elementXPathExpression="/results/result/zgwRol">
                 <IbisLocalSender
                     name="PostZgwRolLocalSender"
-                    javaListener="Zaken_PostZgwRol">
+                    javaListener="Zaken_PostZgwRol"
+                    returnedSessionKeys="Error">
                     <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/ZgwZaak/url">
                         <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
                     </Param>
@@ -193,7 +200,8 @@
 
                 <IbisLocalSender
                     name="CallAndereZaakAdapter"
-                    javaListener="AndereZaakAdapter">
+                    javaListener="AndereZaakAdapter"
+                    returnedSessionKeys="Error">
                     <Param name="Url" sessionKey="PostZgwZaakResult" xpathExpression="ZgwZaak/url" />
                     <Param name="Identificatie" xpathExpression="heeftBetrekkingOpAndere/gerelateerde/identificatie" />
                     <!-- <Param name="PostZgwZaakResult" sessionKey="GetZgwWasZaakResult" type="DOMDOC"/> -->
@@ -216,7 +224,8 @@
                 name="CallPatchAndereZaak" getInputFromSessionKey="PostZgwZaakResult">
                 <IbisLocalSender
                     name="CallPatchAndereZaakSender"
-                    javaListener="PatchRelevanteAndereZaak">
+                    javaListener="PatchRelevanteAndereZaak"
+                    returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="ZgwZaak/url" defaultValue="&lt;dummy/&gt;" />
                     <Param name="AndereUrls" sessionKey="AndereZakenResult" defaultValue="&lt;dummy/&gt;"/>
                 </IbisLocalSender>
@@ -230,7 +239,8 @@
                 storeResultInSessionKey="SetResultaatAndStatusResult">
                 <IbisLocalSender
                     name="CallSetResultaatAndStatusSender"
-                    javaListener="SetResultaatAndStatus">
+                    javaListener="SetResultaatAndStatus"
+                    returnedSessionKeys="Error">
                     <Param name="ZgwZaakType" xpathExpression="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType" type="DOMDOC">
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                     </Param>                  
@@ -244,8 +254,10 @@
 
             <XsltPipe 
                 name="UncaughtException"
-                emptyInputReplacement="&lt;EmptyInput/&gt;"
-                styleSheetName="Common/xsl/BuildError.xsl">
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason" pattern="Uncaught exception" /> 
                 <!-- <Param name="details" sessionKey="" /> -->

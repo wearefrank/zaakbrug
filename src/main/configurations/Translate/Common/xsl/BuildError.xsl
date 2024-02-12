@@ -2,11 +2,13 @@
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="yes"/>
     <xsl:param name="code" select="'TechnicalError'" as="xs:string" />
     <xsl:param name="reason" select="'Undefined error'" as="xs:string" />
+    <xsl:param name="cause" as="node()?" />
     <xsl:param name="details" select="''" as="xs:string" />
     <xsl:param name="detailsXml" as="node()?" />
     
     <xsl:template match="/">
         <error>
+            <cause><xsl:copy-of select="$cause" /></cause>
             <code><xsl:value-of select="$code" /></code>
             <reason><xsl:value-of select="$reason" /></reason>
             <details><xsl:value-of select="$details" /></details>

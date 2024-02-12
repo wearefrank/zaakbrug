@@ -4,7 +4,8 @@
         description="">
 
         <Receiver name="GetZgwInformatieObjectTypeByUrl">
-            <JavaListener name="GetZgwInformatieObjectTypeByUrl"/>
+            <JavaListener name="GetZgwInformatieObjectTypeByUrl" 
+                returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>  

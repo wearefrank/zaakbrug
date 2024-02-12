@@ -4,7 +4,7 @@
     description="">
     
     <Receiver name="AddRolToZgw">
-        <JavaListener name="AddRolToZgw"/>
+        <JavaListener name="AddRolToZgw" returnedSessionKeys="Error"/>
     </Receiver>
     
     <Pipeline>
@@ -67,7 +67,10 @@
 
             <XsltPipe
                 name="ResultWithErrorMessage"
-                styleSheetName="Common/xsl/BuildError.xsl">
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason"
                     pattern="No roltype with matching omschrijving is found" />

@@ -4,7 +4,7 @@
         description="Handle each AndereZaak">
 
         <Receiver name="AndereZaakAdapter">
-            <JavaListener name="AndereZaakAdapter"/>
+            <JavaListener name="AndereZaakAdapter" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline> 
@@ -19,7 +19,8 @@
                 storeResultInSessionKey="ZgwZaakAndereResult">
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
-                    javaListener="GetZgwZaak">
+                    javaListener="GetZgwZaak"
+                    returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="Identificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="GetSingleZgwAndereZaakFromZgwZakenList"/>
@@ -46,7 +47,8 @@
                 name="CallPatchAndereZaak" getInputFromSessionKey="ZgwAndereZaakResult">
                 <IbisLocalSender
                     name="CallPatchAndereZaakSender"
-                    javaListener="PatchRelevanteAndereZaak">
+                    javaListener="PatchRelevanteAndereZaak"
+                    returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/ZgwZaak/url" defaultValue="&lt;dummy/&gt;" />
                     <Param name="AndereUrl" sessionKey="Url" defaultValue="&lt;dummy/&gt;"/>
                 </IbisLocalSender>

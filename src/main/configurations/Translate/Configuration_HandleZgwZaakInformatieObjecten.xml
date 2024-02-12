@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="HandleZgwZaakInformatieObjecten">
-            <JavaListener name="HandleZgwZaakInformatieObjecten"/>
+            <JavaListener name="HandleZgwZaakInformatieObjecten" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -18,7 +18,8 @@
                 storeResultInSessionKey="GetZaakDocumentResult">
                 <IbisLocalSender
                     name="CallGetZaakDocumentSender"
-                    javaListener="GetZaakDocumentByUrl">
+                    javaListener="GetZaakDocumentByUrl"
+                    returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/ZgwZaakInformatieObject/informatieobject"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZaakDocumentResult"/>
@@ -37,7 +38,8 @@
                 storeResultInSessionKey="GetZgwInformatieObjectTypeResult">
                 <IbisLocalSender
                     name="CallGetZgwInformatieObjectTypeSender"
-                    javaListener="GetZgwInformatieObjectTypeByUrl">
+                    javaListener="GetZgwInformatieObjectTypeByUrl" 
+                    returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/ZgwEnkelvoudigInformatieObject/informatieobjecttype"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwInformatieObjectTypeResult"/>

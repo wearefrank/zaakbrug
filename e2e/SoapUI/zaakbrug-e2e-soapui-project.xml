@@ -5265,6 +5265,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
     "naam": "Verzoeken behandelen",
     "link": "https://referentielijsten-api.vng.cloud/api/v1/procestypen/3030daa1-d516-4cd9-8276-ef0977e32b20"
   },
+  "verantwoordelijke": "Projectleider",
   "catalogus": "${#TestSuite#CatalogusUrl}",
   "besluittypen": [],
   "deelzaaktypen": [],
@@ -5859,7 +5860,8 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Brief",
 "vertrouwelijkheidaanduiding": "intern",
 "beginGeldigheid": "2021-03-29",
-"eindeGeldigheid": null
+"eindeGeldigheid": null,
+"informatieobjectcategorie": "Technische Handleidingen"
 }</con:request>
             <con:originalUri>http://localhost/catalogi/api/v1/informatieobjecttypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="9d85d4fc-a9f7-4a89-b4c6-a537e182a322" name="JsonPath Match">
@@ -13083,6 +13085,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
     "naam": "Behandelen aanvraag omgevingsvergunning",
     "link": "https://www.gemmaonline.nl/index.php/GEMMA2/0.9/id-7ffe31fc-4ecf-4b30-9dcb-af663f9d10a0"
   },
+  "verantwoordelijke": "Projectleider",
   "catalogus": "${#TestSuite#CatalogusUrl}",
   "besluittypen": [],
   "deelzaaktypen": [],
@@ -17030,6 +17033,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
     "naam": "Behandelen aanvraag product",
     "link": "https://www.gemmaonline.nl/index.php/GEMMA2/0.9/id-49fe8555-b001-4c86-9a81-20491e16af75"
   },
+  "verantwoordelijke": "Projectleider",
   "catalogus": "${#TestSuite#CatalogusUrl}",
   "besluittypen": [],
   "deelzaaktypen": [],
@@ -18903,6 +18907,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
     "naam": "Uitvoeren maatschappelijke ondersteuning en zorg",
     "link": "https://www.gemmaonline.nl/index.php/GEMMA2/0.9/id-c8734052-f6e6-4f9d-8656-467ece06fd6a"
   },
+  "verantwoordelijke": "Projectleider",
   "catalogus": "${#TestSuite#CatalogusUrl}",
   "besluittypen": [],
   "deelzaaktypen": [],
@@ -19629,7 +19634,8 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
 "omschrijving": "Bijlage bij melding",
 "vertrouwelijkheidaanduiding": "zaakvertrouwelijk",
 "beginGeldigheid": "2021-08-05",
-"eindeGeldigheid": null
+"eindeGeldigheid": null,
+"informatieobjectcategorie": "Technische Handleidingen"
 }</con:request>
             <con:originalUri>http://localhost/catalogi/api/v1/informatieobjecttypen</con:originalUri>
             <con:assertion type="JsonPath Match" id="9d85d4fc-a9f7-4a89-b4c6-a537e182a322" name="JsonPath Match">
@@ -20035,6 +20041,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
     "naam": "Uitvoeren maatschappelijke ondersteuning en zorg",
     "link": "https://www.gemmaonline.nl/index.php/GEMMA2/0.9/id-c8734052-f6e6-4f9d-8656-467ece06fd6a"
   },
+  "verantwoordelijke": "Projectleider",
   "catalogus": "${#TestSuite#CatalogusUrl}",
   "besluittypen": [],
   "deelzaaktypen": [],
@@ -24022,6 +24029,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
     "naam": "Behandelen verzoek ondersteuningsproduct",
     "link": "https://www.gemmaonline.nl/index.php/GEMMA2/0.9/id-1b8adc39-0288-4f7a-a0b9-c53ad4e348f5"
   },
+  "verantwoordelijke": "Projectleider",
   "catalogus": "${#TestSuite#CatalogusUrl}",
   "besluittypen": [],
   "deelzaaktypen": [],

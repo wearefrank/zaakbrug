@@ -4,7 +4,8 @@
         description="">
 
         <Receiver name="GetZgwEnkelvoudigInformatieObjectByIdentificatie">
-            <JavaListener name="GetZgwEnkelvoudigInformatieObjectByIdentificatie"/>
+            <JavaListener name="GetZgwEnkelvoudigInformatieObjectByIdentificatie" 
+                returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>   

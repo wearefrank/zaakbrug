@@ -5,7 +5,7 @@
         description="functioining as id generator for zaak or document identifiers">
 
         <Receiver name="GenereerIdentificatieEmulator">
-            <JavaListener name="GenereerIdentificatieEmulator" />
+            <JavaListener name="GenereerIdentificatieEmulator" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>

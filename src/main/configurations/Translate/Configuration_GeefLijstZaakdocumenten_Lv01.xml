@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="GeefLijstZaakdocumenten_Lv01">
-            <JavaListener name="GeefLijstZaakdocumenten_Lv01"/>
+            <JavaListener name="GeefLijstZaakdocumenten_Lv01" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>  
@@ -18,7 +18,8 @@
                 storeResultInSessionKey="GetZaakResult">
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
-                    javaListener="GetZgwZaak">
+                    javaListener="GetZgwZaak"
+                    returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="ZaakIdentificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallGetZaakInformatieObjectenByZaak"/>
@@ -30,19 +31,21 @@
                 storeResultInSessionKey="GetZaakInformatieObjectenResult">
                 <IbisLocalSender
                     name="CallGetZaakInformatieObjectenByZaakSender"
-                    javaListener="GetZaakInformatieObjectenByZaak">
+                    javaListener="GetZaakInformatieObjectenByZaak"
+                    returnedSessionKeys="Error">
                     <Param name="ZaakUrl" xpathExpression="ZgwZaken/ZgwZaak/url"/>
                 </IbisLocalSender>
                 <Forward name="success" path="ZgwZaakInformatieObjectenIterator"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <!-- https://github.com/ibissource/zaakbrug/issues/149 -->
             <ForEachChildElementPipe name="ZgwZaakInformatieObjectenIterator"
-                elementXPathExpression="/ZgwZaakInformatieObjecten/ZgwZaakInformatieObject">
+                elementXPathExpression="/ZgwZaakInformatieObjecten/ZgwZaakInformatieObject"
+                parallel="true">
                 <IbisLocalSender
                     name="CallHandleZgwZaakInformatieObjecten"
-                    javaListener="HandleZgwZaakInformatieObjecten">
+                    javaListener="HandleZgwZaakInformatieObjecten"
+                    returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
