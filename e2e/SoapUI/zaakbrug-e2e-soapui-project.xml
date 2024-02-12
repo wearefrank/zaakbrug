@@ -6174,7 +6174,8 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             <ZKN:verlenging>
                <ZKN:duur>99</ZKN:duur>
                <ZKN:reden>Overig</ZKN:reden>
-            </ZKN:verlenging>            
+            </ZKN:verlenging>       
+            <ZKN:betalingsIndicatie>(Nog) niet</ZKN:betalingsIndicatie>     
             <ZKN:archiefnominatie>J</ZKN:archiefnominatie>\r
             <ZKN:zaakniveau>1</ZKN:zaakniveau>\r
             <ZKN:deelzakenIndicatie>N</ZKN:deelzakenIndicatie>\r
@@ -7478,6 +7479,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
                <ZKN:indicatie>J</ZKN:indicatie>\r
                <ZKN:reden>niet tijdig verstrekken inform</ZKN:reden>\r
             </ZKN:opschorting>\r
+            <ZKN:betalingsIndicatie>Gedeeltelijk</ZKN:betalingsIndicatie>
             <ZKN:isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="I">\r
                <ZKN:gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="I">\r
                   <ZKN:omschrijving>Aanvraag minima</ZKN:omschrijving>\r
