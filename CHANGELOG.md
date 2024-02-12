@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.15.9](https://github.com/wearefrank/zaakbrug/compare/v1.15.8...v1.15.9) (2024-02-12)
+
+
+### 🐛 Bug Fixes
+
+* eindstatus duplicate check used less precise zaak einddatum instead of eindstatus datumstatusgezet resulting in duplicate check false positives ([#267](https://github.com/wearefrank/zaakbrug/issues/267)) ([ce9d754](https://github.com/wearefrank/zaakbrug/commit/ce9d7548faeac37771c13986bedeb30de9d943e7))
+
 ## [1.15.8](https://github.com/wearefrank/zaakbrug/compare/v1.15.7...v1.15.8) (2024-02-02)
 
 
