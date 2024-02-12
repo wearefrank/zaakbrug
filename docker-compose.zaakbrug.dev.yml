@@ -18,7 +18,7 @@ services:
       context: .
       args:
         FF_VERSION: ${FF_VERSION:-8.1.0-20240111.192324}
-    image: wearefrank/zaakbrug:latest
+    image: wearefrank/zaakbrug:${ZAAKBRUG_VERSION:-latest}
     container_name: zaakbrug.dev
     environment:
       - zaakbrug.zds.timezone=UTC
@@ -43,6 +43,22 @@ services:
     ports:
       - 8080:8080
       - 9010:9010
+
+  soapui-testrunner:
+    profiles:
+      - soapui
+    image: smartbear/soapuios-testrunner:latest
+    container_name: soapui-testrunner
+    volumes:
+      - ./src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02:/zaakbrug/src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02
+      - ./e2e/SoapUI/zaakbrug-e2e-soapui-project.xml:/zaakbrug/e2e/SoapUI/zaakbrug-e2e-soapui-project.xml
+      - ./e2e/reports:/reports
+    environment:
+      - COMMAND_LINE=-f/%reports% '/zaakbrug/e2e/SoapUI/zaakbrug-e2e-soapui-project.xml' -a -A -j -r
+    depends_on:
+      zaakbrug:
+        condition: service_healthy
+    network_mode: host
 
 volumes:
   logs:
