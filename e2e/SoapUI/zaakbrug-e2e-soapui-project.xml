@@ -8572,6 +8572,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             <ZKN:registratiedatum>${=import java.text.SimpleDateFormat; new SimpleDateFormat("yyyyMMdd").format(new Date())}</ZKN:registratiedatum>\r
             <ZKN:einddatumGepland>20210101</ZKN:einddatumGepland>\r
             <ZKN:einddatum>${=import java.text.SimpleDateFormat; new SimpleDateFormat("yyyyMMdd").format(new Date())}</ZKN:einddatum>\r
+            <ZKN:betalingsIndicatie>(Nog) niet</ZKN:betalingsIndicatie>     
             <ZKN:archiefnominatie>J</ZKN:archiefnominatie>\r
             <ZKN:zaakniveau>1</ZKN:zaakniveau>\r
             <ZKN:deelzakenIndicatie>N</ZKN:deelzakenIndicatie>\r
