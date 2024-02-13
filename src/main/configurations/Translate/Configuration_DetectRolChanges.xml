@@ -15,15 +15,30 @@
 
 			<XmlSwitchPipe 
                 name="DetectRolChanges" 
-                getInputFromSessionKey="ZdsWasZaakRol"
+                getInputFromSessionKey="originalMessage"
                 styleSheetName="UpdateZaak_LK01/xsl/DetectRolChanges.xslt"
                 >
-                <Param name="ZdsWordtZaakRol" sessionKey="originalMessage" type="DOMDOC"/>
                 <Forward name="New" path="CallGetZgwRolType"/>
                 <Forward name="Delete" path="CallDeleteRolFromZgw"/>
                 <Forward name="Changed" path="DeleteRolBeforeUpdate"/>
+                <Forward name="Check" path="CheckZgwRol"/>
                 <Forward name="Exit" path="EXCEPTION"/>
             </XmlSwitchPipe>
+
+            <SenderPipe name="CheckZgwRol"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="CheckCheck">
+                <IbisLocalSender
+                    name="CallCheckZgwRolSender"
+                    javaListener="CheckZgwRol">
+                    
+                    <Param name="ZdsWasZaakRol" sessionKey="ZdsWasZaakRol"/>
+                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
+                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
 
             <SenderPipe name="DeleteRolBeforeUpdate"
                 getInputFromSessionKey="originalMessage"

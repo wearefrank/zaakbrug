@@ -1,0 +1,33 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+    <Adapter name="CheckZgwRol"
+        active="${CheckZgwRol.Active}"
+        description="">
+
+        <Receiver name="CheckZgwRol">
+            <JavaListener name="CheckZgwRol"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <XsltPipe name="CheckRol"
+                styleSheetName="UpdateZaak_LK01/xsl/CheckZgwRol.xslt"
+                getInputFromSessionKey="originalMessage">
+                <Param name="role" sessionKey="originalMessage" type="DOMDOC"/>
+                <Param name="roles" sessionKey="ZdsWasZaakRol" type="DOMDOC"/>
+                <Forward name="success" path="CheckForTrue" />
+                <Forward name="error" path="EXCEPTION" />
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForTrue"
+                xpathExpression="/Check/true"
+                >
+                <Forward name="then" path="EXIT"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </XmlIfPipe>
+        </Pipeline>
+    </Adapter>
+</Module>
