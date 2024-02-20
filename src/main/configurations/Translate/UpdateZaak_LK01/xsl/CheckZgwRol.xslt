@@ -8,7 +8,7 @@
         <Check>
             <xsl:for-each select="$roles/roles/role">
                 <xsl:choose>
-                    <xsl:when test="my:compareRoles($role/role, .) and my:compareRoles(., $role/role)">
+                    <xsl:when test="my:compareRoles($role/role, .)">
                         <true/>
                     </xsl:when>
                     <xsl:otherwise>
