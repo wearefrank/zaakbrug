@@ -1,6 +1,6 @@
 # Keep in sync with version in frank-runner.properties. Detailed instructions can be found in CONTRIBUTING.md.
 # Check whether java-orig files have changed in F!F and update custom code (java and java-orig files) accordingly
-ARG FF_VERSION=8.1.0-20240111.192324
+ARG FF_VERSION=8.1.0-20240221.213323
 
 FROM docker.io/frankframework/frankframework:${FF_VERSION}
 
@@ -31,4 +31,4 @@ RUN rm -rf /tmp/java
 
 # The part after "||" is to make sure the response of the health-endpoint call is included in the logs, for debugging purposes.
 HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=60 \
-  CMD curl --fail --silent http://localhost:8080/iaf/api/server/health || (curl --silent http://localhost:8080/iaf/api/server/health && exit 1)
+      CMD curl --fail --silent http://localhost:8080/iaf/api/server/health || (curl --silent http://localhost:8080/iaf/api/server/health && exit 1)
