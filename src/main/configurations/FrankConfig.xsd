@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="8.1.0-20240111.192324">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="8.1.0-20240221.213323">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>Container of Adapters that belong together.
@@ -1607,6 +1607,11 @@
         <xs:union memberTypes="HttpMethodAttributeValuesType variableRef" />
       </xs:simpleType>
     </xs:attribute>
+    <xs:attribute name="methods" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>HTTP method(s) to listen to, separated by comma Default: GET</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="uriPattern" type="xs:string" use="required">
       <xs:annotation>
         <xs:documentation>URI pattern to register this listener on, eq. `/my-listener/{something}/here`</xs:documentation>
@@ -3143,7 +3148,7 @@
   <xs:attributeGroup name="SftpFileSystemListenerDeclaredAttributeGroup">
     <xs:attribute name="remoteDirectory" type="xs:string">
       <xs:annotation>
-        <xs:documentation>pathname of the file or directory to list. Default: Home folder of the ftp user</xs:documentation>
+        <xs:documentation>Path of the file or directory to start working. Default: Home folder of the sftp user</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="host" type="xs:string">
@@ -3911,13 +3916,19 @@
       <xs:element name="JavascriptSender">
         <xs:annotation>
           <xs:documentation>Sender used to run JavaScript code using J2V8
-
+ &lt;p&gt;
  This sender can execute a function of a given javascript file, the result of the function will be the output of the sender.
  The parameters of the javascript function to run are given as parameters by the adapter configuration
  The sender doesn't accept nor uses the given input, instead for each argument for the #jsFunctionName method,
  you will need to create a parameter on the sender.
- It is recommended to have the result of the javascript function be of type String, as the output of the sender will be
- of type String.</xs:documentation>
+ &lt;/p&gt;
+ &lt;p&gt;
+ The result of the javascript function should be of type String, or directly convertible to String from a primitive type
+ or an array of primitive types / strings, as the output of the sender will be of type String.
+ &lt;/p&gt;
+ &lt;p&gt;
+ Failure to ensure the output is a string may mean the result will look like {@code [Object object]}.
+ &lt;/p&gt;</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:complexContent>
@@ -5114,7 +5125,7 @@
         <xs:documentation>The command to be executed. Note: Executing a command in WAS requires &amp;lt;&amp;lt;ALL FILES&amp;gt;&amp;gt; execute permission to avoid that provide the absolute path of the command. Absolute path can be found with the following command 'which -a {commandName}'</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="timeOut" type="frankInt">
+    <xs:attribute name="timeout" type="frankInt">
       <xs:annotation>
         <xs:documentation>The number of seconds to execute a command. If the limit is exceeded, a TimeoutException is thrown. A value of 0 means execution time is not limited Default: 0</xs:documentation>
       </xs:annotation>
@@ -5317,7 +5328,7 @@
         <xs:union memberTypes="MessageProtocolAttributeValuesType_2 variableRef" />
       </xs:simpleType>
     </xs:attribute>
-    <xs:attribute name="timeOut" type="frankInt">
+    <xs:attribute name="timeout" type="frankInt">
       <xs:annotation>
         <xs:documentation>receiver timeout, in milliseconds Default: 20000 (20s)</xs:documentation>
       </xs:annotation>
@@ -5332,7 +5343,7 @@
     </xs:attribute>
     <xs:attribute name="replyTimeout" type="frankInt">
       <xs:annotation>
-        <xs:documentation>if messageProtocol=&lt;code&gt;RR&lt;/code&gt; then &lt;code&gt;replyTimeout&lt;/code&gt; defaults to &lt;code&gt;timeOut&lt;/code&gt; Default: 5000</xs:documentation>
+        <xs:documentation>if messageProtocol=&lt;code&gt;RR&lt;/code&gt; then &lt;code&gt;replyTimeout&lt;/code&gt; defaults to &lt;code&gt;timeout&lt;/code&gt; Default: 5000</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="synchronous" type="frankBoolean">
@@ -6314,10 +6325,21 @@
     <xs:attributeGroup ref="FileSystemSenderCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="JavascriptSenderType">
-    <xs:group ref="SenderSeriesCumulativeChildGroup" />
+    <xs:group ref="JavascriptSenderCumulativeChildGroup" />
     <xs:attributeGroup ref="JavascriptSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.JavascriptSender" use="prohibited" />
   </xs:complexType>
+  <xs:group name="JavascriptSenderDeclaredChildGroup">
+    <xs:sequence>
+      <xs:group ref="SenderElementGroup" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:group>
+  <xs:group name="JavascriptSenderCumulativeChildGroup">
+    <xs:sequence>
+      <xs:group ref="JavascriptSenderDeclaredChildGroup" />
+      <xs:group ref="SenderWrapperBaseCumulativeChildGroup" />
+    </xs:sequence>
+  </xs:group>
   <xs:attributeGroup name="JavascriptSenderDeclaredAttributeGroup">
     <xs:attribute name="jsFileName" type="xs:string">
       <xs:annotation>
@@ -7589,7 +7611,7 @@
   <xs:attributeGroup name="SftpFileSystemSenderDeclaredAttributeGroup">
     <xs:attribute name="remoteDirectory" type="xs:string">
       <xs:annotation>
-        <xs:documentation>pathname of the file or directory to list. Default: Home folder of the ftp user</xs:documentation>
+        <xs:documentation>Path of the file or directory to start working. Default: Home folder of the sftp user</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="host" type="xs:string">
@@ -8677,13 +8699,19 @@
       <xs:element name="JavascriptErrorSender">
         <xs:annotation>
           <xs:documentation>Sender used to run JavaScript code using J2V8
-
+ &lt;p&gt;
  This sender can execute a function of a given javascript file, the result of the function will be the output of the sender.
  The parameters of the javascript function to run are given as parameters by the adapter configuration
  The sender doesn't accept nor uses the given input, instead for each argument for the #jsFunctionName method,
  you will need to create a parameter on the sender.
- It is recommended to have the result of the javascript function be of type String, as the output of the sender will be
- of type String.</xs:documentation>
+ &lt;/p&gt;
+ &lt;p&gt;
+ The result of the javascript function should be of type String, or directly convertible to String from a primitive type
+ or an array of primitive types / strings, as the output of the sender will be of type String.
+ &lt;/p&gt;
+ &lt;p&gt;
+ Failure to ensure the output is a string may mean the result will look like {@code [Object object]}.
+ &lt;/p&gt;</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:complexContent>
@@ -9616,7 +9644,7 @@
     <xs:attributeGroup ref="JmsMessageBrowserCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:attributeGroup name="JmsMessageBrowserDeclaredAttributeGroup">
-    <xs:attribute name="timeOut" type="frankInt">
+    <xs:attribute name="timeout" type="frankInt">
       <xs:annotation>
         <xs:documentation>Timeout &lt;i&gt;in milliseconds&lt;/i&gt; for receiving a message from the queue Default: 3000</xs:documentation>
       </xs:annotation>
@@ -13743,7 +13771,7 @@
         <xs:documentation>If set, the pipe returns a message from a file, instead of doing the regular process</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="timeOutOnResult" type="xs:string">
+    <xs:attribute name="timeoutOnResult" type="xs:string">
       <xs:annotation>
         <xs:documentation>If not empty, a TimeoutException is thrown when the result equals this value (for testing purposes only)</xs:documentation>
       </xs:annotation>
@@ -14421,9 +14449,20 @@
   </xs:attributeGroup>
   <xs:complexType name="GetPrincipalPipeType">
     <xs:group ref="AbstractPipeDeclaredChildGroup" />
-    <xs:attributeGroup ref="FixedForwardPipeCumulativeAttributeGroup" />
+    <xs:attributeGroup ref="GetPrincipalPipeCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.pipes.GetPrincipalPipe" use="prohibited" />
   </xs:complexType>
+  <xs:attributeGroup name="GetPrincipalPipeDeclaredAttributeGroup">
+    <xs:attribute name="notFoundForwardName" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>name of forward returned if principal has not been found</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="GetPrincipalPipeCumulativeAttributeGroup">
+    <xs:attributeGroup ref="GetPrincipalPipeDeclaredAttributeGroup" />
+    <xs:attributeGroup ref="FixedForwardPipeCumulativeAttributeGroup" />
+  </xs:attributeGroup>
   <xs:complexType name="GetTibcoQueuesType">
     <xs:group ref="AbstractPipeDeclaredChildGroup" />
     <xs:attributeGroup ref="GetTibcoQueuesCumulativeAttributeGroup" />
@@ -14803,7 +14842,7 @@
   <xs:attributeGroup name="JwtPipeDeclaredAttributeGroup">
     <xs:attribute name="authAlias" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Alias for the SharedSecret to be used when signing the JWT (using the HmacSHA256 algorithm)</xs:documentation>
+        <xs:documentation>Auth Alias for the SharedSecret to be used when signing the JWT (using the HmacSHA256 algorithm)</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="sharedSecret" type="xs:string">
@@ -15143,7 +15182,12 @@
   <xs:attributeGroup name="LogContextPipeDeclaredAttributeGroup">
     <xs:attribute name="export" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt; the ThreadContext parameters will be exported from the current PipeLine up in the call tree. Default: false</xs:documentation>
+        <xs:documentation>If set to &lt;code&gt;true&lt;/code&gt; the ThreadContext parameters will be exported from the current PipeLine up in the call tree. Default: false</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="continueOnError" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>If set {@code true} the pipe will never forward to the {@code ExceptionForward} even if an error occurred during execution. Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -17033,6 +17077,7 @@
       <xs:enumeration value="POST" />
       <xs:enumeration value="PATCH" />
       <xs:enumeration value="DELETE" />
+      <xs:enumeration value="HEAD" />
       <xs:enumeration value="OPTIONS" />
     </xs:restriction>
   </xs:simpleType>
