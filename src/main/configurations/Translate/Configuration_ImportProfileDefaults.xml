@@ -1,0 +1,49 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="ImportProfileDefaults"
+        active="${ImportProfileDefaults.Active}"
+        description="">
+
+        <Receiver name="ImportProfileDefaults">
+            <JavaListener name="ImportProfileDefaults" returnedSessionKeys="Error"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="EXCEPTION" state="ERROR" />
+            </Exits>
+
+            <LocalFileSystemPipe name="ReadFile" action="read">
+                <Param name="filename" value="${configurations.directory}/Translate/Profiles.json" />
+                <Forward name="success" path="IsXml" />
+            </LocalFileSystemPipe>
+
+            <XmlWellFormedCheckerPipe name="IsXml">
+                <Forward name="success" path="EXIT" />
+                <Forward name="failure" path="JsonToXml" />
+            </XmlWellFormedCheckerPipe>
+
+            <JsonPipe name="JsonToXml">
+                <Forward name="success" path="ExtractDefaults" />
+            </JsonPipe>
+
+            <XsltPipe name="ExtractDefaults" styleSheetName="Common\xsl\ExtractProfileDefaults.xsl"
+                omitXmlDeclaration="true" storeResultInSessionKey="defaults" outputType="XML">
+                <Param name="hierarchy" sessionKey="hierarchy" type="STRING" />
+                <Forward name="success" path="MergeMessages" />
+            </XsltPipe>
+
+            <XsltPipe name="MergeMessages" styleSheetName="Common\xsl\MergeMessages.xsl"
+                getInputFromSessionKey="originalMessage" outputType="XML">
+                <Param name="defaults" sessionKey="defaults" type="DOMDOC" />
+                <Forward name="success" path="ApplyDefaults" />
+            </XsltPipe>
+
+            <XsltPipe name="ApplyDefaults" styleSheetName="Common\xsl\ApplyDefaults.xsl"
+                outputType="XML">
+                <Forward name="success" path="EXIT" />
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

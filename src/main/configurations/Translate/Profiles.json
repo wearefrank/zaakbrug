@@ -3,9 +3,27 @@
         {
             "zaakTypeIdentificatie": "B9999",
             "endCaseEndDate": {
-                "coalesceResultaat":"Onbekend" 
+                "coalesceResultaat": "Onbekend"
             },
-            
+            "profileDefaults": [
+                {
+                    // Example of how to add a default value for the 'betalingsindicatie' element in zgw/zaken/zaken requests.
+                    // Note that new hierarchies need to be added to ExtractProfileDefaults.xsl
+                    // "zgw": [
+                    //     {
+                    //         "zaken": [
+                    //             {
+                    //                 "zaken": [
+                    //                     {
+                    //                         "betalingsindicatie": "InsertYourDefaultValue"
+                    //                     }
+                    //                 ]
+                    //             }
+                    //         ]
+                    //     }
+                    // ]
+                }
+            ],
             "endDateAndResultLastStatus": {
                 "coalesceResultaat": "Onbekend"
             }
@@ -13,7 +31,7 @@
         {
             "zaakTypeIdentificatie": "B1026",
             "endCaseEndDate": {
-                "coalesceResultaat":"Toegekend" 
+                "coalesceResultaat": "Toegekend"
             }
         }
     ]
