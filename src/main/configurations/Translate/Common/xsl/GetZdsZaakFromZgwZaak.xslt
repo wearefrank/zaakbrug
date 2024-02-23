@@ -23,7 +23,7 @@
             <xsl:when test="lower-case($zdsBetalingsIndicatie)='nog_niet'">(Nog) niet</xsl:when>
             <xsl:when test="lower-case($zdsBetalingsIndicatie)='gedeeltelijk'">Gedeeltelijk</xsl:when>
             <xsl:when test="lower-case($zdsBetalingsIndicatie)='geheel'">Geheel</xsl:when>
-            <xsl:otherwise>N.v.t.</xsl:otherwise>
+            <xsl:otherwise></xsl:otherwise>
         </xsl:choose>
     </xsl:function>
 
