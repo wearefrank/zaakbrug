@@ -1,5 +1,13 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.15.11](https://github.com/wearefrank/zaakbrug/compare/v1.15.10...v1.15.11) (2024-02-26)
+
+
+### 🔁 Continuous Integration
+
+* pass github token excplicitly to helm chart update workflow ([#279](https://github.com/wearefrank/zaakbrug/issues/279)) ([eaca9d4](https://github.com/wearefrank/zaakbrug/commit/eaca9d422b3dfc7e6a7de7faa8e4623af7c3aa0d))
+* switch to generic waf cicd templates ([#276](https://github.com/wearefrank/zaakbrug/issues/276)) ([92a061d](https://github.com/wearefrank/zaakbrug/commit/92a061dad640292de7f1e82a7e497738b15b2c74))
+
 ## [1.15.10](https://github.com/wearefrank/zaakbrug/compare/v1.15.9...v1.15.10) (2024-02-23)
 
 
