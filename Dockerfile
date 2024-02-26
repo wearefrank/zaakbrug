@@ -1,6 +1,6 @@
 # Keep in sync with version in frank-runner.properties. Detailed instructions can be found in CONTRIBUTING.md.
 # Check whether java-orig files have changed in F!F and update custom code (java and java-orig files) accordingly
-ARG FF_VERSION=8.1.0-20240111.192324
+ARG FF_VERSION=8.1.0-20240215.192325
 ARG GID=1000
 ARG UID=1000
 
