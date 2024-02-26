@@ -7,6 +7,9 @@ on:
         required: true
         type: string
         description: New version of ZaakBrug Docker image
+    secrets:
+      token:
+        required: true
 
 jobs:
   update:
@@ -16,7 +19,7 @@ jobs:
         uses: Codex-/return-dispatch@v1.11.0
         id: return_dispatch
         with:
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.token }}
           ref: main
           repo: charts
           owner: wearefrank
