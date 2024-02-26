@@ -1,0 +1,185 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  analyze-commits:
+    runs-on: ubuntu-latest
+    outputs:
+      version-next: ${{ steps.next-version.outputs.release-version }}
+      version-next-tag: ${{ steps.next-version.outputs.release-tag }}
+    steps:
+      - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          disable-sudo: true
+          egress-policy: audit
+          allowed-endpoints: >
+            github.com:443
+
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 #4.1.1
+      
+      - name: "Setup Node"
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 #4.0.2
+        with:
+          node-version: 20
+      
+      - name: Install dependencies
+        run: yarn global add semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/exec @semantic-release/release-notes-generator @semantic-release/commit-analyzer conventional-changelog-conventionalcommits
+      
+      - name: Get next version
+        id: next-version
+        run: semantic-release --dryRun
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+  ci:
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@main
+    needs: analyze-commits
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      version: ${{ needs.analyze-commits.outputs.version-next }}
+      docker-image-repo: ${{ vars.DOCKER_IMAGE_REPOSITORY }}
+      docker-image-name: ${{ vars.DOCKER_IMAGE_NAME }}
+      upload-sarif-to-security: false
+      run-frank-till-healthy-enabled: false
+
+  run-soapui-tests:
+    runs-on: ubuntu-latest
+    needs:
+      - analyze-commits
+      - ci
+    steps:
+      - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 #4.1.1
+
+      - name: Download Docker tar
+        uses: actions/download-artifact@eaceaf801fd36c7dee90939fad912460b18a1ffe #4.1.2
+        with:
+          name: build-docker-image
+
+      - name: Load Docker tar
+        shell: bash
+        run: |
+          docker load --input image.tar
+          docker image ls -a
+
+      - name: Run SoapUI Tests
+        run: |
+          export ZAAKBRUG_VERSION="${{ needs.analyze-commits.outputs.version-next }}"
+
+          docker image inspect ${{ vars.DOCKER_IMAGE_REPOSITORY }}/${{ vars.DOCKER_IMAGE_NAME }}:${ZAAKBRUG_VERSION}
+          docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up -d
+          docker ps
+
+          sleep 90
+
+          STATUS=$(docker inspect --format='{{json .State.Status}}' soapui-testrunner)
+          until [ "$STATUS" = '"exited"' ]
+          do
+            STATUS=$(docker inspect --format='{{json .State.Status}}' soapui-testrunner)
+            sleep 15
+          done
+
+          EXIT_CODE=$(docker inspect --format='{{json .State.ExitCode}}' soapui-testrunner)
+          echo "Exit Code: $EXIT_CODE"
+
+          docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml down
+          
+          if [ "$EXIT_CODE" -ne 0 ]
+            then
+              echo "Test(s) failed. Failing the job."
+              exit 1
+          fi
+        timeout-minutes: 15
+
+      - name: Check if test reports created
+        run: |
+          if [ -z "$(ls -A e2e/reports)" ]
+            then
+              echo "There is no test report found, tests might not have been run. Failing the job."
+              exit 1
+          fi
+
+      - name: Upload SoapUI testreports as artifact
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 #4.3.1
+        if: always()
+        with:
+          name: reports-soapui-testreports
+          path: ./*/reports
+
+  release:
+    runs-on: ubuntu-latest
+    needs: 
+      - analyze-commits
+      - ci
+      - run-soapui-tests
+    steps:
+      - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 #4.1.1
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: "Download Pre-build Artifacts"
+        uses: actions/download-artifact@eaceaf801fd36c7dee90939fad912460b18a1ffe #4.1.2
+        with:
+          pattern: pre-build-*
+          merge-multiple: true
+  
+      - name: "Download Build Artifacts"
+        uses: actions/download-artifact@eaceaf801fd36c7dee90939fad912460b18a1ffe #4.1.2
+        with:
+          pattern: build-*
+          merge-multiple: true
+
+      - name: "Setup Node"
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 #4.0.2
+        with:
+          node-version: 20
+      
+      - name: Install dependencies
+        run: yarn global add semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/exec @semantic-release/release-notes-generator @semantic-release/commit-analyzer conventional-changelog-conventionalcommits
+      
+      - name: Semantic Release
+        run: semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+  docker-release:
+    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@main
+    needs: 
+    - analyze-commits
+    - release
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+      dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
+      dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
+    with:
+      version: ${{ needs.analyze-commits.outputs.version-next }}
+      docker-image-repo: ${{ vars.DOCKER_IMAGE_REPOSITORY }}
+      docker-image-name: ${{ vars.DOCKER_IMAGE_NAME }}
+
+  update-helm:
+    uses: ./.github/workflows/update-helm-chart.yml
+    needs: 
+      - release
+      - analyze-commits
+    secrets:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    with:
+      version: ${{ needs.analyze-commits.outputs.version-next }}
