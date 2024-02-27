@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.15.14](https://github.com/wearefrank/zaakbrug/compare/v1.15.13...v1.15.14) (2024-02-27)
+
+
+### 🐛 Bug Fixes
+
+* zaak betalingsindicatie is not being translated ([#273](https://github.com/wearefrank/zaakbrug/issues/273)) ([3c1505a](https://github.com/wearefrank/zaakbrug/commit/3c1505aef804deb1889ee01f2f444b1dc0937f64))
+
 ## [1.15.13](https://github.com/wearefrank/zaakbrug/compare/v1.15.12...v1.15.13) (2024-02-27)
 
 
