@@ -33,8 +33,6 @@
                     javaListener="CheckZgwRol">
                     
                     <Param name="ZdsWasZaakRol" sessionKey="ZdsWasZaakRol"/>
-                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
-                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
