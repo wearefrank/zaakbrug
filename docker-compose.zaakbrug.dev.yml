@@ -31,8 +31,7 @@ services:
                        -Dcom.sun.management.jmxremote.port=9010 \
                        -Dcom.sun.management.jmxremote.rmi.port=9010 \
                        -Djava.rmi.server.hostname=0.0.0.0 \
-                       -Dcom.sun.management.jmxremote.ssl=false \
-                       -Dapplication.security.jwt.allowWeakSecrets=true"
+                       -Dcom.sun.management.jmxremote.ssl=false"
     volumes:
       - ../frank-runner/data:/usr/local/tomcat/data
       - logs:/usr/local/tomcat/logs
