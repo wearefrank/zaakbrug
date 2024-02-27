@@ -12,6 +12,7 @@ jobs:
     outputs:
       version-next: ${{ steps.next-version.outputs.release-version }}
       version-next-tag: ${{ steps.next-version.outputs.release-tag }}
+      version-next-type: ${{ steps.next-version.outputs.release-type }}
     steps:
       - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
         with:
@@ -43,9 +44,7 @@ jobs:
     needs: analyze-commits
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
-    if: >- 
-      ${{ needs.analyze-commits.outputs.version-next != '' &&
-      needs.analyze-commits.outputs.version-next != null }}
+    if: ${{ needs.analyze-commits.outputs.version-next-type != '' }}
     with:
       version: ${{ needs.analyze-commits.outputs.version-next }}
       docker-image-repo: ${{ vars.DOCKER_IMAGE_REPOSITORY }}

@@ -1,5 +1,14 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.15.12](https://github.com/wearefrank/zaakbrug/compare/v1.15.11...v1.15.12) (2024-02-26)
+
+
+### 🔁 Continuous Integration
+
+* include buildinfo.properties commit assets on release ([5b68949](https://github.com/wearefrank/zaakbrug/commit/5b68949efaf9cd89c09bfece03ad4d0e02805d5f))
+* only run cicd on push to master when new release ([00b0345](https://github.com/wearefrank/zaakbrug/commit/00b03455c47a04176d4543de8ac8a09ecafb76bc))
+* update deprecated version export command with the new github way ([7f1e471](https://github.com/wearefrank/zaakbrug/commit/7f1e4719d4ca2438e3ecb85d996c1f7d191dab47))
+
 ## [1.15.11](https://github.com/wearefrank/zaakbrug/compare/v1.15.10...v1.15.11) (2024-02-26)
 
 
