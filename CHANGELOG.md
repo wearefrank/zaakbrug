@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.15.13](https://github.com/wearefrank/zaakbrug/compare/v1.15.12...v1.15.13) (2024-02-27)
+
+
+### 🧑‍💻 Code Refactoring
+
+* replace jwt custom code with new jwt pipe ([#278](https://github.com/wearefrank/zaakbrug/issues/278)) ([5a6b141](https://github.com/wearefrank/zaakbrug/commit/5a6b1416f737b847d369075fee4a0cf0893491c5))
+
 ## [1.15.12](https://github.com/wearefrank/zaakbrug/compare/v1.15.11...v1.15.12) (2024-02-26)
 
 
