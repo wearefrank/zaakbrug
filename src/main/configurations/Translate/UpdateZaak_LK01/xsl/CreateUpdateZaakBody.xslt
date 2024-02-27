@@ -23,6 +23,16 @@
     	</xsl:choose>
 	</xsl:function>
 
+    <xsl:function name="zgw:convertZdsBetalingsIndicatieToZgwBetalingsIndicatie">
+        <xsl:param name="zdsBetalingsIndicatie" />
+        <xsl:choose>
+            <xsl:when test="$zdsBetalingsIndicatie='N.v.t.'">nvt</xsl:when>
+            <xsl:when test="$zdsBetalingsIndicatie='(Nog) niet'">nog_niet</xsl:when>
+            <xsl:when test="$zdsBetalingsIndicatie='Gedeeltelijk'">gedeeltelijk</xsl:when>
+            <xsl:when test="$zdsBetalingsIndicatie='Geheel'">geheel</xsl:when>
+        </xsl:choose>
+    </xsl:function>
+
 	<xsl:template match="/">
         <ZgwZaakPut>
             <xsl:choose>
@@ -76,8 +86,12 @@
                 <xsl:when test="string-length($ZgwZaak/ZgwZaak/vertrouwelijkheidaanduiding) > 0"><vertrouwelijkheidaanduiding><xsl:value-of select="$ZgwZaak/ZgwZaak/vertrouwelijkheidaanduiding"/></vertrouwelijkheidaanduiding></xsl:when>
             </xsl:choose>
             <xsl:choose>
-                <xsl:when test="string-length(object/betalingsindicatie) > 0"><betalingsindicatie><xsl:value-of select="object/betalingsindicatie"/></betalingsindicatie></xsl:when>
-                <xsl:when test="string-length($ZgwZaak/ZgwZaak/betalingsindicatie) > 0"><betalingsindicatie><xsl:value-of select="$ZgwZaak/ZgwZaak/betalingsindicatie"/></betalingsindicatie></xsl:when>
+                <xsl:when test="string-length(object/betalingsIndicatie) > 0">
+                    <betalingsindicatie><xsl:value-of select="zgw:convertZdsBetalingsIndicatieToZgwBetalingsIndicatie(/object/betalingsIndicatie)"/></betalingsindicatie>
+                </xsl:when>
+                <xsl:when test="string-length($ZgwZaak/ZgwZaak/betalingsindicatie) > 0">
+                    <betalingsindicatie><xsl:value-of select="$ZgwZaak/ZgwZaak/betalingsindicatie"/></betalingsindicatie>
+                </xsl:when>
             </xsl:choose>
             <xsl:choose>
                 <xsl:when test="string-length(object/zaakgeometrie) > 0"><xsl:copy-of select="object/zaakgeometrie"/></xsl:when>
