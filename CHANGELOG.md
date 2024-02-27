@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.15.15](https://github.com/wearefrank/zaakbrug/compare/v1.15.14...v1.15.15) (2024-02-27)
+
+
+### 🧑‍💻 Code Refactoring
+
+* add actualiseerZaakStatus support for old and new state in input instead of just the new state ([#274](https://github.com/wearefrank/zaakbrug/issues/274)) ([30a0ecf](https://github.com/wearefrank/zaakbrug/commit/30a0ecf77aa6c94b0bf7fc968327a6212fed635c))
+
 ## [1.15.14](https://github.com/wearefrank/zaakbrug/compare/v1.15.13...v1.15.14) (2024-02-27)
 
 
