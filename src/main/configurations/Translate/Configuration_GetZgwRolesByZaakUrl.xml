@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="GetZgwRolesByZaakUrl">
-            <JavaListener name="GetZgwRolesByZaakUrl"/>
+            <JavaListener name="GetZgwRolesByZaakUrl" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>  

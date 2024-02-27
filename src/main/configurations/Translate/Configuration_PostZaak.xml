@@ -5,7 +5,7 @@
         description="">
 
         <Receiver name="PostZaakAdapter">
-            <JavaListener name="PostZaakAdapter" />
+            <JavaListener name="PostZaakAdapter" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>

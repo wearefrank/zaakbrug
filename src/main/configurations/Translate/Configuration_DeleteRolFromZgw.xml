@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="DeleteRolFromZgw">
-            <JavaListener name="DeleteRolFromZgw"/>
+            <JavaListener name="DeleteRolFromZgw" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -19,7 +19,7 @@
                 <IbisLocalSender
                     name="GetZgwRolTypeLocalSender"
                     javaListener="Zaken_GetZgwRolTypeByZaakType"
-                    >
+                    returnedSessionKeys="Error">
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="GetZgwRolTypeWithMatchingOmschrijving"/>
@@ -60,7 +60,7 @@
                 <IbisLocalSender
                     name="GetRolByZaakUrlAndRolTypeUrlSender"
                     javaListener="GetRolByZaakUrlAndRolTypeUrl"
-                    >
+                    returnedSessionKeys="Error">
                     <Param name="ZaakUrl" sessionKey="ZgwZaakUrl"/>
                     <Param name="RolTypeUrl" xpathExpression="$ZgwRolType/ZgwRolType/url">
                         <Param name="ZgwRolType" sessionKey="ZgwRolType" type="DOMDOC"/>

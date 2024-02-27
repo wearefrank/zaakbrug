@@ -5,7 +5,8 @@
         description="">
 
         <Receiver name="Documenten_PostZgwEnkelvoudigInformatieObject">
-            <JavaListener name="Documenten_PostZgwEnkelvoudigInformatieObject" />
+            <JavaListener name="Documenten_PostZgwEnkelvoudigInformatieObject" 
+                returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>

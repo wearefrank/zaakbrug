@@ -1,5 +1,192 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.15.12](https://github.com/wearefrank/zaakbrug/compare/v1.15.11...v1.15.12) (2024-02-26)
+
+
+### 🔁 Continuous Integration
+
+* include buildinfo.properties commit assets on release ([5b68949](https://github.com/wearefrank/zaakbrug/commit/5b68949efaf9cd89c09bfece03ad4d0e02805d5f))
+* only run cicd on push to master when new release ([00b0345](https://github.com/wearefrank/zaakbrug/commit/00b03455c47a04176d4543de8ac8a09ecafb76bc))
+* update deprecated version export command with the new github way ([7f1e471](https://github.com/wearefrank/zaakbrug/commit/7f1e4719d4ca2438e3ecb85d996c1f7d191dab47))
+
+## [1.15.11](https://github.com/wearefrank/zaakbrug/compare/v1.15.10...v1.15.11) (2024-02-26)
+
+
+### 🔁 Continuous Integration
+
+* pass github token excplicitly to helm chart update workflow ([#279](https://github.com/wearefrank/zaakbrug/issues/279)) ([eaca9d4](https://github.com/wearefrank/zaakbrug/commit/eaca9d422b3dfc7e6a7de7faa8e4623af7c3aa0d))
+* switch to generic waf cicd templates ([#276](https://github.com/wearefrank/zaakbrug/issues/276)) ([92a061d](https://github.com/wearefrank/zaakbrug/commit/92a061dad640292de7f1e82a7e497738b15b2c74))
+
+## [1.15.10](https://github.com/wearefrank/zaakbrug/compare/v1.15.9...v1.15.10) (2024-02-23)
+
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 8.1.0-20240221.213323 ([d8ee34b](https://github.com/wearefrank/zaakbrug/commit/d8ee34b5b9d9d19936087051181229037f7ed6f9))
+
+## [1.15.9](https://github.com/wearefrank/zaakbrug/compare/v1.15.8...v1.15.9) (2024-02-12)
+
+
+### 🐛 Bug Fixes
+
+* eindstatus duplicate check used less precise zaak einddatum instead of eindstatus datumstatusgezet resulting in duplicate check false positives ([#267](https://github.com/wearefrank/zaakbrug/issues/267)) ([ce9d754](https://github.com/wearefrank/zaakbrug/commit/ce9d7548faeac37771c13986bedeb30de9d943e7))
+
+## [1.15.8](https://github.com/wearefrank/zaakbrug/compare/v1.15.7...v1.15.8) (2024-02-02)
+
+
+### 🧑‍💻 Code Refactoring
+
+* nest previous errors when throwing a new error so that information from more the specific errors is not lost ([#261](https://github.com/wearefrank/zaakbrug/issues/261)) ([3d06c31](https://github.com/wearefrank/zaakbrug/commit/3d06c312c7763ae21c92395039afec4212ff3772))
+
+## [1.15.7](https://github.com/wearefrank/zaakbrug/compare/v1.15.6...v1.15.7) (2024-01-31)
+
+
+### 🤖 Build System
+
+* move default values from configuration level to instance level ([#265](https://github.com/wearefrank/zaakbrug/issues/265)) ([4aba4c9](https://github.com/wearefrank/zaakbrug/commit/4aba4c9d2b3b64215aa96cfdf625f8872276b554))
+
+## [1.15.6](https://github.com/wearefrank/zaakbrug/compare/v1.15.5...v1.15.6) (2024-01-26)
+
+
+### 🔥 Performance Improvements
+
+* forEachChildElementPipe pipes execute in parallel without ignoring errors ([#264](https://github.com/wearefrank/zaakbrug/issues/264)) ([c4a975b](https://github.com/wearefrank/zaakbrug/commit/c4a975befec4802ae8e8aff889a6dcaa42d42c13))
+
+## [1.15.5](https://github.com/wearefrank/zaakbrug/compare/v1.15.4...v1.15.5) (2024-01-26)
+
+
+### ✅ Tests
+
+* openzaak in development docker-compose bumped to 1.10.3 and testcases updated ([#263](https://github.com/wearefrank/zaakbrug/issues/263)) ([107d98d](https://github.com/wearefrank/zaakbrug/commit/107d98d56991695c053fe62dd1279dcd654b26ee))
+
+## [1.15.4](https://github.com/wearefrank/zaakbrug/compare/v1.15.3...v1.15.4) (2024-01-18)
+
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 8.1.0-20240111.192324 ([7807661](https://github.com/wearefrank/zaakbrug/commit/780766140d0e95470247b6fa3171e81d8e0ed884))
+
+## [1.15.3](https://github.com/wearefrank/zaakbrug/compare/v1.15.2...v1.15.3) (2024-01-18)
+
+
+### 🐛 Bug Fixes
+
+* zaak kenmerk with empty kenmerk or bron causing zgw api validation error will now be ignored ([1b62a26](https://github.com/wearefrank/zaakbrug/commit/1b62a265b18c78731e9ac013469da853a1cc4c36))
+* zaak kenmerken in creeerZaak are not translated to zgw ([e0d26e8](https://github.com/wearefrank/zaakbrug/commit/e0d26e89c9c2ef2e98f5126c0b62bcfb4cc62a97))
+* zaak kenmerken not properly translated in creeerZaak updateZaak and geefZaakDetails ([89f991e](https://github.com/wearefrank/zaakbrug/commit/89f991ed44ac204d07563c375660a97dc74005ad))
+
+
+### 🧑‍💻 Code Refactoring
+
+* remove obsolete zgw zaak translation ([20cf1a5](https://github.com/wearefrank/zaakbrug/commit/20cf1a5da013393534329fa3975fc323f6525486))
+
+
+### ✅ Tests
+
+* unit test zaak kenmerken happyflow and empty sub-elements cases ([4cf16ad](https://github.com/wearefrank/zaakbrug/commit/4cf16ad1364cf9040c12d1fe6cf36d83effa7bcf))
+
+## [1.15.2](https://github.com/wearefrank/zaakbrug/compare/v1.15.1...v1.15.2) (2024-01-16)
+
+
+### ✅ Tests
+
+* move each e2e test into it's own testsuite for more intuitive way running tests with or without setup and teardown ([#252](https://github.com/wearefrank/zaakbrug/issues/252)) ([72151b2](https://github.com/wearefrank/zaakbrug/commit/72151b2dec762a2bc9268959027cbb6643037d3c))
+
+## [1.15.1](https://github.com/wearefrank/zaakbrug/compare/v1.15.0...v1.15.1) (2024-01-15)
+
+
+### 🔁 Continuous Integration
+
+* lock semantic-release to 22 major ([#256](https://github.com/wearefrank/zaakbrug/issues/256)) ([be0f219](https://github.com/wearefrank/zaakbrug/commit/be0f219ffaf94dabe068adef3deb0b9489901478))
+
+## [1.15.0](https://github.com/wearefrank/zaakbrug/compare/v1.14.3...v1.15.0) (2024-01-11)
+
+
+### 🍕 Features
+
+* add column to ladybug ([#251](https://github.com/wearefrank/zaakbrug/issues/251)) ([c3f1708](https://github.com/wearefrank/zaakbrug/commit/c3f170864a024fb4819cf4c819cdc80c16af429f))
+
+## [1.14.3](https://github.com/wearefrank/zaakbrug/compare/v1.14.2...v1.14.3) (2024-01-11)
+
+
+### 🐛 Bug Fixes
+
+* error handling Pipe ResultWithErrorMessage fails on TypeRolOmschrijving ([#255](https://github.com/wearefrank/zaakbrug/issues/255)) ([6d9db22](https://github.com/wearefrank/zaakbrug/commit/6d9db22db4931878dc8810eaca148168f7ba298a))
+
+## [1.14.2](https://github.com/wearefrank/zaakbrug/compare/v1.14.1...v1.14.2) (2024-01-08)
+
+
+### 🐛 Bug Fixes
+
+* CreeerZaak does not result in an error when there is no role ([#253](https://github.com/wearefrank/zaakbrug/issues/253)) ([7739146](https://github.com/wearefrank/zaakbrug/commit/77391467e9745911710aa199318707cefb71beee))
+
+## [1.14.1](https://github.com/wearefrank/zaakbrug/compare/v1.14.0...v1.14.1) (2024-01-08)
+
+
+### 🤖 Build System
+
+* append user JAVA_OPTS to end of application JAVA_OPTS ([#254](https://github.com/wearefrank/zaakbrug/issues/254)) ([9538af7](https://github.com/wearefrank/zaakbrug/commit/9538af7ba941346ceb05fc3595af77ad2b39141f))
+
+## [1.14.0](https://github.com/wearefrank/zaakbrug/compare/v1.13.40...v1.14.0) (2024-01-02)
+
+
+### 🍕 Features
+
+* implement translation for zds rol gerelateerde organisatorische eenheid to zgw rol betrokkenetype ([#239](https://github.com/wearefrank/zaakbrug/issues/239)) ([c265068](https://github.com/wearefrank/zaakbrug/commit/c2650684da32916306b55789899091359d1498a8))
+
+## [1.13.40](https://github.com/wearefrank/zaakbrug/compare/v1.13.39...v1.13.40) (2024-01-02)
+
+
+### 🤖 Build System
+
+* remove ConcGCThreads override causing threadcount error on low cpu-limit environments ([33fc4e9](https://github.com/wearefrank/zaakbrug/commit/33fc4e93533d9bbd58a189354207aa187bad3fcb))
+
+## [1.13.39](https://github.com/wearefrank/zaakbrug/compare/v1.13.38...v1.13.39) (2023-12-22)
+
+
+### 🐛 Bug Fixes
+
+* default log.level to INFO instead of DEBUG due to performance ([2aabbc5](https://github.com/wearefrank/zaakbrug/commit/2aabbc50d691f694c011585a4d2c463243c2a8d8))
+* disable prometheus endpoint to stop metrics building up in memory ([46ee4e2](https://github.com/wearefrank/zaakbrug/commit/46ee4e2299626de6a2594b18a6271d824384f272))
+
+
+### ✅ Tests
+
+* changed JAVA_OPTS to add to exiting instead of replace in zaakbrug docker-compose ([eded492](https://github.com/wearefrank/zaakbrug/commit/eded49279bdf42b453379285751e34834042fbcf))
+
+
+### 🤖 Build System
+
+* add GC_LOGGING_ENABLED environment variable to enabled trace level gc logs ([bf69134](https://github.com/wearefrank/zaakbrug/commit/bf691340a75b58f45b124114eaa1681cfc4f5496))
+* disable zds 1.2 soap-endpoints to reduce static memory usage ([1cff562](https://github.com/wearefrank/zaakbrug/commit/1cff5620766b6178f51e95b9aa3cc3cb30ae087d))
+* garbage collector tuning to increase stability with large document processing ([e5c8c26](https://github.com/wearefrank/zaakbrug/commit/e5c8c2631b9e5ba5ca9029e1b00e0f89f7afcbf0))
+
+## [1.13.38](https://github.com/wearefrank/zaakbrug/compare/v1.13.37...v1.13.38) (2023-12-22)
+
+
+### 🐛 Bug Fixes
+
+* increase max number of checkpoints increased to 5000 ([#242](https://github.com/wearefrank/zaakbrug/issues/242)) ([6b19867](https://github.com/wearefrank/zaakbrug/commit/6b198679cec54fe445e7e4c2b53e5e817d4429f2))
+
+## [1.13.37](https://github.com/wearefrank/zaakbrug/compare/v1.13.36...v1.13.37) (2023-12-22)
+
+
+### 🐛 Bug Fixes
+
+* verlenging with empty reason or duur of zero should be ignored ([45f16e5](https://github.com/wearefrank/zaakbrug/commit/45f16e5bd2eaf0293404347f09a95ea099ba2825))
+
+
+### ✅ Tests
+
+* add verlenging testcases and fix for equal datumstatusgezet status testcase ([1acb7d2](https://github.com/wearefrank/zaakbrug/commit/1acb7d2eac89b45712c4c98b7510c00af3c8a4bb))
+
+## [1.13.36](https://github.com/wearefrank/zaakbrug/compare/v1.13.35...v1.13.36) (2023-12-19)
+
+
+### ✅ Tests
+
+* add jmx config and port to compose for debugging heapsize ([#240](https://github.com/wearefrank/zaakbrug/issues/240)) ([04fa0ee](https://github.com/wearefrank/zaakbrug/commit/04fa0ee09ed7b4f3eeea1cff896f8c7961f91873))
+
 ## [1.13.35](https://github.com/wearefrank/zaakbrug/compare/v1.13.34...v1.13.35) (2023-12-15)
 
 

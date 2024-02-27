@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="UpdateZaakDocument_Di02">
-            <JavaListener name="UpdateZaakDocument_Di02"/>
+            <JavaListener name="UpdateZaakDocument_Di02" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>  
@@ -18,7 +18,8 @@
                 storeResultInSessionKey="GetZgwEnkelvoudigInformatieObjectResult">
                 <IbisLocalSender
                     name="CallGetZgwEnkelvoudigInformatieObjectSender"
-                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie">
+                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie"
+                    returnedSessionKeys="Error">
                     <Param name="Identificatie" xpathExpression="$ZdsWordtInformatieObject/object/identificatie">
                         <Param name="ZdsWordtInformatieObject" sessionKey="ZdsWordtInformatieObject" type="DOMDOC"/>
                     </Param>
@@ -58,7 +59,8 @@
                 >
                 <IbisLocalSender
                     name="ConvertISO639TaalLocalSender"
-                    javaListener="ConvertISO639Taal">
+                    javaListener="ConvertISO639Taal"
+                    returnedSessionKeys="Error">
                     <Param name="Alpha2" sessionKey="Taal"/>                   
                 </IbisLocalSender>
                 <Forward name="success" path="DecodeInhoud"/>
@@ -103,7 +105,7 @@
                 <IbisLocalSender
                     name="CallPutZaakDocumentSender"
                     javaListener="PutZgwZaakDocument"
-                    >
+                    returnedSessionKeys="Error">
                     <Param name="Url" sessionKey="Url" />
                     <Param name="ref_inhoud" sessionKey="ref_inhoud" />                
                 </IbisLocalSender>
@@ -117,7 +119,8 @@
                 storeResultInSessionKey="ZgwInformatieObjectUnlockResult">
                 <IbisLocalSender
                     name="CallGetZgwInformatieObjectUnlockSender"
-                    javaListener="GetZgwInformatieObjectUnlock">
+                    javaListener="GetZgwInformatieObjectUnlock"
+                    returnedSessionKeys="Error">
                     <Param name="ZgwUnlockUrl" xpathExpression="concat($Url, '/unlock')">
                         <Param name="Url" sessionKey="Url"/>
                     </Param>

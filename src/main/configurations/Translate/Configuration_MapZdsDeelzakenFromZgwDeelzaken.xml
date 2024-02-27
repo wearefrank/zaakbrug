@@ -4,7 +4,8 @@
     description="">
     
     <Receiver name="MapZdsDeelzakenFromZgwDeelzaken">
-        <JavaListener name="MapZdsDeelzakenFromZgwDeelzaken"/>
+        <JavaListener name="MapZdsDeelzakenFromZgwDeelzaken" 
+            returnedSessionKeys="Error" />
     </Receiver>
     
     <Pipeline>
@@ -18,7 +19,8 @@
                 storeResultInSessionKey="GetZgwDeelzaak">
                 <IbisLocalSender
                     name="GetZgwDeelzaakLocalSender"
-                    javaListener="GetZgwZaakByUrl">
+                    javaListener="GetZgwZaakByUrl"
+                    returnedSessionKeys="Error">
                     <Param name="Url" sessionKey="Url"/>
                 </IbisLocalSender>
                 <Forward name="success" path="GetSingleResultFromZgwRolEnvelope"/>
