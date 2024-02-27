@@ -1,5 +1,26 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.15.15](https://github.com/wearefrank/zaakbrug/compare/v1.15.14...v1.15.15) (2024-02-27)
+
+
+### 🧑‍💻 Code Refactoring
+
+* add actualiseerZaakStatus support for old and new state in input instead of just the new state ([#274](https://github.com/wearefrank/zaakbrug/issues/274)) ([30a0ecf](https://github.com/wearefrank/zaakbrug/commit/30a0ecf77aa6c94b0bf7fc968327a6212fed635c))
+
+## [1.15.14](https://github.com/wearefrank/zaakbrug/compare/v1.15.13...v1.15.14) (2024-02-27)
+
+
+### 🐛 Bug Fixes
+
+* zaak betalingsindicatie is not being translated ([#273](https://github.com/wearefrank/zaakbrug/issues/273)) ([3c1505a](https://github.com/wearefrank/zaakbrug/commit/3c1505aef804deb1889ee01f2f444b1dc0937f64))
+
+## [1.15.13](https://github.com/wearefrank/zaakbrug/compare/v1.15.12...v1.15.13) (2024-02-27)
+
+
+### 🧑‍💻 Code Refactoring
+
+* replace jwt custom code with new jwt pipe ([#278](https://github.com/wearefrank/zaakbrug/issues/278)) ([5a6b141](https://github.com/wearefrank/zaakbrug/commit/5a6b1416f737b847d369075fee4a0cf0893491c5))
+
 ## [1.15.12](https://github.com/wearefrank/zaakbrug/compare/v1.15.11...v1.15.12) (2024-02-26)
 
 

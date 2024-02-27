@@ -41,8 +41,22 @@
                 >
                 <Param name="BaseUrl" value="${zaakbrug.staging.zaken-api.root-url}" /> 
                 <Param name="UrlParam" sessionKey="uri" /> 
-                <Forward name="success" path="CreateRolSender"/>
+                <Forward name="success" path="createJwt"/>
             </XsltPipe>
+
+			<JwtPipe name="createJwt"
+				expirationTime="600"
+				storeResultInSessionKey="myToken"
+                ifParam="valueAuthType"
+                ifValue="Jwt"
+            >
+                <Param name="valueAuthType" value="${zaakbrug.zgw.zaken-api.auth-type}" />
+                <Param name="sharedSecret" pattern="{password}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+                <Param name="client_id" pattern="{username}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+                <Param name="user_id" pattern="{username}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+                <Param name="user_reresentation" pattern="{username}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+				<Forward name="success" path="CreateRolSender" />
+			</JwtPipe>
             
             <SenderPipe name="CreateRolSender"
             	getInputFromSessionKey="originalMessage">
@@ -57,7 +71,9 @@
                     <Param name="Accept" value="application/json" />
                     <Param name="Content-Crs" value="EPSG:4326" />
 					<Param name="Host" sessionKey="headers" xpathExpression="/headers/header[@name = 'Host']/text()" />
-                    <Param name="Authorization" value="Bearer @@zaken-api.jwt@@"/>
+                    <Param name="Authorization"  sessionKey="originalMessage" xpathExpression="concat('Bearer ', $myToken)">
+						<Param name="myToken" sessionKey="myToken" defaultValue="@@zaken-api.jwt@@"/>
+					</Param>
                 </HttpSender>
 
                 <Forward name="201" path="Created" />

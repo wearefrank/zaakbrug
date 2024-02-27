@@ -1,7 +1,17 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://google.com/zgw" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" version="2.0">
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
     <xsl:param name="ZdsZaak" as="node()" />
     <xsl:param name="Scope" as="node()" />
+
+    <xsl:function name="zgw:convertZdsBetalingsIndicatieToZgwBetalingsIndicatie">
+        <xsl:param name="zdsBetalingsIndicatie" />
+        <xsl:choose>
+            <xsl:when test="$zdsBetalingsIndicatie='N.v.t.'">nvt</xsl:when>
+            <xsl:when test="$zdsBetalingsIndicatie='(Nog) niet'">nog_niet</xsl:when>
+            <xsl:when test="$zdsBetalingsIndicatie='Gedeeltelijk'">gedeeltelijk</xsl:when>
+            <xsl:when test="$zdsBetalingsIndicatie='Geheel'">geheel</xsl:when>
+        </xsl:choose>
+    </xsl:function>
 
     <xsl:template match="@*|node()">
         <xsl:copy>
@@ -92,8 +102,8 @@
                     </verlenging>
                 </xsl:for-each>
             </xsl:if>
-            <xsl:if test="$Scope/scope/object/betalingsIndicatie">
-                <betalingsIndicatie><xsl:value-of select="$ZdsZaak/root/betalingsIndicatie"/></betalingsIndicatie>
+            <xsl:if test="string-length($Scope/scope/object/betalingsIndicatie) > 0">
+                <betalingsindicatie><xsl:value-of select="zgw:convertZdsBetalingsIndicatieToZgwBetalingsIndicatie($Scope/scope/object/betalingsIndicatie)"/></betalingsindicatie>
             </xsl:if>
             <xsl:if test="$Scope/scope/object/laatsteBetaaldatum">
                 <laatsteBetaaldatum><xsl:value-of select="$ZdsZaak/root/laatsteBetaaldatum"/></laatsteBetaaldatum>
