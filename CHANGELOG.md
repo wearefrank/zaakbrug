@@ -1,5 +1,43 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.15.15](https://github.com/wearefrank/zaakbrug/compare/v1.15.14...v1.15.15) (2024-02-27)
+
+
+### 🧑‍💻 Code Refactoring
+
+* add actualiseerZaakStatus support for old and new state in input instead of just the new state ([#274](https://github.com/wearefrank/zaakbrug/issues/274)) ([30a0ecf](https://github.com/wearefrank/zaakbrug/commit/30a0ecf77aa6c94b0bf7fc968327a6212fed635c))
+
+## [1.15.14](https://github.com/wearefrank/zaakbrug/compare/v1.15.13...v1.15.14) (2024-02-27)
+
+
+### 🐛 Bug Fixes
+
+* zaak betalingsindicatie is not being translated ([#273](https://github.com/wearefrank/zaakbrug/issues/273)) ([3c1505a](https://github.com/wearefrank/zaakbrug/commit/3c1505aef804deb1889ee01f2f444b1dc0937f64))
+
+## [1.15.13](https://github.com/wearefrank/zaakbrug/compare/v1.15.12...v1.15.13) (2024-02-27)
+
+
+### 🧑‍💻 Code Refactoring
+
+* replace jwt custom code with new jwt pipe ([#278](https://github.com/wearefrank/zaakbrug/issues/278)) ([5a6b141](https://github.com/wearefrank/zaakbrug/commit/5a6b1416f737b847d369075fee4a0cf0893491c5))
+
+## [1.15.12](https://github.com/wearefrank/zaakbrug/compare/v1.15.11...v1.15.12) (2024-02-26)
+
+
+### 🔁 Continuous Integration
+
+* include buildinfo.properties commit assets on release ([5b68949](https://github.com/wearefrank/zaakbrug/commit/5b68949efaf9cd89c09bfece03ad4d0e02805d5f))
+* only run cicd on push to master when new release ([00b0345](https://github.com/wearefrank/zaakbrug/commit/00b03455c47a04176d4543de8ac8a09ecafb76bc))
+* update deprecated version export command with the new github way ([7f1e471](https://github.com/wearefrank/zaakbrug/commit/7f1e4719d4ca2438e3ecb85d996c1f7d191dab47))
+
+## [1.15.11](https://github.com/wearefrank/zaakbrug/compare/v1.15.10...v1.15.11) (2024-02-26)
+
+
+### 🔁 Continuous Integration
+
+* pass github token excplicitly to helm chart update workflow ([#279](https://github.com/wearefrank/zaakbrug/issues/279)) ([eaca9d4](https://github.com/wearefrank/zaakbrug/commit/eaca9d422b3dfc7e6a7de7faa8e4623af7c3aa0d))
+* switch to generic waf cicd templates ([#276](https://github.com/wearefrank/zaakbrug/issues/276)) ([92a061d](https://github.com/wearefrank/zaakbrug/commit/92a061dad640292de7f1e82a7e497738b15b2c74))
+
 ## [1.15.10](https://github.com/wearefrank/zaakbrug/compare/v1.15.9...v1.15.10) (2024-02-23)
 
 
