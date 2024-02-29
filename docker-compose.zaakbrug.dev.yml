@@ -25,13 +25,6 @@ services:
       - TZ=Europe/Amsterdam
       - GC_LOGGING_ENABLED=false
       - "JAVA_OPTS=$JAVA_OPTS -XX:InitialRAMPercentage=25.0 -XX:MaxRAMPercentage=75.0"
-      - "CATALINA_OPTS=-Dcom.sun.management.jmxremote \
-                       -Dcom.sun.management.jmxremote.local.only=false \
-                       -Dcom.sun.management.jmxremote.authenticate=false \
-                       -Dcom.sun.management.jmxremote.port=9010 \
-                       -Dcom.sun.management.jmxremote.rmi.port=9010 \
-                       -Djava.rmi.server.hostname=0.0.0.0 \
-                       -Dcom.sun.management.jmxremote.ssl=false"
     volumes:
       - ../frank-runner/data:/usr/local/tomcat/data
       - logs:/usr/local/tomcat/logs
