@@ -29,6 +29,10 @@ COPY --chown=tomcat docker/entrypoint.sh /scripts/entrypoint.sh
 ENV credentialFactory.class=nl.nn.credentialprovider.PropertyFileCredentialFactory
 ENV credentialFactory.map.properties=/opt/frank/resources/credentials.properties
 
+# Set sensable defaults
+ENV zaakbrug.zds.timezone=UTC
+ENV log.level=INFO
+
 # When deploying the "context.xml" should be copied to /usr/local/tomcat/conf/Catalina/localhost/ROOT.xml
 COPY --chown=tomcat src/main/webapp/META-INF/context.xml /usr/local/tomcat/conf/Catalina/localhost/ROOT.xml
 
