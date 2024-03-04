@@ -9,7 +9,7 @@ COPY --chown=tomcat lib/webapp/* /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/
 
 
 # Compile custom class
-FROM eclipse-temurin:11-jdk-jammy AS custom-code-builder
+FROM eclipse-temurin:17-jdk-jammy AS custom-code-builder
 
 # Copy dependencies
 COPY --from=ff-base /usr/local/tomcat/lib/ /usr/local/tomcat/lib/
@@ -35,6 +35,7 @@ ENV credentialFactory.map.properties=/opt/frank/resources/credentials.properties
 
 # Set sensable defaults
 ENV log.level=INFO
+ENV zaakbrug.zds.timezone=UTC
 
 # When deploying the "context.xml" should be copied to /usr/local/tomcat/conf/Catalina/localhost/ROOT.xml
 COPY --chown=tomcat src/main/webapp/META-INF/context.xml /usr/local/tomcat/conf/Catalina/localhost/ROOT.xml
