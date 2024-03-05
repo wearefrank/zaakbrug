@@ -386,7 +386,9 @@ public class Parameter implements IConfigurable, IWithParameters {
 		return (Document) transformResult.getNode();
 	}
 
-
+	public boolean isWildcardSessionKey() {
+		return "*".equals(getSessionKey());
+	}
 	/**
 	 * if this returns true, then the input value must be repeatable, as it might be used multiple times.
 	 */
@@ -423,7 +425,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 		Object result = null;
 		LOG.debug("Calculating value for Parameter [{}]", this::getName);
 		if (!configured) {
-			throw new ParameterException("Parameter ["+getName()+"] not configured");
+			throw new ParameterException(getName(), "Parameter ["+getName()+"] not configured");
 		}
 
 		String requestedSessionKey;
@@ -431,7 +433,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 			try {
 				requestedSessionKey = tpDynamicSessionKey.transform(message.asSource());
 			} catch (Exception e) {
-				throw new ParameterException("SessionKey for parameter ["+getName()+"] exception on transformation to get name", e);
+				throw new ParameterException(getName(), "SessionKey for parameter ["+getName()+"] exception on transformation to get name", e);
 			}
 		} else {
 			requestedSessionKey = getSessionKey();
@@ -448,12 +450,12 @@ public class Parameter implements IConfigurable, IWithParameters {
 				 *
 				 * N.B. this order differs from untransformed parameters
 				 */
-				Source source=null;
-				if (getValue()!=null) {
+				Source source;
+				if (getValue() != null) {
 					source = XmlUtils.stringToSourceForSingleUse(getValue(), namespaceAware);
 				} else if (StringUtils.isNotEmpty(requestedSessionKey)) {
 					Object sourceObject = session.get(requestedSessionKey);
-					if (getType()==ParameterType.LIST && sourceObject instanceof List) {
+					if (getType() == ParameterType.LIST && sourceObject instanceof List) {
 						// larva can produce the sourceObject as list
 						List<String> items = (List<String>) sourceObject;
 						XmlBuilder itemsXml = new XmlBuilder("items");
@@ -463,7 +465,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 							itemsXml.addSubElement(itemXml);
 						}
 						source = XmlUtils.stringToSourceForSingleUse(itemsXml.toXML(), namespaceAware);
-					} else if (getType()==ParameterType.MAP && sourceObject instanceof Map) {
+					} else if (getType() == ParameterType.MAP && sourceObject instanceof Map) {
 						// larva can produce the sourceObject as map
 						Map<String, String> items = (Map<String, String>) sourceObject;
 						XmlBuilder itemsXml = new XmlBuilder("items");
@@ -480,10 +482,11 @@ public class Parameter implements IConfigurable, IWithParameters {
 							sourceMsg = Message.asMessage(sourceMsg.getContext().get(getContextKey()));
 						}
 						if (!sourceMsg.isEmpty()) {
-							LOG.debug("Parameter [{}] using sessionvariable [{}] as source for transformation", this::getName, ()-> requestedSessionKey);
+							LOG.debug("Parameter [{}] using sessionvariable [{}] as source for transformation", this::getName, () -> requestedSessionKey);
 							source = sourceMsg.asSource();
 						} else {
-							LOG.debug("Parameter [{}] sessionvariable [{}] empty, no transformation will be performed", this::getName, ()-> requestedSessionKey);
+							LOG.debug("Parameter [{}] sessionvariable [{}] empty, no transformation will be performed", this::getName, () -> requestedSessionKey);
+							source = null;
 						}
 					}
 				} else if (StringUtils.isNotEmpty(getPattern())) {
@@ -493,13 +496,16 @@ public class Parameter implements IConfigurable, IWithParameters {
 						source = XmlUtils.stringToSourceForSingleUse(sourceString, namespaceAware);
 					} else {
 						LOG.debug("Parameter [{}] pattern [{}] empty, no transformation will be performed", this::getName, this::getPattern);
+						source = null;
 					}
-				} else {
+				} else if (message != null) {
 					if (StringUtils.isNotEmpty(getContextKey())) {
-						source = Message.asSource(message.getContext().get(getContextKey()));
+						source = Message.asMessage(message.getContext().get(getContextKey())).asSource();
 					} else {
 						source = message.asSource();
 					}
+				} else {
+					source = null;
 				}
 				if (source!=null) {
 					if (isRemoveNamespaces()) {
@@ -507,22 +513,22 @@ public class Parameter implements IConfigurable, IWithParameters {
 						String rnResult = XmlUtils.removeNamespaces(XmlUtils.source2String(source));
 						source = XmlUtils.stringToSource(rnResult);
 					}
-					ParameterValueList pvl = paramList==null ? null : paramList.getValues(message, session, namespaceAware);
+					ParameterValueList pvl = paramList == null ? null : paramList.getValues(message, session, namespaceAware);
 					switch (getType()) {
-					case NODE:
-						return transformToDocument(source, pvl).getFirstChild();
-					case DOMDOC:
-						return transformToDocument(source, pvl);
-					default:
-						String transformResult = pool.transform(source, pvl);
-						if (StringUtils.isNotEmpty(transformResult)) {
-							result = transformResult;
-						}
-						break;
+						case NODE:
+							return transformToDocument(source, pvl).getFirstChild();
+						case DOMDOC:
+							return transformToDocument(source, pvl);
+						default:
+							String transformResult = pool.transform(source, pvl);
+							if (StringUtils.isNotEmpty(transformResult)) {
+								result = transformResult;
+							}
+							break;
 					}
 				}
 			} catch (Exception e) {
-				throw new ParameterException("Parameter ["+getName()+"] exception on transformation to get parametervalue", e);
+				throw new ParameterException(getName(), "Parameter ["+getName()+"] exception on transformation to get parametervalue", e);
 			}
 		} else {
 			/*
@@ -604,7 +610,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 						result=message;
 					}
 				} catch (IOException e) {
-					throw new ParameterException(e);
+					throw new ParameterException(getName(), e);
 				}
 			}
 		}
@@ -643,7 +649,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 							message.preserve();
 							valueByDefault=message.asString();
 						} catch (IOException e) {
-							throw new ParameterException(e);
+							throw new ParameterException(getName(), e);
 						}
 						break;
 					default:
@@ -714,7 +720,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 						final Object finalResult = result;
 						LOG.debug("final result [{}][{}]", ()->finalResult.getClass().getName(), ()-> finalResult);
 					} catch (DomBuilderException | IOException | XmlException e) {
-						throw new ParameterException("Parameter ["+getName()+"] could not parse result ["+requestMessage+"] to XML nodeset",e);
+						throw new ParameterException(getName(), "Parameter ["+getName()+"] could not parse result ["+requestMessage+"] to XML nodeset",e);
 					}
 					break;
 				case DOMDOC:
@@ -729,7 +735,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 						final Object finalResult = result;
 						LOG.debug("final result [{}][{}]", ()->finalResult.getClass().getName(), ()-> finalResult);
 					} catch (DomBuilderException | IOException | XmlException e) {
-						throw new ParameterException("Parameter ["+getName()+"] could not parse result ["+requestMessage+"] to XML document",e);
+						throw new ParameterException(getName(), "Parameter ["+getName()+"] could not parse result ["+requestMessage+"] to XML document",e);
 					}
 					break;
 				case DATE:
@@ -745,7 +751,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 					try {
 						result = df.parseObject(requestMessage.asString());
 					} catch (ParseException e) {
-						throw new ParameterException("Parameter [" + getName() + "] could not parse result [" + requestMessage + "] to Date using formatString [" + getFormatString() + "]", e);
+						throw new ParameterException(getName(), "Parameter [" + getName() + "] could not parse result [" + requestMessage + "] to Date using formatString [" + getFormatString() + "]", e);
 					}
 					break;
 				}
@@ -769,7 +775,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 					try {
 						result = decimalFormat.parse(requestMessage.asString());
 					} catch (ParseException e) {
-						throw new ParameterException("Parameter [" + getName() + "] could not parse result [" + requestMessage + "] to number decimalSeparator [" + decimalFormatSymbols.getDecimalSeparator() + "] groupingSeparator [" + decimalFormatSymbols.getGroupingSeparator() + "]", e);
+						throw new ParameterException(getName(), "Parameter [" + getName() + "] could not parse result [" + requestMessage + "] to number decimalSeparator [" + decimalFormatSymbols.getDecimalSeparator() + "] groupingSeparator [" + decimalFormatSymbols.getGroupingSeparator() + "]", e);
 					}
 					break;
 				}
@@ -782,7 +788,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 					try {
 						result = Integer.parseInt(requestMessage.asString());
 					} catch (NumberFormatException e) {
-						throw new ParameterException("Parameter [" + getName() + "] could not parse result [" + requestMessage + "] to integer", e);
+						throw new ParameterException(getName(), "Parameter [" + getName() + "] could not parse result [" + requestMessage + "] to integer", e);
 					}
 					break;
 				}
@@ -799,7 +805,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 					break;
 			}
 		} catch(IOException e) {
-			throw new ParameterException("Could not convert parameter ["+getName()+"] to String", e);
+			throw new ParameterException(getName(), "Could not convert parameter ["+getName()+"] to String", e);
 		}
 
 		return result;
@@ -829,7 +835,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 				endNdx = tmpEndNdx;
 			}
 			if (endNdx == -1) {
-				throw new ParameterException(new ParseException("Bracket is not closed", startNdx));
+				throw new ParameterException(getName(), new ParseException("Bracket is not closed", startNdx));
 			}
 			String substitutionPattern = pattern.substring(startNdx + 1, tmpEndNdx);
 
@@ -841,7 +847,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 		try {
 			return MessageFormat.format(formatPattern.toString(), params.toArray());
 		} catch (Exception e) {
-			throw new ParameterException("Cannot parse ["+formatPattern.toString()+"]", e);
+			throw new ParameterException(getName(), "Cannot parse ["+formatPattern.toString()+"]", e);
 		}
 	}
 
@@ -854,7 +860,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 			try {
 				return df.parse(Message.asString(rawValue));
 			} catch (ParseException | IOException e) {
-				throw new ParameterException("Cannot parse ["+rawValue+"] as date", e);
+				throw new ParameterException(getName(), "Cannot parse ["+rawValue+"] as date", e);
 			}
 		}
 		if (rawValue instanceof Date) {
@@ -864,7 +870,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 		try {
 			return Message.asString(rawValue);
 		} catch (IOException e) {
-			throw new ParameterException("Cannot read date value ["+rawValue+"]", e);
+			throw new ParameterException(getName(), "Cannot read date value ["+rawValue+"]", e);
 		}
 	}
 
@@ -887,7 +893,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 					try {
 						substitutionValue = substitutionValueMessage.asString();
 					} catch (IOException e) {
-						throw new ParameterException("Cannot get substitution value", e);
+						throw new ParameterException(getName(), "Cannot get substitution value", e);
 					}
 				}
 			}
@@ -909,7 +915,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 					break;
 				case "fixeddate":
 					if (!ConfigurationUtils.isConfigurationStubbed(configurationClassLoader)) {
-						throw new ParameterException("Parameter pattern [" + name + "] only allowed in stub mode");
+						throw new ParameterException(getName(), "Parameter pattern [" + name + "] only allowed in stub mode");
 					}
 					Object fixedDateTime = session.get(PutSystemDateInSession.FIXEDDATE_STUB4TESTTOOL_KEY);
 					if (fixedDateTime == null) {
@@ -917,20 +923,20 @@ public class Parameter implements IConfigurable, IWithParameters {
 						try {
 							fixedDateTime = df.parse(PutSystemDateInSession.FIXEDDATETIME);
 						} catch (ParseException e) {
-							throw new ParameterException("Could not parse FIXEDDATETIME [" + PutSystemDateInSession.FIXEDDATETIME + "]", e);
+							throw new ParameterException(getName(), "Could not parse FIXEDDATETIME [" + PutSystemDateInSession.FIXEDDATETIME + "]", e);
 						}
 					}
 					substitutionValue = preFormatDateType(fixedDateTime, formatType, formatString);
 					break;
 				case "fixeduid":
 					if (!ConfigurationUtils.isConfigurationStubbed(configurationClassLoader)) {
-						throw new ParameterException("Parameter pattern [" + name + "] only allowed in stub mode");
+						throw new ParameterException(getName(), "Parameter pattern [" + name + "] only allowed in stub mode");
 					}
 					substitutionValue = FIXEDUID;
 					break;
 				case "fixedhostname":
 					if (!ConfigurationUtils.isConfigurationStubbed(configurationClassLoader)) {
-						throw new ParameterException("Parameter pattern [" + name + "] only allowed in stub mode");
+						throw new ParameterException(getName(), "Parameter pattern [" + name + "] only allowed in stub mode");
 					}
 					substitutionValue = FIXEDHOSTNAME;
 					break;
@@ -946,7 +952,7 @@ public class Parameter implements IConfigurable, IWithParameters {
 			if (isIgnoreUnresolvablePatternElements()) {
 				substitutionValue="";
 			} else {
-				throw new ParameterException("Parameter or session variable with name [" + name + "] in pattern [" + getPattern() + "] cannot be resolved");
+				throw new ParameterException(getName(), "Parameter or session variable with name [" + name + "] in pattern [" + getPattern() + "] cannot be resolved");
 			}
 		}
 		return substitutionValue;

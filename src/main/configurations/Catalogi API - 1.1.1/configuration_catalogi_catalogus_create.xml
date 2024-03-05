@@ -40,8 +40,22 @@
                 >
                 <Param name="BaseUrl" value="${zaakbrug.staging.catalogi-api.root-url}" /> 
                 <Param name="UrlParam" sessionKey="uri" /> 
-                <Forward name="success" path="PostCatalogusSender"/>
+                <Forward name="success" path="createJwt"/>
             </XsltPipe>
+
+			<JwtPipe name="createJwt"
+				expirationTime="600"
+				storeResultInSessionKey="myToken"
+                ifParam="valueAuthType"
+                ifValue="Jwt"
+            >
+                <Param name="valueAuthType" value="${zaakbrug.zgw.catalogi-api.auth-type}" />
+                <Param name="sharedSecret" pattern="{password}" authAlias="${zaakbrug.zgw.catalogi-api.auth-alias}" hidden="true"/>
+                <Param name="client_id" pattern="{username}" authAlias="${zaakbrug.zgw.catalogi-api.auth-alias}" hidden="true"/>
+                <Param name="user_id" pattern="{username}" authAlias="${zaakbrug.zgw.catalogi-api.auth-alias}" hidden="true"/>
+                <Param name="user_reresentation" pattern="{username}" authAlias="${zaakbrug.zgw.catalogi-api.auth-alias}" hidden="true"/>
+				<Forward name="success" path="PostCatalogusSender" />
+			</JwtPipe>
             
             <SenderPipe name="PostCatalogusSender"
             	getInputFromSessionKey="originalMessage">
@@ -57,7 +71,9 @@
                     <Param name="Accept" value="application/json" />
                     <Param name="Content-Crs" value="EPSG:4326" />
 					<Param name="Host" sessionKey="headers" xpathExpression="/headers/header[@name = 'Host']/text()" />
-                    <Param name="Authorization" value="Bearer @@catalogi-api.jwt@@"/>
+                    <Param name="Authorization"  sessionKey="originalMessage" xpathExpression="concat('Bearer ', $myToken)">
+						<Param name="myToken" sessionKey="myToken" defaultValue="@@catalogi-api.jwt@@"/>
+					</Param>
                 </HttpSender>
 
                 <Forward name="201" path="Created" />
