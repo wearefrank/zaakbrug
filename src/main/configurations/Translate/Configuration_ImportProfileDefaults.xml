@@ -5,7 +5,7 @@
         description="">
 
         <Receiver name="ImportProfileDefaults">
-            <JavaListener name="ImportProfileDefaults" returnedSessionKeys="Error"/>
+            <JavaListener name="ImportProfileDefaults" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -30,18 +30,13 @@
 
             <XsltPipe name="ExtractDefaults" styleSheetName="Common\xsl\ExtractProfileDefaults.xsl"
                 omitXmlDeclaration="true" storeResultInSessionKey="defaults" outputType="XML">
-                <Param name="hierarchy" sessionKey="hierarchy" type="STRING" />
-                <Forward name="success" path="MergeMessages" />
-            </XsltPipe>
-
-            <XsltPipe name="MergeMessages" styleSheetName="Common\xsl\MergeMessages.xsl"
-                getInputFromSessionKey="originalMessage" outputType="XML">
-                <Param name="defaults" sessionKey="defaults" type="DOMDOC" />
+                <Param name="zaaktype" sessionKey="zaaktype" type="STRING" />
                 <Forward name="success" path="ApplyDefaults" />
             </XsltPipe>
 
             <XsltPipe name="ApplyDefaults" styleSheetName="Common\xsl\ApplyDefaults.xsl"
-                outputType="XML">
+                outputType="XML" getInputFromSessionKey="originalMessage">
+                <Param name="defaults" sessionKey="defaults" type="DOMDOC" />
                 <Forward name="success" path="EXIT" />
             </XsltPipe>
         </Pipeline>
