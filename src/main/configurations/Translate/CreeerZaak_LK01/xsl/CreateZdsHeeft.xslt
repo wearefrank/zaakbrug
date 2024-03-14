@@ -34,7 +34,7 @@
                 </xsl:choose>
                 <xsl:choose>
                     <xsl:when test="$ZgwStatus">
-                        <omschrijving><xsl:value-of select="$ZgwStatus/ZgwStatus/omschrijving"/></omschrijving>
+                        <omschrijving><xsl:value-of select="$ZgwStatus/ZgwStatus/statustoelichting"/></omschrijving>
                     </xsl:when>
                     <xsl:otherwise>
                         <omschrijving><xsl:value-of select="$StatusToelichting"/></omschrijving>
