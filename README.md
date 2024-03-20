@@ -48,3 +48,33 @@ The syntax for variable substitution is as follows {[variable-name][:formatting-
 | --- | --------- |
 | id | Auto-incrementing identifier with 'D' as formatting option, indicating the amount of digits. <br/>_Example:_ `{id:D5}` with id-123 will result in '00123'. |
 | datetime | The current date and time with '[Y]' as formatting option, according to [XSLT datetime formatting](https://www.oreilly.com/library/view/xslt-2nd-edition/9780596527211/ch04s05.html). <br/> _Examples:_ <ul><li>`{datetime:[Y]}` with datetime=14-03-2023 produces '2023'</li><li>`{datetime:[Y0001]}` with datetime=14-03-2023 produces '2023'</li><li>`{datetime:[Y][M][D]}` with datetime=14-03-2023 produces '2023314'</li><li>`{datetime:[Y0001][M01][D01]}` with datetime=14-03-2023 produces '20230314'</li><li>`{datetime:[Y][M01][D]}` with datetime=14-03-2023 produces '20230314'</li></ul>
+
+## Translation Profiles
+
+### Value Overrides
+The translations from ZDS/StUF to ZGW are made to be as neutral as possible. With value overrides it is possible to diverge from the generic translation defaults or add static properties.
+
+Value overrides can be configured in `src/main/configurations/Translate/profiles.json` or in the `zaakbrug.profiles` section of the Helm chart.
+
+The keys for the the different properties can be deducted from the OpenApi specification of the API's. 
+The keys follow the following format: zgw. `<api-name>.<collection-name>.<object-name>.<property>`. For example the key for the zaak property `betalingsindicatie` would be: `zgw.zaken-api.zaken.zaak.betalingsindicatie`. In the translation profile this would look like this:
+```json
+{
+    "profile": [
+        {
+            "zaakTypeIdentificatie": "example",
+            "valueOverrides": [
+                {
+                    "key": "zgw.zaken-api.zaken.zaak.betalingsindicatie",
+                    "value": "nvt"
+                }
+            ]
+        }
+    ]
+}
+```
+
+A value override is only applied if the property's value after the translation from ZDS/StUF to ZGW is **not present, empty string or null**.
+
+Currently this feature implemented for:
+- (zaken-api) zaak
