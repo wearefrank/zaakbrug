@@ -57,7 +57,7 @@ The translations from ZDS/StUF to ZGW are made to be as neutral as possible. Wit
 Value overrides can be configured in `src/main/configurations/Translate/profiles.json` or in the `zaakbrug.profiles` section of the Helm chart.
 
 The keys for the the different properties can be deducted from the OpenApi specification of the API's. 
-The keys follow the following format: zgw. `<api-name>.<collection-name>.<object-name>.<property>`. For example the key for the zaak property `betalingsindicatie` would be: `zgw.zaken-api.zaken.zaak.betalingsindicatie`. In the translation profile this would look like this:
+The keys follow the following format: `zgw.<api-name>.<collection-name>.<object-name>.<property>`. For example the key for the zaak property `betalingsindicatie` would be: `zgw.zaken-api.zaken.zaak.betalingsindicatie`. In the translation profile this would look like this:
 ```json
 {
     "profile": [
