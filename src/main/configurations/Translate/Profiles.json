@@ -5,24 +5,6 @@
             "endCaseEndDate": {
                 "coalesceResultaat": "Onbekend"
             },
-            "valueOverrides": [
-                {
-                    "key": "zgw.zaken-api.zaken.ZgwZaak.betalingsIndicatie",
-                    "value": "nvt"
-                },
-                {
-                    "key": "zgw.zaken-api.zaken.ZgwZaak.notPresentInZaak",
-                    "value": "value"
-                },
-                {
-                    "key": "zgw.zaken-api.zaken.ZgwZaak.verlenging.reden",
-                    "value": "DefaultReden"
-                },
-                {
-                    "key": "zgw.zaken-api.zaken.ZgwZaak.vertrouwelijkheidaanduiding",
-                    "value": "notToBeTrustedDefault"
-                }
-            ],
             "endDateAndResultLastStatus": {
                 "coalesceResultaat": "Onbekend"
             }
@@ -31,17 +13,7 @@
             "zaakTypeIdentificatie": "B1026",
             "endCaseEndDate": {
                 "coalesceResultaat": "Toegekend"
-            },
-            "valueOverrides": [
-                {
-                    "key": "zgw.zaken-api.zaken.zaak.betalingsindicatie",
-                    "value": "nvt"
-                },
-                {
-                    "key": "zgw.zaken-api.zaken.zaak.toelichting",
-                    "value": "testtest"
-                }
-            ]
+            }
         }
     ]
 }
