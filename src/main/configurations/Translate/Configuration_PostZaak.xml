@@ -51,7 +51,7 @@
             <SenderPipe name="PostZgwZaak" getInputFromSessionKey="originalMessage">
 
                 <Json2XmlInputValidator name="ValidatePost"
-                    schema="CreeerZaak_LK01/xsd/ZgwZaak.xsd"
+                    schema="Zgw/Zaken/Model/PostZgwZaak.xsd"
                     root="ZgwZaak"
                     outputFormat="JSON"
                     deepSearch="true"

@@ -3,17 +3,16 @@
     <xsl:include href="../../Zgw/ZgwFunctionsBase.xslt" />
 
     <xsl:param name="ZgwZaak"/>
-    <xsl:param name="Bronorganisatie" select="''" as="xs:string" />
     <xsl:param name="VerantwoordelijkeOrganisatie" select="''" as="xs:string" />
 
 	<xsl:template match="/">
-        <ZgwZaakPut>
+        <ZgwZaak>
             <xsl:choose>
                 <xsl:when test="string-length(object/identificatie) > 0"><identificatie><xsl:value-of select="object/identificatie"/></identificatie></xsl:when>
                 <xsl:when test="string-length($ZgwZaak/ZgwZaak/identificatie) > 0"><identificatie><xsl:value-of select="$ZgwZaak/ZgwZaak/identificatie"/></identificatie></xsl:when>
             </xsl:choose>
-            <bronorganisatie><xsl:value-of select="$Bronorganisatie"/></bronorganisatie>
-            <omschrijving><xsl:value-of select="object/omschrijving"/></omschrijving>
+            <xsl:if test="string-length($ZgwZaak/ZgwZaak/bronorganisatie) > 0"><bronorganisatie><xsl:value-of select="$ZgwZaak/ZgwZaak/bronorganisatie"/></bronorganisatie></xsl:if>
+            <xsl:if test="string-length($ZgwZaak/ZgwZaak/omschrijving) > 0"><omschrijving><xsl:value-of select="$ZgwZaak/ZgwZaak/omschrijving"/></omschrijving></xsl:if>
             <xsl:choose>
                 <xsl:when test="string-length(object/toelichting) > 0"><toelichting><xsl:value-of select="object/toelichting"/></toelichting></xsl:when>
                 <xsl:when test="string-length($ZgwZaak/ZgwZaak/toelichting) > 0"><toelichting><xsl:value-of select="$ZgwZaak/ZgwZaak/toelichting"/></toelichting></xsl:when>
@@ -129,7 +128,7 @@
                 <xsl:when test="string-length(object/archiefactiedatum) > 0"><archiefactiedatum><xsl:value-of select="zgw:toZgwDate(object/archiefactiedatum)"/></archiefactiedatum></xsl:when>
                 <xsl:when test="string-length($ZgwZaak/ZgwZaak/archiefactiedatum) > 0"><archiefactiedatum><xsl:value-of select="$ZgwZaak/ZgwZaak/archiefactiedatum"/></archiefactiedatum></xsl:when>
             </xsl:choose>
-        </ZgwZaakPut>
+        </ZgwZaak>
 	</xsl:template>
 
     <xsl:template match="object/kenmerk">

@@ -43,7 +43,7 @@
   <!ENTITY GetZgwZaakTypeByIdentificatie                  SYSTEM "./Configuration_GetZgwZaakTypeByIdentificatie.xml">
   <!ENTITY HandleZgwZaakInformatieObjecten                SYSTEM "./Configuration_HandleZgwZaakInformatieObjecten.xml">
   <!ENTITY ImportFromLocalFS                              SYSTEM "./Configuration_ImportFromLocalFS.xml"> 
-  <!ENTITY ImportProfileDefaults                          SYSTEM "./Configuration_ImportProfileDefaults.xml"> 
+  <!ENTITY ImportValueOverridesFromTranslationProfile     SYSTEM "./Configuration_ImportValueOverridesFromTranslationProfile.xml"> 
   <!ENTITY MapZdsDeelzakenFromZgwDeelzaken                SYSTEM "./Configuration_MapZdsDeelzakenFromZgwDeelzaken.xml">
   <!ENTITY MapZdsHeeftFromZgwStatus                       SYSTEM "./Configuration_MapZdsHeeftFromZgwStatus.xml">
   <!ENTITY MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken   SYSTEM "./Configuration_MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken.xml">
@@ -116,7 +116,7 @@
   &GetZgwZaakTypeByIdentificatie;
   &HandleZgwZaakInformatieObjecten;
   &ImportFromLocalFS;
-  &ImportProfileDefaults;
+  &ImportValueOverridesFromTranslationProfile;
   &MapZdsDeelzakenFromZgwDeelzaken;
   &MapZdsHeeftFromZgwStatus;
   &MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken;
