@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://google.com/zgw">
+    <xs:import namespace="http://google.com/zgw" schemaLocation="../ZgwZakenApi.xsd" />
+    <xs:element name="ZgwZaak">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="url" type="zgw:Uri1_1000" minOccurs="0" maxOccurs="1" />
+                <xs:element name="uuid" type="xs:string" minOccurs="0" maxOccurs="1" />
+                <xs:element name="identificatie" type="zgw:AN0_40" minOccurs="0"/>
+                <xs:element name="bronorganisatie" type="zgw:Rsin"/>
+                <xs:element name="omschrijving" type="zgw:AN0_80" minOccurs="0"/>
+                <xs:element name="toelichting" type="zgw:AN1000" minOccurs="0"/>
+                <xs:element name="zaaktype" type="zgw:Uri1_1000"/>
+                <xs:element name="registratiedatum" type="xs:date" minOccurs="0"/>
+                <xs:element name="verantwoordelijkeOrganisatie" type="zgw:Rsin"/>
+                <xs:element name="startdatum" type="xs:date"/>
+                <xs:element name="einddatum" type="xs:date" minOccurs="0" nillable="true" />
+                <xs:element name="einddatumGepland" type="xs:date" minOccurs="0" nillable="true"/>
+                <xs:element name="uiterlijkeEinddatumAfdoening" type="xs:date" minOccurs="0" nillable="true"/>
+                <xs:element name="publicatiedatum" type="xs:date" minOccurs="0" nillable="true"/>
+                <xs:element name="communicatiekanaal" type="zgw:Uri0_1000" minOccurs="0"/>
+                <xs:element name="productenOfDiensten" type="zgw:Uri1_1000" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="vertrouwelijkheidaanduiding" type="zgw:Vertrouwelijkheidaanduiding" minOccurs="0"/>
+                <xs:element name="betalingsindicatie" type="zgw:Betalingsindicatie" minOccurs="0"/>
+                <xs:element name="betalingsindicatieWeergave" type="xs:string" minOccurs="0"/>
+                <xs:element name="laatsteBetaaldatum" type="xs:dateTime" minOccurs="0" nillable="true"/>
+                <xs:element name="zaakgeometrie" type="Zaakgeometrie" minOccurs="0" nillable="true" />
+                <xs:element name="verlenging" type="Verlenging" minOccurs="0" maxOccurs="1" nillable="true" />
+                <xs:element name="opschorting" type="Opschorting" minOccurs="0" maxOccurs="1" nillable="true" />
+                <xs:element name="selectielijstklasse" type="zgw:Uri0_1000" minOccurs="0"/>
+                <xs:element name="hoofdzaak" type="zgw:Uri1_1000" minOccurs="0" nillable="true"/>
+                <xs:element name="deelzaken" type="zgw:Uri1_1000" minOccurs="0" />
+                <xs:element name="relevanteAndereZaken" type="RelevanteAndereZaken" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="eigenschappen" type="zgw:Uri1_1000" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="status" type="zgw:Uri1_1000" minOccurs="0" nillable="true" />
+                <xs:element name="kenmerken" type="Kenmerken" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="archiefnominatie" type="zgw:Archiefnominatie" minOccurs="0" nillable="true"/>
+                <xs:element name="archiefstatus" type="zgw:Archiefstatus" minOccurs="0"/>
+                <xs:element name="archiefactiedatum" type="xs:date" minOccurs="0" nillable="true"/>
+                <xs:element name="resultaat" type="zgw:Uri1_1000" minOccurs="0" nillable="true"/>
+                <xs:element name="opdrachtgevendeOrganisatie" type="zgw:Rsin" minOccurs="0" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="Zaakgeometrie">
+        <xs:sequence>
+            <xs:element name="type" type="xs:string"/>
+            <xs:element name="coordinates" type="xs:duration"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Verlenging">
+        <xs:sequence>
+            <xs:element name="reden" type="zgw:AN1_200"/>
+            <xs:element name="duur" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Opschorting">
+        <xs:sequence>
+            <xs:element name="indicatie" type="xs:boolean"/>
+            <xs:element name="reden" type="zgw:AN0_200"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="RelevanteAndereZaken">
+        <xs:sequence>
+            <xs:element name="url" type="zgw:Uri1_1000"/>
+            <xs:element name="aardRelatie" type="zgw:AardRelatie"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Kenmerken">
+        <xs:sequence>
+            <xs:element name="kenmerk" type="zgw:AN1_40"/>
+            <xs:element name="bron" type="zgw:AN1_40"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema> 
