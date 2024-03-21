@@ -156,6 +156,31 @@
                 <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                 <Param name="Bronorganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
                 <Param name="VerantwoordelijkeOrganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
+                <Forward name="success" path="ZaakBodyApplyValueOverridesFromTranslationProfileSender"/>
+            </XsltPipe>
+
+            <SenderPipe
+                name="ZaakBodyApplyValueOverridesFromTranslationProfileSender"
+                >
+                <IbisLocalSender
+                    name="ZaakBodyApplyValueOverridesFromTranslationProfileLocalSender"
+                    javaListener="ImportValueOverridesFromTranslationProfile"
+                    returnedSessionKeys="Error"
+                    >
+                </IbisLocalSender>
+                <Param name="zaaktype" sessionKey="originalMessage" xpathExpression="/zakLk01/object/isVan/gerelateerde/code" />
+                <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaken.ZgwZaak" />
+                <Forward name="success" path="ReorderZaak"/>
+                <Forward name="exception" path="UncaughtException" />
+            </SenderPipe>
+
+            <!-- TODO: replace with new style ZgwZaak.xslt -->
+            <XsltPipe
+                name="ReorderZaak"
+                storeResultInSessionKey="ZaakBody"
+                styleSheetName="CreeerZaak_LK01/xsl/CreateZaakBodyWorkaround.xslt"
+                >
+                <Param name="ZgwZaak" type="DOMDOC" />
                 <Forward name="success" path="CallPostZaak"/>
             </XsltPipe>
 
