@@ -18,7 +18,7 @@
         </xsl:choose>
     </xsl:function>
 
-    <xsl:function name="zgw:convertZdsTimeToZgwTime" as="xs:string">
+    <xsl:function name="zgw:convertZdsDateTimeToZgwDateTime" as="xs:string">
         <xsl:param name="dateStr" as="xs:string"/>
         <xsl:value-of select="concat(substring($dateStr,1,4), substring($dateStr,6,2), substring($dateStr,9,2), substring($dateStr,12,2), substring($dateStr,15,2), substring($dateStr,18,2))"/>
 	</xsl:function>
