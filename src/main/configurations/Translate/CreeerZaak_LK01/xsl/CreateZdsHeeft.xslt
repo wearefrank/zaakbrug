@@ -41,7 +41,7 @@
                 <xsl:choose>
                     <xsl:when test="$ZgwStatus">
                         <omschrijving><xsl:value-of select="$ZgwStatus/ZgwStatus/statustoelichting"/></omschrijving>
-                        <datumStatusGezet><xsl:value-of select="zgw:convertZdsTimeToZgwTime($ZgwStatus/ZgwStatus/datumStatusGezet)"/></datumStatusGezet>
+                        <datumStatusGezet><xsl:value-of select="zgw:convertZdsDateTimeToZgwDateTime($ZgwStatus/ZgwStatus/datumStatusGezet)"/></datumStatusGezet>
                     </xsl:when>
                     <xsl:otherwise>
                         <omschrijving><xsl:value-of select="$StatusToelichting"/></omschrijving>

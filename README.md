@@ -51,6 +51,8 @@ The syntax for variable substitution is as follows {[variable-name][:formatting-
 
 ## Translation Profiles
 
+### Closing zaak
+
 ### Value Overrides
 The translations from ZDS/StUF to ZGW are made to be as neutral as possible. With value overrides it is possible to diverge from the generic translation defaults or add static properties.
 
