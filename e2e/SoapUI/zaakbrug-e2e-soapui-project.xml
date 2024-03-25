@@ -26991,7 +26991,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
       </con:testStep>
       <con:properties/>
     </con:testCase>
-    <con:testCase id="b6bbbbfc-43ef-4640-a569-2fa726d37ed6" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="WithEndDateAndResultLastStatusInProfileJson-AddOnlyEindDatumInUpdateZaak" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+    <con:testCase id="b6bbbbfc-43ef-4640-a569-2fa726d37ed6" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EndDateAndResultLastStatusInProfileJson(EDRLS)-OnlyEindDatumInUpdateZaak-ZaakShouldNotBeClosed" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="bceaf5ff-c420-4c46-bdbc-2b6963b22a30">
         <con:settings/>
@@ -27488,7 +27488,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="934a275a-b169-40b1-b52d-288c6ab7af45" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="WithEndDateAndResultLastStatusInProfileJson-AddBothEindDatumAndResultaatInUpdateZaak" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+    <con:testCase id="934a275a-b169-40b1-b52d-288c6ab7af45" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EDRLS-BothEindDatumAndResultaatInUpdateZaak-ZaakShouldNotBeClosed" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="dbe9530c-a1ac-4e26-83ce-ae66971f0558">
         <con:settings/>
@@ -28058,7 +28058,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="a39a33c8-063c-4330-b051-449c01530ebc" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="WithEndDateAndResultLastStatusInProfileJson-AddFirstResultaatThenEindDatumInUpdateZaak" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+    <con:testCase id="a39a33c8-063c-4330-b051-449c01530ebc" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EDRLS-FirstResultaatThenEindDatumInUpdateZaak-ZaakShouldNotBeClosed" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="eba3feb9-9464-4908-996c-51ca864ba528">
         <con:settings/>
@@ -28695,7 +28695,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="d06428be-c45f-4797-b187-b50152d1e740" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="WithEndDateAndResultLastStatusInProfileJson-AddOnlyEindStatusInUpdateZaak" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+    <con:testCase id="d06428be-c45f-4797-b187-b50152d1e740" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EDRLS-OnlyEindStatusInUpdateZaak-ZaakShouldBeClosedWithResultaatFromProfileJson" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="a7e4fadb-e5b6-45d3-9b1f-ea4e8da748e6">
         <con:settings/>
@@ -29474,7 +29474,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="2974956d-6b76-4a23-abca-b747a0b3d754" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="WithEndDateAndResultLastStatusInProfileJson-AddBothEindStatusAndResultaatInUpdateZaak" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+    <con:testCase id="2974956d-6b76-4a23-abca-b747a0b3d754" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EDRLS-BothEindStatusAndResultaatInUpdateZaak-ZaakShouldBeClosed" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="676bf546-b511-4a84-bf07-3abba86bdd5f">
         <con:settings/>
@@ -30070,7 +30070,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="3d9b8be7-886c-4e56-851c-095377323d7a" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="WithEndDateAndResultLastStatusInProfileJson-AddEindDatumAndEindStatusInUpdateZaak" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+    <con:testCase id="3d9b8be7-886c-4e56-851c-095377323d7a" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EDRLS-EindDatumAndEindStatusInUpdateZaak-ZaakShouldBeClosedWithResultaatFromProfileJson" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="7bb85cce-66c1-4ef8-9064-74cf9ae1df56">
         <con:settings/>
@@ -30850,7 +30850,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="e6b00d56-a6fa-4f05-a27f-5c8dc7becae3" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="WithEndDateAndResultLastStatusInProfileJson-AddEindDatumAndEindStatusWithResultaatInUpdateZaak" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+    <con:testCase id="e6b00d56-a6fa-4f05-a27f-5c8dc7becae3" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EDRLS-EindDatumAndEindStatusWithResultaatInUpdateZaak-ZaakShouldBeClosed" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="632458e5-4991-48c8-9aeb-ad0defe6087d">
         <con:settings/>
@@ -32415,7 +32415,577 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
       </con:testStep>
       <con:properties/>
     </con:testCase>
-    <con:testCase id="5227e554-fbf8-4e56-ba9d-af37abab9787" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="WithEndCaseEndDateInProfileJson-AddOnlyEindDatumInUpdateZaak" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+    <con:testCase id="e28f01cf-a818-4a50-9bcd-942f42ca3761" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EndCaseEndDateInProfileJson(ESED)-BothEindDatumAndResultaatInUpdateZaak-ZaakShouldNotBeClosed" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
+      <con:settings/>
+      <con:testStep type="properties" name="Properties" id="3dc315ef-fdb0-499e-ba8d-c7a50f96a4fb">
+        <con:settings/>
+        <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:properties>
+            <con:property>
+              <con:name>ZaakIdentificatie</con:name>
+              <con:value/>
+            </con:property>
+            <con:property>
+              <con:name>ZaakUrl</con:name>
+              <con:value/>
+            </con:property>
+            <con:property>
+              <con:name>JwtToken</con:name>
+              <con:value/>
+            </con:property>
+            <con:property>
+              <con:name>ResultaatInUpdateZaak</con:name>
+              <con:value/>
+            </con:property>
+          </con:properties>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="request" id="1abce714-c3d2-42c9-a29f-b238b86d79bd" name="01-zds-genereerZaakIdentificatie_Di02">
+        <con:settings/>
+        <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:interface>ZdsVrijeBerichten</con:interface>
+          <con:operation>genereerZaakIdentificatie_Di02</con:operation>
+          <con:request name="01-zds-genereerZaakIdentificatie_Di02" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="78a97417-a2f7-4fe6-87ad-6af33391b0e1">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+              <con:setting id="com.eviware.soapui.impl.support.AbstractHttpRequest@dump-file"/>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#ZaakbrugEndpoint}translate/generic/zds/VrijBericht</con:endpoint>
+            <con:request><![CDATA[<SOAP-ENV:Envelope xsi:schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 zkn0310-p28\zs-dms\zkn0310_msg_zs-dms_resolved.xsd" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <SOAP-ENV:Header/>
+   <SOAP-ENV:Body>
+      <ZKN:genereerZaakIdentificatie_Di02>
+         <ZKN:stuurgegevens>
+            <StUF:berichtcode>Di02</StUF:berichtcode>
+            <StUF:zender>
+               <StUF:organisatie>1900</StUF:organisatie>
+               <StUF:applicatie>GWS4all</StUF:applicatie>
+               <StUF:gebruiker>Gebruiker</StUF:gebruiker>
+            </StUF:zender>
+            <StUF:ontvanger>
+               <StUF:organisatie>1900</StUF:organisatie>
+               <StUF:applicatie>CDR</StUF:applicatie>
+            </StUF:ontvanger>
+            <StUF:referentienummer>${=java.util.UUID.randomUUID().toString() }</StUF:referentienummer>
+            <StUF:tijdstipBericht>${=import java.text.SimpleDateFormat; SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS"); sdf.setTimeZone(TimeZone.getTimeZone("${#Project#ZdsTimezone}")); sdf.format(new Date());}</StUF:tijdstipBericht>
+            <StUF:functie>genereerZaakidentificatie</StUF:functie>
+         </ZKN:stuurgegevens>
+      </ZKN:genereerZaakIdentificatie_Di02>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>]]></con:request>
+            <con:assertion type="SOAP Response" id="d95790e3-4684-4e55-bc88-a3472c2a786b" name="SOAP Response"/>
+            <con:assertion type="Schema Compliance" id="7c41213e-fa45-4a54-9b26-a2aae7cae18f" name="Schema Compliance">
+              <con:configuration/>
+            </con:assertion>
+            <con:assertion type="SOAP Fault Assertion" id="18ca3e91-13ed-4d5d-951f-992518c27752" name="Not SOAP Fault"/>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.egem.nl/StUF/sector/zkn/0310/genereerZaakIdentificatie_Di02"/>
+            <con:wsrmConfig version="1.2"/>
+          </con:request>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="transfer" name="01a-TransferZaakIdentificatie" id="9ef20b9a-0604-43f3-80c2-d34873fe3149">
+        <con:settings/>
+        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false" disabled="false">
+            <con:name>TransferZaakIdentificatie</con:name>
+            <con:sourceType>Response</con:sourceType>
+            <con:sourceStep>01-zds-genereerZaakIdentificatie_Di02</con:sourceStep>
+            <con:sourcePath>declare namespace ZKN="http://www.egem.nl/StUF/sector/zkn/0310";
+//ZKN:identificatie[1]</con:sourcePath>
+            <con:targetType>ZaakIdentificatie</con:targetType>
+            <con:targetStep>Properties</con:targetStep>
+            <con:targetPath/>
+            <con:type>XPATH</con:type>
+            <con:upgraded>true</con:upgraded>
+          </con:transfers>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="request" id="2149672c-251d-43ca-b5ba-5aa99fbec2d6" name="02-zds-creeerZaak_Lk01-withoutStatusAndResultaat">
+        <con:settings/>
+        <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:interface>ZdsOntvangAsynchroon</con:interface>
+          <con:operation>creeerZaak_Lk01</con:operation>
+          <con:request name="02-zds-creeerZaak_Lk01-withoutStatusAndResultaat" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="4afca0bd-189b-4572-b269-39ac6814fb73">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+              <con:setting id="com.eviware.soapui.impl.support.AbstractHttpRequest@dump-file"/>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#ZaakbrugEndpoint}translate/generic/zds/OntvangAsynchroon</con:endpoint>
+            <con:request><![CDATA[<SOAP-ENV:Envelope xsi:schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 zkn0310-p28\mutatie\zkn0310_msg_mutatie_resolved.xsd" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\r
+   <SOAP-ENV:Header/>\r
+   <SOAP-ENV:Body>\r
+      <ZKN:zakLk01>\r
+         <ZKN:stuurgegevens>\r
+            <StUF:berichtcode>Lk01</StUF:berichtcode>\r
+            <StUF:zender>\r
+               <StUF:organisatie>1900</StUF:organisatie>\r
+               <StUF:applicatie>GWS4all</StUF:applicatie>\r
+               <StUF:gebruiker>Gebruiker</StUF:gebruiker>\r
+            </StUF:zender>\r
+            <StUF:ontvanger>\r
+               <StUF:organisatie>1900</StUF:organisatie>\r
+               <StUF:applicatie>CDR</StUF:applicatie>\r
+            </StUF:ontvanger>\r
+            <StUF:referentienummer>${=java.util.UUID.randomUUID().toString() }</StUF:referentienummer>\r
+            <StUF:tijdstipBericht>${=import java.text.SimpleDateFormat; SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS"); sdf.setTimeZone(TimeZone.getTimeZone("${#Project#ZdsTimezone}")); sdf.format(new Date());}</StUF:tijdstipBericht>\r
+            <StUF:entiteittype>ZAK</StUF:entiteittype>\r
+         </ZKN:stuurgegevens>\r
+         <ZKN:parameters>\r
+            <StUF:mutatiesoort>T</StUF:mutatiesoort>\r
+            <StUF:indicatorOvername>V</StUF:indicatorOvername>\r
+         </ZKN:parameters>\r
+         <ZKN:object StUF:sleutelVerzendend="${Properties#ZaakIdentificatie}" StUF:entiteittype="ZAK" StUF:verwerkingssoort="T">\r
+            <ZKN:identificatie>${Properties#ZaakIdentificatie}</ZKN:identificatie>\r
+            <ZKN:omschrijving>Aanvraag minimaregelingen (Z)</ZKN:omschrijving>\r
+            <ZKN:kenmerk>\r
+               <ZKN:kenmerk StUF:noValue="geenWaarde" xsi:nil="true" />
+               <ZKN:bron>soapui</ZKN:bron>\r
+            </ZKN:kenmerk>\r
+            <ZKN:kenmerk>
+               <ZKN:kenmerk>kenmerk2</ZKN:kenmerk>
+               <ZKN:bron StUF:noValue="geenWaarde" xsi:nil="true" />
+            </ZKN:kenmerk>
+            <ZKN:startdatum>${=import java.text.SimpleDateFormat; new SimpleDateFormat("yyyyMMdd").format(new Date())}</ZKN:startdatum>\r
+            <ZKN:registratiedatum>${=import java.text.SimpleDateFormat; new SimpleDateFormat("yyyyMMdd").format(new Date())}</ZKN:registratiedatum>\r
+            <ZKN:einddatumGepland>20210101</ZKN:einddatumGepland>\r           
+            <ZKN:archiefnominatie>J</ZKN:archiefnominatie>\r
+            <ZKN:zaakniveau>1</ZKN:zaakniveau>\r
+            <ZKN:deelzakenIndicatie>N</ZKN:deelzakenIndicatie>\r
+            <ZKN:isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="T">\r
+               <ZKN:gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="T">\r
+                  <ZKN:omschrijving>Aanvraag minima</ZKN:omschrijving>\r
+                  <ZKN:code>B1026</ZKN:code>\r
+                  <ZKN:ingangsdatumObject xsi:nil="true" StUF:noValue="geenWaarde"/>\r
+               </ZKN:gerelateerde>\r
+            </ZKN:isVan>\r
+            <ZKN:heeftAlsInitiator StUF:entiteittype="ZAKBTRINI" StUF:verwerkingssoort="T">\r
+               <ZKN:gerelateerde>\r
+                  <ZKN:natuurlijkPersoon StUF:entiteittype="NPS" StUF:verwerkingssoort="T">\r
+                     <BG:inp.bsn>111111110</BG:inp.bsn>\r
+                     <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>\r
+                     <BG:geslachtsnaam>Precies</BG:geslachtsnaam>\r
+                     <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>\r
+                     <BG:voorletters>P</BG:voorletters>\r
+                     <BG:voornamen>Pietje</BG:voornamen>\r
+                     <BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>\r
+                     <BG:geboortedatum StUF:indOnvolledigeDatum="V">19010101</BG:geboortedatum>\r
+                     <BG:verblijfsadres>\r
+                        <BG:aoa.identificatie xsi:nil="true" StUF:noValue="geenWaarde"/>\r
+                        <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>\r
+                        <BG:wpl.woonplaatsNaam>Bolsward</BG:wpl.woonplaatsNaam>\r
+                        <BG:gor.openbareRuimteNaam xsi:nil="true" StUF:noValue="geenWaarde"/>\r
+                        <BG:gor.straatnaam>Kerkstraat</BG:gor.straatnaam>\r
+                        <BG:aoa.postcode>8701HP</BG:aoa.postcode>\r
+                        <BG:aoa.huisnummer>1</BG:aoa.huisnummer>\r
+                        <BG:aoa.huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>\r
+                        <BG:aoa.huisnummertoevoeging xsi:nil="true" StUF:noValue="geenWaarde"/>\r
+                        <BG:inp.locatiebeschrijving xsi:nil="true" StUF:noValue="geenWaarde"/>\r
+                     </BG:verblijfsadres>\r
+                  </ZKN:natuurlijkPersoon>\r
+               </ZKN:gerelateerde>\r
+            </ZKN:heeftAlsInitiator>\r
+         </ZKN:object>\r
+      </ZKN:zakLk01>\r
+   </SOAP-ENV:Body>\r
+</SOAP-ENV:Envelope>]]></con:request>
+            <con:assertion type="SOAP Response" id="3cb2e495-2a67-440c-92d2-dc7a422a76cd" name="SOAP Response"/>
+            <con:assertion type="Schema Compliance" id="c6cff34b-dc2b-4014-adc6-06944c6d8448" name="Schema Compliance">
+              <con:configuration/>
+            </con:assertion>
+            <con:assertion type="SOAP Fault Assertion" id="77aec6d5-bcd1-489e-878f-f49b93530cf5" name="Not SOAP Fault"/>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.egem.nl/StUF/sector/zkn/0310/creeerZaak_Lk01"/>
+            <con:wsrmConfig version="1.2"/>
+          </con:request>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="request" id="51c082b5-f26a-43f9-9636-893d2192724b" name="03-zds-updateZaak_Lk01-add eindDatumAndResultaat">
+        <con:settings/>
+        <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:interface>ZdsOntvangAsynchroon</con:interface>
+          <con:operation>updateZaak_Lk01</con:operation>
+          <con:request name="03-zds-updateZaak_Lk01-add eindDatumAndResultaat" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="5dd40494-7d68-42cb-a5bc-702ccf12d37e">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+              <con:setting id="com.eviware.soapui.impl.support.AbstractHttpRequest@dump-file"/>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#ZaakbrugEndpoint}translate/generic/zds/OntvangAsynchroon</con:endpoint>
+            <con:request><![CDATA[<SOAP-ENV:Envelope xsi:schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 zkn0310-p28\mutatie\zkn0310_msg_mutatie_resolved.xsd" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <SOAP-ENV:Header/>
+   <SOAP-ENV:Body>
+      <ZKN:zakLk01>
+         <ZKN:stuurgegevens>
+            <StUF:berichtcode>Lk01</StUF:berichtcode>
+            <StUF:zender>
+               <StUF:organisatie>1900</StUF:organisatie>
+               <StUF:applicatie>GWS4all</StUF:applicatie>
+               <StUF:gebruiker>Gebruiker</StUF:gebruiker>
+            </StUF:zender>
+            <StUF:ontvanger>
+               <StUF:organisatie>1900</StUF:organisatie>
+               <StUF:applicatie>CDR</StUF:applicatie>
+            </StUF:ontvanger>
+            <StUF:referentienummer>${=java.util.UUID.randomUUID().toString() }</StUF:referentienummer>
+            <StUF:tijdstipBericht>${=import java.text.SimpleDateFormat; SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS"); sdf.setTimeZone(TimeZone.getTimeZone("${#Project#ZdsTimezone}")); sdf.format(new Date());}</StUF:tijdstipBericht>
+            <StUF:entiteittype>ZAK</StUF:entiteittype>
+         </ZKN:stuurgegevens>
+         <ZKN:parameters>
+            <StUF:mutatiesoort>W</StUF:mutatiesoort>
+            <StUF:indicatorOvername>V</StUF:indicatorOvername>
+         </ZKN:parameters>
+         <ZKN:object StUF:sleutelVerzendend="${Properties#ZaakIdentificatie}" StUF:entiteittype="ZAK" StUF:verwerkingssoort="W">
+            <ZKN:identificatie>${Properties#ZaakIdentificatie}</ZKN:identificatie>
+            <ZKN:omschrijving>Aanvraag minimaregelingen (Z)</ZKN:omschrijving>
+            <ZKN:resultaat>
+               <ZKN:omschrijving>Buiten behandeling g</ZKN:omschrijving>
+            </ZKN:resultaat>
+            <ZKN:startdatum>${=import java.text.SimpleDateFormat; new SimpleDateFormat("yyyyMMdd").format(new Date())}</ZKN:startdatum>
+            <ZKN:registratiedatum>${=import java.text.SimpleDateFormat; new SimpleDateFormat("yyyyMMdd").format(new Date())}</ZKN:registratiedatum>
+            <ZKN:einddatum>${=import java.text.SimpleDateFormat; new SimpleDateFormat("yyyyMMdd").format(new Date())}</ZKN:einddatum>
+            <ZKN:isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="I">
+               <ZKN:gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="I">
+                  <ZKN:omschrijving>Aanvraag minima</ZKN:omschrijving>
+                  <ZKN:code>B1026</ZKN:code>
+                  <ZKN:ingangsdatumObject xsi:nil="true" StUF:noValue="geenWaarde"/>
+               </ZKN:gerelateerde>
+            </ZKN:isVan>
+            <ZKN:leidtTot StUF:entiteittype="ZAKBSL" StUF:verwerkingssoort="T" xsi:nil="true" StUF:noValue="geenWaarde"/>
+         </ZKN:object>
+      </ZKN:zakLk01>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>]]></con:request>
+            <con:assertion type="SOAP Response" id="b6adf35a-6784-46b1-97c0-78d348f17a4f" name="SOAP Response"/>
+            <con:assertion type="Schema Compliance" id="264e0ba4-55a0-4da7-b457-e8d218e45f7a" name="Schema Compliance">
+              <con:configuration/>
+            </con:assertion>
+            <con:assertion type="SOAP Fault Assertion" id="9c97fd53-2cda-48ab-b3c8-c4bf1358d3d6" name="Not SOAP Fault"/>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.egem.nl/StUF/sector/zkn/0310/updateZaak_Lk01"/>
+            <con:wsrmConfig version="1.2"/>
+          </con:request>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="request" id="42a3c770-545b-4efb-9db5-ee3406e5761d" name="04-zds-geefZaakdetails_Lv01-NoEindDatumNorEindStatus">
+        <con:settings/>
+        <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:interface>ZdsBeantwoordVraag</con:interface>
+          <con:operation>geefZaakdetails_Lv01</con:operation>
+          <con:request name="04-zds-geefZaakdetails_Lv01-NoEindDatumNorEindStatus" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="b86f0444-e5bf-4a09-97a2-3d650e0b93ff">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#ZaakbrugEndpoint}translate/generic/zds/BeantwoordVraag</con:endpoint>
+            <con:request><![CDATA[<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">\r
+   <s:Body>\r
+      <zakLv01 xmlns="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:xlink="http://www.w3.org/1999/xlink">\r
+         <stuurgegevens>\r
+            <StUF:berichtcode>Lv01</StUF:berichtcode>\r
+            <StUF:zender>\r
+               <StUF:organisatie>1900</StUF:organisatie>\r
+               <StUF:applicatie>GISVG</StUF:applicatie>\r
+            </StUF:zender>\r
+            <StUF:ontvanger>\r
+               <StUF:organisatie>1900</StUF:organisatie>\r
+               <StUF:applicatie>ZDS</StUF:applicatie>\r
+            </StUF:ontvanger>\r
+            <StUF:referentienummer>${=java.util.UUID.randomUUID().toString() }</StUF:referentienummer>\r
+            <StUF:tijdstipBericht>${=import java.text.SimpleDateFormat; SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS"); sdf.setTimeZone(TimeZone.getTimeZone("${#Project#ZdsTimezone}")); sdf.format(new Date());}</StUF:tijdstipBericht>\r
+            <StUF:entiteittype>ZAK</StUF:entiteittype>\r
+         </stuurgegevens>\r
+         <parameters>\r
+            <StUF:sortering>0</StUF:sortering>\r
+            <StUF:indicatorVervolgvraag>false</StUF:indicatorVervolgvraag>\r
+         </parameters>\r
+         <gelijk StUF:entiteittype="ZAK">\r
+            <identificatie>${Properties#ZaakIdentificatie}</identificatie>\r
+         </gelijk>\r
+         <scope>\r
+            <object StUF:entiteittype="ZAK" StUF:scope="alles"/>
+         </scope>\r
+      </zakLv01>\r
+   </s:Body>\r
+</s:Envelope>]]></con:request>
+            <con:assertion type="SOAP Response" id="a5bb9a97-6aff-4a26-bd8c-283295080f00" name="SOAP Response"/>
+            <con:assertion type="Schema Compliance" id="ed311230-3e49-4b1f-ad19-4ff7dad1ecf2" name="Schema Compliance">
+              <con:configuration/>
+            </con:assertion>
+            <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
+            <con:assertion type="XPath Match" id="896bfc1a-2906-4c9a-8c56-35894bc51be4" name="CheckEindDatumNotAdded">
+              <con:configuration>
+                <path>count(//*:antwoord/*:object/*:einddatum)</path>
+                <content>0</content>
+                <allowWildcards>true</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="XPath Match" id="23ad9965-ed52-44e2-9e78-1fb0b82f3a3a" name="CheckEindStatusNotAdded">
+              <con:configuration>
+                <path>count(//*:antwoord/*:object/*:heeft/*:gerelateerde/*:omschrijving)</path>
+                <content>0</content>
+                <allowWildcards>false</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.egem.nl/StUF/sector/zkn/0310/geefZaakdetails_Lv01"/>
+            <con:wsrmConfig version="1.2"/>
+          </con:request>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="groovy" name="05-zgw-generateJwt" id="9c0e547b-4c44-4f9a-8921-7f2d55af289f">
+        <con:settings/>
+        <con:config>
+          <script>import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import javax.crypto.spec.SecretKeySpec
+import javax.crypto.Mac
+import java.time.Duration
+
+def jwtClientId = context.expand( '${#Project#jwtClientId}' )
+def jwtSecret = context.expand( '${#Project#jwtSecret}' )
+
+def createJwt(Integer validSeconds, String clientId, String secret) {
+    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
+    def rightNowMilli = System.currentTimeMillis()
+    def rightNowSec = Math.round(rightNowMilli / 1000)
+    def expirationSec = rightNowSec + validSeconds
+    def jtiValue = UUID.randomUUID().toString()
+
+    Map header = [alg: "HS256", typ: "JWT"]
+    def headerJson = JsonOutput.toJson(header)
+    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+    
+    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
+    def payloadJson = JsonOutput.toJson(payload)
+    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+
+    def toBeSigned = headerBase64 + "." + payloadBase64
+    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
+    
+    Mac mac = Mac.getInstance("HmacSHA256")
+    mac.init(secretKeySpec)
+    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
+    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+
+    headerBase64 + "." + payloadBase64 + "." + signature
+}
+
+// Create the JWT.
+def token = createJwt(600, jwtClientId, jwtSecret)
+testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="06-zgw-getZaakByIdentificatie" id="2d1b079d-a8c6-47d7-845d-929a7fb0ecc1">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="222f62b6-78c9-4982-89a5-c9ff716b456d" name="06-zgw-getZaakByIdentificatie" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
+          <con:request/>
+          <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JSONPath Match-CheckIfZaakOmschrijvingCorrect">
+            <con:configuration>
+              <path>$.results[0].omschrijving</path>
+              <content>Aanvraag minimaregelingen (Z)</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Accept-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Content-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${Properties#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>identificatie</con:name>
+              <con:value>${Properties#ZaakIdentificatie}</con:value>
+              <con:style>QUERY</con:style>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="transfer" name="07-TransferResultaatUrl" id="007bacc7-4509-4c6f-bb74-6a42e7b48375">
+        <con:settings/>
+        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+            <con:name>TransferResultaatUrl</con:name>
+            <con:sourceType>Response</con:sourceType>
+            <con:sourceStep>06-zgw-getZaakByIdentificatie</con:sourceStep>
+            <con:sourcePath>$.results[0].resultaat</con:sourcePath>
+            <con:targetType>ResultaatInUpdateZaak</con:targetType>
+            <con:targetStep>Properties</con:targetStep>
+            <con:type>JSONPATH</con:type>
+            <con:targetTransferType>JSONPATH</con:targetTransferType>
+            <con:upgraded>true</con:upgraded>
+          </con:transfers>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="08-zgw-getResultaatByUrl-CheckIfEqualsToResultaatInUpdateZaak" id="f913e90b-bef2-48ae-8c0a-40ddb062b9cd">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="222f62b6-78c9-4982-89a5-c9ff716b456d" name="08-zgw-getResultaatByUrl-CheckIfEqualsToResultaatInUpdateZaak" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${Properties#ResultaatInUpdateZaak}</con:endpoint>
+          <con:request/>
+          <con:assertion type="JsonPath Match" id="2bce6f67-f581-4cd7-894f-ab50808ed3ba" name="JsonPath Match-CheckResultaatEqualsValueInUpdateZaak">
+            <con:configuration>
+              <path>$.toelichting</path>
+              <content>Buiten behandeling g</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Accept-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Content-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${Properties#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="transfer" name="99a-TransferZaakUrl" id="0dbbb978-babd-46e9-8a8c-6c33f86f3b63">
+        <con:settings/>
+        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+            <con:name>TransferZaakUrl</con:name>
+            <con:sourceType>Response</con:sourceType>
+            <con:sourceStep>06-zgw-getZaakByIdentificatie</con:sourceStep>
+            <con:sourcePath>$.results[0].url</con:sourcePath>
+            <con:targetType>ZaakUrl</con:targetType>
+            <con:targetStep>Properties</con:targetStep>
+            <con:type>JSONPATH</con:type>
+            <con:targetTransferType>JSONPATH</con:targetTransferType>
+            <con:upgraded>true</con:upgraded>
+          </con:transfers>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="99b-zgw-deleteZaak" id="723b7d9e-dc5b-4143-81f1-93790f57c0e5">
+        <con:settings/>
+        <con:config method="DELETE" xsi:type="con:HttpRequest" id="425cebae-0886-4cab-bf6c-e454353dbcf3" name="99b-zgw-deleteZaak" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${Properties#ZaakUrl}</con:endpoint>
+          <con:request/>
+          <con:assertion type="Valid HTTP Status Codes" id="28a456ce-d6cf-4dfc-8877-9ca05bc0212a" name="Valid HTTP Status Codes">
+            <con:configuration>
+              <codes>204</codes>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${Properties#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:properties>
+        <con:property>
+          <con:name>DocumentSizeKb</con:name>
+          <con:value>0.1</con:value>
+        </con:property>
+      </con:properties>
+    </con:testCase>
+    <con:testCase id="5227e554-fbf8-4e56-ba9d-af37abab9787" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ESED-OnlyEindDatumInUpdateZaak-ZaakShouldBeClosedWithResultaatFromProfileJsonAndNoDuplicateIfNewEindStatusSent" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="b3e9b18c-40d1-4114-95b1-84cd9b7b8a0a">
         <con:settings/>
@@ -33143,577 +33713,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="e28f01cf-a818-4a50-9bcd-942f42ca3761" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="WithEndCaseEndDateInProfileJson-AddBothEindDatumAndResultaatInUpdateZaak" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
-      <con:settings/>
-      <con:testStep type="properties" name="Properties" id="3dc315ef-fdb0-499e-ba8d-c7a50f96a4fb">
-        <con:settings/>
-        <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:properties>
-            <con:property>
-              <con:name>ZaakIdentificatie</con:name>
-              <con:value/>
-            </con:property>
-            <con:property>
-              <con:name>ZaakUrl</con:name>
-              <con:value/>
-            </con:property>
-            <con:property>
-              <con:name>JwtToken</con:name>
-              <con:value/>
-            </con:property>
-            <con:property>
-              <con:name>ResultaatInUpdateZaak</con:name>
-              <con:value/>
-            </con:property>
-          </con:properties>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="request" id="1abce714-c3d2-42c9-a29f-b238b86d79bd" name="01-zds-genereerZaakIdentificatie_Di02">
-        <con:settings/>
-        <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:interface>ZdsVrijeBerichten</con:interface>
-          <con:operation>genereerZaakIdentificatie_Di02</con:operation>
-          <con:request name="01-zds-genereerZaakIdentificatie_Di02" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="78a97417-a2f7-4fe6-87ad-6af33391b0e1">
-            <con:settings>
-              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
-              <con:setting id="com.eviware.soapui.impl.support.AbstractHttpRequest@dump-file"/>
-            </con:settings>
-            <con:encoding>UTF-8</con:encoding>
-            <con:endpoint>${#Project#ZaakbrugEndpoint}translate/generic/zds/VrijBericht</con:endpoint>
-            <con:request><![CDATA[<SOAP-ENV:Envelope xsi:schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 zkn0310-p28\zs-dms\zkn0310_msg_zs-dms_resolved.xsd" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-   <SOAP-ENV:Header/>
-   <SOAP-ENV:Body>
-      <ZKN:genereerZaakIdentificatie_Di02>
-         <ZKN:stuurgegevens>
-            <StUF:berichtcode>Di02</StUF:berichtcode>
-            <StUF:zender>
-               <StUF:organisatie>1900</StUF:organisatie>
-               <StUF:applicatie>GWS4all</StUF:applicatie>
-               <StUF:gebruiker>Gebruiker</StUF:gebruiker>
-            </StUF:zender>
-            <StUF:ontvanger>
-               <StUF:organisatie>1900</StUF:organisatie>
-               <StUF:applicatie>CDR</StUF:applicatie>
-            </StUF:ontvanger>
-            <StUF:referentienummer>${=java.util.UUID.randomUUID().toString() }</StUF:referentienummer>
-            <StUF:tijdstipBericht>${=import java.text.SimpleDateFormat; SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS"); sdf.setTimeZone(TimeZone.getTimeZone("${#Project#ZdsTimezone}")); sdf.format(new Date());}</StUF:tijdstipBericht>
-            <StUF:functie>genereerZaakidentificatie</StUF:functie>
-         </ZKN:stuurgegevens>
-      </ZKN:genereerZaakIdentificatie_Di02>
-   </SOAP-ENV:Body>
-</SOAP-ENV:Envelope>]]></con:request>
-            <con:assertion type="SOAP Response" id="d95790e3-4684-4e55-bc88-a3472c2a786b" name="SOAP Response"/>
-            <con:assertion type="Schema Compliance" id="7c41213e-fa45-4a54-9b26-a2aae7cae18f" name="Schema Compliance">
-              <con:configuration/>
-            </con:assertion>
-            <con:assertion type="SOAP Fault Assertion" id="18ca3e91-13ed-4d5d-951f-992518c27752" name="Not SOAP Fault"/>
-            <con:credentials>
-              <con:authType>No Authorization</con:authType>
-            </con:credentials>
-            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-            <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.egem.nl/StUF/sector/zkn/0310/genereerZaakIdentificatie_Di02"/>
-            <con:wsrmConfig version="1.2"/>
-          </con:request>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="transfer" name="01a-TransferZaakIdentificatie" id="9ef20b9a-0604-43f3-80c2-d34873fe3149">
-        <con:settings/>
-        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false" disabled="false">
-            <con:name>TransferZaakIdentificatie</con:name>
-            <con:sourceType>Response</con:sourceType>
-            <con:sourceStep>01-zds-genereerZaakIdentificatie_Di02</con:sourceStep>
-            <con:sourcePath>declare namespace ZKN="http://www.egem.nl/StUF/sector/zkn/0310";
-//ZKN:identificatie[1]</con:sourcePath>
-            <con:targetType>ZaakIdentificatie</con:targetType>
-            <con:targetStep>Properties</con:targetStep>
-            <con:targetPath/>
-            <con:type>XPATH</con:type>
-            <con:upgraded>true</con:upgraded>
-          </con:transfers>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="request" id="2149672c-251d-43ca-b5ba-5aa99fbec2d6" name="02-zds-creeerZaak_Lk01-withoutStatusAndResultaat">
-        <con:settings/>
-        <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:interface>ZdsOntvangAsynchroon</con:interface>
-          <con:operation>creeerZaak_Lk01</con:operation>
-          <con:request name="02-zds-creeerZaak_Lk01-withoutStatusAndResultaat" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="4afca0bd-189b-4572-b269-39ac6814fb73">
-            <con:settings>
-              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
-              <con:setting id="com.eviware.soapui.impl.support.AbstractHttpRequest@dump-file"/>
-            </con:settings>
-            <con:encoding>UTF-8</con:encoding>
-            <con:endpoint>${#Project#ZaakbrugEndpoint}translate/generic/zds/OntvangAsynchroon</con:endpoint>
-            <con:request><![CDATA[<SOAP-ENV:Envelope xsi:schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 zkn0310-p28\mutatie\zkn0310_msg_mutatie_resolved.xsd" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\r
-   <SOAP-ENV:Header/>\r
-   <SOAP-ENV:Body>\r
-      <ZKN:zakLk01>\r
-         <ZKN:stuurgegevens>\r
-            <StUF:berichtcode>Lk01</StUF:berichtcode>\r
-            <StUF:zender>\r
-               <StUF:organisatie>1900</StUF:organisatie>\r
-               <StUF:applicatie>GWS4all</StUF:applicatie>\r
-               <StUF:gebruiker>Gebruiker</StUF:gebruiker>\r
-            </StUF:zender>\r
-            <StUF:ontvanger>\r
-               <StUF:organisatie>1900</StUF:organisatie>\r
-               <StUF:applicatie>CDR</StUF:applicatie>\r
-            </StUF:ontvanger>\r
-            <StUF:referentienummer>${=java.util.UUID.randomUUID().toString() }</StUF:referentienummer>\r
-            <StUF:tijdstipBericht>${=import java.text.SimpleDateFormat; SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS"); sdf.setTimeZone(TimeZone.getTimeZone("${#Project#ZdsTimezone}")); sdf.format(new Date());}</StUF:tijdstipBericht>\r
-            <StUF:entiteittype>ZAK</StUF:entiteittype>\r
-         </ZKN:stuurgegevens>\r
-         <ZKN:parameters>\r
-            <StUF:mutatiesoort>T</StUF:mutatiesoort>\r
-            <StUF:indicatorOvername>V</StUF:indicatorOvername>\r
-         </ZKN:parameters>\r
-         <ZKN:object StUF:sleutelVerzendend="${Properties#ZaakIdentificatie}" StUF:entiteittype="ZAK" StUF:verwerkingssoort="T">\r
-            <ZKN:identificatie>${Properties#ZaakIdentificatie}</ZKN:identificatie>\r
-            <ZKN:omschrijving>Aanvraag minimaregelingen (Z)</ZKN:omschrijving>\r
-            <ZKN:kenmerk>\r
-               <ZKN:kenmerk StUF:noValue="geenWaarde" xsi:nil="true" />
-               <ZKN:bron>soapui</ZKN:bron>\r
-            </ZKN:kenmerk>\r
-            <ZKN:kenmerk>
-               <ZKN:kenmerk>kenmerk2</ZKN:kenmerk>
-               <ZKN:bron StUF:noValue="geenWaarde" xsi:nil="true" />
-            </ZKN:kenmerk>
-            <ZKN:startdatum>${=import java.text.SimpleDateFormat; new SimpleDateFormat("yyyyMMdd").format(new Date())}</ZKN:startdatum>\r
-            <ZKN:registratiedatum>${=import java.text.SimpleDateFormat; new SimpleDateFormat("yyyyMMdd").format(new Date())}</ZKN:registratiedatum>\r
-            <ZKN:einddatumGepland>20210101</ZKN:einddatumGepland>\r           
-            <ZKN:archiefnominatie>J</ZKN:archiefnominatie>\r
-            <ZKN:zaakniveau>1</ZKN:zaakniveau>\r
-            <ZKN:deelzakenIndicatie>N</ZKN:deelzakenIndicatie>\r
-            <ZKN:isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="T">\r
-               <ZKN:gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="T">\r
-                  <ZKN:omschrijving>Aanvraag minima</ZKN:omschrijving>\r
-                  <ZKN:code>B1026</ZKN:code>\r
-                  <ZKN:ingangsdatumObject xsi:nil="true" StUF:noValue="geenWaarde"/>\r
-               </ZKN:gerelateerde>\r
-            </ZKN:isVan>\r
-            <ZKN:heeftAlsInitiator StUF:entiteittype="ZAKBTRINI" StUF:verwerkingssoort="T">\r
-               <ZKN:gerelateerde>\r
-                  <ZKN:natuurlijkPersoon StUF:entiteittype="NPS" StUF:verwerkingssoort="T">\r
-                     <BG:inp.bsn>111111110</BG:inp.bsn>\r
-                     <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>\r
-                     <BG:geslachtsnaam>Precies</BG:geslachtsnaam>\r
-                     <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>\r
-                     <BG:voorletters>P</BG:voorletters>\r
-                     <BG:voornamen>Pietje</BG:voornamen>\r
-                     <BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>\r
-                     <BG:geboortedatum StUF:indOnvolledigeDatum="V">19010101</BG:geboortedatum>\r
-                     <BG:verblijfsadres>\r
-                        <BG:aoa.identificatie xsi:nil="true" StUF:noValue="geenWaarde"/>\r
-                        <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>\r
-                        <BG:wpl.woonplaatsNaam>Bolsward</BG:wpl.woonplaatsNaam>\r
-                        <BG:gor.openbareRuimteNaam xsi:nil="true" StUF:noValue="geenWaarde"/>\r
-                        <BG:gor.straatnaam>Kerkstraat</BG:gor.straatnaam>\r
-                        <BG:aoa.postcode>8701HP</BG:aoa.postcode>\r
-                        <BG:aoa.huisnummer>1</BG:aoa.huisnummer>\r
-                        <BG:aoa.huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>\r
-                        <BG:aoa.huisnummertoevoeging xsi:nil="true" StUF:noValue="geenWaarde"/>\r
-                        <BG:inp.locatiebeschrijving xsi:nil="true" StUF:noValue="geenWaarde"/>\r
-                     </BG:verblijfsadres>\r
-                  </ZKN:natuurlijkPersoon>\r
-               </ZKN:gerelateerde>\r
-            </ZKN:heeftAlsInitiator>\r
-         </ZKN:object>\r
-      </ZKN:zakLk01>\r
-   </SOAP-ENV:Body>\r
-</SOAP-ENV:Envelope>]]></con:request>
-            <con:assertion type="SOAP Response" id="3cb2e495-2a67-440c-92d2-dc7a422a76cd" name="SOAP Response"/>
-            <con:assertion type="Schema Compliance" id="c6cff34b-dc2b-4014-adc6-06944c6d8448" name="Schema Compliance">
-              <con:configuration/>
-            </con:assertion>
-            <con:assertion type="SOAP Fault Assertion" id="77aec6d5-bcd1-489e-878f-f49b93530cf5" name="Not SOAP Fault"/>
-            <con:credentials>
-              <con:authType>No Authorization</con:authType>
-            </con:credentials>
-            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-            <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.egem.nl/StUF/sector/zkn/0310/creeerZaak_Lk01"/>
-            <con:wsrmConfig version="1.2"/>
-          </con:request>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="request" id="51c082b5-f26a-43f9-9636-893d2192724b" name="03-zds-updateZaak_Lk01-add eindDatumAndResultaat">
-        <con:settings/>
-        <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:interface>ZdsOntvangAsynchroon</con:interface>
-          <con:operation>updateZaak_Lk01</con:operation>
-          <con:request name="03-zds-updateZaak_Lk01-add eindDatumAndResultaat" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="5dd40494-7d68-42cb-a5bc-702ccf12d37e">
-            <con:settings>
-              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
-              <con:setting id="com.eviware.soapui.impl.support.AbstractHttpRequest@dump-file"/>
-            </con:settings>
-            <con:encoding>UTF-8</con:encoding>
-            <con:endpoint>${#Project#ZaakbrugEndpoint}translate/generic/zds/OntvangAsynchroon</con:endpoint>
-            <con:request><![CDATA[<SOAP-ENV:Envelope xsi:schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 zkn0310-p28\mutatie\zkn0310_msg_mutatie_resolved.xsd" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-   <SOAP-ENV:Header/>
-   <SOAP-ENV:Body>
-      <ZKN:zakLk01>
-         <ZKN:stuurgegevens>
-            <StUF:berichtcode>Lk01</StUF:berichtcode>
-            <StUF:zender>
-               <StUF:organisatie>1900</StUF:organisatie>
-               <StUF:applicatie>GWS4all</StUF:applicatie>
-               <StUF:gebruiker>Gebruiker</StUF:gebruiker>
-            </StUF:zender>
-            <StUF:ontvanger>
-               <StUF:organisatie>1900</StUF:organisatie>
-               <StUF:applicatie>CDR</StUF:applicatie>
-            </StUF:ontvanger>
-            <StUF:referentienummer>${=java.util.UUID.randomUUID().toString() }</StUF:referentienummer>
-            <StUF:tijdstipBericht>${=import java.text.SimpleDateFormat; SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS"); sdf.setTimeZone(TimeZone.getTimeZone("${#Project#ZdsTimezone}")); sdf.format(new Date());}</StUF:tijdstipBericht>
-            <StUF:entiteittype>ZAK</StUF:entiteittype>
-         </ZKN:stuurgegevens>
-         <ZKN:parameters>
-            <StUF:mutatiesoort>W</StUF:mutatiesoort>
-            <StUF:indicatorOvername>V</StUF:indicatorOvername>
-         </ZKN:parameters>
-         <ZKN:object StUF:sleutelVerzendend="${Properties#ZaakIdentificatie}" StUF:entiteittype="ZAK" StUF:verwerkingssoort="W">
-            <ZKN:identificatie>${Properties#ZaakIdentificatie}</ZKN:identificatie>
-            <ZKN:omschrijving>Aanvraag minimaregelingen (Z)</ZKN:omschrijving>
-            <ZKN:resultaat>
-               <ZKN:omschrijving>Buiten behandeling g</ZKN:omschrijving>
-            </ZKN:resultaat>
-            <ZKN:startdatum>${=import java.text.SimpleDateFormat; new SimpleDateFormat("yyyyMMdd").format(new Date())}</ZKN:startdatum>
-            <ZKN:registratiedatum>${=import java.text.SimpleDateFormat; new SimpleDateFormat("yyyyMMdd").format(new Date())}</ZKN:registratiedatum>
-            <ZKN:einddatum>${=import java.text.SimpleDateFormat; new SimpleDateFormat("yyyyMMdd").format(new Date())}</ZKN:einddatum>
-            <ZKN:isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="I">
-               <ZKN:gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="I">
-                  <ZKN:omschrijving>Aanvraag minima</ZKN:omschrijving>
-                  <ZKN:code>B1026</ZKN:code>
-                  <ZKN:ingangsdatumObject xsi:nil="true" StUF:noValue="geenWaarde"/>
-               </ZKN:gerelateerde>
-            </ZKN:isVan>
-            <ZKN:leidtTot StUF:entiteittype="ZAKBSL" StUF:verwerkingssoort="T" xsi:nil="true" StUF:noValue="geenWaarde"/>
-         </ZKN:object>
-      </ZKN:zakLk01>
-   </SOAP-ENV:Body>
-</SOAP-ENV:Envelope>]]></con:request>
-            <con:assertion type="SOAP Response" id="b6adf35a-6784-46b1-97c0-78d348f17a4f" name="SOAP Response"/>
-            <con:assertion type="Schema Compliance" id="264e0ba4-55a0-4da7-b457-e8d218e45f7a" name="Schema Compliance">
-              <con:configuration/>
-            </con:assertion>
-            <con:assertion type="SOAP Fault Assertion" id="9c97fd53-2cda-48ab-b3c8-c4bf1358d3d6" name="Not SOAP Fault"/>
-            <con:credentials>
-              <con:authType>No Authorization</con:authType>
-            </con:credentials>
-            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-            <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.egem.nl/StUF/sector/zkn/0310/updateZaak_Lk01"/>
-            <con:wsrmConfig version="1.2"/>
-          </con:request>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="request" id="42a3c770-545b-4efb-9db5-ee3406e5761d" name="04-zds-geefZaakdetails_Lv01-NoEindDatumNorEindStatus">
-        <con:settings/>
-        <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:interface>ZdsBeantwoordVraag</con:interface>
-          <con:operation>geefZaakdetails_Lv01</con:operation>
-          <con:request name="04-zds-geefZaakdetails_Lv01-NoEindDatumNorEindStatus" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="b86f0444-e5bf-4a09-97a2-3d650e0b93ff">
-            <con:settings>
-              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
-            </con:settings>
-            <con:encoding>UTF-8</con:encoding>
-            <con:endpoint>${#Project#ZaakbrugEndpoint}translate/generic/zds/BeantwoordVraag</con:endpoint>
-            <con:request><![CDATA[<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">\r
-   <s:Body>\r
-      <zakLv01 xmlns="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:xlink="http://www.w3.org/1999/xlink">\r
-         <stuurgegevens>\r
-            <StUF:berichtcode>Lv01</StUF:berichtcode>\r
-            <StUF:zender>\r
-               <StUF:organisatie>1900</StUF:organisatie>\r
-               <StUF:applicatie>GISVG</StUF:applicatie>\r
-            </StUF:zender>\r
-            <StUF:ontvanger>\r
-               <StUF:organisatie>1900</StUF:organisatie>\r
-               <StUF:applicatie>ZDS</StUF:applicatie>\r
-            </StUF:ontvanger>\r
-            <StUF:referentienummer>${=java.util.UUID.randomUUID().toString() }</StUF:referentienummer>\r
-            <StUF:tijdstipBericht>${=import java.text.SimpleDateFormat; SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS"); sdf.setTimeZone(TimeZone.getTimeZone("${#Project#ZdsTimezone}")); sdf.format(new Date());}</StUF:tijdstipBericht>\r
-            <StUF:entiteittype>ZAK</StUF:entiteittype>\r
-         </stuurgegevens>\r
-         <parameters>\r
-            <StUF:sortering>0</StUF:sortering>\r
-            <StUF:indicatorVervolgvraag>false</StUF:indicatorVervolgvraag>\r
-         </parameters>\r
-         <gelijk StUF:entiteittype="ZAK">\r
-            <identificatie>${Properties#ZaakIdentificatie}</identificatie>\r
-         </gelijk>\r
-         <scope>\r
-            <object StUF:entiteittype="ZAK" StUF:scope="alles"/>
-         </scope>\r
-      </zakLv01>\r
-   </s:Body>\r
-</s:Envelope>]]></con:request>
-            <con:assertion type="SOAP Response" id="a5bb9a97-6aff-4a26-bd8c-283295080f00" name="SOAP Response"/>
-            <con:assertion type="Schema Compliance" id="ed311230-3e49-4b1f-ad19-4ff7dad1ecf2" name="Schema Compliance">
-              <con:configuration/>
-            </con:assertion>
-            <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
-            <con:assertion type="XPath Match" id="896bfc1a-2906-4c9a-8c56-35894bc51be4" name="CheckEindDatumNotAdded">
-              <con:configuration>
-                <path>count(//*:antwoord/*:object/*:einddatum)</path>
-                <content>0</content>
-                <allowWildcards>true</allowWildcards>
-                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-                <ignoreComments>false</ignoreComments>
-              </con:configuration>
-            </con:assertion>
-            <con:assertion type="XPath Match" id="23ad9965-ed52-44e2-9e78-1fb0b82f3a3a" name="CheckEindStatusNotAdded">
-              <con:configuration>
-                <path>count(//*:antwoord/*:object/*:heeft/*:gerelateerde/*:omschrijving)</path>
-                <content>0</content>
-                <allowWildcards>false</allowWildcards>
-                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-                <ignoreComments>false</ignoreComments>
-              </con:configuration>
-            </con:assertion>
-            <con:credentials>
-              <con:authType>No Authorization</con:authType>
-            </con:credentials>
-            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-            <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.egem.nl/StUF/sector/zkn/0310/geefZaakdetails_Lv01"/>
-            <con:wsrmConfig version="1.2"/>
-          </con:request>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="groovy" name="05-zgw-generateJwt" id="9c0e547b-4c44-4f9a-8921-7f2d55af289f">
-        <con:settings/>
-        <con:config>
-          <script>import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-import javax.crypto.spec.SecretKeySpec
-import javax.crypto.Mac
-import java.time.Duration
-
-def jwtClientId = context.expand( '${#Project#jwtClientId}' )
-def jwtSecret = context.expand( '${#Project#jwtSecret}' )
-
-def createJwt(Integer validSeconds, String clientId, String secret) {
-    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
-    def rightNowMilli = System.currentTimeMillis()
-    def rightNowSec = Math.round(rightNowMilli / 1000)
-    def expirationSec = rightNowSec + validSeconds
-    def jtiValue = UUID.randomUUID().toString()
-
-    Map header = [alg: "HS256", typ: "JWT"]
-    def headerJson = JsonOutput.toJson(header)
-    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-    
-    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
-    def payloadJson = JsonOutput.toJson(payload)
-    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    def toBeSigned = headerBase64 + "." + payloadBase64
-    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
-    
-    Mac mac = Mac.getInstance("HmacSHA256")
-    mac.init(secretKeySpec)
-    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
-    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    headerBase64 + "." + payloadBase64 + "." + signature
-}
-
-// Create the JWT.
-def token = createJwt(600, jwtClientId, jwtSecret)
-testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="httprequest" name="06-zgw-getZaakByIdentificatie" id="2d1b079d-a8c6-47d7-845d-929a7fb0ecc1">
-        <con:settings/>
-        <con:config method="GET" xsi:type="con:HttpRequest" id="222f62b6-78c9-4982-89a5-c9ff716b456d" name="06-zgw-getZaakByIdentificatie" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:settings>
-            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
-          </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
-          <con:request/>
-          <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JSONPath Match-CheckIfZaakOmschrijvingCorrect">
-            <con:configuration>
-              <path>$.results[0].omschrijving</path>
-              <content>Aanvraag minimaregelingen (Z)</content>
-              <allowWildcards>false</allowWildcards>
-              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-              <ignoreComments>false</ignoreComments>
-            </con:configuration>
-          </con:assertion>
-          <con:credentials>
-            <con:authType>No Authorization</con:authType>
-          </con:credentials>
-          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-          <con:jmsPropertyConfig/>
-          <con:parameters>
-            <con:parameter>
-              <con:name>Accept-Crs</con:name>
-              <con:value>EPSG:4326</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>EPSG:4326</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-            <con:parameter>
-              <con:name>Content-Crs</con:name>
-              <con:value>EPSG:4326</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>EPSG:4326</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-            <con:parameter>
-              <con:name>Authorization</con:name>
-              <con:value>${Properties#JwtToken}</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>${Properties#JwtToken}</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-            <con:parameter>
-              <con:name>identificatie</con:name>
-              <con:value>${Properties#ZaakIdentificatie}</con:value>
-              <con:style>QUERY</con:style>
-            </con:parameter>
-          </con:parameters>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="transfer" name="07-TransferResultaatUrl" id="007bacc7-4509-4c6f-bb74-6a42e7b48375">
-        <con:settings/>
-        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
-            <con:name>TransferResultaatUrl</con:name>
-            <con:sourceType>Response</con:sourceType>
-            <con:sourceStep>06-zgw-getZaakByIdentificatie</con:sourceStep>
-            <con:sourcePath>$.results[0].resultaat</con:sourcePath>
-            <con:targetType>ResultaatInUpdateZaak</con:targetType>
-            <con:targetStep>Properties</con:targetStep>
-            <con:type>JSONPATH</con:type>
-            <con:targetTransferType>JSONPATH</con:targetTransferType>
-            <con:upgraded>true</con:upgraded>
-          </con:transfers>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="httprequest" name="08-zgw-getResultaatByUrl-CheckIfEqualsToResultaatInUpdateZaak" id="f913e90b-bef2-48ae-8c0a-40ddb062b9cd">
-        <con:settings/>
-        <con:config method="GET" xsi:type="con:HttpRequest" id="222f62b6-78c9-4982-89a5-c9ff716b456d" name="08-zgw-getResultaatByUrl-CheckIfEqualsToResultaatInUpdateZaak" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:settings>
-            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
-          </con:settings>
-          <con:endpoint>${Properties#ResultaatInUpdateZaak}</con:endpoint>
-          <con:request/>
-          <con:assertion type="JsonPath Match" id="2bce6f67-f581-4cd7-894f-ab50808ed3ba" name="JsonPath Match-CheckResultaatEqualsValueInUpdateZaak">
-            <con:configuration>
-              <path>$.toelichting</path>
-              <content>Buiten behandeling g</content>
-              <allowWildcards>false</allowWildcards>
-              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-              <ignoreComments>false</ignoreComments>
-            </con:configuration>
-          </con:assertion>
-          <con:credentials>
-            <con:authType>No Authorization</con:authType>
-          </con:credentials>
-          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-          <con:jmsPropertyConfig/>
-          <con:parameters>
-            <con:parameter>
-              <con:name>Accept-Crs</con:name>
-              <con:value>EPSG:4326</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>EPSG:4326</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-            <con:parameter>
-              <con:name>Content-Crs</con:name>
-              <con:value>EPSG:4326</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>EPSG:4326</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-            <con:parameter>
-              <con:name>Authorization</con:name>
-              <con:value>${Properties#JwtToken}</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>${Properties#JwtToken}</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-          </con:parameters>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="transfer" name="99a-TransferZaakUrl" id="0dbbb978-babd-46e9-8a8c-6c33f86f3b63">
-        <con:settings/>
-        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
-            <con:name>TransferZaakUrl</con:name>
-            <con:sourceType>Response</con:sourceType>
-            <con:sourceStep>06-zgw-getZaakByIdentificatie</con:sourceStep>
-            <con:sourcePath>$.results[0].url</con:sourcePath>
-            <con:targetType>ZaakUrl</con:targetType>
-            <con:targetStep>Properties</con:targetStep>
-            <con:type>JSONPATH</con:type>
-            <con:targetTransferType>JSONPATH</con:targetTransferType>
-            <con:upgraded>true</con:upgraded>
-          </con:transfers>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="httprequest" name="99b-zgw-deleteZaak" id="723b7d9e-dc5b-4143-81f1-93790f57c0e5">
-        <con:settings/>
-        <con:config method="DELETE" xsi:type="con:HttpRequest" id="425cebae-0886-4cab-bf6c-e454353dbcf3" name="99b-zgw-deleteZaak" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:settings>
-            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
-          </con:settings>
-          <con:endpoint>${Properties#ZaakUrl}</con:endpoint>
-          <con:request/>
-          <con:assertion type="Valid HTTP Status Codes" id="28a456ce-d6cf-4dfc-8877-9ca05bc0212a" name="Valid HTTP Status Codes">
-            <con:configuration>
-              <codes>204</codes>
-            </con:configuration>
-          </con:assertion>
-          <con:credentials>
-            <con:authType>No Authorization</con:authType>
-          </con:credentials>
-          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-          <con:jmsPropertyConfig/>
-          <con:parameters>
-            <con:parameter>
-              <con:name>Authorization</con:name>
-              <con:value>${Properties#JwtToken}</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>${Properties#JwtToken}</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-          </con:parameters>
-        </con:config>
-      </con:testStep>
-      <con:properties>
-        <con:property>
-          <con:name>DocumentSizeKb</con:name>
-          <con:value>0.1</con:value>
-        </con:property>
-      </con:properties>
-    </con:testCase>
-    <con:testCase id="7ed79a4e-4506-4129-b638-586a4b0ad666" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="WithEndCaseEndDateInProfileJson-AddFirstResultaatThenBothEindDatumAndResultaatInUpdateZaak" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+    <con:testCase id="7ed79a4e-4506-4129-b638-586a4b0ad666" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ESED-FirstResultaatThenBothEindDatumAndResultaatInUpdateZaak-ZaakShouldNotBeClosed" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="f811eb02-8e29-4e9b-846f-88d37fab50f2">
         <con:settings/>
@@ -34353,7 +34353,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="af898168-c210-4198-9c9f-49f66e101928" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="WithEndCaseEndDateInProfileJson-AddFirstResultaatThenEindDatumInUpdateZaak" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+    <con:testCase id="af898168-c210-4198-9c9f-49f66e101928" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ESED-FirstResultaatThenEindDatumInUpdateZaak-ZaakShouldBeClosedAndNoDuplicationIfNewEindStatusSent" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="33a9c9aa-f179-40a1-af0b-f84fafd7105c">
         <con:settings/>
@@ -35272,7 +35272,7 @@ assert datumStatusGezet.contains('000000') : "'datumStatusGezet' did not set the
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="a9e4c219-7772-463f-bba0-e540033722fc" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="WithEndCaseEndDateInProfileJson-AddOnlyEindStatusInUpdateZaak" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+    <con:testCase id="a9e4c219-7772-463f-bba0-e540033722fc" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ESED-OnlyEindStatusInUpdateZaak-ZaakShouldNotBeClosedAndShouldGiveError" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="fb16544d-56b1-4c85-831f-332737346c3c">
         <con:settings/>
@@ -35705,7 +35705,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="7ea3685f-1610-40ed-91c9-729318125974" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="WithEndCaseEndDateInProfileJson-AddBothEindStatusAndResultaatInUpdateZaak" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+    <con:testCase id="7ea3685f-1610-40ed-91c9-729318125974" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ESED-BothEindStatusAndResultaatInUpdateZaak-ZaakShouldBeClosed" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="45ba2189-26ec-4923-8743-d428dab68966">
         <con:settings/>
@@ -36301,7 +36301,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="cea69556-bfab-4684-b32b-e72aa04df1eb" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="WithEndCaseEndDateInProfileJson-AddEindDatumAndEindStatusInUpdateZaak" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+    <con:testCase id="cea69556-bfab-4684-b32b-e72aa04df1eb" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ESED-EindDatumAndEindStatusInUpdateZaak-ZaakShouldNotBeClosedAndShouldGiveError" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="10f7e553-56d1-45bb-9f65-d1cca570e66d">
         <con:settings/>
@@ -36735,7 +36735,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="933a7b89-8650-4498-b373-0cc4df08f0ee" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="WithEndCaseEndDateInProfileJson-AddEindDatumAndEindStatusWithResultaatInUpdateZaak" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+    <con:testCase id="933a7b89-8650-4498-b373-0cc4df08f0ee" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ESED-EindDatumAndEindStatusWithResultaatInUpdateZaak-ZaakShouldBeClosed" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="7db34c46-ad87-450d-a735-3845617469e0">
         <con:settings/>
@@ -38371,7 +38371,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
       </con:testStep>
       <con:properties/>
     </con:testCase>
-    <con:testCase id="d0f6d53c-572c-4c6d-915d-df68badffbff" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="BothInProfileJson-AddEindDatumAndEindStatusInUpdateZaak" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+    <con:testCase id="d0f6d53c-572c-4c6d-915d-df68badffbff" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="BothInProfileJson-EindDatumAndEindStatusInUpdateZaak-ZaakShouldBeClosedWithResultaatFromProfileJson" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="0f6ebfdd-17b6-4354-bf88-f9408452d847">
         <con:settings/>
@@ -38965,7 +38965,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="7bd4501e-ff0a-46d3-8779-7dafcd3ee3c3" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="BothInProfileJson-AddEindDatumAndEindStatusWithResultaatInUpdateZaak" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+    <con:testCase id="7bd4501e-ff0a-46d3-8779-7dafcd3ee3c3" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="BothInProfileJson-EindDatumAndEindStatusWithResultaatInUpdateZaak-ZaakShouldBeClosed" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="24b63501-cc58-4d4b-8bd7-b9bb6a912ffe">
         <con:settings/>
