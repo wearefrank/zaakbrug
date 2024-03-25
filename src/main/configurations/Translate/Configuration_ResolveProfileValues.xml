@@ -1,0 +1,55 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="ResolveProfileValues"
+        active="${ResolveProfileValues.Active}"
+        description="">
+
+        <Receiver name="ResolveProfileValues">
+            <JavaListener name="ResolveProfileValues" returnedSessionKeys="Error" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="EXCEPTION" state="ERROR" />
+            </Exits>
+
+            <LocalFileSystemPipe name="ReadFile" action="read">
+                <Param name="filename" value="${configurations.directory}/Translate/Profiles.json" />
+                <Forward name="success" path="IsXml" />
+            </LocalFileSystemPipe>
+
+            <XmlWellFormedCheckerPipe name="IsXml">
+                <Forward name="success" path="EXIT" />
+                <Forward name="failure" path="JsonToXml" />
+            </XmlWellFormedCheckerPipe>
+
+            <JsonPipe name="JsonToXml" storeResultInSessionKey="profiles"/>
+
+            <ForEachChildElementPipe name="AddPathAttributeToEachProfile"
+                getInputFromSessionKey="profiles" targetElement="profile">
+                <XsltSender styleSheetName="Common\xsl\AddPathAttribute.xsl" indentXml="true"
+                    omitXmlDeclaration="true">
+                    <Param name="baseProfile" sessionKey="baseProfile" type="DOMDOC" />
+                </XsltSender>
+            </ForEachChildElementPipe>
+
+            <XsltPipe name="RemoveResultTags" styleSheetName="Common\xsl\RemoveResultTags.xsl" storeResultInSessionKey="profiles"/>
+
+            <XsltPipe name="ExtractBaseProfile" styleSheetName="Common\xsl\ExtractBaseProfile.xsl"
+                omitXmlDeclaration="true" storeResultInSessionKey="baseProfile" outputType="XML">
+            </XsltPipe>
+
+            <ForEachChildElementPipe name="AddBaseProfileToEachProfile"
+                getInputFromSessionKey="profiles" targetElement="profile">
+                <XsltSender styleSheetName="Common\xsl\AddBaseProfile2.xsl" indentXml="true"
+                    omitXmlDeclaration="true">
+                    <Param name="baseProfile" sessionKey="baseProfile" type="DOMDOC" />
+                </XsltSender>
+            </ForEachChildElementPipe>
+            
+            <XsltPipe name="RemoveResultTags2" styleSheetName="Common\xsl\RemoveResultTags.xsl"/>
+            <XsltPipe name="RemovePathAttribute" styleSheetName="Common\xsl\RemovePathAttribute.xsl"/>
+        </Pipeline>
+    </Adapter>
+</Module>
