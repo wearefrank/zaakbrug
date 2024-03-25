@@ -27488,7 +27488,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="934a275a-b169-40b1-b52d-288c6ab7af45" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EDRLS-BothEindDatumAndResultaatInUpdateZaak-ZaakShouldNotBeClosed" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
+    <con:testCase id="934a275a-b169-40b1-b52d-288c6ab7af45" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EDRLS-BothEindDatumAndResultaatInUpdateZaak-ZaakNotBeClosed-GithubIssues293And295" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="dbe9530c-a1ac-4e26-83ce-ae66971f0558">
         <con:settings/>
@@ -27754,12 +27754,12 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           </con:request>
         </con:config>
       </con:testStep>
-      <con:testStep type="request" id="21c225eb-4786-4894-9b91-8802182bce24" name="04-zds-geefZaakdetails_Lv01-NoEindDatumNorEindStatus">
+      <con:testStep type="request" id="21c225eb-4786-4894-9b91-8802182bce24" name="04-zds-geefZaakdetails_Lv01-EindDatumAndEindStatusAdded">
         <con:settings/>
         <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
           <con:interface>ZdsBeantwoordVraag</con:interface>
           <con:operation>geefZaakdetails_Lv01</con:operation>
-          <con:request name="04-zds-geefZaakdetails_Lv01-NoEindDatumNorEindStatus" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="b86f0444-e5bf-4a09-97a2-3d650e0b93ff">
+          <con:request name="04-zds-geefZaakdetails_Lv01-EindDatumAndEindStatusAdded" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="b86f0444-e5bf-4a09-97a2-3d650e0b93ff">
             <con:settings>
               <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
             </con:settings>
@@ -27800,22 +27800,41 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
-            <con:assertion type="XPath Match" id="896bfc1a-2906-4c9a-8c56-35894bc51be4" name="CheckEindDatumNotAdded">
+            <con:assertion type="XPath Match" id="896bfc1a-2906-4c9a-8c56-35894bc51be4" name="CheckIfEindDatumAdded">
               <con:configuration>
-                <path>count(//*:antwoord/*:object/*:einddatum)</path>
-                <content>0</content>
+                <path>//*:antwoord/*:object/*:einddatum</path>
+                <content>*</content>
+                <allowWildcards>true</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="XPath Match" id="23ad9965-ed52-44e2-9e78-1fb0b82f3a3a" name="CheckIfEindStatusAdded">
+              <con:configuration>
+                <path>//*:antwoord/*:object/*:heeft/*:gerelateerde/*:omschrijving</path>
+                <content>Afgehandeld</content>
                 <allowWildcards>false</allowWildcards>
                 <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:assertion type="XPath Match" id="23ad9965-ed52-44e2-9e78-1fb0b82f3a3a" name="CheckEindStatusNotAdded">
+            <con:assertion type="GroovyScriptAssertion" id="28117d05-623d-4256-93f9-2d4f387efc19" name="Script Assertion-CheckDatumStatusGezetTookEindDatumValue">
               <con:configuration>
-                <path>count(//*:antwoord/*:object/*:heeft/*:gerelateerde/*:omschrijving)</path>
-                <content>0</content>
-                <allowWildcards>false</allowWildcards>
-                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-                <ignoreComments>false</ignoreComments>
+                <scriptText>import groovy.xml.*
+
+// Parse the XML response
+def response = messageExchange.getResponseContent()
+def xml = new XmlSlurper().parseText(response)
+
+// Get the values of "einddatum" and "datumStatusGezet" elements
+def einddatum = xml.'**'.find { it.name() == 'einddatum' }?.text()
+def datumStatusGezet = xml.'**'.find { it.name() == 'datumStatusGezet' }?.text()
+
+// Check if the value of "datumStatusGezet" took the value of "einddatum"
+assert datumStatusGezet.contains(einddatum) : "'datumStatusGezet' did not take the value of 'einddatum'"
+
+// Check if the value of "datumStatusGezet" set the time zero"
+assert datumStatusGezet.contains('000000') : "'datumStatusGezet' did not set the time zero"</scriptText>
               </con:configuration>
             </con:assertion>
             <con:credentials>
@@ -28058,7 +28077,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="a39a33c8-063c-4330-b051-449c01530ebc" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EDRLS-FirstResultaatThenEindDatumInUpdateZaak-ZaakShouldNotBeClosed" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
+    <con:testCase id="a39a33c8-063c-4330-b051-449c01530ebc" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EDRLS-FirstResultaatThenEindDatumInUpdateZaak-ZaakShouldBeClosed-GithubIssue295" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="eba3feb9-9464-4908-996c-51ca864ba528">
         <con:settings/>
@@ -28323,189 +28342,12 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           </con:request>
         </con:config>
       </con:testStep>
-      <con:testStep type="groovy" name="04-zgw-generateJwt" id="e0a983e3-f3ae-4420-82bd-f5cfe06a5745">
-        <con:settings/>
-        <con:config>
-          <script>import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-import javax.crypto.spec.SecretKeySpec
-import javax.crypto.Mac
-import java.time.Duration
-
-def jwtClientId = context.expand( '${#Project#jwtClientId}' )
-def jwtSecret = context.expand( '${#Project#jwtSecret}' )
-
-def createJwt(Integer validSeconds, String clientId, String secret) {
-    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
-    def rightNowMilli = System.currentTimeMillis()
-    def rightNowSec = Math.round(rightNowMilli / 1000)
-    def expirationSec = rightNowSec + validSeconds
-    def jtiValue = UUID.randomUUID().toString()
-
-    Map header = [alg: "HS256", typ: "JWT"]
-    def headerJson = JsonOutput.toJson(header)
-    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-    
-    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
-    def payloadJson = JsonOutput.toJson(payload)
-    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    def toBeSigned = headerBase64 + "." + payloadBase64
-    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
-    
-    Mac mac = Mac.getInstance("HmacSHA256")
-    mac.init(secretKeySpec)
-    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
-    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    headerBase64 + "." + payloadBase64 + "." + signature
-}
-
-// Create the JWT.
-def token = createJwt(600, jwtClientId, jwtSecret)
-testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="httprequest" name="05-zgw-getZaakByIdentificatie" id="e6c3315d-56a5-46b4-be37-ff5a9c4ee8e0">
-        <con:settings/>
-        <con:config method="GET" xsi:type="con:HttpRequest" id="222f62b6-78c9-4982-89a5-c9ff716b456d" name="05-zgw-getZaakByIdentificatie" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:settings>
-            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
-          </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
-          <con:request/>
-          <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JSONPath Match-CheckIfZaakOmschrijvingCorrect">
-            <con:configuration>
-              <path>$.results[0].omschrijving</path>
-              <content>Aanvraag omgevingsvergunning</content>
-              <allowWildcards>false</allowWildcards>
-              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-              <ignoreComments>false</ignoreComments>
-            </con:configuration>
-          </con:assertion>
-          <con:credentials>
-            <con:authType>No Authorization</con:authType>
-          </con:credentials>
-          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-          <con:jmsPropertyConfig/>
-          <con:parameters>
-            <con:parameter>
-              <con:name>Accept-Crs</con:name>
-              <con:value>EPSG:4326</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>EPSG:4326</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-            <con:parameter>
-              <con:name>Content-Crs</con:name>
-              <con:value>EPSG:4326</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>EPSG:4326</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-            <con:parameter>
-              <con:name>Authorization</con:name>
-              <con:value>${Properties#JwtToken}</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>${Properties#JwtToken}</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-            <con:parameter>
-              <con:name>identificatie</con:name>
-              <con:value>${Properties#ZaakIdentificatie}</con:value>
-              <con:style>QUERY</con:style>
-            </con:parameter>
-          </con:parameters>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="transfer" name="06-TransferResultaatUrl" id="787995b6-8655-46f4-b53f-40e845c993f8">
-        <con:settings/>
-        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
-            <con:name>TransferResultaatUrl</con:name>
-            <con:sourceType>Response</con:sourceType>
-            <con:sourceStep>05-zgw-getZaakByIdentificatie</con:sourceStep>
-            <con:sourcePath>$.results[0].resultaat</con:sourcePath>
-            <con:targetType>ResultaatInUpdateZaak</con:targetType>
-            <con:targetStep>Properties</con:targetStep>
-            <con:type>JSONPATH</con:type>
-            <con:targetTransferType>JSONPATH</con:targetTransferType>
-            <con:upgraded>true</con:upgraded>
-          </con:transfers>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="httprequest" name="07-zgw-getResultaatByUrl-CheckIfEqualsToResultaatInUpdateZaak" id="21400940-f154-4555-a7c6-76910d613056">
-        <con:settings/>
-        <con:config method="GET" xsi:type="con:HttpRequest" id="222f62b6-78c9-4982-89a5-c9ff716b456d" name="07-zgw-getResultaatByUrl-CheckIfEqualsToResultaatInUpdateZaak" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:settings>
-            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
-          </con:settings>
-          <con:endpoint>${Properties#ResultaatInUpdateZaak}</con:endpoint>
-          <con:request/>
-          <con:assertion type="JsonPath Match" id="2bce6f67-f581-4cd7-894f-ab50808ed3ba" name="JsonPath Match-CheckResultaatEqualsValueInUpdateZaak">
-            <con:configuration>
-              <path>$.toelichting</path>
-              <content>Ingetrokken</content>
-              <allowWildcards>false</allowWildcards>
-              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-              <ignoreComments>false</ignoreComments>
-            </con:configuration>
-          </con:assertion>
-          <con:credentials>
-            <con:authType>No Authorization</con:authType>
-          </con:credentials>
-          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-          <con:jmsPropertyConfig/>
-          <con:parameters>
-            <con:parameter>
-              <con:name>Accept-Crs</con:name>
-              <con:value>EPSG:4326</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>EPSG:4326</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-            <con:parameter>
-              <con:name>Content-Crs</con:name>
-              <con:value>EPSG:4326</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>EPSG:4326</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-            <con:parameter>
-              <con:name>Authorization</con:name>
-              <con:value>${Properties#JwtToken}</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>${Properties#JwtToken}</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-          </con:parameters>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="request" id="504cabe3-e844-4638-a9e3-e68ec94312ee" name="08-zds-updateZaak_Lk01-add EindDatum">
+      <con:testStep type="request" id="504cabe3-e844-4638-a9e3-e68ec94312ee" name="04-zds-updateZaak_Lk01-add EindDatum">
         <con:settings/>
         <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
           <con:interface>ZdsOntvangAsynchroon</con:interface>
           <con:operation>updateZaak_Lk01</con:operation>
-          <con:request name="08-zds-updateZaak_Lk01-add EindDatum" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="5dd40494-7d68-42cb-a5bc-702ccf12d37e">
+          <con:request name="04-zds-updateZaak_Lk01-add EindDatum" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="5dd40494-7d68-42cb-a5bc-702ccf12d37e">
             <con:settings>
               <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
               <con:setting id="com.eviware.soapui.impl.support.AbstractHttpRequest@dump-file"/>
@@ -28568,12 +28410,12 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           </con:request>
         </con:config>
       </con:testStep>
-      <con:testStep type="request" id="ade9833a-316a-4106-9c85-66dca1ca6f8b" name="09-zds-geefZaakdetails_Lv01-NoEindDatumNorEindStatus">
+      <con:testStep type="request" id="741f527b-a651-4316-a2c0-b243bc7464cc" name="05-zds-geefZaakdetails_Lv01-EindDatumAndEindStatusAdded">
         <con:settings/>
         <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
           <con:interface>ZdsBeantwoordVraag</con:interface>
           <con:operation>geefZaakdetails_Lv01</con:operation>
-          <con:request name="09-zds-geefZaakdetails_Lv01-NoEindDatumNorEindStatus" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="b86f0444-e5bf-4a09-97a2-3d650e0b93ff">
+          <con:request name="05-zds-geefZaakdetails_Lv01-EindDatumAndEindStatusAdded" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="b86f0444-e5bf-4a09-97a2-3d650e0b93ff">
             <con:settings>
               <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
             </con:settings>
@@ -28614,22 +28456,41 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
-            <con:assertion type="XPath Match" id="896bfc1a-2906-4c9a-8c56-35894bc51be4" name="CheckEindDatumNotAdded">
+            <con:assertion type="XPath Match" id="896bfc1a-2906-4c9a-8c56-35894bc51be4" name="CheckIfEindDatumAdded">
               <con:configuration>
-                <path>count(//*:antwoord/*:object/*:einddatum)</path>
-                <content>0</content>
+                <path>//*:antwoord/*:object/*:einddatum</path>
+                <content>*</content>
+                <allowWildcards>true</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="XPath Match" id="23ad9965-ed52-44e2-9e78-1fb0b82f3a3a" name="CheckIfEindStatusAdded">
+              <con:configuration>
+                <path>//*:antwoord/*:object/*:heeft/*:gerelateerde/*:omschrijving</path>
+                <content>Afgehandeld</content>
                 <allowWildcards>false</allowWildcards>
                 <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:assertion type="XPath Match" id="23ad9965-ed52-44e2-9e78-1fb0b82f3a3a" name="CheckEindStatusNotAdded">
+            <con:assertion type="GroovyScriptAssertion" id="28117d05-623d-4256-93f9-2d4f387efc19" name="Script Assertion-CheckDatumStatusGezetTookEindDatumValue">
               <con:configuration>
-                <path>count(//*:antwoord/*:object/*:heeft/*:gerelateerde/*:omschrijving)</path>
-                <content>0</content>
-                <allowWildcards>false</allowWildcards>
-                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-                <ignoreComments>false</ignoreComments>
+                <scriptText>import groovy.xml.*
+
+// Parse the XML response
+def response = messageExchange.getResponseContent()
+def xml = new XmlSlurper().parseText(response)
+
+// Get the values of "einddatum" and "datumStatusGezet" elements
+def einddatum = xml.'**'.find { it.name() == 'einddatum' }?.text()
+def datumStatusGezet = xml.'**'.find { it.name() == 'datumStatusGezet' }?.text()
+
+// Check if the value of "datumStatusGezet" took the value of "einddatum"
+assert datumStatusGezet.contains(einddatum) : "'datumStatusGezet' did not take the value of 'einddatum'"
+
+// Check if the value of "datumStatusGezet" set the time zero"
+assert datumStatusGezet.contains('000000') : "'datumStatusGezet' did not set the time zero"</scriptText>
               </con:configuration>
             </con:assertion>
             <con:credentials>
@@ -28642,13 +28503,190 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           </con:request>
         </con:config>
       </con:testStep>
+      <con:testStep type="groovy" name="06-zgw-generateJwt" id="e0a983e3-f3ae-4420-82bd-f5cfe06a5745">
+        <con:settings/>
+        <con:config>
+          <script>import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import javax.crypto.spec.SecretKeySpec
+import javax.crypto.Mac
+import java.time.Duration
+
+def jwtClientId = context.expand( '${#Project#jwtClientId}' )
+def jwtSecret = context.expand( '${#Project#jwtSecret}' )
+
+def createJwt(Integer validSeconds, String clientId, String secret) {
+    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
+    def rightNowMilli = System.currentTimeMillis()
+    def rightNowSec = Math.round(rightNowMilli / 1000)
+    def expirationSec = rightNowSec + validSeconds
+    def jtiValue = UUID.randomUUID().toString()
+
+    Map header = [alg: "HS256", typ: "JWT"]
+    def headerJson = JsonOutput.toJson(header)
+    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+    
+    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
+    def payloadJson = JsonOutput.toJson(payload)
+    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+
+    def toBeSigned = headerBase64 + "." + payloadBase64
+    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
+    
+    Mac mac = Mac.getInstance("HmacSHA256")
+    mac.init(secretKeySpec)
+    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
+    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+
+    headerBase64 + "." + payloadBase64 + "." + signature
+}
+
+// Create the JWT.
+def token = createJwt(600, jwtClientId, jwtSecret)
+testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="07-zgw-getZaakByIdentificatie" id="e6c3315d-56a5-46b4-be37-ff5a9c4ee8e0">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="222f62b6-78c9-4982-89a5-c9ff716b456d" name="07-zgw-getZaakByIdentificatie" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
+          <con:request/>
+          <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JSONPath Match-CheckIfZaakOmschrijvingCorrect">
+            <con:configuration>
+              <path>$.results[0].omschrijving</path>
+              <content>Aanvraag omgevingsvergunning</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Accept-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Content-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${Properties#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>identificatie</con:name>
+              <con:value>${Properties#ZaakIdentificatie}</con:value>
+              <con:style>QUERY</con:style>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="transfer" name="08-TransferResultaatUrl" id="787995b6-8655-46f4-b53f-40e845c993f8">
+        <con:settings/>
+        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+            <con:name>TransferResultaatUrl</con:name>
+            <con:sourceType>Response</con:sourceType>
+            <con:sourceStep>07-zgw-getZaakByIdentificatie</con:sourceStep>
+            <con:sourcePath>$.results[0].resultaat</con:sourcePath>
+            <con:targetType>ResultaatInUpdateZaak</con:targetType>
+            <con:targetStep>Properties</con:targetStep>
+            <con:type>JSONPATH</con:type>
+            <con:targetTransferType>JSONPATH</con:targetTransferType>
+            <con:upgraded>true</con:upgraded>
+          </con:transfers>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="09-zgw-getResultaatByUrl-CheckIfEqualsToResultaatInUpdateZaak" id="21400940-f154-4555-a7c6-76910d613056">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="222f62b6-78c9-4982-89a5-c9ff716b456d" name="09-zgw-getResultaatByUrl-CheckIfEqualsToResultaatInUpdateZaak" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${Properties#ResultaatInUpdateZaak}</con:endpoint>
+          <con:request/>
+          <con:assertion type="JsonPath Match" id="2bce6f67-f581-4cd7-894f-ab50808ed3ba" name="JsonPath Match-CheckResultaatEqualsValueInUpdateZaak">
+            <con:configuration>
+              <path>$.toelichting</path>
+              <content>Ingetrokken</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Accept-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Content-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${Properties#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
       <con:testStep type="transfer" name="99a-TransferZaakUrl" id="f4b78fc1-0efd-483a-834e-1c14420349c6">
         <con:settings/>
         <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
           <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
             <con:name>TransferZaakUrl</con:name>
             <con:sourceType>Response</con:sourceType>
-            <con:sourceStep>05-zgw-getZaakByIdentificatie</con:sourceStep>
+            <con:sourceStep>07-zgw-getZaakByIdentificatie</con:sourceStep>
             <con:sourcePath>$.results[0].url</con:sourcePath>
             <con:targetType>ZaakUrl</con:targetType>
             <con:targetStep>Properties</con:targetStep>
@@ -32415,7 +32453,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
       </con:testStep>
       <con:properties/>
     </con:testCase>
-    <con:testCase id="e28f01cf-a818-4a50-9bcd-942f42ca3761" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EndCaseEndDateInProfileJson(ESED)-BothEindDatumAndResultaatInUpdateZaak-ZaakShouldNotBeClosed" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
+    <con:testCase id="e28f01cf-a818-4a50-9bcd-942f42ca3761" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EndCaseEndDateInProfileJson(ESED)-BothEindDatumAndResultaatInUpdateZaak-ZaakShouldBeClosed-GithubIssue293" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="3dc315ef-fdb0-499e-ba8d-c7a50f96a4fb">
         <con:settings/>
@@ -32681,12 +32719,12 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           </con:request>
         </con:config>
       </con:testStep>
-      <con:testStep type="request" id="42a3c770-545b-4efb-9db5-ee3406e5761d" name="04-zds-geefZaakdetails_Lv01-NoEindDatumNorEindStatus">
+      <con:testStep type="request" id="a76d480a-c3ba-44d4-b903-ee636265dcfc" name="04-zds-geefZaakdetails_Lv01-EindDatumAndEindStatusAdded">
         <con:settings/>
         <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
           <con:interface>ZdsBeantwoordVraag</con:interface>
           <con:operation>geefZaakdetails_Lv01</con:operation>
-          <con:request name="04-zds-geefZaakdetails_Lv01-NoEindDatumNorEindStatus" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="b86f0444-e5bf-4a09-97a2-3d650e0b93ff">
+          <con:request name="04-zds-geefZaakdetails_Lv01-EindDatumAndEindStatusAdded" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="b86f0444-e5bf-4a09-97a2-3d650e0b93ff">
             <con:settings>
               <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
             </con:settings>
@@ -32727,22 +32765,41 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
-            <con:assertion type="XPath Match" id="896bfc1a-2906-4c9a-8c56-35894bc51be4" name="CheckEindDatumNotAdded">
+            <con:assertion type="XPath Match" id="896bfc1a-2906-4c9a-8c56-35894bc51be4" name="CheckIfEindDatumAdded">
               <con:configuration>
-                <path>count(//*:antwoord/*:object/*:einddatum)</path>
-                <content>0</content>
+                <path>//*:antwoord/*:object/*:einddatum</path>
+                <content>*</content>
                 <allowWildcards>true</allowWildcards>
                 <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:assertion type="XPath Match" id="23ad9965-ed52-44e2-9e78-1fb0b82f3a3a" name="CheckEindStatusNotAdded">
+            <con:assertion type="XPath Match" id="23ad9965-ed52-44e2-9e78-1fb0b82f3a3a" name="CheckIfEindStatusAdded">
               <con:configuration>
-                <path>count(//*:antwoord/*:object/*:heeft/*:gerelateerde/*:omschrijving)</path>
-                <content>0</content>
+                <path>//*:antwoord/*:object/*:heeft/*:gerelateerde/*:omschrijving</path>
+                <content>Afgehandeld</content>
                 <allowWildcards>false</allowWildcards>
                 <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
                 <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="GroovyScriptAssertion" id="28117d05-623d-4256-93f9-2d4f387efc19" name="Script Assertion-CheckDatumStatusGezetTookEindDatumValue">
+              <con:configuration>
+                <scriptText>import groovy.xml.*
+
+// Parse the XML response
+def response = messageExchange.getResponseContent()
+def xml = new XmlSlurper().parseText(response)
+
+// Get the values of "einddatum" and "datumStatusGezet" elements
+def einddatum = xml.'**'.find { it.name() == 'einddatum' }?.text()
+def datumStatusGezet = xml.'**'.find { it.name() == 'datumStatusGezet' }?.text()
+
+// Check if the value of "datumStatusGezet" took the value of "einddatum"
+assert datumStatusGezet.contains(einddatum) : "'datumStatusGezet' did not take the value of 'einddatum'"
+
+// Check if the value of "datumStatusGezet" set the time zero"
+assert datumStatusGezet.contains('000000') : "'datumStatusGezet' did not set the time zero"</scriptText>
               </con:configuration>
             </con:assertion>
             <con:credentials>
@@ -33713,7 +33770,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="7ed79a4e-4506-4129-b638-586a4b0ad666" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ESED-FirstResultaatThenBothEindDatumAndResultaatInUpdateZaak-ZaakShouldNotBeClosed" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
+    <con:testCase id="7ed79a4e-4506-4129-b638-586a4b0ad666" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ESED-FirstResultaatThenBothEindDatumAndResultaatInUpdateZaak-ZaakShouldBeClosed-GithubIssue293" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="f811eb02-8e29-4e9b-846f-88d37fab50f2">
         <con:settings/>
@@ -33978,189 +34035,12 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           </con:request>
         </con:config>
       </con:testStep>
-      <con:testStep type="groovy" name="04-zgw-generateJwt" id="6f42a9d2-c719-479b-a020-47374c89af02">
-        <con:settings/>
-        <con:config>
-          <script>import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-import javax.crypto.spec.SecretKeySpec
-import javax.crypto.Mac
-import java.time.Duration
-
-def jwtClientId = context.expand( '${#Project#jwtClientId}' )
-def jwtSecret = context.expand( '${#Project#jwtSecret}' )
-
-def createJwt(Integer validSeconds, String clientId, String secret) {
-    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
-    def rightNowMilli = System.currentTimeMillis()
-    def rightNowSec = Math.round(rightNowMilli / 1000)
-    def expirationSec = rightNowSec + validSeconds
-    def jtiValue = UUID.randomUUID().toString()
-
-    Map header = [alg: "HS256", typ: "JWT"]
-    def headerJson = JsonOutput.toJson(header)
-    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-    
-    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
-    def payloadJson = JsonOutput.toJson(payload)
-    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    def toBeSigned = headerBase64 + "." + payloadBase64
-    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
-    
-    Mac mac = Mac.getInstance("HmacSHA256")
-    mac.init(secretKeySpec)
-    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
-    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    headerBase64 + "." + payloadBase64 + "." + signature
-}
-
-// Create the JWT.
-def token = createJwt(600, jwtClientId, jwtSecret)
-testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="httprequest" name="05-zgw-getZaakByIdentificatie" id="1b97b5a0-409c-45bb-b1d2-0a7412133941">
-        <con:settings/>
-        <con:config method="GET" xsi:type="con:HttpRequest" id="222f62b6-78c9-4982-89a5-c9ff716b456d" name="05-zgw-getZaakByIdentificatie" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:settings>
-            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
-          </con:settings>
-          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
-          <con:request/>
-          <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JSONPath Match-CheckIfZaakOmschrijvingCorrect">
-            <con:configuration>
-              <path>$.results[0].omschrijving</path>
-              <content>Aanvraag minimaregelingen (Z)</content>
-              <allowWildcards>false</allowWildcards>
-              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-              <ignoreComments>false</ignoreComments>
-            </con:configuration>
-          </con:assertion>
-          <con:credentials>
-            <con:authType>No Authorization</con:authType>
-          </con:credentials>
-          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-          <con:jmsPropertyConfig/>
-          <con:parameters>
-            <con:parameter>
-              <con:name>Accept-Crs</con:name>
-              <con:value>EPSG:4326</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>EPSG:4326</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-            <con:parameter>
-              <con:name>Content-Crs</con:name>
-              <con:value>EPSG:4326</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>EPSG:4326</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-            <con:parameter>
-              <con:name>Authorization</con:name>
-              <con:value>${Properties#JwtToken}</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>${Properties#JwtToken}</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-            <con:parameter>
-              <con:name>identificatie</con:name>
-              <con:value>${Properties#ZaakIdentificatie}</con:value>
-              <con:style>QUERY</con:style>
-            </con:parameter>
-          </con:parameters>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="transfer" name="06-TransferResultaatUrl" id="90bfa761-d30f-4256-9e44-ee00eef66757">
-        <con:settings/>
-        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
-            <con:name>TransferResultaatUrl</con:name>
-            <con:sourceType>Response</con:sourceType>
-            <con:sourceStep>05-zgw-getZaakByIdentificatie</con:sourceStep>
-            <con:sourcePath>$.results[0].resultaat</con:sourcePath>
-            <con:targetType>ResultaatInUpdateZaak</con:targetType>
-            <con:targetStep>Properties</con:targetStep>
-            <con:type>JSONPATH</con:type>
-            <con:targetTransferType>JSONPATH</con:targetTransferType>
-            <con:upgraded>true</con:upgraded>
-          </con:transfers>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="httprequest" name="07-zgw-getResultaatByUrl-CheckIfEqualsToResultaatInUpdateZaak" id="d9aa0fbc-d7f5-4eed-a08f-c1a6bd938131">
-        <con:settings/>
-        <con:config method="GET" xsi:type="con:HttpRequest" id="222f62b6-78c9-4982-89a5-c9ff716b456d" name="07-zgw-getResultaatByUrl-CheckIfEqualsToResultaatInUpdateZaak" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:settings>
-            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
-          </con:settings>
-          <con:endpoint>${Properties#ResultaatInUpdateZaak}</con:endpoint>
-          <con:request/>
-          <con:assertion type="JsonPath Match" id="2bce6f67-f581-4cd7-894f-ab50808ed3ba" name="JsonPath Match-CheckResultaatEqualsValueInUpdateZaak">
-            <con:configuration>
-              <path>$.toelichting</path>
-              <content>Buiten behandeling g</content>
-              <allowWildcards>false</allowWildcards>
-              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-              <ignoreComments>false</ignoreComments>
-            </con:configuration>
-          </con:assertion>
-          <con:credentials>
-            <con:authType>No Authorization</con:authType>
-          </con:credentials>
-          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-          <con:jmsPropertyConfig/>
-          <con:parameters>
-            <con:parameter>
-              <con:name>Accept-Crs</con:name>
-              <con:value>EPSG:4326</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>EPSG:4326</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-            <con:parameter>
-              <con:name>Content-Crs</con:name>
-              <con:value>EPSG:4326</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>EPSG:4326</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-            <con:parameter>
-              <con:name>Authorization</con:name>
-              <con:value>${Properties#JwtToken}</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>${Properties#JwtToken}</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-          </con:parameters>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="request" id="7c3af862-1dfe-419f-94f6-7003eacf9352" name="08-zds-updateZaak_Lk01-add EindDatumAndResultaat">
+      <con:testStep type="request" id="7c3af862-1dfe-419f-94f6-7003eacf9352" name="04-zds-updateZaak_Lk01-add EindDatumAndResultaat">
         <con:settings/>
         <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
           <con:interface>ZdsOntvangAsynchroon</con:interface>
           <con:operation>updateZaak_Lk01</con:operation>
-          <con:request name="08-zds-updateZaak_Lk01-add EindDatumAndResultaat" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="5dd40494-7d68-42cb-a5bc-702ccf12d37e">
+          <con:request name="04-zds-updateZaak_Lk01-add EindDatumAndResultaat" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="5dd40494-7d68-42cb-a5bc-702ccf12d37e">
             <con:settings>
               <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
               <con:setting id="com.eviware.soapui.impl.support.AbstractHttpRequest@dump-file"/>
@@ -34226,12 +34106,12 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           </con:request>
         </con:config>
       </con:testStep>
-      <con:testStep type="request" id="a20b8a86-7983-441b-b8b5-eed448db3626" name="09-zds-geefZaakdetails_Lv01-NoEindDatumNorEindStatus">
+      <con:testStep type="request" id="e69af3b0-7d38-4be7-b89b-1d4e8fa0101e" name="05-zds-geefZaakdetails_Lv01-EindDatumAndEindStatusAdded">
         <con:settings/>
         <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
           <con:interface>ZdsBeantwoordVraag</con:interface>
           <con:operation>geefZaakdetails_Lv01</con:operation>
-          <con:request name="09-zds-geefZaakdetails_Lv01-NoEindDatumNorEindStatus" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="b86f0444-e5bf-4a09-97a2-3d650e0b93ff">
+          <con:request name="05-zds-geefZaakdetails_Lv01-EindDatumAndEindStatusAdded" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="b86f0444-e5bf-4a09-97a2-3d650e0b93ff">
             <con:settings>
               <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
             </con:settings>
@@ -34272,22 +34152,41 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
-            <con:assertion type="XPath Match" id="896bfc1a-2906-4c9a-8c56-35894bc51be4" name="CheckEindDatumNotAdded">
+            <con:assertion type="XPath Match" id="896bfc1a-2906-4c9a-8c56-35894bc51be4" name="CheckIfEindDatumAdded">
               <con:configuration>
-                <path>count(//*:antwoord/*:object/*:einddatum)</path>
-                <content>0</content>
+                <path>//*:antwoord/*:object/*:einddatum</path>
+                <content>*</content>
                 <allowWildcards>true</allowWildcards>
                 <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:assertion type="XPath Match" id="23ad9965-ed52-44e2-9e78-1fb0b82f3a3a" name="CheckEindStatusNotAdded">
+            <con:assertion type="XPath Match" id="23ad9965-ed52-44e2-9e78-1fb0b82f3a3a" name="CheckIfEindStatusAdded">
               <con:configuration>
-                <path>count(//*:antwoord/*:object/*:heeft/*:gerelateerde/*:omschrijving)</path>
-                <content>0</content>
+                <path>//*:antwoord/*:object/*:heeft/*:gerelateerde/*:omschrijving</path>
+                <content>Afgehandeld</content>
                 <allowWildcards>false</allowWildcards>
                 <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
                 <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="GroovyScriptAssertion" id="28117d05-623d-4256-93f9-2d4f387efc19" name="Script Assertion-CheckDatumStatusGezetTookEindDatumValue">
+              <con:configuration>
+                <scriptText>import groovy.xml.*
+
+// Parse the XML response
+def response = messageExchange.getResponseContent()
+def xml = new XmlSlurper().parseText(response)
+
+// Get the values of "einddatum" and "datumStatusGezet" elements
+def einddatum = xml.'**'.find { it.name() == 'einddatum' }?.text()
+def datumStatusGezet = xml.'**'.find { it.name() == 'datumStatusGezet' }?.text()
+
+// Check if the value of "datumStatusGezet" took the value of "einddatum"
+assert datumStatusGezet.contains(einddatum) : "'datumStatusGezet' did not take the value of 'einddatum'"
+
+// Check if the value of "datumStatusGezet" set the time zero"
+assert datumStatusGezet.contains('000000') : "'datumStatusGezet' did not set the time zero"</scriptText>
               </con:configuration>
             </con:assertion>
             <con:credentials>
@@ -34300,13 +34199,190 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           </con:request>
         </con:config>
       </con:testStep>
+      <con:testStep type="groovy" name="06-zgw-generateJwt" id="6f42a9d2-c719-479b-a020-47374c89af02">
+        <con:settings/>
+        <con:config>
+          <script>import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import javax.crypto.spec.SecretKeySpec
+import javax.crypto.Mac
+import java.time.Duration
+
+def jwtClientId = context.expand( '${#Project#jwtClientId}' )
+def jwtSecret = context.expand( '${#Project#jwtSecret}' )
+
+def createJwt(Integer validSeconds, String clientId, String secret) {
+    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
+    def rightNowMilli = System.currentTimeMillis()
+    def rightNowSec = Math.round(rightNowMilli / 1000)
+    def expirationSec = rightNowSec + validSeconds
+    def jtiValue = UUID.randomUUID().toString()
+
+    Map header = [alg: "HS256", typ: "JWT"]
+    def headerJson = JsonOutput.toJson(header)
+    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+    
+    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
+    def payloadJson = JsonOutput.toJson(payload)
+    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+
+    def toBeSigned = headerBase64 + "." + payloadBase64
+    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
+    
+    Mac mac = Mac.getInstance("HmacSHA256")
+    mac.init(secretKeySpec)
+    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
+    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+
+    headerBase64 + "." + payloadBase64 + "." + signature
+}
+
+// Create the JWT.
+def token = createJwt(600, jwtClientId, jwtSecret)
+testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="07-zgw-getZaakByIdentificatie" id="1b97b5a0-409c-45bb-b1d2-0a7412133941">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="222f62b6-78c9-4982-89a5-c9ff716b456d" name="07-zgw-getZaakByIdentificatie" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
+          <con:request/>
+          <con:assertion type="JsonPath Match" id="2a404259-941b-4028-92bb-558819ea850e" name="JSONPath Match-CheckIfZaakOmschrijvingCorrect">
+            <con:configuration>
+              <path>$.results[0].omschrijving</path>
+              <content>Aanvraag minimaregelingen (Z)</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Accept-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Content-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${Properties#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>identificatie</con:name>
+              <con:value>${Properties#ZaakIdentificatie}</con:value>
+              <con:style>QUERY</con:style>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="transfer" name="08-TransferResultaatUrl" id="90bfa761-d30f-4256-9e44-ee00eef66757">
+        <con:settings/>
+        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+            <con:name>TransferResultaatUrl</con:name>
+            <con:sourceType>Response</con:sourceType>
+            <con:sourceStep>07-zgw-getZaakByIdentificatie</con:sourceStep>
+            <con:sourcePath>$.results[0].resultaat</con:sourcePath>
+            <con:targetType>ResultaatInUpdateZaak</con:targetType>
+            <con:targetStep>Properties</con:targetStep>
+            <con:type>JSONPATH</con:type>
+            <con:targetTransferType>JSONPATH</con:targetTransferType>
+            <con:upgraded>true</con:upgraded>
+          </con:transfers>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="09-zgw-getResultaatByUrl-CheckIfEqualsToResultaatInUpdateZaak" id="d9aa0fbc-d7f5-4eed-a08f-c1a6bd938131">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="222f62b6-78c9-4982-89a5-c9ff716b456d" name="09-zgw-getResultaatByUrl-CheckIfEqualsToResultaatInUpdateZaak" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${Properties#ResultaatInUpdateZaak}</con:endpoint>
+          <con:request/>
+          <con:assertion type="JsonPath Match" id="2bce6f67-f581-4cd7-894f-ab50808ed3ba" name="JsonPath Match-CheckResultaatEqualsValueInUpdateZaak">
+            <con:configuration>
+              <path>$.toelichting</path>
+              <content>Buiten behandeling g</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Accept-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Content-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${Properties#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
       <con:testStep type="transfer" name="99a-TransferZaakUrl" id="f5573160-9166-4a2d-bcd4-be3b6eaa1128">
         <con:settings/>
         <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
           <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
             <con:name>TransferZaakUrl</con:name>
             <con:sourceType>Response</con:sourceType>
-            <con:sourceStep>05-zgw-getZaakByIdentificatie</con:sourceStep>
+            <con:sourceStep>07-zgw-getZaakByIdentificatie</con:sourceStep>
             <con:sourcePath>$.results[0].url</con:sourcePath>
             <con:targetType>ZaakUrl</con:targetType>
             <con:targetStep>Properties</con:targetStep>
@@ -36301,7 +36377,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="cea69556-bfab-4684-b32b-e72aa04df1eb" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ESED-EindDatumAndEindStatusInUpdateZaak-ZaakShouldNotBeClosedAndShouldGiveError" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
+    <con:testCase id="cea69556-bfab-4684-b32b-e72aa04df1eb" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ESED-EindDatumAndEindStatusInUpdateZaak-ZaakShouldBeClosed-GithubIssue292" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="10f7e553-56d1-45bb-9f65-d1cca570e66d">
         <con:settings/>
@@ -36317,6 +36393,10 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             </con:property>
             <con:property>
               <con:name>JwtToken</con:name>
+              <con:value/>
+            </con:property>
+            <con:property>
+              <con:name>ResultaatOfProfileJson</con:name>
               <con:value/>
             </con:property>
           </con:properties>
@@ -36492,12 +36572,12 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           </con:request>
         </con:config>
       </con:testStep>
-      <con:testStep type="request" id="6d08f30c-da69-49cd-bc13-fb74ad07c64c" name="03-zds-updateZaak_Lk01-add eindDatumAndEindStatus-getError">
+      <con:testStep type="request" id="6d08f30c-da69-49cd-bc13-fb74ad07c64c" name="03-zds-updateZaak_Lk01-add eindDatumAndEindStatus">
         <con:settings/>
         <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
           <con:interface>ZdsOntvangAsynchroon</con:interface>
           <con:operation>updateZaak_Lk01</con:operation>
-          <con:request name="03-zds-updateZaak_Lk01-add eindDatumAndEindStatus-getError" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="5dd40494-7d68-42cb-a5bc-702ccf12d37e">
+          <con:request name="03-zds-updateZaak_Lk01-add eindDatumAndEindStatus" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="5dd40494-7d68-42cb-a5bc-702ccf12d37e">
             <con:settings>
               <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
               <con:setting id="com.eviware.soapui.impl.support.AbstractHttpRequest@dump-file"/>
@@ -36560,7 +36640,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             <con:assertion type="Schema Compliance" id="264e0ba4-55a0-4da7-b457-e8d218e45f7a" name="Schema Compliance">
               <con:configuration/>
             </con:assertion>
-            <con:assertion type="Not SOAP Fault Assertion" id="375dc1c1-b5f3-4b0e-ab64-cc0150a6856a" name="SOAP Fault"/>
+            <con:assertion type="SOAP Fault Assertion" id="311b02a1-b483-4cff-8ab2-d0ce34c5cb8c" name="Not SOAP Fault"/>
             <con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
@@ -36571,7 +36651,97 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           </con:request>
         </con:config>
       </con:testStep>
-      <con:testStep type="groovy" name="99a-zgw-generateJwt" id="2ce673a0-d951-4420-92eb-f2ef37b5ba21">
+      <con:testStep type="request" id="1f1bf64b-2a09-477f-bb41-ddd0da0d45d1" name="04-zds-geefZaakdetails_Lv01-EindDatumAndEindStatusAdded">
+        <con:settings/>
+        <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:interface>ZdsBeantwoordVraag</con:interface>
+          <con:operation>geefZaakdetails_Lv01</con:operation>
+          <con:request name="04-zds-geefZaakdetails_Lv01-EindDatumAndEindStatusAdded" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="b86f0444-e5bf-4a09-97a2-3d650e0b93ff">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#ZaakbrugEndpoint}translate/generic/zds/BeantwoordVraag</con:endpoint>
+            <con:request><![CDATA[<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">\r
+   <s:Body>\r
+      <zakLv01 xmlns="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:xlink="http://www.w3.org/1999/xlink">\r
+         <stuurgegevens>\r
+            <StUF:berichtcode>Lv01</StUF:berichtcode>\r
+            <StUF:zender>\r
+               <StUF:organisatie>1900</StUF:organisatie>\r
+               <StUF:applicatie>GISVG</StUF:applicatie>\r
+            </StUF:zender>\r
+            <StUF:ontvanger>\r
+               <StUF:organisatie>1900</StUF:organisatie>\r
+               <StUF:applicatie>ZDS</StUF:applicatie>\r
+            </StUF:ontvanger>\r
+            <StUF:referentienummer>${=java.util.UUID.randomUUID().toString() }</StUF:referentienummer>\r
+            <StUF:tijdstipBericht>${=import java.text.SimpleDateFormat; SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS"); sdf.setTimeZone(TimeZone.getTimeZone("${#Project#ZdsTimezone}")); sdf.format(new Date());}</StUF:tijdstipBericht>\r
+            <StUF:entiteittype>ZAK</StUF:entiteittype>\r
+         </stuurgegevens>\r
+         <parameters>\r
+            <StUF:sortering>0</StUF:sortering>\r
+            <StUF:indicatorVervolgvraag>false</StUF:indicatorVervolgvraag>\r
+         </parameters>\r
+         <gelijk StUF:entiteittype="ZAK">\r
+            <identificatie>${Properties#ZaakIdentificatie}</identificatie>\r
+         </gelijk>\r
+         <scope>\r
+            <object StUF:entiteittype="ZAK" StUF:scope="alles"/>
+         </scope>\r
+      </zakLv01>\r
+   </s:Body>\r
+</s:Envelope>]]></con:request>
+            <con:assertion type="SOAP Response" id="a5bb9a97-6aff-4a26-bd8c-283295080f00" name="SOAP Response"/>
+            <con:assertion type="Schema Compliance" id="ed311230-3e49-4b1f-ad19-4ff7dad1ecf2" name="Schema Compliance">
+              <con:configuration/>
+            </con:assertion>
+            <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
+            <con:assertion type="XPath Match" id="896bfc1a-2906-4c9a-8c56-35894bc51be4" name="CheckIfEindDatumAdded">
+              <con:configuration>
+                <path>//*:antwoord/*:object/*:einddatum</path>
+                <content>*</content>
+                <allowWildcards>true</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="XPath Match" id="23ad9965-ed52-44e2-9e78-1fb0b82f3a3a" name="CheckIfEindStatusAdded">
+              <con:configuration>
+                <path>//*:antwoord/*:object/*:heeft/*:gerelateerde/*:omschrijving</path>
+                <content>Afgehandeld</content>
+                <allowWildcards>false</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="GroovyScriptAssertion" id="8a0805ac-2c18-4bdf-82ba-d2c63ec6c535" name="Script Assertion-CheckDatumStatusGezetDidNotTakeEindDatumValue">
+              <con:configuration>
+                <scriptText>import groovy.xml.*
+
+// Parse the XML response
+def response = messageExchange.getResponseContent()
+def xml = new XmlSlurper().parseText(response)
+
+// Get the values of "einddatum" and "datumStatusGezet" elements
+def einddatum = xml.'**'.find { it.name() == 'einddatum' }?.text()
+def datumStatusGezet = xml.'**'.find { it.name() == 'datumStatusGezet' }?.text()
+
+// Check if the value of "datumStatusGezet" dind't take the value of "einddatum" since it has own value
+assert !(datumStatusGezet.contains('000000')) : "'datumStatusGezet' took the value of 'einddatum'"</scriptText>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.egem.nl/StUF/sector/zkn/0310/geefZaakdetails_Lv01"/>
+            <con:wsrmConfig version="1.2"/>
+          </con:request>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="groovy" name="05-zgw-generateJwt" id="2ce673a0-d951-4420-92eb-f2ef37b5ba21">
         <con:settings/>
         <con:config>
           <script>import java.io.IOException;
@@ -36627,9 +36797,9 @@ def token = createJwt(600, jwtClientId, jwtSecret)
 testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
         </con:config>
       </con:testStep>
-      <con:testStep type="httprequest" name="99b-zgw-getZaakByIdentificatie" id="9d7b92c8-4ab1-4f8b-8486-7207c2813866">
+      <con:testStep type="httprequest" name="06-zgw-getZaakByIdentificatie" id="9d7b92c8-4ab1-4f8b-8486-7207c2813866">
         <con:settings/>
-        <con:config method="GET" xsi:type="con:HttpRequest" id="222f62b6-78c9-4982-89a5-c9ff716b456d" name="99b-zgw-getZaakByIdentificatie" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <con:config method="GET" xsi:type="con:HttpRequest" id="222f62b6-78c9-4982-89a5-c9ff716b456d" name="06-zgw-getZaakByIdentificatie" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
@@ -36682,13 +36852,79 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           </con:parameters>
         </con:config>
       </con:testStep>
-      <con:testStep type="transfer" name="99c-TransferZaakUrl" id="53b46b67-a27e-4bbd-a672-806162ea5443">
+      <con:testStep type="transfer" name="07-TransferResultaatUrl" id="aca6539b-6d11-455e-add8-a344ef753bf2">
+        <con:settings/>
+        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+            <con:name>TransferResultaatUrl</con:name>
+            <con:sourceType>Response</con:sourceType>
+            <con:sourceStep>06-zgw-getZaakByIdentificatie</con:sourceStep>
+            <con:sourcePath>$.results[0].resultaat</con:sourcePath>
+            <con:targetType>ResultaatOfProfileJson</con:targetType>
+            <con:targetStep>Properties</con:targetStep>
+            <con:type>JSONPATH</con:type>
+            <con:targetTransferType>JSONPATH</con:targetTransferType>
+            <con:upgraded>true</con:upgraded>
+          </con:transfers>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="08-zgw-getResultaatByUrl-CheckIfEqualsToProfileJsonValue" id="1ca55ad6-bd81-4055-bb1e-061ad9866a01">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="222f62b6-78c9-4982-89a5-c9ff716b456d" name="08-zgw-getResultaatByUrl-CheckIfEqualsToProfileJsonValue" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${Properties#ResultaatOfProfileJson}</con:endpoint>
+          <con:request/>
+          <con:assertion type="JsonPath Match" id="2bce6f67-f581-4cd7-894f-ab50808ed3ba" name="JsonPath Match-CheckResultaatEqualsProfileJsonValue">
+            <con:configuration>
+              <path>$.toelichting</path>
+              <content>Toegekend</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Accept-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Content-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${Properties#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="transfer" name="99a-TransferZaakUrl" id="53b46b67-a27e-4bbd-a672-806162ea5443">
         <con:settings/>
         <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
           <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
             <con:name>TransferZaakUrl</con:name>
             <con:sourceType>Response</con:sourceType>
-            <con:sourceStep>99b-zgw-getZaakByIdentificatie</con:sourceStep>
+            <con:sourceStep>06-zgw-getZaakByIdentificatie</con:sourceStep>
             <con:sourcePath>$.results[0].url</con:sourcePath>
             <con:targetType>ZaakUrl</con:targetType>
             <con:targetStep>Properties</con:targetStep>
@@ -36698,9 +36934,9 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           </con:transfers>
         </con:config>
       </con:testStep>
-      <con:testStep type="httprequest" name="99d-zgw-deleteZaak" id="1fb11a7a-a28a-4c48-bb4b-e60faeba4ee1">
+      <con:testStep type="httprequest" name="99b-zgw-deleteZaak" id="1fb11a7a-a28a-4c48-bb4b-e60faeba4ee1">
         <con:settings/>
-        <con:config method="DELETE" xsi:type="con:HttpRequest" id="425cebae-0886-4cab-bf6c-e454353dbcf3" name="99d-zgw-deleteZaak" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <con:config method="DELETE" xsi:type="con:HttpRequest" id="425cebae-0886-4cab-bf6c-e454353dbcf3" name="99b-zgw-deleteZaak" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
           <con:settings>
             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
           </con:settings>
