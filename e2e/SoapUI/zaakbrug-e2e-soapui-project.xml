@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <con:soapui-project id="1d0f1760-ed7f-4d8c-9a48-36679e059cb8" activeEnvironment="Default" name="zaakbrug" resourceRoot="${projectDir}" soapui-version="5.7.2" abortOnError="false" runType="SEQUENTIAL" defaultScriptLanguage="Groovy" xmlns:con="http://eviware.com/soapui/config">
   <con:settings/>
-  <con:interface xsi:type="con:WsdlInterface" id="aaaaa6d3-e786-4ca8-956d-c92d65b06ea5" wsaVersion="NONE" name="ZdsBeantwoordVraag" type="wsdl" bindingName="{http://www.egem.nl/StUF/sector/zkn/0310}SOAPBeantwoordVraag" soapVersion="1_1" anonymous="optional" definition="../../src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_beantwoordVraag_zs-dms.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <con:interface xsi:type="con:WsdlInterface" id="aaaaa6d3-e786-4ca8-956d-c92d65b06ea5" wsaVersion="NONE" name="ZdsBeantwoordVraag" type="wsdl" bindingName="{http://www.egem.nl/StUF/sector/zkn/0310}SOAPBeantwoordVraag" soapVersion="1_1" anonymous="optional" definition="../../src/main/resources/Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_beantwoordVraag_zs-dms.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
     <con:endpoints>
       <con:endpoint>http://localhost:8080/BeantwoordVraag</con:endpoint>
@@ -19,7 +19,7 @@
       <con:settings/>
     </con:operation>
   </con:interface>
-  <con:interface xsi:type="con:WsdlInterface" id="7d7603a1-a9ce-4bb6-ab23-ee84463191de" wsaVersion="NONE" name="ZdsOntvangAsynchroon" type="wsdl" bindingName="{http://www.egem.nl/StUF/sector/zkn/0310}SOAPOntvangAsynchroon" soapVersion="1_1" anonymous="optional" definition="../../src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <con:interface xsi:type="con:WsdlInterface" id="7d7603a1-a9ce-4bb6-ab23-ee84463191de" wsaVersion="NONE" name="ZdsOntvangAsynchroon" type="wsdl" bindingName="{http://www.egem.nl/StUF/sector/zkn/0310}SOAPOntvangAsynchroon" soapVersion="1_1" anonymous="optional" definition="../../src/main/resources/Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
     <con:endpoints>
       <con:endpoint>http://localhost:8080/translate/OntvangAsynchroon</con:endpoint>
@@ -49,7 +49,7 @@
       <con:settings/>
     </con:operation>
   </con:interface>
-  <con:interface xsi:type="con:WsdlInterface" id="cdcf3af6-4513-4908-af56-1a52ea8c43c3" wsaVersion="NONE" name="ZdsVrijeBerichten" type="wsdl" bindingName="{http://www.egem.nl/StUF/sector/zkn/0310}SOAPVrijeBerichten" soapVersion="1_1" anonymous="optional" definition="../../src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <con:interface xsi:type="con:WsdlInterface" id="cdcf3af6-4513-4908-af56-1a52ea8c43c3" wsaVersion="NONE" name="ZdsVrijeBerichten" type="wsdl" bindingName="{http://www.egem.nl/StUF/sector/zkn/0310}SOAPVrijeBerichten" soapVersion="1_1" anonymous="optional" definition="../../src/main/resources/Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
     <con:endpoints>
       <con:endpoint>http://LT1929:8090/</con:endpoint>
@@ -71,7 +71,7 @@
       <con:settings/>
     </con:operation>
   </con:interface>
-  <con:interface xsi:type="con:WsdlInterface" id="d4da60f9-fd31-4ea7-a6fe-3c6ebba0d6e7" wsaVersion="NONE" name="StufZknBeantwoordVraag" type="wsdl" bindingName="{http://www.egem.nl/StUF/sector/zkn/0310}SOAPBeantwoordVraag" soapVersion="1_1" anonymous="optional" definition="../../src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/vraagAntwoord/zkn0310_beantwoordVraag.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <con:interface xsi:type="con:WsdlInterface" id="d4da60f9-fd31-4ea7-a6fe-3c6ebba0d6e7" wsaVersion="NONE" name="StufZknBeantwoordVraag" type="wsdl" bindingName="{http://www.egem.nl/StUF/sector/zkn/0310}SOAPBeantwoordVraag" soapVersion="1_1" anonymous="optional" definition="../../src/main/resources/Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/vraagAntwoord/zkn0310_beantwoordVraag.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
     <con:endpoints>
       <con:endpoint>http://example.com/BeantwoordVraag</con:endpoint>
@@ -261,7 +261,7 @@
       <con:settings/>
     </con:operation>
   </con:interface>
-  <con:interface xsi:type="con:WsdlInterface" id="aadc71fd-d5f4-4fbd-a512-27f3f767b434" wsaVersion="NONE" name="SOAPVerwerkSynchroonVrijBericht" type="wsdl" bindingName="{http://www.stufstandaarden.nl/koppelvlak/zds0120}SOAPVerwerkSynchroonVrijBericht" soapVersion="1_1" anonymous="optional" definition="../../src/main/configurations/Translate/Common/xsd/Zaak-_Documentservices_1_2/zds0120/berichten/zds0120_vrijeBerichten_zs-dms.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <con:interface xsi:type="con:WsdlInterface" id="aadc71fd-d5f4-4fbd-a512-27f3f767b434" wsaVersion="NONE" name="SOAPVerwerkSynchroonVrijBericht" type="wsdl" bindingName="{http://www.stufstandaarden.nl/koppelvlak/zds0120}SOAPVerwerkSynchroonVrijBericht" soapVersion="1_1" anonymous="optional" definition="../../src/main/resources/Common/xsd/Zaak-_Documentservices_1_2/zds0120/berichten/zds0120_vrijeBerichten_zs-dms.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
     <con:endpoints>
       <con:endpoint>http://example.com/VerwerkSynchroonVrijBericht</con:endpoint>
