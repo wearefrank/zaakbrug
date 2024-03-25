@@ -1,0 +1,36 @@
+<!DOCTYPE Configuration [
+	<!ENTITY resultaat_list SYSTEM "./configuration_zaken_resultaat_list.xml">
+	<!ENTITY resultaat_read SYSTEM "./configuration_zaken_resultaat_read.xml">
+	<!ENTITY rol_list SYSTEM "./configuration_zaken_rol_list.xml">
+	<!ENTITY rol_read SYSTEM "./configuration_zaken_rol_read.xml">
+	<!ENTITY status_list SYSTEM "./configuration_zaken_status_list.xml">
+	<!ENTITY status_read SYSTEM "./configuration_zaken_status_read.xml">
+	<!ENTITY zaak_list SYSTEM "./configuration_zaken_zaak_list.xml">
+	<!ENTITY zaak_read SYSTEM "./configuration_zaken_zaak_read.xml">
+	<!ENTITY zaakeigenschap_list SYSTEM "./configuration_zaken_zaakeigenschap_list.xml">
+	<!ENTITY zaakeigenschap_read SYSTEM "./configuration_zaken_zaakeigenschap_read.xml">
+	<!ENTITY Zaakdetails_TranslationHandler SYSTEM "./Configuration_Zaakdetails_TranslationHandler.xml">
+	<!ENTITY Resultaat_TranslationHandler SYSTEM "./Configuration_Resultaat_TranslationHandler.xml">
+	<!ENTITY Role_TranslationHandler SYSTEM "./Configuration_Role_TranslationHandler.xml">
+	<!ENTITY Status_TranslationHandler SYSTEM "./Configuration_Status_TranslationHandler.xml">
+	<!ENTITY zaakeigenschap_TranslationHandler SYSTEM "./Configuration_Zaakeigenschap_TranslationHandler.xml">
+	
+	]>
+
+<Configuration name="zaken-api-zds-translate">
+	&resultaat_list;
+	&resultaat_read;
+	&rol_list;
+	&rol_read;
+	&status_list;
+	&status_read;
+	&zaak_list;
+	&zaak_read;
+	&zaakeigenschap_list;
+	&zaakeigenschap_read;
+	&Zaakdetails_TranslationHandler;
+	&Resultaat_TranslationHandler;
+	&Role_TranslationHandler;
+	&Status_TranslationHandler;
+	&zaakeigenschap_TranslationHandler;
+</Configuration>

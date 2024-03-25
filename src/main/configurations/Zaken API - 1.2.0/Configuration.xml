@@ -55,12 +55,6 @@
 	<!ENTITY zaakeigenschap_delete SYSTEM "./configuration_zaken_zaakeigenschap_delete.xml">
 	<!ENTITY zaakeigenschap_partial_update SYSTEM "./configuration_zaken_zaakeigenschap_partial_update.xml">
 	<!ENTITY ManageAPI SYSTEM "./configuration_ManageAPI.xml">
-	<!ENTITY Zaakdetails_TranslationHandler SYSTEM "./Configuration_Zaakdetails_TranslationHandler.xml">
-	<!ENTITY Resultaat_TranslationHandler SYSTEM "./Configuration_Resultaat_TranslationHandler.xml">
-	<!ENTITY Role_TranslationHandler SYSTEM "./Configuration_Role_TranslationHandler.xml">
-	<!ENTITY Status_TranslationHandler SYSTEM "./Configuration_Status_TranslationHandler.xml">
-	<!ENTITY zaakeigenschap_TranslationHandler SYSTEM "./Configuration_Zaakeigenschap_TranslationHandler.xml">
-	
 	]>
 
 <Configuration name="Zaken API - 1.2.0">
@@ -119,11 +113,5 @@
 	&zaakeigenschap_update;
 	&zaakeigenschap_delete;
 	&zaakeigenschap_partial_update;
-	&ManageAPI;
-	&Zaakdetails_TranslationHandler;
-	&Resultaat_TranslationHandler;
-	&Role_TranslationHandler;
-	&Status_TranslationHandler;
-	&zaakeigenschap_TranslationHandler;
-	
+	&ManageAPI;	
 </Configuration>
