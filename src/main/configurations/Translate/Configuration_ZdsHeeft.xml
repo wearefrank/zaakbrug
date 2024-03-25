@@ -4,7 +4,7 @@
         description="Handle each ZdsHeeft">
 
         <Receiver name="ZdsHeeftAdapter">
-            <JavaListener name="ZdsHeeftAdapter" returnedSessionKeys="NewStatuses,Beeindigd"/>
+            <JavaListener name="ZdsHeeftAdapter" returnedSessionKeys="NewStatuses,Beeindigd,Error" />
         </Receiver>
 
         <Pipeline>
@@ -31,7 +31,8 @@
                 storeResultInSessionKey="GetStatusTypeByZaakTypeAndOmschrijvingResult">
                 <IbisLocalSender
                     name="CallGetStatusTypeByZaakTypeAndOmschrijvingSender"
-                    javaListener="GetStatusTypeByZaakTypeAndOmschrijving">
+                    javaListener="GetStatusTypeByZaakTypeAndOmschrijving"
+                    returnedSessionKeys="Error">
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                     <Param name="Omschrijving" xpathExpression="heeft/gerelateerde/omschrijving"/>
                     <Param name="Volgnummer" xpathExpression="heeft/gerelateerde/volgnummer"/>
@@ -90,7 +91,7 @@
                 xpathExpression="/beeindigd = 'true'"
                 thenForwardName="SetStatusExists"
                 elseForwardName="CompareDatumStatusGezet">
-            </XmlIfPipe>
+            </XmlIfPipe> 
 
             <XsltPipe
                 name="SetStatusExists"
@@ -100,7 +101,7 @@
                 <Param name="StatusBody" sessionKey="StatusBody" type="DOMDOC"/>
                 <Param name="ZgwStatussen" sessionKey="ZgwStatussen" type="DOMDOC"/>
                 <Forward name="success" path="CheckForStatusExists"/>
-            </XsltPipe>
+            </XsltPipe> 
 
             <XsltPipe
                 name="CompareDatumStatusGezet"
@@ -109,20 +110,64 @@
                 styleSheetName="CreeerZaak_LK01/xsl/CompareDatumStatusGezet.xsl"
                 >
                 <Param name="StatusBody" sessionKey="StatusBody" type="DOMDOC"/>
-                <Forward name="success" path="CheckForCompareResult"/>
+                <Forward name="success" path="CheckForCompareDatumStatusGezetResult"/>
             </XsltPipe>
 
-            <XmlIfPipe name="CheckForCompareResult"
+            <XmlIfPipe name="CheckForCompareDatumStatusGezetResult"
                 preserveInput="true"
                 xpathExpression="exists(/result/exception)"
                 >
-                <Forward name="then" path="EXCEPTION"/>
+                <Forward name="then" path="ResultWithDatumErrorMessage"/>
+                <Forward name="else" path="CompareStatusType"/>
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="ResultWithDatumErrorMessage"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC"/>
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="ActualiseerStatus datumstatusgezet equal to existing status" />
+                <Param name="details" sessionKey="StatusBody" xpathExpression="concat(ZgwStatus/datumStatusGezet, ' is equal to existing status')"/>
+                <Param name="detailsXml" sessionKey="ZgwStatussen" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <XsltPipe
+                name="CompareStatusType"
+                getInputFromSessionKey="ZgwStatussen"
+                storeResultInSessionKey="StatusExists"
+                styleSheetName="CreeerZaak_LK01/xsl/CompareStatusType.xsl"
+                >
+                <Param name="StatusBody" sessionKey="StatusBody" type="DOMDOC"/>
+                <Forward name="success" path="CheckForCompareStatusTypeResult"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForCompareStatusTypeResult"
+                preserveInput="true"
+                xpathExpression="exists(/result/exception)"
+                >
+                <Forward name="then" path="ResultWithTypeErrorMessage"/>
                 <Forward name="else" path="CheckForStatusExists"/>
             </XmlIfPipe>
 
+            <XsltPipe
+                name="ResultWithTypeErrorMessage"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                >
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="ActualiseerStatus statustype equal to existing status" />
+                <Param name="details" sessionKey="StatusBody" xpathExpression="concat(ZgwStatus/statustype, ' is equal to existing status')"/>
+                <Param name="detailsXml" sessionKey="ZgwStatussen" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
             <XmlIfPipe name="CheckForStatusExists"
                 emptyInputReplacement="&lt;statusExists&gt;false&lt;/statusExists&gt;"
-                xpathExpression="/statusExists = 'true'"
+                xpathExpression="//statusExists = 'true'"
                 >
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="AddToNewStatuses"/>

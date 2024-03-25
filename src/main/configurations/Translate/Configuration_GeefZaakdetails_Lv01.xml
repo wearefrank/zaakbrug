@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="GeefZaakdetails_Lv01">
-            <JavaListener name="GeefZaakdetails_Lv01"/>
+            <JavaListener name="GeefZaakdetails_Lv01" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -27,7 +27,8 @@
                 storeResultInSessionKey="GetZgwZaakResult">
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
-                    javaListener="GetZgwZaak">
+                    javaListener="GetZgwZaak"
+                    returnedSessionKeys="Error">
                     <Param name="Identificatie" xpathExpression="zakLv01/gelijk/identificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwZaakResult"/>
@@ -56,7 +57,8 @@
                 storeResultInSessionKey="GetZgwZaaktypeByUrlResult">
                 <IbisLocalSender
                     name="CallGetZgwZaaktypeByUrlSender"
-                    javaListener="GetZaakTypeByUrl">
+                    javaListener="GetZaakTypeByUrl"
+                    returnedSessionKeys="Error">
                     <Param name="ZaakUrl" xpathExpression="/ZgwZaak/zaaktype" />
                 </IbisLocalSender>
                 <Forward name="success" path="CallGetZdsZaakFromZgw"/>
@@ -68,7 +70,8 @@
                 storeResultInSessionKey="GetZdsZaakFromZgwResult">
                 <IbisLocalSender
                     name="CallGetZdsZaakFromZgwSender"
-                    javaListener="GetZdsZaakFromZgw">
+                    javaListener="GetZdsZaakFromZgw"
+                    returnedSessionKeys="Error">
                     <Param name="ZgwZaak" sessionKey="GetZgwZaakResult" type="DOMDOC"/>
                     <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                 </IbisLocalSender>
@@ -90,7 +93,8 @@
                 storeResultInSessionKey="GetRollenByBsnResult">
                 <IbisLocalSender
                     name="CallGetRollenByBsnSender"
-                    javaListener="GetRollenByBsn">
+                    javaListener="GetRollenByBsn"
+                    returnedSessionKeys="Error">
                     <Param name="Bsn" xpathExpression="substring(/zakLv01/gelijk/heeftAlsInitiator/gerelateerde/identificatie, 2)"/>
                 </IbisLocalSender>
                 <Forward name="success" path="RolIterator"/>
@@ -102,7 +106,8 @@
                 elementXPathExpression="/ZgwRollen/ZgwRol">
                 <IbisLocalSender
                     name="CallGetZaakDetailsByRol"
-                    javaListener="GetZaakDetailsByRol">
+                    javaListener="GetZaakDetailsByRol"
+                    returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />

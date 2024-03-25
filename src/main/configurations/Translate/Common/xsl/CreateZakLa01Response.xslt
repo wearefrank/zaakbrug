@@ -35,7 +35,7 @@
                     <xsl:if test="root/toelichting">
                         <ZKN:toelichting><xsl:value-of select="root/toelichting"/></ZKN:toelichting>
                     </xsl:if>
-                    <xsl:apply-templates select="root/kenmerken"/>
+                    <xsl:apply-templates select="root/kenmerk"/>
                     <!-- <xsl:apply-templates select="root/anderZaakObject"/> --> <!-- not provided -->
                     <!-- <ZKN:resultaat>
                         <ZKN:omschrijving><xsl:value-of select="root/resultaat/omschrijving"/></ZKN:omschrijving>
@@ -96,6 +96,7 @@
                             <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
                             <xsl:apply-templates select="gerelateerde/vestiging"/>
                             <xsl:apply-templates select="gerelateerde/medewerker"/>
+                            <xsl:apply-templates select="gerelateerde/organisatorischeEenheid"/>
                         </ZKN:heeftBetrekkingOp>
                     </xsl:for-each>
                     <xsl:for-each select="root/heeftAlsBelanghebbende">
@@ -104,6 +105,7 @@
                             <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
                             <xsl:apply-templates select="gerelateerde/vestiging"/>
                             <xsl:apply-templates select="gerelateerde/medewerker"/>
+                            <xsl:apply-templates select="gerelateerde/organisatorischeEenheid"/>
                         </ZKN:heeftAlsBelanghebbende>
                     </xsl:for-each>
                     <xsl:for-each select="root/heeftAlsGemachtigde">
@@ -112,6 +114,7 @@
                             <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
                             <xsl:apply-templates select="gerelateerde/vestiging"/>
                             <xsl:apply-templates select="gerelateerde/medewerker"/>
+                            <xsl:apply-templates select="gerelateerde/organisatorischeEenheid"/>
                         </ZKN:heeftAlsGemachtigde>
                     </xsl:for-each>
                     <xsl:for-each select="root/heeftAlsInitiator">
@@ -120,6 +123,7 @@
                             <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
                             <xsl:apply-templates select="gerelateerde/vestiging"/>
                             <xsl:apply-templates select="gerelateerde/medewerker"/>
+                            <xsl:apply-templates select="gerelateerde/organisatorischeEenheid"/>
                         </ZKN:heeftAlsInitiator>
                     </xsl:for-each>
                     <xsl:for-each select="root/heeftAlsUitvoerende">
@@ -128,6 +132,7 @@
                             <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
                             <xsl:apply-templates select="gerelateerde/vestiging"/>
                             <xsl:apply-templates select="gerelateerde/medewerker"/>
+                            <xsl:apply-templates select="gerelateerde/organisatorischeEenheid"/>
                         </ZKN:heeftAlsUitvoerende>
                     </xsl:for-each>
                     <xsl:for-each select="root/heeftAlsVerantwoordelijke">
@@ -136,6 +141,7 @@
                             <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
                             <xsl:apply-templates select="gerelateerde/vestiging"/>
                             <xsl:apply-templates select="gerelateerde/medewerker"/>
+                            <xsl:apply-templates select="gerelateerde/organisatorischeEenheid"/>
                         </ZKN:heeftAlsVerantwoordelijke>
                     </xsl:for-each>
                     <xsl:for-each select="root/heeftAlsOverigBetrokkene">
@@ -144,6 +150,7 @@
                             <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
                             <xsl:apply-templates select="gerelateerde/vestiging"/>
                             <xsl:apply-templates select="gerelateerde/medewerker"/>
+                            <xsl:apply-templates select="gerelateerde/organisatorischeEenheid"/>
                         </ZKN:heeftAlsOverigBetrokkene>
                     </xsl:for-each>
                     <xsl:apply-templates select="root/heeftAlsDeelzaak/gerelateerde"/>
@@ -171,7 +178,7 @@
         </ZKN:anderZaakObject>
     </xsl:template> -->
 
-    <xsl:template match="root/kenmerken">
+    <xsl:template match="root/kenmerk">
         <ZKN:kenmerk>
             <ZKN:kenmerk><xsl:value-of select="kenmerk"/></ZKN:kenmerk>
             <ZKN:bron><xsl:value-of select="bron"/></ZKN:bron>
@@ -225,8 +232,8 @@
                 <xsl:if test="statutaireNaam">
                     <BG:statutaireNaam><xsl:value-of select="statutaireNaam"/></BG:statutaireNaam>
                 </xsl:if>
-                <xsl:if test="inn.Rechtsvorm">
-                    <BG:inn.Rechtsvorm><xsl:value-of select="inn.Rechtsvorm"/></BG:inn.Rechtsvorm>
+                <xsl:if test="inn.rechtsvorm">
+                    <BG:inn.rechtsvorm><xsl:value-of select="inn.rechtsvorm"/></BG:inn.rechtsvorm>
                 </xsl:if>
                 <!-- Missing bezoekadres -->
                 <!-- Missing subVerblijfBuitenland -->
@@ -262,6 +269,22 @@
                     <ZKN:voorletters><xsl:value-of select="voorletters"/></ZKN:voorletters>
                 </xsl:if>
             </ZKN:medewerker>
+        </ZKN:gerelateerde>
+    </xsl:template>
+    
+    <xsl:template match="organisatorischeEenheid">
+        <ZKN:gerelateerde>
+            <ZKN:organisatorischeEenheid StUF:entiteittype="OEH">
+                <xsl:if test="identificatie">
+                    <ZKN:identificatie><xsl:value-of select="identificatie"/></ZKN:identificatie>
+                </xsl:if>
+                <xsl:if test="naam">
+                    <ZKN:naam><xsl:value-of select="naam"/></ZKN:naam>
+                </xsl:if>
+                <xsl:if test="isGehuisvestIn">
+                    <ZKN:isGehuisvestIn><xsl:value-of select="isGehuisvestIn"/></ZKN:isGehuisvestIn>
+                </xsl:if>
+            </ZKN:organisatorischeEenheid>
         </ZKN:gerelateerde>
     </xsl:template>
 
@@ -402,7 +425,7 @@
                     <ZKN:versie><xsl:value-of select="gerelateerde/versie"/></ZKN:versie>
                 </xsl:if>
                 <xsl:if test="gerelateerde/status">
-                    <ZKN:status><xsl:value-of select="gerelateerde/status"/></ZKN:status>
+                    <ZKN:status><xsl:value-of select="$statusMap(gerelateerde/status)"/></ZKN:status>
                 </xsl:if>
                 <xsl:if test="gerelateerde/verzenddatum">
                     <ZKN:verzenddatum><xsl:value-of select="format-date(gerelateerde/verzenddatum, '[Y0001][M01][D01]')"/></ZKN:verzenddatum>
@@ -428,4 +451,14 @@
             </xsl:if>
         </ZKN:heeftRelevant>
     </xsl:template>
+
+    <xsl:variable name="statusMap" as="map(*)">
+        <xsl:map>
+          <xsl:map-entry key="'in_bewerking'" select="'In bewerking'" />
+          <xsl:map-entry key="'ter_vaststelling'" select="'Ter vaststelling'" />
+          <xsl:map-entry key="'definitief'" select="'Definitief'" />
+          <xsl:map-entry key="'gearchiveerd'" select="'Gearchiveerd'" />
+        </xsl:map>
+      </xsl:variable>
+
 </xsl:stylesheet>

@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="ConvertISO639Taal">
-            <JavaListener name="ConvertISO639Taal"/>
+            <JavaListener name="ConvertISO639Taal" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -16,7 +16,8 @@
             <SenderPipe name="GetISO639CodesFromLocalFSSender">
                 <IbisLocalSender
                     name="GetISO639CodesFromLocalFSLocalSender"
-                    javaListener="ImportFromLocalFS">
+                    javaListener="ImportFromLocalFS"
+                    returnedSessionKeys="Error">
                     <Param name="FileName" value="${ISO639_Codes_path}"/>                   
                 </IbisLocalSender>
                 <Forward name="success" path="Alpha2Check"/>

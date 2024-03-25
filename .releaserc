@@ -62,7 +62,7 @@
     ],
     [
       "@semantic-release/exec", {
-        "verifyReleaseCmd": "echo '::set-output name=release-tag::v${nextRelease.version}'; echo '::set-output name=release-version::${nextRelease.version}'"
+        "verifyReleaseCmd": "echo \"release-tag=v${nextRelease.version}\" >> $GITHUB_OUTPUT; echo \"release-version=${nextRelease.version}\" >> $GITHUB_OUTPUT; echo \"release-type=${nextRelease.type}\" >> $GITHUB_OUTPUT"
       }
     ],
     [
@@ -76,6 +76,8 @@
       "@semantic-release/git",
       {
         "assets": [
+          "src/main/resources/BuildInfo.properties",
+          "classes/BuildInfo.properties",
           "CHANGELOG.md",
           "./charts/zaakbrug/Chart.yaml"
         ],

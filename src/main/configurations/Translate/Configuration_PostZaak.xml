@@ -5,7 +5,7 @@
         description="">
 
         <Receiver name="PostZaakAdapter">
-            <JavaListener name="PostZaakAdapter" />
+            <JavaListener name="PostZaakAdapter" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -33,11 +33,25 @@
                 <Forward name="success" path="PostZgwZaak"/>
             </XsltPipe> -->
 
-
-            <SenderPipe name="PostZgwZaak">
+            <JwtPipe name="createJwt"
+                expirationTime="600"
+                storeResultInSessionKey="myToken"
+                ifParam="valueAuthType"
+                ifValue="Jwt"
+            >
+                <Param name="valueAuthType" value="${zaakbrug.zgw.zaken-api.auth-type}" />
+                <Param name="sharedSecret" pattern="{password}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+                <Param name="client_id" pattern="{username}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+                <Param name="user_id" pattern="{username}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+                <Param name="user_reresentation" pattern="{username}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+                <Forward name="success" path="PostZgwZaak" />
+                <Forward name="exception" path="EXCEPTION" />
+            </JwtPipe>
+            
+            <SenderPipe name="PostZgwZaak" getInputFromSessionKey="originalMessage">
 
                 <Json2XmlInputValidator name="ValidatePost"
-                    schema="CreeerZaak_LK01/xsd/ZgwZaak.xsd"
+                    schema="Zgw/Zaken/Model/PostZgwZaak.xsd"
                     root="ZgwZaak"
                     outputFormat="JSON"
                     deepSearch="true"
@@ -53,7 +67,9 @@
                     <Param name="Accept-Crs" value="EPSG:4326" />
                     <Param name="Accept" value="application/json" />
                     <Param name="Content-Crs" value="EPSG:4326" />
-                    <Param name="Authorization" value="Bearer @@zaken-api.jwt@@" />
+                    <Param name="Authorization" sessionKey="originalMessage" xpathExpression="concat('Bearer ', $myToken)">
+                        <Param name="myToken" sessionKey="myToken" defaultValue="@@zaken-api.jwt@@"/>
+                    </Param>
                 </HttpSender>
 
                 <Forward name="success" path="JsonToXml" />

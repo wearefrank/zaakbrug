@@ -4,7 +4,7 @@
         description="">
     
         <Receiver name="GetZdsZaakFromZgw">
-            <JavaListener name="GetZdsZaakFromZgw"/>
+            <JavaListener name="GetZdsZaakFromZgw" returnedSessionKeys="Error" />
         </Receiver>
     
         <Pipeline>   
@@ -24,7 +24,8 @@
             <SenderPipe name="GetGlobalConfigFromLocalFS">
                 <IbisLocalSender
                     name="CallImportFromLocalFS"
-                    javaListener="ImportFromLocalFS">
+                    javaListener="ImportFromLocalFS"
+                    returnedSessionKeys="Error">
                     <Param name="FileName" value="${FilePath_1}"/>
                 </IbisLocalSender>
                 <Forward name="success" path="StoreRolMappingFromConfig"/>
@@ -39,7 +40,8 @@
             <SenderPipe name="GetZgwRolesByZaakUrl">
                 <IbisLocalSender
                     name="GetZgwRolesByZaakUrlSender"
-                    javaListener="GetZgwRolesByZaakUrl">
+                    javaListener="GetZgwRolesByZaakUrl"
+                    returnedSessionKeys="Error">
                     <Param name="ZaakUrl" xpathExpression="$ZgwZaak/ZgwZaak/url" type="STRING">
                         <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
                     </Param>
@@ -53,7 +55,8 @@
                 storeResultInSessionKey="Rollen">
                 <IbisLocalSender
                     name="CallMapZdsRolFromZgwRol"
-                    javaListener="MapZdsRolFromZgwRol">
+                    javaListener="MapZdsRolFromZgwRol"
+                    returnedSessionKeys="Error">
                     <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EnrichZdsZaakWithRol"/>
@@ -101,7 +104,8 @@
                 storeResultInSessionKey="ZgwHoofdzaak">
                 <IbisLocalSender
                     name="GetZgwHoofdzaakSender"
-                    javaListener="GetZgwZaakByUrl">
+                    javaListener="GetZgwZaakByUrl"
+                    returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="$ZgwZaak/ZgwZaak/hoofdzaak">
                         <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
                     </Param>
@@ -146,7 +150,8 @@
                 storeResultInSessionKey="ZgwDeelzaken">
                 <IbisLocalSender
                     name="CallMapZdsDeelzakenFromZgwDeelzaken"
-                    javaListener="MapZdsDeelzakenFromZgwDeelzaken">
+                    javaListener="MapZdsDeelzakenFromZgwDeelzaken"
+                    returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Forward name="success" path="EnrichZdsZaakWithZgwDeelzaken"/>
                 <Forward name="exception" path="EXCEPTION" />
@@ -178,7 +183,8 @@
                 storeResultInSessionKey="ZdsRelevanteAndereZaken">
                 <IbisLocalSender
                     name="CallMapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken"
-                    javaListener="MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken">
+                    javaListener="MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken"
+                    returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Forward name="success" path="EnrichZdsRelevanteAndereZaken"/>
                 <Forward name="exception" path="EXCEPTION" />
@@ -200,7 +206,7 @@
                 <IbisLocalSender
                     name="GetZgwStatusByZaakUrlLocalSender"
                     javaListener="Zaken_GetZgwStatusByZaakUrl"
-                    >
+                    returnedSessionKeys="Error">
                     <Param name="ZaakUrl" xpathExpression="$ZgwZaak/ZgwZaak/url">
                         <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
                     </Param>
@@ -214,7 +220,8 @@
                 storeResultInSessionKey="ZdsHeeft">
                 <IbisLocalSender
                     name="ZdsHeeftLocalSender"
-                    javaListener="MapZdsHeeftFromZgwStatus">
+                    javaListener="MapZdsHeeftFromZgwStatus"
+                    returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
                 <Forward name="success" path="EnrichZdsZaakWithZdsHeeft"/>

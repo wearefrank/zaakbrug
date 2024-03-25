@@ -43,6 +43,7 @@
 
             <WsdlXmlValidatorPipe 
                 name="ValidateInput"
+                ignoreUnknownNamespaces="true"
                 wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_ontvangAsynchroon_mutatie_zs-dms.wsdl"
                 >
                 <Forward name="success" path="UnwrapSoapMessage"/>
@@ -100,7 +101,7 @@
                 <IbisLocalSender
                     name="UpdateZaak_Lk01LocalSender"
                     javaListener="UpdateZaak_Lk01"
-                    >
+                    returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Forward name="success" path="WrapBv03Response" />
                 <Forward name="exception" path="BackEndError" />
@@ -113,7 +114,7 @@
                  <IbisLocalSender
                     name="CreeerZaak_Lk01LocalSender"
                     javaListener="CreeerZaak_Lk01"
-                    >
+                    returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Forward name="success" path="WrapBv03Response" />
                 <Forward name="exception" path="BackEndError" />
@@ -126,7 +127,7 @@
                 <IbisLocalSender
                     name="ActualiseerZaakstatus_Lk01LocalSender"
                     javaListener="ActualiseerZaakStatus"
-                    >
+                    returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Forward name="success" path="WrapBv03Response" />
                 <Forward name="exception" path="BackEndError" />
@@ -139,7 +140,7 @@
                 <IbisLocalSender
                     name="VoegZaakdocumentToe_Lk01LocalSender"
                     javaListener="VoegZaakdocumentToe_Lk01"
-                    >
+                    returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Param name="ref_inhoud" sessionKey="ref_inhoud" />
                 <Forward name="success" path="WrapBv03Response" />
@@ -158,9 +159,10 @@
             <!-- ERRORS -->
             <XsltPipe 
                 name="UnsupportedSoapActionError"
-                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                getInputFromFixedValue="&lt;dummy/&gt;"
                 styleSheetName="Common/xsl/BuildError.xsl"
-                >
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason" pattern="Unsupported SOAP-action. No implementation found for: {SOAPAction}" />
                 <!-- <Param name="details" sessionKey="" /> -->

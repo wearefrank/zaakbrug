@@ -76,6 +76,7 @@
                 name="ValidateInput"
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
                 outputFormat="XML"
+                ignoreUnknownNamespaces="true"
                 autoFormat="false"
                 >
 				<Forward name="success" path="UnwrapOriginalMessage"/>
@@ -116,9 +117,24 @@
                 storeResultInSessionKey="LegalizedSoapAction"
                 >
                 <Param name="Action" sessionKey="SOAPAction"/>
-                <Forward name="success" path="ForwardBySoapActionSwitch"/>
+                <Forward name="success" path="checkObjectCount"/>
                 <Forward name="exception" path="BackEndError"/>
             </XsltPipe>
+
+            <XmlIfPipe name="checkObjectCount" xpathExpression="count(/*/edcLk02/object)=2">
+                <Forward name="then" path="StoreZdsWordtInformatieObject1" />
+                <Forward name="else" path="StoreZdsWordtInformatieObject2" />
+            </XmlIfPipe>
+
+            <PutInSessionPipe name="StoreZdsWordtInformatieObject1">
+                <Param name="ZdsWordtInformatieObject" xpathExpression="/*/edcLk02/object[2]" defaultValue="&lt;object/&gt;" type="DOMDOC" />
+                <Forward name="success" path="ForwardBySoapActionSwitch" />
+            </PutInSessionPipe>
+
+            <PutInSessionPipe name="StoreZdsWordtInformatieObject2">
+                <Param name="ZdsWordtInformatieObject" xpathExpression="/*/edcLk02/object[1]" defaultValue="&lt;object/&gt;" type="DOMDOC" />
+                <Forward name="success" path="ForwardBySoapActionSwitch" />
+            </PutInSessionPipe>
 
             <XmlSwitchPipe
                 name="ForwardBySoapActionSwitch"
@@ -134,7 +150,7 @@
                 <IbisLocalSender
                     name="GenereerZaakIdentificatie_Di02LocalSender"
                     javaListener="GenereerIdentificatieEmulator"
-                    >
+                    returnedSessionKeys="Error">
                     <Param name="IdentificatieType" value="ZaakIdentificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="WrapGenereerZaakIdentificatie_Du02Response" />
@@ -149,7 +165,7 @@
                 <IbisLocalSender
                     name="GenereerDocumentIdentificatie_Di02LocalSender"
                     javaListener="GenereerIdentificatieEmulator"
-                    >
+                    returnedSessionKeys="Error">
                     <Param name="IdentificatieType" value="DocumentIdentificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="WrapGenereerDocumentIdentificatie_Di02Response" />
@@ -163,7 +179,7 @@
                 >
                 <IbisLocalSender
                     name="GeefZaakdocumentbewerken_Di02LocalSender"
-                    returnedSessionKeys="ZgwLock,ref_inhoud"
+                    returnedSessionKeys="ZgwLock,ref_inhoud,Error"
                     javaListener="GeefZaakdocumentbewerken_Di02"
                     >
                     <Param name="DocumentIdentificatie" xpathExpression="/*/edcLv01/gelijk/identificatie" type="STRING" />
@@ -179,7 +195,7 @@
                 <IbisLocalSender
                     name="CancelCheckout_Di02LocalSender"
                     javaListener="CancelCheckOutZaakDocument_Di02"
-                    >
+                    returnedSessionKeys="Error">
                     <Param name="DocumentIdentificatie" xpathExpression="/*/document/identificatie" type="STRING" />
                     <Param name="Lock" xpathExpression="/*/parameters/checkedOutId" type="STRING" />
                 </IbisLocalSender>
@@ -194,9 +210,8 @@
                 <IbisLocalSender
                     name="UpdateZaakdocument_Di02LocalSender"
                     javaListener="UpdateZaakDocument_Di02"
-                    >
-                    <Param name="ZdsWasInformatieObject" xpathExpression="/*/edcLk02/object[1]" defaultValue="&lt;object/&gt;" type="DOMDOC" />
-                    <Param name="ZdsWordtInformatieObject" xpathExpression="/*/edcLk02/object[2]" defaultValue="&lt;object/&gt;" type="DOMDOC" />
+                    returnedSessionKeys="Error">
+                    <Param name="ZdsWordtInformatieObject" sessionKey="ZdsWordtInformatieObject" />
                     <Param name="Lock" xpathExpression="/*/parameters/checkedOutId" type="STRING" />
                     <Param name="ref_inhoud" sessionKey="ref_inhoud" />
                 </IbisLocalSender>
@@ -272,9 +287,10 @@
             <!-- ERRORS -->
             <XsltPipe 
                 name="UnsupportedSoapActionError"
-                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                getInputFromFixedValue="&lt;dummy/&gt;"
                 styleSheetName="Common/xsl/BuildError.xsl"
-                >
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason" pattern="Unsupported SOAP-action. No implementation found for: {SOAPAction}" />
                 <!-- <Param name="details" sessionKey="" /> -->

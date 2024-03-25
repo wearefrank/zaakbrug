@@ -13,6 +13,7 @@
 
             <WsdlXmlValidatorPipe 
                 name="ValidateInput"
+                ignoreUnknownNamespaces="true"
                 wsdl="Common/xsd/Zaak-_Documentservices_1_2/zds0120/berichten/zds0120_beantwoordVraag_zs-dms.wsdl"
                 >
                 <Forward name="success" path="UnwrapSoapMessage"/>
@@ -71,9 +72,10 @@
             <!-- ERRORS -->
             <XsltPipe 
                 name="UnsupportedSoapActionError"
-                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                getInputFromFixedValue="&lt;dummy/&gt;"
                 styleSheetName="Common/xsl/BuildError.xsl"
-                >
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason" pattern="Unsupported SOAP-action. No implementation found for: {SOAPAction}" />
                 <!-- <Param name="details" sessionKey="" /> -->

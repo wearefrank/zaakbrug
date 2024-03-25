@@ -8,7 +8,7 @@
             <xsl:apply-templates select="role/gerelateerde/natuurlijkPersoon[@entiteittype='NPS']"/>
             <xsl:apply-templates select="role/gerelateerde/nietNatuurlijkPersoon[@entiteittype='NNP']"/>
             <xsl:apply-templates select="role/gerelateerde/vestiging[@entiteittype='VES']"/>
-            <!-- <xsl:apply-templates select="role/gerelateerde/organisatorischeeenheid"/> -->
+            <xsl:apply-templates select="role/gerelateerde/organisatorischeEenheid[@entiteittype='OEH']"/>
         </zgwRol>
     </xsl:template>
 	
@@ -41,7 +41,7 @@
             <voorletters><xsl:value-of select="voorletters"/></voorletters>
             <voornamen><xsl:value-of select="voornamen"/></voornamen>
             <geslachtsaanduiding><xsl:value-of select="lower-case(geslachtsaanduiding)"/></geslachtsaanduiding>
-            <geboortedatum><xsl:value-of select="zgw:convertZdsDateToZgwDate(geboortedatum)"/></geboortedatum>
+            <geboortedatum><xsl:value-of select="zgw:toZgwDate(geboortedatum)"/></geboortedatum>
             <xsl:if test="verblijfsadres/aoa.identificatie != '' and verblijfsadres/wpl.woonplaatsNaam != '' and verblijfsadres/gor.openbareRuimteNaam != '' and verblijfsadres/aoa.huisnummer != ''">
                 <xsl:apply-templates select="verblijfsadres"/>
             </xsl:if>
@@ -133,7 +133,7 @@
         </betrokkeneIdentificatie>
     </xsl:template>
 
-    <!-- <xsl:template match="role/gerelateerde/organisatorischeeenheid">
+    <xsl:template match="role/gerelateerde/organisatorischeEenheid[@entiteittype='OEH']">
         <betrokkeneType>organisatorische_eenheid</betrokkeneType>
         <roltoelichting>
             <xsl:choose>
@@ -142,15 +142,15 @@
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:value-of select="concat($TypeRolOmschrijving, ':', identificatie)"/>
-                <xsl:otherwise>
+                </xsl:otherwise>
             </xsl:choose>
         </roltoelichting>
         <betrokkeneIdentificatie>
             <identificatie><xsl:value-of select="identificatie"/></identificatie>
             <naam><xsl:value-of select="naam"/></naam>
-            <isGehuisvestIn><xsl:value-of select="isGehuisvestIn"/></isGehuisvestIn>
+            <isGehuisvestIn><xsl:value-of select="isGehuisvestIn[. != '']"/></isGehuisvestIn>
         </betrokkeneIdentificatie>
-    </xsl:template> -->
+    </xsl:template>
 
     <xsl:template match="verblijfsadres">
         <verblijfsadres>
@@ -166,8 +166,10 @@
         </verblijfsadres>
     </xsl:template>
 
-    <xsl:function name="zgw:convertZdsDateToZgwDate" as="xs:date">
-        <xsl:param name="dateStr" as="xs:string"/>
-        <xsl:value-of select="concat(substring($dateStr,1,4), '-', substring($dateStr,5,2), '-', substring($dateStr,7,2))"/>
-	</xsl:function>
+    <xsl:function name="zgw:toZgwDate">
+        <xsl:param name="dateStr"/>
+        <xsl:if test="string-length($dateStr) > 0">
+            <xsl:value-of select="concat(substring($dateStr,1,4), '-', substring($dateStr,5,2), '-', substring($dateStr,7,2))"/>
+        </xsl:if>
+    </xsl:function>
 </xsl:stylesheet>
