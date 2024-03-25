@@ -54,7 +54,6 @@
 	<!ENTITY zaakeigenschap_update SYSTEM "./configuration_zaken_zaakeigenschap_update.xml">
 	<!ENTITY zaakeigenschap_delete SYSTEM "./configuration_zaken_zaakeigenschap_delete.xml">
 	<!ENTITY zaakeigenschap_partial_update SYSTEM "./configuration_zaken_zaakeigenschap_partial_update.xml">
-	<!ENTITY ManageAPI SYSTEM "./configuration_ManageAPI.xml">
 	]>
 
 <Configuration name="Zaken API - 1.2.0">
@@ -113,5 +112,4 @@
 	&zaakeigenschap_update;
 	&zaakeigenschap_delete;
 	&zaakeigenschap_partial_update;
-	&ManageAPI;	
 </Configuration>
