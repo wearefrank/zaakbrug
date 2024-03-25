@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="informatieobjecttype_read"
-		
+ 		active="${informatieobjecttype_read.active}"
 		>
 		<Receiver name="informatieobjecttype_read">
 			<ApiListener 

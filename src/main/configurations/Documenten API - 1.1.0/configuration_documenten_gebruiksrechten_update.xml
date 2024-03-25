@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="gebruiksrechten_update"
-		
+ 		active="${gebruiksrechten_update.active}"
 		>
 		<Receiver name="gebruiksrechten_update">
 			<ApiListener 

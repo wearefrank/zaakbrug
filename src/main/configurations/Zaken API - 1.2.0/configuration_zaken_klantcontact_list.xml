@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="klantcontact_list"
-		
+ 		active="${klantcontact_list.active}"
 		>
 		<Receiver name="klantcontact_list">
 			<ApiListener 

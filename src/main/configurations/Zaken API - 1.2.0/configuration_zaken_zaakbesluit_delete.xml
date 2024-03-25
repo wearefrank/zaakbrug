@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="zaakbesluit_delete"
-		
+ 		active="${zaakbesluit_delete.active}"
 		>
 		<Receiver name="zaakbesluit_delete">
 			<ApiListener 

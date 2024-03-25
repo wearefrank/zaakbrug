@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="informatieobjecttype_delete"
-		
+ 		active="${informatieobjecttype_delete.active}"
 		>
 		<Receiver name="informatieobjecttype_delete">
 			<ApiListener 

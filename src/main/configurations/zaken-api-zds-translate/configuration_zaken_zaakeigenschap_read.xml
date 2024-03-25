@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="zaakeigenschap_read"
-		
+ 		active="${zaakeigenschap_read.active}"
 		>
 		<Receiver name="zaakeigenschap_read">
 			<ApiListener 

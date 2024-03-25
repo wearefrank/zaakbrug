@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="zaaktype_update"
-		
+ 		active="${zaaktype_update.active}"
 		>
 		<Receiver name="zaaktype_update">
 			<ApiListener 

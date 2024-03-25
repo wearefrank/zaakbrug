@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="zaakcontactmoment_read"
-		
+ 		active="${zaakcontactmoment_read.active}"
 		>
 		<Receiver name="zaakcontactmoment_read">
 			<ApiListener 

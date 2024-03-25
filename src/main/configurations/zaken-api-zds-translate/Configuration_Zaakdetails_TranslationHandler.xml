@@ -1,6 +1,6 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="Zaakdetails_TranslationHandler"
-        active="${Zaakdetails_TranslationHandler.Active}"
+        active="${Zaakdetails_TranslationHandler.active}"
         description="">
 
         <Receiver name="Zaakdetails_TranslationHandler">
@@ -126,7 +126,7 @@
     </Adapter>
     
     <Adapter name="ZgwZaakTypeIterator"
-        active="${Zaakdetails_TranslationHandler.Active}"
+        active="${Zaakdetails_TranslationHandler.active}"
         description="">
 
         <Receiver name="ZgwZaakTypeIterator">

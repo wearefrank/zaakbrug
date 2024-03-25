@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="besluittype_publish"
-		
+ 		active="${besluittype_publish.active}"
 		>
 		<Receiver name="besluittype_publish">
 			<ApiListener 

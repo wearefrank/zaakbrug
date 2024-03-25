@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="gebruiksrechten_create"
-		
+ 		active="${gebruiksrechten_create.active}"
 		>
 		<Receiver name="gebruiksrechten_create">
 			<ApiListener 

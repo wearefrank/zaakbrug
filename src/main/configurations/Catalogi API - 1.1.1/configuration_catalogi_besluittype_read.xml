@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="besluittype_read"
-		
+ 		active="${besluittype_read.active}"
 		>
 		<Receiver name="besluittype_read">
 			<ApiListener 

@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="bestandsdeel_update"
-		
+ 		active="${bestandsdeel_update.active}"
 		>
 		<Receiver name="bestandsdeel_update">
 			<ApiListener 

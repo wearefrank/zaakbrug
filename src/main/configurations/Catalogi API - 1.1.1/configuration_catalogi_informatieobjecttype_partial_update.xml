@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="informatieobjecttype_partial_update"
-		
+ 		active="${informatieobjecttype_partial_update.active}"
 		>
 		<Receiver name="informatieobjecttype_partial_update">
 			<ApiListener 

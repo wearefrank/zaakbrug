@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="besluittype_list"
-		
+ 		active="${besluittype_list.active}"
 		>
 		<Receiver name="besluittype_list">
 			<ApiListener 

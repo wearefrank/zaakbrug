@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="roltype_partial_update"
-		
+ 		active="${roltype_partial_update.active}"
 		>
 		<Receiver name="roltype_partial_update">
 			<ApiListener 

@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="informatieobjecttype_publish"
-		
+ 		active="${informatieobjecttype_publish.active}"
 		>
 		<Receiver name="informatieobjecttype_publish">
 			<ApiListener 

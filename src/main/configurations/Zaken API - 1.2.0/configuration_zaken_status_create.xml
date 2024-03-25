@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="status_create"
-		
+ 		active="${status_create.active}"
 		>
 		<Receiver name="status_create">
 			<ApiListener 

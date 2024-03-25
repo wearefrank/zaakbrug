@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="statustype_list"
-		
+ 		active="${statustype_list.active}"
 		>
 		<Receiver name="statustype_list">
 			<ApiListener 

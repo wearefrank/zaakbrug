@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="audittrail_read"
-		
+ 		active="${audittrail_read.active}"
 		>
 		<Receiver name="audittrail_read">
 			<ApiListener 

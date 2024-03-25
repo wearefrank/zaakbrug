@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="status_read"
-		
+ 		active="${status_read.active}"
 		>
 		<Receiver name="status_read">
 			<ApiListener 

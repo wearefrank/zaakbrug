@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="gebruiksrechten_partial_update"
-		
+ 		active="${gebruiksrechten_partial_update.active}"
 		>
 		<Receiver name="gebruiksrechten_partial_update">
 			<ApiListener 

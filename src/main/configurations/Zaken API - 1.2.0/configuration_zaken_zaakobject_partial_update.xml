@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="zaakobject_partial_update"
-		
+ 		active="${zaakobject_partial_update.active}"
 		>
 		<Receiver name="zaakobject_partial_update">
 			<ApiListener 

@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="catalogus_read"
-		
+ 		active="${catalogus_read.active}"
 		>
 		<Receiver name="catalogus_read">
 			<ApiListener 

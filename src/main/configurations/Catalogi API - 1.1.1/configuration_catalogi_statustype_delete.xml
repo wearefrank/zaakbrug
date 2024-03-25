@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="statustype_delete"
-		
+ 		active="${statustype_delete.active}"
 		>
 		<Receiver name="statustype_delete">
 			<ApiListener 

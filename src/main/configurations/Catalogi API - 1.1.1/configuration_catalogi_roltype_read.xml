@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="roltype_read"
-		
+ 		active="${roltype_read.active}"
 		>
 		<Receiver name="roltype_read">
 			<ApiListener 

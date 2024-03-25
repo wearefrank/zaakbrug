@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="zaakeigenschap_partial_update"
-		
+ 		active="${zaakeigenschap_partial_update.active}"
 		>
 		<Receiver name="zaakeigenschap_partial_update">
 			<ApiListener 

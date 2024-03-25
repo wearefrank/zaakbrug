@@ -4,7 +4,7 @@
 	>
 	<Adapter 
 		name="zaak__zoek"
-		
+ 		active="${zaak__zoek.active}"
 		>
 		<Receiver name="zaak__zoek">
 			<ApiListener 
