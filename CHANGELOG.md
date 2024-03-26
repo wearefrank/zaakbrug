@@ -1,5 +1,19 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.16.1](https://github.com/wearefrank/zaakbrug/compare/v1.16.0...v1.16.1) (2024-03-25)
+
+
+### 🧑‍💻 Code Refactoring
+
+* processing of zds statusses is no longer done in parallel ([#294](https://github.com/wearefrank/zaakbrug/issues/294)) ([64ad31f](https://github.com/wearefrank/zaakbrug/commit/64ad31f45cc4b52aaa2f3e28982015792799c04c))
+
+## [1.16.0](https://github.com/wearefrank/zaakbrug/compare/v1.15.15...v1.16.0) (2024-03-20)
+
+
+### 🍕 Features
+
+* translation profile translation value overrides ([#277](https://github.com/wearefrank/zaakbrug/issues/277)) ([4dfd283](https://github.com/wearefrank/zaakbrug/commit/4dfd2835cdc0df62335436ce35e74d2bafba771a))
+
 ## [1.15.15](https://github.com/wearefrank/zaakbrug/compare/v1.15.14...v1.15.15) (2024-02-27)
 
 
