@@ -13,7 +13,8 @@
                 <Exit name="EXIT" state="SUCCESS" />
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
-
+            
+            <Cache />
             <LocalFileSystemPipe name="ReadFile" action="read">
                 <Param name="filename" value="${configurations.directory}/Translate/Profiles.json" />
                 <Forward name="success" path="IsXml" />
