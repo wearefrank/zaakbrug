@@ -4,58 +4,75 @@
         description="">
 
         <Receiver name="Status_TranslationHandler">
-            <JavaListener name="Status_TranslationHandler"/>
+            <JavaListener name="Status_TranslationHandler" />
         </Receiver>
 
         <Pipeline>
             <Exits>
-                <Exit name="EXIT" state="SUCCESS"/>
-                <Exit name="EXCEPTION" state="ERROR"/>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
             
             <SoapWrapperPipe
                 name="UnwrapMessage"
                 storeResultInSessionKey="UnwrapMessageResult"
                 direction="UNWRAP"
-                removeOutputNamespaces="true">
-                <Forward name="success" path="generateUuid"/>
+                removeOutputNamespaces="true"
+                >
+                <Forward name="success" path="StoreResponeContextSessionKeys" />
             </SoapWrapperPipe>
+
+            <PutInSessionPipe
+                name="StoreResponeContextSessionKeys"
+                >
+                <Param name="Stuurgegevens" xpathExpression="/*/stuurgegevens" defaultValue="&lt;stuurgegevens/&gt;" type="DOMDOC" />
+                <Param name="Parameters" xpathExpression="/*/parameters" defaultValue="&lt;parameters/&gt;" type="DOMDOC" />
+                <Param name="Scope" xpathExpression="/*/scope" defaultValue="&lt;scope/&gt;" type="DOMDOC" />
+                <Forward name="success" path="generateUuid" />
+            </PutInSessionPipe>
             
-            <UUIDGeneratorPipe name="generateUuid" storeResultInSessionKey="uuid" >
-            	<Forward name="success" path="StoreUrl"/>
+            <UUIDGeneratorPipe
+                name="generateUuid"
+                storeResultInSessionKey="uuid"
+                >
+            	<Forward name="success" path="StoreUrl" />
             </UUIDGeneratorPipe>
                         
             <XsltPipe
                 name="StoreUrl"
                 xpathExpression="concat($root-url,$endpoint)"
                 getInputFromFixedValue="&lt;Dummy/&gt;"
-                storeResultInSessionKey="BaseUrl">
-                <Param name="root-url" value="${zaakbrug.zds.soap.root-url}"/>
-                <Param name="endpoint" value="${zaakbrug.zds.beantwoord-vraag.endpoint}"/>
-                <Forward name="success" path="CallGetZdsZaak"/>
+                storeResultInSessionKey="BaseUrl"
+                >
+                <Param name="root-url" value="${zaakbrug.zds.soap.root-url}" />
+                <Param name="endpoint" value="${zaakbrug.zds.beantwoord-vraag.endpoint}" />
+                <Forward name="success" path="CallGetZdsZaak" />
             </XsltPipe>
 
             <SenderPipe
                 name="CallGetZdsZaak"
                 getInputFromSessionKey="originalMessage"
-                storeResultInSessionKey="GetZdsZaakResult">
-                
-                <WebServiceSender name="GetZdsZaakSender" soapAction="http://www.egem.nl/StUF/sector/zkn/0310/geefZaakdetails_Lv01"
-                 >
-                 <Param name="url" sessionKey="BaseUrl" />
+                storeResultInSessionKey="GetZdsZaakResult"
+                >
+                <WebServiceSender
+                    name="GetZdsZaakSender"
+                    soapAction="http://www.egem.nl/StUF/sector/zkn/0310/geefZaakdetails_Lv01"
+                    >
+                    <Param name="url" sessionKey="BaseUrl" />
                  </WebServiceSender>
-                <Forward name="success" path="GeefZaakdetails_Lv01Sender"/>
+                <Forward name="success" path="GeefZaakdetails_Lv01Sender" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
-            
             
             <SenderPipe
                 name="GeefZaakdetails_Lv01Sender"
                 getInputFromSessionKey="UnwrapMessageResult"
-                storeResultInSessionKey="Zaakdetails">
+                storeResultInSessionKey="Zaakdetails"
+                >
                 <IbisLocalSender
                     name="GeefZaakdetails_Lv01LocalSender"
-                    javaListener="GeefZaakdetails_Lv01">
+                    javaListener="GeefZaakdetails_Lv01"
+                    >
                 </IbisLocalSender>
                 <Forward name="success" path="ReplaceNulls" />
                 <Forward name="exception" path="EXCEPTION" />
@@ -67,7 +84,7 @@
                 storeResultInSessionKey="Zaakdetails"
                 styleSheetName="Common/xsl/ReplaceNullStringWithXmlNull.xslt"
                 >
-                <Forward name="success" path="WrapZakLa01Response"/>
+                <Forward name="success" path="WrapZakLa01Response" />
             </XsltPipe>
 
             <XsltPipe
@@ -77,24 +94,27 @@
                 skipEmptyTags="true"
                 styleSheetName="geefZaakdetails_Lv01/xsl/FilterScope.xsl"
                 >
-                <Param name="ZdsZaak"   sessionKey="Zaakdetails" type="DOMDOC"/>
+                <Param name="ZdsZaak" sessionKey="Zaakdetails" type="DOMDOC" />
                 <Forward name="success" path="WrapZakLa01Response"/>
             </XsltPipe>
-           
+
             <SoapWrapperPipe
                 name="WrapBv03Response"
+                getInputFromFixedValue="&lt;EmptyInput/&gt;"
                 soapBodyStyleSheet="Common/xsl/CreateBv03Response.xslt"
                 >
-                <Param name="UnwrapMessageResult"   sessionKey="UnwrapMessageResult" type="DOMDOC"/>
-                <Forward name="success" path="EXIT"/>
+                <Param name="Stuurgegevens" sessionKey="Stuurgegevens" type="DOMDOC" />
+                <Forward name="success" path="EXIT" />
             </SoapWrapperPipe>
-            
+
             <SoapWrapperPipe
                 name="WrapZakLa01Response"
+                emptyInputReplacement="&lt;EmptyInput/&gt;"
                 soapBodyStyleSheet="Common/xsl/CreateZakLa01Response.xslt"
                 >
-                <Param name="UnwrapMessageResult"   sessionKey="UnwrapMessageResult" type="DOMDOC"/>
-                <Forward name="success" path="EXIT"/>
+                <Param name="Stuurgegevens" sessionKey="Stuurgegevens" type="DOMDOC" />
+                <Param name="Parameters" sessionKey="Parameters" type="DOMDOC" />
+                <Forward name="success" path="EXIT" />
             </SoapWrapperPipe>
             
             
@@ -264,15 +284,17 @@
                 skipEmptyTags="true"
                 styleSheetName="CreateZaak_LK01/xsl/CreateZaakBody.xsl"
                 >
-                <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC" defaultValue="&lt;Dummy/&gt;"/>
-                <Param name="GetRsinResult" sessionKey="GetRsinResult" type="DOMDOC" defaultValue="&lt;Dummy/&gt;"/>
+                <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC" defaultValue="&lt;Dummy/&gt;" />
+                <Param name="GetRsinResult" sessionKey="GetRsinResult" type="DOMDOC" defaultValue="&lt;Dummy/&gt;" />
                 <Param name="Host" pattern="{hostname}" />
                 <Param name="uuid" sessionKey="uuid" />
                 <Forward name="success" path="EXIT"/>
             </XsltPipe>
             
-            <XsltPipe name="buildErrorMsg400"
-                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+            <XsltPipe
+                name="buildErrorMsg400"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl"
+                >
                 <Param name="senderPipeName" value="CheckForSetZgwZaakTypeResult" />
                 <Param name="ErrorCode" value="400" />
                 <Param name="ErrorTitle" value="" />
@@ -281,9 +303,11 @@
                 <Forward name="success" path="EXIT" />
             </XsltPipe>
             
-            <FixedResultPipe name="Error"
-				returnString="&lt;Error/&gt;" >
-				<Forward name="success" path="EXIT"/>
+            <FixedResultPipe
+                name="Error"
+				returnString="&lt;Error/&gt;"
+                >
+				<Forward name="success" path="EXIT" />
 			</FixedResultPipe>
         </Pipeline>
     </Adapter>
