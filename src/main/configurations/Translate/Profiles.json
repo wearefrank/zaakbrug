@@ -1,10 +1,14 @@
 {
     "profile": [
         {
-            "zaakTypeIdentificatie": "B9999",
+            "zaakTypeIdentificatie": "*",
             "endCaseEndDate": {
-                "coalesceResultaat": "Onbekend"
-            },
+                "coalesceResultaat": "Onbekend",
+                "testval": "testvalue" 
+            }
+        },
+        {
+            "zaakTypeIdentificatie": "B9999",
             "endDateAndResultLastStatus": {
                 "coalesceResultaat": "Onbekend"
             }
