@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.16.2](https://github.com/wearefrank/zaakbrug/compare/v1.16.1...v1.16.2) (2024-03-27)
+
+
+### 🤖 Build System
+
+* upgrade to java 17 & use frank!framework base docker image instead of building a custom image ([#237](https://github.com/wearefrank/zaakbrug/issues/237)) ([25fcee7](https://github.com/wearefrank/zaakbrug/commit/25fcee75e9cb410c62de346b11711d4052be7511))
+
 ## [1.16.1](https://github.com/wearefrank/zaakbrug/compare/v1.16.0...v1.16.1) (2024-03-25)
 
 
