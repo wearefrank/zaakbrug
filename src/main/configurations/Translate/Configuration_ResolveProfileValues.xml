@@ -21,7 +21,7 @@
             </LocalFileSystemPipe>
 
             <XmlWellFormedCheckerPipe name="IsXml">
-                <Forward name="success" path="EXIT" />
+                <Forward name="success" path="EXCEPTION" />
                 <Forward name="failure" path="JsonToXml" />
             </XmlWellFormedCheckerPipe>
 
@@ -40,6 +40,12 @@
             <XsltPipe name="ExtractBaseProfile" styleSheetName="Common\xsl\ExtractBaseProfile.xsl"
                 omitXmlDeclaration="true" storeResultInSessionKey="baseProfile" outputType="XML">
             </XsltPipe>
+
+            <!-- Failure here indicates missing baseProfile, or more than one baseProfile -->
+            <XmlWellFormedCheckerPipe name="checkBaseProfile">
+                <Forward name="success" path="AddBaseProfileToEachProfile" />
+                <Forward name="failure" path="EXCEPTION"/>
+            </XmlWellFormedCheckerPipe>
 
             <ForEachChildElementPipe name="AddBaseProfileToEachProfile"
                 getInputFromSessionKey="profiles" targetElement="profile">
