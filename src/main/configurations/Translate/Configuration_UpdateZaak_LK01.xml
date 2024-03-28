@@ -187,7 +187,6 @@
                 getInputFromSessionKey="GetZdsZaakFromZgwResult"
                 storeResultInSessionKey="ZdsWasZaakRol"
                 removeNamespaces="true"
-                skipEmptyTags="true"
                 styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xslt"
                 >
                 <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC"/>
@@ -199,7 +198,6 @@
                 getInputFromSessionKey="ZdsWordtZaak"
                 storeResultInSessionKey="ZdsWordtZaakRol"
                 removeNamespaces="true"
-                skipEmptyTags="true"
                 styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xslt"
                 >
                 <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC"/>

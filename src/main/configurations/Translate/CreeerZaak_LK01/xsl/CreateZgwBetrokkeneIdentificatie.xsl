@@ -36,6 +36,7 @@
         <roltoelichting><xsl:value-of select="concat($TypeRolOmschrijving, ':', geslachtsnaam)"/></roltoelichting>
         <betrokkeneIdentificatie>
             <inpBsn><xsl:value-of select="inp.bsn"/></inpBsn>
+            <authentiek><xsl:value-of select="authentiek"/></authentiek>
             <geslachtsnaam><xsl:value-of select="geslachtsnaam"/></geslachtsnaam>
             <voorvoegselGeslachtsnaam><xsl:value-of select="voorvoegselGeslachtsnaam"/></voorvoegselGeslachtsnaam>
             <voorletters><xsl:value-of select="voorletters"/></voorletters>
@@ -53,6 +54,7 @@
         <roltoelichting><xsl:value-of select="concat($TypeRolOmschrijving, ':', statutaireNaam)"/></roltoelichting>
         <betrokkeneIdentificatie>
             <innNnpId><xsl:value-of select="inn.nnpId"/></innNnpId>
+            <authentiek><xsl:value-of select="authentiek"/></authentiek>
             <statutaireNaam><xsl:value-of select="statutaireNaam"/></statutaireNaam>
             <innRechtsvorm>
                 <xsl:choose>
@@ -118,6 +120,9 @@
                     </xsl:otherwise>
                 </xsl:choose>
             </innRechtsvorm>
+            <xsl:if test="verblijfsadres/aoa.identificatie != '' and verblijfsadres/wpl.woonplaatsNaam != '' and verblijfsadres/gor.openbareRuimteNaam != '' and verblijfsadres/aoa.huisnummer != ''">
+                <xsl:apply-templates select="verblijfsadres"/>
+            </xsl:if>
         </betrokkeneIdentificatie>
     </xsl:template>
 
@@ -126,6 +131,7 @@
         <roltoelichting><xsl:value-of select="concat($TypeRolOmschrijving, ':', handelsnaam)"/></roltoelichting>
         <betrokkeneIdentificatie>
             <vestigingsNummer><xsl:value-of select="vestigingsNummer"/></vestigingsNummer>
+            <authentiek><xsl:value-of select="authentiek"/></authentiek>
             <handelsnaam><xsl:value-of select="handelsnaam"/></handelsnaam>
             <xsl:if test="verblijfsadres/aoa.identificatie != '' and verblijfsadres/wpl.woonplaatsNaam != '' and verblijfsadres/gor.openbareRuimteNaam != '' and verblijfsadres/aoa.huisnummer != ''">
                 <xsl:apply-templates select="verblijfsadres"/>
@@ -155,7 +161,7 @@
     <xsl:template match="verblijfsadres">
         <verblijfsadres>
             <aoaIdentificatie><xsl:value-of select="aoa.identificatie"/></aoaIdentificatie>
-            <!-- <authentiek><xsl:value-of select="authentiek"/></authentiek> -->
+            <authentiek><xsl:value-of select="authentiek"/></authentiek>
             <wplWoonplaatsNaam><xsl:value-of select="wpl.woonplaatsNaam"/></wplWoonplaatsNaam>
             <gorOpenbareRuimteNaam><xsl:value-of select="gor.openbareRuimteNaam"/></gorOpenbareRuimteNaam>
             <aoaPostcode><xsl:value-of select="aoa.postcode"/></aoaPostcode>

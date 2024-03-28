@@ -15,15 +15,28 @@
 
 			<XmlSwitchPipe 
                 name="DetectRolChanges" 
-                getInputFromSessionKey="ZdsWasZaakRol"
+                getInputFromSessionKey="originalMessage"
                 styleSheetName="UpdateZaak_LK01/xsl/DetectRolChanges.xslt"
                 >
-                <Param name="ZdsWordtZaakRol" sessionKey="originalMessage" type="DOMDOC"/>
                 <Forward name="New" path="CallGetZgwRolType"/>
                 <Forward name="Delete" path="CallDeleteRolFromZgw"/>
                 <Forward name="Changed" path="DeleteRolBeforeUpdate"/>
-                <Forward name="Exit" path="EXIT"/>
+                <Forward name="Check" path="CheckZgwRol"/>
+                <Forward name="Exit" path="EXCEPTION"/>
             </XmlSwitchPipe>
+
+            <SenderPipe name="CheckZgwRol"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="CheckCheck">
+                <IbisLocalSender
+                    name="CallCheckZgwRolSender"
+                    javaListener="CheckZgwRol">
+                    
+                    <Param name="ZdsWasZaakRol" sessionKey="ZdsWasZaakRol"/>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
 
             <SenderPipe name="DeleteRolBeforeUpdate"
                 getInputFromSessionKey="originalMessage"
@@ -62,9 +75,18 @@
                     <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC"/>
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CallPostRol"/>
+                <Forward name="success" path="CheckForRol"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
+
+            <XmlIfPipe
+                name="CheckForRol"
+                xpathExpression="boolean(zgwRol/*)"
+                >
+                <Forward name="then" path="CallPostRol"/>
+                <Forward name="else" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION"/> <!-- Temporary solution for lack of adres processing -->
+            </XmlIfPipe>
 
             <SenderPipe name="CallPostRol">
                 <IbisLocalSender
@@ -88,7 +110,7 @@
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION"/>
             </SenderPipe>
         </Pipeline>
     </Adapter>
