@@ -18,14 +18,14 @@
     </changeSet> 
 
     <!-- See src/main/resources/springIbisTestToolCustom.xml -->
-    <changeSet id="LadyBugCustom:1" author="Meric">
+    <changeSet id="LadybugCustom:1" author="Meric">
         <comment>Add SOAPAction Column</comment>
         <addColumn tableName="LADYBUG">
             <column name="SOAPACTION" type="VARCHAR(256)"/>
         </addColumn>
     </changeSet>
 
-    <changeSet id="LadyBugCustom:2" author="Meric">
+    <changeSet id="LadybugCustom:2" author="Meric">
         <comment>Add Identificatie Column</comment>
         <addColumn tableName="LADYBUG">
             <column name="IDENTIFICATIE" type="VARCHAR(256)"/>
