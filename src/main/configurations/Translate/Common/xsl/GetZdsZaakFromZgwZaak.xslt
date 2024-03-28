@@ -43,6 +43,7 @@
             <publicatiedatum><xsl:if test="$ZgwZaak/ZgwZaak/publicatiedatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/publicatiedatum)"/></xsl:if></publicatiedatum> <!-- convert -->
             <einddatumGepland><xsl:if test="$ZgwZaak/ZgwZaak/einddatumGepland"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/einddatumGepland)"/></xsl:if></einddatumGepland> <!-- convert -->
             <uiterlijkeEinddatum><xsl:if test="$ZgwZaak/ZgwZaak/uiterlijkeEinddatumAfdoening"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/uiterlijkeEinddatumAfdoening)"/></xsl:if></uiterlijkeEinddatum> <!-- convert -->
+            <einddatum><xsl:if test="$ZgwZaak/ZgwZaak/einddatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/einddatum)"/></xsl:if></einddatum> <!-- convert -->
             <xsl:if test="string-length($ZgwZaak/ZgwZaak/betalingsindicatie) > 0">
                 <betalingsIndicatie><xsl:value-of select="zgw:convertZgwBetalingsIndicatieToZdsBetalingsIndicatie($ZgwZaak/ZgwZaak/betalingsindicatie)"/></betalingsIndicatie>
             </xsl:if>
