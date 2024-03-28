@@ -34,6 +34,7 @@
                         </bean>                    
                     </property>
                 </bean>
+                <!-- See src/main/configurations/Translate/DatabaseChangelog.xml for added custom columns -->
                 <bean class="nl.nn.testtool.metadata.SessionKeyMetadataFieldExtractor">
                     <property name="name" value="soapAction"/>
                     <property name="label" value="SOAPAction"/>
