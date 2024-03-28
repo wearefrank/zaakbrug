@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="8.1.0-20240221.213323">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="8.1.0-20240328.042324">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>Container of Adapters that belong together.
@@ -178,7 +178,7 @@
     </xs:attribute>
     <xs:attribute name="onError">
       <xs:annotation>
-        <xs:documentation>One of 'continue' or 'close'. Controls the behaviour of the Receiver when it encounters an error sending a reply or receives an exception asynchronously Default: CONTINUE</xs:documentation>
+        <xs:documentation>One of 'continue', 'recover' or 'close'. Controls the behaviour of the Receiver, when it encounters an error during processing of a message. Default: CONTINUE</xs:documentation>
       </xs:annotation>
       <xs:simpleType>
         <xs:union memberTypes="OnErrorAttributeValuesType variableRef" />
@@ -1833,13 +1833,12 @@
     </xs:attribute>
     <xs:attribute name="forceMessageIdAsCorrelationId" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>By default, the JmsListener takes the Correlation-ID (if present) as the ID that has to be used as Correlation-ID of the reply.
- When set to &lt;code&gt;true&lt;/code&gt;, the messageID is used as Correlation-ID of the reply. Default: if messageProtocol=&lt;code&gt;RR&lt;/code&gt;: &lt;/td&gt;&lt;td&gt;&lt;code&gt;true&lt;/code&gt;</xs:documentation>
+        <xs:documentation>if messageProtocol=RR, default value is: true Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="useReplyTo" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>Flag if reply-to queue from the request message should be used or not. Default: if messageProtocol=&lt;code&gt;FF&lt;/code&gt;: &lt;code&gt;false&lt;/code&gt;</xs:documentation>
+        <xs:documentation>if messageProtocol=FF, default value is: false Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="xPathLoggingKeys" type="xs:string">
@@ -4244,6 +4243,29 @@
           </xs:complexContent>
         </xs:complexType>
       </xs:element>
+      <xs:element name="ReconnectSenderWrapperSender">
+        <xs:annotation>
+          <xs:documentation>Wrapper for senders, that opens the wrapped sender at runtime before each sender action, and closes it afterwards.
+ This prevents (long) open connections inside Senders and possible connection failures.
+
+ &lt;b&gt;Example:&lt;/b&gt;
+ &lt;pre&gt;&lt;code&gt;
+   &amp;lt;SenderPipe&amp;gt;
+     &amp;lt;ReconnectSenderWrapper&amp;gt;
+        &amp;lt;EchoSender myAttribute="myValue" /&amp;gt;
+     &amp;lt;/ReconnectSenderWrapper&amp;gt;
+   &amp;lt;/SenderPipe&amp;gt;
+ &lt;/code&gt;&lt;/pre&gt;
+ &lt;/p&gt;</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension base="ReconnectSenderWrapperType">
+              <xs:attribute name="elementRole" type="xs:string" fixed="sender" use="prohibited" />
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="ReloadSender">
         <xs:annotation>
           <xs:documentation>Performs a reload on database configuration.
@@ -5168,7 +5190,7 @@
   <xs:attributeGroup name="JdbcSenderBaseDeclaredAttributeGroup">
     <xs:attribute name="timeout" type="frankInt">
       <xs:annotation>
-        <xs:documentation>The number of seconds the driver will wait for a statement object to execute. If the limit is exceeded, a TimeoutException is thrown. A value of 0 means execution time is not limited Default: 0</xs:documentation>
+        <xs:documentation>The number of seconds the JDBC driver will wait for a statement object to execute. If the limit is exceeded, a TimeoutException is thrown. A value of 0 means execution time is not limited Default: 0</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -5623,7 +5645,7 @@
   <xs:attributeGroup name="FixedQuerySenderDeclaredAttributeGroup">
     <xs:attribute name="query" type="xs:string" use="required">
       <xs:annotation>
-        <xs:documentation>The SQL query text to be excecuted each time sendMessage() is called</xs:documentation>
+        <xs:documentation>The SQL query text to be executed each time sendMessage() is called</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute ref="batchSize" />
@@ -7186,6 +7208,22 @@
     <xs:attributeGroup ref="ParallelSendersDeclaredAttributeGroup" />
     <xs:attributeGroup ref="SenderSeriesCumulativeAttributeGroup" />
   </xs:attributeGroup>
+  <xs:complexType name="ReconnectSenderWrapperType">
+    <xs:group ref="ReconnectSenderWrapperCumulativeChildGroup" />
+    <xs:attributeGroup ref="SenderWrapperBaseCumulativeAttributeGroup" />
+    <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.ReconnectSenderWrapper" use="prohibited" />
+  </xs:complexType>
+  <xs:group name="ReconnectSenderWrapperDeclaredChildGroup">
+    <xs:sequence>
+      <xs:group ref="SenderElementGroup" minOccurs="0" maxOccurs="1" />
+    </xs:sequence>
+  </xs:group>
+  <xs:group name="ReconnectSenderWrapperCumulativeChildGroup">
+    <xs:sequence>
+      <xs:group ref="ReconnectSenderWrapperDeclaredChildGroup" />
+      <xs:group ref="SenderWrapperBaseCumulativeChildGroup" />
+    </xs:sequence>
+  </xs:group>
   <xs:complexType name="ReloadSenderType">
     <xs:group ref="SenderWithParametersBaseDeclaredChildGroup" />
     <xs:attributeGroup ref="ReloadSenderCumulativeAttributeGroup" />
@@ -9022,6 +9060,29 @@
         <xs:complexType>
           <xs:complexContent>
             <xs:extension base="ParallelSendersType">
+              <xs:attribute name="elementRole" type="xs:string" fixed="errorSender" use="prohibited" />
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ReconnectSenderWrapperErrorSender">
+        <xs:annotation>
+          <xs:documentation>Wrapper for senders, that opens the wrapped sender at runtime before each sender action, and closes it afterwards.
+ This prevents (long) open connections inside Senders and possible connection failures.
+
+ &lt;b&gt;Example:&lt;/b&gt;
+ &lt;pre&gt;&lt;code&gt;
+   &amp;lt;SenderPipe&amp;gt;
+     &amp;lt;ReconnectSenderWrapper&amp;gt;
+        &amp;lt;EchoSender myAttribute="myValue" /&amp;gt;
+     &amp;lt;/ReconnectSenderWrapper&amp;gt;
+   &amp;lt;/SenderPipe&amp;gt;
+ &lt;/code&gt;&lt;/pre&gt;
+ &lt;/p&gt;</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension base="ReconnectSenderWrapperType">
               <xs:attribute name="elementRole" type="xs:string" fixed="errorSender" use="prohibited" />
             </xs:extension>
           </xs:complexContent>
@@ -11890,7 +11951,7 @@
  tag found in the input XML. Every field tag should have a type attribute
  that specifies the type of conversion that needs to be done on the string
  specified by the value attribute. A value attribute also needs to be present
- for every field tag. Currently two types of conversion are supported:
+ for every field tag. Currently, two types of conversion are supported:
 
  &lt;ul&gt;
    &lt;li&gt;&lt;code&gt;GetBytesFromString&lt;/code&gt;, a conversion from string to bytes as specified by java.lang.String.getBytes(String charsetName)&lt;/li&gt;
@@ -11924,7 +11985,7 @@
    &lt;li&gt;The string 1234 will be translated to three bytes with the following hexadecimal representation: 01 23 4F&lt;/li&gt;
  &lt;/ul&gt;
 
- The Packed-decimal is prefixed with zero's when the specified size is bigger
+ The Packed-decimal is prefixed with zeroes when the specified size is bigger
  than the number of decimals. An exception is thrown when the specified size
  is smaller than the number of decimals.
 
@@ -12875,6 +12936,18 @@
         <xs:complexType>
           <xs:complexContent>
             <xs:extension base="MailSenderPipeType">
+              <xs:attribute name="elementRole" type="xs:string" fixed="pipe" use="prohibited" />
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ObfuscatePipe">
+        <xs:annotation>
+          <xs:documentation>Pipe that performs obfuscation on a message, using the tibcrypt library.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension base="ObfuscatePipeType">
               <xs:attribute name="elementRole" type="xs:string" fixed="pipe" use="prohibited" />
             </xs:extension>
           </xs:complexContent>
@@ -14282,7 +14355,7 @@
     </xs:attribute>
     <xs:attribute name="direction">
       <xs:simpleType>
-        <xs:union memberTypes="DirectionAttributeValuesType_6 variableRef" />
+        <xs:union memberTypes="DirectionAttributeValuesType_7 variableRef" />
       </xs:simpleType>
     </xs:attribute>
     <xs:attribute name="encodeSubstring" type="frankBoolean">
@@ -14303,7 +14376,7 @@
   <xs:attributeGroup name="ExceptionPipeDeclaredAttributeGroup">
     <xs:attribute name="throwException" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>when &lt;code&gt;true&lt;/code&gt;, a piperunexception is thrown. otherwise the output is only logged as an error (and no rollback is performed). Default: true</xs:documentation>
+        <xs:documentation>When &lt;code&gt;true&lt;/code&gt;, a PipeRunException is thrown. Otherwise, the output is only logged as an error (and no rollback is performed). Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -14634,7 +14707,7 @@
         <xs:documentation>Direction of the transformation. Default: JSON2XML</xs:documentation>
       </xs:annotation>
       <xs:simpleType>
-        <xs:union memberTypes="DirectionAttributeValuesType_7 variableRef" />
+        <xs:union memberTypes="DirectionAttributeValuesType_8 variableRef" />
       </xs:simpleType>
     </xs:attribute>
     <xs:attribute name="addXmlRootElement" type="frankBoolean">
@@ -14953,7 +15026,7 @@
     </xs:attribute>
     <xs:attribute name="timeout" type="frankInt">
       <xs:annotation>
-        <xs:documentation>the larva timeout Default: 10000</xs:documentation>
+        <xs:documentation>the larva timeout in milliseconds Default: 10000</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -15200,6 +15273,25 @@
     <xs:attributeGroup ref="MessageSendingPipeCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.pipes.MailSenderPipe" use="prohibited" />
   </xs:complexType>
+  <xs:complexType name="ObfuscatePipeType">
+    <xs:group ref="AbstractPipeDeclaredChildGroup" />
+    <xs:attributeGroup ref="ObfuscatePipeCumulativeAttributeGroup" />
+    <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.tibco.pipes.ObfuscatePipe" use="prohibited" />
+  </xs:complexType>
+  <xs:attributeGroup name="ObfuscatePipeDeclaredAttributeGroup">
+    <xs:attribute name="direction">
+      <xs:annotation>
+        <xs:documentation>Default: OBFUSCATE</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:union memberTypes="DirectionAttributeValuesType_6 variableRef" />
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="ObfuscatePipeCumulativeAttributeGroup">
+    <xs:attributeGroup ref="ObfuscatePipeDeclaredAttributeGroup" />
+    <xs:attributeGroup ref="FixedForwardPipeCumulativeAttributeGroup" />
+  </xs:attributeGroup>
   <xs:complexType name="PGPPipeType">
     <xs:group ref="AbstractPipeDeclaredChildGroup" />
     <xs:attributeGroup ref="PGPPipeCumulativeAttributeGroup" />
@@ -17728,8 +17820,8 @@
       </xs:enumeration>
       <xs:enumeration value="RECOVER">
         <xs:annotation>
-          <xs:documentation>If an error occurs (eg. connection is lost) the receiver will be stopped and marked as ERROR
- Once every &lt;code&gt;recover.adapters.interval&lt;/code&gt; it will be attempted to (re-) start the receiver.</xs:documentation>
+          <xs:documentation>If an error occurs (e.g. connection is lost) the receiver will be stopped and marked as ERROR
+ Once every &lt;code&gt;recover.adapters.interval&lt;/code&gt; it attempts to (re-) start the receiver.</xs:documentation>
         </xs:annotation>
       </xs:enumeration>
       <xs:enumeration value="CLOSE">
@@ -17905,7 +17997,7 @@
       <xs:enumeration value="UPPERCASE" />
     </xs:restriction>
   </xs:simpleType>
-  <xs:simpleType name="DirectionAttributeValuesType_6">
+  <xs:simpleType name="DirectionAttributeValuesType_7">
     <xs:restriction base="xs:string">
       <xs:enumeration value="ENCODE" />
       <xs:enumeration value="DECODE" />
@@ -17927,10 +18019,16 @@
       <xs:enumeration value="Hex" />
     </xs:restriction>
   </xs:simpleType>
-  <xs:simpleType name="DirectionAttributeValuesType_7">
+  <xs:simpleType name="DirectionAttributeValuesType_8">
     <xs:restriction base="xs:string">
       <xs:enumeration value="JSON2XML" />
       <xs:enumeration value="XML2JSON" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DirectionAttributeValuesType_6">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="OBFUSCATE" />
+      <xs:enumeration value="DEOBFUSCATE" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="ActionAttributeValuesType_4">
@@ -19012,7 +19110,11 @@
       <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, compacted messages in the result are restored to their original format (see also  #setElementToMove(java.lang.String))</xs:documentation>
     </xs:annotation>
   </xs:attribute>
-  <xs:attribute name="sizeStatistics" type="frankBoolean" />
+  <xs:attribute name="sizeStatistics" type="frankBoolean">
+    <xs:annotation>
+      <xs:documentation>Collect and aggregate Message size statistics</xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
   <xs:attribute name="writeToSecLog" type="frankBoolean">
     <xs:annotation>
       <xs:documentation>when set to &lt;code&gt;true&lt;/code&gt; a record is written to the security log when the pipe has finished successfully</xs:documentation>
