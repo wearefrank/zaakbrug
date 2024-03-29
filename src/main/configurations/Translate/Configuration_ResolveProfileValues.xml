@@ -41,11 +41,23 @@
                 omitXmlDeclaration="true" storeResultInSessionKey="baseProfile" outputType="XML">
             </XsltPipe>
 
-            <!-- Failure here indicates missing baseProfile, or more than one baseProfile -->
             <XmlWellFormedCheckerPipe name="checkBaseProfile">
                 <Forward name="success" path="AddBaseProfileToEachProfile" />
-                <Forward name="failure" path="EXCEPTION"/>
+                <Forward name="failure" path="NoBaseProfile"/>
             </XmlWellFormedCheckerPipe>
+
+            <EchoPipe name="NoBaseProfile" getInputFromSessionKey="profiles">
+                <Forward name="success" path="EXIT" />
+            </EchoPipe>
+
+            <XmlIfPipe name="checkBaseProfile" xpathExpression="count(//profile) &gt; 1">
+                <Forward name="then" path="AddBaseProfileToEachProfile" />
+                <Forward name="else" path="MultipleBaseProfileError"/>
+            </XmlIfPipe>
+
+            <FixedResultPipe name="MultipleBaseProfileError" returnString="Error: Multiple Baseprofiles defined">
+                <Forward name="success" path="EXCEPTION" />
+            </FixedResultPipe>
 
             <ForEachChildElementPipe name="AddBaseProfileToEachProfile"
                 getInputFromSessionKey="profiles" targetElement="profile">
