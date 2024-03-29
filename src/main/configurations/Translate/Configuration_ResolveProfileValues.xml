@@ -17,13 +17,7 @@
             <Cache />
             <LocalFileSystemPipe name="ReadFile" action="read">
                 <Param name="filename" value="${configurations.directory}/Translate/Profiles.json" />
-                <Forward name="success" path="IsXml" />
             </LocalFileSystemPipe>
-
-            <XmlWellFormedCheckerPipe name="IsXml">
-                <Forward name="success" path="EXCEPTION" />
-                <Forward name="failure" path="JsonToXml" />
-            </XmlWellFormedCheckerPipe>
 
             <JsonPipe name="JsonToXml" storeResultInSessionKey="profiles"/>
 
