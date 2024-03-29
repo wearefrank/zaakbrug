@@ -25,7 +25,6 @@
                 getInputFromSessionKey="profiles" targetElement="profile">
                 <XsltSender styleSheetName="Common\xsl\AddPathAttribute.xsl" indentXml="true"
                     omitXmlDeclaration="true">
-                    <Param name="baseProfile" sessionKey="baseProfile" type="DOMDOC" />
                 </XsltSender>
             </ForEachChildElementPipe>
 
