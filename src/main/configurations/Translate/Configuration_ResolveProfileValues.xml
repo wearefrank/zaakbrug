@@ -23,7 +23,7 @@
             <JsonPipe name="JsonToXml" />
 
             <XsltPipe name="renameProfileElement"
-                styleSheetName="Common\xsl\RenameProfileElement.xsl"
+                styleSheetName="BaseProfile\RenameProfileElement.xsl"
                 storeResultInSessionKey="profiles" 
                 />
 
@@ -32,7 +32,7 @@
                 getInputFromSessionKey="profiles"
                 >
                 <XsltSender
-                    styleSheetName="Common\xsl\AddPathAttribute.xsl"
+                    styleSheetName="BaseProfile\AddPathAttribute.xsl"
                     indentXml="true"
                     omitXmlDeclaration="true"
                     >
@@ -41,7 +41,7 @@
 
             <XsltPipe
                 name="RemoveResultTags"
-                styleSheetName="Common\xsl\RemoveResultTags.xsl"
+                styleSheetName="BaseProfile\RemoveResultTags.xsl"
                 storeResultInSessionKey="profiles" 
                 />
 
@@ -78,7 +78,7 @@
                 getInputFromSessionKey="profiles"
                 >
                 <XsltSender 
-                    styleSheetName="Common\xsl\AddBaseProfile.xsl" 
+                    styleSheetName="BaseProfile\AddBaseProfile.xsl" 
                     indentXml="true"
                     omitXmlDeclaration="true"
                     >
@@ -86,9 +86,9 @@
                 </XsltSender>
             </ForEachChildElementPipe>
 
-            <XsltPipe name="RemoveResultTags2" styleSheetName="Common\xsl\RemoveResultTags.xsl" />
-            <XsltPipe name="RemovePathAttribute" styleSheetName="Common\xsl\RemovePathAttribute.xsl" />
-            <XsltPipe name="resetProfileElementName" styleSheetName="Common\xsl\ResetProfileElementName.xsl" />
+            <XsltPipe name="RemoveResultTags2" styleSheetName="BaseProfile\RemoveResultTags.xsl" />
+            <XsltPipe name="RemovePathAttribute" styleSheetName="BaseProfile\RemovePathAttribute.xsl" />
+            <XsltPipe name="resetProfileElementName" styleSheetName="BaseProfile\ResetProfileElementName.xsl" />
         </Pipeline>
     </Adapter>
 </Module>
