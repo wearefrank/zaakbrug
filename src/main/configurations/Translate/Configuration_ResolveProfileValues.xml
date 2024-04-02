@@ -19,10 +19,12 @@
                 <Param name="filename" value="${configurations.directory}/Translate/Profiles.json" />
             </LocalFileSystemPipe>
 
-            <JsonPipe name="JsonToXml" storeResultInSessionKey="profiles" />
+            <JsonPipe name="JsonToXml"/>
+
+            <XsltPipe name="renameProfileElement" styleSheetName="Common\xsl\RenameProfileElement.xsl" storeResultInSessionKey="profiles"/>
 
             <ForEachChildElementPipe name="AddPathAttributeToEachProfile"
-                getInputFromSessionKey="profiles" targetElement="profile">
+                getInputFromSessionKey="profiles">
                 <XsltSender styleSheetName="Common\xsl\AddPathAttribute.xsl" indentXml="true"
                     omitXmlDeclaration="true">
                 </XsltSender>
@@ -31,12 +33,12 @@
             <XsltPipe name="RemoveResultTags" styleSheetName="Common\xsl\RemoveResultTags.xsl"
                 storeResultInSessionKey="profiles" />
 
-            <XsltPipe name="ExtractBaseProfile" styleSheetName="Common\xsl\ExtractBaseProfile.xsl"
+            <XsltPipe name="ExtractBaseProfile" xpathExpression="root/profile[not(zaakTypeIdentificatie)]"
                 omitXmlDeclaration="true" storeResultInSessionKey="baseProfile" outputType="XML">
             </XsltPipe>
 
-            <XmlWellFormedCheckerPipe name="checkBaseProfile">
-                <Forward name="success" path="AddBaseProfileToEachProfile" />
+            <!-- <XmlWellFormedCheckerPipe name="checkBaseProfile">
+                <Forward name="success" path="checkBaseProfileCount" />
                 <Forward name="failure" path="NoBaseProfile" />
             </XmlWellFormedCheckerPipe>
 
@@ -44,18 +46,18 @@
                 <Forward name="success" path="EXIT" />
             </EchoPipe>
 
-            <XmlIfPipe name="checkBaseProfile" xpathExpression="count(//profile) &gt; 1">
-                <Forward name="then" path="AddBaseProfileToEachProfile" />
-                <Forward name="else" path="MultipleBaseProfileError" />
+            <XmlIfPipe name="checkBaseProfileCount" xpathExpression="count(//profile) &gt; 1">
+                <Forward name="then" path="MultipleBaseProfileError" />
+                <Forward name="else" path="AddBaseProfileToEachProfile" />
             </XmlIfPipe>
 
             <FixedResultPipe name="MultipleBaseProfileError"
                 returnString="Error: Multiple Baseprofiles defined">
                 <Forward name="success" path="EXCEPTION" />
-            </FixedResultPipe>
+            </FixedResultPipe> -->
 
             <ForEachChildElementPipe name="AddBaseProfileToEachProfile"
-                getInputFromSessionKey="profiles" targetElement="profile">
+                getInputFromSessionKey="profiles">
                 <XsltSender styleSheetName="Common\xsl\AddBaseProfile.xsl" indentXml="true"
                     omitXmlDeclaration="true">
                     <Param name="baseProfile" sessionKey="baseProfile" type="DOMDOC" />
@@ -64,6 +66,7 @@
 
             <XsltPipe name="RemoveResultTags2" styleSheetName="Common\xsl\RemoveResultTags.xsl" />
             <XsltPipe name="RemovePathAttribute" styleSheetName="Common\xsl\RemovePathAttribute.xsl" />
+            <XsltPipe name="resetProfileElementName" styleSheetName="Common\xsl\ResetProfileElementName.xsl"/>
         </Pipeline>
     </Adapter>
 </Module>
