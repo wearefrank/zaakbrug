@@ -15,26 +15,43 @@
             </Exits>
 
             <Cache />
+
             <LocalFileSystemPipe name="ReadFile" action="read">
                 <Param name="filename" value="${configurations.directory}/Translate/Profiles.json" />
             </LocalFileSystemPipe>
 
-            <JsonPipe name="JsonToXml"/>
+            <JsonPipe name="JsonToXml" />
 
-            <XsltPipe name="renameProfileElement" styleSheetName="Common\xsl\RenameProfileElement.xsl" storeResultInSessionKey="profiles"/>
+            <XsltPipe name="renameProfileElement"
+                styleSheetName="Common\xsl\RenameProfileElement.xsl"
+                storeResultInSessionKey="profiles" 
+                />
 
-            <ForEachChildElementPipe name="AddPathAttributeToEachProfile"
-                getInputFromSessionKey="profiles">
-                <XsltSender styleSheetName="Common\xsl\AddPathAttribute.xsl" indentXml="true"
-                    omitXmlDeclaration="true">
+            <ForEachChildElementPipe
+                name="AddPathAttributeToEachProfile"
+                getInputFromSessionKey="profiles"
+                >
+                <XsltSender
+                    styleSheetName="Common\xsl\AddPathAttribute.xsl"
+                    indentXml="true"
+                    omitXmlDeclaration="true"
+                    >
                 </XsltSender>
             </ForEachChildElementPipe>
 
-            <XsltPipe name="RemoveResultTags" styleSheetName="Common\xsl\RemoveResultTags.xsl"
-                storeResultInSessionKey="profiles" />
+            <XsltPipe
+                name="RemoveResultTags"
+                styleSheetName="Common\xsl\RemoveResultTags.xsl"
+                storeResultInSessionKey="profiles" 
+                />
 
-            <XsltPipe name="ExtractBaseProfile" xpathExpression="root/profile[not(zaakTypeIdentificatie)]"
-                omitXmlDeclaration="true" storeResultInSessionKey="baseProfile" outputType="XML">
+            <XsltPipe
+                name="ExtractBaseProfile"
+                xpathExpression="root/profile[not(zaakTypeIdentificatie)]"
+                omitXmlDeclaration="true"
+                storeResultInSessionKey="baseProfile"
+                outputType="XML"
+                >
             </XsltPipe>
 
             <!-- <XmlWellFormedCheckerPipe name="checkBaseProfile">
@@ -56,17 +73,22 @@
                 <Forward name="success" path="EXCEPTION" />
             </FixedResultPipe> -->
 
-            <ForEachChildElementPipe name="AddBaseProfileToEachProfile"
-                getInputFromSessionKey="profiles">
-                <XsltSender styleSheetName="Common\xsl\AddBaseProfile.xsl" indentXml="true"
-                    omitXmlDeclaration="true">
+            <ForEachChildElementPipe 
+                name="AddBaseProfileToEachProfile"
+                getInputFromSessionKey="profiles"
+                >
+                <XsltSender 
+                    styleSheetName="Common\xsl\AddBaseProfile.xsl" 
+                    indentXml="true"
+                    omitXmlDeclaration="true"
+                    >
                     <Param name="baseProfile" sessionKey="baseProfile" type="DOMDOC" />
                 </XsltSender>
             </ForEachChildElementPipe>
 
             <XsltPipe name="RemoveResultTags2" styleSheetName="Common\xsl\RemoveResultTags.xsl" />
             <XsltPipe name="RemovePathAttribute" styleSheetName="Common\xsl\RemovePathAttribute.xsl" />
-            <XsltPipe name="resetProfileElementName" styleSheetName="Common\xsl\ResetProfileElementName.xsl"/>
+            <XsltPipe name="resetProfileElementName" styleSheetName="Common\xsl\ResetProfileElementName.xsl" />
         </Pipeline>
     </Adapter>
 </Module>
