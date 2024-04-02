@@ -14,26 +14,21 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <LocalFileSystemPipe name="ReadFile" action="read">
-                <Param name="filename" value="${configurations.directory}/Translate/Profiles.json" />
-                <Forward name="success" path="IsXml" />
-            </LocalFileSystemPipe>
+            <SenderPipe name="GetMergedProfiles" >
+                <IbisLocalSender javaListener="ResolveProfileValues"/>
+            </SenderPipe>
 
             <XmlWellFormedCheckerPipe name="IsXml">
-                <Forward name="success" path="EXIT" />
-                <Forward name="failure" path="JsonToXml" />
-            </XmlWellFormedCheckerPipe>
-
-            <JsonPipe name="JsonToXml">
                 <Forward name="success" path="ExtractValueOverridesFromTranslationProfile" />
-            </JsonPipe>
+                <Forward name="failure" path="EXIT" />
+            </XmlWellFormedCheckerPipe>
 
             <XsltPipe
                 name="ExtractValueOverridesFromTranslationProfile"
                 styleSheetName="Common/xsl/ExtractValueOverridesFromTranslationProfile.xsl"
                 storeResultInSessionKey="valueOverrides"
                 >
-                <Param name="zaaktype" sessionKey="zaaktype" />
+                <Param name="zaaktype" value="B9999" />
                 <Forward name="success" path="RenameRootElementInValueOverridesKeys" />
             </XsltPipe>
 
