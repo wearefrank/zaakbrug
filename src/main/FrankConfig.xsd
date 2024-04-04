@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="8.1.0-20240328.042324">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="8.1.0-20240404.042328">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>Container of Adapters that belong together.
@@ -1145,8 +1145,26 @@
  by OpenAPI specifications. The Frank!Framework generates an OpenAPI specification for each ApiListener and
  also an OpenAPI specification for all ApiListeners in all configurations. You can
  find them in the Frank!Console under main menu item Webservices, heading Available ApiListeners.
+ &lt;p&gt;
  The generated OpenAPI specifications have &lt;code&gt;servers&lt;/code&gt; and &lt;code&gt;paths&lt;/code&gt; objects and
- therefore they document the full URLs of the provided services.</xs:documentation>
+ therefore they document the full URLs of the provided services.
+ &lt;p&gt;
+ It is possible to automatically generate eTags over the listener result. This can be controlled by globally 
+ setting the property &lt;code&gt;api.etag.enabled&lt;/code&gt; or by setting the attribute &lt;code&gt;updateEtag="true"&lt;/code&gt;.
+ When enabled the listener will respond to the 'if-match', 'if-none-match' headers and may return status code 304.
+ &lt;p&gt;
+ In order to make eTags work across multiple nodes you must configure Memcached to store the eTags.
+ The following properties will need to be set:
+ &lt;ul&gt;
+ &lt;li&gt;etag.cache.server=ip or hostname:port&lt;/li&gt;
+ &lt;li&gt;etag.cache.type=memcached&lt;/li&gt;
+ &lt;/ul&gt;
+ In case authentication, is required the following application properties can be used:
+ &lt;ul&gt;
+ &lt;li&gt;etag.cache.username&lt;/li&gt;
+ &lt;li&gt;etag.cache.password&lt;/li&gt;
+ &lt;li&gt;etag.cache.authalias&lt;/li&gt;
+ &lt;/ul&gt;</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:complexContent>
@@ -1619,7 +1637,7 @@
     </xs:attribute>
     <xs:attribute name="consumes">
       <xs:annotation>
-        <xs:documentation>The required contentType on requests, if it doesn't match the request will fail Default: ANY</xs:documentation>
+        <xs:documentation>The required contentType on requests, if it doesn't match a 415 Unsupported Media Type is replied Default: ANY</xs:documentation>
       </xs:annotation>
       <xs:simpleType>
         <xs:union memberTypes="MediaTypesAttributeValuesType_2 variableRef" />
@@ -12041,18 +12059,6 @@
           </xs:complexContent>
         </xs:complexType>
       </xs:element>
-      <xs:element name="CleanupOldFilesPipe">
-        <xs:annotation>
-          <xs:documentation>Pipe for deleting files.</xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-          <xs:complexContent>
-            <xs:extension base="CleanupOldFilesPipeType">
-              <xs:attribute name="elementRole" type="xs:string" fixed="pipe" use="prohibited" />
-            </xs:extension>
-          </xs:complexContent>
-        </xs:complexType>
-      </xs:element>
       <xs:element name="ClobLineIteratingPipe">
         <xs:annotation>
           <xs:documentation>Pipe that iterates over the lines in a CLOB.</xs:documentation>
@@ -14051,57 +14057,6 @@
   </xs:attributeGroup>
   <xs:attributeGroup name="ChecksumPipeCumulativeAttributeGroup">
     <xs:attributeGroup ref="ChecksumPipeDeclaredAttributeGroup" />
-    <xs:attributeGroup ref="FixedForwardPipeCumulativeAttributeGroup" />
-  </xs:attributeGroup>
-  <xs:complexType name="CleanupOldFilesPipeType">
-    <xs:group ref="AbstractPipeDeclaredChildGroup" />
-    <xs:attributeGroup ref="CleanupOldFilesPipeCumulativeAttributeGroup" />
-    <xs:attribute name="className" type="xs:string" fixed="org.frankframework.pipes.CleanupOldFilesPipe" use="prohibited" />
-  </xs:complexType>
-  <xs:attributeGroup name="CleanupOldFilesPipeDeclaredAttributeGroup">
-    <xs:attribute name="filePattern" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>files that match this pattern will be deleted. parameters of the pipe are applied to this pattern. if this attribute is not set, the input of the pipe is interpreted as the file to be removed</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="filePatternSessionKey" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>session key that contains the pattern of files to be deleted, only used if filePattern is not set</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="lastModifiedDelta" type="frankInt">
-      <xs:annotation>
-        <xs:documentation>time in milliseconds after last modification that must have passed at least before a file will be deleted (set to negative value to disable) Default: 0</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="subdirectories" type="frankBoolean">
-      <xs:annotation>
-        <xs:documentation>when &lt;code&gt;true&lt;/code&gt;, files  in subdirectories will be deleted, too Default: false</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="deleteEmptySubdirectories" type="frankBoolean">
-      <xs:annotation>
-        <xs:documentation>when &lt;code&gt;true&lt;/code&gt;, empty subdirectories will be deleted, too Default: false</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="wildcard" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>filter of files to delete. if not set and a directory is specified, all files in the directory are interpreted to be deleted</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="excludeWildcard" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>filter of files to be excluded for deletion</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="minStableTime" type="frankInt">
-      <xs:annotation>
-        <xs:documentation>Minimal age of file &lt;i&gt;in milliseconds&lt;/i&gt;, to avoid deleting a file while it is still being written (only used when wildcard is set) (set to 0 to disable) Default: 1000</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-  </xs:attributeGroup>
-  <xs:attributeGroup name="CleanupOldFilesPipeCumulativeAttributeGroup">
-    <xs:attributeGroup ref="CleanupOldFilesPipeDeclaredAttributeGroup" />
     <xs:attributeGroup ref="FixedForwardPipeCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="ClobLineIteratingPipeType">
