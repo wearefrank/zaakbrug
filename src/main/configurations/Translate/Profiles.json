@@ -1,40 +1,19 @@
 {
-    "profileDefaults": {
-        "endCaseEndDate": {
-            "coalesceResultaat": "Onbekend",
-            "testval": "testvalue" 
-        },
-        "valueOverrides": [
-            {
-                "key": "zgw.zaken-api.zaken.zaak.toelichting",
-                "value": "toelichtingBase"
-            }
-        ]
-    },
     "profile": [
         {
             "zaakTypeIdentificatie": "B9999",
-            "endDateAndResultLastStatus": {
+            "endCaseEndDate": {
                 "coalesceResultaat": "Onbekend"
             },
-            "valueOverrides": [
-                {
-                    "key": "zgw.zaken-api.zaken.zaak.communicatiekanaal",
-                    "value": "http://example.com"
-                }
-            ]
+            "endDateAndResultLastStatus": {
+                "coalesceResultaat": "Onbekend"
+            }
         },
         {
             "zaakTypeIdentificatie": "B1026",
             "endCaseEndDate": {
                 "coalesceResultaat": "Toegekend"
-            },
-            "valueOverrides": [
-                {
-                    "key": "zgw.zaken-api.zaken.zaak.toelichting",
-                    "value": "toelichting"
-                }
-            ]
+            }
         }
     ]
 }
