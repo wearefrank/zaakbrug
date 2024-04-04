@@ -54,25 +54,31 @@
                 >
             </XsltPipe>
 
-            <!-- <XmlWellFormedCheckerPipe name="checkBaseProfile">
-                <Forward name="success" path="checkBaseProfileCount" />
+
+            <!-- If no baseprofile, return original input. 
+            If multiple baseprofiles, report with an error.
+            Otherwise, continue. -->
+            <XmlWellFormedCheckerPipe name="checkBaseProfile">
+                <Forward name="success" path="checkBaseProfilePresent" />
                 <Forward name="failure" path="NoBaseProfile" />
             </XmlWellFormedCheckerPipe>
+
+            <XmlIfPipe name="checkBaseProfilePresent" xpathExpression="count(//profile) = 0">
+                <Forward name="then" path="NoBaseProfile" />
+                <Forward name="else" path="checkBaseProfileCount" />
+            </XmlIfPipe>
 
             <EchoPipe name="NoBaseProfile" getInputFromSessionKey="profiles">
                 <Forward name="success" path="EXIT" />
             </EchoPipe>
 
-            <XmlIfPipe name="checkBaseProfileCount" xpathExpression="count(//profile) &gt; 1">
-                <Forward name="then" path="MultipleBaseProfileError" />
-                <Forward name="else" path="AddBaseProfileToEachProfile" />
-            </XmlIfPipe>
-
             <FixedResultPipe name="MultipleBaseProfileError"
                 returnString="Error: Multiple Baseprofiles defined">
                 <Forward name="success" path="EXCEPTION" />
-            </FixedResultPipe> -->
+            </FixedResultPipe>
 
+
+            
             <ForEachChildElementPipe 
                 name="AddBaseProfileToEachProfile"
                 getInputFromSessionKey="profiles"
