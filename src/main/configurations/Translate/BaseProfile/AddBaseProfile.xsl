@@ -11,6 +11,15 @@
     <xsl:template name="processNode">
         <xsl:param name="node" />
 
+        <!-- Process existing elements. -->
+        <!-- 
+        [Pseudocode summary] 
+        For each child of current node: 
+            If it does not exist in baseProfile - do a full copy.
+            Else if it does exist in baseProfile - only copy the child and: 
+                If it contains only text - Copy text 
+                Else if it contains non-text nodes - call template with current child as parameter.  
+        -->
         <xsl:for-each select="$node/*">
             <xsl:choose>
                 <xsl:when test="$baseProfile//*[name() = name(current())]">
@@ -42,6 +51,11 @@
             </xsl:choose>
         </xsl:for-each>
         
+        <!-- Process elements that do not exist in input. -->
+        <!-- Overall just copying while avoiding duplicates by using the path attributes.
+            Treats elements inside of the valueOverrides element differently (using xsl:when statement) to
+            keep key-value pairs intact.
+        -->
         <xsl:for-each
             select="$baseProfile/profile//*">
             <xsl:choose>
