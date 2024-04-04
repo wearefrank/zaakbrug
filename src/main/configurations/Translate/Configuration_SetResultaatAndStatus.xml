@@ -232,10 +232,9 @@
 
             <SenderPipe name="GetProfileDataFromLocalFS_1">
                 <IbisLocalSender
-                    name="CallImportFromLocalFS"
-                    javaListener="ImportFromLocalFS"
+                    name="CallImportValueOverridesFromTranslationProfile"
+                    javaListener="ImportValueOverridesFromTranslationProfile"
                     returnedSessionKeys="Error">
-                    <Param name="FileName" value="${FilePath_2}"/>                   
                 </IbisLocalSender>
                 <Forward name="success" path="GetCoalesceResultaat_1"/>
                 <Forward name="exception" path="EXCEPTION" />
@@ -297,10 +296,9 @@
 
             <SenderPipe name="GetProfileDataFromLocalFS_2">
                 <IbisLocalSender
-                    name="CallImportFromLocalFS"
-                    javaListener="ImportFromLocalFS"
+                    name="CallImportValueOverridesFromTranslationProfile"
+                    javaListener="ImportValueOverridesFromTranslationProfile"
                     returnedSessionKeys="Error">
-                    <Param name="FileName" value="${FilePath_2}"/>                   
                 </IbisLocalSender>
                 <Forward name="success" path="GetCoalesceResultaat_2"/>
                 <Forward name="exception" path="EXCEPTION" />
