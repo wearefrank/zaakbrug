@@ -72,6 +72,11 @@
                 <Forward name="success" path="EXIT" />
             </EchoPipe>
 
+            <XmlIfPipe name="checkBaseProfileCount" xpathExpression="count(//profile) > 1">
+                <Forward name="then" path="MultipleBaseProfileError" />
+                <Forward name="else" path="AddBaseProfileToEachProfile" />
+            </XmlIfPipe>
+
             <FixedResultPipe name="MultipleBaseProfileError"
                 returnString="Error: Multiple Baseprofiles defined">
                 <Forward name="success" path="EXCEPTION" />
