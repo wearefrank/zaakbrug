@@ -1,6 +1,6 @@
 # Keep in sync with version in frank-runner.properties. Detailed instructions can be found in CONTRIBUTING.md.
 # Check whether java-orig files have changed in F!F and update custom code (java and java-orig files) accordingly
-ARG FF_VERSION=8.1.0-20240221.213323
+ARG FF_VERSION=8.1.0-20240404.042328
 FROM docker.io/frankframework/frankframework:${FF_VERSION} as ff-base
 
 # Copy dependencies
@@ -9,7 +9,7 @@ COPY --chown=tomcat lib/webapp/* /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/
 
 
 # Compile custom class
-FROM eclipse-temurin:11-jdk-jammy AS custom-code-builder
+FROM eclipse-temurin:17-jdk-jammy AS custom-code-builder
 
 # Copy dependencies
 COPY --from=ff-base /usr/local/tomcat/lib/ /usr/local/tomcat/lib/
