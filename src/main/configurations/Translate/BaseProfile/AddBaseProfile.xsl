@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
 
     <xsl:param name="baseProfile" />
 
@@ -44,11 +44,22 @@
         
         <xsl:for-each
             select="$baseProfile/profile//*">
-            <xsl:if test="parent::*/@path = $node/@path">
-                <xsl:if test="not($node/*[@path = current()/@path])">
-                    <xsl:copy-of select="." />
-                </xsl:if>
-            </xsl:if>
+            <xsl:choose>
+                <xsl:when test="$node/name() = 'profile' and parent::*/name() = 'profile'">
+                    <xsl:if test="name() = 'valueOverrides'">
+                        <xsl:if test="not($node/valueOverrides[key[. = current()/key]])">
+                            <xsl:copy-of select="." />
+                        </xsl:if>
+                    </xsl:if>     
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:if test="parent::*/@path = $node/@path and not(name() = 'valueOverrides') and parent::*/name() != 'valueOverrides'">
+                        <xsl:if test="not($node/*[@path = current()/@path])">
+                            <xsl:copy-of select="." />
+                        </xsl:if>
+                    </xsl:if>
+                </xsl:otherwise>
+            </xsl:choose>
         </xsl:for-each>
 
     </xsl:template>
