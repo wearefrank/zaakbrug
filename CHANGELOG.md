@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.17.1](https://github.com/wearefrank/zaakbrug/compare/v1.17.0...v1.17.1) (2024-04-08)
+
+
+### 🧑‍💻 Code Refactoring
+
+* move processing of zaak relationships to the end of creeerZaak and updateZaak so that the more critical resultaat and statussen are processed first ([#298](https://github.com/wearefrank/zaakbrug/issues/298)) ([0ed1615](https://github.com/wearefrank/zaakbrug/commit/0ed1615027122fc5abc0f2176f03d1e633dc46a4))
+
 ## [1.17.0](https://github.com/wearefrank/zaakbrug/compare/v1.16.2...v1.17.0) (2024-04-04)
 
 
