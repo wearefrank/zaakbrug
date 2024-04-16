@@ -34,6 +34,15 @@ jobs:
             sed -i "s/^ARG FF_VERSION=.*/ARG FF_VERSION=$latest_image_version/" ../../Dockerfile.java8
             sed -i "s/^ff.version=.*/ff.version=$latest_image_version/" ../../frank-runner.properties
             sed -i "s/^\s\s\s\s\s\s\s\sFF_VERSION:\s\${FF_VERSION:-.*/        FF_VERSION: \${FF_VERSION:-$latest_image_version}/" ../../docker-compose.zaakbrug.dev.yml
+
+            rm ../../src/main/FrankConfig.xsd
+            rm ../../src/main/configurations/FrankConfig.xsd
+
+            wget -O artifact.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-parent/$latest_image_version/frankframework-parent-$latest_image_version-frankdoc.jar"
+            mkdir -p temp_extract
+            unzip -q artifact.jar -d temp_extract
+            cp temp_extract/xml/xsd/FrankConfig.xsd ../../src/main
+            cp temp_extract/xml/xsd/FrankConfig.xsd ../../src/main/configurations
             
             git add .
             git commit -m "build(dependencies): bump f!f version to $latest_image_version"
