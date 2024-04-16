@@ -1,0 +1,57 @@
+name: Update F!F Version in Zaakbrug
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # Every Monday at midnight
+
+jobs:
+  check-ff-version-and-update:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Download Docker image with latest tag
+      run: docker pull frankframework/frankframework:latest
+
+    - name: Compare versions and update files
+      run: |
+        ff_image_inspect=$(docker inspect frankframework/frankframework:latest)
+        latest_image_version=$(echo "$ff_image_inspect" | jq -r '.[0].Config.Labels."org.opencontainers.image.version"')
+        echo "Latest Image Version: $latest_image_version"
+
+        current_image_version=$(grep -oP '(?<=^ARG FF_VERSION=).+' ../../Dockerfile)
+
+        if [ "$current_image_version" != "$latest_image_version" ]
+          then
+            echo "F!F version has changed. Applying it to Zaakbrug."
+
+            branch_name="bump-f!f-version-to-$latest_image_version"
+            git checkout -b $branch_name
+
+            sed -i "s/^ARG FF_VERSION=.*/ARG FF_VERSION=$latest_image_version/" ../../Dockerfile
+            sed -i "s/^ARG FF_VERSION=.*/ARG FF_VERSION=$latest_image_version/" ../../Dockerfile.java8
+            sed -i "s/^ff.version=.*/ff.version=$latest_image_version/" ../../frank-runner.properties
+            sed -i "s/^\s\s\s\s\s\s\s\sFF_VERSION:\s\${FF_VERSION:-.*/        FF_VERSION: \${FF_VERSION:-$latest_image_version}/" ../../docker-compose.zaakbrug.dev.yml
+            
+            git add .
+            git commit -m "build(dependencies): bump f!f version to $latest_image_version"
+            git push origin $branch_name
+
+            pr_body=$(docker scout compare --format markdown --to frankframework/frankframework:$current_image_version frankframework/frankframework:$latest_image_version)
+            curl -X POST \
+              -H "Authorization: Bearer $GITHUB_TOKEN" \
+              -H "Accept: application/vnd.github.v3+json" \
+              https://api.github.com/repos/wearefrank/zaakbrug/pulls \
+              -d '{
+                    "title": "Bump f!f version to '"$latest_image_version"'",
+                    "body": "'"$pr_body"'",
+                    "head": "'"$branch_name"'",
+                    "base": "master"
+                  }'
+        else
+          echo "F!F version has not changed. No action needed."
+        fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
