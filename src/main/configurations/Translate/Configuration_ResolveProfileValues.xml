@@ -4,8 +4,13 @@
         active="${ResolveProfileValues.Active}"
         description="">
 
-        <Receiver name="ResolveProfileValues">
-            <JavaListener name="ResolveProfileValues" returnedSessionKeys="Error" />
+        <Receiver
+            name="ResolveProfileValues"
+            >
+            <JavaListener
+                name="ResolveProfileValues"
+                returnedSessionKeys="Error"
+                />
         </Receiver>
 
         <Pipeline>
@@ -16,90 +21,35 @@
 
             <Cache />
 
-            <LocalFileSystemPipe name="ReadFile" action="read">
+            <LocalFileSystemPipe
+                name="ReadFile"
+                action="read"
+                >
                 <Param name="filename" value="${configurations.directory}/Translate/Profiles.json" />
+                <Forward name="success" path="MergeProfileDefaultsWithProfilesSender" />
+                <Forward name="exception" path="EXCEPTION" />
             </LocalFileSystemPipe>
 
-            <JsonPipe name="JsonToXml" />
-
-            <XsltPipe name="renameProfileElement"
-                styleSheetName="BaseProfile\RenameProfileElement.xsl"
-                storeResultInSessionKey="profiles" 
-                />
-
-            <ForEachChildElementPipe
-                name="AddPathAttributeToEachProfile"
-                getInputFromSessionKey="profiles"
+            <SenderPipe
+                name="MergeProfileDefaultsWithProfilesSender"
                 >
-                <XsltSender
-                    styleSheetName="BaseProfile\AddPathAttribute.xsl"
-                    indentXml="true"
-                    omitXmlDeclaration="true"
+				<JavascriptSender
+                    name="MergeProfileDefaultsWithProfilesJavascriptSender"
+                    jsFileName="MergeProfileDefaultsWithProfiles.js"
+                    jsFunctionName="mergeProfileDefaultsWithProfiles"
                     >
-                </XsltSender>
-            </ForEachChildElementPipe>
+				</JavascriptSender>
+                <Param name="profilesFile" />
+                <Forward name="success" path="JsonToXml" />
+                <Forward name="exception" path="EXCEPTION" />
+			</SenderPipe>
 
-            <XsltPipe
-                name="RemoveResultTags"
-                styleSheetName="BaseProfile\RemoveResultTags.xsl"
-                storeResultInSessionKey="profiles" 
-                />
-
-            <XsltPipe
-                name="ExtractBaseProfile"
-                xpathExpression="root/profile[not(zaakTypeIdentificatie)]"
-                omitXmlDeclaration="true"
-                storeResultInSessionKey="baseProfile"
-                outputType="XML"
+            <JsonPipe
+                name="JsonToXml"
                 >
-            </XsltPipe>
-
-
-            <!-- If no baseprofile, return original input. 
-            If multiple baseprofiles, report with an error.
-            Otherwise, continue. -->
-            <XmlWellFormedCheckerPipe name="checkBaseProfile">
-                <Forward name="success" path="checkBaseProfilePresent" />
-                <Forward name="failure" path="NoBaseProfile" />
-            </XmlWellFormedCheckerPipe>
-
-            <XmlIfPipe name="checkBaseProfilePresent" xpathExpression="count(//profile) = 0">
-                <Forward name="then" path="NoBaseProfile" />
-                <Forward name="else" path="checkBaseProfileCount" />
-            </XmlIfPipe>
-
-            <EchoPipe name="NoBaseProfile" getInputFromSessionKey="profiles">
                 <Forward name="success" path="EXIT" />
-            </EchoPipe>
-
-            <XmlIfPipe name="checkBaseProfileCount" xpathExpression="count(//profile) > 1">
-                <Forward name="then" path="MultipleBaseProfileError" />
-                <Forward name="else" path="AddBaseProfileToEachProfile" />
-            </XmlIfPipe>
-
-            <FixedResultPipe name="MultipleBaseProfileError"
-                returnString="Error: Multiple Baseprofiles defined">
-                <Forward name="success" path="EXCEPTION" />
-            </FixedResultPipe>
-
-
-            
-            <ForEachChildElementPipe 
-                name="AddBaseProfileToEachProfile"
-                getInputFromSessionKey="profiles"
-                >
-                <XsltSender 
-                    styleSheetName="BaseProfile\AddBaseProfile.xsl" 
-                    indentXml="true"
-                    omitXmlDeclaration="true"
-                    >
-                    <Param name="baseProfile" sessionKey="baseProfile" type="DOMDOC" />
-                </XsltSender>
-            </ForEachChildElementPipe>
-
-            <XsltPipe name="RemoveResultTags2" styleSheetName="BaseProfile\RemoveResultTags.xsl" />
-            <XsltPipe name="RemovePathAttribute" styleSheetName="BaseProfile\RemovePathAttribute.xsl" />
-            <XsltPipe name="resetProfileElementName" styleSheetName="BaseProfile\ResetProfileElementName.xsl" />
+                <Forward name="exception" path="EXCEPTION" />
+            </JsonPipe>
         </Pipeline>
     </Adapter>
 </Module>

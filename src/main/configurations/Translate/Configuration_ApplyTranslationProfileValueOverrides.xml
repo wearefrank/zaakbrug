@@ -1,11 +1,11 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="ImportValueOverridesFromTranslationProfile"
-        active="${ImportValueOverridesFromTranslationProfile.Active}"
+    <Adapter name="ApplyTranslationProfileValueOverrides"
+        active="${ApplyTranslationProfileValueOverrides.Active}"
         description="">
 
-        <Receiver name="ImportValueOverridesFromTranslationProfile">
-            <JavaListener name="ImportValueOverridesFromTranslationProfile" returnedSessionKeys="Error" />
+        <Receiver name="ApplyTranslationProfileValueOverrides">
+            <JavaListener name="ApplyTranslationProfileValueOverrides" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -14,21 +14,24 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <SenderPipe name="GetMergedProfiles" >
-                <IbisLocalSender javaListener="ResolveProfileValues"/>
-            </SenderPipe>
-
-            <XmlWellFormedCheckerPipe name="IsXml">
+            <SenderPipe
+                name="ResolveProfileValuesSender"
+                >
+                <IbisLocalSender
+                    name="ResolveProfileValuesLocalSender"
+                    javaListener="ResolveProfileValues"
+                    returnedSessionKeys="Error"
+                />
                 <Forward name="success" path="ExtractValueOverridesFromTranslationProfile" />
-                <Forward name="failure" path="EXIT" />
-            </XmlWellFormedCheckerPipe>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
 
             <XsltPipe
                 name="ExtractValueOverridesFromTranslationProfile"
                 styleSheetName="Common/xsl/ExtractValueOverridesFromTranslationProfile.xsl"
                 storeResultInSessionKey="valueOverrides"
                 >
-                <Param name="zaaktype" value="B9999" />
+                <Param name="zaaktype" sessionKey="zaaktype" />
                 <Forward name="success" path="RenameRootElementInValueOverridesKeys" />
             </XsltPipe>
 
