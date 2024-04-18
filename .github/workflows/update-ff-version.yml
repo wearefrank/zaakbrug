@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out code
+    - name: Checkout
       uses: actions/checkout@v2
 
     - name: Download Docker image with latest tag
@@ -38,11 +38,23 @@ jobs:
             rm ../../src/main/FrankConfig.xsd
             rm ../../src/main/configurations/FrankConfig.xsd
 
-            wget -O artifact.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-parent/$latest_image_version/frankframework-parent-$latest_image_version-frankdoc.jar"
-            mkdir -p temp_extract
-            unzip -q artifact.jar -d temp_extract
-            cp temp_extract/xml/xsd/FrankConfig.xsd ../../src/main
-            cp temp_extract/xml/xsd/FrankConfig.xsd ../../src/main/configurations
+            wget -O parent.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-parent/$latest_image_version/frankframework-parent-$latest_image_version-frankdoc.jar"
+            mkdir -p parent_temp_extract
+            unzip -q parent.jar -d parent_temp_extract
+            cp parent_temp_extract/xml/xsd/FrankConfig.xsd ../../src/main
+            cp parent_temp_extract/xml/xsd/FrankConfig.xsd ../../src/main/configurations
+
+            wget -O source.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-core/$latest_image_version/frankframework-core-$latest_image_version-sources.jar"
+            mkdir -p source_temp_extract
+            unzip -q source.jar -d source_temp_extract
+
+            if cmp -s source_temp_extract/org/frankframework/parameters/Parameter.java ../../src/main/java/org/frankframework/parameters/Parameter.java-orig
+              then
+                echo "Parameter.java file hasn't been updated."
+            else
+                echo "Parameter.java file has been updated. Copying the new version of Parameter.java file to the Parameter.java-orig file in repository."
+                cp source_temp_extract/org/frankframework/parameters/Parameter.java ../../src/main/java/org/frankframework/parameters/Parameter.java-orig
+            fi
             
             git add .
             git commit -m "build(dependencies): bump f!f version to $latest_image_version"
