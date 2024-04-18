@@ -1,11 +1,11 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="ImportValueOverridesFromTranslationProfile"
-        active="${ImportValueOverridesFromTranslationProfile.Active}"
+    <Adapter name="ApplyTranslationProfileValueOverrides"
+        active="${ApplyTranslationProfileValueOverrides.Active}"
         description="">
 
-        <Receiver name="ImportValueOverridesFromTranslationProfile">
-            <JavaListener name="ImportValueOverridesFromTranslationProfile" returnedSessionKeys="Error" />
+        <Receiver name="ApplyTranslationProfileValueOverrides">
+            <JavaListener name="ApplyTranslationProfileValueOverrides" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -14,19 +14,17 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <LocalFileSystemPipe name="ReadFile" action="read">
-                <Param name="filename" value="${configurations.directory}/Translate/Profiles.json" />
-                <Forward name="success" path="IsXml" />
-            </LocalFileSystemPipe>
-
-            <XmlWellFormedCheckerPipe name="IsXml">
-                <Forward name="success" path="EXIT" />
-                <Forward name="failure" path="JsonToXml" />
-            </XmlWellFormedCheckerPipe>
-
-            <JsonPipe name="JsonToXml">
+            <SenderPipe
+                name="ResolveProfileValuesSender"
+                >
+                <IbisLocalSender
+                    name="ResolveProfileValuesLocalSender"
+                    javaListener="ResolveProfileValues"
+                    returnedSessionKeys="Error"
+                />
                 <Forward name="success" path="ExtractValueOverridesFromTranslationProfile" />
-            </JsonPipe>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
 
             <XsltPipe
                 name="ExtractValueOverridesFromTranslationProfile"

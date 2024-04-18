@@ -226,16 +226,15 @@
 
             <XmlIfPipe name="CheckForResultaten"
                 xpathExpression="root/count = 0"
-                thenForwardName="GetProfileDataFromLocalFS_1"
+                thenForwardName="GetResolveProfileValuesSender_1"
                 elseForwardName="CheckForEindDatum">
             </XmlIfPipe>
 
-            <SenderPipe name="GetProfileDataFromLocalFS_1">
+            <SenderPipe name="GetResolveProfileValuesSender_1">
                 <IbisLocalSender
-                    name="CallImportFromLocalFS"
-                    javaListener="ImportFromLocalFS"
+                    name="CallResolveProfileValuesLocalSender_1"
+                    javaListener="ResolveProfileValues"
                     returnedSessionKeys="Error">
-                    <Param name="FileName" value="${FilePath_2}"/>                   
                 </IbisLocalSender>
                 <Forward name="success" path="GetCoalesceResultaat_1"/>
                 <Forward name="exception" path="EXCEPTION" />
@@ -290,17 +289,16 @@
             <XmlIfPipe name="CheckForEindDatum"
                 getInputFromSessionKey="originalMessage"
                 xpathExpression="string-length(/*/object/einddatum) > 0 and $Beeindigd/beeindigd = 'false'"
-                thenForwardName="GetProfileDataFromLocalFS_2"
+                thenForwardName="GetResolveProfileValuesSender_2"
                 elseForwardName="PostStatusIterator">
                 <Param name="Beeindigd" sessionKey="Beeindigd" type="DOMDOC"/>
             </XmlIfPipe>
 
-            <SenderPipe name="GetProfileDataFromLocalFS_2">
+            <SenderPipe name="GetResolveProfileValuesSender_2">
                 <IbisLocalSender
-                    name="CallImportFromLocalFS"
-                    javaListener="ImportFromLocalFS"
+                    name="CallResolveProfileValuesLocalSender_2"
+                    javaListener="ResolveProfileValues"
                     returnedSessionKeys="Error">
-                    <Param name="FileName" value="${FilePath_2}"/>                   
                 </IbisLocalSender>
                 <Forward name="success" path="GetCoalesceResultaat_2"/>
                 <Forward name="exception" path="EXCEPTION" />
