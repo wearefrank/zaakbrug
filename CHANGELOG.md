@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.18.0](https://github.com/wearefrank/zaakbrug/compare/v1.17.1...v1.18.0) (2024-04-18)
+
+
+### 🍕 Features
+
+* provide translation profile defaults for configuring common settings applying to all zaaktype related custom translation profiles ([#296](https://github.com/wearefrank/zaakbrug/issues/296)) ([81e9114](https://github.com/wearefrank/zaakbrug/commit/81e9114c827e8f9e91120ebf72cdfc043496d14d))
+
 ## [1.17.1](https://github.com/wearefrank/zaakbrug/compare/v1.17.0...v1.17.1) (2024-04-08)
 
 
