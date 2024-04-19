@@ -1,6 +1,7 @@
 name: Update F!F Version in Zaakbrug
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 0 * * 1' # Every Monday at midnight
 
@@ -11,6 +12,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+
+    - name: Login to Container Registry
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Download Docker image with latest tag
       run: docker pull frankframework/frankframework:latest
