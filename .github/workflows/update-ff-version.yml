@@ -32,7 +32,7 @@ jobs:
         latest_image_version=$(echo "$ff_image_inspect" | jq -r '.[0].Config.Labels."org.opencontainers.image.version"')
         echo "Latest Image Version: $latest_image_version"
 
-        current_image_version=$(grep -oP '(?<=^ARG FF_VERSION=).+' ../../Dockerfile)
+        current_image_version=$(grep -oP '(?<=^ARG FF_VERSION=).+' ./Dockerfile)
 
         if [ "$current_image_version" != "$latest_image_version" ]
           then
@@ -41,30 +41,29 @@ jobs:
             branch_name="bump-f!f-version-to-$latest_image_version"
             git checkout -b $branch_name
 
-            sed -i "s/^ARG FF_VERSION=.*/ARG FF_VERSION=$latest_image_version/" ../../Dockerfile
-            sed -i "s/^ARG FF_VERSION=.*/ARG FF_VERSION=$latest_image_version/" ../../Dockerfile.java8
-            sed -i "s/^ff.version=.*/ff.version=$latest_image_version/" ../../frank-runner.properties
-            sed -i "s/^\s\s\s\s\s\s\s\sFF_VERSION:\s\${FF_VERSION:-.*/        FF_VERSION: \${FF_VERSION:-$latest_image_version}/" ../../docker-compose.zaakbrug.dev.yml
+            sed -i "s/^ARG FF_VERSION=.*/ARG FF_VERSION=$latest_image_version/" ./Dockerfile
+            sed -i "s/^ff.version=.*/ff.version=$latest_image_version/" ./frank-runner.properties
+            sed -i "s/^\s\s\s\s\s\s\s\sFF_VERSION:\s\${FF_VERSION:-.*/        FF_VERSION: \${FF_VERSION:-$latest_image_version}/" ./docker-compose.zaakbrug.dev.yml
 
-            rm ../../src/main/FrankConfig.xsd
-            rm ../../src/main/configurations/FrankConfig.xsd
+            rm ./src/main/FrankConfig.xsd
+            rm ./src/main/configurations/FrankConfig.xsd
 
             wget -O parent.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-parent/$latest_image_version/frankframework-parent-$latest_image_version-frankdoc.jar"
             mkdir -p parent_temp_extract
             unzip -q parent.jar -d parent_temp_extract
-            cp parent_temp_extract/xml/xsd/FrankConfig.xsd ../../src/main
-            cp parent_temp_extract/xml/xsd/FrankConfig.xsd ../../src/main/configurations
+            cp parent_temp_extract/xml/xsd/FrankConfig.xsd ./src/main
+            cp parent_temp_extract/xml/xsd/FrankConfig.xsd ./src/main/configurations
 
             wget -O source.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-core/$latest_image_version/frankframework-core-$latest_image_version-sources.jar"
             mkdir -p source_temp_extract
             unzip -q source.jar -d source_temp_extract
 
-            if cmp -s source_temp_extract/org/frankframework/parameters/Parameter.java ../../src/main/java/org/frankframework/parameters/Parameter.java-orig
+            if cmp -s source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
               then
                 echo "Parameter.java file hasn't been updated."
             else
                 echo "Parameter.java file has been updated. Copying the new version of Parameter.java file to the Parameter.java-orig file in repository."
-                cp source_temp_extract/org/frankframework/parameters/Parameter.java ../../src/main/java/org/frankframework/parameters/Parameter.java-orig
+                cp source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
             fi
             
             git add .
