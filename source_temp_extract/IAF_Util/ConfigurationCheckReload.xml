@@ -1,0 +1,10 @@
+<module>
+	<scheduler>
+		<job
+			name="CheckReload" 
+			interval="${checkReload.interval}"
+			description="Reload configs from database (if necessary)"
+			function="checkReload"
+			active="${checkReload.active}" />
+	</scheduler>
+</module>
