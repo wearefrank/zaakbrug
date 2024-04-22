@@ -78,7 +78,7 @@ jobs:
       run: |
         ff_image_inspect=$(docker inspect frankframework/frankframework:${{ inputs.ff-version-tag }})
         requested_image_version_tag=$(echo "$ff_image_inspect" | jq -r '.[0].Config.Labels."org.opencontainers.image.version"')
-        echo "::set-output name=requested_image_version_tag::${requested_image_version_tag}"
+        echo "requested_image_version_tag=${requested_image_version_tag}" >> GITHUB_OUTPUT
         echo "Requested Image Version: ${requested_image_version_tag}"
 
         current_image_version_tag=$(grep -oP '(?<=^ARG FF_VERSION=).+' ./Dockerfile)
