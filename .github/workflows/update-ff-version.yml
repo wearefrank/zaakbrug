@@ -10,7 +10,7 @@ on:
       project-name:
         type: string
         description: The name of the project in which is updating F!F version
-        default: ${requested_image_version_tag}
+        default: 'Zaakbrug'
       regex-for-dockerfile:
         type: string
         description: Regex to find the line in Dockerfile to update the F!F version
@@ -147,8 +147,8 @@ jobs:
       uses: docker/scout-action@v1
       with:
         command: compare
-        image: frankframework/frankframework:$CURRENT_IMAGE_VERSION_TAG
-        to: frankframework/frankframework:$REQUESTED_IMAGE_VERSION_TAG
+        image: frankframework/frankframework:${{ env.CURRENT_IMAGE_VERSION_TAG }}
+        to: frankframework/frankframework:${{ env.REQUESTED_IMAGE_VERSION_TAG }}
         ignore-unchanged: true
         write-comment: true
         github-token: $GITHUB_TOKEN
