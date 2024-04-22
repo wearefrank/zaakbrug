@@ -77,8 +77,7 @@ jobs:
         git config user.name "$GITHUB_ACTOR"
         git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-    - name: Compare versions and update files
-      id: compare-versions-and-update
+    - name: Get requested and current image tags of F!F
       run: |
         ff_image_inspect=$(docker inspect frankframework/frankframework:${{ inputs.ff-version-tag }})
         requested_image_version_tag=$(echo "$ff_image_inspect" | jq -r '.[0].Config.Labels."org.opencontainers.image.version"')
@@ -88,60 +87,90 @@ jobs:
         current_image_version_tag=$(grep -oP '(?<=^ARG FF_VERSION=).+' ./Dockerfile)
         echo "CURRENT_IMAGE_VERSION_TAG=${current_image_version_tag}" >> $GITHUB_ENV
         echo "Current Image Version: ${current_image_version_tag}"
-
-        if [ "${current_image_version_tag}" != "${requested_image_version_tag}" ]
+      
+    - name: Check if requested F!F version is different than current F!F version
+      run: |
+        if [ "${{ env.REQUESTED_IMAGE_VERSION_TAG }}" != "${{ env.CURRENT_IMAGE_VERSION_TAG }}" ]
           then
-            echo "Requested F!F version is different than current F!F version. Applying it to ${{inputs.project-name}} project."
-
-            branch_name="bump-f!f-version-to-${requested_image_version_tag}"
-            git checkout -b $branch_name
-
-            sed -i "s/${{ inputs.regex-for-dockerfile }}/${{ inputs.replacement-for-dockerfile }}/" ${{ inputs.dockerfile-path }}
-            sed -i "s/${{ inputs.regex-for-frankrunnerproperties }}/${{inputs.replacement-for-frankrunnerproperties}}/" ${{ inputs.frankrunnerproperties-path }}
-            sed -i "s/${{inputs.regex-for-dockercompose}}/${{inputs.replacement-for-dockercompose}}/" ${{ inputs.dockercompose-path }}
-
-            rm ./src/main/FrankConfig.xsd
-            rm ./src/main/configurations/FrankConfig.xsd
-
-            wget -O parent.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-parent/${requested_image_version_tag}/frankframework-parent-${requested_image_version_tag}-frankdoc.jar"
-            mkdir -p parent_temp_extract
-            unzip -q parent.jar -d parent_temp_extract
-            cp parent_temp_extract/xml/xsd/FrankConfig.xsd ./src/main
-            cp parent_temp_extract/xml/xsd/FrankConfig.xsd ./src/main/configurations
-
-            wget -O source.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-core/${requested_image_version_tag}/frankframework-core-${requested_image_version_tag}-sources.jar"
-            mkdir -p source_temp_extract
-            unzip -q source.jar -d source_temp_extract
-
-            if cmp -s source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
-              then
-                echo "Parameter.java file hasn't been updated."
-            else
-                echo "Parameter.java file has been updated. Copying the new version of Parameter.java file to the Parameter.java-orig file in repository."
-                cp source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
-            fi
-
-            rm -r source_temp_extract
-            rm -r parent_temp_extract
-            rm ./parent.jar
-            rm ./source.jar
-            
-            git add .
-            git commit -m "build(dependencies): bump f!f version to ${requested_image_version_tag}"
-            git push origin $branch_name
-
-            curl -X POST \
-              -H "Authorization: Bearer ${{ secrets.token }}" \
-              -H "Accept: application/vnd.github.v3+json" \
-              https://api.github.com/repos/wearefrank/zaakbrug/pulls \
-              -d '{
-                    "title": "Bump f!f version to '"${requested_image_version_tag}"'",
-                    "head": "'"$branch_name"'",
-                    "base": "master"
-                  }'
+            echo "Requested F!F version is different than current F!F version. Applying it to ${{ inputs.project-name }} project."
+            echo "VERSION_CHANGED=true" >> $GITHUB_ENV
         else
-          echo "F!F version has not changed. No action needed."
+          echo "Requested F!F version is same as current F!F version. No action needed."
+          echo "VERSION_CHANGED=false" >> $GITHUB_ENV
         fi
+
+    - name: Update F!F version in required files
+      if: ${{ env.VERSION_CHANGED }} == 'true'
+      run: |
+        sed -i "s/${{ inputs.regex-for-dockerfile }}/${{ inputs.replacement-for-dockerfile }}/" ${{ inputs.dockerfile-path }}
+        sed -i "s/${{ inputs.regex-for-frankrunnerproperties }}/${{inputs.replacement-for-frankrunnerproperties}}/" ${{ inputs.frankrunnerproperties-path }}
+        sed -i "s/${{inputs.regex-for-dockercompose}}/${{inputs.replacement-for-dockercompose}}/" ${{ inputs.dockercompose-path }}
+
+    - name: Update FrankConfig.xsd files
+      if: ${{ env.VERSION_CHANGED }} == 'true'
+      run: |
+        rm ./src/main/FrankConfig.xsd
+        rm ./src/main/configurations/FrankConfig.xsd
+        wget -O parent.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-parent/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-parent-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-frankdoc.jar"
+        mkdir -p parent_temp_extract
+        unzip -q parent.jar -d parent_temp_extract
+        cp parent_temp_extract/xml/xsd/FrankConfig.xsd ./src/main
+        cp parent_temp_extract/xml/xsd/FrankConfig.xsd ./src/main/configurations
+    
+    - name: Update Parameter.java-orig file
+      if: ${{ env.VERSION_CHANGED }} == 'true'
+      run: |
+        wget -O source.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-core/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-core-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-sources.jar"
+        mkdir -p source_temp_extract
+        unzip -q source.jar -d source_temp_extract
+
+        if cmp -s source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
+          then
+            echo "Parameter.java file hasn't been updated."
+        else
+            echo "Parameter.java file has been updated. Copying the new version of Parameter.java file to the Parameter.java-orig file in repository."
+            cp source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
+        fi
+    
+    - name: Commit changed files
+      if: ${{ env.VERSION_CHANGED }} == 'true'
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: 'build(dependencies): bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+        branch: 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+        file_pattern: './Dockerfile ./docker-compose.zaakbrug.dev.yml ./frank-runner.properties ./src/main/FrankConfig.xsd ./src/main/configurations ./src/main/java/org/frankframework/parameters/Parameter.java-orig'
+        skip_checkout: false
+        create_branch: true
+
+    - name: Create pull request
+      if: ${{ env.VERSION_CHANGED }} == 'true'
+      uses: peter-evans/create-pull-request@v6
+      with:
+        title: 'Bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+        branch: 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+        base: master
+
+    # - name: Compare versions and update files
+    #   id: compare-versions-and-update
+    #   run: |
+    #     rm -r source_temp_extract
+    #     rm -r parent_temp_extract
+    #     rm ./parent.jar
+    #     rm ./source.jar
+        
+    #     git add .
+    #     git commit -m "build(dependencies): bump f!f version to ${requested_image_version_tag}"
+    #     git push origin $branch_name
+
+    #     curl -X POST \
+    #       -H "Authorization: Bearer ${{ secrets.token }}" \
+    #       -H "Accept: application/vnd.github.v3+json" \
+    #       https://api.github.com/repos/wearefrank/zaakbrug/pulls \
+    #       -d '{
+    #             "title": "Bump f!f version to '"${requested_image_version_tag}"'",
+    #             "head": "'"$branch_name"'",
+    #             "base": "master"
+    #           }'
       
     - name: Docker Scout
       uses: docker/scout-action@v1
