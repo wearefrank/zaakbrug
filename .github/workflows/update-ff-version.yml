@@ -138,7 +138,7 @@ jobs:
       with:
         commit_message: 'build(dependencies): bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
         branch: 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
-        file_pattern: './Dockerfile ./docker-compose.zaakbrug.dev.yml ./frank-runner.properties ./src/main/FrankConfig.xsd ./src/main/configurations ./src/main/java/org/frankframework/parameters/Parameter.java-orig'
+        file_pattern: 'Dockerfile docker-compose.zaakbrug.dev.yml frank-runner.properties src/main/FrankConfig.xsd src/main/configurations src/main/java/org/frankframework/parameters/Parameter.java-orig'
         skip_checkout: false
         create_branch: true
 
