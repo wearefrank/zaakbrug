@@ -147,8 +147,8 @@ jobs:
       uses: docker/scout-action@v1
       with:
         command: compare
-        image: frankframework/frankframework:${{ env.CURRENT_IMAGE_VERSION_TAG }}
-        to: frankframework/frankframework:${{ env.REQUESTED_IMAGE_VERSION_TAG }}
+        image: frankframework/frankframework:$CURRENT_IMAGE_VERSION_TAG
+        to: frankframework/frankframework:$REQUESTED_IMAGE_VERSION_TAG
         ignore-unchanged: true
         write-comment: true
         github-token: $GITHUB_TOKEN
