@@ -119,8 +119,8 @@ jobs:
                 cp source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
             fi
 
-            rm -r ./source_temp_extract
-            rm -r ./parent_temp_extract
+            rm -r source_temp_extract
+            rm -r parent_temp_extract
             rm ./GITHUB_OUTPUT
             rm ./parent.jar
             rm ./source.jar
