@@ -86,6 +86,7 @@ jobs:
         echo "Requested Image Version: ${requested_image_version_tag}"
 
         current_image_version_tag=$(grep -oP '(?<=^ARG FF_VERSION=).+' ./Dockerfile)
+        echo "current_image_version_tag=${current_image_version_tag}" >> GITHUB_OUTPUT
 
         if [ "${current_image_version_tag}" != "${requested_image_version_tag}" ]
           then
