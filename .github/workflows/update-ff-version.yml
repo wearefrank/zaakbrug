@@ -132,13 +132,13 @@ jobs:
             cp source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
         fi
 
-    # - name: Remove created and downloaded folders and files
-    #   if: ${{ env.VERSION_CHANGED }} == 'true'
-    #   run: |
-    #     rm -r source_temp_extract
-    #     rm -r parent_temp_extract
-    #     rm ./parent.jar
-    #     rm ./source.jar
+    - name: Remove created and downloaded folders and files
+      if: ${{ env.VERSION_CHANGED }} == 'true'
+      run: |
+        rm -r source_temp_extract
+        rm -r parent_temp_extract
+        rm ./parent.jar
+        rm ./source.jar
     
     - name: Commit changed files
       if: ${{ env.VERSION_CHANGED }} == 'true'
