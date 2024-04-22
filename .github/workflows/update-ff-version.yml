@@ -10,7 +10,7 @@ on:
       project-name:
         type: string
         description: The name of the project in which is updating F!F version
-        default: 'Zaakbrug'
+        default: ${requested_image_version_tag}
       regex-for-dockerfile:
         type: string
         description: Regex to find the line in Dockerfile to update the F!F version
@@ -82,11 +82,11 @@ jobs:
       run: |
         ff_image_inspect=$(docker inspect frankframework/frankframework:${{ inputs.ff-version-tag }})
         requested_image_version_tag=$(echo "$ff_image_inspect" | jq -r '.[0].Config.Labels."org.opencontainers.image.version"')
-        echo "requested_image_version_tag=${requested_image_version_tag}" >> GITHUB_OUTPUT
+        # echo "requested_image_version_tag=${requested_image_version_tag}" >> $GITHUB_OUTPUT
         echo "Requested Image Version: ${requested_image_version_tag}"
 
         current_image_version_tag=$(grep -oP '(?<=^ARG FF_VERSION=).+' ./Dockerfile)
-        echo "current_image_version_tag=${current_image_version_tag}" >> GITHUB_OUTPUT
+        # echo "current_image_version_tag=${current_image_version_tag}" >> $GITHUB_OUTPUT
 
         if [ "${current_image_version_tag}" != "${requested_image_version_tag}" ]
           then
