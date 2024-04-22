@@ -7,6 +7,10 @@ on:
         type: string
         description: FF version tag requested to update the project to
         default: 'latest'
+      project-name:
+        type: string
+        description: The name of the project in which is updating F!F version
+        default: 'Zaakbrug'
       regex-for-dockerfile:
         type: string
         description: Regex to find the line in Dockerfile to update the F!F version
@@ -85,7 +89,7 @@ jobs:
 
         if [ "${current_image_version_tag}" != "${requested_image_version_tag}" ]
           then
-            echo "F!F version has changed. Applying it to Zaakbrug."
+            echo "Requested F!F version is different than current F!F version. Applying it to ${{inputs.project-name}} project."
 
             branch_name="bump-f!f-version-to-${requested_image_version_tag}"
             git checkout -b $branch_name
