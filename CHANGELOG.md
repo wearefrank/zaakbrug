@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.18.2](https://github.com/wearefrank/zaakbrug/compare/v1.18.1...v1.18.2) (2024-04-22)
+
+
+### 🐛 Bug Fixes
+
+* ladybug zaak/document identificatie column sometimes not showing identificatie when it doesnt follow a specific format ([#303](https://github.com/wearefrank/zaakbrug/issues/303)) ([70451be](https://github.com/wearefrank/zaakbrug/commit/70451be6e5cd80c999eeb83143a5ed80729d77eb))
+
 ## [1.18.1](https://github.com/wearefrank/zaakbrug/compare/v1.18.0...v1.18.1) (2024-04-22)
 
 
