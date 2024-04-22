@@ -44,8 +44,9 @@
                 <bean class="nl.nn.testtool.metadata.XpathMetadataFieldExtractor">
                     <property name="name" value="identificatie" />
                     <property name="label" value="identificatie" />
+                    <property name="extractFrom" value="all" />
                     <property name="xpath"
-                        value="string-join(distinct-values(//*[local-name()='identificatie'][matches(.,'([A-Z]\d+-\d+)$')]), ', ')" />
+                        value="string-join(distinct-values(//*[local-name()='identificatie'][matches(.,'([A-Z])')]), ', ')" />
                 </bean>
             </list>
         </property>
