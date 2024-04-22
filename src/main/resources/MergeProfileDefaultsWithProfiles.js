@@ -15,7 +15,7 @@ function mergeProfileDefaultsWithProfiles(profilesFile) {
   result["profile"] = [];
   result["profileDefaults"] = json["profileDefaults"];
   if (json["profileDefaults"] == null || json["profile"] == null) {
-    return profilesFiles;
+    return profilesFile;
   }
   var _iterator = _createForOfIteratorHelper(profiles.profile),
     _step;
