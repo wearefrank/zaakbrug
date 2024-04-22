@@ -10,7 +10,7 @@ on:
       project-name:
         type: string
         description: The name of the project in which is updating F!F version
-        default: 'Zaakbrug'
+        default: ${requested_image_version_tag}
       regex-for-dockerfile:
         type: string
         description: Regex to find the line in Dockerfile to update the F!F version
