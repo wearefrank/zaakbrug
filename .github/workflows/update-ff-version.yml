@@ -131,6 +131,14 @@ jobs:
             echo "Parameter.java file has been updated. Copying the new version of Parameter.java file to the Parameter.java-orig file in repository."
             cp source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
         fi
+
+    - name: Remove created and downloaded folders and files
+      if: ${{ env.VERSION_CHANGED }} == 'true'
+      run: |
+        rm -r source_temp_extract
+        rm -r parent_temp_extract
+        rm ./parent.jar
+        rm ./source.jar
     
     - name: Commit changed files
       if: ${{ env.VERSION_CHANGED }} == 'true'
@@ -138,7 +146,7 @@ jobs:
       with:
         commit_message: 'build(dependencies): bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
         branch: 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
-        file_pattern: 'Dockerfile docker-compose.zaakbrug.dev.yml frank-runner.properties src/main/FrankConfig.xsd src/main/configurations src/main/java/org/frankframework/parameters/Parameter.java-orig'
+        # file_pattern: 'Dockerfile docker-compose.zaakbrug.dev.yml frank-runner.properties src/main/FrankConfig.xsd src/main/configurations src/main/java/org/frankframework/parameters/Parameter.java-orig'
         skip_checkout: false
         create_branch: true
 
@@ -153,11 +161,7 @@ jobs:
     # - name: Compare versions and update files
     #   id: compare-versions-and-update
     #   run: |
-    #     rm -r source_temp_extract
-    #     rm -r parent_temp_extract
-    #     rm ./parent.jar
-    #     rm ./source.jar
-        
+
     #     git add .
     #     git commit -m "build(dependencies): bump f!f version to ${requested_image_version_tag}"
     #     git push origin $branch_name
