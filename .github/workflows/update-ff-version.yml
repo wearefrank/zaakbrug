@@ -139,4 +139,4 @@ jobs:
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.token }}
-        REQUESTED_IMAGE_VERSION_TAG: ${{ steps.compare-versions-and-update.outputs.requested_image_version_tag }}
+        # REQUESTED_IMAGE_VERSION_TAG: ${{ steps.compare-versions-and-update.outputs.requested_image_version_tag }}
