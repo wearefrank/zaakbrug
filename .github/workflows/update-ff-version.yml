@@ -1,13 +1,55 @@
-name: Update F!F Version in Zaakbrug
+name: Update F!F Version
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * 1' # Every Monday at midnight
-  pull_request:
-    branches:
-      - main
-      - master
+  workflow_call:
+    inputs:
+      ff-version-tag:
+        type: string
+        description: FF version tag requested to update the project to
+        default: 'latest'
+      regex-for-dockerfile:
+        type: string
+        description: Regex to find the line in Dockerfile to update the F!F version
+        default: '^ARG FF_VERSION=.*'
+      replacement-for-dockerfile:
+        type: string
+        description: Replacement text to update F!F version in Dockerfile
+        default: 'ARG FF_VERSION=${requested_image_version_tag}'
+      dockerfile-path:
+        type: string
+        description: Dockerfile path
+        default: './Dockerfile'
+      regex-for-frankrunnerproperties:
+        type: string
+        description: Regex to find the line in frankrunner.properties file to update the F!F version
+        default: '^ff.version=.*'
+      replacement-for-frankrunnerproperties:
+        type: string
+        description: Replacement text to update F!F version in frankrunner.properties file
+        default: 'ff.version=${requested_image_version_tag}'
+      frankrunnerproperties-path:
+        type: string
+        description: frank-runner.properties file path
+        default: './frank-runner.properties'
+      regex-for-dockercompose:
+        type: string
+        description: Regex to find the line in docker-compose yml file to update the F!F version
+        default: 'FF_VERSION:\s\${FF_VERSION:-.*'
+      replacement-for-dockercompose:
+        type: string
+        description: Replacement text to update F!F version in docker-compose yml file
+        default: 'FF_VERSION: \${FF_VERSION:-${requested_image_version_tag}}'
+      dockercompose-path:
+        type: string
+        description: docker-compose yml file path
+        default: './docker-compose.zaakbrug.dev.yml'
+    secrets:
+      token:
+        required: false
+      dockerhub-username:
+        required: false
+      dockerhub-token:
+        required: false
 
 jobs:
   check-ff-version-and-update:
@@ -20,41 +62,43 @@ jobs:
     - name: Login to Container Registry
       uses: docker/login-action@v2
       with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        username: ${{ secrets.dockerhub-username }}
+        password: ${{ secrets.dockerhub-token }}
 
-    - name: Download Docker image with latest tag
-      run: docker pull frankframework/frankframework:latest
+    - name: Download Docker image with requested tag
+      run: docker pull frankframework/frankframework:${{ inputs.ff-version-tag }}
 
     - name: Compare versions and update files
+      id: compare-versions-and-update
       run: |
-        ff_image_inspect=$(docker inspect frankframework/frankframework:latest)
-        latest_image_version=$(echo "$ff_image_inspect" | jq -r '.[0].Config.Labels."org.opencontainers.image.version"')
-        echo "Latest Image Version: $latest_image_version"
+        ff_image_inspect=$(docker inspect frankframework/frankframework:${{ inputs.ff-version-tag }})
+        requested_image_version_tag=$(echo "$ff_image_inspect" | jq -r '.[0].Config.Labels."org.opencontainers.image.version"')
+        echo "::set-output name=requested_image_version_tag::${requested_image_version_tag}"
+        echo "Requested Image Version: ${requested_image_version_tag}"
 
-        current_image_version=$(grep -oP '(?<=^ARG FF_VERSION=).+' ./Dockerfile)
+        current_image_version_tag=$(grep -oP '(?<=^ARG FF_VERSION=).+' ./Dockerfile)
 
-        if [ "$current_image_version" != "$latest_image_version" ]
+        if [ "${current_image_version_tag}" != "${requested_image_version_tag}" ]
           then
             echo "F!F version has changed. Applying it to Zaakbrug."
 
-            branch_name="bump-f!f-version-to-$latest_image_version"
+            branch_name="bump-f!f-version-to-${requested_image_version_tag}"
             git checkout -b $branch_name
 
-            sed -i "s/^ARG FF_VERSION=.*/ARG FF_VERSION=$latest_image_version/" ./Dockerfile
-            sed -i "s/^ff.version=.*/ff.version=$latest_image_version/" ./frank-runner.properties
-            sed -i "s/^\s\s\s\s\s\s\s\sFF_VERSION:\s\${FF_VERSION:-.*/        FF_VERSION: \${FF_VERSION:-$latest_image_version}/" ./docker-compose.zaakbrug.dev.yml
+            sed -i "s/${{ inputs.regex-for-dockerfile }}/${{ inputs.replacement-for-dockerfile }}/" ${{ inputs.dockerfile-path }}
+            sed -i "s/${{ inputs.regex-for-frankrunnerproperties }}/${{inputs.replacement-for-frankrunnerproperties}}/" ${{ inputs.frankrunnerproperties-path }}
+            sed -i "s/${{inputs.regex-for-dockercompose}}/${{inputs.replacement-for-dockercompose}}/" ${{ inputs.dockercompose-path }}
 
             rm ./src/main/FrankConfig.xsd
             rm ./src/main/configurations/FrankConfig.xsd
 
-            wget -O parent.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-parent/$latest_image_version/frankframework-parent-$latest_image_version-frankdoc.jar"
+            wget -O parent.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-parent/${requested_image_version_tag}/frankframework-parent-${requested_image_version_tag}-frankdoc.jar"
             mkdir -p parent_temp_extract
             unzip -q parent.jar -d parent_temp_extract
             cp parent_temp_extract/xml/xsd/FrankConfig.xsd ./src/main
             cp parent_temp_extract/xml/xsd/FrankConfig.xsd ./src/main/configurations
 
-            wget -O source.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-core/$latest_image_version/frankframework-core-$latest_image_version-sources.jar"
+            wget -O source.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-core/${requested_image_version_tag}/frankframework-core-${requested_image_version_tag}-sources.jar"
             mkdir -p source_temp_extract
             unzip -q source.jar -d source_temp_extract
 
@@ -67,16 +111,16 @@ jobs:
             fi
             
             git add .
-            git commit -m "build(dependencies): bump f!f version to $latest_image_version"
+            git commit -m "build(dependencies): bump f!f version to ${requested_image_version_tag}"
             git push origin $branch_name
 
-            pr_body=$(docker scout compare --format markdown --to frankframework/frankframework:$current_image_version frankframework/frankframework:$latest_image_version)
+            pr_body=$(docker scout compare --format markdown --to frankframework/frankframework:${current_image_version_tag} frankframework/frankframework:${requested_image_version_tag})
             curl -X POST \
               -H "Authorization: Bearer $GITHUB_TOKEN" \
               -H "Accept: application/vnd.github.v3+json" \
               https://api.github.com/repos/wearefrank/zaakbrug/pulls \
               -d '{
-                    "title": "Bump f!f version to '"$latest_image_version"'",
+                    "title": "Bump f!f version to '"${requested_image_version_tag}"'",
                     "body": "'"$pr_body"'",
                     "head": "'"$branch_name"'",
                     "base": "master"
@@ -85,4 +129,5 @@ jobs:
           echo "F!F version has not changed. No action needed."
         fi
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.token }}
+        REQUESTED_IMAGE_VERSION_TAG: ${{ steps.compare-versions-and-update.outputs.requested_image_version_tag }}
