@@ -68,6 +68,11 @@ jobs:
     - name: Download Docker image with requested tag
       run: docker pull frankframework/frankframework:${{ inputs.ff-version-tag }}
 
+    - name: Configure Git
+      run: |
+        git config user.name "$GITHUB_ACTOR"
+        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
     - name: Compare versions and update files
       id: compare-versions-and-update
       run: |
