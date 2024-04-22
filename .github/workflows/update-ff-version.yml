@@ -48,8 +48,8 @@ on:
         description: docker-compose yml file path
         default: './docker-compose.zaakbrug.dev.yml'
     secrets:
-      # token:
-      #   required: false
+      token:
+        required: false
       dockerhub-username:
         required: false
       dockerhub-token:
@@ -131,7 +131,7 @@ jobs:
             git push origin $branch_name
 
             curl -X POST \
-              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Authorization: Bearer ${{ secrets.token }}" \
               -H "Accept: application/vnd.github.v3+json" \
               https://api.github.com/repos/wearefrank/zaakbrug/pulls \
               -d '{
@@ -151,7 +151,4 @@ jobs:
         to: frankframework/frankframework:${{ env.REQUESTED_IMAGE_VERSION_TAG }}
         ignore-unchanged: true
         write-comment: true
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      # env:
-      #   GITHUB_TOKEN: ${{ secrets.token }}
+        github-token: ${{ secrets.token }}
