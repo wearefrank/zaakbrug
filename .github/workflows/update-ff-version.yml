@@ -151,7 +151,7 @@ jobs:
         create_branch: true
 
     - name: Create pull request
-      if: ${{ env.VERSION_CHANGED }} == 'true'
+      # if: ${{ env.VERSION_CHANGED }} == 'true'
       uses: peter-evans/create-pull-request@v6
       with:
         title: 'Bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
