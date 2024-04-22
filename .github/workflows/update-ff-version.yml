@@ -118,6 +118,12 @@ jobs:
                 echo "Parameter.java file has been updated. Copying the new version of Parameter.java file to the Parameter.java-orig file in repository."
                 cp source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
             fi
+
+            rm ./source_temp_extract
+            rm ./parent_temp_extract
+            rm ./GITHUB_OUTPUT
+            rm ./parent.jar
+            rm ./source.jar
             
             git add .
             git commit -m "build(dependencies): bump f!f version to ${requested_image_version_tag}"
