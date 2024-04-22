@@ -150,13 +150,13 @@ jobs:
         skip_checkout: false
         create_branch: true
 
-    - name: Create pull request
-      if: ${{ env.VERSION_CHANGED }} == 'true'
-      uses: peter-evans/create-pull-request@v6
-      with:
-        title: 'Bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
-        branch: 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
-        base: master
+    # - name: Create pull request
+    #   if: ${{ env.VERSION_CHANGED }} == 'true'
+    #   uses: peter-evans/create-pull-request@v6
+    #   with:
+    #     title: 'Bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+    #     branch: 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+    #     base: master
 
     # - name: Compare versions and update files
     #   id: compare-versions-and-update
