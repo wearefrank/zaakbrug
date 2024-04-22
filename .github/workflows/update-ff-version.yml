@@ -82,11 +82,12 @@ jobs:
       run: |
         ff_image_inspect=$(docker inspect frankframework/frankframework:${{ inputs.ff-version-tag }})
         requested_image_version_tag=$(echo "$ff_image_inspect" | jq -r '.[0].Config.Labels."org.opencontainers.image.version"')
-        # echo "requested_image_version_tag=${requested_image_version_tag}" >> $GITHUB_OUTPUT
+        echo "REQUESTED_IMAGE_VERSION_TAG=${requested_image_version_tag}" >> $GITHUB_ENV
         echo "Requested Image Version: ${requested_image_version_tag}"
 
         current_image_version_tag=$(grep -oP '(?<=^ARG FF_VERSION=).+' ./Dockerfile)
-        # echo "current_image_version_tag=${current_image_version_tag}" >> $GITHUB_OUTPUT
+        echo "CURRENT_IMAGE_VERSION_TAG=${current_image_version_tag}" >> $GITHUB_ENV
+        echo "Current Image Version: ${current_image_version_tag}"
 
         if [ "${current_image_version_tag}" != "${requested_image_version_tag}" ]
           then
@@ -122,7 +123,6 @@ jobs:
 
             rm -r source_temp_extract
             rm -r parent_temp_extract
-            rm ./GITHUB_OUTPUT
             rm ./parent.jar
             rm ./source.jar
             
@@ -147,8 +147,8 @@ jobs:
       uses: docker/scout-action@v1
       with:
         command: compare
-        image: frankframework/frankframework:${current_image_version_tag}
-        to: frankframework/frankframework:${requested_image_version_tag}
+        image: frankframework/frankframework:${{ env.CURRENT_IMAGE_VERSION_TAG }}
+        to: frankframework/frankframework:${{ env.REQUESTED_IMAGE_VERSION_TAG }}
         ignore-unchanged: true
         write-comment: true
         github-token: $GITHUB_TOKEN
