@@ -77,6 +77,15 @@ jobs:
         git config user.name "$GITHUB_ACTOR"
         git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
+    - name: Docker Scout
+      uses: docker/scout-action@v1
+      with:
+        command: cves,recommendations,compare
+        to-latest: true
+        ignore-base: true
+        ignore-unchanged: true
+        only-fixed: true
+
     - name: Compare versions and update files
       id: compare-versions-and-update
       run: |
@@ -123,7 +132,7 @@ jobs:
             git commit -m "build(dependencies): bump f!f version to ${requested_image_version_tag}"
             git push origin $branch_name
 
-            pr_body=$(docker scout compare frankframework/frankframework:${current_image_version_tag} frankframework/frankframework:${requested_image_version_tag})
+            pr_body=$(docker scout compare --format markdown --to frankframework/frankframework:${current_image_version_tag} frankframework/frankframework:${requested_image_version_tag})
             curl -X POST \
               -H "Authorization: Bearer $GITHUB_TOKEN" \
               -H "Accept: application/vnd.github.v3+json" \
