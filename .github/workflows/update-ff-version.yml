@@ -78,14 +78,8 @@ jobs:
         git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
     - name: Docker Scout
-      uses: docker/scout-action@v1
-      with:
-        command: cves,recommendations,compare
-        to-latest: true
-        ignore-base: true
-        ignore-unchanged: true
-        only-fixed: true
-
+      uses: docker/scout-action@v1.7.0
+    
     - name: Compare versions and update files
       id: compare-versions-and-update
       run: |
