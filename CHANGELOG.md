@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.18.1](https://github.com/wearefrank/zaakbrug/compare/v1.18.0...v1.18.1) (2024-04-22)
+
+
+### 🐛 Bug Fixes
+
+* error when merging profile defaults when profileDefaults key is missing completely ([d7f3b7f](https://github.com/wearefrank/zaakbrug/commit/d7f3b7f7d026fc8efdc94561b3263fe636d17566))
+
 ## [1.18.0](https://github.com/wearefrank/zaakbrug/compare/v1.17.1...v1.18.0) (2024-04-18)
 
 
