@@ -123,7 +123,7 @@ jobs:
             git commit -m "build(dependencies): bump f!f version to ${requested_image_version_tag}"
             git push origin $branch_name
 
-            pr_body=$(docker scout compare --format markdown --to frankframework/frankframework:${current_image_version_tag} frankframework/frankframework:${requested_image_version_tag})
+            pr_body=$(docker scout compare --to frankframework/frankframework:${current_image_version_tag} frankframework/frankframework:${requested_image_version_tag})
             curl -X POST \
               -H "Authorization: Bearer $GITHUB_TOKEN" \
               -H "Accept: application/vnd.github.v3+json" \
