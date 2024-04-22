@@ -1,0 +1,157 @@
+name: Update F!F Version
+
+on:
+  workflow_call:
+    inputs:
+      ff-version-tag:
+        type: string
+        description: FF version tag requested to update the project to
+        default: 'latest'
+      project-name:
+        type: string
+        description: The name of the project in which is updating F!F version
+        default: 'Zaakbrug'
+      regex-for-dockerfile:
+        type: string
+        description: Regex to find the line in Dockerfile to update the F!F version
+        default: '^ARG FF_VERSION=.*'
+      replacement-for-dockerfile:
+        type: string
+        description: Replacement text to update F!F version in Dockerfile
+        default: 'ARG FF_VERSION=${requested_image_version_tag}'
+      dockerfile-path:
+        type: string
+        description: Dockerfile path
+        default: './Dockerfile'
+      regex-for-frankrunnerproperties:
+        type: string
+        description: Regex to find the line in frankrunner.properties file to update the F!F version
+        default: '^ff.version=.*'
+      replacement-for-frankrunnerproperties:
+        type: string
+        description: Replacement text to update F!F version in frankrunner.properties file
+        default: 'ff.version=${requested_image_version_tag}'
+      frankrunnerproperties-path:
+        type: string
+        description: frank-runner.properties file path
+        default: './frank-runner.properties'
+      regex-for-dockercompose:
+        type: string
+        description: Regex to find the line in docker-compose yml file to update the F!F version
+        default: 'FF_VERSION:\s\${FF_VERSION:-.*'
+      replacement-for-dockercompose:
+        type: string
+        description: Replacement text to update F!F version in docker-compose yml file
+        default: 'FF_VERSION: \${FF_VERSION:-${requested_image_version_tag}}'
+      dockercompose-path:
+        type: string
+        description: docker-compose yml file path
+        default: './docker-compose.zaakbrug.dev.yml'
+    secrets:
+      # token:
+      #   required: false
+      dockerhub-username:
+        required: false
+      dockerhub-token:
+        required: false
+
+jobs:
+  check-ff-version-and-update:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Login to Container Registry
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.dockerhub-username }}
+        password: ${{ secrets.dockerhub-token }}
+
+    - name: Download Docker image with requested tag
+      run: docker pull frankframework/frankframework:${{ inputs.ff-version-tag }}
+
+    - name: Configure Git
+      run: |
+        git config user.name "$GITHUB_ACTOR"
+        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+    - name: Compare versions and update files
+      id: compare-versions-and-update
+      run: |
+        ff_image_inspect=$(docker inspect frankframework/frankframework:${{ inputs.ff-version-tag }})
+        requested_image_version_tag=$(echo "$ff_image_inspect" | jq -r '.[0].Config.Labels."org.opencontainers.image.version"')
+        echo "REQUESTED_IMAGE_VERSION_TAG=${requested_image_version_tag}" >> $GITHUB_ENV
+        echo "Requested Image Version: ${requested_image_version_tag}"
+
+        current_image_version_tag=$(grep -oP '(?<=^ARG FF_VERSION=).+' ./Dockerfile)
+        echo "CURRENT_IMAGE_VERSION_TAG=${current_image_version_tag}" >> $GITHUB_ENV
+        echo "Current Image Version: ${current_image_version_tag}"
+
+        if [ "${current_image_version_tag}" != "${requested_image_version_tag}" ]
+          then
+            echo "Requested F!F version is different than current F!F version. Applying it to ${{inputs.project-name}} project."
+
+            branch_name="bump-f!f-version-to-${requested_image_version_tag}"
+            git checkout -b $branch_name
+
+            sed -i "s/${{ inputs.regex-for-dockerfile }}/${{ inputs.replacement-for-dockerfile }}/" ${{ inputs.dockerfile-path }}
+            sed -i "s/${{ inputs.regex-for-frankrunnerproperties }}/${{inputs.replacement-for-frankrunnerproperties}}/" ${{ inputs.frankrunnerproperties-path }}
+            sed -i "s/${{inputs.regex-for-dockercompose}}/${{inputs.replacement-for-dockercompose}}/" ${{ inputs.dockercompose-path }}
+
+            rm ./src/main/FrankConfig.xsd
+            rm ./src/main/configurations/FrankConfig.xsd
+
+            wget -O parent.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-parent/${requested_image_version_tag}/frankframework-parent-${requested_image_version_tag}-frankdoc.jar"
+            mkdir -p parent_temp_extract
+            unzip -q parent.jar -d parent_temp_extract
+            cp parent_temp_extract/xml/xsd/FrankConfig.xsd ./src/main
+            cp parent_temp_extract/xml/xsd/FrankConfig.xsd ./src/main/configurations
+
+            wget -O source.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-core/${requested_image_version_tag}/frankframework-core-${requested_image_version_tag}-sources.jar"
+            mkdir -p source_temp_extract
+            unzip -q source.jar -d source_temp_extract
+
+            if cmp -s source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
+              then
+                echo "Parameter.java file hasn't been updated."
+            else
+                echo "Parameter.java file has been updated. Copying the new version of Parameter.java file to the Parameter.java-orig file in repository."
+                cp source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
+            fi
+
+            rm -r source_temp_extract
+            rm -r parent_temp_extract
+            rm ./parent.jar
+            rm ./source.jar
+            
+            git add .
+            git commit -m "build(dependencies): bump f!f version to ${requested_image_version_tag}"
+            git push origin $branch_name
+
+            curl -X POST \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              https://api.github.com/repos/wearefrank/zaakbrug/pulls \
+              -d '{
+                    "title": "Bump f!f version to '"${requested_image_version_tag}"'",
+                    "head": "'"$branch_name"'",
+                    "base": "master"
+                  }'
+        else
+          echo "F!F version has not changed. No action needed."
+        fi
+      
+    - name: Docker Scout
+      uses: docker/scout-action@v1
+      with:
+        command: compare
+        image: frankframework/frankframework:${{ env.CURRENT_IMAGE_VERSION_TAG }}
+        to: frankframework/frankframework:${{ env.REQUESTED_IMAGE_VERSION_TAG }}
+        ignore-unchanged: true
+        write-comment: true
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # env:
+      #   GITHUB_TOKEN: ${{ secrets.token }}

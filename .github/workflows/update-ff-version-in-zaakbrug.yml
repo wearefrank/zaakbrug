@@ -1,0 +1,19 @@
+name: Update F!F Version in Zaakbrug
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 1' # Every Monday at midnight
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  update-ff-version:
+    uses: ./.github/workflows/update-ff-version.yml
+    secrets:
+      # token: ${{ secrets.GITHUB_TOKEN }}
+      dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
+      dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
+    
