@@ -149,24 +149,6 @@ jobs:
         file_pattern: './Dockerfile ./docker-compose.zaakbrug.dev.yml ./frank-runner.properties src/main/FrankConfig.xsd src/main/configurations src/main/java/org/frankframework/parameters/Parameter.java-orig'
         skip_checkout: false
         create_branch: true
-
-    # - name: Compare versions and update files
-    #   id: compare-versions-and-update
-    #   run: |
-
-    #     git add .
-    #     git commit -m "build(dependencies): bump f!f version to ${requested_image_version_tag}"
-    #     git push origin $branch_name
-
-    #     curl -X POST \
-    #       -H "Authorization: Bearer ${{ secrets.token }}" \
-    #       -H "Accept: application/vnd.github.v3+json" \
-    #       https://api.github.com/repos/wearefrank/zaakbrug/pulls \
-    #       -d '{
-    #             "title": "Bump f!f version to '"${requested_image_version_tag}"'",
-    #             "head": "'"$branch_name"'",
-    #             "base": "master"
-    #           }'
       
     - name: Docker Scout
       if: ${{ env.VERSION_CHANGED }} == 'true'
