@@ -135,10 +135,10 @@ jobs:
     - name: Remove created and downloaded folders and files
       if: ${{ env.VERSION_CHANGED }} == 'true'
       run: |
-        rm -r $GITHUB_WORKSPACE/source_temp_extract
-        rm -r $GITHUB_WORKSPACE/parent_temp_extract
-        rm $GITHUB_WORKSPACE/parent.jar
-        rm $GITHUB_WORKSPACE/source.jar
+        rm -r ./source_temp_extract
+        rm -r ./parent_temp_extract
+        rm ./parent.jar
+        rm ./source.jar
     
     - name: Commit changed files
       if: ${{ env.VERSION_CHANGED }} == 'true'
