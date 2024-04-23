@@ -181,11 +181,11 @@ jobs:
         format: markdown
         github-token: ${{ secrets.token }}
 
-    - name: Set docker-scout output
-      if: ${{ env.VERSION_CHANGED }} == 'true'
-      run: |
-        echo "DOCKER_SCOUT_OUTPUT=${{ steps.docker-scout.outputs.compare }}" >> $GITHUB_ENV
-        echo "Docker Scout output: ${{ steps.docker-scout.outputs.compare }}"
+    # - name: Set docker-scout output
+    #   if: ${{ env.VERSION_CHANGED }} == 'true'
+    #   run: |
+    #     echo "DOCKER_SCOUT_OUTPUT=${{ steps.docker-scout.outputs.compare }}" >> $GITHUB_ENV
+    #     echo "Docker Scout output: ${{ steps.docker-scout.outputs.compare }}"
 
     - name: Create pull request
       if: ${{ env.VERSION_CHANGED }} == 'true'
@@ -194,4 +194,4 @@ jobs:
         title: 'Bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
         branch: 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
         base: master
-        commit-message: ${{ env.DOCKER_SCOUT_OUTPUT }}
+        body: ${{ steps.docker-scout.outputs.compare }}
