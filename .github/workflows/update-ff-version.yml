@@ -181,12 +181,6 @@ jobs:
         format: markdown
         github-token: ${{ secrets.token }}
 
-    # - name: Set docker-scout output
-    #   if: ${{ env.VERSION_CHANGED }} == 'true'
-    #   run: |
-    #     echo "DOCKER_SCOUT_OUTPUT=${{ steps.docker-scout.outputs.compare }}" >> $GITHUB_ENV
-    #     echo "Docker Scout output: ${{ steps.docker-scout.outputs.compare }}"
-
     - name: Create pull request
       if: ${{ env.VERSION_CHANGED }} == 'true'
       uses: peter-evans/create-pull-request@v6
