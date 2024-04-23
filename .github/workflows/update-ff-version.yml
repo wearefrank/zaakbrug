@@ -144,9 +144,10 @@ jobs:
       if: ${{ env.VERSION_CHANGED }} == 'true'
       uses: EndBug/add-and-commit@v9
       with:
-        add: './Dockerfile ./docker-compose.zaakbrug.dev.yml ./frank-runner.properties src/main/FrankConfig.xsd src/main/configurations src/main/java/org/frankframework/parameters/Parameter.java-orig'
+        # add: './Dockerfile ./docker-compose.zaakbrug.dev.yml ./frank-runner.properties src/main/FrankConfig.xsd src/main/configurations src/main/java/org/frankframework/parameters/Parameter.java-orig'
         message: 'build(dependencies): bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
         new_branch: 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+        remove: './source_temp_extract ./parent_temp_extract ./parent.jar ./source.jar'
       
     - name: Docker Scout
       if: ${{ env.VERSION_CHANGED }} == 'true'
