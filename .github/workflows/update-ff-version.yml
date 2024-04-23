@@ -132,13 +132,13 @@ jobs:
             cp source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
         fi
 
-    - name: Remove created and downloaded folders and files
-      if: ${{ env.VERSION_CHANGED }} == 'true'
-      run: |
-        rm -r source_temp_extract
-        rm -r parent_temp_extract
-        rm ./parent.jar
-        rm ./source.jar
+    # - name: Remove created and downloaded folders and files
+    #   if: ${{ env.VERSION_CHANGED }} == 'true'
+    #   run: |
+    #     rm -r source_temp_extract
+    #     rm -r parent_temp_extract
+    #     rm ./parent.jar
+    #     rm ./source.jar
     
     - name: Commit changed files
       if: ${{ env.VERSION_CHANGED }} == 'true'
@@ -149,14 +149,6 @@ jobs:
         file_pattern: './Dockerfile ./docker-compose.zaakbrug.dev.yml ./frank-runner.properties src/main/FrankConfig.xsd src/main/configurations src/main/java/org/frankframework/parameters/Parameter.java-orig'
         skip_checkout: false
         create_branch: true
-
-    - name: Create pull request
-      # if: ${{ env.VERSION_CHANGED }} == 'true'
-      uses: peter-evans/create-pull-request@v6
-      with:
-        title: 'Bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
-        branch: 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
-        base: master
 
     # - name: Compare versions and update files
     #   id: compare-versions-and-update
@@ -177,11 +169,27 @@ jobs:
     #           }'
       
     - name: Docker Scout
+      if: ${{ env.VERSION_CHANGED }} == 'true'
+      id: docker-scout
       uses: docker/scout-action@v1
       with:
         command: compare
         image: frankframework/frankframework:${{ env.REQUESTED_IMAGE_VERSION_TAG }}
         to: frankframework/frankframework:${{ env.CURRENT_IMAGE_VERSION_TAG }}
         ignore-unchanged: true
-        write-comment: true
+        write-comment: false
         github-token: ${{ secrets.token }}
+
+    - name: Set docker-scout output
+      if: ${{ env.VERSION_CHANGED }} == 'true'
+      run: |
+        echo "DOCKER_SCOUT_OUTPUT=${{ steps.docker-scout.outputs.pr_body }}" >> $GITHUB_ENV
+
+    - name: Create pull request
+      if: ${{ env.VERSION_CHANGED }} == 'true'
+      uses: peter-evans/create-pull-request@v6
+      with:
+        title: 'Bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+        branch: 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+        base: master
+        body: ${{ env.DOCKER_SCOUT_OUTPUT }}
