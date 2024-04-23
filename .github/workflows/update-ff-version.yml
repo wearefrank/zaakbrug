@@ -183,7 +183,7 @@ jobs:
     - name: Set docker-scout output
       if: ${{ env.VERSION_CHANGED }} == 'true'
       run: |
-        echo "DOCKER_SCOUT_OUTPUT=${{ steps.docker-scout.outputs.pr_body }}" >> $GITHUB_ENV
+        echo "DOCKER_SCOUT_OUTPUT=${{ steps.docker-scout.outputs }}" >> $GITHUB_ENV
 
     - name: Create pull request
       if: ${{ env.VERSION_CHANGED }} == 'true'
