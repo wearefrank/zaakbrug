@@ -112,33 +112,30 @@ jobs:
         rm ./src/main/FrankConfig.xsd
         rm ./src/main/configurations/FrankConfig.xsd
         wget -O parent.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-parent/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-parent-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-frankdoc.jar"
-        mkdir -p parent_temp_extract
-        unzip -q parent.jar -d parent_temp_extract
-        cp parent_temp_extract/xml/xsd/FrankConfig.xsd ./src/main
-        cp parent_temp_extract/xml/xsd/FrankConfig.xsd ./src/main/configurations
+        mkdir -p temp_files/parent_temp_extract
+        unzip -q parent.jar -d temp_files/parent_temp_extract
+        cp temp_files/parent_temp_extract/xml/xsd/FrankConfig.xsd ./src/main
+        cp temp_files/parent_temp_extract/xml/xsd/FrankConfig.xsd ./src/main/configurations
     
     - name: Update Parameter.java-orig file
       if: ${{ env.VERSION_CHANGED }} == 'true'
       run: |
         wget -O source.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-core/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-core-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-sources.jar"
-        mkdir -p source_temp_extract
-        unzip -q source.jar -d source_temp_extract
+        mkdir -p temp_files/source_temp_extract
+        unzip -q source.jar -d temp_files/source_temp_extract
 
-        if cmp -s source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
+        if cmp -s temp_files/source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
           then
             echo "Parameter.java file hasn't been updated."
         else
             echo "Parameter.java file has been updated. Copying the new version of Parameter.java file to the Parameter.java-orig file in repository."
-            cp source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
+            cp temp_files/source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
         fi
 
     - name: Remove created and downloaded folders and files
       if: ${{ env.VERSION_CHANGED }} == 'true'
       run: |
-        rm -r ./source_temp_extract
-        rm -r ./parent_temp_extract
-        rm ./parent.jar
-        rm ./source.jar
+        rm -r temp_files
     
     - name: Commit changed files
       if: ${{ env.VERSION_CHANGED }} == 'true'
