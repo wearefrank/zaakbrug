@@ -1,0 +1,21 @@
+<!DOCTYPE configuration [
+	<!ENTITY ManageDatabase SYSTEM "./ConfigurationManageDatabase.xml">
+	<!ENTITY CheckReload SYSTEM "./ConfigurationCheckReload.xml">
+	<!ENTITY LoadDatabaseSchedules SYSTEM "./ConfigurationLoadDatabaseSchedules.xml">
+	<!ENTITY CleanupDatabase SYSTEM "./ConfigurationCleanupDatabase.xml">
+	<!ENTITY CleanupFileSystem SYSTEM "./ConfigurationCleanupFileSystem.xml">
+	<!ENTITY RecoverAdapters SYSTEM "./ConfigurationRecoverAdapters.xml">
+	<!ENTITY ManageFileSystem SYSTEM "./ConfigurationManageFileSystem.xml">
+]>
+<configuration>
+	<!-- include configuration for managing the database -->
+	&ManageDatabase;
+	<!-- include configuration for reloading configurations -->
+	&CheckReload;
+	<!-- include configuration for cleaning up the database and fxf files, and recover adapters -->
+	&LoadDatabaseSchedules;
+	&CleanupDatabase;
+	&CleanupFileSystem;
+	&RecoverAdapters;
+	&ManageFileSystem;
+</configuration>
