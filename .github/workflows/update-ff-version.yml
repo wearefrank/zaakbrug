@@ -159,7 +159,7 @@ jobs:
         git add ./src/main/FrankConfig.xsd
         git add ./src/main/configurations/FrankConfig.xsd
         git add ./src/main/java/org/frankframework/parameters/Parameter.java-orig
-        git commit -m 'build(dependencies): bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+        git commit -m 'build(dependencies): bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}' --only ${{ inputs.dockerfile-path }} ${{ inputs.frankrunnerproperties-path }} ${{ inputs.dockercompose-path }} ./src/main/FrankConfig.xsd ./src/main/configurations/FrankConfig.xsd ./src/main/java/org/frankframework/parameters/Parameter.java-orig
         git push origin bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}
       
     - name: Docker Scout
