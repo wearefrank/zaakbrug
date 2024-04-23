@@ -135,7 +135,7 @@ jobs:
     - name: Remove created and downloaded folders and files
       if: ${{ env.VERSION_CHANGED }} == 'true'
       run: |
-        rm -r temp_files
+        rm -rf temp_files
     
     - name: Commit changed files
       if: ${{ env.VERSION_CHANGED }} == 'true'
