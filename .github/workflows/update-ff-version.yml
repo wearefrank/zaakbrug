@@ -178,12 +178,14 @@ jobs:
         to: frankframework/frankframework:${{ env.CURRENT_IMAGE_VERSION_TAG }}
         ignore-unchanged: true
         write-comment: false
+        format: markdown
         github-token: ${{ secrets.token }}
 
     - name: Set docker-scout output
       if: ${{ env.VERSION_CHANGED }} == 'true'
       run: |
         echo "DOCKER_SCOUT_OUTPUT=${{ steps.docker-scout.outputs }}" >> $GITHUB_ENV
+        echo "Docker Scout output: ${{ steps.docker-scout.outputs }}"
 
     - name: Create pull request
       if: ${{ env.VERSION_CHANGED }} == 'true'
