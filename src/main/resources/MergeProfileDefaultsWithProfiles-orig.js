@@ -8,7 +8,7 @@ function mergeProfileDefaultsWithProfiles(profilesFile){
     result["profileDefaults"] = json["profileDefaults"];
 
     if(json["profileDefaults"] == null || json["profile"] == null){
-        return profilesFiles;
+        return profilesFile;
     }
 
     for(const pf of profiles.profile){

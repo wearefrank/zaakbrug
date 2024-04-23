@@ -76,7 +76,7 @@ For example, the following configuration:
 {
     "profileDefaults": {
         "endCaseEndDate": {
-            "coalesceResultaat": "Onbekend",
+            "coalesceResultaat": "Onbekend"
         },
         "valueOverrides": [
             {
