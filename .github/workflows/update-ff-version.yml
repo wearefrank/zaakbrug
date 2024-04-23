@@ -116,6 +116,8 @@ jobs:
         unzip -q parent.jar -d parent_temp_extract
         cp parent_temp_extract/xml/xsd/FrankConfig.xsd ./src/main
         cp parent_temp_extract/xml/xsd/FrankConfig.xsd ./src/main/configurations
+        rm -r ./parent_temp_extract
+        rm ./parent.jar
     
     - name: Update Parameter.java-orig file
       if: ${{ env.VERSION_CHANGED }} == 'true'
@@ -131,6 +133,8 @@ jobs:
             echo "Parameter.java file has been updated. Copying the new version of Parameter.java file to the Parameter.java-orig file in repository."
             cp source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
         fi
+        rm -r ./source_temp_extract
+        rm ./source.jar
 
     # - name: Remove created and downloaded folders and files
     #   if: ${{ env.VERSION_CHANGED }} == 'true'
@@ -147,7 +151,7 @@ jobs:
         # add: './Dockerfile ./docker-compose.zaakbrug.dev.yml ./frank-runner.properties src/main/FrankConfig.xsd src/main/configurations src/main/java/org/frankframework/parameters/Parameter.java-orig'
         message: 'build(dependencies): bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
         new_branch: 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
-        remove: '-r ./source_temp_extract -r ./parent_temp_extract ./parent.jar ./source.jar'
+        # remove: '-r ./source_temp_extract -r ./parent_temp_extract ./parent.jar ./source.jar'
       
     - name: Docker Scout
       if: ${{ env.VERSION_CHANGED }} == 'true'
