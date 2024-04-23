@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+		xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		default-autowire="byName"
+		xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	">
+
+	<bean id="messageDispatcher" class="org.frankframework.management.bus.MessageDispatcher">
+		<property name="packageName" value="org.frankframework.management.bus" />
+	</bean>
+
+	<context:property-placeholder />
+
+	<import resource="springUnmanagedDeployment.xml"/>
+
+	<bean
+		name="lowerCasePropertySourcePostProcessor"
+		class="org.frankframework.configuration.LowerCasePropertySourcePostProcessor"
+		autowire="byName"
+	/>
+
+	<bean
+		id="jndiContextPrefix"
+		factory-bean="jndiContextPrefixFactory"
+		factory-method="getContextPrefix"
+	/>
+
+	<bean id="jndiContextPrefixFactory" class="org.frankframework.core.JndiContextPrefixFactory" />
+
+	<bean id="dataSourceFactory" class="org.frankframework.jndi.JndiDataSourceFactory" />
+	<bean id="connectionFactoryFactory" class="org.frankframework.jndi.JndiConnectionFactoryFactory" />
+	<bean id="mongoClientFactory" class="org.frankframework.mongodb.JndiMongoClientFactory" />
+
+	<bean id="jdbcPropertySourceFactory" class="org.frankframework.jdbc.JdbcPropertySourceFactory" />
+
+	<bean id="VerifyDatabaseConnectionBean" class="org.frankframework.lifecycle.VerifyDatabaseConnectionBean" />
+
+	<bean
+		name="hostnamePropertySourcePostProcessor"
+		class="org.frankframework.configuration.HostnamePropertySourcePostProcessor"
+		autowire="byName"
+	/>
+
+	<bean
+		name="jmsRealmsFactory"
+		class="org.frankframework.jms.JmsRealmFactory"
+		autowire="byName"
+		factory-method="getInstance"
+	/>
+
+
+	<bean id="adapterLifecycleWrapper" autowire="byName" scope="prototype" abstract="true" />
+
+	<bean name="adapterFlowProcessor" class="org.frankframework.util.flow.FlowDiagramAdapterWrapper" parent="adapterLifecycleWrapper"/>
+
+	<bean
+		name="flowDiagramManager"
+		class="org.frankframework.util.flow.FlowDiagramManager"
+		autowire="no"
+		scope="singleton"
+		lazy-init="true"
+		>
+	</bean>
+
+	<bean name="applicationWarnings" class="org.frankframework.configuration.ApplicationWarnings" />
+
+	<bean
+		name="listenerContainer"
+		class="org.frankframework.receivers.PullingListenerContainer"
+		autowire="byName"
+		scope="prototype"
+	/>
+
+	<bean
+		id="schedulerHelper"
+		class="org.frankframework.scheduler.SchedulerHelper"
+		autowire="byName"
+		lazy-init="true"
+	/>
+
+	<bean
+		id="txManagerProxy"
+		class="org.frankframework.jta.SpringTxManagerProxy"
+		>
+		<property name="realTxManager">
+			<ref bean="txManagerReal"/>
+		</property>
+	</bean>
+
+	<alias name="txManagerProxy" alias="txManager"/>
+
+	<bean
+		name="isolatedServiceCaller"
+		class="org.frankframework.senders.IsolatedServiceCaller"
+		autowire="byName"
+		scope="singleton"
+	/>
+
+	<bean
+		name="pipeLineProcessor"
+		class="org.frankframework.processors.InputOutputPipeLineProcessor"
+		autowire="byName"
+		scope="prototype"
+		>
+		<property name="pipeLineProcessor">
+			<bean
+				class="org.frankframework.processors.CachePipeLineProcessor"
+				autowire="byName"
+				scope="prototype"
+				>
+				<property name="pipeLineProcessor">
+					<bean
+						class="org.frankframework.processors.LimitingParallelExecutionPipeLineProcessor"
+						autowire="byName"
+						scope="prototype"
+						>
+						<property name="pipeLineProcessor">
+							<bean
+								class="org.frankframework.processors.TransactionAttributePipeLineProcessor"
+								autowire="byName"
+								scope="prototype"
+								>
+								<property name="pipeLineProcessor">
+									<bean
+										class="org.frankframework.processors.LockerPipeLineProcessor"
+										autowire="byName"
+										scope="prototype"
+										>
+										<property name="pipeLineProcessor">
+											<bean
+												class="org.frankframework.processors.CorePipeLineProcessor"
+												autowire="byName"
+												scope="prototype"
+											/>
+										</property>
+									</bean>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean
+		name="pipeProcessor,inputValidatorProcessor,outputValidatorProcessor,inputWrapperProcessor,outputWrapperProcessor"
+		class="org.frankframework.processors.MonitoringPipeProcessor"
+		autowire="byName"
+		scope="prototype"
+		>
+		<property name="pipeProcessor">
+			<!-- allows a managed exception to be stored in the session -->
+			<bean
+				class="org.frankframework.processors.InputOutputPipeProcessor"
+				autowire="byName"
+				scope="prototype"
+				>
+				<property name="pipeProcessor">
+					<bean
+						class="org.frankframework.processors.ExceptionHandlingPipeProcessor"
+						autowire="byName"
+						scope="prototype"
+						>
+						<property name="pipeProcessor">
+							<bean
+								class="org.frankframework.processors.LimitingParallelExecutionPipeProcessor"
+								autowire="byName"
+								scope="prototype"
+								>
+								<property name="pipeProcessor">
+									<bean
+										class="org.frankframework.processors.TransactionAttributePipeProcessor"
+										autowire="byName"
+										scope="prototype"
+										>
+										<property name="pipeProcessor">
+											<bean
+												class="org.frankframework.processors.LockerPipeProcessor"
+												autowire="byName"
+												scope="prototype"
+												>
+												<property name="pipeProcessor">
+													<bean
+														class="org.frankframework.processors.CheckMessageSizePipeProcessor"
+														autowire="byName"
+														scope="prototype"
+														>
+														<property name="pipeProcessor">
+															<bean
+																class="org.frankframework.processors.CorePipeProcessor"
+																autowire="byName"
+																scope="prototype"
+															/>
+														</property>
+													</bean>
+												</property>
+											</bean>
+										</property>
+									</bean>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean
+		name="senderWrapperProcessor"
+		class="org.frankframework.processors.InputOutputSenderWrapperProcessor"
+		autowire="byName"
+		scope="prototype"
+		>
+		<property name="senderWrapperProcessor">
+			<bean
+				class="org.frankframework.processors.CacheSenderWrapperProcessor"
+				autowire="byName"
+				scope="prototype"
+				>
+				<property name="senderWrapperProcessor">
+					<bean
+						class="org.frankframework.processors.CoreSenderWrapperProcessor"
+						autowire="byName"
+						scope="prototype"
+						>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean
+		name="listenerProcessor"
+		class="org.frankframework.processors.CoreListenerProcessor"
+		autowire="byName"
+		scope="prototype"
+	/>
+
+	<bean
+		name="namedThreadFactory"
+		class="org.frankframework.scheduler.NamedThreadFactory"
+		scope="prototype"
+	>
+		<property name="ThreadGroupName" value="ControlTasks"/>
+	</bean>
+
+	<bean
+		name="taskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
+		scope="singleton"
+	>
+		<property name="threadFactory" ref="namedThreadFactory"/>
+		<property name="queueCapacity" value="0"/>
+	</bean>
+
+	<bean
+		name="dbmsSupportFactory"
+		class="org.frankframework.dbms.DbmsSupportFactory"
+		scope="singleton"
+		>
+		<property name="dbmsSupportMap">
+			<props>
+				<!-- configure additional DbmsSupport mappings here -->
+				<prop key="DB2/NT">org.frankframework.dbms.Db2DbmsSupport</prop>
+				<prop key="DB2/LINUXX8664">org.frankframework.dbms.Db2DbmsSupport</prop>
+			</props>
+		</property>
+	</bean>
+
+</beans>
