@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+		xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation=
+				"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+
+	<!-- Scheduler (Quartz) -->
+	<bean
+		id="scheduler"
+		class="org.frankframework.scheduler.SchedulerFactoryBean"
+		autowire="byName"
+		lazy-init="true"
+		>
+		<!-- Auto-wiring wires up bean named taskExecutor as threadpool implementation -->
+		<property name="configLocation" value="classpath:quartz.properties"/>
+		<property name="autoStartup" value="false"/>
+		<property name="waitForJobsToCompleteOnShutdown" value="true"/>
+	</bean>
+
+	<!-- IBIS Beans -->
+	<bean
+		name="ibisManager"
+		class="org.frankframework.unmanaged.DefaultIbisManager"
+		autowire="byName"
+		>
+	</bean>
+
+	<bean
+		name="jmsConnector"
+		class="org.frankframework.unmanaged.SpringJmsConnector"
+		autowire="byName"
+		scope="prototype"
+		>
+	</bean>
+
+	<!--
+	SpringJmsConnector depends on bean definition for proto-jmsContainer below;
+	this bean is not needed in the EJB deployment mode.
+
+	Please note that this definition is intentionally incomplete and can not be
+	instantiated as-is: Runtime-magic will take care of proper & complete
+	instantiation.
+	-->
+	<bean
+		name="proto-jmsContainer"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer"
+		autowire="byName"
+		scope="prototype"
+		>
+		<property name="autoStartup" value="false"/>
+	</bean>
+
+</beans>
