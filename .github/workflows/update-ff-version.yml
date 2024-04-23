@@ -192,4 +192,4 @@ jobs:
         title: 'Bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
         branch: 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
         base: master
-        body: '${{ env.DOCKER_SCOUT_OUTPUT }}'
+        body: "${{ env.DOCKER_SCOUT_OUTPUT }}"
