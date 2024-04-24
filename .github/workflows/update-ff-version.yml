@@ -152,7 +152,8 @@ jobs:
     - name: Commit updated files
       if: ${{ env.VERSION_CHANGED }} == 'true'
       run: |
-        git checkout -b bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }} master
+        git checkout master
+        git checkout -b bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}
         git add ${{ inputs.dockerfile-path }}
         git add ${{ inputs.frankrunnerproperties-path }}
         git add ${{ inputs.dockercompose-path }}
