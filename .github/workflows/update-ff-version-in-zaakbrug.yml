@@ -4,14 +4,10 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * 1' # Every Monday at midnight
-  pull_request:
-    branches:
-      - main
-      - master
 
 jobs:
   update-ff-version:
-    uses: ./.github/workflows/update-ff-version.yml
+    uses: wearefrank/ci-cd-templates/.github/workflows/ff-version-auto-bumper.yml@main
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
       dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
