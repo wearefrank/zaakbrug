@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="8.1.0-20240404.042328">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="8.2.0-20240424.042329">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>Container of Adapters that belong together.
@@ -924,7 +924,8 @@
     </xs:attribute>
     <xs:attribute name="retention" type="xs:string">
       <xs:annotation>
-        <xs:documentation>time (with suffix 'd', 'h', 'm' or 's' in milliseconds) that must have passed at least before a file will be deleted Default: 30d</xs:documentation>
+        <xs:documentation>Minimum amount of time (with suffix 'd', 'h', 'm' or 's') that must have passed before a file will be deleted.
+ You may only use one suffix! Default: 30d</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="subdirectories" type="frankBoolean">
@@ -1143,7 +1144,7 @@
           <xs:documentation>Listener that allows a Receiver to receive messages as a REST webservice.
  Prepends the configured URI pattern with &lt;code&gt;api/&lt;/code&gt;. The structure of REST messages is described
  by OpenAPI specifications. The Frank!Framework generates an OpenAPI specification for each ApiListener and
- also an OpenAPI specification for all ApiListeners in all configurations. You can
+ for all ApiListeners in all configurations combined. You can
  find them in the Frank!Console under main menu item Webservices, heading Available ApiListeners.
  &lt;p&gt;
  The generated OpenAPI specifications have &lt;code&gt;servers&lt;/code&gt; and &lt;code&gt;paths&lt;/code&gt; objects and
@@ -1151,19 +1152,19 @@
  &lt;p&gt;
  It is possible to automatically generate eTags over the listener result. This can be controlled by globally 
  setting the property &lt;code&gt;api.etag.enabled&lt;/code&gt; or by setting the attribute &lt;code&gt;updateEtag="true"&lt;/code&gt;.
- When enabled the listener will respond to the 'if-match', 'if-none-match' headers and may return status code 304.
+ When enabled the listener will respond to the &lt;code&gt;If-Match&lt;/code&gt;, &lt;code&gt;If-None-Match&lt;/code&gt; headers and may return status code 304.
  &lt;p&gt;
- In order to make eTags work across multiple nodes you must configure Memcached to store the eTags.
+ In order to enable eTags for multiple nodes you must configure Memcached to store the eTags.
  The following properties will need to be set:
  &lt;ul&gt;
- &lt;li&gt;etag.cache.server=ip or hostname:port&lt;/li&gt;
- &lt;li&gt;etag.cache.type=memcached&lt;/li&gt;
+ &lt;li&gt;&lt;code&gt;etag.cache.server=ip or hostname:port&lt;/code&gt;&lt;/li&gt;
+ &lt;li&gt;&lt;code&gt;etag.cache.type=memcached&lt;/code&gt;&lt;/li&gt;
  &lt;/ul&gt;
  In case authentication, is required the following application properties can be used:
  &lt;ul&gt;
- &lt;li&gt;etag.cache.username&lt;/li&gt;
- &lt;li&gt;etag.cache.password&lt;/li&gt;
- &lt;li&gt;etag.cache.authalias&lt;/li&gt;
+ &lt;li&gt;&lt;code&gt;etag.cache.username&lt;/code&gt;&lt;/li&gt;
+ &lt;li&gt;&lt;code&gt;etag.cache.password&lt;/code&gt;&lt;/li&gt;
+ &lt;li&gt;&lt;code&gt;etag.cache.authalias&lt;/code&gt;&lt;/li&gt;
  &lt;/ul&gt;</xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -1632,12 +1633,12 @@
     </xs:attribute>
     <xs:attribute name="uriPattern" type="xs:string" use="required">
       <xs:annotation>
-        <xs:documentation>URI pattern to register this listener on, eq. `/my-listener/{something}/here`</xs:documentation>
+        <xs:documentation>URI pattern to register this listener on, eq. &lt;code&gt;/my-listener/{something}/here&lt;/code&gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="consumes">
       <xs:annotation>
-        <xs:documentation>The required contentType on requests, if it doesn't match a 415 Unsupported Media Type is replied Default: ANY</xs:documentation>
+        <xs:documentation>The required contentType on requests, if it doesn't match a &lt;code&gt;415 Unsupported Media Type&lt;/code&gt; is replied Default: ANY</xs:documentation>
       </xs:annotation>
       <xs:simpleType>
         <xs:union memberTypes="MediaTypesAttributeValuesType_2 variableRef" />
@@ -1702,7 +1703,7 @@
     </xs:attribute>
     <xs:attribute name="contentDispositionHeaderSessionKey" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Session key that provides the Content-Disposition header in the response</xs:documentation>
+        <xs:documentation>Session key that provides the &lt;code&gt;Content-Disposition&lt;/code&gt; header in the response</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="requiredIssuer" type="xs:string">
@@ -1717,7 +1718,7 @@
     </xs:attribute>
     <xs:attribute name="jwtHeader" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Header to extract JWT from</xs:documentation>
+        <xs:documentation>Header to extract JWT from Default: &lt;code&gt;Authorization&lt;/code&gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="requiredClaims" type="xs:string">
@@ -1727,22 +1728,22 @@
     </xs:attribute>
     <xs:attribute name="exactMatchClaims" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Comma separated key value pairs to exactly match with JWT payload. e.g. "sub=UnitTest, aud=test"</xs:documentation>
+        <xs:documentation>Comma separated key value pairs to exactly match with JWT payload. e.g. &lt;code&gt;sub=UnitTest, aud=test&lt;/code&gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="anyMatchClaims" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Comma separated key value pairs to one-of match with JWT payload. e.g. "appid=a,appid=b"</xs:documentation>
+        <xs:documentation>Comma separated key value pairs to one-of match with JWT payload. e.g. &lt;code&gt;appid=a,appid=b&lt;/code&gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="roleClaim" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Claim name which specifies the role</xs:documentation>
+        <xs:documentation>Claim name which specifies the role (maps to &lt;code&gt;IsUserInRolePipe&lt;/code&gt;)</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="principalNameClaim" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Claim name which specifies the principal name (maps to GetPrincipalPipe)</xs:documentation>
+        <xs:documentation>Claim name which specifies the principal name (maps to &lt;code&gt;GetPrincipalPipe&lt;/code&gt;)</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -2709,29 +2710,30 @@
     <xs:attribute ref="tableAlias" />
     <xs:attribute name="statusField" type="xs:string" use="required">
       <xs:annotation>
-        <xs:documentation>Field containing the status of the message. For optimal performance, and index should exist that starts with this field, contains all fields that are used with a fixed value in the select condition, and end with the orderField.</xs:documentation>
+        <xs:documentation>Field containing the status of the message. 
+ &lt;b&gt;NB: For optimal performance, an index should exist that starts with this field, followed by all fields that are used with a fixed value in the select condition, and end with the &lt;code&gt;orderField&lt;/code&gt;.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute ref="orderField" />
     <xs:attribute name="timestampField" type="xs:string">
       <xs:annotation>
-        <xs:documentation>(optional) Field used to store the date and time of the last change of the statusField</xs:documentation>
+        <xs:documentation>(optional) Field used to store the date and time of the last change of the &lt;code&gt;statusField&lt;/code&gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="commentField" type="xs:string">
       <xs:annotation>
-        <xs:documentation>(optional) Field used to store the reason of the last change of the statusField</xs:documentation>
+        <xs:documentation>(optional) Field used to store the reason of the last change of the &lt;code&gt;statusField&lt;/code&gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute ref="maxCommentLength" />
     <xs:attribute name="statusValueAvailable" type="xs:string">
       <xs:annotation>
-        <xs:documentation>(optional) Value of statusField indicating row is available to be processed. If not specified, any row not having any of the other status values is considered available.</xs:documentation>
+        <xs:documentation>(optional) Value of &lt;code&gt;statusField&lt;/code&gt; indicating row is available to be processed. If not specified, any row not having any of the other status values is considered available.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="statusValueError" type="xs:string" use="required">
       <xs:annotation>
-        <xs:documentation>Value of statusField indicating the processing of the row resulted in an error</xs:documentation>
+        <xs:documentation>Value of &lt;code&gt;statusField&lt;/code&gt; indicating the processing of the row resulted in an error</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="statusValueProcessed" type="xs:string" use="required">
@@ -2741,12 +2743,12 @@
     </xs:attribute>
     <xs:attribute name="statusValueInProcess" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Value of status field indicating is being processed. Can be left emtpy if database has SKIP LOCKED functionality and the Receiver can be (and is) set to Required or RequiresNew.</xs:documentation>
+        <xs:documentation>Value of &lt;code&gt;statusField&lt;/code&gt; indicating is being processed. Can be left emtpy if database has &lt;code&gt;SKIP LOCKED&lt;/code&gt; functionality and the &lt;code&gt;transactionAttribute&lt;/code&gt; of the &lt;code&gt;Receiver&lt;/code&gt; can be (and is) set to &lt;code&gt;Required&lt;/code&gt; or &lt;code&gt;RequiresNew&lt;/code&gt;.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="statusValueHold" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Value of status field indicating message is on Hold, temporarily</xs:documentation>
+        <xs:documentation>Value of &lt;code&gt;statusField&lt;/code&gt; indicating message is on Hold, temporarily</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute ref="selectCondition" />
@@ -2818,17 +2820,18 @@
     </xs:attribute>
     <xs:attribute name="statusField" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Field containing the status of the message. For optimal performance, and index should exist that starts with this field, contains all fields that are used with a fixed value in the select condition, and end with the orderField. Default: TYPE</xs:documentation>
+        <xs:documentation>Field containing the status of the message. 
+ &lt;b&gt;NB: For optimal performance, an index should exist that starts with this field, followed by all fields that are used with a fixed value in the select condition, and end with the &lt;code&gt;orderField&lt;/code&gt;. Default: TYPE</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="timestampField" type="xs:string">
       <xs:annotation>
-        <xs:documentation>(optional) Field used to store the date and time of the last change of the statusField Default: MESSAGEDATE</xs:documentation>
+        <xs:documentation>(optional) Field used to store the date and time of the last change of the &lt;code&gt;statusField&lt;/code&gt; Default: MESSAGEDATE</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="commentField" type="xs:string">
       <xs:annotation>
-        <xs:documentation>(optional) Field used to store the reason of the last change of the statusField Default: COMMENTS</xs:documentation>
+        <xs:documentation>(optional) Field used to store the reason of the last change of the &lt;code&gt;statusField&lt;/code&gt; Default: COMMENTS</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="statusValueAvailable" type="xs:string">
@@ -2843,7 +2846,7 @@
     </xs:attribute>
     <xs:attribute name="statusValueError" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Value of statusField indicating the processing of the row resulted in an error Default: &lt;code&gt;E&lt;/code&gt;</xs:documentation>
+        <xs:documentation>Value of &lt;code&gt;statusField&lt;/code&gt; indicating the processing of the row resulted in an error Default: &lt;code&gt;E&lt;/code&gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="statusValueProcessed" type="xs:string">
@@ -3424,7 +3427,7 @@
     </xs:attribute>
     <xs:attribute name="diskPersistent" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the the cache is reloaded after the JVM restarts Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the cache is stored on disk and survives configuration reloads &amp; JVM restarts. Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="diskExpiryThreadIntervalSeconds" type="frankInt">
@@ -3901,8 +3904,8 @@
       </xs:element>
       <xs:element name="IdinSender">
         <xs:annotation>
-          <xs:documentation>Requires the net.bankid.merchant.library V1.06+.
- Compile with Java 1.7+</xs:documentation>
+          <xs:documentation>Requires the net.bankid.merchant.library V1.2.9
+ Compile with Java 1.8+</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:complexContent>
@@ -4414,7 +4417,7 @@
       <xs:element name="ShadowSender">
         <xs:annotation>
           <xs:documentation>Collection of Senders, that are executed all at the same time. Once the results are processed, all results will be sent to the resultSender,
- while the original sender will return it's result to the pipeline.
+ while the original sender will return its result to the pipeline.
 
  &lt;p&gt;Multiple sub-senders can be configured within the ShadowSender, the minimum amount of senders is 2 (originalSender + resultSender)&lt;/p&gt;</xs:documentation>
         </xs:annotation>
@@ -4526,18 +4529,6 @@
         <xs:complexType>
           <xs:complexContent>
             <xs:extension base="StoredProcedureQuerySenderType">
-              <xs:attribute name="elementRole" type="xs:string" fixed="sender" use="prohibited" />
-            </xs:extension>
-          </xs:complexContent>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="WebServiceNtlmSender">
-        <xs:annotation>
-          <xs:documentation>Sender that sends a message via a WebService based on NTLM authentication.</xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-          <xs:complexContent>
-            <xs:extension base="WebServiceNtlmSenderType">
               <xs:attribute name="elementRole" type="xs:string" fixed="sender" use="prohibited" />
             </xs:extension>
           </xs:complexContent>
@@ -4962,7 +4953,8 @@
     </xs:attribute>
     <xs:attribute name="timeout" type="frankInt">
       <xs:annotation>
-        <xs:documentation>The connection timeout in seconds Default: 10</xs:documentation>
+        <xs:documentation>READ_TIMEOUT timeout in MS.
+ Defaults to 10000, inherited from HttpSender#setTimeout. Default: 10000</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="url" type="xs:string">
@@ -5950,7 +5942,7 @@
     <xs:attributeGroup ref="HttpSenderBaseDeclaredAttributeGroup" />
     <xs:attribute name="timeout" type="frankInt">
       <xs:annotation>
-        <xs:documentation>Timeout in ms of obtaining a connection/result. 0 means no timeout Default: 10000</xs:documentation>
+        <xs:documentation>Timeout in ms of obtaining a connection/result. Default: 10000</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute ref="maxConnections" />
@@ -6015,7 +6007,7 @@
   <xs:attributeGroup name="HttpSessionBaseDeclaredAttributeGroup">
     <xs:attribute name="timeout" type="frankInt">
       <xs:annotation>
-        <xs:documentation>Timeout in ms of obtaining a connection/result. 0 means no timeout Default: 10000</xs:documentation>
+        <xs:documentation>Timeout in ms of obtaining a connection/result. Default: 10000</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute ref="maxConnections" />
@@ -6189,7 +6181,11 @@
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.idin.IdinSender" use="prohibited" />
   </xs:complexType>
   <xs:attributeGroup name="IdinSenderDeclaredAttributeGroup">
-    <xs:attribute name="action" type="xs:string" />
+    <xs:attribute name="action">
+      <xs:simpleType>
+        <xs:union memberTypes="ActionAttributeValuesType_3 variableRef" />
+      </xs:simpleType>
+    </xs:attribute>
     <xs:attribute name="merchantID" type="xs:string">
       <xs:annotation>
         <xs:documentation>This is the contract number for iDIN the Merchant received from its Acquirer after registration,
@@ -6285,6 +6281,13 @@
     <xs:attribute name="serviceLogsEnabled" type="frankBoolean" />
     <xs:attribute name="serviceLogsLocation" type="xs:string" />
     <xs:attribute name="serviceLogsPattern" type="xs:string" />
+    <xs:attribute name="tls12Enabled" type="frankBoolean" />
+    <xs:attribute name="merchantReturnUrlSessionKey" type="xs:string" />
+    <xs:attribute name="configurationXML" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Load configuration from XML. Attributes may overwrite this 'default'.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:attributeGroup>
   <xs:attributeGroup name="IdinSenderCumulativeAttributeGroup">
     <xs:attributeGroup ref="IdinSenderDeclaredAttributeGroup" />
@@ -7142,7 +7145,7 @@
     </xs:attribute>
     <xs:attribute name="timeout" type="frankInt">
       <xs:annotation>
-        <xs:documentation>Timeout in ms of obtaining a connection/result. 0 means no timeout Default: 10000</xs:documentation>
+        <xs:documentation>Timeout in ms of obtaining a connection/result. Default: 10000</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute ref="maxConnections" />
@@ -7471,7 +7474,7 @@
   <xs:attributeGroup name="SendGridSenderDeclaredAttributeGroup">
     <xs:attribute name="timeout" type="frankInt">
       <xs:annotation>
-        <xs:documentation>Timeout in ms of obtaining a connection/result. 0 means no timeout Default: 10000</xs:documentation>
+        <xs:documentation>Timeout in ms of obtaining a connection/result. Default: 10000</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="maxConnections" type="frankInt">
@@ -7851,64 +7854,6 @@
     </xs:attribute>
     <xs:attributeGroup ref="JdbcSenderBaseCumulativeAttributeGroup" />
   </xs:attributeGroup>
-  <xs:complexType name="WebServiceNtlmSenderType">
-    <xs:group ref="SenderWithParametersBaseDeclaredChildGroup" />
-    <xs:attributeGroup ref="WebServiceNtlmSenderCumulativeAttributeGroup" />
-    <xs:attribute name="className" type="xs:string" fixed="org.frankframework.http.WebServiceNtlmSender" use="prohibited" />
-  </xs:complexType>
-  <xs:attributeGroup name="WebServiceNtlmSenderDeclaredAttributeGroup">
-    <xs:attribute name="contentType" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>content-type of the request Default: text/html; charset=utf-8</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="url" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>url or base of url to be used</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="timeout" type="frankInt">
-      <xs:annotation>
-        <xs:documentation>timeout in ms of obtaining a connection/result. 0 means no timeout Default: 10000</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="maxConnections" type="frankInt">
-      <xs:annotation>
-        <xs:documentation>the maximum number of concurrent connections Default: 10</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="authAlias" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>alias used to obtain credentials for authentication to host</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="username" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>username used in authentication to host</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="password" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>password used to authenticate with the host</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="authDomain" type="xs:string" />
-    <xs:attribute name="proxyHost" type="xs:string" />
-    <xs:attribute name="proxyPort" type="frankInt">
-      <xs:annotation>
-        <xs:documentation>Default: 80</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="soapAction" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>the soapactionuri to be set in the requestheader</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-  </xs:attributeGroup>
-  <xs:attributeGroup name="WebServiceNtlmSenderCumulativeAttributeGroup">
-    <xs:attributeGroup ref="WebServiceNtlmSenderDeclaredAttributeGroup" />
-    <xs:attributeGroup ref="SenderBaseDeclaredAttributeGroup" />
-  </xs:attributeGroup>
   <xs:complexType name="WebServiceSenderType">
     <xs:group ref="HttpSenderBaseDeclaredChildGroup" />
     <xs:attributeGroup ref="WebServiceSenderCumulativeAttributeGroup" />
@@ -8000,7 +7945,7 @@
     </xs:attribute>
     <xs:attribute name="timeout" type="frankInt">
       <xs:annotation>
-        <xs:documentation>Timeout in ms of obtaining a connection/result. 0 means no timeout Default: 10000</xs:documentation>
+        <xs:documentation>Timeout in ms of obtaining a connection/result. Default: 10000</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute ref="maxConnections" />
@@ -8723,8 +8668,8 @@
       </xs:element>
       <xs:element name="IdinErrorSender">
         <xs:annotation>
-          <xs:documentation>Requires the net.bankid.merchant.library V1.06+.
- Compile with Java 1.7+</xs:documentation>
+          <xs:documentation>Requires the net.bankid.merchant.library V1.2.9
+ Compile with Java 1.8+</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:complexContent>
@@ -9236,7 +9181,7 @@
       <xs:element name="ShadowErrorSender">
         <xs:annotation>
           <xs:documentation>Collection of Senders, that are executed all at the same time. Once the results are processed, all results will be sent to the resultSender,
- while the original sender will return it's result to the pipeline.
+ while the original sender will return its result to the pipeline.
 
  &lt;p&gt;Multiple sub-senders can be configured within the ShadowSender, the minimum amount of senders is 2 (originalSender + resultSender)&lt;/p&gt;</xs:documentation>
         </xs:annotation>
@@ -9348,18 +9293,6 @@
         <xs:complexType>
           <xs:complexContent>
             <xs:extension base="StoredProcedureQuerySenderType">
-              <xs:attribute name="elementRole" type="xs:string" fixed="errorSender" use="prohibited" />
-            </xs:extension>
-          </xs:complexContent>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="WebServiceNtlmErrorSender">
-        <xs:annotation>
-          <xs:documentation>Sender that sends a message via a WebService based on NTLM authentication.</xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-          <xs:complexContent>
-            <xs:extension base="WebServiceNtlmSenderType">
               <xs:attribute name="elementRole" type="xs:string" fixed="errorSender" use="prohibited" />
             </xs:extension>
           </xs:complexContent>
@@ -11288,6 +11221,11 @@
     <xs:attribute name="wssPasswordDigest" type="frankBoolean">
       <xs:annotation>
         <xs:documentation>If true, the password is sent digested; Otherwise it is sent in clear text Default: true</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="omitXmlDeclaration" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>For direction=&lt;code&gt;wrap&lt;/code&gt; only: When false, adds an XML declaration to the output message. Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="name" type="xs:string">
@@ -15258,7 +15196,7 @@
         <xs:documentation>Action to be taken when pipe is executed.</xs:documentation>
       </xs:annotation>
       <xs:simpleType>
-        <xs:union memberTypes="ActionAttributeValuesType_4 variableRef" />
+        <xs:union memberTypes="ActionAttributeValuesType_5 variableRef" />
       </xs:simpleType>
     </xs:attribute>
     <xs:attribute name="recipients" type="xs:string">
@@ -15951,7 +15889,7 @@
         <xs:documentation>Action to be taken when pipe is executed. Default: SIGN</xs:documentation>
       </xs:annotation>
       <xs:simpleType>
-        <xs:union memberTypes="ActionAttributeValuesType_5 variableRef" />
+        <xs:union memberTypes="ActionAttributeValuesType_6 variableRef" />
       </xs:simpleType>
     </xs:attribute>
     <xs:attribute name="algorithm" type="xs:string">
@@ -16445,7 +16383,7 @@
         <xs:documentation>Collectors must be opened before you can write content to them, after it's closed you can no longer write to it. Default: WRITE</xs:documentation>
       </xs:annotation>
       <xs:simpleType>
-        <xs:union memberTypes="ActionAttributeValuesType_3 variableRef" />
+        <xs:union memberTypes="ActionAttributeValuesType_4 variableRef" />
       </xs:simpleType>
     </xs:attribute>
     <xs:attribute name="collectionName" type="xs:string">
@@ -16935,7 +16873,7 @@
     <xs:attributeGroup ref="HttpSessionDeclaredAttributeGroup" />
     <xs:attribute name="timeout" type="frankInt">
       <xs:annotation>
-        <xs:documentation>Timeout in ms of obtaining a connection/result. 0 means no timeout Default: 10000</xs:documentation>
+        <xs:documentation>Timeout in ms of obtaining a connection/result. Default: 10000</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute ref="maxConnections" />
@@ -17570,6 +17508,13 @@
       <xs:enumeration value="REPORT" />
     </xs:restriction>
   </xs:simpleType>
+  <xs:simpleType name="ActionAttributeValuesType_3">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DIRECTORY" />
+      <xs:enumeration value="RESPONSE" />
+      <xs:enumeration value="AUTHENTICATE" />
+    </xs:restriction>
+  </xs:simpleType>
   <xs:simpleType name="JavaScriptEnginesAttributeValuesType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="J2V8" />
@@ -17986,7 +17931,7 @@
       <xs:enumeration value="DEOBFUSCATE" />
     </xs:restriction>
   </xs:simpleType>
-  <xs:simpleType name="ActionAttributeValuesType_4">
+  <xs:simpleType name="ActionAttributeValuesType_5">
     <xs:restriction base="xs:string">
       <xs:enumeration value="ENCRYPT">
         <xs:annotation>
@@ -18030,7 +17975,7 @@
       </xs:enumeration>
     </xs:restriction>
   </xs:simpleType>
-  <xs:simpleType name="ActionAttributeValuesType_5">
+  <xs:simpleType name="ActionAttributeValuesType_6">
     <xs:restriction base="xs:string">
       <xs:enumeration value="SIGN">
         <xs:annotation>
@@ -18058,7 +18003,7 @@
       </xs:enumeration>
     </xs:restriction>
   </xs:simpleType>
-  <xs:simpleType name="ActionAttributeValuesType_3">
+  <xs:simpleType name="ActionAttributeValuesType_4">
     <xs:restriction base="xs:string">
       <xs:enumeration value="OPEN">
         <xs:annotation>
