@@ -133,23 +133,6 @@ jobs:
             echo "Parameter.java file has been updated. Copying the new version of Parameter.java file to the Parameter.java-orig file in repository."
             cp ./src/source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
         fi
-    
-    # - name: Remove created and downloaded folders and files
-    #   if: ${{ env.VERSION_CHANGED }} == 'true'
-    #   run: |
-    #     rm -r ./src/source_temp_extract
-    #     rm -r ./src/parent_temp_extract
-    #     rm ./parent.jar
-    #     rm ./source.jar
-    
-    # - name: Commit changed files
-    #   if: ${{ env.VERSION_CHANGED }} == 'true'
-    #   uses: EndBug/add-and-commit@v9
-    #   with:
-    #     # add: './Dockerfile ./docker-compose.zaakbrug.dev.yml ./frank-runner.properties src/main/FrankConfig.xsd src/main/configurations src/main/java/org/frankframework/parameters/Parameter.java-orig'
-    #     message: 'build(dependencies): bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
-    #     new_branch: 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
-    #     # remove: '-r ./source_temp_extract -r ./parent_temp_extract ./parent.jar ./source.jar'
 
     - name: Commit updated files
       if: ${{ env.VERSION_CHANGED }} == 'true'
@@ -164,7 +147,6 @@ jobs:
         git add ./src/main/java/org/frankframework/parameters/Parameter.java-orig
         git commit -m 'build(dependencies): bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
         git push origin bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}
-
       
     - name: Docker Scout
       if: ${{ env.VERSION_CHANGED }} == 'true'
@@ -185,12 +167,3 @@ jobs:
         GH_TOKEN: ${{ secrets.token }}
       run: |
         gh pr create -B 'master' -H 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' -b '${{ steps.docker-scout.outputs.compare }}' -t 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
-
-    # - name: Create pull request
-    #   if: ${{ env.VERSION_CHANGED }} == 'true'
-    #   uses: peter-evans/create-pull-request@v6
-    #   with:
-    #     title: 'Bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
-    #     branch: 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
-    #     base: master
-    #     body: ${{ steps.docker-scout.outputs.compare }}
