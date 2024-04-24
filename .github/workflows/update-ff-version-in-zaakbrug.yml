@@ -3,7 +3,7 @@ name: Update F!F Version in Zaakbrug
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * 1' # Every Monday at midnight
+    - cron: '0 0 * * 1' # Every Monday at midnight.
 
 jobs:
   update-ff-version:
