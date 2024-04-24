@@ -178,11 +178,11 @@ jobs:
         format: markdown
         github-token: ${{ secrets.token }}
 
-    # - name: Create pull request
-    #   if: ${{ env.VERSION_CHANGED }} == 'true'
-    #   uses: peter-evans/create-pull-request@v6
-    #   with:
-    #     title: 'Bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
-    #     branch: 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
-    #     base: master
-    #     body: ${{ steps.docker-scout.outputs.compare }}
+    - name: Create pull request
+      if: ${{ env.VERSION_CHANGED }} == 'true'
+      uses: peter-evans/create-pull-request@v6
+      with:
+        title: 'Bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+        branch: 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+        base: master
+        body: ${{ steps.docker-scout.outputs.compare }}
