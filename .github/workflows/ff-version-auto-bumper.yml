@@ -148,15 +148,16 @@ jobs:
 
         for i in ${!INPUT_CUSTOM_FILE_PATHS_SOURCE[@]}
           do
-            custom_file_source_path=${INPUT_CUSTOM_FILE_PATHS_SOURCE[$i]}
-            custom_file_project_path=${INPUT_CUSTOM_FILE_PATHS_PROJECT[$i]}
-            if cmp -s "source_temp_extract/org/frankframework/${custom_file_source_path}" "${custom_file_project_path}"
-              then
-                echo "${custom_file_source_path} file hasn't been updated."
-            else
-              echo "${custom_file_source_path} file has been updated. Copying the new version of ${custom_file_source_path} file to the ${custom_file_project_path} file in repository."
-              cp "./source_temp_extract/org/frankframework/${custom_file_source_path}" "${custom_file_project_path}"
-            fi
+          echo "lalala"
+            # custom_file_source_path=${INPUT_CUSTOM_FILE_PATHS_SOURCE[$i]}
+            # custom_file_project_path=${INPUT_CUSTOM_FILE_PATHS_PROJECT[$i]}
+            # if cmp -s "source_temp_extract/org/frankframework/${custom_file_source_path}" "${custom_file_project_path}"
+            #   then
+            #     echo "${custom_file_source_path} file hasn't been updated."
+            # else
+            #   echo "${custom_file_source_path} file has been updated. Copying the new version of ${custom_file_source_path} file to the ${custom_file_project_path} file in repository."
+            #   cp "./source_temp_extract/org/frankframework/${custom_file_source_path}" "${custom_file_project_path}"
+            # fi
         done
 
     - name: Commit updated files
