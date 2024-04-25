@@ -146,10 +146,10 @@ jobs:
         mkdir -p source_temp_extract
         unzip -q source.jar -d ./source_temp_extract
 
-        for i in "$!INPUT_CUSTOM_FILE_PATHS_SOURCE[@]"
+        for i in "${!INPUT_CUSTOM_FILE_PATHS_SOURCE[@]}"
           do
-            custom_file_source_path="$INPUT_CUSTOM_FILE_PATHS_SOURCE[$i]"
-            custom_file_project_path="$INPUT_CUSTOM_FILE_PATHS_PROJECT[$i]"
+            custom_file_source_path="${INPUT_CUSTOM_FILE_PATHS_SOURCE[$i]}"
+            custom_file_project_path="${INPUT_CUSTOM_FILE_PATHS_PROJECT[$i]}"
             if cmp -s "source_temp_extract/org/frankframework/${custom_file_source_path}" "${custom_file_project_path}"
               then
                 echo "${custom_file_source_path} file hasn't been updated."
