@@ -1,5 +1,12 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.18.3](https://github.com/wearefrank/zaakbrug/compare/v1.18.2...v1.18.3) (2024-04-25)
+
+
+### 🐛 Bug Fixes
+
+* language format translation from alpha3-t(e.g. NLD) to alpha2(e.g. NL) not working ([#99](https://github.com/wearefrank/zaakbrug/issues/99)) ([f9bf8a2](https://github.com/wearefrank/zaakbrug/commit/f9bf8a2ed1f4eeb154d631d4ee61d80c291f6ac9))
+
 ## [1.18.2](https://github.com/wearefrank/zaakbrug/compare/v1.18.1...v1.18.2) (2024-04-22)
 
 
