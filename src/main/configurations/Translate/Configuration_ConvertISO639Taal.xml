@@ -24,24 +24,24 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlSwitchPipe
-                    name="Alpha2Check" xpathExpression="string-length($Alpha2) > 0 and $Alpha2 != 'null'"
+            <XmlSwitchPipe name="Alpha2Check"
+                xpathExpression="string-length($Alpha2) > 0"
                 >
-                <Param name="Alpha2" value="" sessionKey="Alpha2"/>
-                <Forward name="true" path="GetAlpha3CodeFromAlpha2" />
-                <Forward name="false" path="Alpha3Check" />
+                <Param name="Alpha2" sessionKey="Alpha2" />
+                <Forward name="true" path="GetAlpha3tCodeFromAlpha2" />
+                <Forward name="false" path="Alpha3tCheck" />
             </XmlSwitchPipe>
             
-            <XmlSwitchPipe name="Alpha3Check"
-                           xpathExpression="string-length($Alpha3) > 0 and $Alpha3 != 'null'"
+            <XmlSwitchPipe name="Alpha3tCheck"
+                xpathExpression="string-length($Alpha3t) > 0"
                 >
-                <Param name="Alpha3" value="" sessionKey="Alpha3" />
-                <Forward name="true" path="GetAlpha2CodeFromAlpha3" />
+                <Param name="Alpha3t" sessionKey="Alpha3t" />
+                <Forward name="true" path="GetAlpha2CodeFromAlpha3t" />
                 <Forward name="false" path="EXCEPTION" />
             </XmlSwitchPipe>
 
             <XsltPipe
-                name="GetAlpha3CodeFromAlpha2"
+                name="GetAlpha3tCodeFromAlpha2"
                 styleSheetName="Common/xsl/GetISO639Code.xslt"
                 >
                 <Param name="Alpha2" sessionKey="Alpha2" /> 
@@ -49,10 +49,10 @@
             </XsltPipe>
 
             <XsltPipe
-                name="GetAlpha2CodeFromAlpha3"
+                name="GetAlpha2CodeFromAlpha3t"
                 styleSheetName="Common/xsl/GetISO639Code.xslt"
                 >
-                <Param name="Alpha3" sessionKey="Alpha3" />
+                <Param name="Alpha3t" sessionKey="Alpha3t" /> 
                 <Forward name="success" path="EXIT" />
             </XsltPipe>
         </Pipeline>
