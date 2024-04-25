@@ -150,12 +150,12 @@ jobs:
           do
             custom_file_source_path="${custom_file_paths_source[$i]}"
             custom_file_project_path="${custom_file_paths_project[$i]}"
-            if cmp -s "source_temp_extract/org/frankframework/$custom_file_source_path" "$custom_file_project_path"
+            if cmp -s "source_temp_extract/org/frankframework/${custom_file_source_path}" "${custom_file_project_path}"
               then
-                echo "$custom_file_source_path file hasn't been updated."
+                echo "${custom_file_source_path} file hasn't been updated."
             else
-              echo "$custom_file_source_path file has been updated. Copying the new version of $custom_file_source_path file to the $custom_file_project_path file in repository."
-              cp "./source_temp_extract/org/frankframework/$custom_file_source_path" "$custom_file_project_path"
+              echo "${custom_file_source_path} file has been updated. Copying the new version of ${custom_file_source_path} file to the ${custom_file_project_path} file in repository."
+              cp "./source_temp_extract/org/frankframework/${custom_file_source_path}" "${custom_file_project_path}"
             fi
         done
 
@@ -171,7 +171,7 @@ jobs:
         git add ${{ inputs.frankconfigunderconfiguration-path }}/FrankConfig.xsd
         for custom_file_project_path in "${!custom_file_paths_project[@]}"
           do
-            git add "$custom_file_project_path"
+            git add "${custom_file_project_path}"
         done
         git commit -m 'build(dependencies): bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
         git push origin bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}
