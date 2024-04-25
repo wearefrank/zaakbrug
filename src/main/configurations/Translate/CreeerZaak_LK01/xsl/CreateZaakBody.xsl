@@ -1,6 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:math="http://www.w3.org/2005/xpath-functions/math" xmlns:array="http://www.w3.org/2005/xpath-functions/array" xmlns:map="http://www.w3.org/2005/xpath-functions/map" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:err="http://www.w3.org/2005/xqt-errors" xmlns:zgw="http://google.com/zgw" exclude-result-prefixes="array fn map math xhtml xs err zgw" version="2.0">
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
-    <xsl:param name="GetRsinResult"/>
+    <xsl:param name="Bronorganisatie" select="''" as="xs:string" />
+    <xsl:param name="VerantwoordelijkeOrganisatie" select="''" as="xs:string" />
     <xsl:param name="GetZaakTypeResult"/>
     <xsl:param name="communicatiekanaal" select="''" as="xs:string"/>
     <xsl:param name="productenOfDiensten" select="''" as="xs:string"/>
@@ -13,18 +14,28 @@
     <xsl:template match="/">
         <xsl:apply-templates select="zakLk01/object[@entiteittype='ZAK']"/>
     </xsl:template>
-    
+
+    <xsl:function name="zgw:convertZdsBetalingsIndicatieToZgwBetalingsIndicatie">
+        <xsl:param name="zdsBetalingsIndicatie" />
+        <xsl:choose>
+            <xsl:when test="$zdsBetalingsIndicatie='N.v.t.'">nvt</xsl:when>
+            <xsl:when test="$zdsBetalingsIndicatie='(Nog) niet'">nog_niet</xsl:when>
+            <xsl:when test="$zdsBetalingsIndicatie='Gedeeltelijk'">gedeeltelijk</xsl:when>
+            <xsl:when test="$zdsBetalingsIndicatie='Geheel'">geheel</xsl:when>
+        </xsl:choose>
+    </xsl:function>
+
 	<xsl:template match="zakLk01/object[@entiteittype='ZAK']">
 		<ZgwZaak>
             <identificatie><xsl:value-of select="identificatie"/></identificatie>
-            <bronorganisatie><xsl:value-of select="$GetRsinResult/rsin"/></bronorganisatie>
+            <bronorganisatie><xsl:value-of select="$Bronorganisatie"/></bronorganisatie>
             <omschrijving><xsl:value-of select="omschrijving"/></omschrijving>
             <toelichting><xsl:value-of select="toelichting"/></toelichting>
             <zaaktype><xsl:value-of select="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType/url"/></zaaktype>
             <xsl:if test="string-length(registratiedatum) > 0">
                 <registratiedatum><xsl:value-of select="zgw:convertZdsDateToZgwDate(registratiedatum)"/></registratiedatum>
             </xsl:if>
-            <verantwoordelijkeOrganisatie><xsl:value-of select="$GetRsinResult/rsin"/></verantwoordelijkeOrganisatie>
+            <verantwoordelijkeOrganisatie><xsl:value-of select="$VerantwoordelijkeOrganisatie"/></verantwoordelijkeOrganisatie>
             <xsl:if test="string-length(startdatum) > 0">
                 <startdatum><xsl:value-of select="zgw:convertZdsDateToZgwDate(startdatum)"/></startdatum>
             </xsl:if>
@@ -40,7 +51,9 @@
            <!-- <communicatiekanaal><xsl:value-of select="$communicatiekanaal"/></communicatiekanaal> --> <!-- where to get? unknown -->
             <xsl:apply-templates select="productenOfDiensten"/>
             <vertrouwelijkheidaanduiding><xsl:value-of select="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType/vertrouwelijkheidaanduiding"/></vertrouwelijkheidaanduiding> <!-- from zaaktype -->
-            <betalingsindicatie><xsl:value-of select="betalingsindicatie"/></betalingsindicatie>
+            <xsl:if test="string-length(//betalingsIndicatie) > 0">
+                <betalingsindicatie><xsl:value-of select="zgw:convertZdsBetalingsIndicatieToZgwBetalingsIndicatie(//betalingsIndicatie)"/></betalingsindicatie>
+            </xsl:if>
             <xsl:if test="string-length(laatsteBetaaldatum) > 0">
                 <laatsteBetaaldatum><xsl:value-of select="zgw:convertZdsDatetimeToZgwDatetime(laatsteBetaaldatum)"/></laatsteBetaaldatum>
             </xsl:if>
@@ -50,7 +63,7 @@
             <!-- <selectielijstklasse><xsl:value-of select="$GetResultaattypeResult/results/selectielijstklasse"/></selectielijstklasse> --> <!-- from resultaattype -->
             <!-- <hoofdzaak><xsl:value-of select="$hoofdzaak"/></hoofdzaak> --> <!-- doesn't exist in zds -->
             <relevanteAndereZaken><xsl:value-of select="$relevanteAndereZaken"/></relevanteAndereZaken>
-            <xsl:apply-templates select="object/kenmerk"/>
+            <xsl:apply-templates select="kenmerk" />
             <xsl:if test="string-length(archiefnominatie) > 0">
                 <archiefnominatie><xsl:value-of select="zgw:convertZdsArchiefNominatieToZgwArchiefNominatie(archiefnominatie)"/></archiefnominatie>
             </xsl:if>
@@ -62,7 +75,7 @@
         </ZgwZaak>
 	</xsl:template>
     <xsl:template match="verlenging">
-        <xsl:if test="string-length(reden) > 0">
+        <xsl:if test="string-length(reden) > 0 and duur != '0'">
             <verlenging>
                 <reden><xsl:value-of select="reden"/></reden>
                 <duur><xsl:value-of select="concat('P', duur, 'D')"/></duur> <!-- Vertaling? -->
@@ -77,11 +90,13 @@
             </opschorting>
         </xsl:if>
     </xsl:template>
-    <xsl:template match="object/kenmerk">
-        <kenmerken>
-            <kenmerk><xsl:value-of select="kenmerk"/></kenmerk>
-            <bron><xsl:value-of select="bron"/></bron>
-        </kenmerken>
+    <xsl:template match="kenmerk">
+        <xsl:if test="string-length(kenmerk) > 0 and string-length(bron) > 0">
+            <kenmerken>
+                <kenmerk><xsl:value-of select="kenmerk"/></kenmerk>
+                <bron><xsl:value-of select="bron"/></bron>
+            </kenmerken>
+        </xsl:if>
     </xsl:template>
     <xsl:template match="productenOfDiensten">
         <productenOfDiensten><xsl:value-of select="."/></productenOfDiensten>

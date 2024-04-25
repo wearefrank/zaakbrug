@@ -5,7 +5,8 @@
         description="">
 
         <Receiver name="Documenten_PostZgwEnkelvoudigInformatieObject">
-            <JavaListener name="Documenten_PostZgwEnkelvoudigInformatieObject" />
+            <JavaListener name="Documenten_PostZgwEnkelvoudigInformatieObject" 
+                returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -14,22 +15,44 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <PutInSessionPipe name="getInhoudParameter">
-                <Param name="ref_inhoud" sessionKey="inhoud" />
+            <JwtPipe name="createJwt"
+                expirationTime="600"
+                storeResultInSessionKey="myToken"
+                ifParam="valueAuthType"
+                ifValue="Jwt"
+            >
+                <Param name="valueAuthType" value="${zaakbrug.zgw.documenten-api.auth-type}" />
+                <Param name="sharedSecret" pattern="{password}" authAlias="${zaakbrug.zgw.documenten-api.auth-alias}" hidden="true"/>
+                <Param name="client_id" pattern="{username}" authAlias="${zaakbrug.zgw.documenten-api.auth-alias}" hidden="true"/>
+                <Param name="user_id" pattern="{username}" authAlias="${zaakbrug.zgw.documenten-api.auth-alias}" hidden="true"/>
+                <Param name="user_reresentation" pattern="{username}" authAlias="${zaakbrug.zgw.documenten-api.auth-alias}" hidden="true"/>
                 <Forward name="success" path="ValidatePost" />
-            </PutInSessionPipe>
+                <Forward name="exception" path="EXCEPTION" />
+            </JwtPipe>
+
             <Json2XmlValidatorPipe name="ValidatePost"
+                getInputFromSessionKey="originalMessage"
                 schema="Zgw/Documenten/Model/PostZgwEnkelvoudigInformatieObject.xsd"
                 root="ZgwEnkelvoudigInformatieObject"
                 outputFormat="JSON"
                 deepSearch="true"
                 throwException="true">
-                <Forward name="success" path="SubstituteDocumentDataRef" />
+                <Forward name="success" path="ReplaceBase64EncodedRefWithInhoudRef" />
                 <Forward name="exception" path="buildErrorMsg" />
             </Json2XmlValidatorPipe>
+
+            <ReplacerPipe
+                name="ReplaceBase64EncodedRefWithInhoudRef"
+                find="e3Nlc3Npb25LZXk6cmVmX2luaG91ZH0="
+                replace="{sessionKey:ref_inhoud}"
+                >
+                <Forward name="success" path="SubstituteDocumentDataRef" />
+            </ReplacerPipe>
+
             <EchoPipe name="SubstituteDocumentDataRef" restoreMovedElements="true">
                 <Forward name="success" path="PostZgwEnkelvoudigInformatieObjectSender"/>
-            </EchoPipe>
+            </EchoPipe>            
+
             <SenderPipe name="PostZgwEnkelvoudigInformatieObjectSender">
                 <HttpSender name="PostZgwEnkelvoudigInformatieObjectHttpSender"
                     methodType="POST"
@@ -41,14 +64,18 @@
                     <Param name="Accept-Crs" value="EPSG:4326" />
                     <Param name="Accept" value="application/json" />
                     <Param name="Content-Crs" value="EPSG:4326" />
-                    <Param name="Authorization" value="Bearer @@documenten-api.jwt@@" />
+                    <Param name="Authorization"  sessionKey="originalMessage" xpathExpression="concat('Bearer ', $myToken)">
+                    <Param name="myToken" sessionKey="myToken" defaultValue="@@documenten-api.jwt@@"/>
+                </Param>
                 </HttpSender>
                 <Forward name="success" path="JsonToXml" />
                 <Forward name="exception" path="ErrorJsonToXml" />
             </SenderPipe>
+
             <JsonPipe name="ErrorJsonToXml">
                 <Forward name="success" path="buildErrorMsg" />
             </JsonPipe>
+
             <XsltPipe name="buildErrorMsg"
                 styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
                 <Param name="senderPipeName" value="PostZgwEnkelvoudigInformatieObjectSender" />
@@ -57,14 +84,14 @@
 
             <JsonPipe
                 name="JsonToXml"
-            >
+                >
                 <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToSingle" />
             </JsonPipe>
 
             <XsltPipe
                 name="UnwrapOpenZaakApiEnvelopeToSingle"
                 styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToSingle.xslt"
-            >
+                >
                 <Param name="Type" value="ZgwEnkelvoudigInformatieObject" />
                 <Forward name="success" path="EXIT" />
                 <Forward name="error" path="EXCEPTION" />

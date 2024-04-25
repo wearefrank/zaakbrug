@@ -4,11 +4,7 @@
         description="">
 
         <Receiver name="GeefLijstZaakdocumenten_Lv01">
-            <JavaListener name="GeefLijstZaakdocumenten_Lv01"/>
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/geefLijstZaakdocumenten_Lv01"/>
+            <JavaListener name="GeefLijstZaakdocumenten_Lv01" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>  
@@ -22,7 +18,8 @@
                 storeResultInSessionKey="GetZaakResult">
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
-                    javaListener="GetZgwZaak">
+                    javaListener="GetZgwZaak"
+                    returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="ZaakIdentificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallGetZaakInformatieObjectenByZaak"/>
@@ -34,7 +31,8 @@
                 storeResultInSessionKey="GetZaakInformatieObjectenResult">
                 <IbisLocalSender
                     name="CallGetZaakInformatieObjectenByZaakSender"
-                    javaListener="GetZaakInformatieObjectenByZaak">
+                    javaListener="GetZaakInformatieObjectenByZaak"
+                    returnedSessionKeys="Error">
                     <Param name="ZaakUrl" xpathExpression="ZgwZaken/ZgwZaak/url"/>
                 </IbisLocalSender>
                 <Forward name="success" path="ZgwZaakInformatieObjectenIterator"/>
@@ -46,7 +44,8 @@
                 parallel="true">
                 <IbisLocalSender
                     name="CallHandleZgwZaakInformatieObjecten"
-                    javaListener="HandleZgwZaakInformatieObjecten">
+                    javaListener="HandleZgwZaakInformatieObjecten"
+                    returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />

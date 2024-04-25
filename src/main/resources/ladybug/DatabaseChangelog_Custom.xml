@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <!-- See src/main/resources/springIbisTestToolCustom.xml -->
+    <changeSet id="LadybugCustom:1" author="Meric">
+        <comment>Add missing Zaakbrug related Columns</comment>
+        <addColumn tableName="LADYBUG">
+            <column name="SOAPACTION" type="VARCHAR(256)"/>
+            <column name="IDENTIFICATIE" type="VARCHAR(256)"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

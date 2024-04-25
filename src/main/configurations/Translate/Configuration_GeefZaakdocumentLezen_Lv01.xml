@@ -3,12 +3,13 @@
         active="${GeefZaakdocumentLezen_Lv01.Active}"
         description="">
 
-        <Receiver name="GeefZaakdocumentLezen_Lv01">
-            <JavaListener name="GeefZaakdocumentLezen_Lv01"/>
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/geefZaakdocumentLezen_Lv01"/>
+        <Receiver
+            name="GeefZaakdocumentLezen_Lv01"
+            >
+            <JavaListener
+                name="GeefZaakdocumentLezen_Lv01"
+                returnedSessionKeys="ref_inhoud,Error"
+                />
         </Receiver>
 
         <Pipeline>
@@ -22,7 +23,8 @@
                 storeResultInSessionKey="ZgwEnkelvoudigInformatieObject">
                 <IbisLocalSender
                     name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatieSender"
-                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie">
+                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie"
+                    returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="DocumentIdentificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwEnkelvoudigInformatieObjectResult"/>
@@ -41,7 +43,8 @@
                 storeResultInSessionKey="ZgwInformatieObjectType">
                 <IbisLocalSender
                     name="CallGetZgwInformatieObjectTypeByUrlSender"
-                    javaListener="GetZgwInformatieObjectTypeByUrl">
+                    javaListener="GetZgwInformatieObjectTypeByUrl"
+                    returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/ZgwEnkelvoudigInformatieObject/informatieobjecttype"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwInformatieObjectTypeResult"/>
@@ -60,7 +63,8 @@
                 storeResultInSessionKey="ZgwZaakInformatieObject">
                 <IbisLocalSender
                     name="CallGetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrlSender"
-                    javaListener="GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl">
+                    javaListener="GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl"
+                    returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/url">
                         <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
                     </Param>
@@ -81,7 +85,8 @@
                 storeResultInSessionKey="GetZgwZaakResult">
                 <IbisLocalSender
                     name="CallGetZaakByUrlSender"
-                    javaListener="GetZgwZaakByUrl">
+                    javaListener="GetZgwZaakByUrl"
+                    returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="$ZgwZaakInformatieObject/ZgwZaakInformatieObject/zaak">
                         <Param name="ZgwZaakInformatieObject" sessionKey="ZgwZaakInformatieObject" type="DOMDOC"/>
                     </Param>
@@ -99,10 +104,13 @@
 
             <SenderPipe
                 name="CallGetBas64Inhoud"
-                storeResultInSessionKey="Bas64Inhoud">
+                storeResultInSessionKey="Bas64Inhoud"
+                >
                 <IbisLocalSender
                     name="CallGetBas64InhoudSender"
-                    javaListener="GetBas64Inhoud">
+                    javaListener="GetBas64Inhoud"
+                    returnedSessionKeys="ref_inhoud,Error"
+                    >
                     <Param name="Url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/inhoud">
                         <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
                     </Param>
@@ -111,12 +119,13 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
+            <!-- TODO: Improve error handling for when "GetBas64Inhoud" throws an error -->
             <XmlSwitchPipe 
                 name="CheckForGetBas64InhoudResult"
                 getInputFromFixedValue="&lt;dummy/&gt;"
                 xpathExpression="string-length($Bas64Inhoud) &gt; 0"
                 >
-                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="BASE64"/>
+                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud"/>
                 <Forward name="true" path="MapZdsZaakDocumentInhoud"/>
                 <Forward name="false" path="EXCEPTION"/>
             </XmlSwitchPipe>
@@ -149,7 +158,7 @@
                 >
                 <Param name="ZgwInformatieObjectType" sessionKey="ZgwInformatieObjectType" type="DOMDOC"/>
                 <Param name="ZgwZaak" sessionKey="GetZgwZaakResult" type="DOMDOC"/>
-                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" type="BASE64"/>
+                <Param name="Bas64Inhoud" sessionKey="Bas64Inhoud" />
                 <Forward name="success" path="EXIT"/>
             </XsltPipe>
         </Pipeline>

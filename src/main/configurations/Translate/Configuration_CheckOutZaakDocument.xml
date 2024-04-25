@@ -4,11 +4,7 @@
         description="">
 
         <Receiver name="CheckOutZaakDocument">
-            <JavaListener name="CheckOutZaakDocument"/>
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/checkOutZaakDocument"/>
+            <JavaListener name="CheckOutZaakDocument" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -22,7 +18,8 @@
                 storeResultInSessionKey="ZgwEnkelvoudigInformatieObject">
                 <IbisLocalSender
                     name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatieSender"
-                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie">
+                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie"
+                    returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="DocumentIdentificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwEnkelvoudigInformatieObjectResult"/>
@@ -60,7 +57,8 @@
                 name="CallPostZgwLock">
                 <IbisLocalSender
                     name="CallPostZgwLockSender"
-                    javaListener="PostZgwLock">
+                    javaListener="PostZgwLock"
+                    returnedSessionKeys="Error">
                     <Param name="ZgwLockUrl" sessionKey="ZgwLockUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>

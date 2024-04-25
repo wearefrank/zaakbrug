@@ -4,11 +4,7 @@
         description="">
 
         <Receiver name="CancelCheckOutZaakDocument_Di02">
-            <JavaListener name="CancelCheckOutZaakDocument_Di02"/>
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/cancelCheckOutZaakDocument_Di02"/>
+            <JavaListener name="CancelCheckOutZaakDocument_Di02" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -22,7 +18,8 @@
                 storeResultInSessionKey="ZgwEnkelvoudigInformatieObject">
                 <IbisLocalSender
                     name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatieSender"
-                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie">
+                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie"
+                    returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="DocumentIdentificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForGetZgwEnkelvoudigInformatieObjectResult"/>
@@ -41,7 +38,8 @@
                 storeResultInSessionKey="ZgwInformatieObjectUnlockResult">
                 <IbisLocalSender
                     name="CallGetZgwInformatieObjectUnlockSender"
-                    javaListener="GetZgwInformatieObjectUnlock">
+                    javaListener="GetZgwInformatieObjectUnlock"
+                    returnedSessionKeys="Error">
                     <Param name="ZgwUnlockUrl" xpathExpression="concat($ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/url, '/unlock')">
                         <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
                     </Param>

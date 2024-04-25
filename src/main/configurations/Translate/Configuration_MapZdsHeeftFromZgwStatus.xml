@@ -4,7 +4,7 @@
     description="">
     
     <Receiver name="MapZdsHeeftFromZgwStatus">
-        <JavaListener name="MapZdsHeeftFromZgwStatus"/>
+        <JavaListener name="MapZdsHeeftFromZgwStatus" returnedSessionKeys="Error" />
     </Receiver>
     
     <Pipeline>
@@ -18,7 +18,8 @@
                 storeResultInSessionKey="ZgwStatusType">
                 <IbisLocalSender
                     name="GetZgwStatusTypeLocalSender"
-                    javaListener="GetZgwStatusTypeByUrl">
+                    javaListener="GetZgwStatusTypeByUrl"
+                    returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/ZgwStatus/statustype"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CreateZdsHeeft"/>

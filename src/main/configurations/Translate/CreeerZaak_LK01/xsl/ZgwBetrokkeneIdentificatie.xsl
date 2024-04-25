@@ -28,6 +28,16 @@
     	</xsl:choose>
 	</xsl:function>
 
+    <xsl:function name="zgw:convertZdsBetalingsIndicatieToZgwBetalingsIndicatie">
+        <xsl:param name="zdsBetalingsIndicatie" />
+        <xsl:choose>
+            <xsl:when test="$zdsBetalingsIndicatie='N.v.t.'">nvt</xsl:when>
+            <xsl:when test="$zdsBetalingsIndicatie='(Nog) niet'">nog_niet</xsl:when>
+            <xsl:when test="$zdsBetalingsIndicatie='Gedeeltelijk'">gedeeltelijk</xsl:when>
+            <xsl:when test="$zdsBetalingsIndicatie='Geheel'">geheel</xsl:when>
+        </xsl:choose>
+    </xsl:function>
+
     <xsl:param name="rsin" select="''" as="xs:string"/>
     <xsl:param name="zaaktypeUrl" select="''" as="xs:string"/>
     <xsl:param name="communicatiekanaal" select="''" as="xs:string"/>
@@ -82,8 +92,8 @@
             <xsl:if test="$vertrouwelijkheidaanduiding">
                 <vertrouwelijkheidaanduiding><xsl:value-of select="$vertrouwelijkheidaanduiding"/></vertrouwelijkheidaanduiding>
             </xsl:if>
-            <xsl:if test="/object/betalingsindicatie">
-                <betalingsindicatie><xsl:value-of select="/object/betalingsindicatie"/></betalingsindicatie>
+            <xsl:if test="string-length(/object/betalingsindicatie) > 0">
+                <betalingsindicatie><xsl:value-of select="zgw:convertZdsBetalingsIndicatieToZgwBetalingsIndicatie(/object/betalingsindicatie)"/></betalingsindicatie>
             </xsl:if>
 			<xsl:if test="/object/laatsteBetaaldatum">
                 <laatsteBetaaldatum><xsl:value-of select="zgw:convertZdsDatetimeToZgwDatetime(/object/laatsteBetaaldatum)"/></laatsteBetaaldatum>

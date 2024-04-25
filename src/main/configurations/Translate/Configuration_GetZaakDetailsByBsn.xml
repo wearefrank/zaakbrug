@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="GetZaakDetailsByBsn">
-            <JavaListener name="GetZaakDetailsByBsn"/>
+            <JavaListener name="GetZaakDetailsByBsn" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -18,7 +18,8 @@
                 storeResultInSessionKey="GetRollenByBsnResult">
                 <IbisLocalSender
                     name="CallGetRollenByBsnSender"
-                    javaListener="GetRollenByBsn">
+                    javaListener="GetRollenByBsn"
+                    returnedSessionKeys="Error">
                     <Param name="Bsn" sessionKey="Bsn"/>
                 </IbisLocalSender>
                 <Forward name="success" path="RolIterator"/>
@@ -27,11 +28,11 @@
 
             <ForEachChildElementPipe name="RolIterator"
                 storeResultInSessionKey="GetZaakDetailsByRolResults"
-                elementXPathExpression="/ZgwRollen/ZgwRol"
-                parallel="true">
+                elementXPathExpression="/ZgwRollen/ZgwRol">
                 <IbisLocalSender
                     name="CallGetZaakDetailsByRol"
-                    javaListener="GetZaakDetailsByRol">
+                    javaListener="GetZaakDetailsByRol"
+                    returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />

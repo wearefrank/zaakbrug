@@ -11,6 +11,7 @@
 				name="enkelvoudiginformatieobject_download" 
 				method="GET"
 				uriPattern="/documenten/api/v1/enkelvoudiginformatieobjecten/{uuid}/download"
+				headerParams="Host"
 				produces="JSON"
 				consumes="ANY"
 				/>
@@ -27,7 +28,53 @@
 				<Exit name="Timeout" state="ERROR" code="504"/>
 			</Exits>
 
-			<FixedResultPipe name="Helloworld" returnString="{&quot;count&quot;:123,&quot;next&quot;:&quot;http://api.example.org/accounts/?page=4&quot;,&quot;previous&quot;:&quot;http://api.example.org/accounts/?page=2&quot;,&quot;results&quot;:[{&quot;url&quot;:&quot;string&quot;,&quot;uuid&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;,&quot;zaak&quot;:&quot;string&quot;,&quot;resultaattype&quot;:&quot;string&quot;,&quot;toelichting&quot;:&quot;string&quot;}]}" />
+			<!-- <FixedResultPipe name="Helloworld" returnString="{&quot;count&quot;:123,&quot;next&quot;:&quot;http://api.example.org/accounts/?page=4&quot;,&quot;previous&quot;:&quot;http://api.example.org/accounts/?page=2&quot;,&quot;results&quot;:[{&quot;url&quot;:&quot;string&quot;,&quot;uuid&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;,&quot;zaak&quot;:&quot;string&quot;,&quot;resultaattype&quot;:&quot;string&quot;,&quot;toelichting&quot;:&quot;string&quot;}]}" /> -->
+			
+			<XsltPipe
+                name="SetEnkelvoudigInformatieObjectUrl"
+                styleSheetName="Common/xsl/CreateURL.xsl"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="UrlParam"
+                >
+                <Param name="BaseUrl" value="${zaakbrug.staging.documenten-api.root-url}" /> 
+                <Param name="UrlParam" sessionKey="uri" /> 
+                <Forward name="success" path="createJwt"/>
+            </XsltPipe>
+
+			<JwtPipe name="createJwt"
+				expirationTime="600"
+				storeResultInSessionKey="myToken"
+                ifParam="valueAuthType"
+                ifValue="Jwt"
+            >
+                <Param name="valueAuthType" value="${zaakbrug.zgw.catalogi-api.auth-type}" />
+                <Param name="sharedSecret" pattern="{password}" authAlias="${zaakbrug.zgw.catalogi-api.auth-alias}" hidden="true"/>
+                <Param name="client_id" pattern="{username}" authAlias="${zaakbrug.zgw.catalogi-api.auth-alias}" hidden="true"/>
+                <Param name="user_id" pattern="{username}" authAlias="${zaakbrug.zgw.catalogi-api.auth-alias}" hidden="true"/>
+                <Param name="user_reresentation" pattern="{username}" authAlias="${zaakbrug.zgw.catalogi-api.auth-alias}" hidden="true"/>
+				<Forward name="success" path="DownloadEnkelvoudigInformatieObjectSender" />
+			</JwtPipe>
+            
+            <SenderPipe name="DownloadEnkelvoudigInformatieObjectSender"
+            	getInputFromSessionKey="originalMessage">
+                <HttpSender name="DownloadEnkelvoudigInformatieObjectSender"
+                    methodType="GET"
+                    headersParams="Authorization,Accept-Crs,Content-Crs,Accept,Host"
+                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
+                    maxExecuteRetries="5"
+                    contentType="application/json">
+                    <Param name="url" sessionKey="UrlParam" />
+                	<Param name="Accept-Crs" value="EPSG:4326" />
+                    <Param name="Accept" value="application/json" />
+                    <Param name="Content-Crs" value="EPSG:4326" />
+					<Param name="Host" sessionKey="headers" xpathExpression="/headers/header[@name = 'Host']/text()" />
+                    <Param name="Authorization"  sessionKey="originalMessage" xpathExpression="concat('Bearer ', $myToken)">
+						<Param name="myToken" sessionKey="myToken" defaultValue="@@catalogi-api.jwt@@"/>
+					</Param>
+                </HttpSender>
+
+                <Forward name="success" path="EXIT"/>
+			</SenderPipe>
 		</Pipeline>
 	</Adapter>
 </Module>

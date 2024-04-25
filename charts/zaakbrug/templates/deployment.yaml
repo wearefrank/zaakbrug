@@ -154,3 +154,82 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+---
+{{- if .Values.staging.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "zaakbrug.nginxFullname" . }}
+  labels:
+    {{- include "zaakbrug.nginxLabels" . | nindent 4 }}
+spec:
+  {{- if not .Values.staging.apiProxy.autoscaling.enabled }}
+  replicas: {{ .Values.staging.apiProxy.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "zaakbrug.nginxSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/configmap-nginx: {{ include (print $.Template.BasePath "/configmap-nginx.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "zaakbrug.nginxSelectorLabels" . | nindent 8 }}
+        {{- with .Values.staging.apiProxy.podLabels }}
+            {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "zaakbrug.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: nginx
+          command: [ "/bin/bash", "-c", "nginx -g 'daemon off;'" ]
+          securityContext:
+            {{- toYaml .Values.staging.apiProxy.securityContext | nindent 12 }}
+          image: "{{ .Values.staging.apiProxy.image.repository }}:{{ .Values.staging.apiProxy.image.tag }}"
+          imagePullPolicy: {{ .Values.staging.apiProxy.image.pullPolicy }}
+          livenessProbe:
+            httpGet:
+              path: /_health/
+              port: http
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            {{- toYaml .Values.staging.apiProxy.resources | nindent 12 }}
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
+            {{- if .Values.staging.apiProxy.securityContext.readOnlyRootFilesystem }}
+            - mountPath: /tmp
+              name: tmpfs
+            {{- end }}
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: {{ if .Values.staging.apiProxy.existingConfigmap }}{{ .Values.staging.apiProxy.existingConfigmap  }}{{- else }}{{ include "zaakbrug.nginxFullname" . }}{{- end }}
+        {{- if .Values.staging.apiProxy.securityContext.readOnlyRootFilesystem }}
+        - name: tmpfs
+          emptyDir: {}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end -}}

@@ -60,3 +60,38 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Create a name for NGINX
+We truncate at 57 chars in order to provide space for the "-nginx" suffix
+*/}}
+{{- define "zaakbrug.nginxName" -}}
+{{ include "zaakbrug.name" . | trunc 57 | trimSuffix "-" }}-nginx
+{{- end }}
+
+{{/*
+Create a default fully qualified name for NGINX.
+We truncate at 57 chars in order to provide space for the "-nginx" suffix
+*/}}
+{{- define "zaakbrug.nginxFullname" -}}
+{{ include "zaakbrug.fullname" . | trunc 57 | trimSuffix "-" }}-nginx
+{{- end }}
+
+{{/*
+NGINX labels
+*/}}
+{{- define "zaakbrug.nginxLabels" -}}
+helm.sh/chart: {{ include "zaakbrug.chart" . }}
+{{ include "zaakbrug.nginxSelectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+NGINX selector labels
+*/}}
+{{- define "zaakbrug.nginxSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "zaakbrug.nginxName" . }}
+{{- end }}

@@ -4,9 +4,11 @@
     <xsl:param name="RolNaam" />
     <xsl:param name="RolEntiteitType" />
     
-    <xsl:function name="zgw:convertZdsDateToZgwDate" as="xs:string">
+    <xsl:function name="zgw:toZdsDate" as="xs:string">
         <xsl:param name="dateStr" as="xs:string"/>
-        <xsl:value-of select="concat(substring($dateStr,1,4), substring($dateStr,6,2), substring($dateStr,9,2))"/>
+        <xsl:if test="string-length($dateStr) > 0">
+            <xsl:value-of select="concat(substring($dateStr,1,4), substring($dateStr,6,2), substring($dateStr,9,2))"/>
+        </xsl:if>
 	</xsl:function>
 
     <xsl:template match="/">
@@ -25,7 +27,7 @@
                     <voorletters><xsl:value-of select="betrokkeneIdentificatie/voorletters"/></voorletters>
                     <voornamen><xsl:value-of select="betrokkeneIdentificatie/voornamen"/></voornamen>
                     <geslachtsaanduiding><xsl:value-of select="upper-case(betrokkeneIdentificatie/geslachtsaanduiding)"/></geslachtsaanduiding>
-                    <geboortedatum><xsl:value-of select="zgw:convertZdsDateToZgwDate(betrokkeneIdentificatie/geboortedatum)"/></geboortedatum>
+                    <geboortedatum><xsl:if test="betrokkeneIdentificatie/geboortedatum"><xsl:value-of select="zgw:toZdsDate(betrokkeneIdentificatie/geboortedatum)"/></xsl:if></geboortedatum>
                     <xsl:apply-templates select="betrokkeneIdentificatie/verblijfsadres"/>
                 </natuurlijkPersoon>
             </gerelateerde>
@@ -41,7 +43,7 @@
                     <authentiek>J</authentiek>
                     <ann.identificatie><xsl:value-of select="betrokkeneIdentificatie/annIdentificatie"/></ann.identificatie>
                     <statutaireNaam><xsl:value-of select="betrokkeneIdentificatie/statutaireNaam"/></statutaireNaam>
-                    <inn.Rechtsvorm><xsl:value-of select="betrokkeneIdentificatie/innRechtsvorm"/></inn.Rechtsvorm>
+                    <inn.rechtsvorm><xsl:value-of select="betrokkeneIdentificatie/innRechtsvorm"/></inn.rechtsvorm>
                     <!-- Missing bezoekadres -->
                     <!-- Missing subVerblijfBuitenland -->
                 </nietNatuurlijkPersoon>
@@ -72,6 +74,19 @@
                     <achternaam><xsl:value-of select="betrokkeneIdentificatie/achternaam"/></achternaam>
                     <voorletters><xsl:value-of select="betrokkeneIdentificatie/voorletters"/></voorletters>
                 </medewerker>
+            </gerelateerde>
+        </xsl:element>
+    </xsl:template>
+
+    <xsl:template match="root[betrokkeneType='organisatorische_eenheid']">
+        <xsl:element name="{$RolNaam}">
+            <xsl:attribute name="entiteittype" select="$RolEntiteitType"/>
+            <gerelateerde>
+                <organisatorischeEenheid entiteittype="OEH">
+                    <identificatie><xsl:value-of select="betrokkeneIdentificatie/identificatie"/></identificatie>
+                    <naam><xsl:value-of select="betrokkeneIdentificatie/naam"/></naam>
+                    <isGehuisvestIn><xsl:value-of select="betrokkeneIdentificatie/isGehuisvestIn"/></isGehuisvestIn>
+                </organisatorischeEenheid>
             </gerelateerde>
         </xsl:element>
     </xsl:template>

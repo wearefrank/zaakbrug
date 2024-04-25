@@ -3,12 +3,14 @@
         active="${SoapEndpointRouter_VrijeBerichten.Active}"
         description="">
 
+        <!--
+            Never use "originalMessage" in this adapter. Use "SafeOriginalMessage" instead. 
+            This is due "originalMessage" potentially containing very large document base64. 
+            "SafeOriginalMessage" has the base64 already stored to disk and removed from the message.
+        -->
+
         <Receiver name="SoapEndpointRouter_VrijeBerichten">
             <WebServiceListener name="SoapEndpointRouter_VrijeBerichten" address="${zaakbrug.soap.vrije-berichten.endpoint}" soap="false"/>
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/vrijeBerichten"/>
         </Receiver>
 
         <Pipeline>
@@ -17,291 +19,285 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <XsltPipe
-                name="RemoveComments"
-                styleSheetName="Common/xsl/RemoveComments.xslt"
-                storeResultInSessionKey="SanitizedMessage"
+            <!--
+                Dont touch the input message before this pipe. Especially no xslt/xpath. 
+                It can potentially contain very large document base64 still. 
+                This pipe stores it to disk and removes it from the message.
+            -->
+            <EchoPipe 
+                name="StoreInhoud"
+                elementToMove="inhoud"
+                removeCompactMsgNamespaces="false"
                 >
-                <Forward name="success" path="SanitizeSoapAction"/>
-                <Forward name="error" path="EXCEPTION"/>
-            </XsltPipe>
+                <Forward name="success" path="CheckInputDocumentObjectCount" />
+            </EchoPipe>
 
-            <XsltPipe
-                name="SanitizeSoapAction"
-                xpathExpression="replace($Action, '/', '_')"
-                storeResultInSessionKey="SatitizedSoapAction"
+            <!--
+                In the rare case of the new base64 AND the old base64 of a document being present during an updateDocument action, the elementsToMove will make a
+                ref_inhoud# sessionKey for both "inhoud" elements. Normally there is only one because there is only 1 inhoud element with the NEW base64.
+                Only in this scenario "ref_inhoud" will be the OLD base64 and "ref_inhoud2" will be the NEW base64. We are only interested in the NEW base64,
+                so we are overwriting the "ref_inhoud" sessionkey with the content of "ref_inhoud2" and replace "{sessionKey:ref_inhoud2} with "{sessionKey:ref_inhoud}".
+            -->
+            <XmlIfPipe name="CheckInputDocumentObjectCount"
+                xpathExpression="count(//*:inhoud) = 2"
+                preserveInput="true"
                 >
-                <Param name="Action" sessionKey="SOAPAction"/>
-                <Forward name="success" path="ActionSwitch"/>
-                <Forward name="error" path="EXCEPTION"/>
-            </XsltPipe>
+                <Forward name="then" path="OverwriteRefInhoudWithRefInhoud2"/>
+                <Forward name="else" path="ReplaceInhoudRefWithBase64EncodedRef"/>
+            </XmlIfPipe>
 
-            <XmlSwitchPipe name="ActionSwitch"
-				forwardNameSessionKey="SatitizedSoapAction"
-                />
+            <PutInSessionPipe
+                name="OverwriteRefInhoudWithRefInhoud2"
+                >
+                <Param name="ref_inhoud" sessionKey="ref_inhoud2" />
+                <Forward name="success" path="ReplaceInhoudRefWithBase64EncodedRef"/>
+                <Forward name="exception" path="BackEndError"/>
+            </PutInSessionPipe>
 
-            <!-- GenereerZaakIdentificatie_Di02 -->
-            <WsdlXmlValidatorPipe 
-                name="http:__www.egem.nl_StUF_sector_zkn_0310_genereerZaakIdentificatie_Di02"
-                getInputFromSessionKey="SanitizedMessage"
+            <ReplacerPipe
+                name="ReplaceInhoudRefWithBase64EncodedRef"
+                storeResultInSessionKey="SafeOriginalMessage"
+                find="{sessionKey:ref_inhoud}"
+                replace="e3Nlc3Npb25LZXk6cmVmX2luaG91ZH0="
+                >
+                <Forward name="success" path="ReplaceInhoudRef2WithBase64EncodedRef" />
+            </ReplacerPipe>
+
+            <ReplacerPipe
+                name="ReplaceInhoudRef2WithBase64EncodedRef"
+                storeResultInSessionKey="SafeOriginalMessage"
+                find="{sessionKey:ref_inhoud2}"
+                replace="e3Nlc3Npb25LZXk6cmVmX2luaG91ZH0="
+                >
+                <Forward name="success" path="ValidateInput" />
+            </ReplacerPipe>
+
+            <WsdlXmlValidatorPipe
+                name="ValidateInput"
 				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
-                soapBody="genereerZaakIdentificatie_Di02"
+                outputFormat="XML"
+                ignoreUnknownNamespaces="true"
+                autoFormat="false"
                 >
-				<Forward name="success" path="UnwrapMessageForGenereerZaakIdentificatie_Di02"/>
-				<Forward name="failure" path="WsdlValidationSoftFailForwarder_GenereerZaakIdentificatie"/>
+				<Forward name="success" path="UnwrapOriginalMessage"/>
+				<Forward name="failure" path="WsdlValidationSoftFailForwarder"/>
 			</WsdlXmlValidatorPipe>
 
-            <XmlSwitchPipe 
-                name="WsdlValidationSoftFailForwarder_GenereerZaakIdentificatie"
+            <XmlSwitchPipe
+                name="WsdlValidationSoftFailForwarder"
                 xpathExpression="$SoftFail = true()"
                 >
                 <Param name="SoftFail" value="${zaakbrug.soap.vrije-berichten.validation-soft-fail}" type="BOOLEAN"/>
-                <Forward name="true" path="UnwrapMessageForGenereerZaakIdentificatie_Di02" />
+                <Forward name="true" path="UnwrapOriginalMessage" />
                 <Forward name="false" path="InvalidXml" />
             </XmlSwitchPipe>
 
-            <SoapWrapperPipe 
-                name="UnwrapMessageForGenereerZaakIdentificatie_Di02"
-                storeResultInSessionKey="UnwrapMessageResult"
+            <SoapWrapperPipe
+                name="UnwrapOriginalMessage"
                 direction="UNWRAP"
-                removeOutputNamespaces="true">
-                <Forward name="success" path="GenereerZaakIdentificatie_Di02Sender"/>
+                removeOutputNamespaces="true"
+                >
+                <Forward name="success" path="StoreResponeContextSessionKeys"/>
+                <Forward name="exception" path="BackEndError"/>
             </SoapWrapperPipe>
 
+            <PutInSessionPipe
+                name="StoreResponeContextSessionKeys"
+                >
+                <Param name="Stuurgegevens" xpathExpression="/*/stuurgegevens" defaultValue="&lt;stuurgegevens/&gt;" type="DOMDOC" />
+                <Param name="Parameters" xpathExpression="/*/parameters" defaultValue="&lt;parameters/&gt;" type="DOMDOC" />
+                <Forward name="success" path="LegalizeSoapActionForPipeName"/>
+                <Forward name="exception" path="BackEndError"/>
+            </PutInSessionPipe>
+
+            <XsltPipe
+                name="LegalizeSoapActionForPipeName"
+                preserveInput="true"
+                xpathExpression="replace($Action, '/', '_')"
+                storeResultInSessionKey="LegalizedSoapAction"
+                >
+                <Param name="Action" sessionKey="SOAPAction"/>
+                <Forward name="success" path="checkObjectCount"/>
+                <Forward name="exception" path="BackEndError"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="checkObjectCount" xpathExpression="count(/*/edcLk02/object)=2">
+                <Forward name="then" path="StoreZdsWordtInformatieObject1" />
+                <Forward name="else" path="StoreZdsWordtInformatieObject2" />
+            </XmlIfPipe>
+
+            <PutInSessionPipe name="StoreZdsWordtInformatieObject1">
+                <Param name="ZdsWordtInformatieObject" xpathExpression="/*/edcLk02/object[2]" defaultValue="&lt;object/&gt;" type="DOMDOC" />
+                <Forward name="success" path="ForwardBySoapActionSwitch" />
+            </PutInSessionPipe>
+
+            <PutInSessionPipe name="StoreZdsWordtInformatieObject2">
+                <Param name="ZdsWordtInformatieObject" xpathExpression="/*/edcLk02/object[1]" defaultValue="&lt;object/&gt;" type="DOMDOC" />
+                <Forward name="success" path="ForwardBySoapActionSwitch" />
+            </PutInSessionPipe>
+
+            <XmlSwitchPipe
+                name="ForwardBySoapActionSwitch"
+				forwardNameSessionKey="LegalizedSoapAction"
+                notFoundForwardName="UnsupportedSoapActionError"
+                />
+            
+            <!-- GenereerZaakIdentificatie_Di02 -->
             <SenderPipe
-                name="GenereerZaakIdentificatie_Di02Sender"
-                storeResultInSessionKey="Identificatie">
+                name="http:__www.egem.nl_StUF_sector_zkn_0310_genereerZaakIdentificatie_Di02"
+                storeResultInSessionKey="Identificatie"
+                >
                 <IbisLocalSender
                     name="GenereerZaakIdentificatie_Di02LocalSender"
                     javaListener="GenereerIdentificatieEmulator"
-                    >
+                    returnedSessionKeys="Error">
                     <Param name="IdentificatieType" value="ZaakIdentificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="WrapGenereerZaakIdentificatie_Du02Response" />
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>
 
-            <SoapWrapperPipe
-                name="WrapGenereerZaakIdentificatie_Du02Response"
-                getInputFromSessionKey="UnwrapMessageResult"
-                soapBodyStyleSheet="Common/xsl/CreateGenereerZaakIdentificatie_Du02Response.xslt"
-                >
-                <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC" />
-                <Param name="Identificatie" sessionKey="Identificatie" type="STRING" />
-                <Forward name="success" path="EXIT"/>
-            </SoapWrapperPipe>
-
             <!-- GenereerDocumentIdentificatie_Di02 -->
-            <WsdlXmlValidatorPipe 
-                name="http:__www.egem.nl_StUF_sector_zkn_0310_genereerDocumentIdentificatie_Di02"
-                getInputFromSessionKey="SanitizedMessage"
-				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
-                soapBody="genereerDocumentIdentificatie_Di02"
-                >
-				<Forward name="success" path="UnwrapMessageForGenereerDocumentIdentificatie_Di02"/>
-				<Forward name="failure" path="WsdlValidationSoftFailForwarder_GenereerDocumentIdentificatie"/>
-			</WsdlXmlValidatorPipe>
-
-            <XmlSwitchPipe name="WsdlValidationSoftFailForwarder_GenereerDocumentIdentificatie"
-                xpathExpression="$SoftFail = true()"
-                >
-                <Param name="SoftFail" value="${zaakbrug.soap.vrije-berichten.validation-soft-fail}" type="BOOLEAN"/>
-				<Forward name="true" path="UnwrapMessageForGenereerDocumentIdentificatie_Di02" />
-                <Forward name="false" path="InvalidXml" />
-            </XmlSwitchPipe>
-
-            <SoapWrapperPipe 
-                name="UnwrapMessageForGenereerDocumentIdentificatie_Di02"
-                storeResultInSessionKey="UnwrapMessageResult"
-                direction="UNWRAP"
-                removeOutputNamespaces="true">
-                <Forward name="success" path="GenereerDocumentIdentificatie_Di02Sender"/>
-            </SoapWrapperPipe>
-
             <SenderPipe
-                name="GenereerDocumentIdentificatie_Di02Sender"
-                storeResultInSessionKey="Identificatie">
+                name="http:__www.egem.nl_StUF_sector_zkn_0310_genereerDocumentIdentificatie_Di02"
+                storeResultInSessionKey="Identificatie"
+                >
                 <IbisLocalSender
                     name="GenereerDocumentIdentificatie_Di02LocalSender"
                     javaListener="GenereerIdentificatieEmulator"
-                    >
+                    returnedSessionKeys="Error">
                     <Param name="IdentificatieType" value="DocumentIdentificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="WrapGenereerDocumentIdentificatie_Di02Response" />
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>
 
-            <SoapWrapperPipe
-                name="WrapGenereerDocumentIdentificatie_Di02Response"
-                getInputFromSessionKey="UnwrapMessageResult"
-                soapBodyStyleSheet="Common/xsl/CreateGenereerDocumentIdentificatie_Du02Response.xslt"
-                >
-                <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC" />
-                <Param name="Identificatie" sessionKey="Identificatie" type="STRING" />
-                <Forward name="success" path="EXIT"/>
-            </SoapWrapperPipe>
-
             <!-- GeefZaakdocumentbewerken_Di02 -->
-            <WsdlXmlValidatorPipe 
+            <SenderPipe
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_geefZaakdocumentbewerken_Di02"
-                getInputFromSessionKey="SanitizedMessage"
-				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
-                soapBody="geefZaakdocumentbewerken_Di02"
+                storeResultInSessionKey="ZdsZaakDocumentInhoud"
                 >
-				<Forward name="success" path="UnwrapMessageForGeefZaakdocumentbewerken_Di02"/>
-				<Forward name="failure" path="WsdlValidationSoftFailForwarder_GeefZaakdocumentbewerken"/>
-			</WsdlXmlValidatorPipe>
-
-            <XmlSwitchPipe name="WsdlValidationSoftFailForwarder_GeefZaakdocumentbewerken"
-                xpathExpression="$SoftFail = true()"
-                >
-                <Param name="SoftFail" value="${zaakbrug.soap.vrije-berichten.validation-soft-fail}" type="BOOLEAN"/>
-				<Forward name="true" path="UnwrapMessageForGeefZaakdocumentbewerken_Di02" />
-                <Forward name="false" path="InvalidXml" />
-            </XmlSwitchPipe>
-
-            <SoapWrapperPipe 
-                name="UnwrapMessageForGeefZaakdocumentbewerken_Di02"
-                storeResultInSessionKey="UnwrapMessageResult"
-                direction="UNWRAP"
-                removeOutputNamespaces="true">
-                <Forward name="success" path="CallGetZaakDocumentLezen"/>
-            </SoapWrapperPipe>
-
-            <SenderPipe
-                name="CallGetZaakDocumentLezen"
-                storeResultInSessionKey="GetZaakDocumentLezenResult">
                 <IbisLocalSender
-                    name="CallGetZaakDocumentLezenSender"
-                    javaListener="GeefZaakdocumentLezen_Lv01">
-                    <Param name="DocumentIdentificatie" xpathExpression="/geefZaakdocumentbewerken_Di02/edcLv01/gelijk/identificatie"/>
-                </IbisLocalSender>
-                <Forward name="success" path="CallCheckOutZaakDocument"/>
-                <Forward name="exception" path="EXCEPTION" />
-            </SenderPipe>
-
-            <SenderPipe
-                name="CallCheckOutZaakDocument"
-                getInputFromSessionKey="UnwrapMessageResult"
-                storeResultInSessionKey="CheckOutZaakDocumentResult">
-                <IbisLocalSender
-                    name="CallCheckOutZaakDocumentSender"
-                    javaListener="CheckOutZaakDocument">
-                    <Param name="DocumentIdentificatie" xpathExpression="/geefZaakdocumentbewerken_Di02/edcLv01/gelijk/identificatie"/>
+                    name="GeefZaakdocumentbewerken_Di02LocalSender"
+                    returnedSessionKeys="ZgwLock,ref_inhoud,Error"
+                    javaListener="GeefZaakdocumentbewerken_Di02"
+                    >
+                    <Param name="DocumentIdentificatie" xpathExpression="/*/edcLv01/gelijk/identificatie" type="STRING" />
                 </IbisLocalSender>
                 <Forward name="success" path="WrapGeefZaakdocumentbewerken_Di02Response"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <SoapWrapperPipe
-                name="WrapGeefZaakdocumentbewerken_Di02Response"
-                getInputFromSessionKey="UnwrapMessageResult"
-                soapBodyStyleSheet="Common/xsl/CreateDu02Response.xslt"
-                >
-                <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC" />
-                <Param name="CheckOutZaakDocument" sessionKey="CheckOutZaakDocumentResult" type="DOMDOC"/>
-                <Param name="GetZaakDocumentLezenResult" sessionKey="GetZaakDocumentLezenResult" type="DOMDOC"/>
-                <Forward name="success" path="EXIT"/>
-            </SoapWrapperPipe>
-
             <!-- CancelCheckout_Di02 -->
-            <WsdlXmlValidatorPipe 
-                name="http:__www.egem.nl_StUF_sector_zkn_0310_cancelCheckout_Di02"
-                getInputFromSessionKey="SanitizedMessage"
-				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
-                soapBody="cancelCheckout_Di02"
-                >
-				<Forward name="success" path="UnwrapMessageForCancelCheckout_Di02"/>
-				<Forward name="failure" path="WsdlValidationSoftFailForwarder_CancelCheckout"/>
-			</WsdlXmlValidatorPipe>
-
-            <XmlSwitchPipe name="WsdlValidationSoftFailForwarder_CancelCheckout"
-                xpathExpression="$SoftFail = true()"
-                >
-                <Param name="SoftFail" value="${zaakbrug.soap.vrije-berichten.validation-soft-fail}" type="BOOLEAN"/>
-				<Forward name="true" path="UnwrapMessageForCancelCheckout_Di02" />
-                <Forward name="false" path="InvalidXml" />
-            </XmlSwitchPipe>
-
-            <SoapWrapperPipe 
-                name="UnwrapMessageForCancelCheckout_Di02"
-                storeResultInSessionKey="UnwrapMessageResult"
-                direction="UNWRAP"
-                removeOutputNamespaces="true">
-                <Forward name="success" path="CallCancelCheckOutZaakDocument"/>
-            </SoapWrapperPipe>
-
             <SenderPipe
-                name="CallCancelCheckOutZaakDocument"
-                storeResultInSessionKey="CancelCheckOutZaakDocumentResult">
+                name="http:__www.egem.nl_StUF_sector_zkn_0310_cancelCheckout_Di02"
+                >
                 <IbisLocalSender
-                    name="CallCancelCheckOutZaakDocumentSender"
-                    javaListener="CancelCheckOutZaakDocument_Di02">
-                    <Param name="DocumentIdentificatie" xpathExpression="/cancelCheckout_Di02/document/identificatie"/>
-                    <Param name="Lock" xpathExpression="/cancelCheckout_Di02/parameters/checkedOutId"/>
+                    name="CancelCheckout_Di02LocalSender"
+                    javaListener="CancelCheckOutZaakDocument_Di02"
+                    returnedSessionKeys="Error">
+                    <Param name="DocumentIdentificatie" xpathExpression="/*/document/identificatie" type="STRING" />
+                    <Param name="Lock" xpathExpression="/*/parameters/checkedOutId" type="STRING" />
                 </IbisLocalSender>
                 <Forward name="success" path="WrapCheckOutZaakDocument_Di02Response"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <SoapWrapperPipe
-                name="WrapCheckOutZaakDocument_Di02Response"
-                getInputFromSessionKey="UnwrapMessageResult"
-                soapBodyStyleSheet="Common/xsl/CreateBv02Response.xslt"
-                >
-                <Forward name="success" path="EXIT"/>
-            </SoapWrapperPipe>
-
             <!-- UpdateZaakdocument_Di02 -->
-            <WsdlXmlValidatorPipe 
-                name="http:__www.egem.nl_StUF_sector_zkn_0310_updateZaakdocument_Di02"
-                getInputFromSessionKey="SanitizedMessage"
-				wsdl="Common/xsd/Zaak_DocumentServices_1_1_02/zkn0310/zs-dms/zkn0310_vrijeBerichten_zs-dms.wsdl"
-                soapBody="updateZaakdocument_Di02"
-                >
-				<Forward name="success" path="UnwrapMessageForUpdateZaakdocument_Di02"/>
-				<Forward name="failure" path="WsdlValidationSoftFailForwarder_UpdateZaakdocument"/>
-			</WsdlXmlValidatorPipe>
-
-            <XmlSwitchPipe name="WsdlValidationSoftFailForwarder_UpdateZaakdocument"
-                xpathExpression="$SoftFail = true()"
-                >
-                <Param name="SoftFail" value="${zaakbrug.soap.vrije-berichten.validation-soft-fail}" type="BOOLEAN"/>
-				<Forward name="true" path="UnwrapMessageForUpdateZaakdocument_Di02" />
-                <Forward name="false" path="InvalidXml" />
-            </XmlSwitchPipe>
-
-            <SoapWrapperPipe 
-                name="UnwrapMessageForUpdateZaakdocument_Di02"
-                storeResultInSessionKey="UnwrapMessageResult"
-                direction="UNWRAP"
-                removeOutputNamespaces="true">
-                <Forward name="success" path="CallUpdateZaakdocument"/>
-            </SoapWrapperPipe>
-
             <SenderPipe
-                name="CallUpdateZaakdocument"
-                storeResultInSessionKey="UpdateZaakdocumentResult">
+                name="http:__www.egem.nl_StUF_sector_zkn_0310_updateZaakdocument_Di02"
+                >
                 <IbisLocalSender
-                    name="CallUpdateZaakdocumentSender"
-                    javaListener="UpdateZaakDocument_Di02">
-                    <Param name="ZdsWasInformatieObject" xpathExpression="/updateZaakdocument_Di02/edcLk02/object[1]" type="DOMDOC"/>
-                    <Param name="ZdsWordtInformatieObject" xpathExpression="/updateZaakdocument_Di02/edcLk02/object[2]" type="DOMDOC"/>
-                    <Param name="Lock" xpathExpression="/updateZaakdocument_Di02/parameters/checkedOutId"/>
+                    name="UpdateZaakdocument_Di02LocalSender"
+                    javaListener="UpdateZaakDocument_Di02"
+                    returnedSessionKeys="Error">
+                    <Param name="ZdsWordtInformatieObject" sessionKey="ZdsWordtInformatieObject" />
+                    <Param name="Lock" xpathExpression="/*/parameters/checkedOutId" type="STRING" />
+                    <Param name="ref_inhoud" sessionKey="ref_inhoud" />
                 </IbisLocalSender>
                 <Forward name="success" path="WrapUpdateZaakDocument_Di02Response"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SoapWrapperPipe
-                name="WrapUpdateZaakDocument_Di02Response"
-                getInputFromSessionKey="UnwrapMessageResult"
+                name="WrapGenereerZaakIdentificatie_Du02Response"
+                getInputFromFixedValue="&lt;EmptyInput/&gt;"
+                soapBodyStyleSheet="Common/xsl/CreateGenereerZaakIdentificatie_Du02Response.xslt"
+                >
+                <Param name="Stuurgegevens" sessionKey="Stuurgegevens" type="DOMDOC" />
+                <Param name="Identificatie" sessionKey="Identificatie" type="STRING" />
+                <Forward name="success" path="EXIT"/>
+            </SoapWrapperPipe>
+
+            <SoapWrapperPipe
+                name="WrapGenereerDocumentIdentificatie_Di02Response"
+                getInputFromFixedValue="&lt;EmptyInput/&gt;"
+                soapBodyStyleSheet="Common/xsl/CreateGenereerDocumentIdentificatie_Du02Response.xslt"
+                >
+                <Param name="Stuurgegevens" sessionKey="Stuurgegevens" type="DOMDOC" />
+                <Param name="Identificatie" sessionKey="Identificatie" type="STRING" />
+                <Forward name="success" path="EXIT"/>
+            </SoapWrapperPipe>
+
+            <SoapWrapperPipe
+                name="WrapGeefZaakdocumentbewerken_Di02Response"
+                getInputFromFixedValue="&lt;EmptyInput/&gt;"
+                soapBodyStyleSheet="Common/xsl/CreateDu02Response.xslt"
+                >
+                <Param name="Stuurgegevens" sessionKey="Stuurgegevens" type="DOMDOC" />
+                <!-- <Param name="Parameters" sessionKey="Parameters" type="DOMDOC"/> -->
+                <Param name="ZgwLock" sessionKey="ZgwLock" type="DOMDOC" />
+                <Param name="ZdsZaakDocumentInhoud" sessionKey="ZdsZaakDocumentInhoud" type="DOMDOC" />
+                <Forward name="success" path="ReplaceBase64EncodedRefWithInhoudRef"/>
+            </SoapWrapperPipe>
+
+            <ReplacerPipe
+                name="ReplaceBase64EncodedRefWithInhoudRef"
+                find="e3Nlc3Npb25LZXk6cmVmX2luaG91ZH0="
+                replace="{sessionKey:ref_inhoud}"
+                >
+                <Forward name="success" path="SubstituteDocumentDataRef" />
+            </ReplacerPipe>
+
+            <EchoPipe
+                name="SubstituteDocumentDataRef"
+                restoreMovedElements="true"
+                >
+                <Forward name="success" path="EXIT" />
+            </EchoPipe>
+
+            <SoapWrapperPipe
+                name="WrapCheckOutZaakDocument_Di02Response"
+                getInputFromFixedValue="&lt;EmptyInput/&gt;"
                 soapBodyStyleSheet="Common/xsl/CreateBv02Response.xslt"
                 >
+                <Param name="Stuurgegevens" sessionKey="Stuurgegevens" type="DOMDOC" />
+                <Forward name="success" path="EXIT"/>
+            </SoapWrapperPipe>
+
+            <SoapWrapperPipe
+                name="WrapUpdateZaakDocument_Di02Response"
+                getInputFromFixedValue="&lt;EmptyInput/&gt;"
+                soapBodyStyleSheet="Common/xsl/CreateBv02Response.xslt"
+                >
+                <Param name="Stuurgegevens" sessionKey="Stuurgegevens" type="DOMDOC" />
                 <Forward name="success" path="EXIT"/>
             </SoapWrapperPipe>
 
             <!-- ERRORS -->
+            <XsltPipe 
+                name="UnsupportedSoapActionError"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Unsupported SOAP-action. No implementation found for: {SOAPAction}" />
+                <!-- <Param name="details" sessionKey="" /> -->
+                <!-- <Param name="detailsXml" type="DOMDOC" /> -->
+                <Forward name="success" path="BackEndError" />
+                <Forward name="exception" path="BackEndError" />
+            </XsltPipe>
 
             <PutInSessionPipe name="InvalidXml">
                 <Param name="errorCode" value="INVALID_XML"/>
@@ -311,7 +307,7 @@
 
             <PutInSessionPipe name="NotWellFormed">
                 <Param name="errorCode" value="NOT_WELL_FORMED_XML"/>
-                <Param name="errorReason" value="XML was not according to xsd"/>                
+                <Param name="errorReason" value="XML was not according to xsd"/>             
                 <Forward name="success" path="WrapFo03Response"/>
             </PutInSessionPipe>
 
@@ -322,15 +318,18 @@
                 <Param name="errorDetailXML" xpathExpression="/error/detailsXml" type="DOMDOC" />
                 <Forward name="success" path="WrapFo03Response"/>
             </PutInSessionPipe>
+
             <SoapWrapperPipe
                 name="WrapFo03Response"
+                emptyInputReplacement="&lt;EmptyInput/&gt;"
                 soapBodyStyleSheet="Common/xsl/CreateFo03Response.xslt"
                 >
-                <Param name="UnwrapMessageResult" sessionKey="UnwrapMessageResult" type="DOMDOC"/>
-                <Param name="errorCode"   sessionKey="errorCode"/>
-                <Param name="errorReason" sessionKey="errorReason"/>
-                <Param name="errorDetailText" sessionKey="errorDetailText"/>
-                <Param name="errorDetailXML" sessionKey="errorDetailXML" type="DOMDOC"/>
+                <Param name="Stuurgegevens" sessionKey="Stuurgegevens" type="DOMDOC" />
+                <Param name="Parameters" sessionKey="Parameters" type="DOMDOC" />
+                <Param name="errorCode"   sessionKey="errorCode" />
+                <Param name="errorReason" sessionKey="errorReason" />
+                <Param name="errorDetailText" sessionKey="errorDetailText" />
+                <Param name="errorDetailXML" sessionKey="errorDetailXML" type="DOMDOC" />
                 <Forward name="success" path="EXIT"/>
             </SoapWrapperPipe>
         </Pipeline>

@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="HandleRol">
-            <JavaListener name="HandleRol"/>
+            <JavaListener name="HandleRol" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -37,11 +37,11 @@
 
             <ForEachChildElementPipe name="CallDetectRolChanges"
                 elementXPathExpression="/roles/role"
-                storeResultInSessionKey="RolChangesResults"
-                parallel="true">
+                storeResultInSessionKey="RolChangesResults">
                 <IbisLocalSender
                     name="CallDetectRolChangesSender"
-                    javaListener="DetectRolChanges">
+                    javaListener="DetectRolChanges"
+                    returnedSessionKeys="Error">
                     <Param sessionKey="RolBody_1" type="DOMDOC"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>

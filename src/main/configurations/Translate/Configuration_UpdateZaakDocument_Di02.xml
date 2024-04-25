@@ -4,11 +4,7 @@
         description="">
 
         <Receiver name="UpdateZaakDocument_Di02">
-            <JavaListener name="UpdateZaakDocument_Di02"/>
-            <JdbcErrorStorage
-                name="JdbcErrorStorage"
-                datasourceName="jdbc/${database.instance.name}"
-                slotId="${instance.name}/updateZaakDocument_Di02"/>
+            <JavaListener name="UpdateZaakDocument_Di02" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>  
@@ -22,9 +18,10 @@
                 storeResultInSessionKey="GetZgwEnkelvoudigInformatieObjectResult">
                 <IbisLocalSender
                     name="CallGetZgwEnkelvoudigInformatieObjectSender"
-                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie">
-                    <Param name="Identificatie" xpathExpression="$ZdsWasInformatieObject/object/identificatie">
-                        <Param name="ZdsWasInformatieObject" sessionKey="ZdsWasInformatieObject" type="DOMDOC"/>
+                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie"
+                    returnedSessionKeys="Error">
+                    <Param name="Identificatie" xpathExpression="$ZdsWordtInformatieObject/object/identificatie">
+                        <Param name="ZdsWordtInformatieObject" sessionKey="ZdsWordtInformatieObject" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForStatus"/>
@@ -62,7 +59,8 @@
                 >
                 <IbisLocalSender
                     name="ConvertISO639TaalLocalSender"
-                    javaListener="ConvertISO639Taal">
+                    javaListener="ConvertISO639Taal"
+                    returnedSessionKeys="Error">
                     <Param name="Alpha2" sessionKey="Taal"/>                   
                 </IbisLocalSender>
                 <Forward name="success" path="DecodeInhoud"/>
@@ -100,15 +98,18 @@
                 <Forward name="success" path="CallPutZaakDocument"/>
             </PutInSessionPipe>
 
-            <SenderPipe 
+            <SenderPipe
                 name="CallPutZaakDocument"
-                getInputFromSessionKey="ZgwEnkelvoudigInformatieObject">
+                getInputFromSessionKey="ZgwEnkelvoudigInformatieObject"
+                >
                 <IbisLocalSender
                     name="CallPutZaakDocumentSender"
-                    javaListener="PutZgwZaakDocument">
-                    <Param name="Url" sessionKey="Url"/>                   
+                    javaListener="PutZgwZaakDocument"
+                    returnedSessionKeys="Error">
+                    <Param name="Url" sessionKey="Url" />
+                    <Param name="ref_inhoud" sessionKey="ref_inhoud" />                
                 </IbisLocalSender>
-                <Forward name="success" path="CallGetZgwInformatieObjectUnlock"/>
+                <Forward name="success" path="CallGetZgwInformatieObjectUnlock" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
@@ -118,7 +119,8 @@
                 storeResultInSessionKey="ZgwInformatieObjectUnlockResult">
                 <IbisLocalSender
                     name="CallGetZgwInformatieObjectUnlockSender"
-                    javaListener="GetZgwInformatieObjectUnlock">
+                    javaListener="GetZgwInformatieObjectUnlock"
+                    returnedSessionKeys="Error">
                     <Param name="ZgwUnlockUrl" xpathExpression="concat($Url, '/unlock')">
                         <Param name="Url" sessionKey="Url"/>
                     </Param>

@@ -3,24 +3,8 @@
     <xsl:include href="../../Zgw/ZgwFunctionsBase.xslt" />
 
     <xsl:param name="ZgwZaak"/>
-    <xsl:param name="Rsin"/>
-
-    <xsl:function name="zgw:convertZdsArchiefNominatieToZgwArchiefNominatie" as="xs:string">
-    	<xsl:param name="zgwArchiefNominatie" as="xs:string"/>
-		<xsl:choose>
-      		<xsl:when test="fn:upper-case($zgwArchiefNominatie)='J'">vernietigen</xsl:when>
-      		<xsl:otherwise>blijvend_bewaren</xsl:otherwise>
-    	</xsl:choose>
-	</xsl:function>
-
-    <xsl:function name="zgw:convertZdsBooleanToZgwBoolean" as="xs:string">
-    	<xsl:param name="zdsBoolean" as="xs:string"/>
-		<xsl:choose>
-      		<xsl:when test="fn:upper-case($zdsBoolean)='J'">true</xsl:when>
-            <xsl:when test="fn:upper-case($zdsBoolean)='N'">false</xsl:when>
-      		<xsl:otherwise>invalid character</xsl:otherwise>
-    	</xsl:choose>
-	</xsl:function>
+    <xsl:param name="Bronorganisatie" select="''" as="xs:string" />
+    <xsl:param name="VerantwoordelijkeOrganisatie" select="''" as="xs:string" />
 
 	<xsl:template match="/">
         <ZgwZaakPut>
@@ -28,7 +12,7 @@
                 <xsl:when test="string-length(object/identificatie) > 0"><identificatie><xsl:value-of select="object/identificatie"/></identificatie></xsl:when>
                 <xsl:when test="string-length($ZgwZaak/ZgwZaak/identificatie) > 0"><identificatie><xsl:value-of select="$ZgwZaak/ZgwZaak/identificatie"/></identificatie></xsl:when>
             </xsl:choose>
-            <bronorganisatie><xsl:value-of select="$Rsin/rsin"/></bronorganisatie>
+            <bronorganisatie><xsl:value-of select="$Bronorganisatie"/></bronorganisatie>
             <omschrijving><xsl:value-of select="object/omschrijving"/></omschrijving>
             <xsl:choose>
                 <xsl:when test="string-length(object/toelichting) > 0"><toelichting><xsl:value-of select="object/toelichting"/></toelichting></xsl:when>
@@ -67,23 +51,27 @@
                 <xsl:when test="string-length($ZgwZaak/ZgwZaak/communicatiekanaal) > 0"><communicatiekanaal><xsl:value-of select="$ZgwZaak/ZgwZaak/communicatiekanaal"/></communicatiekanaal></xsl:when>
             </xsl:choose>
             <xsl:choose>
-                <xsl:when test="string-length(object/productenOfDiensten) > 0"><productenOfDiensten><xsl:value-of select="object/productenOfDiensten"/></productenOfDiensten></xsl:when>
-                <xsl:when test="string-length($ZgwZaak/ZgwZaak/productenOfDiensten) > 0"><productenOfDiensten><xsl:value-of select="$ZgwZaak/ZgwZaak/productenOfDiensten"/></productenOfDiensten></xsl:when>
+                <xsl:when test="object/productenOfDiensten/*"><productenOfDiensten><xsl:value-of select="object/productenOfDiensten"/></productenOfDiensten></xsl:when>
+                <xsl:when test="$ZgwZaak/ZgwZaak/productenOfDiensten/*"><productenOfDiensten><xsl:value-of select="$ZgwZaak/ZgwZaak/productenOfDiensten"/></productenOfDiensten></xsl:when>
             </xsl:choose>
             <xsl:choose>
                 <xsl:when test="string-length(object/vertrouwelijkheidaanduiding) > 0"><vertrouwelijkheidaanduiding><xsl:value-of select="object/vertrouwelijkheidaanduiding"/></vertrouwelijkheidaanduiding></xsl:when>
                 <xsl:when test="string-length($ZgwZaak/ZgwZaak/vertrouwelijkheidaanduiding) > 0"><vertrouwelijkheidaanduiding><xsl:value-of select="$ZgwZaak/ZgwZaak/vertrouwelijkheidaanduiding"/></vertrouwelijkheidaanduiding></xsl:when>
             </xsl:choose>
             <xsl:choose>
-                <xsl:when test="string-length(object/betalingsindicatie) > 0"><betalingsindicatie><xsl:value-of select="object/betalingsindicatie"/></betalingsindicatie></xsl:when>
-                <xsl:when test="string-length($ZgwZaak/ZgwZaak/betalingsindicatie) > 0"><betalingsindicatie><xsl:value-of select="$ZgwZaak/ZgwZaak/betalingsindicatie"/></betalingsindicatie></xsl:when>
+                <xsl:when test="string-length(object/betalingsIndicatie) > 0">
+                    <betalingsindicatie><xsl:value-of select="zgw:convertZdsBetalingsIndicatieToZgwBetalingsIndicatie(/object/betalingsIndicatie)"/></betalingsindicatie>
+                </xsl:when>
+                <xsl:when test="string-length($ZgwZaak/ZgwZaak/betalingsindicatie) > 0">
+                    <betalingsindicatie><xsl:value-of select="$ZgwZaak/ZgwZaak/betalingsindicatie"/></betalingsindicatie>
+                </xsl:when>
             </xsl:choose>
             <xsl:choose>
                 <xsl:when test="string-length(object/zaakgeometrie) > 0"><xsl:copy-of select="object/zaakgeometrie"/></xsl:when>
                 <xsl:when test="string-length($ZgwZaak/ZgwZaak/zaakgeometrie) > 0"><xsl:copy-of select="$ZgwZaak/ZgwZaak/zaakgeometrie"/></xsl:when>
             </xsl:choose>
             <xsl:choose>
-                <xsl:when test="string-length(object/verlenging) > 0">
+                <xsl:when test="string-length(object/verlenging/reden) > 0 and object/verlenging/duur != '0'">
                     <verlenging>
                         <reden><xsl:value-of select="object/verlenging/reden"/></reden>
                         <duur><xsl:value-of select="concat('P', object/verlenging/duur, 'D')"/></duur>
@@ -120,12 +108,14 @@
                 <xsl:when test="string-length($ZgwZaak/ZgwZaak/hoofdzaak) > 0"><hoofdzaak><xsl:value-of select="$ZgwZaak/ZgwZaak/hoofdzaak"/></hoofdzaak></xsl:when>
             </xsl:choose>
             <xsl:choose>
-                <xsl:when test="string-length(object/relevanteAndereZaken) > 0"><xsl:copy-of select="object/relevanteAndereZaken"/></xsl:when>
-                <xsl:when test="string-length($ZgwZaak/ZgwZaak/relevanteAndereZaken) > 0"><xsl:copy-of select="$ZgwZaak/ZgwZaak/relevanteAndereZaken"/></xsl:when>
+                <xsl:when test="object/relevanteAndereZaken/*"><xsl:copy-of select="object/relevanteAndereZaken"/></xsl:when>
+                <xsl:when test="$ZgwZaak/ZgwZaak/relevanteAndereZaken/*"><xsl:copy-of select="$ZgwZaak/ZgwZaak/relevanteAndereZaken"/></xsl:when>
             </xsl:choose>
             <xsl:choose>
-                <xsl:when test="string-length(object/kenmerk) > 0"><xsl:copy-of select="object/kenmerk"/></xsl:when>
-                <xsl:when test="string-length($ZgwZaak/ZgwZaak/kenmerk) > 0"><xsl:copy-of select="$ZgwZaak/ZgwZaak/kenmerk"/></xsl:when>
+                <xsl:when test="object/kenmerk/*">
+                    <xsl:apply-templates select="object/kenmerk" />
+                </xsl:when>
+                <xsl:when test="$ZgwZaak/ZgwZaak/kenmerken/*"><xsl:copy-of select="$ZgwZaak/ZgwZaak/kenmerken"/></xsl:when>
             </xsl:choose>
             <xsl:choose>
                 <xsl:when test="string-length(object/archiefnominatie) > 0"><archiefnominatie><xsl:value-of select="zgw:convertZdsArchiefNominatieToZgwArchiefNominatie(object/archiefnominatie)"/></archiefnominatie></xsl:when>
@@ -141,4 +131,13 @@
             </xsl:choose>
         </ZgwZaakPut>
 	</xsl:template>
+
+    <xsl:template match="object/kenmerk">
+        <xsl:if test="string-length(kenmerk) > 0 and string-length(bron) > 0">
+            <kenmerken>
+                <kenmerk><xsl:value-of select="kenmerk"/></kenmerk>
+                <bron><xsl:value-of select="bron"/></bron>
+            </kenmerken>
+        </xsl:if>
+    </xsl:template>
 </xsl:stylesheet>

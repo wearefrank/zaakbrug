@@ -3,8 +3,13 @@
         active="${GetBas64Inhoud.Active}"
         description="">
 
-        <Receiver name="GetBas64Inhoud">
-            <JavaListener name="GetBas64Inhoud"/>
+        <Receiver
+            name="GetBas64Inhoud"
+            >
+            <JavaListener
+                name="GetBas64Inhoud"
+                returnedSessionKeys="ref_inhoud,Error"
+                />
         </Receiver>
 
         <Pipeline>
@@ -13,8 +18,26 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-			<SenderPipe name="CallGetBas64Inhoud"
-                getInputFromFixedValue="&lt;dummy/&gt;">
+            <JwtPipe name="createJwt"
+                expirationTime="600"
+                storeResultInSessionKey="myToken"
+                ifParam="valueAuthType"
+                ifValue="Jwt"
+            >
+                <Param name="valueAuthType" value="${zaakbrug.zgw.documenten-api.auth-type}" />
+                <Param name="sharedSecret" pattern="{password}" authAlias="${zaakbrug.zgw.documenten-api.auth-alias}" hidden="true"/>
+                <Param name="client_id" pattern="{username}" authAlias="${zaakbrug.zgw.documenten-api.auth-alias}" hidden="true"/>
+                <Param name="user_id" pattern="{username}" authAlias="${zaakbrug.zgw.documenten-api.auth-alias}" hidden="true"/>
+                <Param name="user_reresentation" pattern="{username}" authAlias="${zaakbrug.zgw.documenten-api.auth-alias}" hidden="true"/>
+                <Forward name="success" path="CallGetBas64Inhoud" />
+                <Forward name="exception" path="EXCEPTION" />
+            </JwtPipe>
+
+			<SenderPipe 
+                name="CallGetBas64Inhoud"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="ref_inhoud"
+                >
 				<HttpSender 
 					name="CallGetBas64InhoudSender" 
 					methodType="GET"
@@ -24,15 +47,23 @@
 				/>
                 <Param name="url" sessionKey="Url"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Authorization" value="Bearer @@documenten-api.jwt@@"/>
+                <Param name="Authorization"  sessionKey="originalMessage" xpathExpression="concat('Bearer ', $myToken)">
+                    <Param name="myToken" sessionKey="myToken" defaultValue="@@documenten-api.jwt@@"/>
+                </Param>
                 <Forward name="success" path="EncodeInhoud" />
                 <Forward name="exception" path="ErrorJsonToXml" />
 			</SenderPipe>
-            <JsonPipe name="ErrorJsonToXml">
+
+            <JsonPipe
+                name="ErrorJsonToXml"
+                >
                 <Forward name="success" path="buildErrorMsg" />
             </JsonPipe>
-            <XsltPipe name="buildErrorMsg"
-                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+
+            <XsltPipe
+                name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl"
+                >
                 <Param name="senderPipeName" value="CallGetBas64Inhoud" />
                 <Forward name="success" path="EXCEPTION" />
             </XsltPipe>
@@ -40,9 +71,18 @@
             <Base64Pipe 
                 name="EncodeInhoud"
                 lineLength="0"
+                storeResultInSessionKey="ref_inhoud"
+                >
+                <Forward name="success" path="ReplaceInhoudRefWithBase64EncodedRef" />
+            </Base64Pipe>
+
+            <!-- Fixed value is "{sessionKey:ref_inhoud}" encoded to base64, so that it remains valid base64 for validation -->
+            <FixedResultPipe
+                name="ReplaceInhoudRefWithBase64EncodedRef"
+                returnString="e3Nlc3Npb25LZXk6cmVmX2luaG91ZH0="
                 >
                 <Forward name="success" path="EXIT" />
-            </Base64Pipe>
+            </FixedResultPipe>
         </Pipeline>
     </Adapter>
 </Module>
