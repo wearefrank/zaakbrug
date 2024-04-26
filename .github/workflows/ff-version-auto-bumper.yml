@@ -55,18 +55,6 @@ on:
         type: string
         description: FrankConfig.xsd file path under configuration folder
         default: './src/main/configurations'
-      custom_file_paths_source:
-        type: string
-        description: |
-          List of paths of the custom files in source code
-          Example: '["parameters/Parameter.java", "another/path/File.java"]'
-        default: '["soap/SoapVersion.java", "parameters/Parameter.java"]'
-      custom_file_paths_project:
-        type: string
-        description: |
-          List of paths of the custom files in project repo
-          Example: '["./src/main/java/org/frankframework/parameters/Parameter.java-orig", "./another/path/File.java"]'
-        default: '["./src/main/java/org/frankframework/parameters/Parameter.java-orig"]'
     secrets:
       token:
         required: false
@@ -139,31 +127,19 @@ jobs:
         cp ./parent_temp_extract/xml/xsd/FrankConfig.xsd ${{ inputs.frankconfig-path }}
         cp ./parent_temp_extract/xml/xsd/FrankConfig.xsd ${{ inputs.frankconfigunderconfiguration-path }}
     
-    - name: Update Custom Files
+    - name: Update Parameter.java-orig file
       if: ${{ env.VERSION_CHANGED }} == 'true'
       run: |
         wget -O source.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-core/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-core-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-sources.jar"
         mkdir -p source_temp_extract
         unzip -q source.jar -d ./source_temp_extract
-
-        # custom_file_array=[${{ inputs.custom_file_paths_source }}]
-        # echo $custom_file_array
-
-        custom_file_array=${{ inputs.custom_file_paths_source }}
-        echo "lala 1: ${custom_file_array[0]}"
-        echo "lala 2: ${custom_file_array[1]}"
-        for i in "${custom_file_array[@]}"; do
-          echo "Index: $i"
-            # custom_file_source_path=${INPUT_CUSTOM_FILE_PATHS_SOURCE[$i]}
-            # custom_file_project_path=${INPUT_CUSTOM_FILE_PATHS_PROJECT[$i]}
-            # if cmp -s "source_temp_extract/org/frankframework/${custom_file_source_path}" "${custom_file_project_path}"
-            #   then
-            #     echo "${custom_file_source_path} file hasn't been updated."
-            # else
-            #   echo "${custom_file_source_path} file has been updated. Copying the new version of ${custom_file_source_path} file to the ${custom_file_project_path} file in repository."
-            #   cp "./source_temp_extract/org/frankframework/${custom_file_source_path}" "${custom_file_project_path}"
-            # fi
-        done
+          if cmp -s source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
+            then
+              echo "Parameter.java file hasn't been updated."
+          else
+            echo "Parameter.java file has been updated. Copying the new version of Parameter.java file to the Parameter.java-orig file in repository."
+            cp ./src/source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
+          fi
 
     - name: Commit updated files
       if: ${{ env.VERSION_CHANGED }} == 'true'
@@ -175,10 +151,7 @@ jobs:
         git add ${{ inputs.dockercompose-path }}
         git add ${{ inputs.frankconfig-path }}/FrankConfig.xsd
         git add ${{ inputs.frankconfigunderconfiguration-path }}/FrankConfig.xsd
-        for custom_file_project_path in "${!INPUT_CUSTOM_FILE_PATHS_PROJECT[@]}"
-          do
-            git add "${custom_file_project_path}"
-        done
+        git add ./src/main/java/org/frankframework/parameters/Parameter.java-orig
         git commit -m 'build(dependencies): bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
         git push origin bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}
       
