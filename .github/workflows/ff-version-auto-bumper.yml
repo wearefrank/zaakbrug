@@ -148,7 +148,7 @@ jobs:
 
         for i in ${!INPUT_CUSTOM_FILE_PATHS_SOURCE[@]}
           do
-          echo "lalala"
+          echo "$i lalala"
             # custom_file_source_path=${INPUT_CUSTOM_FILE_PATHS_SOURCE[$i]}
             # custom_file_project_path=${INPUT_CUSTOM_FILE_PATHS_PROJECT[$i]}
             # if cmp -s "source_temp_extract/org/frankframework/${custom_file_source_path}" "${custom_file_project_path}"
