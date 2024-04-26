@@ -138,7 +138,7 @@ jobs:
               echo "Parameter.java file hasn't been updated."
           else
             echo "Parameter.java file has been updated. Copying the new version of Parameter.java file to the Parameter.java-orig file in repository."
-            cp ./src/source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
+            cp ./source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
           fi
 
     - name: Commit updated files
