@@ -4,10 +4,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * 1' # Every Monday at midnight.
-  pull_request:
-    branches:
-      - main
-      - master
 
 jobs:
   update-ff-version:
