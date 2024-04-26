@@ -149,7 +149,7 @@ jobs:
         unzip -q source.jar -d ./source_temp_extract
 
         custom_file_array=${{ inputs.custom_file_paths_source }}
-        echo $custom_file_array
+        # echo $custom_file_array
 
         for i in ${custom_file_array}
         do
