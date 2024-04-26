@@ -33,7 +33,7 @@
                 <HttpSender name="DeleteZaakSender"
                     methodType="DELETE"
                     headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
-                    timeout="${zaakbrug.zgw.documenten-api.timeout}"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
                     maxExecuteRetries="5"
                     contentType="application/json">
                     <Param name="url" sessionKey="PostZgwZaakResult" xpathExpression="ZgwZaak/url"/>
