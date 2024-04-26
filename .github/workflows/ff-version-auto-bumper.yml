@@ -60,7 +60,9 @@ on:
         description: |
           List of paths of the custom files in source code
           Example: '["parameters/Parameter.java", "another/path/File.java"]'
-        default: '["soap/SoapVersion.java" "parameters/Parameter.java"]'
+        default: |
+          "soap/SoapVersion.java"
+          "parameters/Parameter.java"
       custom_file_paths_project:
         type: string
         description: |
