@@ -150,6 +150,8 @@ jobs:
         # echo $custom_file_array
 
         custom_file_array=${{ inputs.custom_file_paths_source }}
+        echo "lala 1: ${custom_file_array[0]}"
+        echo "lala 2: ${custom_file_array[1]}"
         for i in "${custom_file_array[@]}"; do
           echo "Index: $i"
             # custom_file_source_path=${INPUT_CUSTOM_FILE_PATHS_SOURCE[$i]}
