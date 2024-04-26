@@ -146,7 +146,9 @@ jobs:
         mkdir -p source_temp_extract
         unzip -q source.jar -d ./source_temp_extract
 
-        for i in $!INPUT_CUSTOM_FILE_PATHS_SOURCE[@]
+        custom_file_array=${{ inputs.custom_file_paths_source }}
+
+        for i in ${custom_file_array}
         do
         echo "Index: $i"
             # custom_file_source_path=${INPUT_CUSTOM_FILE_PATHS_SOURCE[$i]}
