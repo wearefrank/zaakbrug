@@ -60,7 +60,7 @@ on:
         description: |
           List of paths of the custom files in source code
           Example: '["parameters/Parameter.java", "another/path/File.java"]'
-        default: '["parameters/Parameter.java"]'
+        default: '["parameters/Parameter.java", "lalala/Haha.java"]'
       custom_file_paths_project:
         type: string
         description: |
