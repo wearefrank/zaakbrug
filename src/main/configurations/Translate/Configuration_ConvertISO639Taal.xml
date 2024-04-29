@@ -25,7 +25,7 @@
             </SenderPipe>
 
             <XmlSwitchPipe name="Alpha2Check"
-                xpathExpression="count($Alpha2) > 0"
+                xpathExpression="string-length($Alpha2) > 0"
                 >
                 <Param name="Alpha2" sessionKey="Alpha2" />
                 <Forward name="true" path="GetAlpha3tCodeFromAlpha2" />
@@ -33,7 +33,7 @@
             </XmlSwitchPipe>
             
             <XmlSwitchPipe name="Alpha3tCheck"
-                xpathExpression="count($Alpha3t) > 0"
+                xpathExpression="string-length($Alpha3t) > 0"
                 >
                 <Param name="Alpha3t" sessionKey="Alpha3t" />
                 <Forward name="true" path="GetAlpha2CodeFromAlpha3t" />
