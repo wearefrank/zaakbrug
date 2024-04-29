@@ -1,0 +1,71 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="ResolveProfileValues"
+        active="${ResolveProfileValues.Active}"
+        description="">
+
+        <Receiver
+            name="ResolveProfileValues"
+            >
+            <JavaListener
+                name="ResolveProfileValues"
+                returnedSessionKeys="Error"
+                />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="EXCEPTION" state="ERROR" />
+            </Exits>
+
+            <Cache />
+
+            <LocalFileSystemPipe
+                name="ReadFile"
+                action="read"
+                >
+                <Param name="filename" value="${configurations.directory}/Translate/Profiles.json" />
+                <Forward name="success" path="MergeProfileDefaultsWithProfilesSender" />
+                <Forward name="exception" path="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException" />
+            </LocalFileSystemPipe>
+
+            <SenderPipe
+                name="MergeProfileDefaultsWithProfilesSender"
+                storeResultInSessionKey="mergedProfiles"
+                >
+				<JavascriptSender
+                    name="MergeProfileDefaultsWithProfilesJavascriptSender"
+                    jsFileName="MergeProfileDefaultsWithProfiles.js"
+                    jsFunctionName="mergeProfileDefaultsWithProfiles"
+                    >
+				</JavascriptSender>
+                <Param name="profilesFile" />
+                <Forward name="success" path="JsonToXml" />
+                <Forward name="exception" path="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException" />
+			</SenderPipe>
+
+            <JsonPipe
+                name="JsonToXml"
+                >
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException" />
+            </JsonPipe>
+
+            <XsltPipe
+                name="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error"
+                >
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" value="Translation profiles merging operation failed" />
+                <Param name="details" pattern="{mergedProfiles}" ignoreUnresolvablePatternElements="true" />
+                <!-- <Param name="detailsXml" sessionKey="" type="DOMDOC" /> -->
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>
