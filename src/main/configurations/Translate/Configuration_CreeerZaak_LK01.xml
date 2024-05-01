@@ -279,8 +279,11 @@
             
             <SenderPipe name="DeleteZaakSender"
                 getInputFromSessionKey="originalMessage">
-                <IbisLocalSender javaListener="Zaken_DeleteZgwZaak"/>
+                <IbisLocalSender javaListener="Zaken_DeleteZgwZaak">
+                    <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult"/>
+                </IbisLocalSender>
                 <Forward name="success" path="UncaughtException"/>
+                <Forward name="exception" path="UncaughtException"/>
             </SenderPipe>
 
             <XsltPipe 
