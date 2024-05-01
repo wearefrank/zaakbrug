@@ -1,5 +1,21 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.19.0](https://github.com/wearefrank/zaakbrug/compare/v1.18.3...v1.19.0) (2024-05-01)
+
+
+### 🍕 Features
+
+* new test cases to test zaak closure have been added ([839cd48](https://github.com/wearefrank/zaakbrug/commit/839cd48c829329849834f34d6dac7c32864149f5))
+
+
+### 🐛 Bug Fixes
+
+* datumStatusGezet is added to zds:heeft mapping ([031e73f](https://github.com/wearefrank/zaakbrug/commit/031e73f0e470afa82a475762177d6eca9d80fb9b))
+* eindDatum added to mapping xslt file ([39bbc64](https://github.com/wearefrank/zaakbrug/commit/39bbc64b34452f6cbde0c43245339fbbf93cc524))
+* mapping zaakStatus in heeft element is fixed ([df01c05](https://github.com/wearefrank/zaakbrug/commit/df01c05e975343cafaa0fba91796246fcdf25402))
+* the loop that is creating the profile object updated so that the loop continues instead of break in if block. ([2dbeb5c](https://github.com/wearefrank/zaakbrug/commit/2dbeb5c1487ab44da81a5c3ac4015b527fe2e08a))
+* The test cases failing because of the bugs has been updated so that they fail and they disabled ([6dfa19f](https://github.com/wearefrank/zaakbrug/commit/6dfa19f0fec68f52876fa27fc05c980f25a5c116))
+
 ## [1.18.3](https://github.com/wearefrank/zaakbrug/compare/v1.18.2...v1.18.3) (2024-04-25)
 
 

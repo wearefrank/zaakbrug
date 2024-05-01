@@ -31,7 +31,7 @@ function mergeProfileDefaultsWithProfiles(profilesFile) {
       });
       if (pf["valueOverrides"] == null) {
         result.profile.push(pfres);
-        return "break";
+        return "continue";
       }
       pfres["valueOverrides"] = pf.valueOverrides.concat(profileDefaults.profile.valueOverrides.filter(function (value) {
         return pf.valueOverrides.find(function (value2) {
@@ -42,7 +42,7 @@ function mergeProfileDefaultsWithProfiles(profilesFile) {
     };
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
       var _ret = _loop();
-      if (_ret === "break") break;
+      if (_ret === "continue") continue;
     }
   } catch (err) {
     _iterator.e(err);
