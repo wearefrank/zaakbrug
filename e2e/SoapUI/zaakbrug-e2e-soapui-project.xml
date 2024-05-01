@@ -29465,7 +29465,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
             <con:name>TransferZaakUrl</con:name>
             <con:sourceType>Response</con:sourceType>
-            <con:sourceStep>06-zgw-getZaakByIdentificatie</con:sourceStep>
+            <con:sourceStep>10-zgw-getZaakByIdentificatie</con:sourceStep>
             <con:sourcePath>$.results[0].url</con:sourcePath>
             <con:targetType>ZaakUrl</con:targetType>
             <con:targetStep>Properties</con:targetStep>
@@ -30841,7 +30841,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
             <con:name>TransferZaakUrl</con:name>
             <con:sourceType>Response</con:sourceType>
-            <con:sourceStep>06-zgw-getZaakByIdentificatie</con:sourceStep>
+            <con:sourceStep>10-zgw-getZaakByIdentificatie</con:sourceStep>
             <con:sourcePath>$.results[0].url</con:sourcePath>
             <con:targetType>ZaakUrl</con:targetType>
             <con:targetStep>Properties</con:targetStep>
@@ -35301,7 +35301,7 @@ assert datumStatusGezet.contains('000000') : "'datumStatusGezet' did not set the
           <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
             <con:name>TransferZaakUrl</con:name>
             <con:sourceType>Response</con:sourceType>
-            <con:sourceStep>05-zgw-getZaakByIdentificatie</con:sourceStep>
+            <con:sourceStep>10-zgw-getZaakByIdentificatie</con:sourceStep>
             <con:sourcePath>$.results[0].url</con:sourcePath>
             <con:targetType>ZaakUrl</con:targetType>
             <con:targetStep>Properties</con:targetStep>
