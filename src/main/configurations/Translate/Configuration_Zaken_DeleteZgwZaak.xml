@@ -44,31 +44,9 @@
                         <Param name="myToken" sessionKey="myToken" defaultValue="@@catalogi-api.jwt@@"/>
                     </Param>
                 </HttpSender>
-                <Forward name="success" path="JsonToXml"/>
-                <Forward name="exception" path="ErrorJsonToXml"/>
-            </SenderPipe>   
-            <JsonPipe name="ErrorJsonToXml">
-                <Forward name="success" path="buildErrorMsg" />
-            </JsonPipe>
-            <XsltPipe name="buildErrorMsg"
-                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
-                <Param name="senderPipeName" value="GetZgwRolTypeByUrlSender" />
-                <Forward name="success" path="EXCEPTION" />
-            </XsltPipe>
-
-            <JsonPipe 
-                name="JsonToXml">
-                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToSingle"/>
-            </JsonPipe>
-
-            <XsltPipe
-                name="UnwrapOpenZaakApiEnvelopeToSingle"
-                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToSingle.xslt"
-                >
-                <Param name="Type" value="ZgwRolType"/>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="error" path="EXCEPTION"/>
-            </XsltPipe>
+                <Forward name="exception" path="EXCEPTION"/>
+            </SenderPipe>   
         </Pipeline>
     </Adapter>
 </Module>
