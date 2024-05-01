@@ -20,7 +20,7 @@ function mergeProfileDefaultsWithProfiles(profilesFile){
 
         if(pf["valueOverrides"] == null){
             result.profile.push(pfres);
-            break;
+            continue;
         }
 
         pfres["valueOverrides"] = pf.valueOverrides
