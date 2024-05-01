@@ -193,7 +193,7 @@
                     returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Forward name="success" path="PostRolIterator"/>
-                <Forward name="exception" path="createJwt" />
+                <Forward name="exception" path="DeleteZaakSender" />
             </SenderPipe> 
 <!-- Post zaak end -->
             <ForEachChildElementPipe name="PostRolIterator"
@@ -208,7 +208,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CallSetResultaatAndStatus"/>
-                <Forward name="exception" path="createJwt" />
+                <Forward name="exception" path="DeleteZaakSender" />
             </ForEachChildElementPipe>
 
             <SenderPipe
@@ -227,7 +227,7 @@
                     </Param>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForHeeftBetrekkingOpAndere"/>
-                <Forward name="exception" path="createJwt" />
+                <Forward name="exception" path="DeleteZaakSender" />
             </SenderPipe>
 
             <XmlIfPipe name="CheckForHeeftBetrekkingOpAndere"
@@ -252,7 +252,7 @@
                 </IbisLocalSender>
                 
                 <Forward name="success" path="createListAndereUrls"/>
-                <Forward name="exception" path="createJwt" />
+                <Forward name="exception" path="DeleteZaakSender" />
             </ForEachChildElementPipe>
 
             <XsltPipe
