@@ -85,6 +85,7 @@
                     <Param name="ZaakTypeUrl" xpathExpression="$ZgwZaakType/ZgwZaakType/url">
                         <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
                     </Param>
+                    <Param name="NewStatuses" sessionKey="NewStatuses" type="DOMDOC"/>
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                     <Param name="Beeindigd" sessionKey="Beeindigd"/>
                     <Param name="Einddatum" xpathExpression="/*/object/einddatum" sessionKey="originalMessage"/>
