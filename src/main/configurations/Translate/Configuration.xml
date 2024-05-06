@@ -23,7 +23,6 @@
   <!ENTITY GetRsinByGemeenteCode                        SYSTEM "./Configuration_GetRsinByGemeenteCode.xml">
   <!ENTITY Zaken_GetZgwStatusByZaakUrl                    SYSTEM "./Configuration_Zaken_GetZgwStatusByZaakUrl.xml">
   <!ENTITY GetStatusTypeByZaakTypeAndOmschrijving         SYSTEM "./Configuration_GetStatusTypeByZaakTypeAndOmschrijving.xml">
-  <!ENTITY GetStatusTypes                                 SYSTEM "./Configuration_GetStatusTypes.xml">
   <!ENTITY GetZaakDetailsByRol                            SYSTEM "./Configuration_GetZaakDetailsByRol.xml">
   <!ENTITY GetZaakDocumentByUrl                           SYSTEM "./Configuration_GetZaakDocumentByUrl.xml">
   <!ENTITY GetZaakInformatieObjectenByZaak                SYSTEM "./Configuration_GetZaakInformatieObjectenByZaak.xml">
@@ -37,6 +36,7 @@
   <!ENTITY Zaken_GetZgwRolTypeByUrl                       SYSTEM "./Configuration_Zaken_GetZgwRolTypeByUrl.xml">
   <!ENTITY Zaken_GetZgwRolTypeByZaakType                  SYSTEM "./Configuration_Zaken_GetZgwRolTypeByZaakType.xml">
   <!ENTITY GetZgwStatusTypeByUrl                          SYSTEM "./Configuration_GetZgwStatusTypeByUrl.xml">
+  <!ENTITY GetZgwStatusTypes                              SYSTEM "./Configuration_GetZgwStatusTypes.xml">
   <!ENTITY GetZgwZaak                                     SYSTEM "./Configuration_GetZgwZaak.xml">
   <!ENTITY GetZgwZaakByUrl                                SYSTEM "./Configuration_GetZgwZaakByUrl.xml">
   <!ENTITY GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl      SYSTEM "./Configuration_GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl.xml">
@@ -97,7 +97,6 @@
   &GetRsinByGemeenteCode;
   &Zaken_GetZgwStatusByZaakUrl;
   &GetStatusTypeByZaakTypeAndOmschrijving;
-  &GetStatusTypes;
   &GetZaakDetailsByRol;
   &GetZaakDocumentByUrl;
   &GetZaakInformatieObjectenByZaak;
@@ -111,6 +110,7 @@
   &Zaken_GetZgwRolTypeByUrl;
   &Zaken_GetZgwRolTypeByZaakType;
   &GetZgwStatusTypeByUrl;
+  &GetZgwStatusTypes;
   &GetZgwZaak;
   &GetZgwZaakByUrl;
   &GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl;
