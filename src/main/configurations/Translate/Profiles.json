@@ -1,19 +1,35 @@
 {
+    "profileDefaults": {},
     "profile": [
         {
             "zaakTypeIdentificatie": "B9999",
             "endCaseEndDate": {
-                "coalesceResultaat":"Onbekend" 
+                "coalesceResultaat": "Onbekend"
             },
-            
             "endDateAndResultLastStatus": {
                 "coalesceResultaat": "Onbekend"
             }
         },
         {
+            "zaakTypeIdentificatie": "B1210",
+            "endDateAndResultLastStatus": {
+                "coalesceResultaat":"Vergunningvrij" 
+            }
+        },
+        {
             "zaakTypeIdentificatie": "B1026",
             "endCaseEndDate": {
-                "coalesceResultaat":"Toegekend" 
+                "coalesceResultaat": "Toegekend"
+            }
+        },
+        {
+            "zaakTypeIdentificatie": "B0208",
+            "endCaseEndDate": {
+                "coalesceResultaat":"Uitgereikt" 
+            },
+            
+            "endDateAndResultLastStatus": {
+                "coalesceResultaat": "Aanvraag geannuleerd"
             }
         }
     ]

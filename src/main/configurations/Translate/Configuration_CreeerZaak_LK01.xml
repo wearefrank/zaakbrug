@@ -156,6 +156,31 @@
                 <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                 <Param name="Bronorganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
                 <Param name="VerantwoordelijkeOrganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
+                <Forward name="success" path="ZaakBodyApplyValueOverridesFromTranslationProfileSender"/>
+            </XsltPipe>
+
+            <SenderPipe
+                name="ZaakBodyApplyValueOverridesFromTranslationProfileSender"
+                >
+                <IbisLocalSender
+                    name="ZaakBodyApplyValueOverridesFromTranslationProfileLocalSender"
+                    javaListener="ApplyTranslationProfileValueOverrides"
+                    returnedSessionKeys="Error"
+                    >
+                </IbisLocalSender>
+                <Param name="zaaktype" sessionKey="originalMessage" xpathExpression="/zakLk01/object/isVan/gerelateerde/code" />
+                <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaken.ZgwZaak" />
+                <Forward name="success" path="ReorderZaak"/>
+                <Forward name="exception" path="UncaughtException" />
+            </SenderPipe>
+
+            <!-- TODO: replace with new style ZgwZaak.xslt -->
+            <XsltPipe
+                name="ReorderZaak"
+                storeResultInSessionKey="ZaakBody"
+                styleSheetName="CreeerZaak_LK01/xsl/CreateZaakBodyWorkaround.xslt"
+                >
+                <Param name="ZgwZaak" type="DOMDOC" />
                 <Forward name="success" path="CallPostZaak"/>
             </XsltPipe>
 
@@ -182,15 +207,34 @@
                         <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
-                <Forward name="success" path="CheckForHeeftBetrekkingOpAndere"/>
+                <Forward name="success" path="CallSetResultaatAndStatus"/>
                 <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
+
+            <SenderPipe
+                name="CallSetResultaatAndStatus"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="SetResultaatAndStatusResult">
+                <IbisLocalSender
+                    name="CallSetResultaatAndStatusSender"
+                    javaListener="SetResultaatAndStatus"
+                    returnedSessionKeys="Error">
+                    <Param name="ZgwZaakType" xpathExpression="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType" type="DOMDOC">
+                        <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
+                    </Param>                  
+                    <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/ZgwZaak/url">
+                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForHeeftBetrekkingOpAndere"/>
+                <Forward name="exception" path="UncaughtException" />
+            </SenderPipe>
 
             <XmlIfPipe name="CheckForHeeftBetrekkingOpAndere"
                 getInputFromSessionKey="originalMessage"
                 xpathExpression="/zakLk01/object/heeftBetrekkingOpAndere/gerelateerde[string-length(identificatie) > 0]"
                 thenForwardName="AndereZaakIterator"
-                elseForwardName="CallSetResultaatAndStatus">
+                elseForwardName="EXIT">
             </XmlIfPipe>
 
             <ForEachChildElementPipe name="AndereZaakIterator"
@@ -229,27 +273,8 @@
                     <Param name="Url" xpathExpression="ZgwZaak/url" defaultValue="&lt;dummy/&gt;" />
                     <Param name="AndereUrls" sessionKey="AndereZakenResult" defaultValue="&lt;dummy/&gt;"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CallSetResultaatAndStatus"/>
-                <Forward name="exception" path="EXCEPTION" />
-            </SenderPipe>
-
-            <SenderPipe
-                name="CallSetResultaatAndStatus"
-                getInputFromSessionKey="originalMessage"
-                storeResultInSessionKey="SetResultaatAndStatusResult">
-                <IbisLocalSender
-                    name="CallSetResultaatAndStatusSender"
-                    javaListener="SetResultaatAndStatus"
-                    returnedSessionKeys="Error">
-                    <Param name="ZgwZaakType" xpathExpression="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType" type="DOMDOC">
-                        <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
-                    </Param>                  
-                    <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/ZgwZaak/url">
-                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
-                    </Param>
-                </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="exception" path="UncaughtException" />
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe 

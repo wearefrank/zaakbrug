@@ -388,6 +388,9 @@
                     <ZKN:omschrijving><xsl:value-of select="gerelateerde/omschrijving"/></ZKN:omschrijving>
                 </xsl:if>
             </ZKN:gerelateerde>
+            <xsl:if test="gerelateerde/datumStatusGezet">
+                <ZKN:datumStatusGezet><xsl:value-of select="gerelateerde/datumStatusGezet"/></ZKN:datumStatusGezet>
+            </xsl:if>
             <xsl:if test="gerelateerde/indicatieLaatsteStatus">
                 <ZKN:indicatieLaatsteStatus><xsl:value-of select="gerelateerde/indicatieLaatsteStatus"/></ZKN:indicatieLaatsteStatus>
             </xsl:if>

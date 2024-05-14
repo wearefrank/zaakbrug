@@ -1,5 +1,89 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.19.0](https://github.com/wearefrank/zaakbrug/compare/v1.18.3...v1.19.0) (2024-05-01)
+
+
+### 🍕 Features
+
+* new test cases to test zaak closure have been added ([839cd48](https://github.com/wearefrank/zaakbrug/commit/839cd48c829329849834f34d6dac7c32864149f5))
+
+
+### 🐛 Bug Fixes
+
+* datumStatusGezet is added to zds:heeft mapping ([031e73f](https://github.com/wearefrank/zaakbrug/commit/031e73f0e470afa82a475762177d6eca9d80fb9b))
+* eindDatum added to mapping xslt file ([39bbc64](https://github.com/wearefrank/zaakbrug/commit/39bbc64b34452f6cbde0c43245339fbbf93cc524))
+* mapping zaakStatus in heeft element is fixed ([df01c05](https://github.com/wearefrank/zaakbrug/commit/df01c05e975343cafaa0fba91796246fcdf25402))
+* the loop that is creating the profile object updated so that the loop continues instead of break in if block. ([2dbeb5c](https://github.com/wearefrank/zaakbrug/commit/2dbeb5c1487ab44da81a5c3ac4015b527fe2e08a))
+* The test cases failing because of the bugs has been updated so that they fail and they disabled ([6dfa19f](https://github.com/wearefrank/zaakbrug/commit/6dfa19f0fec68f52876fa27fc05c980f25a5c116))
+
+## [1.18.3](https://github.com/wearefrank/zaakbrug/compare/v1.18.2...v1.18.3) (2024-04-25)
+
+
+### 🐛 Bug Fixes
+
+* language format translation from alpha3-t(e.g. NLD) to alpha2(e.g. NL) not working ([#99](https://github.com/wearefrank/zaakbrug/issues/99)) ([f9bf8a2](https://github.com/wearefrank/zaakbrug/commit/f9bf8a2ed1f4eeb154d631d4ee61d80c291f6ac9))
+
+## [1.18.2](https://github.com/wearefrank/zaakbrug/compare/v1.18.1...v1.18.2) (2024-04-22)
+
+
+### 🐛 Bug Fixes
+
+* ladybug zaak/document identificatie column sometimes not showing identificatie when it doesnt follow a specific format ([#303](https://github.com/wearefrank/zaakbrug/issues/303)) ([70451be](https://github.com/wearefrank/zaakbrug/commit/70451be6e5cd80c999eeb83143a5ed80729d77eb))
+
+## [1.18.1](https://github.com/wearefrank/zaakbrug/compare/v1.18.0...v1.18.1) (2024-04-22)
+
+
+### 🐛 Bug Fixes
+
+* error when merging profile defaults when profileDefaults key is missing completely ([d7f3b7f](https://github.com/wearefrank/zaakbrug/commit/d7f3b7f7d026fc8efdc94561b3263fe636d17566))
+
+## [1.18.0](https://github.com/wearefrank/zaakbrug/compare/v1.17.1...v1.18.0) (2024-04-18)
+
+
+### 🍕 Features
+
+* provide translation profile defaults for configuring common settings applying to all zaaktype related custom translation profiles ([#296](https://github.com/wearefrank/zaakbrug/issues/296)) ([81e9114](https://github.com/wearefrank/zaakbrug/commit/81e9114c827e8f9e91120ebf72cdfc043496d14d))
+
+## [1.17.1](https://github.com/wearefrank/zaakbrug/compare/v1.17.0...v1.17.1) (2024-04-08)
+
+
+### 🧑‍💻 Code Refactoring
+
+* move processing of zaak relationships to the end of creeerZaak and updateZaak so that the more critical resultaat and statussen are processed first ([#298](https://github.com/wearefrank/zaakbrug/issues/298)) ([0ed1615](https://github.com/wearefrank/zaakbrug/commit/0ed1615027122fc5abc0f2176f03d1e633dc46a4))
+
+## [1.17.0](https://github.com/wearefrank/zaakbrug/compare/v1.16.2...v1.17.0) (2024-04-04)
+
+
+### 🍕 Features
+
+* Ladybug database storage for persisting reports ([469c071](https://github.com/wearefrank/zaakbrug/commit/469c071d199f174fd93ce036554c4bc0447a213f))
+
+
+### 🐛 Bug Fixes
+
+* Ladybug reports get stuck on "in progress" when an error occurs in the pipeline ([e65ce68](https://github.com/wearefrank/zaakbrug/commit/e65ce68101eb2a6b9ac14fb48a227b82e0815185))
+
+## [1.16.2](https://github.com/wearefrank/zaakbrug/compare/v1.16.1...v1.16.2) (2024-03-27)
+
+
+### 🤖 Build System
+
+* upgrade to java 17 & use frank!framework base docker image instead of building a custom image ([#237](https://github.com/wearefrank/zaakbrug/issues/237)) ([25fcee7](https://github.com/wearefrank/zaakbrug/commit/25fcee75e9cb410c62de346b11711d4052be7511))
+
+## [1.16.1](https://github.com/wearefrank/zaakbrug/compare/v1.16.0...v1.16.1) (2024-03-25)
+
+
+### 🧑‍💻 Code Refactoring
+
+* processing of zds statusses is no longer done in parallel ([#294](https://github.com/wearefrank/zaakbrug/issues/294)) ([64ad31f](https://github.com/wearefrank/zaakbrug/commit/64ad31f45cc4b52aaa2f3e28982015792799c04c))
+
+## [1.16.0](https://github.com/wearefrank/zaakbrug/compare/v1.15.15...v1.16.0) (2024-03-20)
+
+
+### 🍕 Features
+
+* translation profile translation value overrides ([#277](https://github.com/wearefrank/zaakbrug/issues/277)) ([4dfd283](https://github.com/wearefrank/zaakbrug/commit/4dfd2835cdc0df62335436ce35e74d2bafba771a))
+
 ## [1.15.15](https://github.com/wearefrank/zaakbrug/compare/v1.15.14...v1.15.15) (2024-02-27)
 
 

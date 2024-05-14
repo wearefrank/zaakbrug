@@ -78,7 +78,7 @@
                 storeResultInSessionKey="Error">
                 <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> 
-                <Param name="reason" pattern="No zaak with the identificatie:{Identificatie} is found in geefLijstZaakDocumenten" />
+                <Param name="reason" pattern="No zaak with the identificatie:{Identificatie} is found in GetZgwZaakByIdentificatie" />
                 <Param name="detailsXml" type="DOMDOC"/>
                 <Forward name="success" path="EXCEPTION" />
                 <Forward name="exception" path="EXCEPTION" />

@@ -217,15 +217,39 @@
                         <Param name="GetZgwZaaktypeByUrlResult" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
-                <Forward name="success" path="CheckForHeeftBetrekkingOpAndere"/>
+                <Forward name="success" path="WrapZdsWordtZaak"/>
                 <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>  
-            
+
+            <XsltPipe
+                name="WrapZdsWordtZaak"
+                getInputFromSessionKey="ZdsWordtZaak"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="UpdateZaak_LK01/xsl/WrapZdsWordtZaak.xslt"
+                >
+                <Forward name="success" path="CallSetResultaatAndStatus"/>
+            </XsltPipe>
+
+            <SenderPipe
+                name="CallSetResultaatAndStatus"
+                storeResultInSessionKey="SetResultaatAndStatusResult">
+                <IbisLocalSender
+                    name="CallSetResultaatAndStatusSender"
+                    javaListener="SetResultaatAndStatus"
+                    returnedSessionKeys="Error">
+                    <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>                   
+                    <Param name="ZaakUrl" sessionKey="ZgwZaakUrl"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForHeeftBetrekkingOpAndere"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
             <XmlIfPipe name="CheckForHeeftBetrekkingOpAndere"
                 getInputFromSessionKey="originalMessage"
                 xpathExpression="/zakLk01/object/heeftBetrekkingOpAndere/gerelateerde[string-length(identificatie) > 0]"
                 thenForwardName="AndereZaakIterator"
-                elseForwardName="WrapZdsWordtZaak">
+                elseForwardName="EXIT">
             </XmlIfPipe>
 
             <ForEachChildElementPipe name="AndereZaakIterator"
@@ -263,30 +287,6 @@
                     returnedSessionKeys="Error">
                     <Param name="Url" sessionKey="ZgwZaakUrl" defaultValue="&lt;dummy/&gt;" />
                     <Param name="AndereUrls" sessionKey="AndereZakenResult" defaultValue="&lt;dummy/&gt;"/>
-                </IbisLocalSender>
-                <Forward name="success" path="WrapZdsWordtZaak"/>
-                <Forward name="exception" path="EXCEPTION" />
-            </SenderPipe>
-
-            <XsltPipe
-                name="WrapZdsWordtZaak"
-                getInputFromSessionKey="ZdsWordtZaak"
-                removeNamespaces="true"
-                skipEmptyTags="true"
-                styleSheetName="UpdateZaak_LK01/xsl/WrapZdsWordtZaak.xslt"
-                >
-                <Forward name="success" path="CallSetResultaatAndStatus"/>
-            </XsltPipe>
-
-            <SenderPipe
-                name="CallSetResultaatAndStatus"
-                storeResultInSessionKey="SetResultaatAndStatusResult">
-                <IbisLocalSender
-                    name="CallSetResultaatAndStatusSender"
-                    javaListener="SetResultaatAndStatus"
-                    returnedSessionKeys="Error">
-                    <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>                   
-                    <Param name="ZaakUrl" sessionKey="ZgwZaakUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />

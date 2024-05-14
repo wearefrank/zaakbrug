@@ -1,0 +1,59 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="ApplyTranslationProfileValueOverrides"
+        active="${ApplyTranslationProfileValueOverrides.Active}"
+        description="">
+
+        <Receiver name="ApplyTranslationProfileValueOverrides">
+            <JavaListener name="ApplyTranslationProfileValueOverrides" returnedSessionKeys="Error" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="EXCEPTION" state="ERROR" />
+            </Exits>
+
+            <SenderPipe
+                name="ResolveProfileValuesSender"
+                >
+                <IbisLocalSender
+                    name="ResolveProfileValuesLocalSender"
+                    javaListener="ResolveProfileValues"
+                    returnedSessionKeys="Error"
+                />
+                <Forward name="success" path="ExtractValueOverridesFromTranslationProfile" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="ExtractValueOverridesFromTranslationProfile"
+                styleSheetName="Common/xsl/ExtractValueOverridesFromTranslationProfile.xsl"
+                storeResultInSessionKey="valueOverrides"
+                >
+                <Param name="zaaktype" sessionKey="zaaktype" />
+                <Forward name="success" path="RenameRootElementInValueOverridesKeys" />
+            </XsltPipe>
+
+            <!-- Zgw object names like 'ZgwZaak' will likely in the future be replaced with their name in the OpenApi spec like 'zaak' for example. 
+                The valueOverrides keys already use these names so that the user doesnt have to change all their keys in the future -->
+            <XsltPipe
+                name="RenameRootElementInValueOverridesKeys"
+                styleSheetName="Common/xsl/RenameRootElementInValueOverridesKeys.xsl"
+                storeResultInSessionKey="valueOverrides"
+                >
+                <Forward name="success" path="ApplyValueOverrides" />
+            </XsltPipe>
+
+            <XsltPipe
+                name="ApplyValueOverrides"
+                styleSheetName="Common/xsl/ApplyValueOverrides.xsl"
+                getInputFromSessionKey="originalMessage"
+                >
+                <Param name="valueOverrides" sessionKey="valueOverrides" type="DOMDOC" />
+                <Param name="valueOverrideKeyRoot" sessionKey="valueOverrideKeyRoot" />
+                <Forward name="success" path="EXIT" />
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

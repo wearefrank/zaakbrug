@@ -48,3 +48,141 @@ The syntax for variable substitution is as follows {[variable-name][:formatting-
 | --- | --------- |
 | id | Auto-incrementing identifier with 'D' as formatting option, indicating the amount of digits. <br/>_Example:_ `{id:D5}` with id-123 will result in '00123'. |
 | datetime | The current date and time with '[Y]' as formatting option, according to [XSLT datetime formatting](https://www.oreilly.com/library/view/xslt-2nd-edition/9780596527211/ch04s05.html). <br/> _Examples:_ <ul><li>`{datetime:[Y]}` with datetime=14-03-2023 produces '2023'</li><li>`{datetime:[Y0001]}` with datetime=14-03-2023 produces '2023'</li><li>`{datetime:[Y][M][D]}` with datetime=14-03-2023 produces '2023314'</li><li>`{datetime:[Y0001][M01][D01]}` with datetime=14-03-2023 produces '20230314'</li><li>`{datetime:[Y][M01][D]}` with datetime=14-03-2023 produces '20230314'</li></ul>
+
+## Translation Profiles
+
+### Closing zaak
+Closing a zaak' refers to the action of setting the EindStatus (Last Status) to the zaak itself. EindStatus refers to a status created with a Status Type where the 'isEindStatus' field is set to true. When a zaak has such EindStatus then it means the zaak is closed.
+To be able to close a zaak, the zaak must have a Resultaat(Result) value as well. In case the zaak doesn't have a Resultaat value, then one of the dummy values in Profile.json file (if exists) will be used as explained below.
+
+There are three ways of closing a zaak.
+
+1) Setting EindDatum (End Date)
+When EindDatum field is set in updateZaak message and if the zaak already has a Resultaat then EindStatus (Last Status) is automatically set to the zaak so the zaak is closed.
+However, if the zaak doesn't have a Resultaat when EindDatum field is set, then a Resultaat with the dummy value under 'endCaseEndDate' in Profile.json file is set to zaak. After that, EindStatus is automatically set to the zaak so the zaak is closed. 'endCaseEndDate' should be under the 'zaakTypeIdentificatie' which is the Zaaktype of the zaak.
+
+2) Setting EindStatus(LastStatus)
+There is no specifically EindStatus field in updateZaak (or any other) message. However, the fields under 'Heeft' element in updateZaak message are used to create an EindStatus. When an updateZaak message is sent and if the 'Heeft' element has the required fields and if the zaak has a Resultaat, then EindStatus is created and set to the Zaak so the zaak is closed. 
+In case the zaak doesn't have a Resultaat, the dummy value under 'endDateAndResultLastStatus' in Profile.json file is used to create one. 'endDateAndResultLastStatus' should be under the 'zaakTypeIdentificatie' which is the Zaaktype of the zaak.
+
+3) Setting both EindDatum (End Date) and EindStatus(Last Status)
+In case of having both EindDatum and EindStatus(meaning having required fields under 'Heeft' element) in updateZaak message, first EindStatus path is used to close a zaak. If Zaak doesn't have a Resultaat and if there is no dummy value under 'endDateAndResultLastStatus' in Profile.json then EindDatum path is used to close the zaak.
+
+### Profile Defaults
+Profile defaults can be used to configure common translation profile settings. The settings configured in the `profileDefaults` section are applied to **all** zaaktypen. When a regular translation profile for a specific zaaktype is also configured, the settings are merged together. The more specific per zaaktype translation profile will always override any overlapping settings from the `profileDefaults` section. Items in array's like `valuesOverrides` will be combined instead, unless there is an overlapping key. Here the more specific per zaaktype translation profile will also always override any overlapping keys from the ones in the `profileDefaults` section.
+
+For example, the following configuration:
+```json
+{
+    "profileDefaults": {
+        "endCaseEndDate": {
+            "coalesceResultaat": "Onbekend"
+        },
+        "valueOverrides": [
+            {
+                "key": "zgw.zaken-api.zaken.zaak.toelichting",
+                "value": "toelichting from profileDefaults"
+            }
+        ]
+    },
+    "profile": [
+        {
+            "zaakTypeIdentificatie": "B9999",
+            "endDateAndResultLastStatus": {
+                "coalesceResultaat": "Onbekend"
+            },
+            "valueOverrides": [
+                {
+                    "key": "zgw.zaken-api.zaken.zaak.communicatiekanaal",
+                    "value": "http://example.com"
+                }
+            ]
+        },
+        {
+            "zaakTypeIdentificatie": "B1026",
+            "endCaseEndDate": {
+                "coalesceResultaat": "Toegekend"
+            },
+            "valueOverrides": [
+                {
+                    "key": "zgw.zaken-api.zaken.zaak.toelichting",
+                    "value": "toelichting from specific translation profile"
+                }
+            ]
+        }
+    ]
+}
+```
+
+Will result in:
+```json
+{
+    "profile": [
+        {
+            "zaakTypeIdentificatie": "B9999",
+            // highlight-start
+            "endCaseEndDate": {
+                "coalesceResultaat": "Onbekend",
+            },
+            // highlight-end
+            "endDateAndResultLastStatus": {
+                "coalesceResultaat": "Onbekend"
+            },
+            "valueOverrides": [
+                // highlight-start
+                {
+                    "key": "zgw.zaken-api.zaken.zaak.toelichting",
+                    "value": "toelichting from profileDefaults"
+                },
+                // // highlight-end
+                {
+                    "key": "zgw.zaken-api.zaken.zaak.communicatiekanaal",
+                    "value": "http://example.com"
+                }
+            ]
+        },
+        {
+            "zaakTypeIdentificatie": "B1026",
+            "endCaseEndDate": {
+                // highlight-next-line
+                "coalesceResultaat": "Toegekend"
+            },
+            "valueOverrides": [
+                {
+                    "key": "zgw.zaken-api.zaken.zaak.toelichting",
+                    // highlight-next-line
+                    "value": "toelichting from specific translation profile"
+                }
+            ]
+        }
+    ]
+}
+```
+
+### Value Overrides
+The translations from ZDS/StUF to ZGW are made to be as neutral as possible. With value overrides it is possible to diverge from the generic translation defaults or add static properties.
+
+Value overrides can be configured in `src/main/configurations/Translate/profiles.json` or in the `zaakbrug.profiles` section of the Helm chart.
+
+The keys for the the different properties can be deducted from the OpenApi specification of the API's. 
+The keys follow the following format: `zgw.<api-name>.<collection-name>.<object-name>.<property>`. For example the key for the zaak property `betalingsindicatie` would be: `zgw.zaken-api.zaken.zaak.betalingsindicatie`. In the translation profile this would look like this:
+```json
+{
+    "profile": [
+        {
+            "zaakTypeIdentificatie": "example",
+            "valueOverrides": [
+                {
+                    "key": "zgw.zaken-api.zaken.zaak.betalingsindicatie",
+                    "value": "nvt"
+                }
+            ]
+        }
+    ]
+}
+```
+
+A value override is only applied if the property's value after the translation from ZDS/StUF to ZGW is **not present, empty string or null**.
+
+Currently this feature implemented for:
+- (zaken-api) zaak

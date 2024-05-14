@@ -44,6 +44,7 @@
   <!ENTITY GetZgwZaakTypeByIdentificatie                  SYSTEM "./Configuration_GetZgwZaakTypeByIdentificatie.xml">
   <!ENTITY HandleZgwZaakInformatieObjecten                SYSTEM "./Configuration_HandleZgwZaakInformatieObjecten.xml">
   <!ENTITY ImportFromLocalFS                              SYSTEM "./Configuration_ImportFromLocalFS.xml"> 
+  <!ENTITY ApplyTranslationProfileValueOverrides     SYSTEM "./Configuration_ApplyTranslationProfileValueOverrides.xml"> 
   <!ENTITY MapZdsDeelzakenFromZgwDeelzaken                SYSTEM "./Configuration_MapZdsDeelzakenFromZgwDeelzaken.xml">
   <!ENTITY MapZdsHeeftFromZgwStatus                       SYSTEM "./Configuration_MapZdsHeeftFromZgwStatus.xml">
   <!ENTITY MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken   SYSTEM "./Configuration_MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken.xml">
@@ -55,6 +56,7 @@
   <!ENTITY PostZaak                                       SYSTEM "./Configuration_PostZaak.xml">
   <!ENTITY PostZgwLock                                    SYSTEM "./Configuration_PostZgwLock.xml">
   <!ENTITY PutZgwZaakDocument                             SYSTEM "./Configuration_PutZgwZaakDocument.xml">
+  <!ENTITY ResolveProfileValues                           SYSTEM "./Configuration_ResolveProfileValues.xml">
   <!ENTITY SetResultaatAndStatus                          SYSTEM "./Configuration_SetResultaatAndStatus.xml">
   <!ENTITY SoapEndpointRouter_BeantwoordVraag             SYSTEM "./Configuration_SoapEndpointRouter_BeantwoordVraag.xml">
   <!ENTITY SoapEndpointRouter_BeantwoordVraag_v2          SYSTEM "./Configuration_SoapEndpointRouter_BeantwoordVraag_v2.xml">
@@ -117,6 +119,7 @@
   &GetZgwZaakTypeByIdentificatie;
   &HandleZgwZaakInformatieObjecten;
   &ImportFromLocalFS;
+  &ApplyTranslationProfileValueOverrides;
   &MapZdsDeelzakenFromZgwDeelzaken;
   &MapZdsHeeftFromZgwStatus;
   &MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken;
@@ -128,6 +131,7 @@
   &PostZaak;
   &PostZgwLock;
   &PutZgwZaakDocument;
+  &ResolveProfileValues;
   &SetResultaatAndStatus;
   &SoapEndpointRouter_BeantwoordVraag;
   &SoapEndpointRouter_BeantwoordVraag_v2;

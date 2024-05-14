@@ -13,7 +13,7 @@
                     <xsl:value-of select="alpha3-t"/>
                 </xsl:for-each>
             </xsl:when>
-            <xsl:when test="Alpha3t">
+            <xsl:when test="$Alpha3t">
                 <xsl:for-each select="key('alpha3t', $Alpha3t)">
                     <xsl:value-of select="alpha2"/>
                 </xsl:for-each>
