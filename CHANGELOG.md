@@ -1,5 +1,17 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.19.1](https://github.com/wearefrank/zaakbrug/compare/v1.19.0...v1.19.1) (2024-05-14)
+
+
+### 🐛 Bug Fixes
+
+* incorrect reference to geefLijstZaakDocumenten in errormessage when retrieving a zaak by identificatie ([#300](https://github.com/wearefrank/zaakbrug/issues/300)) ([14217a6](https://github.com/wearefrank/zaakbrug/commit/14217a68055ae7b96f8a20e092723902fa026655))
+
+
+### 🔁 Continuous Integration
+
+* lock conventionalcommit preset version to major 7 due to breaking change ([6bbe734](https://github.com/wearefrank/zaakbrug/commit/6bbe734e3cb3daade68653c1e0863e768efd95c1))
+
 ## [1.19.0](https://github.com/wearefrank/zaakbrug/compare/v1.18.3...v1.19.0) (2024-05-01)
 
 
