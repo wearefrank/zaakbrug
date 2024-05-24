@@ -24,9 +24,29 @@
                         <Param name="ZdsWordtInformatieObject" sessionKey="ZdsWordtInformatieObject" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
-                <Forward name="success" path="StoreTaal"/>
+                <Forward name="success" path="CheckForStatus"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
+
+            <XmlIfPipe name="CheckForStatus"
+                xpathExpression="/ZgwEnkelvoudigInformatieObject/status = 'definitief'"
+                >
+                <Forward name="then" path="DocumentAlreadyFinalizedException"/>
+                <Forward name="else" path="StoreTaal"/>
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="DocumentAlreadyFinalizedException"
+                getInputFromSessionKey="originalMessage"
+                styleSheetName="Common/xsl/BuildError.xsl">
+                <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError,
+                TranslationError, ConfigurationError-->
+                <Param name="reason"
+                    pattern="The status of the document is already final, it cannot be updated."
+                    ignoreUnresolvablePatternElements="true" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="error" path="EXCEPTION" />
+            </XsltPipe>
 
             <PutInSessionPipe name="StoreTaal"
                 getInputFromSessionKey="ZdsWordtInformatieObject"
