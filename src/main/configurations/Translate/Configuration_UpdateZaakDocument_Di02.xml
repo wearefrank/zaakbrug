@@ -24,16 +24,9 @@
                         <Param name="ZdsWordtInformatieObject" sessionKey="ZdsWordtInformatieObject" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
-                <Forward name="success" path="CheckForStatus"/>
+                <Forward name="success" path="StoreTaal"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
-
-            <XmlIfPipe name="CheckForStatus"
-                xpathExpression="/ZgwEnkelvoudigInformatieObject/status = 'definitief'"
-                >
-                <Forward name="then" path="EXCEPTION"/>
-                <Forward name="else" path="StoreTaal"/>
-            </XmlIfPipe>
 
             <PutInSessionPipe name="StoreTaal"
                 getInputFromSessionKey="ZdsWordtInformatieObject"
