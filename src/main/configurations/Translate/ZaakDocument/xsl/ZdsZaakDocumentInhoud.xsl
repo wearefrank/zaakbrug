@@ -1,8 +1,28 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://google.com/zgw" version="2.0">
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
     <xsl:param name="ZgwZaak"/>
     <xsl:param name="Bas64Inhoud"/>
     <xsl:param name="ZgwInformatieObjectType"/>
+
+    <xsl:function name="zgw:fromZgwDocumentStatusToZdsDocumentStatus">
+        <xsl:param name="status"/>
+        <xsl:variable name="transformed" as="xs:string" select="lower-case($status)"/>
+        <xsl:choose>
+            <xsl:when test="$transformed = 'in_bewerking'">
+                <xsl:value-of select="'In bewerking'"/>
+            </xsl:when>
+            <xsl:when test="$transformed = 'ter_vaststelling'">
+                <xsl:value-of select="'Ter vaststelling'"/>
+            </xsl:when>
+            <xsl:when test="$transformed = 'definitief'">
+                <xsl:value-of select="'Definitief'"/>
+            </xsl:when>
+            <xsl:when test="$transformed = 'gearchiveerd'">
+                <xsl:value-of select="'Gearchiveerd'"/>
+            </xsl:when>
+            <xsl:otherwise/>
+        </xsl:choose>
+    </xsl:function>
 
     <xsl:template match="/">
         <ZdsZaakDocumentInhoud>
@@ -49,7 +69,7 @@
             </xsl:choose>
             <xsl:choose>
                 <xsl:when test="string-length(ZgwEnkelvoudigInformatieObject/status) > 0 and normalize-space(ZgwEnkelvoudigInformatieObject/status) != 'null'">
-                    <status><xsl:value-of select="ZgwEnkelvoudigInformatieObject/status"/></status>
+                    <status><xsl:value-of select="zgw:fromZgwDocumentStatusToZdsDocumentStatus(ZgwEnkelvoudigInformatieObject/status)"/></status>
                 </xsl:when>
                 <xsl:otherwise>
                     <status><xsl:attribute name="xsi:nil">true</xsl:attribute></status>
