@@ -5,19 +5,18 @@
     <xsl:param name="ZgwInformatieObjectType"/>
 
     <xsl:function name="zgw:fromZgwDocumentStatusToZdsDocumentStatus">
-        <xsl:param name="status"/>
-        <xsl:variable name="transformed" as="xs:string" select="lower-case($status)"/>
+        <xsl:param name="status" as="xs:string"/>
         <xsl:choose>
-            <xsl:when test="$transformed = 'in_bewerking'">
+            <xsl:when test="$status = 'in_bewerking'">
                 <xsl:value-of select="'In bewerking'"/>
             </xsl:when>
-            <xsl:when test="$transformed = 'ter_vaststelling'">
+            <xsl:when test="$status = 'ter_vaststelling'">
                 <xsl:value-of select="'Ter vaststelling'"/>
             </xsl:when>
-            <xsl:when test="$transformed = 'definitief'">
+            <xsl:when test="$status = 'definitief'">
                 <xsl:value-of select="'Definitief'"/>
             </xsl:when>
-            <xsl:when test="$transformed = 'gearchiveerd'">
+            <xsl:when test="$status = 'gearchiveerd'">
                 <xsl:value-of select="'Gearchiveerd'"/>
             </xsl:when>
             <xsl:otherwise/>
