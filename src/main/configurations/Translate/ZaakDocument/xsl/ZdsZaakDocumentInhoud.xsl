@@ -4,25 +4,6 @@
     <xsl:param name="Bas64Inhoud"/>
     <xsl:param name="ZgwInformatieObjectType"/>
 
-    <xsl:function name="zgw:fromZgwDocumentStatusToZdsDocumentStatus">
-        <xsl:param name="status" as="xs:string"/>
-        <xsl:choose>
-            <xsl:when test="$status = 'in_bewerking'">
-                <xsl:value-of select="'In bewerking'"/>
-            </xsl:when>
-            <xsl:when test="$status = 'ter_vaststelling'">
-                <xsl:value-of select="'Ter vaststelling'"/>
-            </xsl:when>
-            <xsl:when test="$status = 'definitief'">
-                <xsl:value-of select="'Definitief'"/>
-            </xsl:when>
-            <xsl:when test="$status = 'gearchiveerd'">
-                <xsl:value-of select="'Gearchiveerd'"/>
-            </xsl:when>
-            <xsl:otherwise/>
-        </xsl:choose>
-    </xsl:function>
-
     <xsl:template match="/">
         <ZdsZaakDocumentInhoud>
             <identificatie><xsl:value-of select="ZgwEnkelvoudigInformatieObject/identificatie"/></identificatie>
@@ -68,7 +49,7 @@
             </xsl:choose>
             <xsl:choose>
                 <xsl:when test="string-length(ZgwEnkelvoudigInformatieObject/status) > 0 and normalize-space(ZgwEnkelvoudigInformatieObject/status) != 'null'">
-                    <status><xsl:value-of select="zgw:fromZgwDocumentStatusToZdsDocumentStatus(ZgwEnkelvoudigInformatieObject/status)"/></status>
+                    <status><xsl:value-of select="ZgwEnkelvoudigInformatieObject/status"/></status>
                 </xsl:when>
                 <xsl:otherwise>
                     <status><xsl:attribute name="xsi:nil">true</xsl:attribute></status>
