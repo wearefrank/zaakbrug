@@ -37,7 +37,7 @@
 
             <XsltPipe
                 name="DocumentAlreadyFinalizedException"
-                getInputFromSessionKey="originalMessage"
+                getInputFromFixedValue="&lt;dummy/&gt;"
                 styleSheetName="Common/xsl/BuildError.xsl">
                 <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError,
                 TranslationError, ConfigurationError-->
