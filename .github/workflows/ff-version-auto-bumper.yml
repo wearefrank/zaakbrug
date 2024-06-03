@@ -94,7 +94,7 @@ jobs:
         echo "REQUESTED_IMAGE_VERSION_TAG=${requested_image_version_tag}" >> $GITHUB_ENV
         echo "Requested Image Version: ${requested_image_version_tag}"
 
-        current_image_version_tag=$(awk -F'=' '/${{ inputs.regex-for-dockerfile }}/ {print $2}' ./Dockerfile)
+        current_image_version_tag=$(awk -F'=' '/${{ inputs.regex-for-dockerfile }}/ {print $2}' ${{ inputs.dockerfile-path }})
         echo "CURRENT_IMAGE_VERSION_TAG=${current_image_version_tag}" >> $GITHUB_ENV
         echo "Current Image Version: ${current_image_version_tag}"
       
