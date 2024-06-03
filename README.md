@@ -51,6 +51,23 @@ The syntax for variable substitution is as follows {[variable-name][:formatting-
 
 ## Translation Profiles
 
+### Closing zaak
+Closing a zaak' refers to the action of setting the EindStatus (Last Status) to the zaak itself. EindStatus refers to a status created with a Status Type where the 'isEindStatus' field is set to true. When a zaak has such EindStatus then it means the zaak is closed.
+To be able to close a zaak, the zaak must have a Resultaat(Result) value as well. In case the zaak doesn't have a Resultaat value, then one of the dummy values in Profile.json file (if exists) will be used as explained below.
+
+There are three ways of closing a zaak.
+
+1) Setting EindDatum (End Date)
+When EindDatum field is set in updateZaak message and if the zaak already has a Resultaat then EindStatus (Last Status) is automatically set to the zaak so the zaak is closed.
+However, if the zaak doesn't have a Resultaat when EindDatum field is set, then a Resultaat with the dummy value under 'endCaseEndDate' in Profile.json file is set to zaak. After that, EindStatus is automatically set to the zaak so the zaak is closed. 'endCaseEndDate' should be under the 'zaakTypeIdentificatie' which is the Zaaktype of the zaak.
+
+2) Setting EindStatus(LastStatus)
+There is no specifically EindStatus field in updateZaak (or any other) message. However, the fields under 'Heeft' element in updateZaak message are used to create an EindStatus. When an updateZaak message is sent and if the 'Heeft' element has the required fields and if the zaak has a Resultaat, then EindStatus is created and set to the Zaak so the zaak is closed. 
+In case the zaak doesn't have a Resultaat, the dummy value under 'endDateAndResultLastStatus' in Profile.json file is used to create one. 'endDateAndResultLastStatus' should be under the 'zaakTypeIdentificatie' which is the Zaaktype of the zaak.
+
+3) Setting both EindDatum (End Date) and EindStatus(Last Status)
+In case of having both EindDatum and EindStatus(meaning having required fields under 'Heeft' element) in updateZaak message, first EindStatus path is used to close a zaak. If Zaak doesn't have a Resultaat and if there is no dummy value under 'endDateAndResultLastStatus' in Profile.json then EindDatum path is used to close the zaak.
+
 ### Profile Defaults
 Profile defaults can be used to configure common translation profile settings. The settings configured in the `profileDefaults` section are applied to **all** zaaktypen. When a regular translation profile for a specific zaaktype is also configured, the settings are merged together. The more specific per zaaktype translation profile will always override any overlapping settings from the `profileDefaults` section. Items in array's like `valuesOverrides` will be combined instead, unless there is an overlapping key. Here the more specific per zaaktype translation profile will also always override any overlapping keys from the ones in the `profileDefaults` section.
 
@@ -141,7 +158,6 @@ Will result in:
     ]
 }
 ```
-
 
 ### Value Overrides
 The translations from ZDS/StUF to ZGW are made to be as neutral as possible. With value overrides it is possible to diverge from the generic translation defaults or add static properties.

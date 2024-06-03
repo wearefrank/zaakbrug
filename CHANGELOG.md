@@ -1,5 +1,62 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.19.3](https://github.com/wearefrank/zaakbrug/compare/v1.19.2...v1.19.3) (2024-06-03)
+
+### 🐛 Bug Fixes
+
+* return error feedback when a document is updated while it has status 'definitief' ([#354](https://github.com/wearefrank/zaakbrug/issues/354)) ([2eac6d5](https://github.com/wearefrank/zaakbrug/commit/2eac6d510ec9d4afd1078e081f32ad69f83f6893))
+
+### 🔁 Continuous Integration
+
+* remove conventional-commits preset version lock ([10629c9](https://github.com/wearefrank/zaakbrug/commit/10629c97c0a0de1b10dfbb157c700a0f8419a400))
+
+## [1.19.2](https://github.com/wearefrank/zaakbrug/compare/v1.19.1...v1.19.2) (2024-05-31)
+
+
+### 🧑‍💻 Code Refactoring
+
+* add alpha3b and alpha3t to alpha conversion to language code conversion ([4f19cc4](https://github.com/wearefrank/zaakbrug/commit/4f19cc4907b69d3b7d772728197967a89206818a))
+
+
+### ✅ Tests
+
+* **larva:** add GetISO639Code xslt testcases for all variants of language code conversion ([8bd4e96](https://github.com/wearefrank/zaakbrug/commit/8bd4e96a675027614a83d61bb439fa0e577bf2b8))
+
+## [1.19.1](https://github.com/wearefrank/zaakbrug/compare/v1.19.0...v1.19.1) (2024-05-14)
+
+
+### 🐛 Bug Fixes
+
+* incorrect reference to geefLijstZaakDocumenten in errormessage when retrieving a zaak by identificatie ([#300](https://github.com/wearefrank/zaakbrug/issues/300)) ([14217a6](https://github.com/wearefrank/zaakbrug/commit/14217a68055ae7b96f8a20e092723902fa026655))
+
+
+### 🔁 Continuous Integration
+
+* lock conventionalcommit preset version to major 7 due to breaking change ([6bbe734](https://github.com/wearefrank/zaakbrug/commit/6bbe734e3cb3daade68653c1e0863e768efd95c1))
+
+## [1.19.0](https://github.com/wearefrank/zaakbrug/compare/v1.18.3...v1.19.0) (2024-05-01)
+
+
+### 🍕 Features
+
+* new test cases to test zaak closure have been added ([839cd48](https://github.com/wearefrank/zaakbrug/commit/839cd48c829329849834f34d6dac7c32864149f5))
+
+
+### 🐛 Bug Fixes
+
+* datumStatusGezet is added to zds:heeft mapping ([031e73f](https://github.com/wearefrank/zaakbrug/commit/031e73f0e470afa82a475762177d6eca9d80fb9b))
+* eindDatum added to mapping xslt file ([39bbc64](https://github.com/wearefrank/zaakbrug/commit/39bbc64b34452f6cbde0c43245339fbbf93cc524))
+* mapping zaakStatus in heeft element is fixed ([df01c05](https://github.com/wearefrank/zaakbrug/commit/df01c05e975343cafaa0fba91796246fcdf25402))
+* the loop that is creating the profile object updated so that the loop continues instead of break in if block. ([2dbeb5c](https://github.com/wearefrank/zaakbrug/commit/2dbeb5c1487ab44da81a5c3ac4015b527fe2e08a))
+* The test cases failing because of the bugs has been updated so that they fail and they disabled ([6dfa19f](https://github.com/wearefrank/zaakbrug/commit/6dfa19f0fec68f52876fa27fc05c980f25a5c116))
+
+## [1.18.3](https://github.com/wearefrank/zaakbrug/compare/v1.18.2...v1.18.3) (2024-04-25)
+
+
+### 🐛 Bug Fixes
+
+* language format translation from alpha3-t(e.g. NLD) to alpha2(e.g. NL) not working ([#99](https://github.com/wearefrank/zaakbrug/issues/99)) ([f9bf8a2](https://github.com/wearefrank/zaakbrug/commit/f9bf8a2ed1f4eeb154d631d4ee61d80c291f6ac9))
+
 ## [1.18.2](https://github.com/wearefrank/zaakbrug/compare/v1.18.1...v1.18.2) (2024-04-22)
 
 

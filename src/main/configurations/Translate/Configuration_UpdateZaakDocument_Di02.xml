@@ -31,9 +31,22 @@
             <XmlIfPipe name="CheckForStatus"
                 xpathExpression="/ZgwEnkelvoudigInformatieObject/status = 'definitief'"
                 >
-                <Forward name="then" path="EXCEPTION"/>
+                <Forward name="then" path="DocumentAlreadyFinalizedException"/>
                 <Forward name="else" path="StoreTaal"/>
             </XmlIfPipe>
+
+            <XsltPipe
+                name="DocumentAlreadyFinalizedException"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl">
+                <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError,
+                TranslationError, ConfigurationError-->
+                <Param name="reason"
+                    pattern="The status of the document is already final, it cannot be updated."
+                    ignoreUnresolvablePatternElements="true" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="error" path="EXCEPTION" />
+            </XsltPipe>
 
             <PutInSessionPipe name="StoreTaal"
                 getInputFromSessionKey="ZdsWordtInformatieObject"
