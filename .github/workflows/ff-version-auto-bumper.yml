@@ -18,7 +18,7 @@ on:
       replacement-for-dockerfile:
         type: string
         description: Replacement text to update F!F version in Dockerfile
-        default: 'ARG FF_VERSION=${requested_image_version_tag}'
+        default: 'ARG FF_VERSION='
       dockerfile-path:
         type: string
         description: Dockerfile path
@@ -30,7 +30,7 @@ on:
       replacement-for-frankrunnerproperties:
         type: string
         description: Replacement text to update F!F version in frankrunner.properties file
-        default: 'ff.version=${requested_image_version_tag}'
+        default: 'ff.version='
       frankrunnerproperties-path:
         type: string
         description: frank-runner.properties file path
@@ -42,7 +42,7 @@ on:
       replacement-for-dockercompose:
         type: string
         description: Replacement text to update F!F version in docker-compose yml file
-        default: 'FF_VERSION: \${FF_VERSION:-${requested_image_version_tag}}'
+        default: 'FF_VERSION: \${FF_VERSION:-'
       dockercompose-path:
         type: string
         description: docker-compose yml file path
@@ -112,9 +112,9 @@ jobs:
     - name: Update F!F version in required files
       if: ${{ env.VERSION_CHANGED }} == 'true'
       run: |
-        sed -i "s/${{ inputs.regex-for-dockerfile }}/${{ inputs.replacement-for-dockerfile }}/" ${{ inputs.dockerfile-path }}
-        sed -i "s/${{ inputs.regex-for-frankrunnerproperties }}/${{inputs.replacement-for-frankrunnerproperties}}/" ${{ inputs.frankrunnerproperties-path }}
-        sed -i "s/${{inputs.regex-for-dockercompose}}/${{inputs.replacement-for-dockercompose}}/" ${{ inputs.dockercompose-path }}
+        sed -i "s/${{ inputs.regex-for-dockerfile }}/${{ inputs.replacement-for-dockerfile }}${{ env.REQUESTED_IMAGE_VERSION_TAG }}/" ${{ inputs.dockerfile-path }}
+        sed -i "s/${{ inputs.regex-for-frankrunnerproperties }}/${{inputs.replacement-for-frankrunnerproperties}}${{ env.REQUESTED_IMAGE_VERSION_TAG }}/" ${{ inputs.frankrunnerproperties-path }}
+        sed -i "s/${{inputs.regex-for-dockercompose}}/${{inputs.replacement-for-dockercompose}}${{ env.REQUESTED_IMAGE_VERSION_TAG }}/" ${{ inputs.dockercompose-path }}
       continue-on-error: true
 
     - name: Update FrankConfig.xsd files
