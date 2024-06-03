@@ -176,4 +176,4 @@ jobs:
       env: 
         GH_TOKEN: ${{ secrets.token }}
       run: |
-        gh pr create -B 'master' -H 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' -b '${{ steps.docker-scout.outputs.compare }}' -t 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+        gh pr create -B 'master' -H 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' -t 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
