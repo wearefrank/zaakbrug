@@ -30,7 +30,7 @@ jobs:
           node-version: 20
       
       - name: Install dependencies
-        run: yarn global add semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/exec @semantic-release/release-notes-generator @semantic-release/commit-analyzer conventional-changelog-conventionalcommits@7.0.2
+        run: yarn global add semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/exec @semantic-release/release-notes-generator @semantic-release/commit-analyzer conventional-changelog-conventionalcommits
       
       - name: Get next version
         id: next-version
@@ -154,7 +154,7 @@ jobs:
           node-version: 20
       
       - name: Install dependencies
-        run: yarn global add semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/exec @semantic-release/release-notes-generator @semantic-release/commit-analyzer conventional-changelog-conventionalcommits@7.0.2
+        run: yarn global add semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/exec @semantic-release/release-notes-generator @semantic-release/commit-analyzer conventional-changelog-conventionalcommits
       
       - name: Semantic Release
         run: semantic-release
