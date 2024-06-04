@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.19.4](https://github.com/wearefrank/zaakbrug/compare/v1.19.3...v1.19.4) (2024-06-04)
+
+### 🐛 Bug Fixes
+
+* delete created zaak during creeerzaak when an error occurs so that it can be retried ([#326](https://github.com/wearefrank/zaakbrug/issues/326)) ([8f7d79d](https://github.com/wearefrank/zaakbrug/commit/8f7d79d8c0a93eb0dc3b3e918982da5b81ac1416))
+
 ## [1.19.3](https://github.com/wearefrank/zaakbrug/compare/v1.19.2...v1.19.3) (2024-06-03)
 
 ### 🐛 Bug Fixes
