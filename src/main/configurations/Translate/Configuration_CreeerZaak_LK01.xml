@@ -229,6 +229,19 @@
                 <Forward name="success" path="CheckForHeeftBetrekkingOpAndere"/>
                 <Forward name="exception" path="DeleteZaakSender" />
             </SenderPipe>
+            
+            <SenderPipe
+                name="DeleteZaakSender"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                >
+                <IbisLocalSender
+                    javaListener="Zaken_DeleteZgwZaak"
+                    >
+                    <Param name="url" sessionKey="PostZgwZaakResult" xpathExpression="ZgwZaak/url" />
+                </IbisLocalSender>
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
 
             <XmlIfPipe name="CheckForHeeftBetrekkingOpAndere"
                 getInputFromSessionKey="originalMessage"
@@ -277,14 +290,6 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
             
-            <SenderPipe name="DeleteZaakSender"
-                getInputFromSessionKey="originalMessage">
-                <IbisLocalSender javaListener="Zaken_DeleteZgwZaak">
-                    <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult"/>
-                </IbisLocalSender>
-                <Forward name="success" path="UncaughtException"/>
-                <Forward name="exception" path="UncaughtException"/>
-            </SenderPipe>
 
             <XsltPipe 
                 name="UncaughtException"
