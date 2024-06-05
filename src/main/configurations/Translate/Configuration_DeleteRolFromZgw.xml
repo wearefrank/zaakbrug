@@ -94,16 +94,23 @@
             </SenderPipe>
 
             <XmlIfPipe 
-                name="CheckForGetRolResult"
-                xpathExpression="count(/Rollen/Rol) > 0"
+                name="CheckForGetRolResult1"
+                xpathExpression="count(/Rollen/Rol) = 0"
                 >
-                <Forward name="then" path="DeleteRollen"/>
-                <Forward name="else" path="NOTFOUND"/>
+                <Forward name="then" path="NOTFOUND"/>
+                <Forward name="else" path="CheckForGetRolResult2"/>
             </XmlIfPipe>
 
-            <ForEachChildElementPipe
-                name="DeleteRollen"
-                elementXPathExpression="Rollen/Rol"
+            <XmlIfPipe 
+                name="CheckForGetRolResult2"
+                xpathExpression="count(/Rollen/Rol) >= 2"
+                >
+                <Forward name="then" path="EXCEPTION"/>
+                <Forward name="else" path="DeleteRol"/>
+            </XmlIfPipe>
+
+            <senderPipe
+                name="DeleteRol"
                 >
                     <HttpSender
                         name="DeleteRolSender" 
@@ -111,7 +118,7 @@
                         headersParams="Authorization,Accept-Crs"
                         timeout="${zaakbrug.zgw.zaken-api.timeout}"
                     >
-                        <Param name="url" xpathExpression="/Rol/url"/>
+                        <Param name="url" xpathExpression="Rollen/Rol/url"/>
                         <Param name="Accept-Crs" value="EPSG:4326"/>
                         <Param name="Authorization"  sessionKey="originalMessage" xpathExpression="concat('Bearer ', $myToken)">
                             <Param name="myToken" sessionKey="myToken" defaultValue="@@zaken-api.jwt@@"/>
@@ -120,7 +127,7 @@
                 
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="ErrorJsonToXml" />
-            </ForEachChildElementPipe>
+            </senderPipe>
 
             <JsonPipe name="ErrorJsonToXml">
                 <Forward name="success" path="buildErrorMsg" />
