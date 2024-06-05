@@ -136,7 +136,7 @@ jobs:
     - name: Update F!F version in docker-compose file
       if: ${{ env.VERSION_CHANGED }} == 'true' && ${{ inputs.update-dockercompose-enabled }}
       run: |
-        sed -i "s/${{inputs.regex-for-dockercompose}}/${{inputs.replacement-for-dockercompose}}${{ env.REQUESTED_IMAGE_VERSION_TAG }}/" ${{ inputs.dockercompose-path }}
+        sed -i "s/${{inputs.regex-for-dockercompose}}/${{inputs.replacement-for-dockercompose}}${{ env.REQUESTED_IMAGE_VERSION_TAG }}}/" ${{ inputs.dockercompose-path }}
       continue-on-error: true
 
     - name: Update FrankConfig.xsd files
