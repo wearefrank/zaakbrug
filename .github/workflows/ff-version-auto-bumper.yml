@@ -59,6 +59,10 @@ on:
         type: string
         description: FrankConfig.xsd file path in main folder
         default: './src/main'
+      update-frankconfig-enabled:
+        type: boolean
+        description: Enable or disable the update of FrankConfig.xsd files
+        default: true
       frankconfigunderconfiguration-path:
         type: string
         description: FrankConfig.xsd file path under configuration folder
@@ -136,7 +140,7 @@ jobs:
       continue-on-error: true
 
     - name: Update FrankConfig.xsd files
-      if: ${{ env.VERSION_CHANGED }} == 'true'
+      if: ${{ env.VERSION_CHANGED }} == 'true' && ${{ inputs.update-frankconfig-enabled }}
       run: |
         rm ${{ inputs.frankconfig-path }}/FrankConfig.xsd
         rm ${{ inputs.frankconfigunderconfiguration-path }}/FrankConfig.xsd
