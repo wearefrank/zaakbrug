@@ -9,7 +9,8 @@
 
         <Pipeline>
             <Exits>
-                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="NOTFOUND" state="SUCCESS" code="404" />
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
@@ -67,7 +68,7 @@
                 xpathExpression="string-length(/ZgwRolType) > 0"
                 >
                 <Forward name="then" path="CallGetRolByZaakUrlAndRolTypeUrl"/>
-                <Forward name="else" path="EXIT"/>
+                <Forward name="else" path="EXCEPTION"/>
             </XmlIfPipe>
 
             <SenderPipe
@@ -97,7 +98,7 @@
                 xpathExpression="count(/Rollen/Rol) > 0"
                 >
                 <Forward name="then" path="DeleteRollen"/>
-                <Forward name="else" path="EXCEPTION"/>
+                <Forward name="else" path="NOTFOUND"/>
             </XmlIfPipe>
 
             <ForEachChildElementPipe

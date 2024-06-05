@@ -9,7 +9,8 @@
 
         <Pipeline>
             <Exits>
-                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="exists" state="SUCCESS"/>
+                <Exit name="NOTFOUND" state="SUCCESS" code="404" />
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
@@ -25,8 +26,8 @@
             <XmlIfPipe name="CheckForTrue"
                 xpathExpression="/Check/true"
                 >
-                <Forward name="then" path="EXIT"/>
-                <Forward name="else" path="EXCEPTION"/>
+                <Forward name="then" path="exists"/>
+                <Forward name="else" path="NOTFOUND"/>
             </XmlIfPipe>
         </Pipeline>
     </Adapter>

@@ -92,11 +92,21 @@
                 getInputFromSessionKey="originalMessage"
                 xpathExpression="count(/zakLk01/object) = 2"
                 >
-                <Forward name="then" path="StoreZdsWordtZaak_1"/>
-                <Forward name="else" path="StoreZdsWordtZaak_2"/>
+                <Forward name="then" path="MergeWordtZaakRollen"/>
+                <Forward name="else" path="EXCEPTION"/>
             </XmlIfPipe>
 
-            <PutInSessionPipe 
+            <XsltPipe
+                name="MergeWordtZaakRollen"
+                styleSheetName="UpdateZaak_LK01/xsl/MergeWordtZaakRollen.xslt"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="ZdsWordtZaak"
+                >
+                <Forward name="success" path="DetectZdsZaakChanges"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <!-- <PutInSessionPipe 
                 name="StoreZdsWordtZaak_1">
                 <Param name="ZdsWordtZaak" xpathExpression="$originalMessage/zakLk01/object[2]" type="DOMDOC">
                     <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
@@ -110,7 +120,7 @@
                     <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
                 </Param>
                 <Forward name="success" path="DetectZdsZaakChanges" />
-            </PutInSessionPipe>
+            </PutInSessionPipe> -->
 
             <XsltPipe
                 name="DetectZdsZaakChanges"
