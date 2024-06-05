@@ -23,6 +23,10 @@ on:
         type: string
         description: Dockerfile path
         default: './Dockerfile'
+      update-dockerfile-enabled:
+        type: boolean
+        description: Enable or disable the update of the Dockerfile
+        default: true
       regex-for-frankrunnerproperties:
         type: string
         description: Regex to find the line in frankrunner.properties file to update the F!F version
@@ -35,6 +39,10 @@ on:
         type: string
         description: frank-runner.properties file path
         default: './frank-runner.properties'
+      update-frankrunnerproperties-enabled:
+        type: boolean
+        description: Enable or disable the update of the frankrunner.properties file
+        default: true
       regex-for-dockercompose:
         type: string
         description: Regex to find the line in docker-compose yml file to update the F!F version
@@ -47,6 +55,10 @@ on:
         type: string
         description: docker-compose yml file path
         default: './docker-compose.zaakbrug.dev.yml'
+      update-dockercompose-enabled:
+        type: boolean
+        description: Enable or disable the update of the docker-compose file
+        default: true
       frankconfig-path:
         type: string
         description: FrankConfig.xsd file path in main folder
@@ -108,12 +120,22 @@ jobs:
           echo "Requested F!F version is same as current F!F version. No action needed."
           echo "VERSION_CHANGED=false" >> $GITHUB_ENV
         fi
-
-    - name: Update F!F version in required files
-      if: ${{ env.VERSION_CHANGED }} == 'true'
+    
+    - name: Update F!F version in Dockerfile
+      if: ${{ env.VERSION_CHANGED }} == 'true' && ${{ inputs.update-dockerfile-enabled }}
       run: |
         sed -i "s/${{ inputs.regex-for-dockerfile }}/${{ inputs.replacement-for-dockerfile }}${{ env.REQUESTED_IMAGE_VERSION_TAG }}/" ${{ inputs.dockerfile-path }}
+      continue-on-error: true
+
+    - name: Update F!F version in frankrunner.properties
+      if: ${{ env.VERSION_CHANGED }} == 'true' && ${{ inputs.update-frankrunnerproperties-enabled }}
+      run: |
         sed -i "s/${{ inputs.regex-for-frankrunnerproperties }}/${{inputs.replacement-for-frankrunnerproperties}}${{ env.REQUESTED_IMAGE_VERSION_TAG }}/" ${{ inputs.frankrunnerproperties-path }}
+      continue-on-error: true
+
+    - name: Update F!F version in docker-compose file
+      if: ${{ env.VERSION_CHANGED }} == 'true' && ${{ inputs.update-dockercompose-enabled }}
+      run: |
         sed -i "s/${{inputs.regex-for-dockercompose}}/${{inputs.replacement-for-dockercompose}}${{ env.REQUESTED_IMAGE_VERSION_TAG }}/" ${{ inputs.dockercompose-path }}
       continue-on-error: true
 
