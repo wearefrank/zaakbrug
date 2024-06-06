@@ -198,9 +198,19 @@ jobs:
         format: markdown
         github-token: ${{ secrets.token }}
 
+    - name: Truncate Docker Scout output if too long
+      if: ${{ env.VERSION_CHANGED }} == 'true'
+      run: |
+        MAX_LENGTH=65536
+        DOCKER_SCOUT_OUTPUT="${{ steps.docker-scout.outputs.compare }}"
+        if [ ${#DOCKER_SCOUT_OUTPUT} -gt $MAX_LENGTH ]; then
+          DOCKER_SCOUT_OUTPUT="${DOCKER_SCOUT_OUTPUT:0:$MAX_LENGTH}"
+        fi
+        echo "TRUNCATED_DOCKER_SCOUT_OUTPUT=$DOCKER_SCOUT_OUTPUT" >> $GITHUB_ENV
+
     - name: Create Pull Request
       if: ${{ env.VERSION_CHANGED }} == 'true'
       env: 
         GH_TOKEN: ${{ secrets.token }}
       run: |
-        gh pr create -B '${{ github.event.repository.default_branch }}' -H 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' -b '${{ steps.docker-scout.outputs.compare }}' -t 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+        gh pr create -B '${{ github.event.repository.default_branch }}' -H 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' -b '${{ env.TRUNCATED_DOCKER_SCOUT_OUTPUT }}' -t 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
