@@ -124,7 +124,7 @@ jobs:
     - name: Checkout the new branch
       if: ${{ env.VERSION_CHANGED }} == 'true'
       run: |
-        git checkout master
+        git checkout ${{ github.event.repository.default_branch }}
         git checkout -b bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}
     
     - name: Update F!F version in Dockerfile
@@ -203,4 +203,4 @@ jobs:
       env: 
         GH_TOKEN: ${{ secrets.token }}
       run: |
-        gh pr create -B 'master' -H 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' -b 'test PR body' -t 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+        gh pr create -B '${{ github.event.repository.default_branch }}' -H 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' -b 'test PR body' -t 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
