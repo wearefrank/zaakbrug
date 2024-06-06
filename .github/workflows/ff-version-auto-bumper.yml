@@ -151,7 +151,7 @@ jobs:
     - name: Update FrankConfig.xsd files
       if: ${{ env.VERSION_CHANGED }} == 'true' && ${{ inputs.update-frankconfig-enabled }}
       run: |
-        wget -O parent.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-parent/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-parent-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-frankdoc.jar"
+        wget -O parent.jar "https://repo1.maven.org/maven2/org/frankframework/frankframework-parent/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-parent-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-frankdoc.jar"
         mkdir -p parent_temp_extract
         unzip -q parent.jar -d ./parent_temp_extract
         find "${{ inputs.configurations-folder-path }}/.." -type f -name "FrankConfig.xsd" \( -path "${{ inputs.configurations-folder-path }}" -o -path "${{ inputs.configurations-folder-path }}/*" \) -exec sh -c '
@@ -165,7 +165,7 @@ jobs:
     - name: Update Parameter.java-orig file
       if: ${{ env.VERSION_CHANGED }} == 'true' && ${{ inputs.update-customcode-enabled }}
       run: |
-        wget -O source.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-core/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-core-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-sources.jar"
+        wget -O source.jar "https://repo1.maven.org/maven2/org/frankframework/frankframework-core/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-core-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-sources.jar"
         mkdir -p source_temp_extract
         unzip -q source.jar -d ./source_temp_extract
           if cmp -s source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
