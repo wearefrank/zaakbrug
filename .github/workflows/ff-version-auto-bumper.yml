@@ -118,6 +118,7 @@ jobs:
         fi
 
     - name: Checkout the new branch
+      if: ${{ env.VERSION_CHANGED }} == 'true'
       run: |
         git checkout master
         git checkout -b bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}
