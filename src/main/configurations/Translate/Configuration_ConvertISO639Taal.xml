@@ -25,21 +25,13 @@
             </SenderPipe>
 
             <XmlSwitchPipe name="Alpha2Check"
-                xpathExpression="string-length($Alpha2) > 0"
+                xpathExpression="string-length($Alpha2) gt 0"
                 >
                 <Param name="Alpha2" sessionKey="Alpha2" />
                 <Forward name="true" path="GetAlpha3tCodeFromAlpha2" />
                 <Forward name="false" path="Alpha3tCheck" />
             </XmlSwitchPipe>
             
-            <XmlSwitchPipe name="Alpha3tCheck"
-                xpathExpression="string-length($Alpha3t) > 0"
-                >
-                <Param name="Alpha3t" sessionKey="Alpha3t" />
-                <Forward name="true" path="GetAlpha2CodeFromAlpha3t" />
-                <Forward name="false" path="EXCEPTION" />
-            </XmlSwitchPipe>
-
             <XsltPipe
                 name="GetAlpha3tCodeFromAlpha2"
                 styleSheetName="Common/xsl/GetISO639Code.xslt"
@@ -48,11 +40,51 @@
                 <Forward name="success" path="EXIT" />
             </XsltPipe>
 
+            <XmlSwitchPipe name="Alpha3tCheck"
+                xpathExpression="string-length($Alpha3t) gt 0"
+                >
+                <Param name="Alpha3t" sessionKey="Alpha3t" />
+                <Forward name="true" path="GetAlpha2CodeFromAlpha3t" />
+                <Forward name="false" path="Alpha3bCheck" />
+            </XmlSwitchPipe>
+
             <XsltPipe
                 name="GetAlpha2CodeFromAlpha3t"
                 styleSheetName="Common/xsl/GetISO639Code.xslt"
                 >
                 <Param name="Alpha3t" sessionKey="Alpha3t" /> 
+                <Forward name="success" path="EXIT" />
+            </XsltPipe>
+
+            <XmlSwitchPipe name="Alpha3bCheck"
+                xpathExpression="string-length($Alpha3b) gt 0"
+                >
+                <Param name="Alpha3b" sessionKey="Alpha3b" />
+                <Forward name="true" path="GetAlpha2CodeFromAlpha3b" />
+                <Forward name="false" path="Alpha3Check" />
+            </XmlSwitchPipe>
+
+            <XsltPipe
+                name="GetAlpha2CodeFromAlpha3b"
+                styleSheetName="Common/xsl/GetISO639Code.xslt"
+                >
+                <Param name="Alpha3b" sessionKey="Alpha3b" /> 
+                <Forward name="success" path="EXIT" />
+            </XsltPipe>
+
+            <XmlSwitchPipe name="Alpha3Check"
+                xpathExpression="string-length($Alpha3) gt 0"
+                >
+                <Param name="Alpha3" sessionKey="Alpha3" />
+                <Forward name="true" path="GetAlpha2CodeFromAlpha3" />
+                <Forward name="false" path="EXCEPTION" />
+            </XmlSwitchPipe>
+
+            <XsltPipe
+                name="GetAlpha2CodeFromAlpha3"
+                styleSheetName="Common/xsl/GetISO639Code.xslt"
+                >
+                <Param name="Alpha3" sessionKey="Alpha3" /> 
                 <Forward name="success" path="EXIT" />
             </XsltPipe>
         </Pipeline>

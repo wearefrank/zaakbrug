@@ -1,0 +1,69 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="Zaken_DeleteZgwZaak"
+        active="${Zaken_DeleteZgwZaak.Active}"
+        description="">
+
+        <Receiver name="Zaken_DeleteZgwZaak">
+            <JavaListener name="Zaken_DeleteZgwZaak" returnedSessionKeys="Error" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <JwtPipe name="createJwt"
+                expirationTime="600"
+                storeResultInSessionKey="myToken"
+                ifParam="valueAuthType"
+                ifValue="Jwt"
+            >
+                <Param name="valueAuthType" value="${zaakbrug.zgw.zaken-api.auth-type}" />
+                <Param name="sharedSecret" pattern="{password}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+                <Param name="client_id" pattern="{username}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+                <Param name="user_id" pattern="{username}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+                <Param name="user_reresentation" pattern="{username}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+                <Forward name="success" path="DeleteZgwZaakSender" />
+            </JwtPipe>
+
+            <SenderPipe
+                name="DeleteZgwZaakSender"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                >
+                <HttpSender
+                    name="DeleteZgwZaakHttpSender"
+                    methodType="DELETE"
+                    headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    maxExecuteRetries="5"
+                    contentType="application/json"
+                    >
+                    <Param name="url" sessionKey="url" />
+                    <Param name="Accept-Crs" value="EPSG:4326" />
+                    <Param name="Accept" value="application/json" />
+                    <Param name="Content-Crs" value="EPSG:4326" />
+                    <Param name="Authorization" xpathExpression="concat('Bearer ', $myToken)">
+                        <Param name="myToken" sessionKey="myToken" defaultValue="@@zaken-api.jwt@@" />
+                    </Param>
+                </HttpSender>
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="ErrorJsonToXml" />
+            </SenderPipe> 
+
+            <JsonPipe
+                name="ErrorJsonToXml"
+                >
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+
+            <XsltPipe
+                name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl"
+                >
+                <Param name="senderPipeName" value="DeleteZgwZaakSender" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>  
+        </Pipeline>
+    </Adapter>
+</Module>

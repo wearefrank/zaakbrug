@@ -1,5 +1,45 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.19.4](https://github.com/wearefrank/zaakbrug/compare/v1.19.3...v1.19.4) (2024-06-04)
+
+### 🐛 Bug Fixes
+
+* delete created zaak during creeerzaak when an error occurs so that it can be retried ([#326](https://github.com/wearefrank/zaakbrug/issues/326)) ([8f7d79d](https://github.com/wearefrank/zaakbrug/commit/8f7d79d8c0a93eb0dc3b3e918982da5b81ac1416))
+
+## [1.19.3](https://github.com/wearefrank/zaakbrug/compare/v1.19.2...v1.19.3) (2024-06-03)
+
+### 🐛 Bug Fixes
+
+* return error feedback when a document is updated while it has status 'definitief' ([#354](https://github.com/wearefrank/zaakbrug/issues/354)) ([2eac6d5](https://github.com/wearefrank/zaakbrug/commit/2eac6d510ec9d4afd1078e081f32ad69f83f6893))
+
+### 🔁 Continuous Integration
+
+* remove conventional-commits preset version lock ([10629c9](https://github.com/wearefrank/zaakbrug/commit/10629c97c0a0de1b10dfbb157c700a0f8419a400))
+
+## [1.19.2](https://github.com/wearefrank/zaakbrug/compare/v1.19.1...v1.19.2) (2024-05-31)
+
+
+### 🧑‍💻 Code Refactoring
+
+* add alpha3b and alpha3t to alpha conversion to language code conversion ([4f19cc4](https://github.com/wearefrank/zaakbrug/commit/4f19cc4907b69d3b7d772728197967a89206818a))
+
+
+### ✅ Tests
+
+* **larva:** add GetISO639Code xslt testcases for all variants of language code conversion ([8bd4e96](https://github.com/wearefrank/zaakbrug/commit/8bd4e96a675027614a83d61bb439fa0e577bf2b8))
+
+## [1.19.1](https://github.com/wearefrank/zaakbrug/compare/v1.19.0...v1.19.1) (2024-05-14)
+
+
+### 🐛 Bug Fixes
+
+* incorrect reference to geefLijstZaakDocumenten in errormessage when retrieving a zaak by identificatie ([#300](https://github.com/wearefrank/zaakbrug/issues/300)) ([14217a6](https://github.com/wearefrank/zaakbrug/commit/14217a68055ae7b96f8a20e092723902fa026655))
+
+
+### 🔁 Continuous Integration
+
+* lock conventionalcommit preset version to major 7 due to breaking change ([6bbe734](https://github.com/wearefrank/zaakbrug/commit/6bbe734e3cb3daade68653c1e0863e768efd95c1))
+
 ## [1.19.0](https://github.com/wearefrank/zaakbrug/compare/v1.18.3...v1.19.0) (2024-05-01)
 
 
