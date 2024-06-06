@@ -65,8 +65,8 @@ on:
         default: true
       update-customcode-enabled:
         type: boolean
-        description: Enable or disable the update of the custom code -orig file
-        default: true
+        description: Enable or disable the update of custom Parameter file
+        default: false
     secrets:
       token:
         required: false
