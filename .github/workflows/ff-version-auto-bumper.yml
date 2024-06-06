@@ -204,11 +204,14 @@ jobs:
       if: ${{ env.VERSION_CHANGED }} == 'true'
       run: |
         MAX_LENGTH=65536
-        DOCKER_SCOUT_OUTPUT="${{ steps.docker-scout.outputs.compare }}"
-        if [ ${#DOCKER_SCOUT_OUTPUT} -gt $MAX_LENGTH ]; then
-          DOCKER_SCOUT_OUTPUT="${DOCKER_SCOUT_OUTPUT:0:$MAX_LENGTH}"
-        fi
-        echo "TRUNCATED_DOCKER_SCOUT_OUTPUT=$DOCKER_SCOUT_OUTPUT" >> $GITHUB_ENV
+        SCOUT_OUTPUT="${{ steps.docker-scout.outputs.compare }}"
+        TRUNCATED_OUTPUT=$(echo "$SCOUT_OUTPUT" | head -c $MAX_LENGTH)
+        echo "TRUNCATED_OUTPUT=${TRUNCATED_OUTPUT}" >> $GITHUB_ENV
+        echo "$TRUNCATED_OUTPUT"
+
+    - name: Debug Truncated Output
+      if: ${{ env.VERSION_CHANGED }} == 'true'
+      run: echo "${{ env.TRUNCATED_OUTPUT }}"
 
     - name: Create Pull Request
       if: ${{ env.VERSION_CHANGED }} == 'true'
