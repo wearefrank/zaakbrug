@@ -63,6 +63,10 @@ on:
         type: boolean
         description: Enable or disable the update of FrankConfig.xsd files
         default: true
+      update-customcode-enabled:
+        type: boolean
+        description: Enable or disable the update of the custom code -orig file
+        default: true
     secrets:
       token:
         required: false
@@ -159,7 +163,7 @@ jobs:
         ' sh {} +
     
     - name: Update Parameter.java-orig file
-      if: ${{ env.VERSION_CHANGED }} == 'true'
+      if: ${{ env.VERSION_CHANGED }} == 'true' && ${{ inputs.update-customcode-enabled }}
       run: |
         wget -O source.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-core/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-core-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-sources.jar"
         mkdir -p source_temp_extract
