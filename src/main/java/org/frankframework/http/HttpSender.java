@@ -491,10 +491,8 @@ public class HttpSender extends HttpSenderBase {
 		String url = null;
 
 		// Use JSON to obtain the URL necessary for storing the etag
-		log.warn("CODE: ", statusCode);
 		if (responseMessage != null) {
 			responseString = responseMessage.asString();
-			log.warn("LOGTAG START: " + responseString);
 			JsonReader jsonReader = Json.createReader(new StringReader(responseString));
 			if (responseString != null) {
 				char firstChar = responseString.trim().charAt(0);
@@ -531,7 +529,6 @@ public class HttpSender extends HttpSenderBase {
 			String key = header.getName().toLowerCase().strip();
 			if (new String(key).toLowerCase().equals("etag")) {
 				etagHeader = header;
-				log.warn("FOUND ETAG IN HEADERS");
 			}
 		}
 
@@ -548,7 +545,6 @@ public class HttpSender extends HttpSenderBase {
 			messageCache.put(messageToStore);
 		}
 
-		log.warn("LOGTAG END: " + responseMessage);
 		return responseMessage;
 	}
 
