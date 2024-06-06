@@ -55,18 +55,14 @@ on:
         type: boolean
         description: Enable or disable the update of the docker-compose file
         default: true
-      frankconfig-path:
+      configurations-folder-path:
         type: string
-        description: FrankConfig.xsd file path in main folder
-        default: './src/main'
+        description: configurations folder path
+        default: './src/main/configurations'
       update-frankconfig-enabled:
         type: boolean
         description: Enable or disable the update of FrankConfig.xsd files
         default: true
-      frankconfigunderconfiguration-path:
-        type: string
-        description: FrankConfig.xsd file path under configuration folder
-        default: './src/main/configurations'
     secrets:
       token:
         required: false
@@ -150,15 +146,16 @@ jobs:
     - name: Update FrankConfig.xsd files
       if: ${{ env.VERSION_CHANGED }} == 'true' && ${{ inputs.update-frankconfig-enabled }}
       run: |
-        rm ${{ inputs.frankconfig-path }}/FrankConfig.xsd
-        rm ${{ inputs.frankconfigunderconfiguration-path }}/FrankConfig.xsd
         wget -O parent.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-parent/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-parent-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-frankdoc.jar"
         mkdir -p parent_temp_extract
         unzip -q parent.jar -d ./parent_temp_extract
-        cp ./parent_temp_extract/xml/xsd/FrankConfig.xsd ${{ inputs.frankconfig-path }}
-        cp ./parent_temp_extract/xml/xsd/FrankConfig.xsd ${{ inputs.frankconfigunderconfiguration-path }}
-        git add ${{ inputs.frankconfig-path }}/FrankConfig.xsd
-        git add ${{ inputs.frankconfigunderconfiguration-path }}/FrankConfig.xsd
+        find "${{ inputs.configurations-folder-path }}/.." -type f -name "FrankConfig.xsd" \( -path "${{ inputs.configurations-folder-path }}" -o -path "${{ inputs.configurations-folder-path }}/*" \) -exec sh -c '
+          for frankconfig_path; do
+            cp ./parent_temp_extract/xml/xsd/FrankConfig.xsd "$frankconfig_path"
+            echo "Updated $frankconfig_path"
+            git add "$frankconfig_path"
+          done
+        ' sh {} +
     
     - name: Update Parameter.java-orig file
       if: ${{ env.VERSION_CHANGED }} == 'true'
