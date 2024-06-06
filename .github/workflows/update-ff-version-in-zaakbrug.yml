@@ -16,3 +16,5 @@ jobs:
       token: ${{ secrets.GITHUB_TOKEN }}
       dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
       dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
+    with:
+      update-customcode-enabled: true
