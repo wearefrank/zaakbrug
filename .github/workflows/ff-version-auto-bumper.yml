@@ -120,6 +120,11 @@ jobs:
           echo "Requested F!F version is same as current F!F version. No action needed."
           echo "VERSION_CHANGED=false" >> $GITHUB_ENV
         fi
+
+    - name: TestTest checkout the branch upfront
+      run: |
+        git checkout master
+        git checkout -b bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}
     
     - name: Update F!F version in Dockerfile
       if: ${{ env.VERSION_CHANGED }} == 'true' && ${{ inputs.update-dockerfile-enabled }}
@@ -168,8 +173,6 @@ jobs:
     - name: Commit updated files
       if: ${{ env.VERSION_CHANGED }} == 'true'
       run: |
-        git checkout master
-        git checkout -b bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}
         git add ${{ inputs.dockerfile-path }}
         git add ${{ inputs.frankrunnerproperties-path }}
         git add ${{ inputs.dockercompose-path }}
