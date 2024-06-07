@@ -205,5 +205,4 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.token }}
       run: |
-        echo "Docker Scout Output Length: $(echo "${{ steps.docker-scout.outputs.compare }}" | awk '{ total += length($0) + 1 } END { print total - 1 }')"
-        
+        echo "${{ steps.docker-scout.outputs.compare }}" | awk '{ total += length($0) + 1 } END { print total - 1 }'
