@@ -200,9 +200,10 @@ jobs:
         format: markdown
         github-token: ${{ secrets.token }}
       
-    - name: Create Pull Request with Conditional Body
+    - name: Create Pull Request
       if: ${{ env.VERSION_CHANGED }} == 'true'
-      env:
+      env: 
         GH_TOKEN: ${{ secrets.token }}
       run: |
-        echo "${{ steps.docker-scout.outputs.compare }}" | awk '{ print length }')"
+        gh pr create -B '${{ github.event.repository.default_branch }}' -H 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' -b '${{ steps.docker-scout.outputs.compare }}' -t 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' || \
+        gh pr create -B '${{ github.event.repository.default_branch }}' -H 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' -b 'The Docker Scout output was too long to include in this PR.' -t 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
