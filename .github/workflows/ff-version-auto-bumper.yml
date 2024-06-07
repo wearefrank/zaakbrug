@@ -205,5 +205,6 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.token }}
       run: |
-        echo "SCOUT_OUTPUT: ${{ steps.docker-scout.outputs.compare }}"
+        SCOUT_OUTPUT=${{ steps.docker-scout.outputs.compare }}
+        echo "scoutOutput: ${SCOUT_OUTPUT}"
         
