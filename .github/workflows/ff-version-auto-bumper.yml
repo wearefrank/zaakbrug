@@ -207,12 +207,14 @@ jobs:
       run: |
         MAX_LENGTH=65536
         SCOUT_OUTPUT="${{ steps.docker-scout.outputs.compare }}"
-        if [ ${#SCOUT_OUTPUT} -gt $MAX_LENGTH ]
+        if [ "${#SCOUT_OUTPUT}" -gt $MAX_LENGTH ]
           then
             PR_BODY="The Docker Scout output was too long to include in this PR."
         else
           PR_BODY="$SCOUT_OUTPUT"
         fi
         echo "Creating PR with body:"
-        echo "$SCOUT_OUTPUT"
+        echo "${{ steps.docker-scout.outputs.compare }}"
+        echo "PR_BODY: $PR_BODY"
+        echo "SCOUT_OUTPUT: $SCOUT_OUTPUT"
         gh pr create -B '${{ github.event.repository.default_branch }}' -H 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' -b '${{ steps.docker-scout.outputs.compare }}' -t 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
