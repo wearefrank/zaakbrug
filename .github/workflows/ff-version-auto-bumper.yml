@@ -206,17 +206,11 @@ jobs:
         GH_TOKEN: ${{ secrets.token }}
       run: |
         MAX_LENGTH=65536
-        SCOUT_OUTPUT_FILE="scout_output.txt"
-        echo "${{ steps.docker-scout.outputs.compare }}" > $SCOUT_OUTPUT_FILE
-        SCOUT_OUTPUT=$(cat $SCOUT_OUTPUT_FILE)
-        
-        if [ $(wc -c <"$SCOUT_OUTPUT_FILE") -gt $MAX_LENGTH ]; then
-          PR_BODY="The Docker Scout output was too long to include in this PR."
+        DOCKER_SCOUT_OUTPUT="${{ steps.docker-scout.outputs.compare }}"
+        if [ ${#DOCKER_SCOUT_OUTPUT} -gt $MAX_LENGTH ]
+         then
+          echo "The Docker Scout output is too long"
         else
-          PR_BODY="$SCOUT_OUTPUT"
+          echo "The Docker Scout output is fine"
         fi
         
-        echo "Creating PR with body:"
-        echo "$PR_BODY"
-        gh pr create -B "${{ github.event.repository.default_branch }}" -H "bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}" -b "$PR_BODY" -t "bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}"
-    
