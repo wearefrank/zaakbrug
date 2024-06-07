@@ -205,7 +205,7 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.token }}
       run: |
-        MAX_LENGTH=65536
+        MAX_LENGTH=5
         if [ $(echo "${{ steps.docker-scout.outputs.compare }}" | wc -c) -gt $MAX_LENGTH ]; then
           echo "The Docker Scout output is too long"
         else
