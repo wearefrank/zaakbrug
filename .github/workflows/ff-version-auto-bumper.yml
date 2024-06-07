@@ -199,11 +199,19 @@ jobs:
         write-comment: false
         format: markdown
         github-token: ${{ secrets.token }}
-
-    - name: Create Pull Request
+      
+    - name: Create Pull Request with Conditional Body
       if: ${{ env.VERSION_CHANGED }} == 'true'
-      env: 
+      env:
         GH_TOKEN: ${{ secrets.token }}
       run: |
+        MAX_LENGTH=65536
         SCOUT_OUTPUT="${{ steps.docker-scout.outputs.compare }}"
-        gh pr create -B '${{ github.event.repository.default_branch }}' -H 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' -b "$SCOUT_OUTPUT" -t 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+        if [ ${#SCOUT_OUTPUT} -gt $MAX_LENGTH ]; then
+          PR_BODY="The Docker Scout output was too long to include in this PR."
+        else
+          PR_BODY="${SCOUT_OUTPUT}"
+        fi
+        echo "$PR_BODY" > pr_body.txt
+        gh pr create -B '${{ github.event.repository.default_branch }}' -H 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' -b "$(cat pr_body.txt)" -t 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+      
