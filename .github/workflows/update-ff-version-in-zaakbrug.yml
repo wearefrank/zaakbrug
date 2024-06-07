@@ -17,5 +17,5 @@ jobs:
       dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
       dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
     with:
-      # ff-version-tag: '8.1'
+      ff-version-tag: '8.1'
       update-customcode-enabled: true
