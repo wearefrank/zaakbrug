@@ -206,3 +206,4 @@ jobs:
         GH_TOKEN: ${{ secrets.token }}
       run: |
         echo "SCOUT_OUTPUT=${{ steps.docker-scout.outputs.compare }}" >> $GITHUB_ENV
+        gh pr create -B '${{ github.event.repository.default_branch }}' -H 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' -b '${{ env.SCOUT_OUTPUT }}' -t 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
