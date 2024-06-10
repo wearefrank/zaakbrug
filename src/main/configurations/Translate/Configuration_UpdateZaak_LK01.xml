@@ -90,7 +90,7 @@
 
             <XmlIfPipe name="CheckForInputZaakObjectCount"
                 getInputFromSessionKey="originalMessage"
-                xpathExpression="count(/zakLk01/object) = 2"
+                xpathExpression="count(/zakLk01/object) = 2 or count(/zakLk01/object) = 1"
                 >
                 <Forward name="then" path="MergeWordtZaakRollen"/>
                 <Forward name="else" path="EXCEPTION"/>
@@ -105,22 +105,6 @@
                 <Forward name="success" path="DetectZdsZaakChanges"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
-
-            <!-- <PutInSessionPipe 
-                name="StoreZdsWordtZaak_1">
-                <Param name="ZdsWordtZaak" xpathExpression="$originalMessage/zakLk01/object[2]" type="DOMDOC">
-                    <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
-                </Param>
-                <Forward name="success" path="DetectZdsZaakChanges" />
-            </PutInSessionPipe>
-
-            <PutInSessionPipe 
-                name="StoreZdsWordtZaak_2">
-                <Param name="ZdsWordtZaak" xpathExpression="$originalMessage/zakLk01/object[1]" type="DOMDOC">
-                    <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
-                </Param>
-                <Forward name="success" path="DetectZdsZaakChanges" />
-            </PutInSessionPipe> -->
 
             <XsltPipe
                 name="DetectZdsZaakChanges"
