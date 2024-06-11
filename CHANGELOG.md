@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.19.5](https://github.com/wearefrank/zaakbrug/compare/v1.19.4...v1.19.5) (2024-06-11)
+
+### 📝 Documentation
+
+* introduce docusaurus documentation website hosted as github pages ([4a784b3](https://github.com/wearefrank/zaakbrug/commit/4a784b3cddd10151b78548da734ffe7f5032e585))
+
 ## [1.19.4](https://github.com/wearefrank/zaakbrug/compare/v1.19.3...v1.19.4) (2024-06-04)
 
 ### 🐛 Bug Fixes
