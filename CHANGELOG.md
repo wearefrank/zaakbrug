@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.19.6](https://github.com/wearefrank/zaakbrug/compare/v1.19.5...v1.19.6) (2024-06-11)
+
+### 📝 Documentation
+
+* replace broken link how-to-set-or-override-properties with placeholder ([396715e](https://github.com/wearefrank/zaakbrug/commit/396715ed738a5a3eb85951ea2a47bf5797adc5b0))
+
 ## [1.19.5](https://github.com/wearefrank/zaakbrug/compare/v1.19.4...v1.19.5) (2024-06-11)
 
 ### 📝 Documentation
