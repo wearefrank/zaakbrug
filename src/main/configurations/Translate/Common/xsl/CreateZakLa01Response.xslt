@@ -17,7 +17,7 @@
                     <StUF:gebruiker><xsl:value-of select="$Stuurgegevens/stuurgegevens/zender/gebruiker"/></StUF:gebruiker>
                 </StUF:ontvanger>
                 <StUF:referentienummer><xsl:value-of select="$Stuurgegevens/stuurgegevens/referentienummer"/></StUF:referentienummer>
-                <StUF:tijdstipBericht><xsl:value-of select="format-dateTime(current-dateTime(), '[Y0001][M01][D01][H01][m01][s01]')"/></StUF:tijdstipBericht>
+                <!-- <StUF:tijdstipBericht><xsl:value-of select="format-dateTime(current-dateTime(), '[Y0001][M01][D01][H01][m01][s01]')"/></StUF:tijdstipBericht> -->
                 <StUF:crossRefnummer><xsl:value-of select="$Stuurgegevens/stuurgegevens/referentienummer"/></StUF:crossRefnummer>
                 <StUF:entiteittype>ZAK</StUF:entiteittype>
             </ZKN:stuurgegevens>
@@ -428,10 +428,10 @@
                     <ZKN:versie><xsl:value-of select="gerelateerde/versie"/></ZKN:versie>
                 </xsl:if>
                 <xsl:if test="gerelateerde/status">
-                    <ZKN:status><xsl:value-of select="$statusMap(gerelateerde/status)"/></ZKN:status>
+                    <ZKN:status><xsl:value-of select="gerelateerde/status"/></ZKN:status>
                 </xsl:if>
                 <xsl:if test="gerelateerde/verzenddatum">
-                    <ZKN:verzenddatum><xsl:value-of select="format-date(gerelateerde/verzenddatum, '[Y0001][M01][D01]')"/></ZKN:verzenddatum>
+                    <ZKN:verzenddatum><xsl:value-of select="gerelateerde/verzenddatum"/></ZKN:verzenddatum>
                 </xsl:if>
                 <xsl:if test="gerelateerde/vertrouwelijkAanduiding">
                     <ZKN:vertrouwelijkAanduiding><xsl:value-of select="upper-case(gerelateerde/vertrouwelijkAanduiding)"/></ZKN:vertrouwelijkAanduiding>
@@ -450,18 +450,9 @@
                 <ZKN:beschrijving><xsl:value-of select="beschrijving"/></ZKN:beschrijving>
             </xsl:if>
             <xsl:if test="registratiedatum">
-                <ZKN:registratiedatum><xsl:value-of select="format-dateTime(registratiedatum, '[Y0001][M01][D01]')"/></ZKN:registratiedatum>
+                <ZKN:registratiedatum><xsl:value-of select="registratiedatum"/></ZKN:registratiedatum>
             </xsl:if>
         </ZKN:heeftRelevant>
     </xsl:template>
-
-    <xsl:variable name="statusMap" as="map(*)">
-        <xsl:map>
-          <xsl:map-entry key="'in_bewerking'" select="'In bewerking'" />
-          <xsl:map-entry key="'ter_vaststelling'" select="'Ter vaststelling'" />
-          <xsl:map-entry key="'definitief'" select="'Definitief'" />
-          <xsl:map-entry key="'gearchiveerd'" select="'Gearchiveerd'" />
-        </xsl:map>
-      </xsl:variable>
 
 </xsl:stylesheet>
