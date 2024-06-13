@@ -25,15 +25,12 @@ import java.text.DecimalFormatSymbols;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.StringTokenizer;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
@@ -54,7 +51,6 @@ import org.frankframework.doc.EnumLabel;
 import org.frankframework.jdbc.StoredProcedureQuerySender;
 import org.frankframework.pipes.PutSystemDateInSession;
 import org.frankframework.stream.Message;
-import org.frankframework.util.AppConstants;
 import org.frankframework.util.CredentialFactory;
 import org.frankframework.util.DateFormatUtils;
 import org.frankframework.util.DomBuilderException;
@@ -71,12 +67,8 @@ import org.springframework.context.ApplicationContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import io.fusionauth.jwt.Signer;
-import io.fusionauth.jwt.hmac.HMACSigner;
 import lombok.Getter;
 import lombok.Setter;
-
-import static java.time.ZonedDateTime.now;
 
 /**
  * Generic parameter definition.
@@ -553,50 +545,6 @@ public class Parameter implements IConfigurable, IWithParameters {
 				result = formatPattern(alreadyResolvedParameters, session);
 			} else if (getValue()!=null) {
 				result = getValue();
-				String strResult = result.toString();
-				if ("Authorization".equals(getName()) && result != null && strResult.endsWith(".jwt@@")) {
-					// E.g. with <Param name="Authorization" value="Bearer ${JwtToken}"/> the property JwtToken is
-					// is already resolved at this point (being an empty string when property JwtToken isn't found)
-
-					AppConstants appConstants = AppConstants.getInstance(getConfigurationClassLoader());
-					String authType;
-					String authAlias;	
-					if(strResult.contains("@@zaken-api.jwt@@")){
-						authType = appConstants.getProperty("zaakbrug.zgw.zaken-api.auth-type", ""); // "jwt", "basic", "value"
-						authAlias = appConstants.getProperty("zaakbrug.zgw.zaken-api.auth-alias", "");
-					} else if(strResult.contains("@@documenten-api.jwt@@")){
-						authType = appConstants.getProperty("zaakbrug.zgw.documenten-api.auth-type", ""); // "jwt", "basic", "value"
-						authAlias = appConstants.getProperty("zaakbrug.zgw.documenten-api.auth-alias", "");
-					} else if(strResult.contains("@@catalogi-api.jwt@@")){
-						authType = appConstants.getProperty("zaakbrug.zgw.catalogi-api.auth-type", ""); // "jwt", "basic", "value"
-						authAlias = appConstants.getProperty("zaakbrug.zgw.catalogi-api.auth-alias", "");
-					} else if(strResult.contains("@@besluiten-api.jwt@@")){
-						authType = appConstants.getProperty("zaakbrug.zgw.besluiten-api.auth-type", ""); // "jwt", "basic", "value"
-						authAlias = appConstants.getProperty("zaakbrug.zgw.besluiten-api.auth-alias", "");	
-					} else {
-						throw new ParameterException("Parameter ["+getName()+"] unable to resolve ["+strResult+"] to a known api type");
-					}
-
-					CredentialFactory credentialFactory = new CredentialFactory(authAlias);
-					String username = credentialFactory.getUsername();
-					String secret = credentialFactory.getPassword();
-					if("jwt".equalsIgnoreCase(authType)){
-						// Copied from https://github.com/Sudwest-Fryslan/OpenZaakBrug/blob/master/src/main/java/nl/haarlem/translations/zdstozgw/translation/zgw/client/JWTService.java
-						Signer signer = HMACSigner.newSHA256Signer(secret);
-						io.fusionauth.jwt.domain.JWT jwt = new io.fusionauth.jwt.domain.JWT().setIssuer(username)
-							.setIssuedAt(now(ZoneOffset.UTC)).addClaim("client_id", username).addClaim("user_id", username)
-							.addClaim("user_reresentation", username).setExpiration(now(ZoneOffset.UTC).plusMinutes(10));
-						String jwtToken = io.fusionauth.jwt.domain.JWT.getEncoder().encode(jwt, signer);
-						result = "Bearer " + jwtToken;
-					} else if ("basic".equalsIgnoreCase(authType)){
-						String encoded = Base64.getEncoder().encodeToString((username + ":" + secret).getBytes());
-						result = "Basic " + encoded;
-					} else if ("value".equalsIgnoreCase(authType)){
-						result = secret;
-					} else {
-						throw new ParameterException("Parameter ["+getName()+"] unknown auth-type ["+authType+"], must be 'jwt', 'basic' or 'value'");
-					}
-				}
 			} else {
 				try {
 					if (message==null) {
