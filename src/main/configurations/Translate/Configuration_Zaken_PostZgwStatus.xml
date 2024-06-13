@@ -16,7 +16,7 @@
                 deepSearch="true"
                 throwException="true"
                 storeResultInSessionKey="inputForPostZgwStatus">
-                <Forward name="success" path="createJwt"/>
+                <Forward name="success" path="GetAuthorizationHeaderForZakenApi"/>
             </Json2XmlInputValidator>
 
             <Exits>

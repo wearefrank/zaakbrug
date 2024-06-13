@@ -21,7 +21,7 @@
                 compactJsonArrays="false"
                 storeResultInSessionKey="storeInput"
                 throwException="true">
-                <Forward name="success" path="createJwt" />
+                <Forward name="success" path="GetAuthorizationHeaderForZakenApi" />
             </Json2XmlValidatorPipe>
 
             <SenderPipe name="GetAuthorizationHeaderForZakenApi"

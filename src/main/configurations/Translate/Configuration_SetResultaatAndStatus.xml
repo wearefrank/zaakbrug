@@ -125,7 +125,7 @@
                     returnedSessionKeys="Error">
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                 </IbisLocalSender>
-                <Forward name="success" path="createJwt"/>
+                <Forward name="success" path="GetAuthorizationHeaderForZakenApi"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 

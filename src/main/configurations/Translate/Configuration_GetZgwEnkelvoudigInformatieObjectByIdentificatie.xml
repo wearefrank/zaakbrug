@@ -18,7 +18,7 @@
                 xpathExpression="string-length($Identificatie) > 0"
                 >
                 <Param name="Identificatie" sessionKey="Identificatie"/>
-                <Forward name="true" path="createJwt"/>
+                <Forward name="true" path="GetAuthorizationHeaderForDocumentenApi"/>
                 <Forward name="false" path="EXCEPTION"/>
             </XmlSwitchPipe>
 
