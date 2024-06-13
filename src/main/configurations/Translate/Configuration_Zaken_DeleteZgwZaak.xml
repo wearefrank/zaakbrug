@@ -13,19 +13,16 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <JwtPipe name="createJwt"
-                expirationTime="600"
-                storeResultInSessionKey="myToken"
-                ifParam="valueAuthType"
-                ifValue="Jwt"
-            >
-                <Param name="valueAuthType" value="${zaakbrug.zgw.zaken-api.auth-type}" />
-                <Param name="sharedSecret" pattern="{password}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
-                <Param name="client_id" pattern="{username}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
-                <Param name="user_id" pattern="{username}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
-                <Param name="user_reresentation" pattern="{username}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+            <SenderPipe name="GetAuthorizationHeaderForZakenApi"
+                getInputFromFixedValue="&lt;dummy/&gt;">
+                <IbisLocalSender
+                    name="GetAuthorizationHeaderForZakenApiSender"
+                    javaListener="GenerateAuthorizationHeaderForZakenApi"
+                    returnedSessionKeys="Error,Authorization">
+                </IbisLocalSender>
                 <Forward name="success" path="DeleteZgwZaakSender" />
-            </JwtPipe>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
 
             <SenderPipe
                 name="DeleteZgwZaakSender"
@@ -43,9 +40,7 @@
                     <Param name="Accept-Crs" value="EPSG:4326" />
                     <Param name="Accept" value="application/json" />
                     <Param name="Content-Crs" value="EPSG:4326" />
-                    <Param name="Authorization" xpathExpression="concat('Bearer ', $myToken)">
-                        <Param name="myToken" sessionKey="myToken" defaultValue="@@zaken-api.jwt@@" />
-                    </Param>
+                    <Param name="Authorization" sessionKey="Authorization"/>
                 </HttpSender>
                 <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="ErrorJsonToXml" />
