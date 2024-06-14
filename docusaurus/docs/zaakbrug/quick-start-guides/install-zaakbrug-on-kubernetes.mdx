@@ -1,0 +1,31 @@
+---
+sidebar_position: 100
+---
+
+# Install ZaakBrug With Helm(On Kubernetes)
+A list of all published ZaakBrug Helm charts is available at [WeAreFrank Chart Repository](https://wearefrank.github.io/charts/zaakbrug). The Helm chart source code can be found on GitHub at [GitHub WeAreFrank/charts](https://github.com/wearefrank/charts/tree/main/charts/zaakbrug). The ZaakBrug source code can be found on GitHub at [GitHub WeAreFrank/ZaakBrug](https://github.com/wearefrank/zaakbrug).
+
+1. Ensure Helm is installed. You can find instructions on how to install Helm for your environment at [Helm Installation Guide](https://helm.sh/docs/intro/install/).
+
+1. Add the WeAreFrank chart repository.
+   ```bash
+   helm repo add wearefrank https://wearefrank.github.io/charts
+   ```
+
+1. Retrieve the latest chart versions:
+   ```bash
+   helm repo update
+   ```
+
+1. Install the ZaakBrug Helm chart.
+   ```bash
+   helm install zaakbrug wearefrank/zaakbrug
+   ```
+   or
+   ```bash
+   helm install -f myvalues.yaml zaakbrug wearefrank/zaakbrug
+   ```
+   Some customization of the values is usually needed, please refer to [ZaakBrug Helm chart](https://wearefrank.github.io/charts/zaakbrug) for detailed configuration documentation.
+
+
+Refer to [Helm - Using Helm](https://helm.sh/docs/intro/using_helm) for more detailed information about Helm.
