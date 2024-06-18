@@ -133,9 +133,15 @@
                     javaListener="GeefZaakdetails_Lv01"
                     returnedSessionKeys="Error">
                 </IbisLocalSender>
-                <Forward name="success" path="ReplaceNulls" />
+                <Forward name="success" path="CheckGeefZaakDetailsResult" />
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>
+
+            <XmlIfPipe name="CheckGeefZaakDetailsResult" 
+                xpathExpression="string-length(/root) &gt; 0">
+                <Forward name="then" path="ReplaceNulls" />
+                <Forward name="else" path="WrapZakLa01Response" />
+            </XmlIfPipe>
 
             <XsltPipe
                 name="ReplaceNulls"

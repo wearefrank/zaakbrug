@@ -39,7 +39,7 @@
                 xpathExpression="string-length(ZgwZaken) > 0"
                 >
                 <Forward name="then" path="GetSingleZgwZaakFromZgwZakenList"/>
-                <Forward name="else" path="EXCEPTION"/>
+                <Forward name="else" path="EXIT"/>
             </XmlIfPipe>
         
             <XsltPipe
