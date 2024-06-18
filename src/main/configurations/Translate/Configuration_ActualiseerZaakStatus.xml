@@ -26,7 +26,7 @@
                 <Param name="object" xpathExpression="$originalMessage/zakLk01/object[2]" type="DOMDOC">
                     <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
                 </Param>
-                <Forward name="success" path="CallGetZgwZaak" />
+                <Forward name="success" path="StoreZaakIdentificatie" />
             </PutInSessionPipe>
 
             <PutInSessionPipe 
@@ -34,6 +34,12 @@
                 <Param name="object" xpathExpression="$originalMessage/zakLk01/object[1]" type="DOMDOC">
                     <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
                 </Param>
+                <Forward name="success" path="StoreZaakIdentificatie" />
+            </PutInSessionPipe>
+
+            <PutInSessionPipe 
+                name="StoreZaakIdentificatie">
+                <Param name="Identificatie" sessionKey="object" xpathExpression="object/identificatie"/>
                 <Forward name="success" path="CallGetZgwZaak" />
             </PutInSessionPipe>
             
@@ -45,11 +51,31 @@
                     name="CallGetZgwZaakSender"
                     javaListener="GetZgwZaak"
                     returnedSessionKeys="Error">
-                    <Param name="Identificatie" sessionKey="object" xpathExpression="object/identificatie"/>
+                    <Param name="Identificatie" sessionKey="Identificatie"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CallGetZaakTypeByZaak"/>
+                <Forward name="success" path="CheckForGetZgwZaakResult"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
+
+            <XmlIfPipe name="CheckForGetZgwZaakResult"
+                xpathExpression="string-length(ZgwZaken) > 0"
+                >
+                <Forward name="then" path="CallGetZaakTypeByZaak"/>
+                <Forward name="else" path="BuildErrorMessage"/>
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="BuildErrorMessage"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> 
+                <Param name="reason" pattern="No zaak with the identificatie:{Identificatie} is found in GetZgwZaak" />
+                <Param name="detailsXml" type="DOMDOC"/>
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
 
             <SenderPipe
                 name="CallGetZaakTypeByZaak"
