@@ -6866,6 +6866,15 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="f476e285-b257-43c5-954a-f86326287be7" name="Not SOAP Fault"/>
+            <con:assertion type="XPath Match" id="df155b83-b994-4de8-9c24-86cc0d0feef0" name="CheckIfStatusConvertedFromZgwToZdsForm">
+              <con:configuration>
+                <path>//*:edcLa01/*:antwoord/*:object/*:status</path>
+                <content>In bewerking</content>
+                <allowWildcards>false</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
             <con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
@@ -13230,7 +13239,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
             <con:assertion type="XPath Match" id="08573f73-7b4d-45cc-ae64-e1c41e4d1ed0" name="CheckIfDocumentStatusDefinitief">
               <con:configuration>
                 <path>//*:edcLa01/*:antwoord/*:object/*:status</path>
-                <content>definitief</content>
+                <content>Definitief</content>
                 <allowWildcards>false</allowWildcards>
                 <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
                 <ignoreComments>false</ignoreComments>
