@@ -49,7 +49,7 @@
             </xsl:choose>
             <xsl:choose>
                 <xsl:when test="string-length(ZgwEnkelvoudigInformatieObject/status) > 0 and normalize-space(ZgwEnkelvoudigInformatieObject/status) != 'null'">
-                    <status><xsl:value-of select="ZgwEnkelvoudigInformatieObject/status"/></status>
+                    <status><xsl:value-of select="$statusMap(ZgwEnkelvoudigInformatieObject/status)"/></status>
                 </xsl:when>
                 <xsl:otherwise>
                     <status><xsl:attribute name="xsi:nil">true</xsl:attribute></status>
@@ -75,4 +75,13 @@
             </isRelevantVoor>
         </ZdsZaakDocumentInhoud>
     </xsl:template>
+
+    <xsl:variable name="statusMap" as="map(*)">
+        <xsl:map>
+          <xsl:map-entry key="'in_bewerking'" select="'In bewerking'" />
+          <xsl:map-entry key="'ter_vaststelling'" select="'Ter vaststelling'" />
+          <xsl:map-entry key="'definitief'" select="'Definitief'" />
+          <xsl:map-entry key="'gearchiveerd'" select="'Gearchiveerd'" />
+        </xsl:map>
+      </xsl:variable>
 </xsl:stylesheet>
