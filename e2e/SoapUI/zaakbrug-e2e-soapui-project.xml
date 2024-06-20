@@ -7590,6 +7590,35 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ba1882c2-f41f-4dc6-a1a3-2d859b772f8a" name="Not SOAP Fault"/>
+            <con:assertion type="XPath Match" id="7142568f-9913-4597-99f2-cea32133c39a" name="No Regression">
+              <con:configuration>
+                <path>//*:antwoord</path>
+                <content><![CDATA[<ZKN:antwoord xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <ZKN:object StUF:entiteittype="ZAK">
+    <ZKN:heeftRelevant StUF:entiteittype="ZAKEDC">
+      <ZKN:gerelateerde StUF:entiteittype="EDC">
+        <ZKN:identificatie>*</ZKN:identificatie>
+        <ZKN:dct.omschrijving>Brief</ZKN:dct.omschrijving>
+        <ZKN:creatiedatum>*</ZKN:creatiedatum>
+        <ZKN:titel>Testbestand</ZKN:titel>
+        <ZKN:beschrijving>Testbestand in ketentest</ZKN:beschrijving>
+        <ZKN:formaat>application/txt</ZKN:formaat>
+        <ZKN:taal>nld</ZKN:taal>
+        <ZKN:versie>2</ZKN:versie>
+        <ZKN:status>Definitief</ZKN:status>
+        <ZKN:vertrouwelijkAanduiding>OPENBAAR</ZKN:vertrouwelijkAanduiding>
+        <ZKN:auteur>auteur</ZKN:auteur>
+      </ZKN:gerelateerde>
+      <ZKN:titel>Brief bijdrageregeling minima  -  Verzoek om aanvullende gegevens</ZKN:titel>
+      <ZKN:registratiedatum>*</ZKN:registratiedatum>
+    </ZKN:heeftRelevant>
+  </ZKN:object>
+</ZKN:antwoord>]]></content>
+                <allowWildcards>true</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
             <con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
@@ -8137,6 +8166,135 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
+            <con:assertion type="XPath Match" id="13a45fe0-7f3b-4c04-a1f7-2e01b414b280" name="No Regression">
+              <con:configuration>
+                <path>//*:antwoord</path>
+                <content><![CDATA[<ZKN:antwoord xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <ZKN:object StUF:entiteittype="ZAK">
+    <ZKN:identificatie>*</ZKN:identificatie>
+    <ZKN:omschrijving>Aanvraag minimaregelingen (Z)</ZKN:omschrijving>
+    <ZKN:kenmerk>
+      <ZKN:kenmerk>273846</ZKN:kenmerk>
+      <ZKN:bron>GWS4all</ZKN:bron>
+    </ZKN:kenmerk>
+    <ZKN:startdatum>*</ZKN:startdatum>
+    <ZKN:registratiedatum>*</ZKN:registratiedatum>
+    <ZKN:einddatumGepland>*</ZKN:einddatumGepland>
+    <ZKN:einddatum>*</ZKN:einddatum>
+    <ZKN:opschorting>
+      <ZKN:indicatie>J</ZKN:indicatie>
+      <ZKN:reden>niet tijdig verstrekken inform</ZKN:reden>
+    </ZKN:opschorting>
+    <ZKN:verlenging>
+      <ZKN:duur>99</ZKN:duur>
+      <ZKN:reden>Overig</ZKN:reden>
+    </ZKN:verlenging>
+    <ZKN:betalingsIndicatie>Gedeeltelijk</ZKN:betalingsIndicatie>
+    <ZKN:archiefnominatie>J</ZKN:archiefnominatie>
+    <ZKN:isVan StUF:entiteittype="ZAKZKT">
+      <ZKN:gerelateerde StUF:entiteittype="ZKT">
+        <ZKN:omschrijving>Minimaregeling aanvraag</ZKN:omschrijving>
+        <ZKN:code>B1026</ZKN:code>
+      </ZKN:gerelateerde>
+    </ZKN:isVan>
+    <ZKN:heeftBetrekkingOp StUF:entiteittype="ZAKOBJ">
+      <ZKN:gerelateerde>
+        <ZKN:natuurlijkPersoon StUF:entiteittype="NPS">
+          <BG:inp.bsn>111111110</BG:inp.bsn>
+          <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+          <BG:geslachtsnaam>Precies</BG:geslachtsnaam>
+          <BG:voorletters>P</BG:voorletters>
+          <BG:voornamen>Pietje</BG:voornamen>
+          <BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>
+          <BG:geboortedatum>19010101</BG:geboortedatum>
+        </ZKN:natuurlijkPersoon>
+      </ZKN:gerelateerde>
+    </ZKN:heeftBetrekkingOp>
+    <ZKN:heeftAlsBelanghebbende StUF:entiteittype="ZAKBTRBLH">
+      <ZKN:gerelateerde>
+        <ZKN:natuurlijkPersoon StUF:entiteittype="NPS">
+          <BG:inp.bsn>111111110</BG:inp.bsn>
+          <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+          <BG:geslachtsnaam>Precies</BG:geslachtsnaam>
+          <BG:voorletters>P</BG:voorletters>
+          <BG:voornamen>Pietje</BG:voornamen>
+          <BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>
+          <BG:geboortedatum>19010101</BG:geboortedatum>
+        </ZKN:natuurlijkPersoon>
+      </ZKN:gerelateerde>
+    </ZKN:heeftAlsBelanghebbende>
+    <ZKN:heeftAlsInitiator StUF:entiteittype="ZAKBTRINI">
+      <ZKN:gerelateerde>
+        <ZKN:natuurlijkPersoon StUF:entiteittype="NPS">
+          <BG:inp.bsn>111111110</BG:inp.bsn>
+          <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+          <BG:geslachtsnaam>Precies</BG:geslachtsnaam>
+          <BG:voorletters>P</BG:voorletters>
+          <BG:voornamen>Pietje</BG:voornamen>
+          <BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>
+          <BG:geboortedatum>19010101</BG:geboortedatum>
+        </ZKN:natuurlijkPersoon>
+      </ZKN:gerelateerde>
+    </ZKN:heeftAlsInitiator>
+    <ZKN:heeftAlsUitvoerende StUF:entiteittype="ZAKBTRUTV">
+      <ZKN:gerelateerde>
+        <ZKN:medewerker StUF:entiteittype="MDW">
+          <ZKN:identificatie>012345678901234567890123</ZKN:identificatie>
+          <ZKN:achternaam>G. Bruiker</ZKN:achternaam>
+        </ZKN:medewerker>
+      </ZKN:gerelateerde>
+    </ZKN:heeftAlsUitvoerende>
+    <ZKN:heeftAlsVerantwoordelijke StUF:entiteittype="ZAKBTRVRA">
+      <ZKN:gerelateerde>
+        <ZKN:medewerker StUF:entiteittype="MDW">
+          <ZKN:identificatie>*</ZKN:identificatie>
+          <ZKN:achternaam>G. Bruiker</ZKN:achternaam>
+        </ZKN:medewerker>
+      </ZKN:gerelateerde>
+    </ZKN:heeftAlsVerantwoordelijke>
+    <ZKN:heeft StUF:entiteittype="ZAKSTT">
+      <ZKN:gerelateerde StUF:entiteittype="STT">
+        <ZKN:zkt.code>B1026</ZKN:zkt.code>
+        <ZKN:zkt.omschrijving>Minimaregeling aanvraag</ZKN:zkt.omschrijving>
+        <ZKN:omschrijving>Afgehandeld</ZKN:omschrijving>
+      </ZKN:gerelateerde>
+      <ZKN:datumStatusGezet>*</ZKN:datumStatusGezet>
+      <ZKN:indicatieLaatsteStatus>J</ZKN:indicatieLaatsteStatus>
+    </ZKN:heeft>
+    <ZKN:heeft StUF:entiteittype="ZAKSTT">
+      <ZKN:gerelateerde StUF:entiteittype="STT">
+        <ZKN:zkt.code>B1026</ZKN:zkt.code>
+        <ZKN:zkt.omschrijving>Minimaregeling aanvraag</ZKN:zkt.omschrijving>
+        <ZKN:omschrijving>Besluitvorming afgerond</ZKN:omschrijving>
+      </ZKN:gerelateerde>
+      <ZKN:datumStatusGezet>*</ZKN:datumStatusGezet>
+      <ZKN:indicatieLaatsteStatus>N</ZKN:indicatieLaatsteStatus>
+    </ZKN:heeft>
+    <ZKN:heeft StUF:entiteittype="ZAKSTT">
+      <ZKN:gerelateerde StUF:entiteittype="STT">
+        <ZKN:zkt.code>B1026</ZKN:zkt.code>
+        <ZKN:zkt.omschrijving>Minimaregeling aanvraag</ZKN:zkt.omschrijving>
+        <ZKN:omschrijving>Ontvangen</ZKN:omschrijving>
+      </ZKN:gerelateerde>
+      <ZKN:datumStatusGezet>*</ZKN:datumStatusGezet>
+      <ZKN:indicatieLaatsteStatus>N</ZKN:indicatieLaatsteStatus>
+    </ZKN:heeft>
+    <ZKN:heeft StUF:entiteittype="ZAKSTT">
+      <ZKN:gerelateerde StUF:entiteittype="STT">
+        <ZKN:zkt.code>B1026</ZKN:zkt.code>
+        <ZKN:zkt.omschrijving>Minimaregeling aanvraag</ZKN:zkt.omschrijving>
+        <ZKN:omschrijving>In behandeling genomen</ZKN:omschrijving>
+      </ZKN:gerelateerde>
+      <ZKN:datumStatusGezet>*</ZKN:datumStatusGezet>
+      <ZKN:indicatieLaatsteStatus>N</ZKN:indicatieLaatsteStatus>
+    </ZKN:heeft>
+  </ZKN:object>
+</ZKN:antwoord>]]></content>
+                <allowWildcards>true</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
             <con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
@@ -15044,6 +15202,55 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
+            <con:assertion type="XPath Match" id="5a8c0140-75b5-42c9-81c1-cc457dae7fa3" name="No Regression">
+              <con:configuration>
+                <path>//*:antwoord</path>
+                <content><![CDATA[<ZKN:antwoord xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <ZKN:object StUF:entiteittype="ZAK">
+    <ZKN:identificatie>*</ZKN:identificatie>
+    <ZKN:omschrijving>Dossiernummer GISVG OV*</ZKN:omschrijving>
+    <ZKN:toelichting>Reguliere omgevingsvergunning</ZKN:toelichting>
+    <ZKN:startdatum>*</ZKN:startdatum>
+    <ZKN:registratiedatum>*0619</ZKN:registratiedatum>
+    <ZKN:opschorting>
+      <ZKN:indicatie>N</ZKN:indicatie>
+      <ZKN:reden/>
+    </ZKN:opschorting>
+    <ZKN:archiefnominatie>N</ZKN:archiefnominatie>
+    <ZKN:isVan StUF:entiteittype="ZAKZKT">
+      <ZKN:gerelateerde StUF:entiteittype="ZKT">
+        <ZKN:omschrijving>Omgevingsvergunning</ZKN:omschrijving>
+        <ZKN:code>B1210</ZKN:code>
+      </ZKN:gerelateerde>
+    </ZKN:isVan>
+    <ZKN:heeftAlsInitiator StUF:entiteittype="ZAKBTRINI">
+      <ZKN:gerelateerde>
+        <ZKN:natuurlijkPersoon StUF:entiteittype="NPS">
+          <BG:inp.bsn>111111110</BG:inp.bsn>
+          <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+          <BG:geslachtsnaam>Precies</BG:geslachtsnaam>
+          <BG:voorletters>P.J.</BG:voorletters>
+          <BG:voornamen>Piet Je</BG:voornamen>
+          <BG:geslachtsaanduiding>V</BG:geslachtsaanduiding>
+          <BG:geboortedatum>19500101</BG:geboortedatum>
+          <BG:verblijfsadres>
+            <BG:aoa.identificatie>0091200000046730</BG:aoa.identificatie>
+            <BG:wpl.woonplaatsNaam>Sneek</BG:wpl.woonplaatsNaam>
+            <BG:gor.openbareRuimteNaam>Marktstraat</BG:gor.openbareRuimteNaam>
+            <BG:gor.straatnaam>Marktstraat</BG:gor.straatnaam>
+            <BG:aoa.postcode>8601CR</BG:aoa.postcode>
+            <BG:aoa.huisnummer>15</BG:aoa.huisnummer>
+          </BG:verblijfsadres>
+        </ZKN:natuurlijkPersoon>
+      </ZKN:gerelateerde>
+    </ZKN:heeftAlsInitiator>
+  </ZKN:object>
+</ZKN:antwoord>]]></content>
+                <allowWildcards>true</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
             <con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
@@ -16076,7 +16283,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
          </parameters>\r
          <object StUF:entiteittype="ZAK" StUF:verwerkingssoort="W">\r
             <identificatie>${Properties#ZaakIdentificatie}</identificatie>\r
-            <omschrijving>Dossiernummer GISVG OV${Properties#ZaakIdentificatie}</omschrijving>\r
+            <omschrijving>Dossiernummer GISVG OV ${Properties#ZaakIdentificatie}</omschrijving>\r
             <toelichting/>\r
             <resultaat>\r
                <omschrijving>Vergunningvrij</omschrijving>\r
@@ -16266,6 +16473,69 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
+            <con:assertion type="XPath Match" id="cd188be7-689c-46b1-908d-2f40469df2ad" name="No Regression">
+              <con:configuration>
+                <path>//*:antwoord</path>
+                <content><![CDATA[<ZKN:antwoord xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <ZKN:object StUF:entiteittype="ZAK">
+    <ZKN:identificatie>*</ZKN:identificatie>
+    <ZKN:omschrijving>Dossiernummer GISVG OV*</ZKN:omschrijving>
+    <ZKN:toelichting>Reguliere omgevingsvergunning</ZKN:toelichting>
+    <ZKN:startdatum>*</ZKN:startdatum>
+    <ZKN:registratiedatum>*</ZKN:registratiedatum>
+    <ZKN:opschorting>
+      <ZKN:indicatie>N</ZKN:indicatie>
+      <ZKN:reden/>
+    </ZKN:opschorting>
+    <ZKN:archiefnominatie>N</ZKN:archiefnominatie>
+    <ZKN:isVan StUF:entiteittype="ZAKZKT">
+      <ZKN:gerelateerde StUF:entiteittype="ZKT">
+        <ZKN:omschrijving>Omgevingsvergunning</ZKN:omschrijving>
+        <ZKN:code>B1210</ZKN:code>
+      </ZKN:gerelateerde>
+    </ZKN:isVan>
+    <ZKN:heeftAlsBelanghebbende StUF:entiteittype="ZAKBTRBLH">
+      <ZKN:gerelateerde>
+        <ZKN:vestiging StUF:entiteittype="VES">
+          <BG:vestigingsNummer>000021774684</BG:vestigingsNummer>
+          <BG:handelsnaam>Gemeente Súdwest-Fryslân</BG:handelsnaam>
+          <BG:verblijfsadres>
+            <BG:aoa.identificatie>0091200000046730</BG:aoa.identificatie>
+            <BG:wpl.woonplaatsNaam>Sneek</BG:wpl.woonplaatsNaam>
+            <BG:gor.openbareRuimteNaam>Marktstraat</BG:gor.openbareRuimteNaam>
+            <BG:gor.straatnaam>Marktstraat</BG:gor.straatnaam>
+            <BG:aoa.postcode>8601CR</BG:aoa.postcode>
+            <BG:aoa.huisnummer>15</BG:aoa.huisnummer>
+          </BG:verblijfsadres>
+        </ZKN:vestiging>
+      </ZKN:gerelateerde>
+    </ZKN:heeftAlsBelanghebbende>
+    <ZKN:heeftAlsInitiator StUF:entiteittype="ZAKBTRINI">
+      <ZKN:gerelateerde>
+        <ZKN:nietNatuurlijkPersoon StUF:entiteittype="NNP">
+          <BG:inn.nnpId>823288444</BG:inn.nnpId>
+          <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+          <BG:statutaireNaam>Gemeente Súdwest-Fryslân</BG:statutaireNaam>
+          <BG:inn.rechtsvorm>overig_privaatrechtelijke_rechtspersoon</BG:inn.rechtsvorm>
+        </ZKN:nietNatuurlijkPersoon>
+      </ZKN:gerelateerde>
+    </ZKN:heeftAlsInitiator>
+    <ZKN:heeft StUF:entiteittype="ZAKSTT">
+      <ZKN:gerelateerde StUF:entiteittype="STT">
+        <ZKN:zkt.code>B1210</ZKN:zkt.code>
+        <ZKN:zkt.omschrijving>Omgevingsvergunning</ZKN:zkt.omschrijving>
+        <ZKN:omschrijving>Geregistreerd</ZKN:omschrijving>
+      </ZKN:gerelateerde>
+      <ZKN:datumStatusGezet>*</ZKN:datumStatusGezet>
+      <ZKN:indicatieLaatsteStatus>N</ZKN:indicatieLaatsteStatus>
+    </ZKN:heeft>
+  </ZKN:object>
+</ZKN:antwoord>]]></content>
+                <allowWildcards>true</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
             <con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
@@ -17309,6 +17579,61 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
+            <con:assertion type="XPath Match" id="9ab73b27-30f0-438e-93c5-cb90dbf776cf" name="XPath Match">
+              <con:configuration>
+                <path>//*:antwoord</path>
+                <content><![CDATA[<ZKN:antwoord xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <ZKN:object StUF:entiteittype="ZAK">
+    <ZKN:identificatie>*</ZKN:identificatie>
+    <ZKN:omschrijving>Dossiernummer GISVG OV*</ZKN:omschrijving>
+    <ZKN:toelichting>Reguliere omgevingsvergunning</ZKN:toelichting>
+    <ZKN:startdatum>*</ZKN:startdatum>
+    <ZKN:registratiedatum>*</ZKN:registratiedatum>
+    <ZKN:opschorting>
+      <ZKN:indicatie>N</ZKN:indicatie>
+      <ZKN:reden/>
+    </ZKN:opschorting>
+    <ZKN:archiefnominatie>N</ZKN:archiefnominatie>
+    <ZKN:isVan StUF:entiteittype="ZAKZKT">
+      <ZKN:gerelateerde StUF:entiteittype="ZKT">
+        <ZKN:omschrijving>Omgevingsvergunning</ZKN:omschrijving>
+        <ZKN:code>B1210</ZKN:code>
+      </ZKN:gerelateerde>
+    </ZKN:isVan>
+    <ZKN:heeftAlsBelanghebbende StUF:entiteittype="ZAKBTRBLH">
+      <ZKN:gerelateerde>
+        <ZKN:organisatorischeEenheid StUF:entiteittype="OEH">
+          <ZKN:identificatie>Behandelaar Documentaire</ZKN:identificatie>
+          <ZKN:naam>Behandelaar Documentaire Informatie FBDI</ZKN:naam>
+        </ZKN:organisatorischeEenheid>
+      </ZKN:gerelateerde>
+    </ZKN:heeftAlsBelanghebbende>
+    <ZKN:heeftAlsInitiator StUF:entiteittype="ZAKBTRINI">
+      <ZKN:gerelateerde>
+        <ZKN:nietNatuurlijkPersoon StUF:entiteittype="NNP">
+          <BG:inn.nnpId>823288444</BG:inn.nnpId>
+          <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+          <BG:statutaireNaam>Gemeente Súdwest-Fryslân</BG:statutaireNaam>
+          <BG:inn.rechtsvorm>overig_privaatrechtelijke_rechtspersoon</BG:inn.rechtsvorm>
+        </ZKN:nietNatuurlijkPersoon>
+      </ZKN:gerelateerde>
+    </ZKN:heeftAlsInitiator>
+    <ZKN:heeft StUF:entiteittype="ZAKSTT">
+      <ZKN:gerelateerde StUF:entiteittype="STT">
+        <ZKN:zkt.code>B1210</ZKN:zkt.code>
+        <ZKN:zkt.omschrijving>Omgevingsvergunning</ZKN:zkt.omschrijving>
+        <ZKN:omschrijving>Geregistreerd</ZKN:omschrijving>
+      </ZKN:gerelateerde>
+      <ZKN:datumStatusGezet>*</ZKN:datumStatusGezet>
+      <ZKN:indicatieLaatsteStatus>N</ZKN:indicatieLaatsteStatus>
+    </ZKN:heeft>
+  </ZKN:object>
+</ZKN:antwoord>]]></content>
+                <allowWildcards>true</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
             <con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
@@ -22365,6 +22690,78 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
+            <con:assertion type="XPath Match" id="d0edb7ff-02cc-49be-af88-2a36703d3ef9" name="No Regression">
+              <con:configuration>
+                <path>//*:antwoord</path>
+                <content><![CDATA[<ZKN:antwoord xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <ZKN:object StUF:entiteittype="ZAK">
+    <ZKN:identificatie>*</ZKN:identificatie>
+    <ZKN:omschrijving>Ondersteuningsplan D000001</ZKN:omschrijving>
+    <ZKN:toelichting>Contactpersoon: Ge Bruiker(ge.bruiker@sudwestfryslan.nl, 0612345678)</ZKN:toelichting>
+    <ZKN:startdatum>*</ZKN:startdatum>
+    <ZKN:registratiedatum>*619</ZKN:registratiedatum>
+    <ZKN:opschorting>
+      <ZKN:indicatie>N</ZKN:indicatie>
+      <ZKN:reden/>
+    </ZKN:opschorting>
+    <ZKN:archiefnominatie>N</ZKN:archiefnominatie>
+    <ZKN:isVan StUF:entiteittype="ZAKZKT">
+      <ZKN:gerelateerde StUF:entiteittype="ZKT">
+        <ZKN:omschrijving>Ondersteuningsplan actie</ZKN:omschrijving>
+        <ZKN:code>B1647</ZKN:code>
+      </ZKN:gerelateerde>
+    </ZKN:isVan>
+    <ZKN:heeftAlsBelanghebbende StUF:entiteittype="ZAKBTRBLH">
+      <ZKN:gerelateerde>
+        <ZKN:natuurlijkPersoon StUF:entiteittype="NPS">
+          <BG:inp.bsn>111111110</BG:inp.bsn>
+          <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+          <BG:geslachtsnaam>Precies</BG:geslachtsnaam>
+          <BG:voorletters>P</BG:voorletters>
+          <BG:voornamen>Pietje</BG:voornamen>
+          <BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>
+          <BG:geboortedatum>19010101</BG:geboortedatum>
+        </ZKN:natuurlijkPersoon>
+      </ZKN:gerelateerde>
+    </ZKN:heeftAlsBelanghebbende>
+    <ZKN:heeftAlsInitiator StUF:entiteittype="ZAKBTRINI">
+      <ZKN:gerelateerde>
+        <ZKN:medewerker StUF:entiteittype="MDW">
+          <ZKN:identificatie>g.bruiker</ZKN:identificatie>
+        </ZKN:medewerker>
+      </ZKN:gerelateerde>
+    </ZKN:heeftAlsInitiator>
+    <ZKN:heeftAlsUitvoerende StUF:entiteittype="ZAKBTRUTV">
+      <ZKN:gerelateerde>
+        <ZKN:medewerker StUF:entiteittype="MDW">
+          <ZKN:identificatie>g.bruiker</ZKN:identificatie>
+          <ZKN:achternaam>Bruiker</ZKN:achternaam>
+          <ZKN:voorletters>G</ZKN:voorletters>
+        </ZKN:medewerker>
+      </ZKN:gerelateerde>
+    </ZKN:heeftAlsUitvoerende>
+    <ZKN:heeftBetrekkingOpAndere StUF:entiteittype="ZAKZAKBTR">
+      <ZKN:gerelateerde StUF:entiteittype="ZAK">
+        <ZKN:identificatie>*</ZKN:identificatie>
+        <ZKN:omschrijving>Belangrijke gebeurtenissen</ZKN:omschrijving>
+      </ZKN:gerelateerde>
+    </ZKN:heeftBetrekkingOpAndere>
+    <ZKN:heeft StUF:entiteittype="ZAKSTT">
+      <ZKN:gerelateerde StUF:entiteittype="STT">
+        <ZKN:zkt.code>B1647</ZKN:zkt.code>
+        <ZKN:zkt.omschrijving>Ondersteuningsplan actie</ZKN:zkt.omschrijving>
+        <ZKN:omschrijving>In behandeling genomen</ZKN:omschrijving>
+      </ZKN:gerelateerde>
+      <ZKN:datumStatusGezet>*</ZKN:datumStatusGezet>
+      <ZKN:indicatieLaatsteStatus>N</ZKN:indicatieLaatsteStatus>
+    </ZKN:heeft>
+  </ZKN:object>
+</ZKN:antwoord>]]></content>
+                <allowWildcards>true</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
             <con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
@@ -22419,6 +22816,87 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
+            <con:assertion type="XPath Match" id="057677a9-fddb-4aea-8677-b9d9b64b0d0c" name="No Regression">
+              <con:configuration>
+                <path>//*:antwoord</path>
+                <content><![CDATA[<ZKN:antwoord xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <ZKN:object StUF:entiteittype="ZAK">
+    <ZKN:identificatie>*</ZKN:identificatie>
+    <ZKN:omschrijving>Belangrijke gebeurtenissen</ZKN:omschrijving>
+    <ZKN:startdatum>*</ZKN:startdatum>
+    <ZKN:registratiedatum>*</ZKN:registratiedatum>
+    <ZKN:einddatum>*</ZKN:einddatum>
+    <ZKN:opschorting>
+      <ZKN:indicatie>N</ZKN:indicatie>
+      <ZKN:reden/>
+    </ZKN:opschorting>
+    <ZKN:archiefnominatie>J</ZKN:archiefnominatie>
+    <ZKN:isVan StUF:entiteittype="ZAKZKT">
+      <ZKN:gerelateerde StUF:entiteittype="ZKT">
+        <ZKN:omschrijving>Meervoudige ondersteuningsvraag</ZKN:omschrijving>
+        <ZKN:code>B1646</ZKN:code>
+      </ZKN:gerelateerde>
+    </ZKN:isVan>
+    <ZKN:heeftAlsBelanghebbende StUF:entiteittype="ZAKBTRBLH">
+      <ZKN:gerelateerde>
+        <ZKN:natuurlijkPersoon StUF:entiteittype="NPS">
+          <BG:inp.bsn>111111110</BG:inp.bsn>
+          <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+          <BG:geslachtsnaam>Precies</BG:geslachtsnaam>
+          <BG:voorletters>P</BG:voorletters>
+          <BG:voornamen>Pietje</BG:voornamen>
+          <BG:geslachtsaanduiding>M</BG:geslachtsaanduiding>
+          <BG:geboortedatum>19010101</BG:geboortedatum>
+        </ZKN:natuurlijkPersoon>
+      </ZKN:gerelateerde>
+    </ZKN:heeftAlsBelanghebbende>
+    <ZKN:heeftAlsInitiator StUF:entiteittype="ZAKBTRINI">
+      <ZKN:gerelateerde>
+        <ZKN:medewerker StUF:entiteittype="MDW">
+          <ZKN:identificatie>g.bruiker</ZKN:identificatie>
+        </ZKN:medewerker>
+      </ZKN:gerelateerde>
+    </ZKN:heeftAlsInitiator>
+    <ZKN:heeftAlsUitvoerende StUF:entiteittype="ZAKBTRUTV">
+      <ZKN:gerelateerde>
+        <ZKN:medewerker StUF:entiteittype="MDW">
+          <ZKN:identificatie>g.bruiker</ZKN:identificatie>
+          <ZKN:achternaam>Bruiker</ZKN:achternaam>
+          <ZKN:voorletters>G</ZKN:voorletters>
+        </ZKN:medewerker>
+      </ZKN:gerelateerde>
+    </ZKN:heeftAlsUitvoerende>
+    <ZKN:heeftBetrekkingOpAndere StUF:entiteittype="ZAKZAKBTR">
+      <ZKN:gerelateerde StUF:entiteittype="ZAK">
+        <ZKN:identificatie>*</ZKN:identificatie>
+        <ZKN:omschrijving>Ondersteuningsplan D000001</ZKN:omschrijving>
+      </ZKN:gerelateerde>
+    </ZKN:heeftBetrekkingOpAndere>
+    <ZKN:heeft StUF:entiteittype="ZAKSTT">
+      <ZKN:gerelateerde StUF:entiteittype="STT">
+        <ZKN:zkt.code>B1646</ZKN:zkt.code>
+        <ZKN:zkt.omschrijving>Meervoudige ondersteuningsvraag</ZKN:zkt.omschrijving>
+        <ZKN:omschrijving>Afgehandeld</ZKN:omschrijving>
+      </ZKN:gerelateerde>
+      <ZKN:datumStatusGezet>*</ZKN:datumStatusGezet>
+      <ZKN:indicatieLaatsteStatus>J</ZKN:indicatieLaatsteStatus>
+    </ZKN:heeft>
+    <ZKN:heeft StUF:entiteittype="ZAKSTT">
+      <ZKN:gerelateerde StUF:entiteittype="STT">
+        <ZKN:zkt.code>B1646</ZKN:zkt.code>
+        <ZKN:zkt.omschrijving>Meervoudige ondersteuningsvraag</ZKN:zkt.omschrijving>
+        <ZKN:omschrijving>Nieuw</ZKN:omschrijving>
+      </ZKN:gerelateerde>
+      <ZKN:datumStatusGezet>*</ZKN:datumStatusGezet>
+      <ZKN:indicatieLaatsteStatus>N</ZKN:indicatieLaatsteStatus>
+    </ZKN:heeft>
+  </ZKN:object>
+</ZKN:antwoord>]]></content>
+                <allowWildcards>true</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
             <con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
