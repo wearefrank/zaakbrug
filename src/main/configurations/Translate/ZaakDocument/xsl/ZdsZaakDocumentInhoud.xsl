@@ -75,7 +75,6 @@
             </isRelevantVoor>
         </ZdsZaakDocumentInhoud>
     </xsl:template>
-
     <xsl:variable name="statusMap" as="map(*)">
         <xsl:map>
           <xsl:map-entry key="'in_bewerking'" select="'In bewerking'" />
