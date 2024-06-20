@@ -36,8 +36,8 @@ jobs:
         id: next-version
         run: semantic-release --dryRun
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   ci:
     uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@main
@@ -134,21 +134,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 #4.1.1
         with:
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
-      - name: "Download Pre-build Artifacts"
+      - name: Download Pre-build Artifacts
         uses: actions/download-artifact@eaceaf801fd36c7dee90939fad912460b18a1ffe #4.1.2
         with:
           pattern: pre-build-*
           merge-multiple: true
   
-      - name: "Download Build Artifacts"
+      - name: Download Build Artifacts
         uses: actions/download-artifact@eaceaf801fd36c7dee90939fad912460b18a1ffe #4.1.2
         with:
           pattern: build-*
           merge-multiple: true
 
-      - name: "Setup Node"
+      - name: Setup Node
         uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 #4.0.2
         with:
           node-version: 20
@@ -159,8 +159,8 @@ jobs:
       - name: Semantic Release
         run: semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   docker-release:
     uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@main
@@ -173,8 +173,6 @@ jobs:
       dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
     with:
       version: ${{ needs.analyze-commits.outputs.version-next }}
-      docker-image-repo: ${{ vars.DOCKER_IMAGE_REPOSITORY }}
-      docker-image-name: ${{ vars.DOCKER_IMAGE_NAME }}
 
   update-helm:
     uses: ./.github/workflows/update-helm-chart.yml
@@ -182,6 +180,17 @@ jobs:
       - release
       - analyze-commits
     secrets:
-      token: ${{ secrets.GH_TOKEN }}
+      token: ${{ secrets.WEAREFRANK_BOT_PAT }}
     with:
       version: ${{ needs.analyze-commits.outputs.version-next }}
+
+  docusaurus-release:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    needs: 
+      - release
+    # Set to true to enable Docusaurus publishing to GitHub Pages
+    if: true
+    uses: wearefrank/ci-cd-templates/.github/workflows/docusaurus-release.yml@main
