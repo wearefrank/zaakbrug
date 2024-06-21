@@ -16,6 +16,7 @@
     <xs:complexType name="zgwNatuurlijkPersoon">
         <xs:sequence>
             <xs:element name="inpBsn" type="zgwAN9" minOccurs="0"/>
+            <xs:element name="authentiek" type="authentiek" minOccurs="0"/>
             <xs:element name="geslachtsnaam" type="zgwAN200" minOccurs="0"/>
             <xs:element name="voorvoegselGeslachtsnaam" type="zgwAN80" minOccurs="0"/>
             <xs:element name="voorletters" type="zgwAN20" minOccurs="0"/>
@@ -36,6 +37,7 @@
     <xs:complexType name="zgwVerblijfsAdres">
         <xs:sequence>
             <xs:element name="aoaIdentificatie" type="zgwAN100"/>
+            <xs:element name="authentiek" type="authentiek"/>
             <xs:element name="wplWoonplaatsNaam" type="zgwAN80"/>
             <xs:element name="gorOpenbareRuimteNaam" type="zgwAN80"/>
             <xs:element name="aoaPostcode" type="zgwAN7" minOccurs="0"/>
@@ -45,6 +47,12 @@
             <xs:element name="inpLocatiebeschrijving" type="zgwAN1000" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:simpleType name="authentiek">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="J"/>
+            <xs:enumeration value="N"/>
+        </xs:restriction>
+    </xs:simpleType>
     <xs:simpleType name="zgwAN1">
         <xs:restriction base="xs:string">
             <xs:minLength value="1"/>
