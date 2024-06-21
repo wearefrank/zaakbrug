@@ -121,7 +121,7 @@
                 
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="ErrorJsonToXml" />
-            </senderPipe>
+            </SenderPipe>
 
             <JsonPipe name="ErrorJsonToXml">
                 <Forward name="success" path="buildErrorMsg" />
