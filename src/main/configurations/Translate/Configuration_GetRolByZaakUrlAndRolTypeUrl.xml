@@ -35,6 +35,13 @@
                 <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}rollen"/>
                 <Param name="zaak" sessionKey="ZaakUrl"/>
                 <Param name="roltype" sessionKey="RolTypeUrl"/>
+                <Param name="betrokkeneIdentificatie__natuurlijkPersoon__inpBsn" sessionKey="inpBsn"/>
+                <Param name="betrokkeneIdentificatie__natuurlijkPersoon__anpIdentificatie" sessionKey="anpIdentificatie"/>
+                <Param name="betrokkeneIdentificatie__nietNatuurlijkPersoon__innNnpId" sessionKey="innNnpId"/>
+                <Param name="betrokkeneIdentificatie__nietNatuurlijkPersoon__annIdentificatie" sessionKey="annIdentificatie"/>
+                <Param name="betrokkeneIdentificatie__vestiging__vestigingsNummer" sessionKey="vestigingsNummer"/>
+                <Param name="betrokkeneIdentificatie__organisatorischeEenheid__identificatie" sessionKey="OEHidentificatie"/>
+                <Param name="betrokkeneIdentificatie__medewerker__identificatie" sessionKey="MDWidentificatie"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization"  sessionKey="Authorization" />
                 <Forward name="success" path="JsonToXml" />
@@ -59,17 +66,10 @@
                 >
                 <Param name="List" value="Rollen"/>
                 <Param name="Type" value="Rol"/>
-                <Forward name="success" path="GetSingleZgwRolFromList"/>
-                <Forward name="error" path="EXCEPTION"/>
-            </XsltPipe>
-
-            <XsltPipe
-                name="GetSingleZgwRolFromList"
-                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
-                >
                 <Forward name="success" path="EXIT"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
+
         </Pipeline>
     </Adapter>
 </Module>
