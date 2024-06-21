@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.19.8](https://github.com/wearefrank/zaakbrug/compare/v1.19.7...v1.19.8) (2024-06-21)
+
+### 🐛 Bug Fixes
+
+* document status is not being translated from zgw to zds ([#355](https://github.com/wearefrank/zaakbrug/issues/355)) ([8b06c39](https://github.com/wearefrank/zaakbrug/commit/8b06c39881758c1a404d169282dfcc32b75c80c1))
+
 ## [1.19.7](https://github.com/wearefrank/zaakbrug/compare/v1.19.6...v1.19.7) (2024-06-21)
 
 ### 🐛 Bug Fixes
