@@ -1,40 +1,39 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
-	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
+    <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
 
     <xsl:param name="RolMapping"/>
 
     <xsl:template match="/">
-		<roles>
-            <role>
-                <xsl:if test="*/heeftBetrekkingOp/gerelateerde/*[name != 'adres']">
-                    <xsl:copy-of select="*/heeftBetrekkingOp/gerelateerde"/>
-                </xsl:if>
-                <typeRolOmschrijving><xsl:value-of select="$RolMapping/root/rolMapping/heeftBetrekkingOp"/></typeRolOmschrijving>
-            </role>
-            <role>
-                <xsl:copy-of select="*/heeftAlsBelanghebbende/gerelateerde"/>
-                <typeRolOmschrijving><xsl:value-of select="$RolMapping/root/rolMapping/heeftAlsBelanghebbende"/></typeRolOmschrijving>
-            </role>
-            <role>
-                <xsl:copy-of select="*/heeftAlsInitiator/gerelateerde"/>
-                <typeRolOmschrijving><xsl:value-of select="$RolMapping/root/rolMapping/heeftAlsInitiator"/></typeRolOmschrijving>
-            </role>
-            <role>
-                <xsl:copy-of select="*/heeftAlsUitvoerende/gerelateerde"/>
-                <typeRolOmschrijving><xsl:value-of select="$RolMapping/root/rolMapping/heeftAlsUitvoerende"/></typeRolOmschrijving>
-            </role>
-            <role>
-                <xsl:copy-of select="*/heeftAlsVerantwoordelijke/gerelateerde"/>
-                <typeRolOmschrijving><xsl:value-of select="$RolMapping/root/rolMapping/heeftAlsVerantwoordelijke"/></typeRolOmschrijving>
-            </role>
-            <role>
-                <xsl:copy-of select="*/heeftAlsGemachtigde/gerelateerde"/>
-                <typeRolOmschrijving><xsl:value-of select="$RolMapping/root/rolMapping/heeftAlsGemachtigde"/></typeRolOmschrijving>
-            </role>
-            <role>
-                <xsl:copy-of select="*/heeftAlsOverigBetrokkene/gerelateerde"/>
-                <typeRolOmschrijving><xsl:value-of select="$RolMapping/root/rolMapping/heeftAlsOverigBetrokkene"/></typeRolOmschrijving>
-            </role>
+        <roles>
+            <xsl:apply-templates select="*/heeftBetrekkingOp"/>
+            <xsl:apply-templates select="*/heeftAlsBelanghebbende"/>
+            <xsl:apply-templates select="*/heeftAlsInitiator"/>
+            <xsl:apply-templates select="*/heeftAlsUitvoerende"/>
+            <xsl:apply-templates select="*/heeftAlsVerantwoordelijke"/>
+            <xsl:apply-templates select="*/heeftAlsGemachtigde"/>
+            <xsl:apply-templates select="*/heeftAlsOverigBetrokkene"/>
         </roles>
-	</xsl:template>
+    </xsl:template>
+
+    <xsl:template match="heeftAlsBelanghebbende | heeftAlsInitiator | heeftAlsUitvoerende | heeftAlsVerantwoordelijke | heeftAlsGemachtigde | heeftAlsOverigBetrokkene">
+        <role>
+            <gerelateerde verwerkingssoort="{@verwerkingssoort}">
+                <xsl:copy-of select="gerelateerde/*"/>
+            </gerelateerde>
+            <typeRolOmschrijving>
+                <xsl:value-of select="$RolMapping/root/rolMapping/*[local-name() = name(current())]"/>
+            </typeRolOmschrijving>
+        </role>
+    </xsl:template>
+
+    <xsl:template match="heeftBetrekkingOp">
+        <role>
+            <xsl:if test="*/heeftBetrekkingOp/gerelateerde/*[name != 'adres']">
+                <gerelateerde verwerkingssoort="{@verwerkingssoort}">
+                    <xsl:copy-of select="gerelateerde/*"/>
+                </gerelateerde>
+            </xsl:if>
+            <typeRolOmschrijving><xsl:value-of select="$RolMapping/root/rolMapping/heeftAlsBelanghebbende"/></typeRolOmschrijving>
+        </role>
+    </xsl:template>
 </xsl:stylesheet>

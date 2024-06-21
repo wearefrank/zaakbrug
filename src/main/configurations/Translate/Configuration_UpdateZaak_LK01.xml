@@ -90,27 +90,21 @@
 
             <XmlIfPipe name="CheckForInputZaakObjectCount"
                 getInputFromSessionKey="originalMessage"
-                xpathExpression="count(/zakLk01/object) = 2"
+                xpathExpression="count(/zakLk01/object) = 2 or count(/zakLk01/object) = 1"
                 >
-                <Forward name="then" path="StoreZdsWordtZaak_1"/>
-                <Forward name="else" path="StoreZdsWordtZaak_2"/>
+                <Forward name="then" path="MergeWordtZaakRollen"/>
+                <Forward name="else" path="EXCEPTION"/>
             </XmlIfPipe>
 
-            <PutInSessionPipe 
-                name="StoreZdsWordtZaak_1">
-                <Param name="ZdsWordtZaak" xpathExpression="$originalMessage/zakLk01/object[2]" type="DOMDOC">
-                    <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
-                </Param>
-                <Forward name="success" path="DetectZdsZaakChanges" />
-            </PutInSessionPipe>
-
-            <PutInSessionPipe 
-                name="StoreZdsWordtZaak_2">
-                <Param name="ZdsWordtZaak" xpathExpression="$originalMessage/zakLk01/object[1]" type="DOMDOC">
-                    <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
-                </Param>
-                <Forward name="success" path="DetectZdsZaakChanges" />
-            </PutInSessionPipe>
+            <XsltPipe
+                name="MergeWordtZaakRollen"
+                styleSheetName="UpdateZaak_LK01/xsl/MergeWordtZaakRollen.xslt"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="ZdsWordtZaak"
+                >
+                <Forward name="success" path="DetectZdsZaakChanges"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
 
             <XsltPipe
                 name="DetectZdsZaakChanges"
@@ -187,7 +181,6 @@
                 getInputFromSessionKey="GetZdsZaakFromZgwResult"
                 storeResultInSessionKey="ZdsWasZaakRol"
                 removeNamespaces="true"
-                skipEmptyTags="true"
                 styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xslt"
                 >
                 <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC"/>
@@ -199,7 +192,6 @@
                 getInputFromSessionKey="ZdsWordtZaak"
                 storeResultInSessionKey="ZdsWordtZaakRol"
                 removeNamespaces="true"
-                skipEmptyTags="true"
                 styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xslt"
                 >
                 <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC"/>
