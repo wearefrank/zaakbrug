@@ -1,5 +1,31 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.19.8](https://github.com/wearefrank/zaakbrug/compare/v1.19.7...v1.19.8) (2024-06-21)
+
+### 🐛 Bug Fixes
+
+* document status is not being translated from zgw to zds ([#355](https://github.com/wearefrank/zaakbrug/issues/355)) ([8b06c39](https://github.com/wearefrank/zaakbrug/commit/8b06c39881758c1a404d169282dfcc32b75c80c1))
+
+## [1.19.7](https://github.com/wearefrank/zaakbrug/compare/v1.19.6...v1.19.7) (2024-06-21)
+
+### 🐛 Bug Fixes
+
+* authentiek element is not taken into account when identifying a gerelateerde on a role during updateZaak ([70be86d](https://github.com/wearefrank/zaakbrug/commit/70be86dee915beee5efe9e7b4ff93a27868efe68))
+* updateZaak fails when deleting a gerelateerde and in the same updateZaak add a new gerelateerde on the same roltype ([7b532b9](https://github.com/wearefrank/zaakbrug/commit/7b532b903fcbf8a748fff6b819bbc98de0118878))
+* updateZaak not able to handle multiple gerelateerde for a single roltype ([a9d6607](https://github.com/wearefrank/zaakbrug/commit/a9d6607eb4dd2fdbd42ba20a8a0be2106ff59b71))
+* updateZaak sometimes incorrectly detects changes to case roles resulting in unnecessary delete and post calls ([8825c6c](https://github.com/wearefrank/zaakbrug/commit/8825c6c48ea951ee3682a367123e4adf195ed8e4))
+
+### 🧑‍💻 Code Refactoring
+
+* updateZaak uses verwerkingsoort when processing case roles ([4bb2da2](https://github.com/wearefrank/zaakbrug/commit/4bb2da29177f9be4ec3b1f55f9dbaac1cf0662af))
+* verwerkingssoort 'I' on case roles are processed as 'T' if the role is not present on the case ([#285](https://github.com/wearefrank/zaakbrug/issues/285)) ([1ec7016](https://github.com/wearefrank/zaakbrug/commit/1ec701606c0f0bb3c82d593745f3110f33b2c9c7))
+
+### ✅ Tests
+
+* add assertions to check for regression on various geefLijstZaakdocumenten and geefZaakDetails steps [skip ci] ([3b2bfbf](https://github.com/wearefrank/zaakbrug/commit/3b2bfbf540c36b5c2f606cb7e07cd9012bbe4c57))
+* add testcases for all different combinations of verwerkingsoort on case roles ([f88f0a6](https://github.com/wearefrank/zaakbrug/commit/f88f0a6a299c5a760ad037c3b46faf9f63a81efd))
+* add testcases for deleting, changing and adding multiple gerelateerde on a single roltype ([e7b68a1](https://github.com/wearefrank/zaakbrug/commit/e7b68a1119d9ba2fc4ea75343302f1d88dd3b7f2))
+
 ## [1.19.6](https://github.com/wearefrank/zaakbrug/compare/v1.19.5...v1.19.6) (2024-06-11)
 
 ### 📝 Documentation
