@@ -16,7 +16,7 @@
                 <taal><xsl:value-of select="ZgwEnkelvoudigInformatieObject/taal"/></taal>
                 <versie><xsl:value-of select="ZgwEnkelvoudigInformatieObject/versie"/></versie>
                 <status><xsl:value-of select="$statusMap(ZgwEnkelvoudigInformatieObject/status)"/></status>
-                <xsl:if test="ZgwEnkelvoudigInformatieObject/verzenddatum and not(ZgwEnkelvoudigInformatieObject/verzenddatum/@nil) or ZgwEnkelvoudigInformatieObject/verzenddatum/@nil = 'false'">
+                <xsl:if test="ZgwEnkelvoudigInformatieObject/verzenddatum != ''">
                     <verzenddatum><xsl:value-of select="format-date(ZgwEnkelvoudigInformatieObject/verzenddatum, '[Y0001][M01][D01]')"/></verzenddatum>
                 </xsl:if>
                 <vertrouwelijkAanduiding><xsl:value-of select="ZgwEnkelvoudigInformatieObject/vertrouwelijkheidaanduiding"/></vertrouwelijkAanduiding>
@@ -25,7 +25,7 @@
             </gerelateerde>
             <titel><xsl:value-of select="$ZgwZaakInformatieObject/ZgwZaakInformatieObject/titel"/></titel>
             <beschrijving><xsl:value-of select="$ZgwZaakInformatieObject/ZgwZaakInformatieObject/beschrijving"/></beschrijving>
-            <xsl:if test="$ZgwZaakInformatieObject/ZgwZaakInformatieObject/registratiedatum and not($ZgwZaakInformatieObject/ZgwZaakInformatieObject/registratiedatum/@nil = 'true')">
+            <xsl:if test="$ZgwZaakInformatieObject/ZgwZaakInformatieObject/registratiedatum != ''">
                 <registratiedatum><xsl:value-of select="format-dateTime($ZgwZaakInformatieObject/ZgwZaakInformatieObject/registratiedatum, '[Y0001][M01][D01]')"/></registratiedatum>
             </xsl:if>
 
