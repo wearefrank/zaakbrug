@@ -94,38 +94,33 @@
                 forwardNameSessionKey="LegalizedSoapAction"
                 notFoundForwardName="UnsupportedSoapActionError"
                 />
-
-            <XmlIfPipe name="http:__www.egem.nl_StUF_sector_zkn_0310_geefLijstZaakdocumenten_Lv01" xpathExpression="${GeefLijstZaakdocumentenExpand_Lv01.Active} = true">
-                <Forward name="then" path="http:__www.egem.nl_StUF_sector_zkn_0310_geefLijstZaakdocumenten_Lv01_Expand" />
-                <Forward name="else" path="http:__www.egem.nl_StUF_sector_zkn_0310_geefLijstZaakdocumenten_Lv01" />
-            </XmlIfPipe>
-
-            <!-- GeefLijstZaakdocumentenExpand -->
-            <SenderPipe
-                name="GeefLijstZaakdocumentenExpand_Lv01">
-                <IbisLocalSender
-                    name="GeefLijstZaakdocumentenExpand_Lv01LocalSender"
-                    javaListener="GeefLijstZaakdocumentenExpand_Lv01"
-                    returnedSessionKeys="Error">
-                    <Param name="ZaakIdentificatie" xpathExpression="/*/gelijk/identificatie" type="STRING" />
-                </IbisLocalSender>
-                <Forward name="success" path="WrapZakLa01Response" />
-                <Forward name="exception" path="BackEndError" />
-            </SenderPipe>
-
-            <!-- GeefLijstZaakdocumenten -->
-            <SenderPipe
-                name="GeefLijstZaakdocumenten_Lv01">
-                <IbisLocalSender
-                    name="GeefLijstZaakdocumenten_Lv01LocalSender"
-                    javaListener="GeefLijstZaakdocumentenExpand_Lv01"
-                    returnedSessionKeys="Error">
-                    <Param name="ZaakIdentificatie" xpathExpression="/*/gelijk/identificatie" type="STRING" />
-                </IbisLocalSender>
-                <Forward name="success" path="WrapZakLa01Response" />
-                <Forward name="exception" path="BackEndError" />
-            </SenderPipe>
-
+                
+                <!-- GeefLijstZaakdocumenten -->
+                <SenderPipe
+                    name="http:__www.egem.nl_StUF_sector_zkn_0310_geefLijstZaakdocumenten_Lv01" active="${GeefLijstZaakdocumenten_Lv01.Active}">
+                    <IbisLocalSender
+                        name="GeefLijstZaakdocumenten_Lv01LocalSender"
+                        javaListener="GeefLijstZaakdocumenten_Lv01"
+                        returnedSessionKeys="Error">
+                        <Param name="ZaakIdentificatie" xpathExpression="/*/gelijk/identificatie" type="STRING" />
+                    </IbisLocalSender>
+                    <Forward name="success" path="WrapZakLa01Response" />
+                    <Forward name="exception" path="BackEndError" />
+                </SenderPipe>
+    
+                <!-- GeefLijstZaakdocumentenExpand -->
+                <SenderPipe
+                    name="http:__www.egem.nl_StUF_sector_zkn_0310_geefLijstZaakdocumenten_Lv01" active="${GeefLijstZaakdocumentenExpand_Lv01.Active}">
+                    <IbisLocalSender
+                        name="GeefLijstZaakdocumentenExpand_Lv01LocalSender"
+                        javaListener="GeefLijstZaakdocumentenExpand_Lv01"
+                        returnedSessionKeys="Error">
+                        <Param name="ZaakIdentificatie" xpathExpression="/*/gelijk/identificatie" type="STRING" />
+                    </IbisLocalSender>
+                    <Forward name="success" path="WrapZakLa01Response" />
+                    <Forward name="exception" path="BackEndError" />
+                </SenderPipe>
+                
             <!-- GeefZaakdocumentLezen -->
             <SenderPipe
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_geefZaakdocumentLezen_Lv01"
