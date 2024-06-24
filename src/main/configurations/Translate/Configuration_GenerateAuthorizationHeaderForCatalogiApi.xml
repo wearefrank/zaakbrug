@@ -15,12 +15,13 @@
             </Exits>
 
             <XmlSwitchPipe 
-                name="CheckForJwt"
-                xpathExpression="$valueAuthType = 'jwt'"
+                name="CheckForAuthType"
+                xpathExpression="$valueAuthType"
                 >
                 <Param name="valueAuthType" value="${zaakbrug.zgw.catalogi-api.auth-type}"/>
-                <Forward name="true" path="createJwt"/>
-                <Forward name="false" path="CheckForBasicAuth"/>
+                <Forward name="jwt" path="createJwt"/>
+                <Forward name="basic" path="GetUserCredentialForBasicAuth"/>
+                <Forward name="value" path="CreateValueAuthorizationHeader"/>
             </XmlSwitchPipe>
 
             <!-- jwtTokenGeneratorPipe -->
@@ -42,15 +43,6 @@
                 <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="EXCEPTION" />
             </PutInSessionPipe>
-
-            <XmlSwitchPipe 
-                name="CheckForBasicAuth"
-                xpathExpression="$valueAuthType = 'basic'"
-                >
-                <Param name="valueAuthType" value="${zaakbrug.zgw.catalogi-api.auth-type}"/>
-                <Forward name="true" path="GetUserCredentialForBasicAuth"/>
-                <Forward name="false" path="CreateValueAuthorizationHeader"/>
-            </XmlSwitchPipe>
 
             <PutInSessionPipe name="GetUserCredentialForBasicAuth">
                 <Param name="user_credential" xpathExpression="concat($username,':',$password)" hidden="true">
