@@ -63,7 +63,7 @@
             </XsltPipe>
 
             <JsonPipe name="JsonToXml">
-                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList"/>
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList" />
             </JsonPipe>
 
             <XsltPipe

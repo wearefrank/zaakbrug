@@ -31,15 +31,16 @@
                     returnedSessionKeys="Error">
                     <Param name="Identificatie" xpathExpression="zakLv01/gelijk/identificatie"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CheckForGetZgwZaakResult"/>
+                <Forward name="success" path="ZaakNotFound_Condition" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
             
-            <XmlIfPipe name="CheckForGetZgwZaakResult"
-                xpathExpression="string-length(ZgwZaken) > 0"
+            <XmlIfPipe
+                name="ZaakNotFound_Condition"
+                xpathExpression="string-length(ZgwZaken) = 0"
                 >
-                <Forward name="then" path="GetSingleZgwZaakFromZgwZakenList"/>
-                <Forward name="else" path="EXIT"/>
+                <Forward name="then" path="EXIT" />
+                <Forward name="else" path="GetSingleZgwZaakFromZgwZakenList" />
             </XmlIfPipe>
         
             <XsltPipe
