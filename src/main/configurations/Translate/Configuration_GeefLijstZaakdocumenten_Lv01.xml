@@ -22,9 +22,17 @@
                     returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="ZaakIdentificatie"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CallGetZaakInformatieObjectenByZaak"/>
+                <Forward name="success" path="ZaakNotFound_Condition" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
+
+            <XmlIfPipe
+                name="ZaakNotFound_Condition"
+                xpathExpression="string-length(ZgwZaken) = 0"
+                >
+                <Forward name="then" path="EXIT" />
+                <Forward name="else" path="CallGetZaakInformatieObjectenByZaak" />
+            </XmlIfPipe>
 
             <SenderPipe
                 name="CallGetZaakInformatieObjectenByZaak"
