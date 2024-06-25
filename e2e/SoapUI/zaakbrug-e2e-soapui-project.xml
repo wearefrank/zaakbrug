@@ -22526,6 +22526,317 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
+    <con:testCase id="9c49c62c-52df-41e8-8205-43940804bda1" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="5-TestCase ShouldReturnNoErrorWhenNoZaakFound" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+      <con:settings/>
+      <con:testStep type="properties" name="Properties" id="6b939893-89c9-40d3-b192-2a607750ffb4">
+        <con:settings/>
+        <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:properties>
+            <con:property>
+              <con:name>ZaakIdentificatie</con:name>
+              <con:value/>
+            </con:property>
+          </con:properties>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="request" id="3188f63e-55c0-4e49-844b-946b876218f7" name="01-zds-genereerZaakIdentificatie_Di02">
+        <con:settings/>
+        <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:interface>ZdsVrijeBerichten</con:interface>
+          <con:operation>genereerZaakIdentificatie_Di02</con:operation>
+          <con:request name="01-zds-genereerZaakIdentificatie_Di02" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="78a97417-a2f7-4fe6-87ad-6af33391b0e1">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+              <con:setting id="com.eviware.soapui.impl.support.AbstractHttpRequest@dump-file"/>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#ZaakbrugEndpoint}translate/generic/zds/VrijBericht</con:endpoint>
+            <con:request><![CDATA[<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">\r
+   <s:Body>\r
+      <genereerZaakIdentificatie_Di02 xmlns="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\r
+         <stuurgegevens>\r
+            <StUF:berichtcode>Di02</StUF:berichtcode>\r
+            <StUF:zender>\r
+               <StUF:organisatie>1900</StUF:organisatie>\r
+               <StUF:applicatie>GISVG</StUF:applicatie>\r
+            </StUF:zender>\r
+            <StUF:ontvanger>\r
+               <StUF:organisatie>1900</StUF:organisatie>\r
+               <StUF:applicatie>ZDS</StUF:applicatie>\r
+            </StUF:ontvanger>\r
+            <StUF:referentienummer>${=java.util.UUID.randomUUID().toString() }</StUF:referentienummer>\r
+            <StUF:tijdstipBericht>${=import java.text.SimpleDateFormat; SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS"); sdf.setTimeZone(TimeZone.getTimeZone("${#Project#ZdsTimezone}")); sdf.format(new Date());}</StUF:tijdstipBericht>\r
+            <StUF:functie>genereerZaakidentificatie</StUF:functie>\r
+         </stuurgegevens>\r
+      </genereerZaakIdentificatie_Di02>\r
+   </s:Body>\r
+</s:Envelope>]]></con:request>
+            <con:assertion type="SOAP Response" id="d95790e3-4684-4e55-bc88-a3472c2a786b" name="SOAP Response"/>
+            <con:assertion type="Schema Compliance" id="7c41213e-fa45-4a54-9b26-a2aae7cae18f" name="Schema Compliance">
+              <con:configuration/>
+            </con:assertion>
+            <con:assertion type="SOAP Fault Assertion" id="18ca3e91-13ed-4d5d-951f-992518c27752" name="Not SOAP Fault"/>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.egem.nl/StUF/sector/zkn/0310/genereerZaakIdentificatie_Di02"/>
+            <con:wsrmConfig version="1.2"/>
+          </con:request>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="transfer" name="01a-TransferZaakIdentificatie" id="e79bfade-1f06-4760-bc6c-d8b8189f7726">
+        <con:settings/>
+        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false" disabled="false">
+            <con:name>TransferZaakIdentificatie</con:name>
+            <con:sourceType>Response</con:sourceType>
+            <con:sourceStep>01-zds-genereerZaakIdentificatie_Di02</con:sourceStep>
+            <con:sourcePath>declare namespace ZKN="http://www.egem.nl/StUF/sector/zkn/0310";
+//ZKN:identificatie[1]</con:sourcePath>
+            <con:targetType>ZaakIdentificatie</con:targetType>
+            <con:targetStep>Properties</con:targetStep>
+            <con:targetPath/>
+            <con:type>XPATH</con:type>
+            <con:upgraded>true</con:upgraded>
+          </con:transfers>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="request" id="e01dbb3b-d69b-4bb5-a3c5-dd8fa13334c5" name="03-zds-geefZaakdetails_Lv01-ShouldReturnNoErrorWithNotExistingZaakId">
+        <con:settings/>
+        <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:interface>ZdsBeantwoordVraag</con:interface>
+          <con:operation>geefZaakdetails_Lv01</con:operation>
+          <con:request name="03-zds-geefZaakdetails_Lv01-ShouldReturnNoErrorWithNotExistingZaakId" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="b86f0444-e5bf-4a09-97a2-3d650e0b93ff">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#ZaakbrugEndpoint}translate/generic/zds/BeantwoordVraag</con:endpoint>
+            <con:request><![CDATA[<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">\r
+   <s:Body>\r
+      <zakLv01 xmlns="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:xlink="http://www.w3.org/1999/xlink">\r
+         <stuurgegevens>\r
+            <StUF:berichtcode>Lv01</StUF:berichtcode>\r
+            <StUF:zender>\r
+               <StUF:organisatie>1900</StUF:organisatie>\r
+               <StUF:applicatie>GISVG</StUF:applicatie>\r
+            </StUF:zender>\r
+            <StUF:ontvanger>\r
+               <StUF:organisatie>1900</StUF:organisatie>\r
+               <StUF:applicatie>ZDS</StUF:applicatie>\r
+            </StUF:ontvanger>\r
+            <StUF:referentienummer>${=java.util.UUID.randomUUID().toString() }</StUF:referentienummer>\r
+            <StUF:tijdstipBericht>${=import java.text.SimpleDateFormat; SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS"); sdf.setTimeZone(TimeZone.getTimeZone("${#Project#ZdsTimezone}")); sdf.format(new Date());}</StUF:tijdstipBericht>\r
+            <StUF:entiteittype>ZAK</StUF:entiteittype>\r
+         </stuurgegevens>\r
+         <parameters>\r
+            <StUF:sortering>0</StUF:sortering>\r
+            <StUF:indicatorVervolgvraag>false</StUF:indicatorVervolgvraag>\r
+         </parameters>\r
+         <gelijk StUF:entiteittype="ZAK">\r
+            <identificatie>${Properties#ZaakIdentificatie}</identificatie>\r
+         </gelijk>\r
+         <scope>\r
+            <object StUF:entiteittype="ZAK">\r
+               <identificatie xsi:nil="true"/>\r
+               <omschrijving xsi:nil="true"/>\r
+               <toelichting xsi:nil="true"/>\r
+               <kenmerk>\r
+                  <kenmerk xsi:nil="true"/>\r
+                  <bron xsi:nil="true"/>\r
+               </kenmerk>\r
+               <anderZaakObject>\r
+                  <omschrijving xsi:nil="true"/>\r
+                  <aanduiding xsi:nil="true"/>\r
+                  <lokatie xsi:nil="true"/>\r
+                  <registratie xsi:nil="true"/>\r
+               </anderZaakObject>\r
+               <resultaat>\r
+                  <omschrijving xsi:nil="true"/>\r
+                  <toelichting xsi:nil="true"/>\r
+               </resultaat>\r
+               <startdatum xsi:nil="true"/>\r
+               <registratiedatum xsi:nil="true"/>\r
+               <publicatiedatum xsi:nil="true"/>\r
+               <einddatumGepland xsi:nil="true"/>\r
+               <uiterlijkeEinddatum xsi:nil="true"/>\r
+               <einddatum xsi:nil="true"/>\r
+               <opschorting>\r
+                  <indicatie xsi:nil="true"/>\r
+                  <reden xsi:nil="true"/>\r
+               </opschorting>\r
+               <verlenging>\r
+                  <duur xsi:nil="true"/>\r
+                  <reden xsi:nil="true"/>\r
+               </verlenging>\r
+               <betalingsIndicatie xsi:nil="true"/>\r
+               <laatsteBetaaldatum xsi:nil="true"/>\r
+               <archiefnominatie xsi:nil="true"/>\r
+               <datumVernietigingDossier xsi:nil="true"/>\r
+               <zaakniveau xsi:nil="true"/>\r
+               <deelzakenIndicatie xsi:nil="true"/>\r
+               <isVan StUF:entiteittype="ZAKZKT">\r
+                  <gerelateerde StUF:entiteittype="ZKT">\r
+                     <omschrijving xsi:nil="true"/>\r
+                     <code xsi:nil="true"/>\r
+                     <omschrijvingGeneriek xsi:nil="true"/>\r
+                     <zaakcategorie xsi:nil="true"/>\r
+                     <trefwoord xsi:nil="true"/>\r
+                     <doorlooptijd xsi:nil="true"/>\r
+                     <servicenorm xsi:nil="true"/>\r
+                     <archiefcode xsi:nil="true"/>\r
+                     <vertrouwelijkAanduiding xsi:nil="true"/>\r
+                     <publicatieIndicatie xsi:nil="true"/>\r
+                     <publicatietekst xsi:nil="true"/>\r
+                  </gerelateerde>\r
+               </isVan>\r
+               <heeftBetrekkingOp StUF:entiteittype="ZAKOBJ">\r
+                  <gerelateerde/>\r
+               </heeftBetrekkingOp>\r
+               <heeftAlsBelanghebbende StUF:entiteittype="ZAKBTRBLH">\r
+                  <gerelateerde/>\r
+               </heeftAlsBelanghebbende>\r
+               <heeftAlsGemachtigde StUF:entiteittype="ZAKBTRGMC">\r
+                  <gerelateerde/>\r
+               </heeftAlsGemachtigde>\r
+               <heeftAlsInitiator StUF:entiteittype="ZAKBTRINI">\r
+                  <gerelateerde/>\r
+               </heeftAlsInitiator>\r
+               <heeftAlsUitvoerende StUF:entiteittype="ZAKBTRUTV">\r
+                  <gerelateerde/>\r
+               </heeftAlsUitvoerende>\r
+               <heeftAlsVerantwoordelijke StUF:entiteittype="ZAKBTRVRA">\r
+                  <gerelateerde/>\r
+               </heeftAlsVerantwoordelijke>\r
+               <heeftAlsOverigBetrokkene StUF:entiteittype="ZAKBTROVR">\r
+                  <gerelateerde/>\r
+               </heeftAlsOverigBetrokkene>\r
+            </object>\r
+         </scope>\r
+      </zakLv01>\r
+   </s:Body>\r
+</s:Envelope>]]></con:request>
+            <con:assertion type="SOAP Response" id="a5bb9a97-6aff-4a26-bd8c-283295080f00" name="SOAP Response"/>
+            <con:assertion type="Schema Compliance" id="ed311230-3e49-4b1f-ad19-4ff7dad1ecf2" name="Schema Compliance">
+              <con:configuration/>
+            </con:assertion>
+            <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
+            <con:assertion type="XPath Match" id="17a1e7d1-da63-4ca9-a8b6-1c1a8c64d84b" name="CheckObjectElementIsEmpty">
+              <con:configuration>
+                <path>count(//*:zakLa01/*:antwoord/*:object/*)</path>
+                <content>0</content>
+                <allowWildcards>false</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.egem.nl/StUF/sector/zkn/0310/geefZaakdetails_Lv01"/>
+            <con:wsrmConfig version="1.2"/>
+          </con:request>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="request" id="bb0277e9-9d1e-4f99-a115-c3d06ab2aba0" name="04-zds-geefLijstZaakdocumenten_Lv01-ShouldReturnNoErrorWithNotExistingZaakId">
+        <con:settings/>
+        <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:interface>ZdsBeantwoordVraag</con:interface>
+          <con:operation>geefLijstZaakdocumenten_Lv01</con:operation>
+          <con:request name="04-zds-geefLijstZaakdocumenten_Lv01-ShouldReturnNoErrorWithNotExistingZaakId" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="a3e62795-102e-4f2a-bef6-2de7f0c1a7e0">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+              <con:setting id="com.eviware.soapui.impl.support.AbstractHttpRequest@dump-file"/>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#ZaakbrugEndpoint}translate/generic/zds/BeantwoordVraag</con:endpoint>
+            <con:request><![CDATA[<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">\r
+   <s:Body>\r
+      <zakLv01 xmlns="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:xlink="http://www.w3.org/1999/xlink">\r
+         <stuurgegevens>\r
+            <StUF:berichtcode>Lv01</StUF:berichtcode>\r
+            <StUF:zender>\r
+               <StUF:organisatie>1900</StUF:organisatie>\r
+               <StUF:applicatie>GISVG</StUF:applicatie>\r
+            </StUF:zender>\r
+            <StUF:ontvanger>\r
+               <StUF:organisatie>1900</StUF:organisatie>\r
+               <StUF:applicatie>ZDS</StUF:applicatie>\r
+            </StUF:ontvanger>\r
+            <StUF:referentienummer>${=java.util.UUID.randomUUID().toString() }</StUF:referentienummer>\r
+            <StUF:tijdstipBericht>${=import java.text.SimpleDateFormat; SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS"); sdf.setTimeZone(TimeZone.getTimeZone("${#Project#ZdsTimezone}")); sdf.format(new Date());}</StUF:tijdstipBericht>\r
+            <StUF:entiteittype>ZAK</StUF:entiteittype>\r
+         </stuurgegevens>\r
+         <parameters>\r
+            <StUF:sortering>0</StUF:sortering>\r
+            <StUF:indicatorVervolgvraag>false</StUF:indicatorVervolgvraag>\r
+         </parameters>\r
+         <gelijk StUF:entiteittype="ZAK">\r
+            <identificatie>${Properties#ZaakIdentificatie}</identificatie>\r
+         </gelijk>\r
+         <scope>\r
+            <object StUF:entiteittype="ZAK">\r
+               <identificatie xsi:nil="true"/>\r
+               <heeftRelevant StUF:entiteittype="ZAKEDC">\r
+                  <gerelateerde StUF:entiteittype="EDC">\r
+                     <identificatie xsi:nil="true"/>\r
+                     <creatiedatum xsi:nil="true"/>\r
+                     <ontvangstdatum xsi:nil="true"/>\r
+                     <titel xsi:nil="true"/>\r
+                     <beschrijving xsi:nil="true"/>\r
+                     <formaat xsi:nil="true"/>\r
+                     <taal xsi:nil="true"/>\r
+                     <versie xsi:nil="true"/>\r
+                     <status xsi:nil="true"/>\r
+                     <verzenddatum xsi:nil="true"/>\r
+                     <vertrouwelijkAanduiding xsi:nil="true"/>\r
+                     <auteur xsi:nil="true"/>\r
+                     <link xsi:nil="true"/>\r
+                  </gerelateerde>\r
+                  <titel xsi:nil="true"/>\r
+                  <beschrijving xsi:nil="true"/>\r
+                  <registratiedatum xsi:nil="true"/>\r
+               </heeftRelevant>\r
+            </object>\r
+         </scope>\r
+      </zakLv01>\r
+   </s:Body>\r
+</s:Envelope>]]></con:request>
+            <con:assertion type="SOAP Response" id="b2f3ce38-c4b5-4541-9374-17f6682f16d2" name="SOAP Response"/>
+            <con:assertion type="Schema Compliance" id="d13f39b7-9089-4189-b7de-e7ba35a6002a" name="Schema Compliance">
+              <con:configuration/>
+            </con:assertion>
+            <con:assertion type="SOAP Fault Assertion" id="ba1882c2-f41f-4dc6-a1a3-2d859b772f8a" name="Not SOAP Fault"/>
+            <con:assertion type="XPath Match" id="e315a915-3c43-45e6-b342-71d51836f9be" name="CheckObjectElementIsEmpty">
+              <con:configuration>
+                <path>count(//*:zakLa01/*:antwoord/*:object/*)</path>
+                <content>0</content>
+                <allowWildcards>false</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.egem.nl/StUF/sector/zkn/0310/geefLijstZaakdocumenten_Lv01"/>
+            <con:wsrmConfig version="1.2"/>
+          </con:request>
+        </con:config>
+      </con:testStep>
+      <con:properties>
+        <con:property>
+          <con:name>DocumentSizeKb</con:name>
+          <con:value>0.1</con:value>
+        </con:property>
+      </con:properties>
+    </con:testCase>
     <con:testCase id="58919512-9485-4822-8986-f4861cd14c33" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TearDown-Delete ZaakTypeOmgevingsvergunning" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="8c3d318d-bd31-4fe0-acea-cef700648e6e">

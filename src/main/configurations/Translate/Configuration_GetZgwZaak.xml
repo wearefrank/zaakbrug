@@ -63,26 +63,8 @@
             </XsltPipe>
 
             <JsonPipe name="JsonToXml">
-                <Forward name="success" path="checkCount"/>
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList" />
             </JsonPipe>
-
-            <XmlIfPipe name="checkCount" xpathExpression="root/count = 0">
-                <Forward name="then" path="BuildErrorMessage" />
-                <Forward name="else" path="UnwrapOpenZaakApiEnvelopeToList" />
-            </XmlIfPipe>
-
-            <XsltPipe
-                name="BuildErrorMessage"
-                getInputFromFixedValue="&lt;dummy/&gt;"
-                styleSheetName="Common/xsl/BuildError.xsl"
-                storeResultInSessionKey="Error">
-                <Param name="cause" sessionKey="Error" type="DOMDOC" />
-                <Param name="code" value="TechnicalError" /> 
-                <Param name="reason" pattern="No zaak with the identificatie:{Identificatie} is found in GetZgwZaakByIdentificatie" />
-                <Param name="detailsXml" type="DOMDOC"/>
-                <Forward name="success" path="EXCEPTION" />
-                <Forward name="exception" path="EXCEPTION" />
-            </XsltPipe>
 
             <XsltPipe
                 name="UnwrapOpenZaakApiEnvelopeToList"
