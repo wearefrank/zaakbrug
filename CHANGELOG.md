@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.19.9](https://github.com/wearefrank/zaakbrug/compare/v1.19.8...v1.19.9) (2024-06-25)
+
+### 🐛 Bug Fixes
+
+* geefLijstZaakdocumenten should not return an error response when the zaak can't be found ([#395](https://github.com/wearefrank/zaakbrug/issues/395)) ([d4ce003](https://github.com/wearefrank/zaakbrug/commit/d4ce0037296ca861dfed89df99680fcab7a5633a))
+
 ## [1.19.8](https://github.com/wearefrank/zaakbrug/compare/v1.19.7...v1.19.8) (2024-06-21)
 
 ### 🐛 Bug Fixes
