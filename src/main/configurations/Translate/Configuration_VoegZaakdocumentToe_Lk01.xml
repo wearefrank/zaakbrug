@@ -16,53 +16,30 @@
             <PutInSessionPipe 
                 name="StoreZdsZaakDocumentInhoud">
                 <Param name="ZdsZaakDocumentInhoud" xpathExpression="edcLk01/object[1]" type="DOMDOC"/>
-                <Forward name="success" path="StoreZaakIdentificatie" />
+                <Forward name="success" path="CallGetZgwZaak" />
             </PutInSessionPipe>
             <!-- <EchoPipe name="StoreDocumentData" elementToMove="inhoud" getInputFromSessionKey="ZdsZaakDocumentInhoud" storeResultInSessionKey="ZdsZaakDocumentInhoudDataRef">
                 <Forward name="success" path="CallGetZgwZaak" />
             </EchoPipe> -->
-
-            <PutInSessionPipe 
-                name="StoreZaakIdentificatie"
-                getInputFromSessionKey="ZdsZaakDocumentInhoud"
-                >
-                <Param name="Identificatie" xpathExpression="object/isRelevantVoor/gerelateerde/identificatie" />
-                <Forward name="success" path="CallGetZgwZaak" />
-            </PutInSessionPipe>
-
             <SenderPipe
-                name="CallGetZgwZaak">
+                name="CallGetZgwZaak"
+                getInputFromSessionKey="ZdsZaakDocumentInhoud">
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
                     javaListener="GetZgwZaak"
                     returnedSessionKeys="Error">
-                    <Param name="Identificatie" sessionKey="Identificatie" />
+                    <Param name="Identificatie" xpathExpression="object/isRelevantVoor/gerelateerde/identificatie"/>
                 </IbisLocalSender>
-                <Forward name="success" path="ZaakNotFound_Condition" />
+                <Forward name="success" path="CheckForGetZgwZaakResult"/>
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
 
-            <XmlIfPipe
-                name="ZaakNotFound_Condition"
-                xpathExpression="string-length(ZgwZaken) = 0"
+            <XmlIfPipe name="CheckForGetZgwZaakResult"
+                xpathExpression="string-length(ZgwZaken) > 0"
                 >
-                <Forward name="then" path="ZaakNotFound_Exception" />
-                <Forward name="else" path="GetSingleZgwZaakFromZgwZakenList" />
+                <Forward name="then" path="GetSingleZgwZaakFromZgwZakenList"/>
+                <Forward name="else" path="UncaughtException"/>
             </XmlIfPipe>
-
-            <XsltPipe
-                name="ZaakNotFound_Exception"
-                getInputFromFixedValue="&lt;dummy/&gt;"
-                styleSheetName="Common/xsl/BuildError.xsl"
-                storeResultInSessionKey="Error"
-                >
-                <Param name="cause" sessionKey="Error" type="DOMDOC" />
-                <Param name="code" value="TechnicalError" /> 
-                <Param name="reason" pattern="No zaak with the identificatie:{Identificatie} is found in GetZgwZaak" ignoreUnresolvablePatternElements="true" />
-                <Param name="detailsXml" type="DOMDOC"/>
-                <Forward name="success" path="EXCEPTION" />
-                <Forward name="exception" path="EXCEPTION" />
-            </XsltPipe>
         
             <XsltPipe
                 name="GetSingleZgwZaakFromZgwZakenList"

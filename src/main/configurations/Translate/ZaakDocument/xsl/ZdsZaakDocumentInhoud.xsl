@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:zgw="http://google.com/zgw" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" version="2.0">
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
     <xsl:param name="ZgwZaak"/>
     <xsl:param name="Bas64Inhoud"/>
@@ -49,7 +49,7 @@
             </xsl:choose>
             <xsl:choose>
                 <xsl:when test="string-length(ZgwEnkelvoudigInformatieObject/status) > 0 and normalize-space(ZgwEnkelvoudigInformatieObject/status) != 'null'">
-                    <status><xsl:value-of select="$statusMap(ZgwEnkelvoudigInformatieObject/status)"/></status>
+                    <status><xsl:value-of select="ZgwEnkelvoudigInformatieObject/status"/></status>
                 </xsl:when>
                 <xsl:otherwise>
                     <status><xsl:attribute name="xsi:nil">true</xsl:attribute></status>
@@ -75,12 +75,4 @@
             </isRelevantVoor>
         </ZdsZaakDocumentInhoud>
     </xsl:template>
-    <xsl:variable name="statusMap" as="map(*)">
-        <xsl:map>
-          <xsl:map-entry key="'in_bewerking'" select="'In bewerking'" />
-          <xsl:map-entry key="'ter_vaststelling'" select="'Ter vaststelling'" />
-          <xsl:map-entry key="'definitief'" select="'Definitief'" />
-          <xsl:map-entry key="'gearchiveerd'" select="'Gearchiveerd'" />
-        </xsl:map>
-      </xsl:variable>
 </xsl:stylesheet>
