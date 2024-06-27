@@ -4,7 +4,6 @@
   <!ENTITY AndereZaak                                     SYSTEM "./Configuration_AndereZaak.xml">
   <!ENTITY CancelCheckOutZaakDocument_Di02                SYSTEM "./Configuration_CancelCheckOutZaakDocument_Di02.xml">
   <!ENTITY CheckOutZaakDocument                           SYSTEM "./Configuration_CheckOutZaakDocument.xml">
-  <!ENTITY CheckZgwRol                                    SYSTEM "./Configuration_CheckZgwRol.xml">
   <!ENTITY ConvertISO639Taal                              SYSTEM "./Configuration_ConvertISO639Taal.xml">
   <!ENTITY CreeerZaak_Lk01                                SYSTEM "./Configuration_CreeerZaak_LK01.xml">
   <!ENTITY DeleteRolFromZgw                               SYSTEM "./Configuration_DeleteRolFromZgw.xml">
@@ -15,17 +14,14 @@
   <!ENTITY GeefZaakdetails_Lv01                           SYSTEM "./Configuration_GeefZaakdetails_Lv01.xml">
   <!ENTITY GeefZaakdocumentbewerken_Di02                  SYSTEM "./Configuration_GeefZaakdocumentbewerken_Di02.xml">
   <!ENTITY GeefZaakdocumentLezen_Lv01                     SYSTEM "./Configuration_GeefZaakdocumentLezen_Lv01.xml">
-  <!ENTITY GenerateAuthorizationHeaderForCatalogiApi      SYSTEM "./Configuration_GenerateAuthorizationHeaderForCatalogiApi.xml">
-  <!ENTITY GenerateAuthorizationHeaderForDocumentenApi    SYSTEM "./Configuration_GenerateAuthorizationHeaderForDocumentenApi.xml">
-  <!ENTITY GenerateAuthorizationHeaderForZakenApi         SYSTEM "./Configuration_GenerateAuthorizationHeaderForZakenApi.xml">
   <!ENTITY GenereerIdentificatieEmulator                  SYSTEM "./Configuration_GenereerIdentificatieEmulator.xml">
   <!ENTITY GetBas64Inhoud                                 SYSTEM "./Configuration_GetBas64Inhoud.xml">
   <!ENTITY GetResultaatTypeByZaakTypeAndOmschrijving      SYSTEM "./Configuration_GetResultaatTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetResultatenByZaakUrl                         SYSTEM "./Configuration_GetResultatenByZaakUrl.xml">
   <!ENTITY GetRolByZaakUrlAndRolTypeUrl                   SYSTEM "./Configuration_GetRolByZaakUrlAndRolTypeUrl.xml">
   <!ENTITY GetRollenByBsn                                 SYSTEM "./Configuration_GetRollenByBsn.xml">
-  <!ENTITY GetRolTypenByUrl                               SYSTEM "./Configuration_GetRolTypenByUrl.xml">
-  <!ENTITY GetRsinByGemeenteCode                          SYSTEM "./Configuration_GetRsinByGemeenteCode.xml">
+  <!ENTITY GetRolTypenByUrl                              SYSTEM "./Configuration_GetRolTypenByUrl.xml">
+  <!ENTITY GetRsinByGemeenteCode                        SYSTEM "./Configuration_GetRsinByGemeenteCode.xml">
   <!ENTITY Zaken_GetZgwStatusByZaakUrl                    SYSTEM "./Configuration_Zaken_GetZgwStatusByZaakUrl.xml">
   <!ENTITY GetStatusTypeByZaakTypeAndOmschrijving         SYSTEM "./Configuration_GetStatusTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetStatusTypes                                 SYSTEM "./Configuration_GetStatusTypes.xml">
@@ -83,7 +79,6 @@
   &AndereZaak;
   &CancelCheckOutZaakDocument_Di02;
   &CheckOutZaakDocument;
-  &CheckZgwRol;
   &ConvertISO639Taal;
   &CreeerZaak_Lk01;
   &DeleteRolFromZgw;
@@ -94,9 +89,6 @@
   &GeefZaakdetails_Lv01;
   &GeefZaakdocumentbewerken_Di02;
   &GeefZaakdocumentLezen_Lv01;
-  &GenerateAuthorizationHeaderForCatalogiApi;
-  &GenerateAuthorizationHeaderForDocumentenApi;
-  &GenerateAuthorizationHeaderForZakenApi;
   &GenereerIdentificatieEmulator;
   &GetBas64Inhoud;
   &GetResultaatTypeByZaakTypeAndOmschrijving;

@@ -16,45 +16,12 @@
     <xs:complexType name="zgwNietNatuurlijkPersoon">
         <xs:sequence>
             <xs:element name="innNnpId" type="zgwAN9" minOccurs="0"/>
-            <xs:element name="authentiek" type="authentiek" minOccurs="0"/>
             <xs:element name="annIdentificatie" type="zgwAN17" minOccurs="0"/>
             <xs:element name="statutaireNaam" type="zgwAN500" minOccurs="0"/>
             <xs:element name="innRechtsvorm" type="zgwInnRechtsvorm" minOccurs="0"/>
             <xs:element name="bezoekadres" type="zgwAN1000" minOccurs="0"/>
-            <xs:element name="verblijfsadres" type="zgwVerblijfsAdres" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="zgwVerblijfsAdres">
-        <xs:sequence>
-            <xs:element name="aoaIdentificatie" type="zgwAN100"/>
-            <xs:element name="authentiek" type="authentiek"/>
-            <xs:element name="wplWoonplaatsNaam" type="zgwAN80"/>
-            <xs:element name="gorOpenbareRuimteNaam" type="zgwAN80"/>
-            <xs:element name="aoaPostcode" type="zgwAN7" minOccurs="0"/>
-            <xs:element name="aoaHuisnummer" type="zgwHuisnummer"/>
-            <xs:element name="aoaHuisletter" type="zgwAN1" minOccurs="0"/>
-            <xs:element name="aoaHuisnummertoevoeging" type="zgwAN9" minOccurs="0"/>
-            <xs:element name="inpLocatiebeschrijving" type="zgwAN1000" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:simpleType name="authentiek">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="J"/>
-            <xs:enumeration value="N"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="zgwAN1">
-        <xs:restriction base="xs:string">
-            <xs:minLength value="1"/>
-            <xs:maxLength value="1"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="zgwAN7">
-        <xs:restriction base="xs:string">
-            <xs:minLength value="1"/>
-            <xs:maxLength value="7"/>
-        </xs:restriction>
-    </xs:simpleType>
     <xs:simpleType name="zgwAN9">
         <xs:restriction base="xs:string">
             <xs:minLength value="1"/>
@@ -65,18 +32,6 @@
         <xs:restriction base="xs:string">
             <xs:minLength value="1"/>
             <xs:maxLength value="17"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="zgwAN80">
-        <xs:restriction base="xs:string">
-            <xs:minLength value="1"/>
-            <xs:maxLength value="80"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="zgwAN100">
-        <xs:restriction base="xs:string">
-            <xs:minLength value="1"/>
-            <xs:maxLength value="100"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="zgwAN500">
@@ -95,12 +50,6 @@
         <xs:restriction base="xs:anyURI">
             <xs:minLength value="1"/>
             <xs:maxLength value="1000"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="zgwHuisnummer">
-        <xs:restriction base="xs:integer">
-            <xs:minInclusive value="0"/>
-            <xs:maxInclusive value="99999"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="zgwBetrokkeneType">

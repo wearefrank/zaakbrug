@@ -23,31 +23,9 @@
                     returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="Identificatie"/>
                 </IbisLocalSender>
-                <Forward name="success" path="ZaakNotFound_Condition"/>
+                <Forward name="success" path="GetSingleZgwAndereZaakFromZgwZakenList"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
-
-            <XmlIfPipe
-                name="ZaakNotFound_Condition"
-                xpathExpression="string-length(ZgwZaken) = 0"
-                >
-                <Forward name="then" path="ZaakNotFound_Exception" />
-                <Forward name="else" path="GetSingleZgwAndereZaakFromZgwZakenList" />
-            </XmlIfPipe>
-
-            <XsltPipe
-                name="ZaakNotFound_Exception"
-                getInputFromFixedValue="&lt;dummy/&gt;"
-                styleSheetName="Common/xsl/BuildError.xsl"
-                storeResultInSessionKey="Error"
-                >
-                <Param name="cause" sessionKey="Error" type="DOMDOC" />
-                <Param name="code" value="TechnicalError" /> 
-                <Param name="reason" pattern="No zaak with the identificatie:{Identificatie} is found in GetZgwZaak" ignoreUnresolvablePatternElements="true" />
-                <Param name="detailsXml" type="DOMDOC" />
-                <Forward name="success" path="EXCEPTION" />
-                <Forward name="exception" path="EXCEPTION" />
-            </XsltPipe>
 
             <XsltPipe
                 name="GetSingleZgwAndereZaakFromZgwZakenList"
