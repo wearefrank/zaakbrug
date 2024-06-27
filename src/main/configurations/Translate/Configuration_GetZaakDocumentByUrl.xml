@@ -30,7 +30,7 @@
 
 			<SenderPipe name="GetZaakDocumentByUrl"
                 getInputFromFixedValue="&lt;dummy/&gt;">
-				<HttpSender 
+				<Sender className="org.frankframework.http.HttpSenderCached" 
 					name="GetZaakDocumentByUrlSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"

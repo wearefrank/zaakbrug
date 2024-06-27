@@ -90,7 +90,7 @@ import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
  */
 //TODO: Fix javadoc!
 
-public abstract class HttpSenderBase extends HttpSessionBase implements HasPhysicalDestination, ISenderWithParameters, CanUseSharedResource<HttpSession> {
+public abstract class HttpSenderBaseCached extends HttpSessionBase implements HasPhysicalDestination, ISenderWithParameters, CanUseSharedResource<HttpSession> {
 
 	private static final String CONTEXT_KEY_STATUS_CODE = "Http.StatusCode";
 	private static final String CONTEXT_KEY_REASON_PHRASE = "Http.ReasonPhrase";
@@ -383,7 +383,7 @@ public abstract class HttpSenderBase extends HttpSessionBase implements HasPhysi
 	 * @param session {@link PipeLineSession} which may be null
 	 * @return a string that will be passed to the pipeline
 	 */
-	protected abstract Message extractResult(HttpResponseHandler responseHandler, PipeLineSession session) throws SenderException, IOException;
+	protected abstract Message extractResult(URI targetURI, HttpResponseHandler responseHandler, PipeLineSession session) throws SenderException, IOException;
 
 	protected boolean validateResponseCode(int statusCode) {
 		boolean ok = false;
@@ -502,7 +502,7 @@ public abstract class HttpSenderBase extends HttpSessionBase implements HasPhysi
 				log.debug("status [{}]", statusCode);
 			}
 
-			result = extractResult(responseHandler, session);
+			result = extractResult(targetUri, responseHandler, session);
 
 			log.debug("retrieved result [{}]", result);
 		} catch (IOException e) {

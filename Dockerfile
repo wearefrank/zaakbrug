@@ -20,8 +20,8 @@ COPY src/main/java /tmp/java
 RUN mkdir /tmp/classes && \
     javac \
     /tmp/java/org/frankframework/parameters/Parameter.java \
-    /tmp/java/org/frankframework/http/HttpSender.java \
-    /tmp/java/org/frankframework/http/HttpSenderBase.java \
+    /tmp/java/org/frankframework/http/HttpSenderCached.java \
+    /tmp/java/org/frankframework/http/HttpSenderBaseCached.java \
     -classpath "/usr/local/tomcat/webapps/ROOT/WEB-INF/lib/*:/usr/local/tomcat/lib/*" \
     -verbose -d /tmp/classes
 

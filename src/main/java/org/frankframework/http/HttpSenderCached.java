@@ -116,7 +116,7 @@ import net.sf.ehcache.Ehcache;
  * @since 7.0
  * @version 2.0
  */
-public class HttpSender extends HttpSenderBase {
+public class HttpSenderCached extends HttpSenderBaseCached {
 
 	private @Getter boolean paramsInUrl=true;
 	private @Getter String firstBodyPartName=null;
@@ -439,7 +439,7 @@ public class HttpSender extends HttpSenderBase {
 	}
 
 	@Override
-	protected Message extractResult(HttpResponseHandler responseHandler, PipeLineSession session) throws SenderException, IOException {
+	protected Message extractResult(URI targetURI, HttpResponseHandler responseHandler, PipeLineSession session) throws SenderException, IOException {
 		int statusCode = responseHandler.getStatusLine().getStatusCode();
 
 		if (!validateResponseCode(statusCode)) {
@@ -465,11 +465,11 @@ public class HttpSender extends HttpSenderBase {
 		if (responseHandler.isMultipart()) {
 			return handleMultipartResponse(responseHandler, session);
 		} else {
-			return getResponseBody(responseHandler, statusCode);
+			return getResponseBody(targetURI, responseHandler, statusCode);
 		}
 	}
 
-	public Message getResponseBody(HttpResponseHandler responseHandler, int statusCode) throws IOException {
+	public Message getResponseBody(URI targetURI, HttpResponseHandler responseHandler, int statusCode) throws IOException {
 		Header[] headers = responseHandler.getAllHeaders();
 		if (getHttpMethod() == HttpMethod.HEAD) {
 			XmlBuilder headersXml = new XmlBuilder("headers");
@@ -487,40 +487,6 @@ public class HttpSender extends HttpSenderBase {
 		etagCache = super.getEtagCache();
 		messageCache = super.getMessageCache();
 		Message responseMessage = responseHandler.getResponseMessage();
-		String responseString = null;
-		String url = null;
-
-		// Use JSON to obtain the URL necessary for storing the etag
-		if (responseMessage != null) {
-			responseString = responseMessage.asString();
-			JsonReader jsonReader = Json.createReader(new StringReader(responseString));
-			if (responseString != null) {
-				char firstChar = responseString.trim().charAt(0);
-				try {
-					if (firstChar == '{') {
-						JsonObject jsonObject = jsonReader.readObject();
-						try {
-							url = jsonObject.getString("url");
-						} catch (Exception e) {
-							JsonArray results = jsonObject.getJsonArray("results");
-							if (!results.isEmpty()) {
-								url = results.getJsonObject(0).getString("url");
-							}
-						}
-					} else if (firstChar == '[') {
-						JsonArray jsonArray = jsonReader.readArray();
-						if (jsonArray.size() > 0) {
-							JsonObject jsonObject = jsonArray.getJsonObject(0);
-							url = jsonObject.getString("url");
-						}
-					}
-				} catch (Exception e) {
-					log.warn("NO URL REACHABLE");
-				} finally {
-					jsonReader.close();
-				}
-			}
-		}
 
 		// Begin Etag handling
 		Header etagHeader = null;
@@ -535,12 +501,16 @@ public class HttpSender extends HttpSenderBase {
 		// If the statusCode is 304 and Etag is present
 		if (statusCode == 304 && etagHeader != null) {
 			responseMessage = new Message(messageCache.get(etagHeader.getValue()).getObjectValue().toString());
+			log.warn("LOGHIT: ");
+			log.warn(responseMessage);
 		}
 		// Etag is present but no 304
 		else if (etagHeader != null) {
+			log.warn("LOGTAG:");
+			log.warn(targetURI.toString());
 			String etagHeaderValue = etagHeader.getValue();
-			net.sf.ehcache.Element etagToStore = new net.sf.ehcache.Element(url, etagHeaderValue);
-			net.sf.ehcache.Element messageToStore = new net.sf.ehcache.Element(etagHeaderValue, responseString);
+			net.sf.ehcache.Element etagToStore = new net.sf.ehcache.Element(targetURI.toString(), etagHeaderValue);
+			net.sf.ehcache.Element messageToStore = new net.sf.ehcache.Element(etagHeaderValue, responseMessage.asString());
 			etagCache.put(etagToStore);
 			messageCache.put(messageToStore);
 		}
