@@ -19,7 +19,6 @@ COPY --from=ff-base /usr/local/tomcat/webapps/ROOT /usr/local/tomcat/webapps/ROO
 COPY src/main/java /tmp/java
 RUN mkdir /tmp/classes && \
     javac \
-    /tmp/java/org/frankframework/parameters/Parameter.java \
     /tmp/java/org/frankframework/http/HttpSenderCached.java \
     /tmp/java/org/frankframework/http/HttpSenderBaseCached.java \
     -classpath "/usr/local/tomcat/webapps/ROOT/WEB-INF/lib/*:/usr/local/tomcat/lib/*" \
