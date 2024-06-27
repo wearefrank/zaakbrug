@@ -1,0 +1,40 @@
+---
+sidebar_position: 100
+---
+
+# Install ZaakBrug With Docker
+
+Docker images for ZaakBrug are available from the DockerHub Image registry.
+
+A list of all published Docker images and tags is available at [DockerHub WeAreFrank/ZaakBrug](https://hub.docker.com/r/wearefrank/zaakbrug). The source code can be found on GitHub at [GitHub WeAreFrank/ZaakBrug](https://github.com/wearefrank/zaakbrug).
+
+
+
+1. Ensure Docker is installed. You can find instructions on how to install Docker for your environment at [Get Docker](https://docs.docker.com/get-docker/).
+
+1. Create a new Docker network for ZaakBrug.
+   ```bash
+   docker network create zaakbrug
+   ```
+1. Pull the ZaakBrug Docker image.
+   ```bash
+   docker pull wearefrank/zaakbrug:latest
+   ```
+   :::info
+   For each new release of ZaakBrug the following tags are updated: `<major>`, `<major>.<minor>`, `<major>.<minor>.<patch>` and `latest`. This allows the user to either lock to a specific version of ZaakBrug by using `<major>.<minor>.<patch>`, or to subcribe to the latest patch version by using `<major>.<minor>` for example.
+   :::
+
+1. Run a ZaakBrug Docker container.
+   ```bash
+   docker run --name zaakbrug --restart=unless-stopped --net zaakbrug -p 8080:8080 -it -e dtap.stage=LOC wearefrank/zaakbrug:latest
+   ```
+   
+   Use the -e flag to set environment variables. The `dtap.stage` variable should be set for the appropriate environment. The options are: LOC, DEV, TST, ACC and PRD.
+
+1. (Optional) Check the container health status.
+   ```bash
+   docker inspect --format="{{json .State.Health.Status}}" zaakbrug
+   ```
+   :::info
+   ZaakBrug will return `healthy` with a positive HTTP response on the health endpoint when all adapters are running and the database connection has been made.
+   :::
