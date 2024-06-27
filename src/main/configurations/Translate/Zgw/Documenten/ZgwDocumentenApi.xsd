@@ -23,18 +23,6 @@
             <xs:element name="datum" type="xs:date" minOccurs="1" maxOccurs="1" />
         </xs:sequence>
     </xs:complexType>
-    <xs:simpleType name="Vertrouwelijkheidaanduiding">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="openbaar" />
-            <xs:enumeration value="beperkt_openbaar" />
-            <xs:enumeration value="intern" />
-            <xs:enumeration value="zaakvertrouwelijk" />
-            <xs:enumeration value="vertrouwelijk" />
-            <xs:enumeration value="confidentieel" />
-            <xs:enumeration value="geheim" />
-            <xs:enumeration value="zeer_geheim" />
-        </xs:restriction>
-    </xs:simpleType>
     <xs:simpleType name="Algoritme">
         <xs:restriction base="xs:string">
             <xs:enumeration value="crc_16" />
@@ -71,27 +59,6 @@
             <xs:enumeration value="analoog" />
             <xs:enumeration value="digitaal" />
             <xs:enumeration value="pki" />
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="AardRelatie">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="vervolg" />
-            <xs:enumeration value="onderwerp" />
-            <xs:enumeration value="bijdrage" />
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="Archiefnominatie">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="blijvend_bewaren" />
-            <xs:enumeration value="vernietigen" />
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="Archiefstatus">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="nog_te_archiveren" />
-            <xs:enumeration value="gearchiveerd" />
-            <xs:enumeration value="gearchiveerd_procestermijn_onbekend" />
-            <xs:enumeration value="overgedragen" />
         </xs:restriction>
     </xs:simpleType>
 </xs:schema> 
