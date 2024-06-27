@@ -186,9 +186,3 @@ A value override is only applied if the property's value after the translation f
 
 Currently this feature implemented for:
 - (zaken-api) zaak
-
-## Local Development Docusaurus
-1. Navigate to "docusaurus" subfolder with `cd ./docusaurus`.
-2. Install dependencies with `npm install`.
-3. Serve Docusaurus webserver locally with `docusaurus start`. By default it is served at `http://localhost:3000/`.
-4. Basic guide on how to use Docusaurus and a styleguide can be found at `./docusaurus/docs/_README.md`.

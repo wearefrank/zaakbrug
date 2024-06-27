@@ -14,16 +14,20 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <SenderPipe name="GetAuthorizationHeaderForCatalogiApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
-                    name="GetAuthorizationHeaderForCatalogiApiSender"
-                    javaListener="GenerateAuthorizationHeaderForCatalogiApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+            <JwtPipe name="createJwt"
+                expirationTime="600"
+                storeResultInSessionKey="myToken"
+                ifParam="valueAuthType"
+                ifValue="Jwt"
+            >
+                <Param name="valueAuthType" value="${zaakbrug.zgw.catalogi-api.auth-type}" />
+                <Param name="sharedSecret" pattern="{password}" authAlias="${zaakbrug.zgw.catalogi-api.auth-alias}" hidden="true"/>
+                <Param name="client_id" pattern="{username}" authAlias="${zaakbrug.zgw.catalogi-api.auth-alias}" hidden="true"/>
+                <Param name="user_id" pattern="{username}" authAlias="${zaakbrug.zgw.catalogi-api.auth-alias}" hidden="true"/>
+                <Param name="user_reresentation" pattern="{username}" authAlias="${zaakbrug.zgw.catalogi-api.auth-alias}" hidden="true"/>
                 <Forward name="success" path="GetZgwZaakTypeByIdentificatie" />
                 <Forward name="exception" path="EXCEPTION" />
-            </SenderPipe>
+            </JwtPipe>
 
             <SenderPipe name="GetZgwZaakTypeByIdentificatie"
                 getInputFromFixedValue="&lt;dummy/&gt;">
@@ -37,7 +41,9 @@
                 <Param name="identificatie" sessionKey="ZaakTypeCode"/>
                 <Param name="status" value="definitief"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Authorization"  sessionKey="Authorization" />
+                <Param name="Authorization"  sessionKey="originalMessage" xpathExpression="concat('Bearer ', $myToken)">
+                    <Param name="myToken" sessionKey="myToken" defaultValue="@@catalogi-api.jwt@@"/>
+                </Param>
                 <Forward name="success" path="JsonToXml" />
                 <Forward name="exception" path="ErrorJsonToXml" />
             </SenderPipe>

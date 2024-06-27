@@ -13,13 +13,6 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <PutInSessionPipe 
-                name="StoreZaakIdentificatie"
-                >
-                <Param name="Identificatie" xpathExpression="/zakLk01/object[1]/identificatie" />
-                <Forward name="success" path="CallGetZgwZaak" />
-            </PutInSessionPipe>
-
             <!-- Retrieve was zgwZaak -->
             <SenderPipe
                 name="CallGetZgwZaak"
@@ -28,33 +21,18 @@
                     name="CallGetZgwZaakSender"
                     javaListener="GetZgwZaak"
                     returnedSessionKeys="Error">
-                    <Param name="Identificatie" sessionKey="Identificatie" />
+                    <Param name="Identificatie" xpathExpression="/zakLk01/object[1]/identificatie"/>
                 </IbisLocalSender>
-                <Forward name="success" path="ZaakNotFound_Condition" />
+                <Forward name="success" path="CheckForGetZgwZaakResult"/>
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
             
-            <XmlIfPipe
-                name="ZaakNotFound_Condition"
-                xpathExpression="string-length(ZgwZaken) = 0"
+            <XmlIfPipe name="CheckForGetZgwZaakResult"
+                xpathExpression="string-length(ZgwZaken) > 0"
                 >
-                <Forward name="then" path="ZaakNotFound_Exception" />
-                <Forward name="else" path="GetSingleZgwZaakFromZgwZakenList" />
+                <Forward name="then" path="GetSingleZgwZaakFromZgwZakenList"/>
+                <Forward name="else" path="UncaughtException"/>
             </XmlIfPipe>
-
-            <XsltPipe
-                name="ZaakNotFound_Exception"
-                getInputFromFixedValue="&lt;dummy/&gt;"
-                styleSheetName="Common/xsl/BuildError.xsl"
-                storeResultInSessionKey="Error"
-                >
-                <Param name="cause" sessionKey="Error" type="DOMDOC" />
-                <Param name="code" value="TechnicalError" /> 
-                <Param name="reason" pattern="No zaak with the identificatie:{Identificatie} is found in GetZgwZaak" ignoreUnresolvablePatternElements="true" />
-                <Param name="detailsXml" type="DOMDOC" />
-                <Forward name="success" path="EXCEPTION" />
-                <Forward name="exception" path="EXCEPTION" />
-            </XsltPipe>
         
             <XsltPipe
                 name="GetSingleZgwZaakFromZgwZakenList"
@@ -112,21 +90,27 @@
 
             <XmlIfPipe name="CheckForInputZaakObjectCount"
                 getInputFromSessionKey="originalMessage"
-                xpathExpression="count(/zakLk01/object) = 2 or count(/zakLk01/object) = 1"
+                xpathExpression="count(/zakLk01/object) = 2"
                 >
-                <Forward name="then" path="MergeWordtZaakRollen"/>
-                <Forward name="else" path="EXCEPTION"/>
+                <Forward name="then" path="StoreZdsWordtZaak_1"/>
+                <Forward name="else" path="StoreZdsWordtZaak_2"/>
             </XmlIfPipe>
 
-            <XsltPipe
-                name="MergeWordtZaakRollen"
-                styleSheetName="UpdateZaak_LK01/xsl/MergeWordtZaakRollen.xslt"
-                getInputFromSessionKey="originalMessage"
-                storeResultInSessionKey="ZdsWordtZaak"
-                >
-                <Forward name="success" path="DetectZdsZaakChanges"/>
-                <Forward name="error" path="EXCEPTION"/>
-            </XsltPipe>
+            <PutInSessionPipe 
+                name="StoreZdsWordtZaak_1">
+                <Param name="ZdsWordtZaak" xpathExpression="$originalMessage/zakLk01/object[2]" type="DOMDOC">
+                    <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="DetectZdsZaakChanges" />
+            </PutInSessionPipe>
+
+            <PutInSessionPipe 
+                name="StoreZdsWordtZaak_2">
+                <Param name="ZdsWordtZaak" xpathExpression="$originalMessage/zakLk01/object[1]" type="DOMDOC">
+                    <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="DetectZdsZaakChanges" />
+            </PutInSessionPipe>
 
             <XsltPipe
                 name="DetectZdsZaakChanges"
@@ -203,6 +187,7 @@
                 getInputFromSessionKey="GetZdsZaakFromZgwResult"
                 storeResultInSessionKey="ZdsWasZaakRol"
                 removeNamespaces="true"
+                skipEmptyTags="true"
                 styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xslt"
                 >
                 <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC"/>
@@ -214,6 +199,7 @@
                 getInputFromSessionKey="ZdsWordtZaak"
                 storeResultInSessionKey="ZdsWordtZaakRol"
                 removeNamespaces="true"
+                skipEmptyTags="true"
                 styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xslt"
                 >
                 <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC"/>
