@@ -14,7 +14,7 @@ function mergeProfileDefaultsWithProfiles(profilesFile) {
   var result = {};
   result["profile"] = [];
   result["profileDefaults"] = json["profileDefaults"];
-  if (json["profileDefaults"] == null || json["profile"] == null) {
+  if (json["profileDefaults"] == null || json["profile"] == null || Object.keys(json["profileDefaults"]).length === 0) {
     return profilesFile;
   }
   var _iterator = _createForOfIteratorHelper(profiles.profile),
@@ -29,15 +29,21 @@ function mergeProfileDefaultsWithProfiles(profilesFile) {
       Object.keys(pf).forEach(function (key) {
         return pfres[key] = pf[key];
       });
-      if (pf["valueOverrides"] == null) {
+      if (pf["valueOverrides"] == null || profileDefaults.profile["valueOverrides"] == null) {
         result.profile.push(pfres);
         return "continue";
       }
-      pfres["valueOverrides"] = pf.valueOverrides.concat(profileDefaults.profile.valueOverrides.filter(function (value) {
-        return pf.valueOverrides.find(function (value2) {
-          return value2.key != value.key;
-        });
-      }));
+      pfres["valueOverrides"] = profileDefaults.profile.valueOverrides.map(function (_ref) {
+        var _pf$valueOverrides$fi, _pf$valueOverrides$fi2;
+        var key = _ref.key,
+          value = _ref.value;
+        return {
+          key: key,
+          value: (_pf$valueOverrides$fi = (_pf$valueOverrides$fi2 = pf.valueOverrides.find(function (obj) {
+            return obj.key === key;
+          })) === null || _pf$valueOverrides$fi2 === void 0 ? void 0 : _pf$valueOverrides$fi2.value) !== null && _pf$valueOverrides$fi !== void 0 ? _pf$valueOverrides$fi : value
+        };
+      });
       result.profile.push(pfres);
     };
     for (_iterator.s(); !(_step = _iterator.n()).done;) {

@@ -7,7 +7,7 @@ function mergeProfileDefaultsWithProfiles(profilesFile){
     result["profile"] = [];
     result["profileDefaults"] = json["profileDefaults"];
 
-    if(json["profileDefaults"] == null || json["profile"] == null){
+    if(json["profileDefaults"] == null || json["profile"] == null || Object.keys(json["profileDefaults"]).length === 0){
         return profilesFile;
     }
 
@@ -18,15 +18,16 @@ function mergeProfileDefaultsWithProfiles(profilesFile){
         Object.keys(pf)
         .forEach(key => pfres[key] = pf[key]);
 
-        if(pf["valueOverrides"] == null){
+        if(pf["valueOverrides"] == null || profileDefaults.profile["valueOverrides"] == null){
             result.profile.push(pfres);
             continue;
         }
 
-        pfres["valueOverrides"] = pf.valueOverrides
-            .concat(profileDefaults.profile.valueOverrides
-                    .filter((value) => pf.valueOverrides
-                        .find((value2) => value2.key != value.key)));
+        pfres["valueOverrides"] = (profileDefaults.profile.valueOverrides)
+            .map(({ key, value }) => ({
+                key,
+                value: pf.valueOverrides.find(obj => obj.key === key)?.value ?? value
+            }));
 
         result.profile.push(pfres);
     }
