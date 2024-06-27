@@ -26,7 +26,7 @@ RUN mkdir /tmp/classes && \
     -classpath "/usr/local/tomcat/webapps/ROOT/WEB-INF/lib/*:/usr/local/tomcat/lib/*" \
     -verbose -d /tmp/classes
 
-# FROM ff-base
+FROM ff-base
 
 # Copy custom entrypoint script with added options
 COPY --chown=tomcat docker/entrypoint.sh /scripts/entrypoint.sh
@@ -48,7 +48,7 @@ COPY --chown=tomcat src/main/resources/ /opt/frank/resources/
 COPY --chown=tomcat src/test/testtool/ /opt/frank/testtool/
 
 # # Copy compiled custom class
-# COPY --from=custom-code-builder --chown=tomcat /tmp/classes/ /usr/local/tomcat/webapps/ROOT/WEB-INF/classes
+COPY --from=custom-code-builder --chown=tomcat /tmp/classes/ /usr/local/tomcat/webapps/ROOT/WEB-INF/classes
 
 # Check if Frank! is still healthy
 HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=60 \
