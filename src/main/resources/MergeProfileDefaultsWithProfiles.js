@@ -5,35 +5,31 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function mergeProfileDefaultsWithProfiles(profilesFile) {
   var json = JSON.parse(profilesFile);
-  var profileDefaults = {
-    "profile": json["profileDefaults"]
-  };
-  var profiles = {
-    "profile": json["profile"]
-  };
+  var profileDefaults = json["profileDefaults"];
+  var profiles = json["profile"];
   var result = {};
   result["profile"] = [];
-  result["profileDefaults"] = json["profileDefaults"];
-  if (json["profileDefaults"] == null || json["profile"] == null || Object.keys(json["profileDefaults"]).length === 0) {
+  result["profileDefaults"] = profileDefaults;
+  if (profileDefaults == null || profiles == null || Object.keys(profileDefaults).length === 0) {
     return profilesFile;
   }
-  var _iterator = _createForOfIteratorHelper(profiles.profile),
+  var _iterator = _createForOfIteratorHelper(profiles),
     _step;
   try {
     var _loop = function _loop() {
       var pf = _step.value;
       var pfres = {};
-      Object.keys(profileDefaults.profile).forEach(function (key) {
-        return pfres[key] = profileDefaults.profile[key];
+      Object.keys(profileDefaults).forEach(function (key) {
+        return pfres[key] = profileDefaults[key];
       });
       Object.keys(pf).forEach(function (key) {
         return pfres[key] = pf[key];
       });
-      if (pf["valueOverrides"] == null || profileDefaults.profile["valueOverrides"] == null) {
+      if (pf["valueOverrides"] == null || profileDefaults["valueOverrides"] == null) {
         result.profile.push(pfres);
         return "continue";
       }
-      pfres["valueOverrides"] = profileDefaults.profile.valueOverrides.map(function (_ref) {
+      pfres["valueOverrides"] = profileDefaults.valueOverrides.map(function (_ref) {
         var _pf$valueOverrides$fi, _pf$valueOverrides$fi2;
         var key = _ref.key,
           value = _ref.value;
