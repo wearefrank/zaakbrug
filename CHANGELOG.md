@@ -1,5 +1,21 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.19.12](https://github.com/wearefrank/zaakbrug/compare/v1.19.11...v1.19.12) (2024-06-27)
+
+### 🐛 Bug Fixes
+
+* adding heeftBetrekkingOp in an updateZaak action throws error ([b5e8572](https://github.com/wearefrank/zaakbrug/commit/b5e85727b38dc1c24e8b4053ae566f88396f4764))
+
+### ✅ Tests
+
+* add testcases for heeftBetrekkingOp with and without address ([4eff2ca](https://github.com/wearefrank/zaakbrug/commit/4eff2ca88132e2de3fdf603a63e605b943780938))
+
+## [1.19.11](https://github.com/wearefrank/zaakbrug/compare/v1.19.10...v1.19.11) (2024-06-25)
+
+### 🤖 Build System
+
+* **dependencies:** bump docusaurus version to 2.4.0 ([bb5ac6b](https://github.com/wearefrank/zaakbrug/commit/bb5ac6b9d528ecc375baa48bb7700f7de2992951))
+
 ## [1.19.10](https://github.com/wearefrank/zaakbrug/compare/v1.19.9...v1.19.10) (2024-06-25)
 
 ### 🧑‍💻 Code Refactoring

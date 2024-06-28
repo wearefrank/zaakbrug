@@ -15,25 +15,14 @@
         </roles>
     </xsl:template>
 
-    <xsl:template match="heeftAlsBelanghebbende | heeftAlsInitiator | heeftAlsUitvoerende | heeftAlsVerantwoordelijke | heeftAlsGemachtigde | heeftAlsOverigBetrokkene">
+    <xsl:template match="heeftAlsBelanghebbende | heeftAlsInitiator | heeftAlsUitvoerende | heeftAlsVerantwoordelijke | heeftAlsGemachtigde | heeftAlsOverigBetrokkene | heeftBetrekkingOp">
         <role>
             <gerelateerde verwerkingssoort="{@verwerkingssoort}">
                 <xsl:copy-of select="gerelateerde/*"/>
             </gerelateerde>
-            <typeRolOmschrijving>
-                <xsl:value-of select="$RolMapping/root/rolMapping/*[local-name() = name(current())]"/>
-            </typeRolOmschrijving>
+            <typeRolOmschrijving><xsl:value-of select="$RolMapping/root/rolMapping/*[local-name() = name(current())]"/></typeRolOmschrijving>
         </role>
     </xsl:template>
 
-    <xsl:template match="heeftBetrekkingOp">
-        <role>
-            <xsl:if test="*/heeftBetrekkingOp/gerelateerde/*[name != 'adres']">
-                <gerelateerde verwerkingssoort="{@verwerkingssoort}">
-                    <xsl:copy-of select="gerelateerde/*"/>
-                </gerelateerde>
-            </xsl:if>
-            <typeRolOmschrijving><xsl:value-of select="$RolMapping/root/rolMapping/heeftAlsBelanghebbende"/></typeRolOmschrijving>
-        </role>
-    </xsl:template>
+    <xsl:template match="heeftBetrekkingOp[gerelateerde/*[@*:entiteittype = 'AOA']]" />
 </xsl:stylesheet>
