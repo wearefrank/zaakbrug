@@ -23,11 +23,11 @@ function mergeProfileDefaultsWithProfiles(profilesFile){
             continue;
         }
 
-        pfres["valueOverrides"] = (profileDefaults.valueOverrides)
-            .map(({ key, value }) => ({
-                key,
-                value: pf.valueOverrides.find(obj => obj.key === key)?.value ?? value
-            }));
+        pfres["valueOverrides"] = [
+            ...pf.valueOverrides,
+            ...profileDefaults.valueOverrides.filter(({key}) => !pf.valueOverrides.some(obj => obj.key === key)
+            )
+        ];
 
         result.profile.push(pfres);
     }
