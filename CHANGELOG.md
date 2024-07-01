@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.19.13](https://github.com/wearefrank/zaakbrug/compare/v1.19.12...v1.19.13) (2024-07-01)
+
+### 🧑‍💻 Code Refactoring
+
+* correct ibisdoc.xsd reference to frankconfig.xsd ([b250021](https://github.com/wearefrank/zaakbrug/commit/b250021381c22beebe789839591cfb4676e1d174))
+
 ## [1.19.12](https://github.com/wearefrank/zaakbrug/compare/v1.19.11...v1.19.12) (2024-06-27)
 
 ### 🐛 Bug Fixes
