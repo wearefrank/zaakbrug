@@ -4,11 +4,19 @@
 
     <xsl:template match="/">
         <root>
-            <xsl:apply-templates select="//profile[zaakTypeIdentificatie = $zaaktype]" />
+            <!-- Check for profile with matching zaakTypeIdentificatie -->
+            <xsl:choose>
+                <xsl:when test="//profile[zaakTypeIdentificatie = $zaaktype]">
+                    <xsl:apply-templates select="//profile[zaakTypeIdentificatie = $zaaktype]/valueOverrides" mode="copy"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:apply-templates select="//profileDefaults/valueOverrides" mode="copy"/>
+                </xsl:otherwise>
+            </xsl:choose>
         </root>
     </xsl:template>
 
-    <xsl:template match="profile">
-        <xsl:copy-of select="valueOverrides" />
+    <xsl:template match="valueOverrides" mode="copy">
+        <xsl:copy-of select="." />
     </xsl:template>
 </xsl:stylesheet>
