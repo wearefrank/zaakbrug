@@ -12,7 +12,19 @@ Execute the following steps when bumping the Frank!Framework version:
 5. Replace the value of `ff.version` in `frank-runner.properties` with the new tag.
 6. Start ZaakBrug with the `Frank!Runner` to automatically replace the `./src/main/configuration/<configuration-name>/FrankConfig.xsd` and `./src/main/configuration/FrankConfig.xsd` with the newer version. You can stop the Frank!Runner once the files are replaced. Note that currently the Frank!Runner will also add `FrankConfig.xsd` to the `.gitignore` file. Make sure to revert the change to `.gitignore`.
 7. Run the e2e testsuite by using the below Docker-Compose and configuration to validate the changes. You should only need `docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml up --build --force-recreate` for this. (TODO: Automate running of e2e tests in ci/cd).
-8. Commit you changes on a branch with as message: `build(dependencies): bump f!f version to <new tag>`. Create a PR to have you changes merged to master.
+8. Commit you changes on a branch with as message: `build(dependencies): bump f!f version to <new tag>`. Create a PR to have your changes merged to master.
+
+## Docusaurus version
+1. Navigate to "docusaurus" subfolder with `cd ./docusaurus`.
+1. Update dependencies with `npm i @docusaurus/core@latest @docusaurus/preset-classic@latest @docusaurus/module-type-aliases@latest @docusaurus/tsconfig@latest @docusaurus/types@latest`.
+1. Commit you changes on a branch with as message: `build(dependencies): bump docusaurus version to <new tag>`. Create a PR to have your changes merged to master.
+
+# Local Development
+## Docusaurus
+1. Navigate to "docusaurus" subfolder with `cd ./docusaurus`.
+2. Install dependencies with `npm install`.
+3. Serve Docusaurus webserver locally with `docusaurus start`. By default it is served at `http://localhost:3000/`.
+4. Basic guide on how to use Docusaurus and a styleguide can be found at `./docusaurus/docs/_README.md`.
 
 # Testing with SoapUI
 
