@@ -32,8 +32,9 @@
                         <xsl:variable name="currentName" select="local-name()"/>
                         <xsl:variable name="correspondingElement" select="$check/*[local-name() = $currentName]"/>
                         <xsl:choose>
+                        <xsl:when test="$currentName = 'authentiek'"/> <!--Do not compare 'Authentiek' field-->
                         <xsl:when test="not($correspondingElement)">
-                            <xsl:if test="not(@nil = 'true' or @noValue = 'geenWaarde' or . = '' or $currentName = 'authentiek')">
+                            <xsl:if test="not(@nil = 'true' or @noValue = 'geenWaarde' or . = '')">
                                 <xsl:copy-of select="false()"/>
                             </xsl:if>
                         </xsl:when>
