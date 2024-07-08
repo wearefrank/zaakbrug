@@ -1,5 +1,21 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.19.14](https://github.com/wearefrank/zaakbrug/compare/v1.19.13...v1.19.14) (2024-07-03)
+
+### 🐛 Bug Fixes
+
+* creeerZaak attempts to also delete the case when the post case call fails and there is nothing to delete ([#408](https://github.com/wearefrank/zaakbrug/issues/408)) ([7956c0b](https://github.com/wearefrank/zaakbrug/commit/7956c0b30b2d2da7a429f5cd4a2da654b62649c1))
+* zaaktype not found throwing incorrect generic error ([fba69b4](https://github.com/wearefrank/zaakbrug/commit/fba69b49fc00cd4c409f385142c275ab62d23e58))
+
+### 🔥 Performance Improvements
+
+* implement simple cache for authorization token generation so that tokens are reused until the tokens expires ([22be3a0](https://github.com/wearefrank/zaakbrug/commit/22be3a00040bff708afdf00effe8878b4df61ed1))
+
+### 🔁 Continuous Integration
+
+* configure dependabot to update github-actions on a weekly basis ([01688c0](https://github.com/wearefrank/zaakbrug/commit/01688c0093910eee9bf1474006728f7dbe952a52))
+* **dependencies:** lock ci-cd-template workflow versions to commit hash instead of main branch ([3cee5ca](https://github.com/wearefrank/zaakbrug/commit/3cee5ca6dcdd43c37f38f8f585a38498cdd0b437))
+
 ## [1.19.13](https://github.com/wearefrank/zaakbrug/compare/v1.19.12...v1.19.13) (2024-07-01)
 
 ### 🧑‍💻 Code Refactoring
