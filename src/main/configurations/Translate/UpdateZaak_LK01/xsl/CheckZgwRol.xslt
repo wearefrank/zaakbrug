@@ -34,7 +34,7 @@
                         <xsl:choose>
                         <xsl:when test="$currentName = 'authentiek'"/> <!--Do not compare 'Authentiek' field-->
                         <xsl:when test="not($correspondingElement)">
-                            <xsl:if test="not(@nil = 'true' or @noValue = 'geenWaarde' or . = '')">
+                            <xsl:if test=". != ''">
                                 <xsl:copy-of select="false()"/>
                             </xsl:if>
                         </xsl:when>
