@@ -1,5 +1,20 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.19.15](https://github.com/wearefrank/zaakbrug/compare/v1.19.14...v1.19.15) (2024-07-10)
+
+### 🐛 Bug Fixes
+
+* return error closest to the source and return all nested errors ([#416](https://github.com/wearefrank/zaakbrug/issues/416)) ([c8c35a8](https://github.com/wearefrank/zaakbrug/commit/c8c35a807d31d241f3d745efe99c82a2eab25767))
+
+### 🧑‍💻 Code Refactoring
+
+* wrap zakla01 response xslt should not contain any zgw to zds translations ([#394](https://github.com/wearefrank/zaakbrug/issues/394)) ([e748a54](https://github.com/wearefrank/zaakbrug/commit/e748a548924f48da922389d1ec6c4a5adead1c84))
+
+### 🤖 Build System
+
+* **dependencies:** bump the github-actions group with 6 updates ([#411](https://github.com/wearefrank/zaakbrug/issues/411)) ([4909eb2](https://github.com/wearefrank/zaakbrug/commit/4909eb2808982cdda033e9bfd5e822794eec4559))
+* **dependencies:** bump typescript ([#410](https://github.com/wearefrank/zaakbrug/issues/410)) ([74652fa](https://github.com/wearefrank/zaakbrug/commit/74652fa08d19594194052c5de73971fd89b63fbe))
+
 ## [1.19.14](https://github.com/wearefrank/zaakbrug/compare/v1.19.13...v1.19.14) (2024-07-03)
 
 ### 🐛 Bug Fixes
