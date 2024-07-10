@@ -13,20 +13,16 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <JwtPipe name="createJwt"
-                expirationTime="600"
-                storeResultInSessionKey="myToken"
-                ifParam="valueAuthType"
-                ifValue="Jwt"
-            >
-                <Param name="valueAuthType" value="${zaakbrug.zgw.catalogi-api.auth-type}" />
-                <Param name="sharedSecret" pattern="{password}" authAlias="${zaakbrug.zgw.catalogi-api.auth-alias}" hidden="true"/>
-                <Param name="client_id" pattern="{username}" authAlias="${zaakbrug.zgw.catalogi-api.auth-alias}" hidden="true"/>
-                <Param name="user_id" pattern="{username}" authAlias="${zaakbrug.zgw.catalogi-api.auth-alias}" hidden="true"/>
-                <Param name="user_reresentation" pattern="{username}" authAlias="${zaakbrug.zgw.catalogi-api.auth-alias}" hidden="true"/>
+            <SenderPipe name="GetAuthorizationHeaderForCatalogiApi"
+                getInputFromFixedValue="&lt;dummy/&gt;">
+                <IbisLocalSender
+                    name="GetAuthorizationHeaderForCatalogiApiSender"
+                    javaListener="GenerateAuthorizationHeaderForCatalogiApi"
+                    returnedSessionKeys="Error,Authorization">
+                </IbisLocalSender>
                 <Forward name="success" path="GetZgwStatusTypeByUrlSender" />
                 <Forward name="exception" path="EXCEPTION" />
-            </JwtPipe>
+            </SenderPipe>
 
 			<SenderPipe name="GetZgwStatusTypeByUrlSender"
                 getInputFromFixedValue="&lt;dummy/&gt;">
@@ -38,9 +34,7 @@
 				/>
                 <Param name="url" sessionKey="Url" />
                 <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Authorization"  sessionKey="originalMessage" xpathExpression="concat('Bearer ', $myToken)">
-                    <Param name="myToken" sessionKey="myToken" defaultValue="@@catalogi-api.jwt@@"/>
-                </Param>
+                <Param name="Authorization"  sessionKey="Authorization" />
                 <Forward name="success" path="JsonToXml" />
                 <Forward name="exception" path="ErrorJsonToXml" />
 			</SenderPipe>
