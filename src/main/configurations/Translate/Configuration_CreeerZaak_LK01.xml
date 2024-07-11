@@ -38,8 +38,23 @@
                 xpathExpression="count(/ZgwZaakTypen/ZgwZaakType) = 1"
                 >
                 <Forward name="then" path="GetGlobalConfigFromLocalFS"/>
-                <Forward name="else" path="UncaughtException"/>
+                <Forward name="else" path="ZaakTypeNotFound_Exception"/>
             </XmlIfPipe>
+
+            <XsltPipe 
+                name="ZaakTypeNotFound_Exception"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="ConfigurationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="Identificatie" sessionKey="originalMessage" xpathExpression="/zakLk01/object/isVan/gerelateerde/code" />
+                <Param name="reason" pattern="ZaakType with identificatie: {Identificatie} not found" ignoreUnresolvablePatternElements="true"/> 
+                <!-- <Param name="details" sessionKey="" /> -->
+                <Param name="detailsXml" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
 
             <SenderPipe 
                 name="GetGlobalConfigFromLocalFS"
@@ -193,7 +208,7 @@
                     returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Forward name="success" path="PostRolIterator"/>
-                <Forward name="exception" path="DeleteZaakSender" />
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe> 
 <!-- Post zaak end -->
             <ForEachChildElementPipe name="PostRolIterator"
