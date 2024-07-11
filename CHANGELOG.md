@@ -1,5 +1,96 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.19.15](https://github.com/wearefrank/zaakbrug/compare/v1.19.14...v1.19.15) (2024-07-10)
+
+### 🐛 Bug Fixes
+
+* return error closest to the source and return all nested errors ([#416](https://github.com/wearefrank/zaakbrug/issues/416)) ([c8c35a8](https://github.com/wearefrank/zaakbrug/commit/c8c35a807d31d241f3d745efe99c82a2eab25767))
+
+### 🧑‍💻 Code Refactoring
+
+* wrap zakla01 response xslt should not contain any zgw to zds translations ([#394](https://github.com/wearefrank/zaakbrug/issues/394)) ([e748a54](https://github.com/wearefrank/zaakbrug/commit/e748a548924f48da922389d1ec6c4a5adead1c84))
+
+### 🤖 Build System
+
+* **dependencies:** bump the github-actions group with 6 updates ([#411](https://github.com/wearefrank/zaakbrug/issues/411)) ([4909eb2](https://github.com/wearefrank/zaakbrug/commit/4909eb2808982cdda033e9bfd5e822794eec4559))
+* **dependencies:** bump typescript ([#410](https://github.com/wearefrank/zaakbrug/issues/410)) ([74652fa](https://github.com/wearefrank/zaakbrug/commit/74652fa08d19594194052c5de73971fd89b63fbe))
+
+## [1.19.14](https://github.com/wearefrank/zaakbrug/compare/v1.19.13...v1.19.14) (2024-07-03)
+
+### 🐛 Bug Fixes
+
+* creeerZaak attempts to also delete the case when the post case call fails and there is nothing to delete ([#408](https://github.com/wearefrank/zaakbrug/issues/408)) ([7956c0b](https://github.com/wearefrank/zaakbrug/commit/7956c0b30b2d2da7a429f5cd4a2da654b62649c1))
+* zaaktype not found throwing incorrect generic error ([fba69b4](https://github.com/wearefrank/zaakbrug/commit/fba69b49fc00cd4c409f385142c275ab62d23e58))
+
+### 🔥 Performance Improvements
+
+* implement simple cache for authorization token generation so that tokens are reused until the tokens expires ([22be3a0](https://github.com/wearefrank/zaakbrug/commit/22be3a00040bff708afdf00effe8878b4df61ed1))
+
+### 🔁 Continuous Integration
+
+* configure dependabot to update github-actions on a weekly basis ([01688c0](https://github.com/wearefrank/zaakbrug/commit/01688c0093910eee9bf1474006728f7dbe952a52))
+* **dependencies:** lock ci-cd-template workflow versions to commit hash instead of main branch ([3cee5ca](https://github.com/wearefrank/zaakbrug/commit/3cee5ca6dcdd43c37f38f8f585a38498cdd0b437))
+
+## [1.19.13](https://github.com/wearefrank/zaakbrug/compare/v1.19.12...v1.19.13) (2024-07-01)
+
+### 🧑‍💻 Code Refactoring
+
+* correct ibisdoc.xsd reference to frankconfig.xsd ([b250021](https://github.com/wearefrank/zaakbrug/commit/b250021381c22beebe789839591cfb4676e1d174))
+
+## [1.19.12](https://github.com/wearefrank/zaakbrug/compare/v1.19.11...v1.19.12) (2024-06-27)
+
+### 🐛 Bug Fixes
+
+* adding heeftBetrekkingOp in an updateZaak action throws error ([b5e8572](https://github.com/wearefrank/zaakbrug/commit/b5e85727b38dc1c24e8b4053ae566f88396f4764))
+
+### ✅ Tests
+
+* add testcases for heeftBetrekkingOp with and without address ([4eff2ca](https://github.com/wearefrank/zaakbrug/commit/4eff2ca88132e2de3fdf603a63e605b943780938))
+
+## [1.19.11](https://github.com/wearefrank/zaakbrug/compare/v1.19.10...v1.19.11) (2024-06-25)
+
+### 🤖 Build System
+
+* **dependencies:** bump docusaurus version to 2.4.0 ([bb5ac6b](https://github.com/wearefrank/zaakbrug/commit/bb5ac6b9d528ecc375baa48bb7700f7de2992951))
+
+## [1.19.10](https://github.com/wearefrank/zaakbrug/compare/v1.19.9...v1.19.10) (2024-06-25)
+
+### 🧑‍💻 Code Refactoring
+
+* replace authorization custom code with standard ff pipes ([#393](https://github.com/wearefrank/zaakbrug/issues/393)) ([1d6671b](https://github.com/wearefrank/zaakbrug/commit/1d6671b11481d69c4694bd0ff8dc4009dd859957))
+
+## [1.19.9](https://github.com/wearefrank/zaakbrug/compare/v1.19.8...v1.19.9) (2024-06-25)
+
+### 🐛 Bug Fixes
+
+* geefLijstZaakdocumenten should not return an error response when the zaak can't be found ([#395](https://github.com/wearefrank/zaakbrug/issues/395)) ([d4ce003](https://github.com/wearefrank/zaakbrug/commit/d4ce0037296ca861dfed89df99680fcab7a5633a))
+
+## [1.19.8](https://github.com/wearefrank/zaakbrug/compare/v1.19.7...v1.19.8) (2024-06-21)
+
+### 🐛 Bug Fixes
+
+* document status is not being translated from zgw to zds ([#355](https://github.com/wearefrank/zaakbrug/issues/355)) ([8b06c39](https://github.com/wearefrank/zaakbrug/commit/8b06c39881758c1a404d169282dfcc32b75c80c1))
+
+## [1.19.7](https://github.com/wearefrank/zaakbrug/compare/v1.19.6...v1.19.7) (2024-06-21)
+
+### 🐛 Bug Fixes
+
+* authentiek element is not taken into account when identifying a gerelateerde on a role during updateZaak ([70be86d](https://github.com/wearefrank/zaakbrug/commit/70be86dee915beee5efe9e7b4ff93a27868efe68))
+* updateZaak fails when deleting a gerelateerde and in the same updateZaak add a new gerelateerde on the same roltype ([7b532b9](https://github.com/wearefrank/zaakbrug/commit/7b532b903fcbf8a748fff6b819bbc98de0118878))
+* updateZaak not able to handle multiple gerelateerde for a single roltype ([a9d6607](https://github.com/wearefrank/zaakbrug/commit/a9d6607eb4dd2fdbd42ba20a8a0be2106ff59b71))
+* updateZaak sometimes incorrectly detects changes to case roles resulting in unnecessary delete and post calls ([8825c6c](https://github.com/wearefrank/zaakbrug/commit/8825c6c48ea951ee3682a367123e4adf195ed8e4))
+
+### 🧑‍💻 Code Refactoring
+
+* updateZaak uses verwerkingsoort when processing case roles ([4bb2da2](https://github.com/wearefrank/zaakbrug/commit/4bb2da29177f9be4ec3b1f55f9dbaac1cf0662af))
+* verwerkingssoort 'I' on case roles are processed as 'T' if the role is not present on the case ([#285](https://github.com/wearefrank/zaakbrug/issues/285)) ([1ec7016](https://github.com/wearefrank/zaakbrug/commit/1ec701606c0f0bb3c82d593745f3110f33b2c9c7))
+
+### ✅ Tests
+
+* add assertions to check for regression on various geefLijstZaakdocumenten and geefZaakDetails steps [skip ci] ([3b2bfbf](https://github.com/wearefrank/zaakbrug/commit/3b2bfbf540c36b5c2f606cb7e07cd9012bbe4c57))
+* add testcases for all different combinations of verwerkingsoort on case roles ([f88f0a6](https://github.com/wearefrank/zaakbrug/commit/f88f0a6a299c5a760ad037c3b46faf9f63a81efd))
+* add testcases for deleting, changing and adding multiple gerelateerde on a single roltype ([e7b68a1](https://github.com/wearefrank/zaakbrug/commit/e7b68a1119d9ba2fc4ea75343302f1d88dd3b7f2))
+
 ## [1.19.6](https://github.com/wearefrank/zaakbrug/compare/v1.19.5...v1.19.6) (2024-06-11)
 
 ### 📝 Documentation

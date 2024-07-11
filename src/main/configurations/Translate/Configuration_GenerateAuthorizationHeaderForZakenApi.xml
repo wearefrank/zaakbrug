@@ -1,0 +1,80 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="GenerateAuthorizationHeaderForZakenApi"
+        active="${GenerateAuthorizationHeaderForZakenApi.Active}"
+        description="">
+
+        <Receiver name="GenerateAuthorizationHeaderForZakenApi">
+            <JavaListener name="GenerateAuthorizationHeaderForZakenApi"  returnedSessionKeys="Error,Authorization" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="EXCEPTION" state="ERROR" />
+            </Exits>
+
+            <Cache maxElementsInMemory="1" keyXPath="string('GenerateAuthorizationHeaderForZakenApi')" timeToLiveSeconds="550" />
+
+            <XmlSwitchPipe 
+                name="CheckForAuthType"
+                xpathExpression="$valueAuthType"
+                >
+                <Param name="valueAuthType" value="${zaakbrug.zgw.zaken-api.auth-type}"/>
+                <Forward name="jwt" path="createJwt"/>
+                <Forward name="basic" path="GetUserCredentialForBasicAuth"/>
+                <Forward name="value" path="CreateValueAuthorizationHeader"/>
+            </XmlSwitchPipe>
+
+            <!-- jwtTokenGeneratorPipe -->
+            <JwtPipe name="createJwt"
+                expirationTime="600"
+                storeResultInSessionKey="myToken"
+                authAlias="${zaakbrug.zgw.zaken-api.auth-alias}">
+                <Param name="client_id" pattern="{username}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+                <Param name="user_id" pattern="{username}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+                <Param name="user_representation" pattern="{username}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+                <Forward name="success" path="CreateJwtAuthorizationHeader" />
+                <Forward name="exception" path="EXCEPTION" />
+            </JwtPipe>
+
+            <PutInSessionPipe name="CreateJwtAuthorizationHeader">
+                <Param name="Authorization" sessionKey="originalMessage" xpathExpression="concat('Bearer ', $myToken)">
+                    <Param name="myToken" sessionKey="myToken"/>
+                </Param>
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </PutInSessionPipe>
+
+            <PutInSessionPipe name="GetUserCredentialForBasicAuth">
+                <Param name="user_credential" xpathExpression="concat($username,':',$password)" hidden="true">
+                    <Param name="username" pattern="{username}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+                    <Param name="password" pattern="{password}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+                </Param>
+                <Forward name="success" path="CreateBasicAuthToken" />
+            </PutInSessionPipe>
+
+            <!-- basicTokenGeneratorPipe -->
+            <Base64Pipe name="CreateBasicAuthToken"
+                storeResultInSessionKey="myToken"
+                getInputFromSessionKey="user_credential">
+                <Forward name="success" path="CreateBasicAuthorizationHeader" />
+                <Forward name="exception" path="EXCEPTION" />
+            </Base64Pipe>
+
+            <PutInSessionPipe name="CreateBasicAuthorizationHeader">
+                <Param name="Authorization" sessionKey="originalMessage" xpathExpression="concat('Basic ', $myToken)">
+                    <Param name="myToken" sessionKey="myToken"/>
+                </Param>
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </PutInSessionPipe>
+
+            <!-- valueTokenGeneratorPipe -->
+            <PutInSessionPipe name="CreateValueAuthorizationHeader">
+                <Param name="Authorization" pattern="{password}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
+                <Forward name="success" path="EXIT" />
+            </PutInSessionPipe>
+        </Pipeline>
+    </Adapter>
+</Module>
