@@ -141,8 +141,8 @@
             </XsltPipe>
 
             <XmlIfPipe name="CheckForCompareDatumStatusGezetResult"
-                preserveInput="true"
-                xpathExpression="exists(/result/exception)"
+                emptyInputReplacement="&lt;statusExists&gt;false&lt;/statusExists&gt;"
+                xpathExpression="//statusExists = 'true'"
                 >
                 <Forward name="then" path="ResultWithDatumErrorMessage"/>
                 <Forward name="else" path="AddToNewStatuses"/>

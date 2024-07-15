@@ -6,7 +6,7 @@
         <result>
             <xsl:for-each select="ZgwStatussen/ZgwStatus">
                 <xsl:if test="zgw:convertZdsDatetimeToZgwDatetime(datumStatusGezet) = zgw:convertZdsDatetimeToZgwDatetime($StatusBody/ZgwStatus/datumStatusGezet)">
-                    <exception>ConverterException</exception>
+                    <statusExists>true</statusExists>
                 </xsl:if>
             </xsl:for-each>
         </result>
