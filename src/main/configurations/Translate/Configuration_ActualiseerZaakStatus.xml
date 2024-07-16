@@ -123,6 +123,7 @@
                     <Param name="ZaakUrl" xpathExpression="$GetZaakResult/ZgwZaken/ZgwZaak/url">
                         <Param name="GetZaakResult" sessionKey="GetZaakResult" type="DOMDOC"/>
                     </Param>
+                    <Param name="isActualiseerZaakStatusMessage" sessionKey="isActualiseerZaakStatusMessage"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />

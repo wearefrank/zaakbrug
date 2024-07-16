@@ -77,21 +77,60 @@
                 styleSheetName="CreeerZaak_LK01/xsl/SetBeeindigdIfIsEindstatus.xslt"
                 >
                 <Param name="IsEindstatus" sessionKey="GetStatusTypeByZaakTypeAndOmschrijvingResult" type="DOMDOC"/>
-                <Forward name="success" path="SetStatusExists"/>
+                <Forward name="success" path="CheckForBeeindigd"/>
             </XsltPipe>
 
-            <!-- <XmlIfPipe name="CheckForBeeindigd"
+            <XmlIfPipe name="CheckForBeeindigd"
                 getInputFromSessionKey="Beeindigd"
                 xpathExpression="/beeindigd = 'true'"
-                thenForwardName="newCheckForActualiseer"
+                thenForwardName="CheckIfActualiseerZaakStatus"
                 elseForwardName="SetStatusExists">
-            </XmlIfPipe>  -->
+            </XmlIfPipe>
 
-<!-- Add if actualiseer message check here-->
-            <!-- <XmlIfPipe name="newCheckForActualiseer"
-                thenForwardName="errorCannotAddEindStatusInActualiseer"
-                elseForwardName="SetStatusExists">
-            </XmlIfPipe>  -->
+            <XmlIfPipe name="CheckIfActualiseerZaakStatus"
+                xpathExpression="$isActualiseerZaakStatusMessage">
+                <Param name="isActualiseerZaakStatusMessage" sessionKey="isActualiseerZaakStatusMessage" />
+                <Forward name="then" path="ResolveProfileValuesSender"/>
+                <Forward name="else" path="SetStatusExists"/>
+            </XmlIfPipe>
+
+            <SenderPipe 
+                name="ResolveProfileValuesSender">
+                <IbisLocalSender
+                    name="ResolveProfileValuesLocalSender"
+                    javaListener="ResolveProfileValues"
+                    returnedSessionKeys="Error"
+                />
+                <Forward name="success" path="GetIgnoreEindStatusInActualiseerZaakStatusFromTranslationProfile" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="GetIgnoreEindStatusInActualiseerZaakStatusFromTranslationProfile"
+                styleSheetName="Common/xsl/GetIgnoreEindStatusInActualiseerZaakStatusFromTranslationProfile.xsl"
+                storeResultInSessionKey="ignoreEindStatusInActualiseerZaakStatus"
+                >
+                <Param name="ZaakTypeCode" sessionKey="ZaakTypeCode" />
+                <Forward name="success" path="CheckZaakClosureAllowed" />
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckZaakClosureAllowed"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                xpathExpression="$ignoreEindStatusInActualiseerZaakStatus">
+                <Param name="ignoreEindStatusInActualiseerZaakStatus" sessionKey="ignoreEindStatusInActualiseerZaakStatus" />
+                <Forward name="then" path="ZaakCannotBeClosedException"/>
+                <Forward name="else" path="SetStatusExists"/>
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="ZaakCannotBeClosedException"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                >
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Zaak cannot be closed by adding eindStatus in ActualiseerZaakStatus message." />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
 
             <XsltPipe
                 name="SetStatusExists"
