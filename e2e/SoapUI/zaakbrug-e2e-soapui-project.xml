@@ -32824,12 +32824,12 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <delay>1000</delay>
         </con:config>
       </con:testStep>
-      <con:testStep type="request" id="afef04cf-8a0b-4072-bc00-76fec8c1a5ea" name="05-zds-actualiseerZaakstatus_Lk01">
+      <con:testStep type="request" id="afef04cf-8a0b-4072-bc00-76fec8c1a5ea" name="05-zds-actualiseerZaakstatus_Lk01-ExistingStatusShouldNotBeAdded">
         <con:settings/>
         <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
           <con:interface>ZdsOntvangAsynchroon</con:interface>
           <con:operation>actualiseerZaakstatus_Lk01</con:operation>
-          <con:request name="05-zds-actualiseerZaakstatus_Lk01" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="95a9a1b6-e5c4-4df5-af54-82ed55c6e1e8">
+          <con:request name="05-zds-actualiseerZaakstatus_Lk01-ExistingStatusShouldNotBeAdded" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="95a9a1b6-e5c4-4df5-af54-82ed55c6e1e8">
             <con:settings>
               <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
               <con:setting id="com.eviware.soapui.impl.support.AbstractHttpRequest@dump-file"/>
@@ -32913,7 +32913,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
             <con:assertion type="Schema Compliance" id="750b8651-93c2-411c-b399-14831a38f014" name="Schema Compliance">
               <con:configuration/>
             </con:assertion>
-            <con:assertion type="SOAP Fault Assertion" id="b90ca0d8-cb3c-4619-b5ad-a90db97956f5" name="Not SOAP Fault"/>
+            <con:assertion type="Not SOAP Fault Assertion" id="abf516a5-d1e6-4184-b085-b246eabae15e" name="SOAP Fault"/>
             <con:credentials>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
