@@ -111,26 +111,16 @@
                 storeResultInSessionKey="ignoreEindStatusInActualiseerZaakStatus"
                 >
                 <Param name="ZaakTypeCode" sessionKey="ZaakTypeCode" />
-                <Forward name="success" path="CheckZaakClosureAllowed" />
+                <Forward name="success" path="CheckZaakClosureIgnored" />
             </XsltPipe>
 
-            <XmlIfPipe name="CheckZaakClosureAllowed"
+            <XmlIfPipe name="CheckZaakClosureIgnored"
                 getInputFromFixedValue="&lt;dummy/&gt;"
                 xpathExpression="$ignoreEindStatusInActualiseerZaakStatus">
                 <Param name="ignoreEindStatusInActualiseerZaakStatus" sessionKey="ignoreEindStatusInActualiseerZaakStatus" />
-                <Forward name="then" path="ZaakCannotBeClosedException"/>
+                <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="SetStatusExists"/>
             </XmlIfPipe>
-
-            <XsltPipe
-                name="ZaakCannotBeClosedException"
-                styleSheetName="Common/xsl/BuildError.xsl"
-                >
-                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
-                <Param name="reason" pattern="Zaak cannot be closed by adding eindStatus in ActualiseerZaakStatus message." />
-                <Forward name="success" path="EXCEPTION" />
-                <Forward name="exception" path="EXCEPTION" />
-            </XsltPipe>
 
             <XsltPipe
                 name="SetStatusExists"
