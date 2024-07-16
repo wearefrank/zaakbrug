@@ -21,7 +21,7 @@
             <gerelateerde>
                 <natuurlijkPersoon entiteittype="NPS">
                     <inp.bsn><xsl:value-of select="betrokkeneIdentificatie/inpBsn"/></inp.bsn>
-                    <authentiek>J</authentiek>
+                    <authentiek>N</authentiek>
                     <geslachtsnaam><xsl:value-of select="betrokkeneIdentificatie/geslachtsnaam"/></geslachtsnaam>
                     <voorvoegselGeslachtsnaam><xsl:value-of select="betrokkeneIdentificatie/voorvoegselGeslachtsnaam"/></voorvoegselGeslachtsnaam>
                     <voorletters><xsl:value-of select="betrokkeneIdentificatie/voorletters"/></voorletters>
@@ -40,7 +40,7 @@
             <gerelateerde>
                 <nietNatuurlijkPersoon entiteittype="NNP">
                     <inn.nnpId><xsl:value-of select="betrokkeneIdentificatie/innNnpId"/></inn.nnpId>
-                    <authentiek>J</authentiek>
+                    <authentiek>N</authentiek>
                     <ann.identificatie><xsl:value-of select="betrokkeneIdentificatie/annIdentificatie"/></ann.identificatie>
                     <statutaireNaam><xsl:value-of select="betrokkeneIdentificatie/statutaireNaam"/></statutaireNaam>
                     <inn.rechtsvorm><xsl:value-of select="betrokkeneIdentificatie/innRechtsvorm"/></inn.rechtsvorm>

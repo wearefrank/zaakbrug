@@ -1,32 +1,33 @@
 function mergeProfileDefaultsWithProfiles(profilesFile){
     const json = JSON.parse(profilesFile);
-    const profileDefaults = {"profile": json["profileDefaults"]};
-    const profiles = { "profile": json["profile"] };
+    const profileDefaults = json["profileDefaults"];
+    const profiles = json["profile"];
 
     let result = {};
     result["profile"] = [];
-    result["profileDefaults"] = json["profileDefaults"];
+    result["profileDefaults"] = profileDefaults;
 
-    if(json["profileDefaults"] == null || json["profile"] == null){
+    if(profileDefaults == null || profiles == null || Object.keys(profileDefaults).length === 0){
         return profilesFile;
     }
 
-    for(const pf of profiles.profile){
+    for(const pf of profiles){
         let pfres = {};
-        Object.keys(profileDefaults.profile)
-        .forEach(key => pfres[key] = profileDefaults.profile[key]);
+        Object.keys(profileDefaults)
+        .forEach(key => pfres[key] = profileDefaults[key]);
         Object.keys(pf)
         .forEach(key => pfres[key] = pf[key]);
 
-        if(pf["valueOverrides"] == null){
+        if(pf["valueOverrides"] == null || profileDefaults["valueOverrides"] == null){
             result.profile.push(pfres);
             continue;
         }
 
-        pfres["valueOverrides"] = pf.valueOverrides
-            .concat(profileDefaults.profile.valueOverrides
-                    .filter((value) => pf.valueOverrides
-                        .find((value2) => value2.key != value.key)));
+        pfres["valueOverrides"] = [
+            ...pf.valueOverrides,
+            ...profileDefaults.valueOverrides.filter(({key}) => !pf.valueOverrides.some(obj => obj.key === key)
+            )
+        ];
 
         result.profile.push(pfres);
     }
