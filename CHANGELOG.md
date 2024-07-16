@@ -1,5 +1,16 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.19.16](https://github.com/wearefrank/zaakbrug/compare/v1.19.15...v1.19.16) (2024-07-16)
+
+### 🐛 Bug Fixes
+
+* defaultProfile not being used when there is no zaaktype specific translation profile configured ([#402](https://github.com/wearefrank/zaakbrug/issues/402)) ([179c468](https://github.com/wearefrank/zaakbrug/commit/179c468b3f8b77e065e06c36a98ed1204281fbc0))
+* updateZaak incorrectly distinguishes roles due to 'authentiek' dataloss in translation resulting in attempt to add as new role ([#418](https://github.com/wearefrank/zaakbrug/issues/418)) ([266d9ca](https://github.com/wearefrank/zaakbrug/commit/266d9ca47483353291dd1653699f55343c1279a4))
+
+### 🤖 Build System
+
+* **dependencies:** bump the github-actions group across 1 directory with 3 updates ([#422](https://github.com/wearefrank/zaakbrug/issues/422)) ([77ed198](https://github.com/wearefrank/zaakbrug/commit/77ed198e34ef9bca04a7606cca8f74926f575747))
+
 ## [1.19.15](https://github.com/wearefrank/zaakbrug/compare/v1.19.14...v1.19.15) (2024-07-10)
 
 ### 🐛 Bug Fixes
