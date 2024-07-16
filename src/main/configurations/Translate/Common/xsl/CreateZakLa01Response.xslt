@@ -199,7 +199,7 @@
                     <BG:inp.bsn><xsl:value-of select="inp.bsn"/></BG:inp.bsn>
                 </xsl:if>
                 <xsl:if test="authentiek">
-                    <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+                    <BG:authentiek StUF:metagegeven="true">N</BG:authentiek>
                 </xsl:if>
                 <xsl:if test="geslachtsnaam">
                     <BG:geslachtsnaam><xsl:value-of select="geslachtsnaam"/></BG:geslachtsnaam>
@@ -231,7 +231,7 @@
                     <BG:inn.nnpId><xsl:value-of select="inn.nnpId"/></BG:inn.nnpId>
                 </xsl:if>
                 <xsl:if test="authentiek">
-                    <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+                    <BG:authentiek StUF:metagegeven="true">N</BG:authentiek>
                 </xsl:if>
                 <xsl:if test="ann.identificatie">
                     <BG:ann.identificatie><xsl:value-of select="ann.identificatie"/></BG:ann.identificatie>
