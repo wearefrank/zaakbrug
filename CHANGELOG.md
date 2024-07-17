@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.20.0](https://github.com/wearefrank/zaakbrug/compare/v1.19.16...v1.20.0) (2024-07-17)
+
+### 🍕 Features
+
+* new case closing behavior that skips an endstatus in actualiseerZaakStatus so that a following updateZaak can close the case by setting the enddate ([#424](https://github.com/wearefrank/zaakbrug/issues/424)) ([1110d72](https://github.com/wearefrank/zaakbrug/commit/1110d72efd1f5c2c8c880042dadb314479625c9b))
+
 ## [1.19.16](https://github.com/wearefrank/zaakbrug/compare/v1.19.15...v1.19.16) (2024-07-16)
 
 ### 🐛 Bug Fixes
