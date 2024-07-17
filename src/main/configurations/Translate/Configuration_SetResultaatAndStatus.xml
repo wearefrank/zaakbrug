@@ -85,9 +85,13 @@
                     <Param name="ZaakTypeUrl" xpathExpression="$ZgwZaakType/ZgwZaakType/url">
                         <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
                     </Param>
+                    <Param name="ZaakTypeCode" xpathExpression="$ZgwZaakType/ZgwZaakType/identificatie">
+                        <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
+                    </Param>
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                     <Param name="Beeindigd" sessionKey="Beeindigd"/>
                     <Param name="Einddatum" xpathExpression="/*/object/einddatum" sessionKey="originalMessage"/>
+                    <Param name="isActualiseerZaakStatusMessage" sessionKey="isActualiseerZaakStatusMessage"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForResultaat"/>
                 <Forward name="exception" path="ResultWithErrorMessage" />
