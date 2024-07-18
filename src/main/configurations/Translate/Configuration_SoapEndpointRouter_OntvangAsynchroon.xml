@@ -128,6 +128,7 @@
                     name="ActualiseerZaakstatus_Lk01LocalSender"
                     javaListener="ActualiseerZaakStatus"
                     returnedSessionKeys="Error">
+                    <Param name="isActualiseerZaakStatusMessage" value="true"/>
                 </IbisLocalSender>
                 <Forward name="success" path="WrapBv03Response" />
                 <Forward name="exception" path="BackEndError" />
@@ -183,12 +184,15 @@
                 <Forward name="success" path="WrapFo03Response"/>
             </PutInSessionPipe>
 
-            <PutInSessionPipe name="BackEndError" unlessSessionKey="errorCode">
-                <Param name="errorCode" styleSheetName="Common/xsl/BackEndError.xsl"/>
-                <Param name="errorReason" xpathExpression="/error/reason"/>
-                <Param name="errorDetailText" xpathExpression="concat(/error/code, ' ', /error/reason, ' ', /error/details)"/>
-                <Param name="errorDetailXML" xpathExpression="/error/detailsXml" type="DOMDOC" />
-                <Forward name="success" path="WrapFo03Response"/>
+            <PutInSessionPipe
+                name="BackEndError"
+                unlessSessionKey="errorCode"
+                >
+                <Param name="errorCode" styleSheetName="Common/xsl/BackEndError.xsl" />
+                <Param name="errorReason" xpathExpression="(//error)[last()]/reason" />
+                <Param name="errorDetailText" xpathExpression="(//error)[last()]/details" />
+                <Param name="errorDetailXML" xpathExpression="/error" type="DOMDOC" />
+                <Forward name="success" path="WrapFo03Response" />
             </PutInSessionPipe>
 
             <SoapWrapperPipe

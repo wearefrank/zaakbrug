@@ -1,5 +1,53 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.20.0](https://github.com/wearefrank/zaakbrug/compare/v1.19.16...v1.20.0) (2024-07-17)
+
+### 🍕 Features
+
+* new case closing behavior that skips an endstatus in actualiseerZaakStatus so that a following updateZaak can close the case by setting the enddate ([#424](https://github.com/wearefrank/zaakbrug/issues/424)) ([1110d72](https://github.com/wearefrank/zaakbrug/commit/1110d72efd1f5c2c8c880042dadb314479625c9b))
+
+## [1.19.16](https://github.com/wearefrank/zaakbrug/compare/v1.19.15...v1.19.16) (2024-07-16)
+
+### 🐛 Bug Fixes
+
+* defaultProfile not being used when there is no zaaktype specific translation profile configured ([#402](https://github.com/wearefrank/zaakbrug/issues/402)) ([179c468](https://github.com/wearefrank/zaakbrug/commit/179c468b3f8b77e065e06c36a98ed1204281fbc0))
+* updateZaak incorrectly distinguishes roles due to 'authentiek' dataloss in translation resulting in attempt to add as new role ([#418](https://github.com/wearefrank/zaakbrug/issues/418)) ([266d9ca](https://github.com/wearefrank/zaakbrug/commit/266d9ca47483353291dd1653699f55343c1279a4))
+
+### 🤖 Build System
+
+* **dependencies:** bump the github-actions group across 1 directory with 3 updates ([#422](https://github.com/wearefrank/zaakbrug/issues/422)) ([77ed198](https://github.com/wearefrank/zaakbrug/commit/77ed198e34ef9bca04a7606cca8f74926f575747))
+
+## [1.19.15](https://github.com/wearefrank/zaakbrug/compare/v1.19.14...v1.19.15) (2024-07-10)
+
+### 🐛 Bug Fixes
+
+* return error closest to the source and return all nested errors ([#416](https://github.com/wearefrank/zaakbrug/issues/416)) ([c8c35a8](https://github.com/wearefrank/zaakbrug/commit/c8c35a807d31d241f3d745efe99c82a2eab25767))
+
+### 🧑‍💻 Code Refactoring
+
+* wrap zakla01 response xslt should not contain any zgw to zds translations ([#394](https://github.com/wearefrank/zaakbrug/issues/394)) ([e748a54](https://github.com/wearefrank/zaakbrug/commit/e748a548924f48da922389d1ec6c4a5adead1c84))
+
+### 🤖 Build System
+
+* **dependencies:** bump the github-actions group with 6 updates ([#411](https://github.com/wearefrank/zaakbrug/issues/411)) ([4909eb2](https://github.com/wearefrank/zaakbrug/commit/4909eb2808982cdda033e9bfd5e822794eec4559))
+* **dependencies:** bump typescript ([#410](https://github.com/wearefrank/zaakbrug/issues/410)) ([74652fa](https://github.com/wearefrank/zaakbrug/commit/74652fa08d19594194052c5de73971fd89b63fbe))
+
+## [1.19.14](https://github.com/wearefrank/zaakbrug/compare/v1.19.13...v1.19.14) (2024-07-03)
+
+### 🐛 Bug Fixes
+
+* creeerZaak attempts to also delete the case when the post case call fails and there is nothing to delete ([#408](https://github.com/wearefrank/zaakbrug/issues/408)) ([7956c0b](https://github.com/wearefrank/zaakbrug/commit/7956c0b30b2d2da7a429f5cd4a2da654b62649c1))
+* zaaktype not found throwing incorrect generic error ([fba69b4](https://github.com/wearefrank/zaakbrug/commit/fba69b49fc00cd4c409f385142c275ab62d23e58))
+
+### 🔥 Performance Improvements
+
+* implement simple cache for authorization token generation so that tokens are reused until the tokens expires ([22be3a0](https://github.com/wearefrank/zaakbrug/commit/22be3a00040bff708afdf00effe8878b4df61ed1))
+
+### 🔁 Continuous Integration
+
+* configure dependabot to update github-actions on a weekly basis ([01688c0](https://github.com/wearefrank/zaakbrug/commit/01688c0093910eee9bf1474006728f7dbe952a52))
+* **dependencies:** lock ci-cd-template workflow versions to commit hash instead of main branch ([3cee5ca](https://github.com/wearefrank/zaakbrug/commit/3cee5ca6dcdd43c37f38f8f585a38498cdd0b437))
+
 ## [1.19.13](https://github.com/wearefrank/zaakbrug/compare/v1.19.12...v1.19.13) (2024-07-01)
 
 ### 🧑‍💻 Code Refactoring
