@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.20.1](https://github.com/wearefrank/zaakbrug/compare/v1.20.0...v1.20.1) (2024-07-19)
+
+### 🔁 Continuous Integration
+
+* automatically bump the Frank!Framework version on a weekly basis ([#301](https://github.com/wearefrank/zaakbrug/issues/301)) ([bad76bd](https://github.com/wearefrank/zaakbrug/commit/bad76bd7d5b238a73059181864cdb46eaa4904c1))
+
 ## [1.20.0](https://github.com/wearefrank/zaakbrug/compare/v1.19.16...v1.20.0) (2024-07-17)
 
 ### 🍕 Features
