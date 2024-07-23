@@ -232,6 +232,7 @@
                     <Param name="ZaakTypeUrl" xpathExpression="$GetZgwZaaktypeByUrlResult/ZgwZaakType/url">
                         <Param name="GetZgwZaaktypeByUrlResult" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                     </Param>
+                    <Param name="ZaakType" sessionKey="originalMessage" xpathExpression="/zakLk01/object/isVan/gerelateerde/code" />
                 </IbisLocalSender>
                 <Forward name="success" path="WrapZdsWordtZaak"/>
                 <Forward name="exception" path="EXCEPTION" />
