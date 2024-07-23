@@ -41,7 +41,7 @@
                 <nietNatuurlijkPersoon entiteittype="NNP">
                     <inn.nnpId><xsl:value-of select="betrokkeneIdentificatie/innNnpId"/></inn.nnpId>
                     <authentiek>N</authentiek>
-                    <ann.identificatie><xsl:value-of select="betrokkeneIdentificatie/annIdentificatie"/></ann.identificatie>
+                    <!-- <ann.identificatie><xsl:value-of select="betrokkeneIdentificatie/annIdentificatie"/></ann.identificatie> -->
                     <statutaireNaam><xsl:value-of select="betrokkeneIdentificatie/statutaireNaam"/></statutaireNaam>
                     <inn.rechtsvorm><xsl:value-of select="betrokkeneIdentificatie/innRechtsvorm"/></inn.rechtsvorm>
                     <!-- Missing bezoekadres -->
