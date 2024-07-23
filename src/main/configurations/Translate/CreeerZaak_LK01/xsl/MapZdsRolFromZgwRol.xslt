@@ -39,8 +39,10 @@
             <xsl:attribute name="entiteittype" select="$RolEntiteitType"/>
             <gerelateerde>
                 <nietNatuurlijkPersoon entiteittype="NNP">
-                    <inn.nnpId><xsl:value-of select="betrokkeneIdentificatie/innNnpId"/></inn.nnpId>
-                    <authentiek>N</authentiek>
+                    <xsl:if test="betrokkeneIdentificatie/innNnpId">
+                        <inn.nnpId><xsl:value-of select="betrokkeneIdentificatie/innNnpId"/></inn.nnpId>
+                        <authentiek>N</authentiek>
+                    </xsl:if>
                     <ann.identificatie><xsl:value-of select="betrokkeneIdentificatie/annIdentificatie"/></ann.identificatie>
                     <statutaireNaam><xsl:value-of select="betrokkeneIdentificatie/statutaireNaam"/></statutaireNaam>
                     <inn.rechtsvorm><xsl:value-of select="betrokkeneIdentificatie/innRechtsvorm"/></inn.rechtsvorm>

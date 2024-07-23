@@ -1,5 +1,22 @@
 {
-    "profileDefaults": {},
+    "profileDefaults": { 
+        "valueOverrides": [
+            {
+                "key": "zgw.zaken-api.zaken.zaak.betalingsindicatie",
+                "value": "nvt",
+                "condition": "current() = ''"
+            },
+            {
+                "key": "zgw.zaken-api.rollen.rol.roltoelichting",
+                "value": "lalala",
+                "condition": "true"
+            },
+            {
+                "key": "zgw.zaken-api.rollen.rol.betrokkeneIdentificatie.annIdentificatie",
+                "value": "12345678901234567",
+                "condition": "true"
+            }
+      ]},
     "profile": [
         {
             "zaakTypeIdentificatie": "B9999",
