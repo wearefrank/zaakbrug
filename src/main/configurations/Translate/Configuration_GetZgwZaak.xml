@@ -13,7 +13,14 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <XmlSwitchPipe name="CheckForIdentificatie"
+            <XsltPipe 
+                name="CheckIfNewApi" 
+                xpathExpression="${zaakbrug.zgw.zaken-api.version} >= 1.5" 
+                storeResultInSessionKey="isNewApi">
+                <Forward name="success" path="CheckForIdentificatie" />
+            </XsltPipe>
+            
+            <XmlSwitchPipe name="CheckForIdentificatie" getInputFromSessionKey="originalMessage"
                 xpathExpression="string-length($Identificatie) > 0 and $Identificatie != 'null'"
                 >
                 <Param name="Identificatie" sessionKey="Identificatie" />
@@ -28,22 +35,32 @@
                     javaListener="GenerateAuthorizationHeaderForZakenApi"
                     returnedSessionKeys="Error,Authorization">
                 </IbisLocalSender>
-                <Forward name="success" path="GetZgwZaakByIdentificatie" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
+            <PutInSessionPipe 
+                name="SetExpand" 
+                sessionKey="expandValue" 
+                value="zaakinformatieobjecten"
+                onlyIfSessionKey="isNewApi"
+                onlyIfValue="true">
+                <Forward name="success" path="GetZgwZaakByIdentificatie" />    
+            </PutInSessionPipe>
+
 			<SenderPipe name="GetZgwZaakByIdentificatie"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-				<HttpSender 
+                getInputFromFixedValue="&lt;dummy/&gt;" >
+				<HttpSender
 					name="GetZgwZaakByIdentificatieSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
                     timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    parametersToSkipWhenEmpty="expand"
 				/>
                 <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}zaken"/>
                 <Param name="identificatie" sessionKey="Identificatie"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization"  sessionKey="Authorization" />
+                <Param name="expand" sessionKey="expandValue" />
                 <Forward name="success" path="JsonToXml" />
                 <Forward name="exception" path="ErrorJsonToXml" />
 			</SenderPipe>
@@ -66,9 +83,22 @@
                 >
                 <Param name="Type" value="ZgwZaak"/>
                 <Param name="List" value="ZgwZaken"/>
-                <Forward name="success" path="EXIT"/>
+                <Forward name="success" path="AdjustExpandedElementNames"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
+            
+            <XsltPipe
+                name="AdjustExpandedElementNames"
+                styleSheetName="Common/xsl/AdjustExpandedElementNames.xslt"
+                onlyIfSessionKey="isNewApi" 
+                onlyIfValue="true"
+                >
+                <Param name="Type" value="ZgwZaak"/>
+                <Param name="List" value="ZgwZaken"/>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>            
+
         </Pipeline>
     </Adapter>
 </Module>
