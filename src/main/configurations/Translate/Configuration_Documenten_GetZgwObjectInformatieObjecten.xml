@@ -1,0 +1,80 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="Documenten_GetZgwObjectInformatieObjecten"
+        active="${Documenten_GetZgwObjectInformatieObjecten.Active}"
+        description="">
+
+        <Receiver name="Documenten_GetZgwObjectInformatieObjecten">
+            <JavaListener name="Documenten_GetZgwObjectInformatieObjecten" returnedSessionKeys="Error" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <JwtPipe name="createJwt"
+                expirationTime="600"
+                storeResultInSessionKey="myToken"
+                ifParam="valueAuthType"
+                ifValue="Jwt"
+            >
+                <Param name="valueAuthType" value="${zaakbrug.zgw.documenten-api.auth-type}" />
+                <Param name="sharedSecret" pattern="{password}" authAlias="${zaakbrug.zgw.documenten-api.auth-alias}" hidden="true"/>
+                <Param name="client_id" pattern="{username}" authAlias="${zaakbrug.zgw.documenten-api.auth-alias}" hidden="true"/>
+                <Param name="user_id" pattern="{username}" authAlias="${zaakbrug.zgw.documenten-api.auth-alias}" hidden="true"/>
+                <Param name="user_reresentation" pattern="{username}" authAlias="${zaakbrug.zgw.documenten-api.auth-alias}" hidden="true"/>
+                <Forward name="success" path="GetObjectInformatieObjectenSender" />
+            </JwtPipe>
+
+			<SenderPipe 
+                name="GetObjectInformatieObjectenSender" 
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                >
+				<HttpSender 
+					name="GetObjectInformatieObjectenHttpSender" 
+					methodType="GET"
+					headersParams="Authorization,Accept-Crs"
+                    timeout="${zaakbrug.zgw.documenten-api.timeout}"
+                    parametersToSkipWhenEmpty="*"
+				    />
+                <Param name="url" value="${zaakbrug.zgw.documenten-api.root-url}objectinformatieobjecten"/>
+                <Param name="object" sessionKey="object" />
+                <Param name="informatieobject" sessionKey="informatieobject" />
+                <Param name="expand" sessionKey="expand" />
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Authorization"  sessionKey="originalMessage" xpathExpression="concat('Bearer ', $myToken)">
+                    <Param name="myToken" sessionKey="myToken" defaultValue="@@documenten-api.jwt@@"/>
+                </Param>
+                <Forward name="success" path="JsonToXml" />
+                <Forward name="exception" path="ErrorJsonToXml" />
+			</SenderPipe>
+
+            <JsonPipe name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="GetObjectInformatieObjectenSender" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
+
+            <JsonPipe 
+                name="JsonToXml"
+                >
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList"/>
+            </JsonPipe>
+
+            <XsltPipe
+                name="UnwrapOpenZaakApiEnvelopeToList"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
+                >
+                <Param name="Type" value="ZgwObjectInformatieObject"/>
+                <Param name="List" value="ZgwObjectInformatieObjecten"/>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

@@ -48,7 +48,7 @@
             </SenderPipe>
 
             <ForEachChildElementPipe name="ZgwZaakInformatieObjectenIterator"
-                elementXPathExpression="/ZgwZaakInformatieObjecten/ZgwZaakInformatieObject"
+                elementXPathExpression="//ZgwZaakInformatieObject"
                 parallel="true">
                 <IbisLocalSender
                     name="CallHandleZgwZaakInformatieObjecten"
@@ -58,6 +58,7 @@
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
+
         </Pipeline>
     </Adapter>
 </Module>
