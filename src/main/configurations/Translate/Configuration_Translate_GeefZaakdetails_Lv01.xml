@@ -49,7 +49,7 @@
 			</PutInSessionPipe>
 
 			<SenderPipe name="getZaakTypeByUrl" storeResultInSessionKey="zaakTypeJson">
-				<HttpSender 
+				<Sender className="org.frankframework.http.HttpSenderCached" 
 					name="getZaakTypeByUrl" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
@@ -59,7 +59,7 @@
 					<Param name="Authorization" xpathExpression="concat('Bearer ', $token)" >
 						<Param name="token" sessionKey="token" />
 					</Param>
-				</HttpSender>
+				</Sender>
 				<Forward name="exception" path="ErrorJsonToXml_2" />
 			</SenderPipe>
             <JsonPipe name="ErrorJsonToXml_2">
@@ -82,7 +82,7 @@
 			</XsltPipe>
 
 			<SenderPipe name="getRollenByUrl" getInputFromFixedValue="&lt;dummy/&gt;" storeResultInSessionKey="rollenJson">
-				<HttpSender 
+				<Sender className="org.frankframework.http.HttpSenderCached" 
 					name="getRollenByUrl" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
@@ -93,7 +93,7 @@
 					<Param name="Authorization" xpathExpression="concat('Bearer ', $token)" >
 						<Param name="token" sessionKey="token" />
 					</Param>
-				</HttpSender>
+				</Sender>
 				<Forward name="exception" path="ErrorJsonToXml_3" />
 			</SenderPipe>
             <JsonPipe name="ErrorJsonToXml_3">
