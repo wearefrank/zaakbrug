@@ -14,7 +14,7 @@ jobs:
   bump-ff-version:
     uses: wearefrank/ci-cd-templates/.github/workflows/ff-version-auto-bumper.yml@5ec30763e8d8eeed008edcac3c6a329367e42760 # 1.0.4
     secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
+      token: ${{ secrets.WEAREFRANK_BOT_PAT }}
       dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
       dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
     with:
