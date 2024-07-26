@@ -1,5 +1,15 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.20.2](https://github.com/wearefrank/zaakbrug/compare/v1.20.1...v1.20.2) (2024-07-26)
+
+### 🤖 Build System
+
+* **dependencies:** bump the github-actions group with 2 updates ([#426](https://github.com/wearefrank/zaakbrug/issues/426)) ([5e2df91](https://github.com/wearefrank/zaakbrug/commit/5e2df91ebf68b259f3d7f03ce993d7c3aafb66f3))
+
+### 🔁 Continuous Integration
+
+* use waf bot pat token for bump-ff-version workflow due to permission issue with ci checks in the created pr ([1794919](https://github.com/wearefrank/zaakbrug/commit/17949192cc76e2613161e4267e02779428be3fd0))
+
 ## [1.20.1](https://github.com/wearefrank/zaakbrug/compare/v1.20.0...v1.20.1) (2024-07-19)
 
 ### 🔁 Continuous Integration
