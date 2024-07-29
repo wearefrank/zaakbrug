@@ -94,7 +94,7 @@
             </XmlIfPipe>
             
             <XmlIfPipe name="CheckIfActualiseerZaakStatus"
-                xpathExpression="$isActualiseerZaakStatusMessage">
+                xpathExpression="$isActualiseerZaakStatusMessage = 'true'">
                 <Param name="isActualiseerZaakStatusMessage" sessionKey="isActualiseerZaakStatusMessage" />
                 <Forward name="then" path="ResolveProfileValuesSender"/>
                 <Forward name="else" path="SetStatusExists"/>
