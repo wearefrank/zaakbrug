@@ -14,7 +14,7 @@ jobs:
       version-next-tag: ${{ steps.next-version.outputs.release-tag }}
       version-next-type: ${{ steps.next-version.outputs.release-type }}
     steps:
-      - uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
+      - uses: step-security/harden-runner@0d381219ddf674d61a7572ddd19d7941e271515c # v2.9.0
         with:
           disable-sudo: true
           egress-policy: audit
@@ -40,7 +40,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   ci:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@e8affe3c6b9d1a725b3332042f82096286974d15 #1.0.2
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@5ec30763e8d8eeed008edcac3c6a329367e42760 #1.0.4
     needs: analyze-commits
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
@@ -58,7 +58,7 @@ jobs:
       - analyze-commits
       - ci
     steps:
-      - uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
+      - uses: step-security/harden-runner@0d381219ddf674d61a7572ddd19d7941e271515c # v2.9.0
         with:
           egress-policy: audit
 
@@ -127,7 +127,7 @@ jobs:
       - ci
       - run-soapui-tests
     steps:
-      - uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
+      - uses: step-security/harden-runner@0d381219ddf674d61a7572ddd19d7941e271515c # v2.9.0
         with:
           egress-policy: audit
 
@@ -163,7 +163,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   docker-release:
-    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@e8affe3c6b9d1a725b3332042f82096286974d15 #1.0.2
+    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@5ec30763e8d8eeed008edcac3c6a329367e42760 #1.0.4
     needs: 
     - analyze-commits
     - release
@@ -193,4 +193,4 @@ jobs:
       - release
     # Set to true to enable Docusaurus publishing to GitHub Pages
     if: true
-    uses: wearefrank/ci-cd-templates/.github/workflows/docusaurus-release.yml@e8affe3c6b9d1a725b3332042f82096286974d15 #1.0.2
+    uses: wearefrank/ci-cd-templates/.github/workflows/docusaurus-release.yml@5ec30763e8d8eeed008edcac3c6a329367e42760 #1.0.4
