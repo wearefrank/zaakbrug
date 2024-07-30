@@ -1,5 +1,5 @@
 <xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="true" exclude-result-prefixes="#all"/>
+    <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="yes" exclude-result-prefixes="#all"/>
     <xsl:strip-space elements="*"/>
 
     <xsl:param name="valueOverrides" as="node()?" />
@@ -83,5 +83,3 @@
 		</xsl:choose>
 	</xsl:template>
 </xsl:stylesheet>
-
-
