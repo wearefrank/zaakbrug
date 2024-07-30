@@ -42,11 +42,30 @@
                 styleSheetName="Common/xsl/RenameRootElementInValueOverridesKeys.xsl"
                 storeResultInSessionKey="valueOverrides"
                 >
-                <Forward name="success" path="ApplyValueOverrides" />
+                <Forward name="success" path="CheckValueOverridesForZaakOrRol" />
+            </XsltPipe>
+
+            <XmlSwitchPipe 
+                name="CheckValueOverridesForZaakOrRol"
+                xpathExpression="$valueOverrideKeyRoot"
+                >
+                <Param name="valueOverrideKeyRoot" sessionKey="valueOverrideKeyRoot"/>
+                <Forward name="zgw.zaken-api.zaken.ZgwZaak" path="ApplyValueOverridesForZaak"/>
+                <Forward name="zgw.zaken-api.rollen.ZgwRol" path="ApplyValueOverridesForRol"/>
+            </XmlSwitchPipe>
+
+            <XsltPipe
+                name="ApplyValueOverridesForZaak"
+                styleSheetName="Common/xsl/ApplyValueOverrides.xsl"
+                getInputFromSessionKey="originalMessage"
+                >
+                <Param name="valueOverrides" sessionKey="valueOverrides" type="DOMDOC" />
+                <Param name="valueOverrideKeyRoot" sessionKey="valueOverrideKeyRoot" />
+                <Forward name="success" path="EXIT" />
             </XsltPipe>
 
             <XsltPipe
-                name="ApplyValueOverrides"
+                name="ApplyValueOverridesForRol"
                 styleSheetName="Common/xsl/ApplyValueOverrides.xsl"
                 getInputFromSessionKey="originalMessage"
                 >
