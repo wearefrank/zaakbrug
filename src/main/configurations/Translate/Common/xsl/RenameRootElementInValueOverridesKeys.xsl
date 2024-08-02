@@ -17,7 +17,7 @@
 
 	<xsl:template match="//valueOverrides/key[contains(self::key, 'zgw.zaken-api.rollen.rol')]">
 		<xsl:element name="key">
-			<xsl:value-of select="replace(current(), 'zgw.zaken-api.rollen.rol', 'zgw.zaken-api.rollen.ZgwRol')" />
+			<xsl:value-of select="replace(current(), 'zgw.zaken-api.rollen.rol', 'zgw.zaken-api.rollen.zgwRol')" />
 		</xsl:element>
 	</xsl:template>
 
