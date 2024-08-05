@@ -100,6 +100,7 @@
                     returnedSessionKeys="Error">
                     <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC"/>
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
+                    <Param name="ZaakType" sessionKey="ZaakType"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForRol"/>
                 <Forward name="exception" path="EXCEPTION" />

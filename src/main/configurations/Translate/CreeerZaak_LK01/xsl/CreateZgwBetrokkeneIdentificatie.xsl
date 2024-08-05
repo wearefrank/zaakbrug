@@ -55,6 +55,7 @@
         <betrokkeneIdentificatie>
             <innNnpId><xsl:value-of select="inn.nnpId"/></innNnpId>
             <authentiek><xsl:value-of select="authentiek"/></authentiek>
+            <annIdentificatie><xsl:value-of select="ann.identificatie"/></annIdentificatie>
             <statutaireNaam><xsl:value-of select="statutaireNaam"/></statutaireNaam>
             <innRechtsvorm>
                 <xsl:choose>
