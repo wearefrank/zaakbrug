@@ -26,8 +26,8 @@
 			<xsl:copy-of select="$postTransformRoot" />
 			<xsl:variable name="tokenizedKeys">
 				<xsl:for-each select="$valueOverrides/root/*[starts-with(key, $valueOverrideKeyRoot)]">
-					<xsl:variable name="relativeKey" select="substring-after(key, concat($valueOverrideKeyRoot, '.'))" /> minus root
-					<xsl:sequence select="tokenize($relativeKey, '\.')" /> [betrokkeneIdentificatie, annIdentificatie]
+					<xsl:variable name="relativeKey" select="substring-after(key, concat($valueOverrideKeyRoot, '.'))" />
+					<xsl:sequence select="tokenize($relativeKey, '\.')" />
 				</xsl:for-each>
 			</xsl:variable>
 			<xsl:call-template name="depthFirstUnflatten">
@@ -36,7 +36,7 @@
 				<!-- <xsl:with-param name="value" select="value"/> -->
 			</xsl:call-template>
 			<xsl:for-each select="$valueOverrides/root/*[starts-with(key, $valueOverrideKeyRoot)]">
-				<xsl:variable name="relativeKey" select="substring-after(key, concat($valueOverrideKeyRoot, '.'))" /> minus root 
+				<xsl:variable name="relativeKey" select="substring-after(key, concat($valueOverrideKeyRoot, '.'))" />
 				<xsl:variable name="valueForKeyOnRoot" as="xs:string"><xsl:value-of><xsl:evaluate xpath="replace($relativeKey, '\.', '/')" context-item="$postTransformRoot" /></xsl:value-of></xsl:variable> evaluate(/betrokkeneIdentificatie/annIdentificatie)
 				<xsl:if test="$valueForKeyOnRoot = ''">
 					<xsl:call-template name="unflatten">
