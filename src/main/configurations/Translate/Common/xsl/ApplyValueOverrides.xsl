@@ -1,5 +1,5 @@
 <xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="true" exclude-result-prefixes="#all"/>
+    <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="yes" exclude-result-prefixes="#all"/>
     <xsl:strip-space elements="*"/>
 
     <xsl:param name="valueOverrides" as="node()?" />
@@ -8,11 +8,11 @@
 	<xsl:key name="valueOverrideKey" match="valueOverrides" use="key"/>
 	<xsl:variable name="root" select="/"/>
 
-    <xsl:template match="@*|node()">
+	<xsl:template match="@*|node()">
 		<xsl:copy>
 			<xsl:apply-templates select="@*|node()"/>
 		</xsl:copy>
-  	</xsl:template>
+	</xsl:template>
 
 	<xsl:template match="/*[local-name() = tokenize($valueOverrideKeyRoot, '\.')[last()]]">
 		<xsl:element name="{local-name()}">
@@ -24,34 +24,17 @@
 				</xsl:for-each>
 			</xsl:variable>
 			<xsl:copy-of select="$postTransformRoot" />
-
-
-
-
-
-
-			tokenizedKeys[
-			[toelichting],
-			[betrokkeneIdentificatie, annIdentificatie]
-			]
 			<xsl:variable name="tokenizedKeys">
 				<xsl:for-each select="$valueOverrides/root/*[starts-with(key, $valueOverrideKeyRoot)]">
 					<xsl:variable name="relativeKey" select="substring-after(key, concat($valueOverrideKeyRoot, '.'))" /> minus root
 					<xsl:sequence select="tokenize($relativeKey, '\.')" /> [betrokkeneIdentificatie, annIdentificatie]
 				</xsl:for-each>
 			</xsl:variable>
-
 			<xsl:call-template name="depthFirstUnflatten">
 				<xsl:with-param name="tokenizedKeys" select="$tokenizedKeys"/>
 				<xsl:with-param name="key" select="$valueOverrideKeyRoot"/>
-				<xsl:with-param name="value" select="value"/>
+				<!-- <xsl:with-param name="value" select="value"/> -->
 			</xsl:call-template>
-			
-
-
-
-
-
 			<xsl:for-each select="$valueOverrides/root/*[starts-with(key, $valueOverrideKeyRoot)]">
 				<xsl:variable name="relativeKey" select="substring-after(key, concat($valueOverrideKeyRoot, '.'))" /> minus root 
 				<xsl:variable name="valueForKeyOnRoot" as="xs:string"><xsl:value-of><xsl:evaluate xpath="replace($relativeKey, '\.', '/')" context-item="$postTransformRoot" /></xsl:value-of></xsl:variable> evaluate(/betrokkeneIdentificatie/annIdentificatie)
@@ -63,7 +46,7 @@
 				</xsl:if>
 			</xsl:for-each>
 		</xsl:element>
-  	</xsl:template>
+  </xsl:template>
 
 	<xsl:template name="applyValueOverrides">
 		<xsl:param name="element" as="xs:string" />
@@ -87,48 +70,10 @@
 				<xsl:copy-of select="."/>
 			</xsl:otherwise>
 		</xsl:choose>
-
-		
 	</xsl:template>
 
-	tokenizedKeys[
-		[toelichting],
-		[betrokkeneIdentificatie, annIdentificatie],
-		[betrokkeneIdentificatie, ass],
-		[betrokkeneIdentificatie, bee, firstone],
-		[betrokkeneIdentificatie, bee, anotherone]
-		[another-identificatie, bla, poop]
-		[another-identificatie, bla, pee]
-	]
-	tokenizedKeys[
-		[betrokkeneIdentificatie, annIdentificatie],
-		[betrokkeneIdentificatie, ass],
-		[betrokkeneIdentificatie, bee, firstone],
-		[betrokkeneIdentificatie, bee, anotherone]
-		[another-identificatie, bla, poop]
-		[another-identificatie, bla, pee]
-	]
-	tokenizedKeys[
-		[annIdentificatie],
-		[ass],
-		[bee, firstone],
-		[bee, anotherone]
-	]
-	tokenizedKeys[
-		[firstone],
-		[anotherone]
-	]
-	tokenizedKeys[
-		[bla, poop]
-		[bla, pee]
-	]
-	tokenizedKeys[
-		[poop]
-		[pee]
-	]
-	[betrokkeneIdentificatie, betrokkeneIdentificatie, betrokkeneIdentificatie, betrokkeneIdentificatie]
 	<xsl:template name="depthFirstUnflatten">
-		<xsl:param name="tokenizedKeys" as="xs:string" />
+		<xsl:param name="tokenizedKeys"/>
 		<xsl:param name="key" as="xs:string" />
 		
 		<xsl:for-each select="distinct-values($tokenizedKeys/*[position() = 1])">
@@ -161,50 +106,20 @@
 	<xsl:template name="unflatten">
 		<xsl:param name="key" as="xs:string" />
 		<xsl:param name="value" as="xs:string" />
-
-
-		
-		zaken.zaak.b
-		zaken.bla.a
-
-		tokenizedKeys[
-		[toelichting]
-		[annIdentificatie]
-		]
-		tokenizedKeys[
-		[zaak, a] tokenized key
-		[zaak, b, blabla]
-		]
-		tokenizedKeys[
-		[a]
-		[b, blabla]
-		]
-
-		tokenizedKeys[
-		[blabla]
-		]
-
-		<xsl:foreach select="$valueOverrides"
-
-		foreach keyArray in tokenizedKeys -> key[0] -> call recursive 
-		
-		if length 1 -> create element + value
-		else -> recurse again
-
-		tokenize '.'
-		foreach section -> [zaak, bla] -> foreach zaak [a, b] ->
-		<xsl:choose>
-			<xsl:when test="contains($key, '.')">
-				<xsl:element name="{substring-before($key, '.')}">
-					<xsl:call-template name="unflatten">
-						<xsl:with-param name="key" select="substring-after($key, '.')"/>
-						<xsl:with-param name="value" select="$value"/>
-					</xsl:call-template>
-				</xsl:element>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:element name="{$key}"><xsl:value-of select="$value" /></xsl:element>
-			</xsl:otherwise>
-		</xsl:choose>
+		<xsl:for-each select="$valueOverrides">
+			<xsl:choose>
+				<xsl:when test="contains($key, '.')">
+					<xsl:element name="{substring-before($key, '.')}">
+						<xsl:call-template name="unflatten">
+							<xsl:with-param name="key" select="substring-after($key, '.')"/>
+							<xsl:with-param name="value" select="$value"/>
+						</xsl:call-template>
+					</xsl:element>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:element name="{$key}"><xsl:value-of select="$value" /></xsl:element>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:for-each>
 	</xsl:template>
 </xsl:stylesheet>
