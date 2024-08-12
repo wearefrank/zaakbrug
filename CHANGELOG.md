@@ -1,5 +1,38 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.20.2](https://github.com/wearefrank/zaakbrug/compare/v1.20.1...v1.20.2) (2024-07-26)
+
+### 🤖 Build System
+
+* **dependencies:** bump the github-actions group with 2 updates ([#426](https://github.com/wearefrank/zaakbrug/issues/426)) ([5e2df91](https://github.com/wearefrank/zaakbrug/commit/5e2df91ebf68b259f3d7f03ce993d7c3aafb66f3))
+
+### 🔁 Continuous Integration
+
+* use waf bot pat token for bump-ff-version workflow due to permission issue with ci checks in the created pr ([1794919](https://github.com/wearefrank/zaakbrug/commit/17949192cc76e2613161e4267e02779428be3fd0))
+
+## [1.20.1](https://github.com/wearefrank/zaakbrug/compare/v1.20.0...v1.20.1) (2024-07-19)
+
+### 🔁 Continuous Integration
+
+* automatically bump the Frank!Framework version on a weekly basis ([#301](https://github.com/wearefrank/zaakbrug/issues/301)) ([bad76bd](https://github.com/wearefrank/zaakbrug/commit/bad76bd7d5b238a73059181864cdb46eaa4904c1))
+
+## [1.20.0](https://github.com/wearefrank/zaakbrug/compare/v1.19.16...v1.20.0) (2024-07-17)
+
+### 🍕 Features
+
+* new case closing behavior that skips an endstatus in actualiseerZaakStatus so that a following updateZaak can close the case by setting the enddate ([#424](https://github.com/wearefrank/zaakbrug/issues/424)) ([1110d72](https://github.com/wearefrank/zaakbrug/commit/1110d72efd1f5c2c8c880042dadb314479625c9b))
+
+## [1.19.16](https://github.com/wearefrank/zaakbrug/compare/v1.19.15...v1.19.16) (2024-07-16)
+
+### 🐛 Bug Fixes
+
+* defaultProfile not being used when there is no zaaktype specific translation profile configured ([#402](https://github.com/wearefrank/zaakbrug/issues/402)) ([179c468](https://github.com/wearefrank/zaakbrug/commit/179c468b3f8b77e065e06c36a98ed1204281fbc0))
+* updateZaak incorrectly distinguishes roles due to 'authentiek' dataloss in translation resulting in attempt to add as new role ([#418](https://github.com/wearefrank/zaakbrug/issues/418)) ([266d9ca](https://github.com/wearefrank/zaakbrug/commit/266d9ca47483353291dd1653699f55343c1279a4))
+
+### 🤖 Build System
+
+* **dependencies:** bump the github-actions group across 1 directory with 3 updates ([#422](https://github.com/wearefrank/zaakbrug/issues/422)) ([77ed198](https://github.com/wearefrank/zaakbrug/commit/77ed198e34ef9bca04a7606cca8f74926f575747))
+
 ## [1.19.15](https://github.com/wearefrank/zaakbrug/compare/v1.19.14...v1.19.15) (2024-07-10)
 
 ### 🐛 Bug Fixes

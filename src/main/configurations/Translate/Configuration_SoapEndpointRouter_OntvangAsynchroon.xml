@@ -128,6 +128,7 @@
                     name="ActualiseerZaakstatus_Lk01LocalSender"
                     javaListener="ActualiseerZaakStatus"
                     returnedSessionKeys="Error">
+                    <Param name="isActualiseerZaakStatusMessage" value="true"/>
                 </IbisLocalSender>
                 <Forward name="success" path="WrapBv03Response" />
                 <Forward name="exception" path="BackEndError" />
