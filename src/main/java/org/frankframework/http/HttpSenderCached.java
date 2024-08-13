@@ -18,9 +18,6 @@ package org.frankframework.http;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -57,7 +54,6 @@ import org.frankframework.configuration.ConfigurationException;
 import org.frankframework.configuration.ConfigurationWarnings;
 import org.frankframework.configuration.SuppressKeys;
 import org.frankframework.core.PipeLineSession;
-import org.frankframework.core.PipeRunException;
 import org.frankframework.core.SenderException;
 import org.frankframework.http.mime.MessageContentBody;
 import org.frankframework.http.mime.MultipartEntityBuilder;
@@ -77,17 +73,7 @@ import org.w3c.dom.Node;
 import jakarta.mail.BodyPart;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMultipart;
-import jakarta.json.Json;
-import jakarta.json.JsonArray;
-import jakarta.json.JsonException;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
-import jakarta.json.JsonStructure;
-import jakarta.json.JsonValue;
-import java.io.StringReader;
 import lombok.Getter;
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
 import net.sf.ehcache.Ehcache;
 
 /**
@@ -155,6 +141,7 @@ public class HttpSenderCached extends HttpSenderBaseCached {
 		}
 
 		super.configure();
+		super.setCache();
 
 		if (getTreatInputMessageAsParameters()==null && getHttpMethod()!=HttpMethod.GET) {
 			setTreatInputMessageAsParameters(Boolean.TRUE);
@@ -482,8 +469,6 @@ public class HttpSenderCached extends HttpSenderBaseCached {
 			return Message.asMessage(headersXml.toXML());
 		}
 
-		super.setCache();
-
 		etagCache = super.getEtagCache();
 		messageCache = super.getMessageCache();
 		Message responseMessage = responseHandler.getResponseMessage();
@@ -501,13 +486,16 @@ public class HttpSenderCached extends HttpSenderBaseCached {
 		// If the statusCode is 304 and Etag is present
 		if (statusCode == 304 && etagHeader != null) {
 			responseMessage = new Message(messageCache.get(etagHeader.getValue()).getObjectValue().toString());
-			log.warn("LOGHIT: ");
-			log.warn(responseMessage);
+			log.debug(getLogPrefix() + "Cached response with ETag: " + etagHeader.getValue() + " unmodified. Returning cached response.");
 		}
 		// Etag is present but no 304
 		else if (etagHeader != null) {
-			log.warn("LOGTAG:");
-			log.warn(targetURI.toString());
+			log.debug(getLogPrefix() + "Caching response with ETag: " + etagHeader.getValue() + " for url: [{targetURI.toString()}].");
+			
+			// Remove out-of-date stored message
+			if (etagCache.get(targetURI.toString()) != null) {
+				messageCache.remove(etagCache.get(targetURI.toString()).getObjectValue());
+			}
 			String etagHeaderValue = etagHeader.getValue();
 			net.sf.ehcache.Element etagToStore = new net.sf.ehcache.Element(targetURI.toString(), etagHeaderValue);
 			net.sf.ehcache.Element messageToStore = new net.sf.ehcache.Element(etagHeaderValue, responseMessage.asString());
