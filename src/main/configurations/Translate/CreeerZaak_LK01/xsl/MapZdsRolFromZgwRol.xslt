@@ -27,7 +27,7 @@
                     <voorletters><xsl:value-of select="betrokkeneIdentificatie/voorletters"/></voorletters>
                     <voornamen><xsl:value-of select="betrokkeneIdentificatie/voornamen"/></voornamen>
                     <geslachtsaanduiding><xsl:value-of select="upper-case(betrokkeneIdentificatie/geslachtsaanduiding)"/></geslachtsaanduiding>
-                    <geboortedatum><xsl:if test="betrokkeneIdentificatie/geboortedatum"><xsl:value-of select="zgw:toZdsDate(betrokkeneIdentificatie/geboortedatum)"/></xsl:if></geboortedatum>
+                    <geboortedatum><xsl:if test="betrokkeneIdentificatie/geboortedatum != ''"><xsl:value-of select="zgw:toZdsDate(betrokkeneIdentificatie/geboortedatum)"/></xsl:if></geboortedatum>
                     <xsl:apply-templates select="betrokkeneIdentificatie/verblijfsadres"/>
                 </natuurlijkPersoon>
             </gerelateerde>
@@ -53,7 +53,7 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="root[betrokkeneType='vestiging']">
+    <xsl:template match="@*|node()[betrokkeneType='vestiging']">
         <xsl:element name="{$RolNaam}">
             <xsl:attribute name="entiteittype" select="$RolEntiteitType"/>
             <gerelateerde>
@@ -67,7 +67,7 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="root[betrokkeneType='medewerker']">
+    <xsl:template match="@*|node()[betrokkeneType='medewerker']">
         <xsl:element name="{$RolNaam}">
             <xsl:attribute name="entiteittype" select="$RolEntiteitType"/>
             <gerelateerde>
@@ -80,7 +80,7 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="root[betrokkeneType='organisatorische_eenheid']">
+    <xsl:template match="@*|node()[betrokkeneType='organisatorische_eenheid']">
         <xsl:element name="{$RolNaam}">
             <xsl:attribute name="entiteittype" select="$RolEntiteitType"/>
             <gerelateerde>
