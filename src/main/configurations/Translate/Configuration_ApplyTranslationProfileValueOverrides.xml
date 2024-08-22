@@ -42,16 +42,57 @@
                 styleSheetName="Common/xsl/RenameRootElementInValueOverridesKeys.xsl"
                 storeResultInSessionKey="valueOverrides"
                 >
+                <Forward name="success" path="FilterValueOverridesOnKeyRoot" />
+            </XsltPipe>
+            
+            <XsltPipe
+                name="FilterValueOverridesOnKeyRoot"
+                styleSheetName="Common/xsl/FilterValueOverridesOnKeyRoot.xslt"
+                storeResultInSessionKey="valueOverrides"
+                >
+                <Param name="valueOverrideKeyRoot" sessionKey="valueOverrideKeyRoot" />
+                <Forward name="success" path="LookupProcessAsArrayKeys" />
+            </XsltPipe>
+        
+            <XsltPipe
+                name="LookupProcessAsArrayKeys"
+                styleSheetName="Common/xsl/LookupProcessAsArrayKeys.xslt"
+                storeResultInSessionKey="processAsArrayKeys"
+                >
+                <Param name="ValueOverrideKeyRoot" sessionKey="valueOverrideKeyRoot" />
+                <Forward name="success" path="NoValueOverrides_Condition" />
+            </XsltPipe>
+
+            <XmlIfPipe
+                name="NoValueOverrides_Condition"
+                getInputFromSessionKey="originalMessage"
+                xpathExpression="count($valueOverrides/root/valueOverrides) = 0"
+                >
+                <Param name="valueOverrides" sessionKey="valueOverrides" type="DOMDOC" />
+                <Forward name="then" path="EXIT" />
+                <Forward name="else" path="ValueOverridesDepthFirstUnflatten" />
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="ValueOverridesDepthFirstUnflatten"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/ValueOverridesDepthFirstUnflatten.xslt"
+                storeResultInSessionKey="mergeWithContext"
+                >
+                <Param name="valueOverrides" sessionKey="valueOverrides" type="DOMDOC" />
                 <Forward name="success" path="ApplyValueOverrides" />
             </XsltPipe>
 
             <XsltPipe
                 name="ApplyValueOverrides"
-                styleSheetName="Common/xsl/ApplyValueOverrides.xsl"
+                styleSheetName="Common/xsl/ApplyValueOverrides.xslt"
                 getInputFromSessionKey="originalMessage"
                 >
+                <Param name="mergeWith" sessionKey="mergeWithContext" type="DOMDOC" />
                 <Param name="valueOverrides" sessionKey="valueOverrides" type="DOMDOC" />
-                <Param name="valueOverrideKeyRoot" sessionKey="valueOverrideKeyRoot" />
+                <Param name="processAsArrayKeys" sessionKey="processAsArrayKeys" />
+                <!-- <Param name="defaultMergeCondition" value="string-length(.) = 0" /> -->
+                <!-- <Param name="debug" value="true" /> -->
                 <Forward name="success" path="EXIT" />
             </XsltPipe>
         </Pipeline>

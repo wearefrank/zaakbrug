@@ -4,14 +4,18 @@
     <xsl:param name="role" as="node()?"/>
     <xsl:param name="roles" as="node()?"/>
 
-    <xsl:template match="/role">
+    <xsl:template match="/">
         <Check>
             <xsl:for-each select="$roles/roles/role">
                 <xsl:choose>
-                    <xsl:when test="my:compareRoles($role/role, .)">
+                    <xsl:when test="my:compareRoles($role/*/gerelateerde, current()/gerelateerde)">
+                        <input><xsl:copy-of select="$role/*/gerelateerde" /></input>
+                        <check><xsl:copy-of select="current()/gerelateerde" /></check>
                         <true/>
                     </xsl:when>
                     <xsl:otherwise>
+                        <input><xsl:copy-of select="$role/*/gerelateerde" /></input>
+                        <check><xsl:copy-of select="current()/gerelateerde" /></check>
                         <false/>
                     </xsl:otherwise>
                 </xsl:choose>
@@ -23,7 +27,6 @@
     <xsl:function name="my:compareRoles" as="xs:boolean">
         <xsl:param name="input" as="node()?"/>
         <xsl:param name="check" as="node()?"/>
-        
 
         <xsl:variable name="flag">
             <xsl:choose>
@@ -32,7 +35,6 @@
                         <xsl:variable name="currentName" select="local-name()"/>
                         <xsl:variable name="correspondingElement" select="$check/*[local-name() = $currentName]"/>
                         <xsl:choose>
-                        <xsl:when test="$currentName = 'authentiek'"/> <!--Do not compare 'Authentiek' field-->
                         <xsl:when test="not($correspondingElement)">
                             <xsl:if test=". != ''">
                                 <xsl:copy-of select="false()"/>
