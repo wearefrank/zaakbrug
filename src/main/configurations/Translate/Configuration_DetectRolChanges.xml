@@ -2,148 +2,208 @@
     <Adapter name="DetectRolChanges"
         active="${DetectRolChanges.Active}"
         description="">
-
+    
         <Receiver name="DetectRolChanges">
             <JavaListener name="DetectRolChanges" returnedSessionKeys="Error" />
         </Receiver>
-
+        
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
-
-			<XmlSwitchPipe 
-                name="DetectRolChanges" 
-                getInputFromSessionKey="originalMessage"
-                styleSheetName="UpdateZaak_LK01/xsl/DetectRolChanges.xslt"
+            
+            <SenderPipe
+                name="CallGetZgwRolType"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="ZgwRolTypen"
                 >
-                <Forward name="New" path="CheckZgwRolNew"/>
-                <Forward name="Delete" path="CallDeleteRolFromZgw"/>
-                <Forward name="Changed" path="DeleteRolBeforeUpdate"/>
-                <Forward name="Check" path="CheckZgwRol"/>
-                <Forward name="Exit" path="EXCEPTION"/>
-            </XmlSwitchPipe>
-            
-            <SenderPipe name="CheckZgwRolNew"
-                getInputFromSessionKey="originalMessage"
-                storeResultInSessionKey="CheckCheck">
                 <IbisLocalSender
-                    name="CallCheckZgwRolSender"
-                    javaListener="CheckZgwRol">
-                    <Param name="ZdsWasZaakRol" sessionKey="ZdsWasZaakRol"/>
+                    name="GetZgwRolTypeByZaakTypeLocalSender"
+                    javaListener="Zaken_GetZgwRolTypeByZaakType"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl" />
                 </IbisLocalSender>
-                <Forward name="success" path="LogWarningNew"/>
-                <Forward name="404" path="CallGetZgwRolType"/> <!-- Rol should not be found -->
-                <Forward name="exception" path="EXCEPTION"/>
-            </SenderPipe>
-
-            <SenderPipe name="LogWarningNew">
-                <LogSender name="LogWarningSender"/>
-                <Forward name="success" path="EXIT"/>
-            </SenderPipe>
-            
-            <SenderPipe name="CheckZgwRol"
-                getInputFromSessionKey="originalMessage"
-                storeResultInSessionKey="CheckCheck">
-                <IbisLocalSender
-                    name="CallCheckZgwRolSender"
-                    javaListener="CheckZgwRol">
-                    
-                    <Param name="ZdsWasZaakRol" sessionKey="ZdsWasZaakRol"/>
-                </IbisLocalSender>
-                <Forward name="success" path="EXIT"/> <!-- Rol should be found -->
-                <Forward name="404" path="LogWarningCheck"/> 
-                <Forward name="exception" path="EXCEPTION"/>
-            </SenderPipe>
-
-            <SenderPipe name="LogWarningCheck">
-                <LogSender name="LogWarningSender">
-                </LogSender>
-                <Forward name="success" path="CallGetZgwRolType"/>
-            </SenderPipe>
-
-            <SenderPipe name="DeleteRolBeforeUpdate"
-                getInputFromSessionKey="originalMessage"
-                storeResultInSessionKey="DeleteRolResult">
-                <IbisLocalSender
-                    name="CallDeleteRolSender"
-                    javaListener="DeleteRolFromZgw"
-                    returnedSessionKeys="Error">
-                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
-                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
-                </IbisLocalSender>
-                <Forward name="success" path="CheckZgwRolNew"/> <!-- Rol should be found -->
-                <Forward name="404" path="LogWarningDelete"/> 
+                <Forward name="success" path="CallAddRolToZgw" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe
-                name="CallGetZgwRolType"
-                storeResultInSessionKey="ZgwRolTypen">
-                <IbisLocalSender
-                    name="GetZgwRolTypeByZaakTypeLocalSender"
-                    javaListener="Zaken_GetZgwRolTypeByZaakType"
-                    returnedSessionKeys="Error">
-                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
-                </IbisLocalSender>
-                <Forward name="success" path="CallAddRolToZgw"/>
-                <Forward name="exception" path="EXCEPTION" />
-            </SenderPipe>
-
-            <SenderPipe name="CallAddRolToZgw"
+                name="CallAddRolToZgw"
                 getInputFromSessionKey="originalMessage"
-                storeResultInSessionKey="AddRolResult">
+                storeResultInSessionKey="AddRolResult"
+                >
                 <IbisLocalSender
                     name="CallAddRolToZgwSender"
                     javaListener="AddRolToZgw"
-                    returnedSessionKeys="Error">
-                    <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC"/>
-                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
-                    <Param name="ZaakType" sessionKey="ZaakType"/>
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC" />
+                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl" />
+                    <Param name="ZaakType" sessionKey="ZaakType" />
                 </IbisLocalSender>
-                <Forward name="success" path="CheckForRol"/>
+                <Forward name="success" path="GetGlobalConfigFromLocalFS" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe
-                name="CheckForRol"
-                xpathExpression="boolean(zgwRol/*)"
+            <SenderPipe
+                name="GetGlobalConfigFromLocalFS"
                 >
-                <Forward name="then" path="CallPostRol"/>
-                <Forward name="else" path="EXIT"/>
-                <Forward name="exception" path="EXCEPTION"/> <!-- Temporary solution for lack of adres processing -->
-            </XmlIfPipe>
-
-            <SenderPipe name="CallPostRol">
                 <IbisLocalSender
-                    name="CallPostRolSender"
-                    javaListener="Zaken_PostZgwRol"
-                    returnedSessionKeys="Error">
-                    <Param name="ZaakUrl" sessionKey="ZgwZaakUrl"/>
+                    name="CallImportFromLocalFS"
+                    javaListener="ImportFromLocalFS"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="FileName" value="${FilePath_1}" />
                 </IbisLocalSender>
-                <Forward name="success" path="EXIT"/>
+                <Forward name="success" path="StoreRolMappingFromConfig" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <SenderPipe name="CallDeleteRolFromZgw"
+            <PutInSessionPipe
+                name="StoreRolMappingFromConfig"
+                >
+				<Param name="RolMapping" xpathExpression="/root/rolMapping" type="DOMDOC" />
+                <Forward name="success" path="CallMapZdsRolFromZgwRolSender" />
+			</PutInSessionPipe>
+
+            <SenderPipe
+                name="CallMapZdsRolFromZgwRolSender"
+                getInputFromSessionKey="AddRolResult"
+                storeResultInSessionKey="ZdsRol"
+                >
+                <IbisLocalSender
+                    name="CallMapZdsRolFromZgwRolLocalSender"
+                    javaListener="MapZdsRolFromZgwRol"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
+                </IbisLocalSender>
+                <Forward name="success" path="DetectRolChanges" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XmlSwitchPipe 
+                name="DetectRolChanges" 
                 getInputFromSessionKey="originalMessage"
-                storeResultInSessionKey="DeleteRolResult">
+                styleSheetName="UpdateZaak_LK01/xsl/DetectRolChanges.xslt"
+                >
+                <Forward name="New" path="CheckZgwRolNew" />
+                <Forward name="Delete" path="CallDeleteRolFromZgw" />
+                <Forward name="Changed" path="DeleteRolBeforeUpdate" />
+                <Forward name="Check" path="CheckZgwRol" />
+                <Forward name="Exit" path="EXCEPTION" />
+            </XmlSwitchPipe>
+
+            <SenderPipe
+                name="CheckZgwRolNew"
+                getInputFromSessionKey="ZdsRol"
+                storeResultInSessionKey="CheckCheck"
+                >
+                <IbisLocalSender
+                    name="CallCheckZgwRolSender"
+                    javaListener="CheckZgwRol"
+                    >
+                    <Param name="ZdsWasZaakRol" sessionKey="ZdsWasZaakRol" />
+                </IbisLocalSender>
+                <Forward name="success" path="LogWarningNew" />
+                <Forward name="404" path="CallPostRol" /> <!-- Rol should not be found -->
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="LogWarningNew"
+                >
+                <LogSender
+                    name="LogWarningSender"
+                    />
+                <Forward name="success" path="EXIT" />
+            </SenderPipe>
+                
+            <SenderPipe
+                name="CheckZgwRol"
+                getInputFromSessionKey="ZdsRol"
+                storeResultInSessionKey="CheckCheck"
+                >
+                <IbisLocalSender
+                    name="CallCheckZgwRolSender"
+                    javaListener="CheckZgwRol"
+                    >
+                    <Param name="ZdsWasZaakRol" sessionKey="ZdsWasZaakRol" />
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT" /> <!-- Rol should be found -->
+                <Forward name="404" path="LogWarningCheck" /> 
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="LogWarningCheck"
+                >
+                <LogSender
+                    name="LogWarningSender"
+                    >
+                </LogSender>
+                <Forward name="success" path="CallPostRol" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="DeleteRolBeforeUpdate"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="DeleteRolResult"
+                >
                 <IbisLocalSender
                     name="CallDeleteRolSender"
                     javaListener="DeleteRolFromZgw"
-                    returnedSessionKeys="Error">
-                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
-                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl" />
+                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl" />
                 </IbisLocalSender>
-                <Forward name="success" path="EXIT"/>  <!-- Rol should be found -->
-                <Forward name="404" path="LogWarningDelete"/> 
-                <Forward name="exception" path="EXCEPTION"/>
+                <Forward name="success" path="CheckZgwRolNew" /> <!-- Rol should be found -->
+                <Forward name="404" path="LogWarningDelete" /> 
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <SenderPipe name="LogWarningDelete">
-                <LogSender name="LogWarningSender"/>
-                <Forward name="success" path="CallGetZgwRolType"/>
+            <SenderPipe
+                name="CallPostRol"
+                getInputFromSessionKey="AddRolResult"
+                >
+                <IbisLocalSender
+                    name="CallPostRolSender"
+                    javaListener="Zaken_PostZgwRol"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="ZaakUrl" sessionKey="ZgwZaakUrl" />
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallDeleteRolFromZgw"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="DeleteRolResult"
+                >
+                <IbisLocalSender
+                    name="CallDeleteRolSender"
+                    javaListener="DeleteRolFromZgw"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl" />
+                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl" />
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT" />  <!-- Rol should be found -->
+                <Forward name="404" path="LogWarningDelete" /> 
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="LogWarningDelete"
+                >
+                <LogSender
+                    name="LogWarningSender" />
+                <Forward name="success" path="CallPostRol" />
             </SenderPipe>
 
         </Pipeline>
