@@ -14,7 +14,7 @@ jobs:
       version-next-tag: ${{ steps.next-version.outputs.release-tag }}
       version-next-type: ${{ steps.next-version.outputs.release-type }}
     steps:
-      - uses: step-security/harden-runner@0d381219ddf674d61a7572ddd19d7941e271515c # v2.9.0
+      - uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
         with:
           disable-sudo: true
           egress-policy: audit
@@ -40,7 +40,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   ci:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@5ec30763e8d8eeed008edcac3c6a329367e42760 #1.0.4
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@b55abddef13517a0a6c8625b7913e232b7f5c2df #1.0.6
     needs: analyze-commits
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
@@ -58,7 +58,7 @@ jobs:
       - analyze-commits
       - ci
     steps:
-      - uses: step-security/harden-runner@0d381219ddf674d61a7572ddd19d7941e271515c # v2.9.0
+      - uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
         with:
           egress-policy: audit
 
@@ -81,7 +81,7 @@ jobs:
           export ZAAKBRUG_VERSION="${{ needs.analyze-commits.outputs.version-next }}"
 
           docker image inspect ${{ vars.DOCKER_IMAGE_REPOSITORY }}/${{ vars.DOCKER_IMAGE_NAME }}:${ZAAKBRUG_VERSION}
-          docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up -d
+          docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up -d
           docker ps
 
           sleep 90
@@ -96,7 +96,7 @@ jobs:
           EXIT_CODE=$(docker inspect --format='{{json .State.ExitCode}}' soapui-testrunner)
           echo "Exit Code: $EXIT_CODE"
 
-          docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml down
+          docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml down
           
           if [ "$EXIT_CODE" -ne 0 ]
             then
@@ -114,7 +114,7 @@ jobs:
           fi
 
       - name: Upload SoapUI testreports as artifact
-        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b #4.3.4
+        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a #4.3.6
         if: always()
         with:
           name: reports-soapui-testreports
@@ -127,7 +127,7 @@ jobs:
       - ci
       - run-soapui-tests
     steps:
-      - uses: step-security/harden-runner@0d381219ddf674d61a7572ddd19d7941e271515c # v2.9.0
+      - uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
         with:
           egress-policy: audit
 
@@ -163,7 +163,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   docker-release:
-    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@5ec30763e8d8eeed008edcac3c6a329367e42760 #1.0.4
+    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@b55abddef13517a0a6c8625b7913e232b7f5c2df #1.0.6
     needs: 
     - analyze-commits
     - release
@@ -193,4 +193,4 @@ jobs:
       - release
     # Set to true to enable Docusaurus publishing to GitHub Pages
     if: true
-    uses: wearefrank/ci-cd-templates/.github/workflows/docusaurus-release.yml@5ec30763e8d8eeed008edcac3c6a329367e42760 #1.0.4
+    uses: wearefrank/ci-cd-templates/.github/workflows/docusaurus-release.yml@b55abddef13517a0a6c8625b7913e232b7f5c2df #1.0.6
