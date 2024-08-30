@@ -1,5 +1,35 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.21.0](https://github.com/wearefrank/zaakbrug/compare/v1.20.2...v1.21.0) (2024-08-30)
+
+### 🍕 Features
+
+* valueOverrides in the translation profiles can now also be applied to case roles ([17e9371](https://github.com/wearefrank/zaakbrug/commit/17e937132c1eafd3b942df7887ada0b197d083ef))
+
+### 🐛 Bug Fixes
+
+* case rol geboortedatum throws error when absent or empty in input message ([d11a769](https://github.com/wearefrank/zaakbrug/commit/d11a7697a22a01502183f3984db2b0a155147889))
+* map annIdentificatie field from zds to zgw ([38378da](https://github.com/wearefrank/zaakbrug/commit/38378da451065f086911041ac54db7f30e2d6722))
+
+### 🧑‍💻 Code Refactoring
+
+* add omschrijving and omschrijvingGeneriek to case role zds to zgw translation to match the zaken api and to retain roltype information ([57b7625](https://github.com/wearefrank/zaakbrug/commit/57b7625d98d74872ea9af508baf6d528121ad30f))
+* case role betrokkkeneInformatie translation removes empty elements only where appropriate now instead of skipping all empty element always ([0811ce7](https://github.com/wearefrank/zaakbrug/commit/0811ce702dc780f60d96a9ebc7666995999a018f))
+* move zgw api envelope unwrap to the adapter responsible for making the api call ([8113511](https://github.com/wearefrank/zaakbrug/commit/81135115daa3609fb5f96d8953c0c84e35b47259))
+* rewrite of xslt responsible for merging the 2 object updateZaak variant to the 1 object variant ([667abae](https://github.com/wearefrank/zaakbrug/commit/667abae49d1b5ecda6159129face40b3c9e6594d))
+* xsd for correctly converting a case from xml to json changed to contain only the element which it, so that the ordering of elements is no longer neccesary ([babe98b](https://github.com/wearefrank/zaakbrug/commit/babe98bd79bbad3350dcd6d58707b7d1bae98cc0))
+* xsd's for correctly converting xml to json changed to contain element which require it, so that the ordering of elements in no longer necessary ([522acf3](https://github.com/wearefrank/zaakbrug/commit/522acf348da434665158a7096e7a0478fa3aed03))
+
+### ✅ Tests
+
+* e2e testcases for valueOverrides system ([a8206cf](https://github.com/wearefrank/zaakbrug/commit/a8206cf02ab5c8aa9689e53181a145cdf7588357))
+* larva testcases for validating valueOverrides related adapters and xslt's ([9f3f960](https://github.com/wearefrank/zaakbrug/commit/9f3f9600e75b82eb0f8e3b2ba488dcb72db94a3a))
+
+### 🤖 Build System
+
+* **dependencies:** bump the docusaurus group across 1 directory with 6 updates ([#433](https://github.com/wearefrank/zaakbrug/issues/433)) ([9662a51](https://github.com/wearefrank/zaakbrug/commit/9662a51be17fd219ed50e2d6852c689d7a450fd9))
+* **dependencies:** bump the github-actions group across 1 directory with 4 updates ([#435](https://github.com/wearefrank/zaakbrug/issues/435)) ([b044ba2](https://github.com/wearefrank/zaakbrug/commit/b044ba2cc832c05a867054387856bcbe3ea540eb))
+
 ## [1.20.2](https://github.com/wearefrank/zaakbrug/compare/v1.20.1...v1.20.2) (2024-07-26)
 
 ### 🤖 Build System
