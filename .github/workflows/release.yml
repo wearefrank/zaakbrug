@@ -40,7 +40,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   ci:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@b55abddef13517a0a6c8625b7913e232b7f5c2df #1.0.6
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@63ab07a8f46cb5bc438113c471cea6f4e94c7a71 #1.0.7
     needs: analyze-commits
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
@@ -114,7 +114,7 @@ jobs:
           fi
 
       - name: Upload SoapUI testreports as artifact
-        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a #4.3.6
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 #4.4.0
         if: always()
         with:
           name: reports-soapui-testreports
@@ -163,7 +163,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   docker-release:
-    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@b55abddef13517a0a6c8625b7913e232b7f5c2df #1.0.6
+    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@63ab07a8f46cb5bc438113c471cea6f4e94c7a71 #1.0.7
     needs: 
     - analyze-commits
     - release
@@ -193,4 +193,4 @@ jobs:
       - release
     # Set to true to enable Docusaurus publishing to GitHub Pages
     if: true
-    uses: wearefrank/ci-cd-templates/.github/workflows/docusaurus-release.yml@b55abddef13517a0a6c8625b7913e232b7f5c2df #1.0.6
+    uses: wearefrank/ci-cd-templates/.github/workflows/docusaurus-release.yml@63ab07a8f46cb5bc438113c471cea6f4e94c7a71 #1.0.7
