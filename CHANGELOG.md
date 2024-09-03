@@ -1,5 +1,15 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.21.1](https://github.com/wearefrank/zaakbrug/compare/v1.21.0...v1.21.1) (2024-09-03)
+
+### 🐛 Bug Fixes
+
+* updateZaak when deleting an existing gerelateerde and add new one back on the same role performs add action before delete action resulting in an error when only 1 of that roltype is allowed ([34ff319](https://github.com/wearefrank/zaakbrug/commit/34ff319fd990a824b885bcd473ff4fe8160537a6))
+
+### ✅ Tests
+
+* change delete&add roles testcase to use initiator instead so that order of operation is checked aswell ([ac0cade](https://github.com/wearefrank/zaakbrug/commit/ac0cadea0d99fcf3ab8d0c2d5fc5a1a66d5bf297))
+
 ## [1.21.0](https://github.com/wearefrank/zaakbrug/compare/v1.20.2...v1.21.0) (2024-08-30)
 
 ### 🍕 Features
