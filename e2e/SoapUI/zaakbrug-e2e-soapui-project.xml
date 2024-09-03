@@ -21708,13 +21708,6 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                </gerelateerde>\r
                <omschrijving>zaak object omschrijving</omschrijving>\r
             </heeftBetrekkingOp>\r
-            <heeftAlsBelanghebbende StUF:entiteittype="ZAKBTRBLH" StUF:verwerkingssoort="V">
-            	<gerelateerde>
-                  <natuurlijkPersoon StUF:entiteittype="NPS" StUF:verwerkingssoort="I">
-                     <BG:inp.bsn>111111110</BG:inp.bsn>
-                  </natuurlijkPersoon>
-               </gerelateerde>
-         	</heeftAlsBelanghebbende>
             <heeftAlsInitiator StUF:entiteittype="ZAKBTRINI" StUF:verwerkingssoort="T">\r
                <gerelateerde>\r
                   <natuurlijkPersoon StUF:entiteittype="NPS" StUF:verwerkingssoort="T">\r
@@ -21836,13 +21829,35 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                   <ingangsdatumObject xsi:nil="true" StUF:noValue="waardeOnbekend"/>\r
                </gerelateerde>\r
             </isVan>\r
-            <heeftAlsBelanghebbende StUF:entiteittype="ZAKBTRBLH" StUF:verwerkingssoort="V">
-            	<gerelateerde>
+            <heeftAlsInitiator StUF:entiteittype="ZAKBTRINI" StUF:verwerkingssoort="V">
+               <gerelateerde>
                   <natuurlijkPersoon StUF:entiteittype="NPS" StUF:verwerkingssoort="I">
                      <BG:inp.bsn>111111110</BG:inp.bsn>
+                     <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+                     <BG:geslachtsnaam>Precies</BG:geslachtsnaam>
+                     <BG:voorvoegselGeslachtsnaam xsi:nil="true" StUF:noValue="geenWaarde"/>
+                     <BG:voorletters>P.J.</BG:voorletters>
+                     <BG:voornamen>Piet Je</BG:voornamen>
+                     <BG:geslachtsaanduiding>V</BG:geslachtsaanduiding>
+                     <BG:geboortedatum>19500101</BG:geboortedatum>
+                     <BG:verblijfsadres>
+                        <BG:aoa.identificatie>0091200000046730</BG:aoa.identificatie>
+                        <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+                        <BG:wpl.woonplaatsNaam>Sneek</BG:wpl.woonplaatsNaam>
+                        <BG:gor.openbareRuimteNaam>Marktstraat</BG:gor.openbareRuimteNaam>
+                        <BG:gor.straatnaam>Marktstraat</BG:gor.straatnaam>
+                        <BG:aoa.postcode>8601CR</BG:aoa.postcode>
+                        <BG:aoa.huisnummer>15</BG:aoa.huisnummer>
+                        <BG:aoa.huisletter xsi:nil="true" StUF:noValue="geenWaarde"/>
+                        <BG:aoa.huisnummertoevoeging/>
+                        <BG:inp.locatiebeschrijving xsi:nil="true" StUF:noValue="geenWaarde"/>
+                     </BG:verblijfsadres>
                   </natuurlijkPersoon>
                </gerelateerde>
-         	</heeftAlsBelanghebbende>
+               <code>B1210</code>
+               <omschrijving>Rolomschrijving</omschrijving>
+               <toelichting>Roltoelichting</toelichting>
+            </heeftAlsInitiator>
          </object>\r
          <object StUF:entiteittype="ZAK" StUF:verwerkingssoort="W">\r
             <identificatie>${Properties#ZaakIdentificatie}</identificatie>\r
@@ -21860,7 +21875,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                   <ingangsdatumObject xsi:nil="true" StUF:noValue="waardeOnbekend"/>\r
                </gerelateerde>\r
             </isVan>\r
-		<heeftAlsBelanghebbende StUF:entiteittype="ZAKBTRBLH" StUF:verwerkingssoort="T">
+		<heeftAlsInitiator StUF:entiteittype="ZAKBTRINI" StUF:verwerkingssoort="T">
                <gerelateerde>
                   <vestiging StUF:entiteittype="VES" StUF:verwerkingssoort="T">
                      <BG:vestigingsNummer>000021774684</BG:vestigingsNummer>
@@ -21880,7 +21895,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                      </BG:verblijfsadres>
                   </vestiging>
                </gerelateerde>
-            </heeftAlsBelanghebbende>
+            </heeftAlsInitiator>
          </object>\r
       </zakLk01>\r
    </s:Body>\r
@@ -21946,18 +21961,18 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion" id="ecf082e3-2bda-418f-bc9e-32a49965d93b" name="Not SOAP Fault"/>
-            <con:assertion type="XPath Match" id="2de0a9a5-26f2-4daa-b6d3-73183dc4e22d" name="heeftAlsBelanghebbendeNoNatuurlijkPersoon">
+            <con:assertion type="XPath Match" id="2de0a9a5-26f2-4daa-b6d3-73183dc4e22d" name="heeftAlsInitiatorNoNatuurlijkPersoon">
               <con:configuration>
-                <path>string-length(//*:object/*:heeftAlsBelanghebbende/*:gerelateerde/*:natuurlijkPersoon/*:inp.bsn)</path>
+                <path>string-length(//*:object/*:heeftAlsInitiator/*:gerelateerde/*:natuurlijkPersoon/*:inp.bsn)</path>
                 <content>0</content>
                 <allowWildcards>false</allowWildcards>
                 <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
                 <ignoreComments>false</ignoreComments>
               </con:configuration>
             </con:assertion>
-            <con:assertion type="XPath Match" id="2de0a9a5-26f2-4daa-b6d3-73183dc4e22d" name="heeftAlsBelanghebbendeWithVestigingsNummer">
+            <con:assertion type="XPath Match" id="2de0a9a5-26f2-4daa-b6d3-73183dc4e22d" name="heeftAlsInitiatorWithVestigingsNummer">
               <con:configuration>
-                <path>//*:object/*:heeftAlsBelanghebbende/*:gerelateerde/*:vestiging/*:vestigingsNummer</path>
+                <path>//*:object/*:heeftAlsInitiator/*:gerelateerde/*:vestiging/*:vestigingsNummer</path>
                 <content>000021774684</content>
                 <allowWildcards>false</allowWildcards>
                 <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
