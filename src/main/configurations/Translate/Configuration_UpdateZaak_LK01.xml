@@ -217,11 +217,32 @@
                 styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xslt"
                 >
                 <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC"/>
-                <Forward name="success" path="CallDetectRolChanges"/>
+                <Forward name="success" path="CallDetectRolChangesDelete"/>
             </XsltPipe>
 
-            <ForEachChildElementPipe name="CallDetectRolChanges"
-                elementXPathExpression="/roles/role"
+            <ForEachChildElementPipe
+                name="CallDetectRolChangesDelete"
+                elementXPathExpression="/roles/role[gerelateerde/@verwerkingssoort = 'V']"
+                storeResultInSessionKey="DetectRolChangesResults">
+                <IbisLocalSender
+                    name="CallDetectRolChangesDeleteSender"
+                    javaListener="DetectRolChanges"
+                    returnedSessionKeys="Error">
+                    <Param name="ZdsWasZaakRol" sessionKey="ZdsWasZaakRol" type="DOMDOC"/>
+                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZgwZaaktypeByUrlResult/ZgwZaakType/url">
+                        <Param name="GetZgwZaaktypeByUrlResult" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
+                    </Param>
+                    <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" xpathExpression="//ZgwZaakType/identificatie" />
+                </IbisLocalSender>
+                <Forward name="success" path="CallDetectRolChanges"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </ForEachChildElementPipe>
+
+            <ForEachChildElementPipe
+                name="CallDetectRolChanges"
+                getInputFromSessionKey="ZdsWordtZaakRol"
+                elementXPathExpression="/roles/role[gerelateerde/@verwerkingssoort != 'V']"
                 storeResultInSessionKey="DetectRolChangesResults">
                 <IbisLocalSender
                     name="CallDetectRolChangesSender"
@@ -236,7 +257,7 @@
                 </IbisLocalSender>
                 <Forward name="success" path="WrapZdsWordtZaak"/>
                 <Forward name="exception" path="EXCEPTION" />
-            </ForEachChildElementPipe>  
+            </ForEachChildElementPipe>
 
             <XsltPipe
                 name="WrapZdsWordtZaak"

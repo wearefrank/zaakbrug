@@ -32,11 +32,26 @@
                 skipEmptyTags="true"
                 styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xsl"
                 >
-                <Forward name="success" path="CallDetectRolChanges"/>
+                <Forward name="success" path="CallDetectRolChangesDelete"/>
             </XsltPipe>
 
-            <ForEachChildElementPipe name="CallDetectRolChanges"
-                elementXPathExpression="/roles/role"
+            <ForEachChildElementPipe name="CallDetectRolChangesDelete"
+                elementXPathExpression="/roles/role[gerelateerde/@*:verwerkingssoort = 'V']"
+                storeResultInSessionKey="RolChangesResults">
+                <IbisLocalSender
+                    name="CallDetectRolChangesSender"
+                    javaListener="DetectRolChanges"
+                    returnedSessionKeys="Error">
+                    <Param sessionKey="RolBody_1" type="DOMDOC"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CallDetectRolChanges"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </ForEachChildElementPipe>
+
+            <ForEachChildElementPipe
+                name="CallDetectRolChanges"
+                getInputFromSessionKey="zdsWordtZaak"
+                elementXPathExpression="/roles/role[gerelateerde/@*:verwerkingssoort != 'V']"
                 storeResultInSessionKey="RolChangesResults">
                 <IbisLocalSender
                     name="CallDetectRolChangesSender"
