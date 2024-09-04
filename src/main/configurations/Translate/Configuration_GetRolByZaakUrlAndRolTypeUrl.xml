@@ -31,6 +31,7 @@
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
                     timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    parametersToSkipWhenEmpty="*"
 				/>
                 <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}rollen"/>
                 <Param name="zaak" sessionKey="ZaakUrl"/>
