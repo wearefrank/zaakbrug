@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.21.2](https://github.com/wearefrank/zaakbrug/compare/v1.21.1...v1.21.2) (2024-09-04)
+
+### 🧑‍💻 Code Refactoring
+
+* skip empty query parameters in GetRolByZaakUrlAndRolTypeUrl adapter ([c3343e1](https://github.com/wearefrank/zaakbrug/commit/c3343e12eb52bf059b25a459c6f78e7e2d64de5a))
+
 ## [1.21.1](https://github.com/wearefrank/zaakbrug/compare/v1.21.0...v1.21.1) (2024-09-03)
 
 ### 🐛 Bug Fixes
