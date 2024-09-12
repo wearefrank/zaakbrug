@@ -230,7 +230,7 @@
 
             <XmlIfPipe name="CheckForEndStatusType"
                 getInputFromSessionKey="SetEndStatusTypeResult"
-                xpathExpression="string-length(/ZgwStatusType) > 0"
+                xpathExpression="string-length(/ZgwStatusType) gt 0"
                 thenForwardName="SetNewEndStatus"
                 elseForwardName="CheckForNewEndStatus"
                 >
@@ -246,7 +246,7 @@
             </XsltPipe>
 
             <XmlIfPipe name="CheckForNewEndStatus"
-                xpathExpression="string-length(/ZgwStatus) > 0"
+                xpathExpression="string-length(/ZgwStatus) gt 0"
                 thenForwardName="CallGetResultatenByZaakUrl_2"
                 elseForwardName="CheckForEindDatum">
             </XmlIfPipe>
@@ -290,7 +290,7 @@
             </XsltPipe>
 
             <XmlIfPipe name="CheckForCoalesceResultaat_1"
-                xpathExpression="string-length(/result/coalesceResultaat) > 0"
+                xpathExpression="string-length(/result/coalesceResultaat) gt 0"
                 thenForwardName="CallGetResultaatTypeByZaakTypeAndOmschrijving_2"
                 elseForwardName="CheckForEindDatum">
             </XmlIfPipe>
@@ -328,7 +328,7 @@
 
             <XmlIfPipe name="CheckForEindDatum"
                 getInputFromSessionKey="originalMessage"
-                xpathExpression="string-length(/*/object/einddatum) > 0 and $Beeindigd/beeindigd = 'false'"
+                xpathExpression="string-length(/*/object/einddatum) gt 0 and $Beeindigd/beeindigd = 'false'"
                 thenForwardName="GetResolveProfileValuesSender_2"
                 elseForwardName="PostStatusIterator">
                 <Param name="Beeindigd" sessionKey="Beeindigd" type="DOMDOC"/>
@@ -355,7 +355,7 @@
             </XsltPipe>
 
             <XmlIfPipe name="CheckForCoalesceResultaat_2"
-                xpathExpression="string-length(/result/coalesceResultaat) > 0"
+                xpathExpression="string-length(/result/coalesceResultaat) gt 0"
                 thenForwardName="CallGetResultatenByZaakUrl_3"
                 elseForwardName="PostStatusIterator">
             </XmlIfPipe>
