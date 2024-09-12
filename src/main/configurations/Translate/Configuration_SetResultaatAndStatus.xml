@@ -195,11 +195,11 @@
                 >
                 <Param name="NewStatuses" sessionKey="NewStatuses" type="DOMDOC" />
                 <Param name="EndStatusType" sessionKey="SetEndStatusTypeResult" type="DOMDOC" />
-                <Forward name="success" path="EindDatumAndResultaatButNoEndStatus"/>
+                <Forward name="success" path="EinddatumAndResultaatButNoEndStatus"/>
             </XsltPipe>
 
             <XmlIfPipe
-                name="EindDatumAndResultaatButNoEndStatus"
+                name="EinddatumAndResultaatButNoEndStatus"
                 xpathExpression="string-length($EndStatusFromNewStatusses/ZgwStatus) = 0 and $Beeindigd/beeindigd = 'false' and string-length($Einddatum) gt 0"
                 thenForwardName="CreateNewEndStatusFromEinddatum"
                 elseForwardName="PostStatusIterator"
