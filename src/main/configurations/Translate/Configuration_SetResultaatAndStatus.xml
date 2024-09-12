@@ -99,7 +99,7 @@
 
             <XmlIfPipe name="CheckForResultaat"
                 getInputFromSessionKey="originalMessage"
-                xpathExpression="string-length(/*/object/resultaat/omschrijving) > 0"
+                xpathExpression="string-length(/*/object/resultaat/omschrijving) gt 0"
                 thenForwardName="CallGetResultaatTypeByZaakTypeAndOmschrijving_1"
                 elseForwardName="CheckForEndStatusType">
             </XmlIfPipe>
@@ -183,15 +183,57 @@
                     </Param>
                     <Param name="Toelichting" xpathExpression="/*/object/resultaat/omschrijving"/>
                 </IbisLocalSender>
-                <Forward name="success" path="PostStatusIterator"/>
+                <Forward name="success" path="SelectEndStatusFromNewStatusses"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
+
+            <XsltPipe
+                name="SelectEndStatusFromNewStatusses"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="CreeerZaak_LK01/xsl/SetNewEndStatus.xsl"
+                storeResultInSessionKey="EndStatusFromNewStatusses"
+                >
+                <Param name="NewStatuses" sessionKey="NewStatuses" type="DOMDOC" />
+                <Param name="EndStatusType" sessionKey="SetEndStatusTypeResult" type="DOMDOC" />
+                <Forward name="success" path="EindatumAndResultaatButNoEndStatus"/>
+            </XsltPipe>
+
+            <XmlIfPipe
+                name="EindatumAndResultaatButNoEndStatus"
+                xpathExpression="string-length($EndStatusFromNewStatusses/ZgwStatus) = 0 and $Beeindigd/beeindigd = 'false' and string-length($Einddatum) gt 0"
+                thenForwardName="CreateNewEndStatusFromEinddatum"
+                elseForwardName="PostStatusIterator"
+                >
+                <Param name="Beeindigd" sessionKey="Beeindigd" type="DOMDOC" />
+                <Param name="EndStatusFromNewStatusses" sessionKey="EndStatusFromNewStatusses" type="DOMDOC" />
+                <Param name="Einddatum" xpathExpression="/*/object/einddatum" sessionKey="originalMessage" />
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="CreateNewEndStatusFromEinddatum"
+                getInputFromSessionKey="originalMessage"
+                styleSheetName="Zgw/Zaken/Model/ZgwStatus.xslt"
+                >
+                <Param name="Zaak" sessionKey="ZaakUrl" />
+                <Param name="ZgwStatusType" sessionKey="SetEndStatusTypeResult" type="DOMDOC" />
+                <Param name="ZdsEinddatum" xpathExpression="/*/object/einddatum" />
+                <Forward name="success" path="AddNewEndStatusFromEinddatumToNewStatusses" />
+            </XsltPipe>
+
+            <XsltPipe
+                name="AddNewEndStatusFromEinddatumToNewStatusses"
+                storeResultInSessionKey="NewStatuses"
+                styleSheetName="CreeerZaak_LK01/xsl/AddToNewStatuses.xsl"
+                >
+                <Forward name="success" path="PostStatusIterator"/>
+            </XsltPipe>
 
             <XmlIfPipe name="CheckForEndStatusType"
                 getInputFromSessionKey="SetEndStatusTypeResult"
                 xpathExpression="string-length(/ZgwStatusType) > 0"
                 thenForwardName="SetNewEndStatus"
-                elseForwardName="CheckForNewEndStatus">
+                elseForwardName="CheckForNewEndStatus"
+                >
             </XmlIfPipe>
 
             <XsltPipe

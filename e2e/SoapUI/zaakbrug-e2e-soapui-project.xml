@@ -16684,6 +16684,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
     <ZKN:toelichting>Reguliere omgevingsvergunning</ZKN:toelichting>
     <ZKN:startdatum>*</ZKN:startdatum>
     <ZKN:registratiedatum>*</ZKN:registratiedatum>
+    <ZKN:einddatum>*</ZKN:einddatum>
     <ZKN:opschorting>
       <ZKN:indicatie>N</ZKN:indicatie>
       <ZKN:reden/>
@@ -16729,6 +16730,15 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
       </ZKN:gerelateerde>
       <ZKN:datumStatusGezet>*</ZKN:datumStatusGezet>
       <ZKN:indicatieLaatsteStatus>N</ZKN:indicatieLaatsteStatus>
+    </ZKN:heeft>
+    <ZKN:heeft StUF:entiteittype="ZAKSTT">
+      <ZKN:gerelateerde StUF:entiteittype="STT">
+        <ZKN:zkt.code>B1210</ZKN:zkt.code>
+        <ZKN:zkt.omschrijving>Omgevingsvergunning</ZKN:zkt.omschrijving>
+        <ZKN:omschrijving>Afgehandeld</ZKN:omschrijving>
+      </ZKN:gerelateerde>
+      <ZKN:datumStatusGezet>*</ZKN:datumStatusGezet>
+      <ZKN:indicatieLaatsteStatus>J</ZKN:indicatieLaatsteStatus>
     </ZKN:heeft>
   </ZKN:object>
 </ZKN:antwoord>]]></content>
@@ -18066,10 +18076,11 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
                 <content><![CDATA[<ZKN:antwoord xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
   <ZKN:object StUF:entiteittype="ZAK">
     <ZKN:identificatie>*</ZKN:identificatie>
-    <ZKN:omschrijving>Dossiernummer GISVG OVZK*</ZKN:omschrijving>
+    <ZKN:omschrijving>Dossiernummer GISVG OV*</ZKN:omschrijving>
     <ZKN:toelichting>Reguliere omgevingsvergunning</ZKN:toelichting>
     <ZKN:startdatum>*</ZKN:startdatum>
     <ZKN:registratiedatum>*</ZKN:registratiedatum>
+    <ZKN:einddatum>*</ZKN:einddatum>
     <ZKN:opschorting>
       <ZKN:indicatie>N</ZKN:indicatie>
       <ZKN:reden/>
@@ -18123,6 +18134,15 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
       </ZKN:gerelateerde>
       <ZKN:datumStatusGezet>*</ZKN:datumStatusGezet>
       <ZKN:indicatieLaatsteStatus>N</ZKN:indicatieLaatsteStatus>
+    </ZKN:heeft>
+    <ZKN:heeft StUF:entiteittype="ZAKSTT">
+      <ZKN:gerelateerde StUF:entiteittype="STT">
+        <ZKN:zkt.code>B1210</ZKN:zkt.code>
+        <ZKN:zkt.omschrijving>Omgevingsvergunning</ZKN:zkt.omschrijving>
+        <ZKN:omschrijving>Afgehandeld</ZKN:omschrijving>
+      </ZKN:gerelateerde>
+      <ZKN:datumStatusGezet>*</ZKN:datumStatusGezet>
+      <ZKN:indicatieLaatsteStatus>J</ZKN:indicatieLaatsteStatus>
     </ZKN:heeft>
   </ZKN:object>
 </ZKN:antwoord>]]></content>
@@ -35031,7 +35051,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="934a275a-b169-40b1-b52d-288c6ab7af45" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EDRLS-BothEindDatumAndResultaatInUpdateZaak-ZaakNotBeClosed-GithubIssues293And295" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
+    <con:testCase id="934a275a-b169-40b1-b52d-288c6ab7af45" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EDRLS-BothEindDatumAndResultaatInUpdateZaak-ZaakNotBeClosed-GithubIssues293And295" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="dbe9530c-a1ac-4e26-83ce-ae66971f0558">
         <con:settings/>
@@ -35620,7 +35640,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="a39a33c8-063c-4330-b051-449c01530ebc" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EDRLS-FirstResultaatThenEindDatumInUpdateZaak-ZaakShouldBeClosed-GithubIssue295" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
+    <con:testCase id="a39a33c8-063c-4330-b051-449c01530ebc" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EDRLS-FirstResultaatThenEindDatumInUpdateZaak-ZaakShouldBeClosed-GithubIssue295" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="eba3feb9-9464-4908-996c-51ca864ba528">
         <con:settings/>
@@ -35923,6 +35943,9 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
          <ZKN:object StUF:sleutelVerzendend="${Properties#ZaakIdentificatie}" StUF:entiteittype="ZAK" StUF:verwerkingssoort="W">
             <ZKN:identificatie>${Properties#ZaakIdentificatie}</ZKN:identificatie>
             <ZKN:omschrijving>Aanvraag omgevingsvergunning</ZKN:omschrijving>
+            <ZKN:resultaat>
+               <ZKN:omschrijving>Ingetrokken</ZKN:omschrijving>
+            </ZKN:resultaat>
             <ZKN:startdatum>${=import java.text.SimpleDateFormat; new SimpleDateFormat("yyyyMMdd").format(new Date())}</ZKN:startdatum>
             <ZKN:registratiedatum>${=import java.text.SimpleDateFormat; new SimpleDateFormat("yyyyMMdd").format(new Date())}</ZKN:registratiedatum>
             <ZKN:einddatum>${=import java.text.SimpleDateFormat; new SimpleDateFormat("yyyyMMdd").format(new Date())}</ZKN:einddatum>
@@ -39996,7 +40019,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
       </con:testStep>
       <con:properties/>
     </con:testCase>
-    <con:testCase id="e28f01cf-a818-4a50-9bcd-942f42ca3761" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EndCaseEndDateInProfileJson(ESED)-BothEindDatumAndResultaatInUpdateZaak-ZaakShouldBeClosed-GithubIssue293" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
+    <con:testCase id="e28f01cf-a818-4a50-9bcd-942f42ca3761" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="EndCaseEndDateInProfileJson(ESED)-BothEindDatumAndResultaatInUpdateZaak-ZaakShouldBeClosed-GithubIssue293" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="3dc315ef-fdb0-499e-ba8d-c7a50f96a4fb">
         <con:settings/>
@@ -41313,7 +41336,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="7ed79a4e-4506-4129-b638-586a4b0ad666" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ESED-FirstResultaatThenBothEindDatumAndResultaatInUpdateZaak-ZaakShouldBeClosed-GithubIssue293" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
+    <con:testCase id="7ed79a4e-4506-4129-b638-586a4b0ad666" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ESED-FirstResultaatThenBothEindDatumAndResultaatInUpdateZaak-ZaakShouldBeClosed-GithubIssue293" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="f811eb02-8e29-4e9b-846f-88d37fab50f2">
         <con:settings/>
@@ -49296,7 +49319,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
       </con:testStep>
       <con:properties/>
     </con:testCase>
-    <con:testCase id="1ec9a4e5-6dc7-463a-8250-e292608f973c" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="SetUp-IEIAZS-B" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
+    <con:testCase id="1ec9a4e5-6dc7-463a-8250-e292608f973c" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="SetUp-IEIAZS-B" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="af768f15-7271-4d71-ad20-c153fda162c5">
         <con:settings/>
@@ -49795,7 +49818,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
       </con:testStep>
       <con:properties/>
     </con:testCase>
-    <con:testCase id="cf38e58b-1024-468b-be6d-717bf62e7dbe" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="IEIAZS-B-EndDateAndResultInUpdateZaak-UpdateZaakShouldCloseCaseByCreatingEndStatusFromEndDate" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
+    <con:testCase id="cf38e58b-1024-468b-be6d-717bf62e7dbe" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="IEIAZS-B-EndDateAndResultInUpdateZaak-UpdateZaakShouldCloseCaseByCreatingEndStatusFromEndDate" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="ccfc0c12-6823-4dd2-9f22-79d19dd4c43c">
         <con:settings/>
@@ -50459,7 +50482,7 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="2999e6d9-ad31-484c-828b-08da6cb4e38b" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TearDown-IEIAZS-B" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
+    <con:testCase id="2999e6d9-ad31-484c-828b-08da6cb4e38b" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TearDown-IEIAZS-B" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="deccaf96-69f5-4196-bf2c-56843830a9db">
         <con:settings/>
