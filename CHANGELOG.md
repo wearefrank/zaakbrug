@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.21.4](https://github.com/wearefrank/zaakbrug/compare/v1.21.3...v1.21.4) (2024-09-13)
+
+### 🤖 Build System
+
+* **dependencies:** bump-f!f-version-to-8.3.0-20240910.042339 ([#425](https://github.com/wearefrank/zaakbrug/issues/425)) ([7ca3cb9](https://github.com/wearefrank/zaakbrug/commit/7ca3cb9a7ee3af484b1000fe8ad36ef181ee0364))
+
 ## [1.21.3](https://github.com/wearefrank/zaakbrug/compare/v1.21.2...v1.21.3) (2024-09-13)
 
 ### 🐛 Bug Fixes
