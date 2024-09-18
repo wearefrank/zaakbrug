@@ -229,7 +229,7 @@
                     <Param name="ZaakTypeUrl" xpathExpression="$GetZgwZaaktypeByUrlResult/ZgwZaakType/url">
                         <Param name="GetZgwZaaktypeByUrlResult" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                     </Param>
-                    <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" xpathExpression="//ZgwZaakType/identificatie" />
+                    <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC" />
                 </IbisLocalSender>
                 <Forward name="success" path="CallDetectRolChanges"/>
                 <Forward name="exception" path="EXCEPTION" />
@@ -249,7 +249,7 @@
                     <Param name="ZaakTypeUrl" xpathExpression="$GetZgwZaaktypeByUrlResult/ZgwZaakType/url">
                         <Param name="GetZgwZaaktypeByUrlResult" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                     </Param>
-                    <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" xpathExpression="//ZgwZaakType/identificatie" />
+                    <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC" />
                 </IbisLocalSender>
                 <Forward name="success" path="WrapZdsWordtZaak"/>
                 <Forward name="exception" path="EXCEPTION" />
