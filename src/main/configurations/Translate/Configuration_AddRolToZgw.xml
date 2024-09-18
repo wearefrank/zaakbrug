@@ -65,7 +65,8 @@
                 </IbisLocalSender>
                 <Param name="zaaktype" sessionKey="ZaakType" />
                 <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.rollen.zgwRol" />
-                <Forward name="success" path="EXIT"/>
+                <Param name="CurrentContext" sessionKey="originalMessage" type="DOMDOC" />
+                <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
 
