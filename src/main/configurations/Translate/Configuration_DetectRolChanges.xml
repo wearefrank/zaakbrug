@@ -99,14 +99,14 @@
 
             <SenderPipe
                 name="CheckZgwRolNew"
-                getInputFromSessionKey="ZdsRol"
+                getInputFromSessionKey="ZdsWasZaakRol"
                 storeResultInSessionKey="CheckCheck"
                 >
                 <IbisLocalSender
                     name="CallCheckZgwRolSender"
                     javaListener="CheckZgwRol"
                     >
-                    <Param name="ZdsWasZaakRol" sessionKey="ZdsWasZaakRol" />
+                    <Param name="MatchWithZdsRol" sessionKey="ZdsRol" type="DOMDOC" />
                 </IbisLocalSender>
                 <Forward name="success" path="LogWarningNew" />
                 <Forward name="404" path="CallPostRol" /> <!-- Rol should not be found -->
@@ -124,14 +124,14 @@
                 
             <SenderPipe
                 name="CheckZgwRol"
-                getInputFromSessionKey="ZdsRol"
+                getInputFromSessionKey="ZdsWasZaakRol"
                 storeResultInSessionKey="CheckCheck"
                 >
                 <IbisLocalSender
                     name="CallCheckZgwRolSender"
                     javaListener="CheckZgwRol"
                     >
-                    <Param name="ZdsWasZaakRol" sessionKey="ZdsWasZaakRol" />
+                    <Param name="MatchWithZdsRol" sessionKey="ZdsRol" type="DOMDOC" />
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT" /> <!-- Rol should be found -->
                 <Forward name="404" path="LogWarningCheck" /> 
