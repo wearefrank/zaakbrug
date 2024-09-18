@@ -100,7 +100,7 @@
                 storeResultInSessionKey="ZgwRolTypen"
                 >
                 <Param name="List" value="ZgwRolTypen"/>
-                <Forward name="success" path="SetRoles"/>
+                <Forward name="success" path="SelectZdsRolesFromZdsWordtZaak"/>
                 <Forward name="exception" path="UncaughtException" />
             </XsltPipe>
 
@@ -115,23 +115,21 @@
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
-                <Forward name="success" path="SetRoles"/>
+                <Forward name="success" path="SelectZdsRolesFromZdsWordtZaak"/>
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>    -->
 
             <XsltPipe
-                name="SetRoles"
+                name="SelectZdsRolesFromZdsWordtZaak"
                 getInputFromSessionKey="originalMessage"
                 storeResultInSessionKey="RolBody"
-                removeNamespaces="true"
-                skipEmptyTags="true"
-                styleSheetName="CreeerZaak_LK01/xsl/SetRoles.xsl"
+                styleSheetName="Common/xsl/SelectZdsRoles.xslt"
                 >
                 <Forward name="success" path="CheckForRoles"/>
             </XsltPipe>
 
             <XmlIfPipe name="CheckForRoles"
-                xpathExpression="string-length(/roles) &gt; 0"
+                xpathExpression="string-length(/roles) gt 0"
                 transactionAttribute="NotSupported"
                 >
                 <Forward name="then" path="RolMappingIterator"/>
@@ -146,7 +144,7 @@
 
             <ForEachChildElementPipe name="RolMappingIterator"
                 storeResultInSessionKey="RolMappingResults"
-                elementXPathExpression="/roles/role">
+                elementXPathExpression="/roles/*">
                 <IbisLocalSender
                     name="CallAddRolToZgw"
                     javaListener="AddRolToZgw"

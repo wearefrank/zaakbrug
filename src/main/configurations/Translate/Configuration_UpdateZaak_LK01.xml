@@ -142,8 +142,8 @@
             <XmlIfPipe name="CheckForDetectZdsZaakChangesResult"
                 xpathExpression="count(/ZdsZaak/*) = 25"
                 >
-                <Forward name="then" path="SetRolesForZdsWasZaak"/>
-                <Forward name="else" path="GetGlobalConfigFromLocalFS"/>
+                <Forward name="then" path="SelectZdsRolesFromZdsWasZaak" />
+                <Forward name="else" path="GetGlobalConfigFromLocalFS" />
             </XmlIfPipe>
 
             <SenderPipe 
@@ -194,35 +194,31 @@
                     returnedSessionKeys="Error">
                     <Param name="Url" sessionKey="ZgwZaakUrl"/>
                 </IbisLocalSender>
-                <Forward name="success" path="SetRolesForZdsWasZaak"/>
+                <Forward name="success" path="SelectZdsRolesFromZdsWasZaak" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
-                name="SetRolesForZdsWasZaak"
+                name="SelectZdsRolesFromZdsWasZaak"
                 getInputFromSessionKey="GetZdsZaakFromZgwResult"
                 storeResultInSessionKey="ZdsWasZaakRol"
-                removeNamespaces="true"
-                styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xslt"
-                >
-                <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC"/>
-                <Forward name="success" path="SetRolesForZdsWordtZaak"/>
+                styleSheetName="Common/xsl/SelectZdsRoles.xslt"
+                >  
+                <Forward name="success" path="SelectZdsRolesFromZdsWordtZaak" />
             </XsltPipe>
 
             <XsltPipe
-                name="SetRolesForZdsWordtZaak"
+                name="SelectZdsRolesFromZdsWordtZaak"
                 getInputFromSessionKey="ZdsWordtZaak"
                 storeResultInSessionKey="ZdsWordtZaakRol"
-                removeNamespaces="true"
-                styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xslt"
+                styleSheetName="Common/xsl/SelectZdsRoles.xslt"
                 >
-                <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC"/>
-                <Forward name="success" path="CallDetectRolChangesDelete"/>
+                <Forward name="success" path="CallDetectRolChangesDelete" />
             </XsltPipe>
 
             <ForEachChildElementPipe
                 name="CallDetectRolChangesDelete"
-                elementXPathExpression="/roles/role[gerelateerde/@verwerkingssoort = 'V']"
+                elementXPathExpression="/roles/*[@verwerkingssoort = 'V']"
                 storeResultInSessionKey="DetectRolChangesResults">
                 <IbisLocalSender
                     name="CallDetectRolChangesDeleteSender"
@@ -242,7 +238,7 @@
             <ForEachChildElementPipe
                 name="CallDetectRolChanges"
                 getInputFromSessionKey="ZdsWordtZaakRol"
-                elementXPathExpression="/roles/role[gerelateerde/@verwerkingssoort != 'V']"
+                elementXPathExpression="/roles/*[@verwerkingssoort != 'V']"
                 storeResultInSessionKey="DetectRolChangesResults">
                 <IbisLocalSender
                     name="CallDetectRolChangesSender"
