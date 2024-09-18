@@ -185,6 +185,7 @@
                 </IbisLocalSender>
                 <Param name="zaaktype" sessionKey="originalMessage" xpathExpression="/zakLk01/object/isVan/gerelateerde/code" />
                 <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaken.ZgwZaak" />
+                <Param name="CurrentContext" sessionKey="originalMessage" xpathExpression="/zakLk01/object" type="DOMDOC" />
                 <Forward name="success" path="ReorderZaak"/>
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>

@@ -93,6 +93,15 @@
                 <Param name="processAsArrayKeys" sessionKey="processAsArrayKeys" />
                 <!-- <Param name="defaultMergeCondition" value="string-length(.) = 0" /> -->
                 <!-- <Param name="debug" value="true" /> -->
+                <Forward name="success" path="ResolveDynamicValuesWithExtraElementenContext" />
+            </XsltPipe>
+            
+            <XsltPipe
+                name="ResolveDynamicValuesWithExtraElementenContext"
+                styleSheetName="Common/xsl/ResolveDynamicValuesWithExtraElementenContext.xslt"
+                >
+                <Param name="ExtraElementenContext" sessionKey="CurrentContext" type="DOMDOC" />
+                <!-- <Param name="debug" value="true" /> -->
                 <Forward name="success" path="EXIT" />
             </XsltPipe>
         </Pipeline>
