@@ -41,7 +41,8 @@
                     >
                     <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC" />
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl" />
-                    <Param name="ZaakType" sessionKey="ZaakType" />
+                    <Param name="ZaakType" sessionKey="ZaakType" xpathExpression="/ZgwZaakType/identificatie" />
+                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
                 </IbisLocalSender>
                 <Forward name="success" path="GetGlobalConfigFromLocalFS" />
                 <Forward name="exception" path="EXCEPTION" />

@@ -1,26 +1,36 @@
 <xsl:stylesheet exclude-result-prefixes="#all" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:math="http://www.w3.org/2005/xpath-functions/math" xmlns:array="http://www.w3.org/2005/xpath-functions/array" xmlns:map="http://www.w3.org/2005/xpath-functions/map" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:err="http://www.w3.org/2005/xqt-errors" xmlns:zgw="http://google.com/zgw" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" version="2.0">
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
-    <xsl:param name="TypeRolOmschrijving"/>
+    <xsl:param name="ZgwRolTypen" as="node()"><ZgwRolTypen/></xsl:param>
+    <xsl:param name="RolMapping" as="node()"><rolMapping/></xsl:param>
     
+    <xsl:variable name="rootName" select="local-name(root()/*)" />
+    <xsl:variable name="ZgwRolTypeOmschrijving" select="$RolMapping//rolMapping/*[local-name() = $rootName]/text()" />
+    <xsl:variable name="ZgwRolType" select="$ZgwRolTypen//ZgwRolType[omschrijving = $ZgwRolTypeOmschrijving]" />
+
 	<xsl:template match="/">
         <zgwRol>
-            <xsl:apply-templates select="role/gerelateerde/medewerker[@entiteittype='MDW']"/>
-            <xsl:apply-templates select="role/gerelateerde/natuurlijkPersoon[@entiteittype='NPS']"/>
-            <xsl:apply-templates select="role/gerelateerde/nietNatuurlijkPersoon[@entiteittype='NNP']"/>
-            <xsl:apply-templates select="role/gerelateerde/vestiging[@entiteittype='VES']"/>
-            <xsl:apply-templates select="role/gerelateerde/organisatorischeEenheid[@entiteittype='OEH']"/>
+            <xsl:if test="string-length($ZgwRolType) gt 0">
+                <roltype><xsl:value-of select="$ZgwRolType/url"/></roltype>
+                <omschrijving><xsl:value-of select="$ZgwRolType/omschrijving"/></omschrijving>
+                <omschrijvingGeneriek><xsl:value-of select="$ZgwRolType/omschrijvingGeneriek"/></omschrijvingGeneriek>
+            </xsl:if>
+            <xsl:apply-templates select="*/*:gerelateerde/*:medewerker[@*:entiteittype='MDW']" />
+            <xsl:apply-templates select="*/*:gerelateerde/*:natuurlijkPersoon[@*:entiteittype='NPS']" />
+            <xsl:apply-templates select="*/*:gerelateerde/*:nietNatuurlijkPersoon[@*:entiteittype='NNP']" />
+            <xsl:apply-templates select="*/*:gerelateerde/*:vestiging[@*:entiteittype='VES']" />
+            <xsl:apply-templates select="*/*:gerelateerde/*:organisatorischeEenheid[@*:entiteittype='OEH']" />
         </zgwRol>
     </xsl:template>
 	
-    <xsl:template match="role/gerelateerde/medewerker[@entiteittype='MDW']">
+    <xsl:template match="*/*:gerelateerde/*:medewerker[@*:entiteittype='MDW']">
         <betrokkeneType>medewerker</betrokkeneType>
         <roltoelichting>
             <xsl:choose>
-                <xsl:when test="string-length(achternaam) > 0">
-                    <xsl:value-of select="concat($TypeRolOmschrijving, ':', achternaam)"/>
+                <xsl:when test="string-length(achternaam) gt 0">
+                    <xsl:value-of select="concat($ZgwRolTypeOmschrijving, ':', achternaam)"/>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:value-of select="concat($TypeRolOmschrijving, ':', identificatie)"/>
+                    <xsl:value-of select="concat($ZgwRolTypeOmschrijving, ':', identificatie)"/>
                 </xsl:otherwise>
             </xsl:choose>
         </roltoelichting>
@@ -31,9 +41,9 @@
         </betrokkeneIdentificatie>
     </xsl:template>
 
-    <xsl:template match="role/gerelateerde/natuurlijkPersoon[@entiteittype='NPS']">
+    <xsl:template match="*/*:gerelateerde/*:natuurlijkPersoon[@*:entiteittype='NPS']">
         <betrokkeneType>natuurlijk_persoon</betrokkeneType>
-        <roltoelichting><xsl:value-of select="concat($TypeRolOmschrijving, ':', geslachtsnaam)"/></roltoelichting>
+        <roltoelichting><xsl:value-of select="concat($ZgwRolTypeOmschrijving, ':', geslachtsnaam)"/></roltoelichting>
         <betrokkeneIdentificatie>
             <xsl:if test="inp.bsn != ''"><inpBsn><xsl:value-of select="inp.bsn"/></inpBsn></xsl:if>
             <xsl:if test="authentiek != ''"><authentiek><xsl:value-of select="authentiek"/></authentiek></xsl:if>
@@ -49,9 +59,9 @@
         </betrokkeneIdentificatie>
     </xsl:template>
 
-    <xsl:template match="role/gerelateerde/nietNatuurlijkPersoon[@entiteittype='NNP']">
+    <xsl:template match="*/*:gerelateerde/*:nietNatuurlijkPersoon[@*:entiteittype='NNP']">
         <betrokkeneType>niet_natuurlijk_persoon</betrokkeneType>
-        <roltoelichting><xsl:value-of select="concat($TypeRolOmschrijving, ':', statutaireNaam)"/></roltoelichting>
+        <roltoelichting><xsl:value-of select="concat($ZgwRolTypeOmschrijving, ':', statutaireNaam)"/></roltoelichting>
         <betrokkeneIdentificatie>
             <xsl:if test="inn.nnpId != ''"><innNnpId><xsl:value-of select="inn.nnpId"/></innNnpId></xsl:if>
             <xsl:if test="authentiek != ''"><authentiek><xsl:value-of select="authentiek"/></authentiek></xsl:if>
@@ -127,9 +137,9 @@
         </betrokkeneIdentificatie>
     </xsl:template>
 
-    <xsl:template match="role/gerelateerde/vestiging[@entiteittype='VES']">
+    <xsl:template match="*/*:gerelateerde/*:vestiging[@*:entiteittype='VES']">
         <betrokkeneType>vestiging</betrokkeneType>
-        <roltoelichting><xsl:value-of select="concat($TypeRolOmschrijving, ':', handelsnaam)"/></roltoelichting>
+        <roltoelichting><xsl:value-of select="concat($ZgwRolTypeOmschrijving, ':', handelsnaam)"/></roltoelichting>
         <betrokkeneIdentificatie>
             <xsl:if test="vestigingsNummer != ''"><vestigingsNummer><xsl:value-of select="vestigingsNummer"/></vestigingsNummer></xsl:if>
             <xsl:if test="authentiek != ''"><authentiek><xsl:value-of select="authentiek"/></authentiek></xsl:if>
@@ -140,15 +150,15 @@
         </betrokkeneIdentificatie>
     </xsl:template>
 
-    <xsl:template match="role/gerelateerde/organisatorischeEenheid[@entiteittype='OEH']">
+    <xsl:template match="*/*:gerelateerde/*:organisatorischeEenheid[@*:entiteittype='OEH']">
         <betrokkeneType>organisatorische_eenheid</betrokkeneType>
         <roltoelichting>
             <xsl:choose>
                 <xsl:when test="string-length(naam) > 0">
-                    <xsl:value-of select="concat($TypeRolOmschrijving, ':', naam)"/>
+                    <xsl:value-of select="concat($ZgwRolTypeOmschrijving, ':', naam)"/>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:value-of select="concat($TypeRolOmschrijving, ':', identificatie)"/>
+                    <xsl:value-of select="concat($ZgwRolTypeOmschrijving, ':', identificatie)"/>
                 </xsl:otherwise>
             </xsl:choose>
         </roltoelichting>
