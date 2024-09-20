@@ -32,25 +32,28 @@
             <identificatie><xsl:value-of select="$ZgwZaak/ZgwZaak/identificatie"/></identificatie>
             <omschrijving><xsl:value-of select="$ZgwZaak/ZgwZaak/omschrijving"/></omschrijving>
             <toelichting><xsl:value-of select="$ZgwZaak/ZgwZaak/toelichting"/></toelichting>
+            <xsl:apply-templates select="$ZgwZaak/ZgwZaak/kenmerken"/>
+            <!-- anderZaakObject -->
+            <!-- resultaat -->
             <startdatum><xsl:if test="$ZgwZaak/ZgwZaak/startdatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/startdatum)"/></xsl:if></startdatum>
             <registratiedatum><xsl:if test="$ZgwZaak/ZgwZaak/registratiedatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/registratiedatum)"/></xsl:if></registratiedatum>
-            <xsl:choose>
-                <xsl:when test="$ZgwZaak/ZgwZaak/archiefnominatie = 'vernietigen'"><archiefnominatie>J</archiefnominatie></xsl:when>
-                <xsl:otherwise><archiefnominatie>N</archiefnominatie></xsl:otherwise>
-            </xsl:choose>
-            <!-- <zaakniveau>1</zaakniveau> -->
-            <!-- <deelzakenIndicatie>N</deelzakenIndicatie> -->
             <publicatiedatum><xsl:if test="$ZgwZaak/ZgwZaak/publicatiedatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/publicatiedatum)"/></xsl:if></publicatiedatum> <!-- convert -->
             <einddatumGepland><xsl:if test="$ZgwZaak/ZgwZaak/einddatumGepland"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/einddatumGepland)"/></xsl:if></einddatumGepland> <!-- convert -->
             <uiterlijkeEinddatum><xsl:if test="$ZgwZaak/ZgwZaak/uiterlijkeEinddatumAfdoening"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/uiterlijkeEinddatumAfdoening)"/></xsl:if></uiterlijkeEinddatum> <!-- convert -->
             <einddatum><xsl:if test="$ZgwZaak/ZgwZaak/einddatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/einddatum)"/></xsl:if></einddatum> <!-- convert -->
+            <xsl:apply-templates select="$ZgwZaak/ZgwZaak/opschorting"/>
+            <xsl:apply-templates select="$ZgwZaak/ZgwZaak/verlenging"/>
             <xsl:if test="string-length($ZgwZaak/ZgwZaak/betalingsindicatie) > 0">
                 <betalingsIndicatie><xsl:value-of select="zgw:convertZgwBetalingsIndicatieToZdsBetalingsIndicatie($ZgwZaak/ZgwZaak/betalingsindicatie)"/></betalingsIndicatie>
             </xsl:if>
             <laatsteBetaaldatum><xsl:value-of select="$ZgwZaak/ZgwZaak/laatsteBetaaldatum"/></laatsteBetaaldatum> <!-- convert -->
-            <xsl:apply-templates select="$ZgwZaak/ZgwZaak/verlenging"/>
-            <xsl:apply-templates select="$ZgwZaak/ZgwZaak/opschorting"/>
-            <xsl:apply-templates select="$ZgwZaak/ZgwZaak/kenmerken"/>
+            <xsl:choose>
+                <xsl:when test="$ZgwZaak/ZgwZaak/archiefnominatie = 'vernietigen'"><archiefnominatie>J</archiefnominatie></xsl:when>
+                <xsl:otherwise><archiefnominatie>N</archiefnominatie></xsl:otherwise>
+            </xsl:choose>
+            <!-- datumVernietigingDossier -->
+            <!-- <zaakniveau>1</zaakniveau> -->
+            <!-- <deelzakenIndicatie>N</deelzakenIndicatie> -->
         </object>
     </xsl:template>
 
