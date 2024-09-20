@@ -80,6 +80,7 @@
                     returnedSessionKeys="Error"
                     >
                     <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
+                    <Param name="ZgwZaakType" sessionKey="ZaakType" type="DOMDOC" />
                 </IbisLocalSender>
                 <Forward name="success" path="DetectRolChanges" />
                 <Forward name="exception" path="EXCEPTION" />
@@ -160,8 +161,9 @@
                     >
                     <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl" />
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl" />
+                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
                 </IbisLocalSender>
-                <Forward name="success" path="CheckZgwRolNew" /> <!-- Rol should be found -->
+                <Forward name="success" path="CallPostRol" /> <!-- Rol should be found -->
                 <Forward name="404" path="LogWarningDelete" /> 
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -193,6 +195,7 @@
                     >
                     <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl" />
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl" />
+                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT" />  <!-- Rol should be found -->
                 <Forward name="404" path="LogWarningDelete" /> 

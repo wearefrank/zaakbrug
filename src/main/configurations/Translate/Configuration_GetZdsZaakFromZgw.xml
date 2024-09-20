@@ -46,36 +46,9 @@
                         <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
-                <Forward name="success" path="ZgwRolesApplyValueOverridesIteratorSender"/>
-                <Forward name="exception" path="EXCEPTION" />
-            </SenderPipe>
-
-            <ForEachChildElementPipe
-                name="ZgwRolesApplyValueOverridesIteratorSender"
-                elementXPathExpression="/ZgwRollen/zgwRol"
-                storeResultInSessionKey="Rollen"
-                >
-                <IbisLocalSender
-                    name="ZgwRolesApplyValueOverridesIteratorLocalSender"
-                    javaListener="ApplyTranslationProfileValueOverrides"
-                    returnedSessionKeys="Error"
-                    >
-                    <Param name="zaaktype" sessionKey="ZgwZaakType" xpathExpression="/ZgwZaakType/identificatie" />
-                    <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.rollen.zgwRol" />
-                </IbisLocalSender>
-                <Forward name="success" path="UnwrapForEachChildElementPipeEnvelopeToList"/>
-                <Forward name="exception" path="EXCEPTION" />
-            </ForEachChildElementPipe>
-
-            <XsltPipe
-                name="UnwrapForEachChildElementPipeEnvelopeToList"
-                styleSheetName="Common/xsl/UnwrapForEachChildPipeEnvelopeToList.xslt"
-                storeResultInSessionKey="Rollen"
-                >
-                <Param name="List" value="ZgwRollen"/>
                 <Forward name="success" path="MapZdsRolFromZgwRolIterator"/>
                 <Forward name="exception" path="EXCEPTION" />
-            </XsltPipe>
+            </SenderPipe>
            
             <ForEachChildElementPipe name="MapZdsRolFromZgwRolIterator"
                 elementXPathExpression="/ZgwRollen/zgwRol"
@@ -83,10 +56,12 @@
                 <IbisLocalSender
                     name="CallMapZdsRolFromZgwRol"
                     javaListener="MapZdsRolFromZgwRol"
-                    returnedSessionKeys="Error">
-                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC"/>
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
+                    <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC" />
                 </IbisLocalSender>
-                <Forward name="success" path="EnrichZdsZaakWithRol"/>
+                <Forward name="success" path="EnrichZdsZaakWithRol" />
                 <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
 
