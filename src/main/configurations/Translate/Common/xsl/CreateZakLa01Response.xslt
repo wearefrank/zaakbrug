@@ -95,68 +95,26 @@
                                 <ZKN:deelzakenIndicatie><xsl:value-of select="root/deelzakenIndicatie"/></ZKN:deelzakenIndicatie>
                             </xsl:if>
                             <xsl:apply-templates select="root/isVan/gerelateerde"/>
-                            <xsl:for-each select="root/heeftBetrekkingOp">
-                                <ZKN:heeftBetrekkingOp StUF:entiteittype="ZAKOBJ">
-                                    <xsl:apply-templates select="gerelateerde/natuurlijkPersoon"/>
-                                    <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
-                                    <xsl:apply-templates select="gerelateerde/vestiging"/>
-                                    <xsl:apply-templates select="gerelateerde/medewerker"/>
-                                    <xsl:apply-templates select="gerelateerde/organisatorischeEenheid"/>
-                                </ZKN:heeftBetrekkingOp>
+                            <xsl:for-each select="root/*:heeftBetrekkingOp">
+                                <xsl:copy-of select="." copy-namespaces="false" />
                             </xsl:for-each>
-                            <xsl:for-each select="root/heeftAlsBelanghebbende">
-                                <ZKN:heeftAlsBelanghebbende StUF:entiteittype="ZAKBTRBLH">
-                                    <xsl:apply-templates select="gerelateerde/natuurlijkPersoon"/>
-                                    <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
-                                    <xsl:apply-templates select="gerelateerde/vestiging"/>
-                                    <xsl:apply-templates select="gerelateerde/medewerker"/>
-                                    <xsl:apply-templates select="gerelateerde/organisatorischeEenheid"/>
-                                </ZKN:heeftAlsBelanghebbende>
+                            <xsl:for-each select="root/*:heeftAlsBelanghebbende">
+                                <xsl:copy-of select="." copy-namespaces="false" />
                             </xsl:for-each>
-                            <xsl:for-each select="root/heeftAlsGemachtigde">
-                                <ZKN:heeftAlsGemachtigde StUF:entiteittype="ZAKBTRGMC">
-                                    <xsl:apply-templates select="gerelateerde/natuurlijkPersoon"/>
-                                    <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
-                                    <xsl:apply-templates select="gerelateerde/vestiging"/>
-                                    <xsl:apply-templates select="gerelateerde/medewerker"/>
-                                    <xsl:apply-templates select="gerelateerde/organisatorischeEenheid"/>
-                                </ZKN:heeftAlsGemachtigde>
+                            <xsl:for-each select="root/*:heeftAlsGemachtigde">
+                                <xsl:copy-of select="." copy-namespaces="false" />
                             </xsl:for-each>
-                            <xsl:for-each select="root/heeftAlsInitiator">
-                                <ZKN:heeftAlsInitiator StUF:entiteittype="ZAKBTRINI">
-                                    <xsl:apply-templates select="gerelateerde/natuurlijkPersoon"/>
-                                    <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
-                                    <xsl:apply-templates select="gerelateerde/vestiging"/>
-                                    <xsl:apply-templates select="gerelateerde/medewerker"/>
-                                    <xsl:apply-templates select="gerelateerde/organisatorischeEenheid"/>
-                                </ZKN:heeftAlsInitiator>
+                            <xsl:for-each select="root/*:heeftAlsInitiator">
+                                <xsl:copy-of select="." copy-namespaces="false" />
                             </xsl:for-each>
-                            <xsl:for-each select="root/heeftAlsUitvoerende">
-                                <ZKN:heeftAlsUitvoerende StUF:entiteittype="ZAKBTRUTV">
-                                    <xsl:apply-templates select="gerelateerde/natuurlijkPersoon"/>
-                                    <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
-                                    <xsl:apply-templates select="gerelateerde/vestiging"/>
-                                    <xsl:apply-templates select="gerelateerde/medewerker"/>
-                                    <xsl:apply-templates select="gerelateerde/organisatorischeEenheid"/>
-                                </ZKN:heeftAlsUitvoerende>
+                            <xsl:for-each select="root/*:heeftAlsUitvoerende">
+                                <xsl:copy-of select="." copy-namespaces="false" />
                             </xsl:for-each>
-                            <xsl:for-each select="root/heeftAlsVerantwoordelijke">
-                                <ZKN:heeftAlsVerantwoordelijke StUF:entiteittype="ZAKBTRVRA">
-                                    <xsl:apply-templates select="gerelateerde/natuurlijkPersoon"/>
-                                    <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
-                                    <xsl:apply-templates select="gerelateerde/vestiging"/>
-                                    <xsl:apply-templates select="gerelateerde/medewerker"/>
-                                    <xsl:apply-templates select="gerelateerde/organisatorischeEenheid"/>
-                                </ZKN:heeftAlsVerantwoordelijke>
+                            <xsl:for-each select="root/*:heeftAlsVerantwoordelijke">
+                                <xsl:copy-of select="." copy-namespaces="false" />
                             </xsl:for-each>
-                            <xsl:for-each select="root/heeftAlsOverigBetrokkene">
-                                <ZKN:heeftAlsOverigBetrokkene StUF:entiteittype="ZAKBTROVR">
-                                    <xsl:apply-templates select="gerelateerde/natuurlijkPersoon"/>
-                                    <xsl:apply-templates select="gerelateerde/nietNatuurlijkPersoon"/>
-                                    <xsl:apply-templates select="gerelateerde/vestiging"/>
-                                    <xsl:apply-templates select="gerelateerde/medewerker"/>
-                                    <xsl:apply-templates select="gerelateerde/organisatorischeEenheid"/>
-                                </ZKN:heeftAlsOverigBetrokkene>
+                            <xsl:for-each select="root/*:heeftAlsOverigBetrokkene">
+                                <xsl:copy-of select="." copy-namespaces="false" />
                             </xsl:for-each>
                             <xsl:apply-templates select="root/heeftAlsDeelzaak/gerelateerde"/>
                             <xsl:apply-templates select="root/heeftAlsHoofdzaak/gerelateerde"/>
