@@ -78,14 +78,14 @@
                     <Param name="RolTypeUrl" xpathExpression="$ZgwRolType/ZgwRolType/url">
                         <Param name="ZgwRolType" sessionKey="ZgwRolType" type="DOMDOC"/>
                     </Param>
-                    <Param name="inpBsn" xpathExpression="role/gerelateerde/natuurlijkPersoon/inp.bsn"/>
-                    <Param name="anpIdentificatie" xpathExpression="role/gerelateerde/natuurlijkPersoon/anp.Identificatie"/>
-                    <Param name="inpA_nummer" xpathExpression="role/gerelateerde/natuurlijkPersoon/inpA_nummer"/>
-                    <Param name="innNnpId" xpathExpression="role/gerelateerde/nietNatuurlijkPersoon/inn.nnpId"/>
-                    <Param name="annIdentificatie" xpathExpression="role/gerelateerde/nietNatuurlijkPersoon/ann.identificatie"/>
-                    <Param name="vestigingsNummer" xpathExpression="role/gerelateerde/vestiging/vestigingsNummer"/>
-                    <Param name="OEHidentificatie" xpathExpression="role/gerelateerde/organisatorischeEenheid/identificatie"/>
-                    <Param name="MDWidentificatie" xpathExpression="role/gerelateerde/medewerker/identificatie"/>
+                    <Param name="inpBsn" xpathExpression="*/*:gerelateerde/*:natuurlijkPersoon/*:inp.bsn"/>
+                    <Param name="anpIdentificatie" xpathExpression="*/*:gerelateerde/*:natuurlijkPersoon/*:anp.identificatie"/>
+                    <Param name="inpA_nummer" xpathExpression="*/*:gerelateerde/*:natuurlijkPersoon/*:inp.a-nummer"/>
+                    <Param name="innNnpId" xpathExpression="*/*:gerelateerde/*:nietNatuurlijkPersoon/*:inn.nnpId"/>
+                    <Param name="annIdentificatie" xpathExpression="*/*:gerelateerde/*:nietNatuurlijkPersoon/*:ann.identificatie"/>
+                    <Param name="vestigingsNummer" xpathExpression="*/*:gerelateerde/*:vestiging/*:vestigingsNummer"/>
+                    <Param name="OEHidentificatie" xpathExpression="*/*:gerelateerde/*:organisatorischeEenheid/*:identificatie"/>
+                    <Param name="MDWidentificatie" xpathExpression="*/*:gerelateerde/*:medewerker/*:identificatie"/>
                 </IbisLocalSender>
             </SenderPipe>
 
