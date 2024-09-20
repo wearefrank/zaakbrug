@@ -1,5 +1,5 @@
 <xsl:stylesheet exclude-result-prefixes="#all" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="3.0">
-    <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="true" />
+    <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="yes" />
 
     <xsl:param name="MatchWithZdsRol" as="node()"><xsl:document /></xsl:param>
 
@@ -170,8 +170,8 @@
 
         <xsl:choose>
             <xsl:when test="
-                $currentGerelateerde/*:vestigingsNummer/text() = $matchWithZdsRolGerelateerde/*:vestigingsNummer/text() and 
-                $currentGerelateerde/*:vestigingsNummer/text() != ''
+                $currentGerelateerde/*:identificatie/text() = $matchWithZdsRolGerelateerde/*:identificatie/text() and 
+                $currentGerelateerde/*:identificatie/text() != ''
                 ">
                 <xsl:copy-of select="." />
             </xsl:when>
@@ -201,8 +201,8 @@
 
         <xsl:choose>
             <xsl:when test="
-                $currentGerelateerde/*:identificatie/text() = $matchWithZdsRolGerelateerde/*:identificatie/text() and 
-                $currentGerelateerde/*:identificatie/text() != ''
+                $currentGerelateerde/*:vestigingsNummer/text() = $matchWithZdsRolGerelateerde/*:vestigingsNummer/text() and 
+                $currentGerelateerde/*:vestigingsNummer/text() != ''
                 ">
                 <xsl:copy-of select="." />
             </xsl:when>
