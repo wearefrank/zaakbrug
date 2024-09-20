@@ -20,7 +20,6 @@
                 not(self::tijdvakRelatie) and
                 not(self::tijdvakGeldigheid) and
                 not(self::tijdstipRegistratie) and
-                not(self::extraElementen) and
                 not(self::historieMaterieel) and
                 not(self::historieFormeel) and
                 not(self::historieFormeelRelatie)
