@@ -1,0 +1,121 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="ApplyValueOverridesZgwToZds"
+        active="${ApplyValueOverridesZgwToZds.Active}"
+        description="">
+
+        <Receiver name="ApplyValueOverridesZgwToZds">
+            <JavaListener name="ApplyValueOverridesZgwToZds" returnedSessionKeys="Error,ExtraElementen" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="EXCEPTION" state="ERROR" />
+            </Exits>
+
+            <SenderPipe
+                name="ResolveProfileValuesSender"
+                >
+                <IbisLocalSender
+                    name="ResolveProfileValuesLocalSender"
+                    javaListener="ResolveProfileValues"
+                    returnedSessionKeys="Error"
+                />
+                <Forward name="success" path="ExtractValueOverridesFromTranslationProfile" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="ExtractValueOverridesFromTranslationProfile"
+                styleSheetName="Common/xsl/ExtractValueOverridesFromTranslationProfile.xsl"
+                storeResultInSessionKey="valueOverrides"
+                >
+                <Param name="zaaktype" sessionKey="zaaktype" />
+                <Forward name="success" path="RenameRootElementInValueOverridesKeys" />
+            </XsltPipe>
+
+            <!-- Zgw object names like 'ZgwZaak' will likely in the future be replaced with their name in the OpenApi spec like 'zaak' for example. 
+                The valueOverrides keys already use these names so that the user doesnt have to change all their keys in the future -->
+            <XsltPipe
+                name="RenameRootElementInValueOverridesKeys"
+                styleSheetName="Common/xsl/RenameRootElementInValueOverridesKeys.xsl"
+                storeResultInSessionKey="valueOverrides"
+                >
+                <Forward name="success" path="FilterValueOverridesOnKeyRoot" />
+            </XsltPipe>
+            
+            <XsltPipe
+                name="FilterValueOverridesOnKeyRoot"
+                styleSheetName="Common/xsl/FilterValueOverridesOnKeyRoot.xslt"
+                storeResultInSessionKey="valueOverrides"
+                >
+                <Param name="valueOverrideKeyRoot" sessionKey="valueOverrideKeyRoot" />
+                <Forward name="success" path="LookupProcessAsArrayKeys" />
+            </XsltPipe>
+        
+            <XsltPipe
+                name="LookupProcessAsArrayKeys"
+                styleSheetName="Common/xsl/LookupProcessAsArrayKeys.xslt"
+                storeResultInSessionKey="processAsArrayKeys"
+                >
+                <Param name="ValueOverrideKeyRoot" sessionKey="valueOverrideKeyRoot" />
+                <Forward name="success" path="NoValueOverrides_Condition" />
+            </XsltPipe>
+
+            <XmlIfPipe
+                name="NoValueOverrides_Condition"
+                getInputFromSessionKey="originalMessage"
+                xpathExpression="count($valueOverrides/root/valueOverrides) = 0"
+                >
+                <Param name="valueOverrides" sessionKey="valueOverrides" type="DOMDOC" />
+                <Forward name="then" path="EXIT" />
+                <Forward name="else" path="ValueOverridesDepthFirstUnflatten" />
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="ValueOverridesDepthFirstUnflatten"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/ValueOverridesDepthFirstUnflatten.xslt"
+                storeResultInSessionKey="mergeWithContext"
+                >
+                <Param name="valueOverrides" sessionKey="valueOverrides" type="DOMDOC" />
+                <Forward name="success" path="ApplyValueOverrides" />
+            </XsltPipe>
+
+            <XsltPipe
+                name="ApplyValueOverrides"
+                styleSheetName="Common/xsl/ApplyValueOverrides.xslt"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="PostValueOverridesContext"
+                >
+                <Param name="mergeWith" sessionKey="mergeWithContext" type="DOMDOC" />
+                <Param name="valueOverrides" sessionKey="valueOverrides" type="DOMDOC" />
+                <Param name="processAsArrayKeys" sessionKey="processAsArrayKeys" />
+                <!-- <Param name="defaultMergeCondition" value="string-length(.) = 0" /> -->
+                <!-- <Param name="debug" value="true" /> -->
+                <Forward name="success" path="BuildValueOverridesZgwToZdsExtraElementen" />
+            </XsltPipe>
+            
+            <XsltPipe
+                name="BuildValueOverridesZgwToZdsExtraElementen"
+                styleSheetName="Common/xsl/BuildValueOverridesZgwToZdsExtraElementen.xslt"
+                storeResultInSessionKey="ExtraElementen"
+                >
+                <Param name="PreValueOverridesContext" sessionKey="originalMessage" type="DOMDOC" />
+                <!-- <Param name="debug" value="true" /> -->
+                <Forward name="success" path="FilterPostValueOverrideContextSourcedFromExtraElementen" />
+            </XsltPipe>
+
+            <XsltPipe
+                name="FilterPostValueOverrideContextSourcedFromExtraElementen"
+                getInputFromSessionKey="PostValueOverridesContext"
+                styleSheetName="Common/xsl/FilterPostValueOverrideContextSourcedFromExtraElementen.xslt"
+                >
+                <Param name="PreValueOverridesContext" sessionKey="originalMessage" type="DOMDOC" />
+                <!-- <Param name="debug" value="true" /> -->
+                <Forward name="success" path="EXIT" />
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

@@ -13,6 +13,20 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
+            <SenderPipe
+                name="ZgwRolesApplyValueOverridesZgwToZdsSender"
+                >
+                <IbisLocalSender
+                    name="ZgwRolesApplyValueOverridesZgwToZdsLocalSender"
+                    javaListener="ApplyValueOverridesZgwToZds"
+                    returnedSessionKeys="Error,ExtraElementen"
+                    >
+                    <Param name="zaaktype" sessionKey="ZgwZaakType" xpathExpression="/ZgwZaakType/identificatie" />
+                    <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.rollen.zgwRol" />
+                </IbisLocalSender>
+                <Forward name="success" path="MatchHeeftBetrekkingOpOmschrijving" />
+            </SenderPipe>
+
             <XmlIfPipe
                 name="MatchHeeftBetrekkingOpOmschrijving"
                 xpathExpression="lower-case($lh)=lower-case($rh)"

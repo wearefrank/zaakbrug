@@ -44,8 +44,9 @@
                 styleSheetName="Common/xsl/GetElementsFromList.xslt"
                 >
                 <Param name="Where" value="omschrijving"/>
-                <Param name="Equals" xpathExpression="$originalMessage/role/typeRolOmschrijving">
-                    <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC"/>
+                <Param name="Equals" xpathExpression="$RolMapping//rolMapping/*[local-name() = local-name($originalMessage/*)]/text()">
+                    <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC" />
+                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
                 </Param>
                 <Forward name="success" path="GetSingleZgwRolTypeFromList"/>
                 <Forward name="error" path="EXCEPTION"/>

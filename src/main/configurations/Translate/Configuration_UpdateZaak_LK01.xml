@@ -229,6 +229,7 @@
                     <Param name="ZaakTypeUrl" xpathExpression="$GetZgwZaaktypeByUrlResult/ZgwZaakType/url">
                         <Param name="GetZgwZaaktypeByUrlResult" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                     </Param>
+                    <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC" />
                     <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC" />
                 </IbisLocalSender>
                 <Forward name="success" path="CallDetectRolChanges"/>
@@ -249,6 +250,7 @@
                     <Param name="ZaakTypeUrl" xpathExpression="$GetZgwZaaktypeByUrlResult/ZgwZaakType/url">
                         <Param name="GetZgwZaaktypeByUrlResult" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                     </Param>
+                    <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC" />
                     <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC" />
                 </IbisLocalSender>
                 <Forward name="success" path="WrapZdsWordtZaak"/>
