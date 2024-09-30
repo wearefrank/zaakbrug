@@ -141,23 +141,15 @@
                 name="CheckGeefZaakDetailsResult" 
                 xpathExpression="string-length(/*:object) gt 0"
                 >
-                <Forward name="then" path="ReplaceNulls" />
+                <Forward name="then" path="FilterZaakdetails" />
                 <Forward name="else" path="WrapZakLa01Response" />
             </XmlIfPipe>
 
             <XsltPipe
-                name="ReplaceNulls"
-                styleSheetName="Common/xsl/ReplaceNullStringWithXmlNull.xslt"
-                >
-                <Forward name="success" path="FilterZaakdetails"/>
-            </XsltPipe>
-
-            <XsltPipe
                 name="FilterZaakdetails"
-                skipEmptyTags="true"
                 styleSheetName="geefZaakdetails_Lv01/xsl/FilterScope.xsl"
                 >
-                <Param name="ZdsZaak" type="DOMDOC"/>
+                <Param name="ZdsZaak" type="DOMDOC" />
                 <Param name="Scope" sessionKey="Scope" type="DOMDOC" />
                 <Forward name="success" path="WrapZakLa01Response"/>
             </XsltPipe>

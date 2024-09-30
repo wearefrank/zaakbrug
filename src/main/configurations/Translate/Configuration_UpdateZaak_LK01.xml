@@ -169,9 +169,18 @@
                     returnedSessionKeys="Error">
                     <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
                 </IbisLocalSender>
-                <Forward name="success" path="CreateUpdateZaakBody"/>
+                <Forward name="success" path="FilterBaseZdsWordtZaak"/>
                 <Forward name="exception" path="UncaughtException"/>
             </SenderPipe>
+
+            <XsltPipe
+                name="FilterBaseZdsWordtZaak"
+                getInputFromSessionKey="ZdsWordtZaak"
+                storeResultInSessionKey="FilteredZdsWordtZaak"
+                styleSheetName="Common/xsl/FilterBaseZdsZaak.xslt"
+                >
+                <Forward name="success" path="CreateUpdateZaakBody" />
+            </XsltPipe>
 
             <XsltPipe
                 name="CreateUpdateZaakBody"
@@ -183,10 +192,28 @@
                 <Param name="ZgwZaak" sessionKey="GetZgwWasZaakResult" type="DOMDOC" />
                 <Param name="Bronorganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
                 <Param name="VerantwoordelijkeOrganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
+                <Forward name="success" path="ZgwWordtZaakApplyValueOverridesFromTranslationProfileSender" />
             </XsltPipe>
 
             <SenderPipe
-                name="UpdateZgwZaak">
+                name="ZgwWordtZaakApplyValueOverridesFromTranslationProfileSender"
+                >
+                <IbisLocalSender
+                    name="ZgwWordtZaakApplyValueOverridesFromTranslationProfileLocalSender"
+                    javaListener="ApplyTranslationProfileValueOverrides"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="zaaktype" sessionKey="GetZgwZaaktypeByUrlResult" xpathExpression="/ZgwZaakType/identificatie" />
+                    <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaken.ZgwZaak" />
+                    <Param name="CurrentContext" sessionKey="FilteredZdsWordtZaak" type="DOMDOC" />
+                </IbisLocalSender>
+                <Forward name="success" path="UpdateZgwZaak" />
+                <Forward name="exception" path="UncaughtException" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="UpdateZgwZaak"
+                >
                 <IbisLocalSender
                     name="CallUpdateZgwZaakSender"
                     javaListener="Zaken_UpdateZgwZaak"

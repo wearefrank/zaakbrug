@@ -22,14 +22,20 @@
 	<xsl:template match="*[starts-with(text(), '${extraElementen:') and ends-with(text(), '}')]">
 		<xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> extraElementenSection: [{serialize(., $debugSerializeParams)}] </xsl:comment></xsl:if>
 		
-		<StUF:extraElement>
-			<xsl:variable name="extraElementName" select="substring-after(substring-before(., '}'), ':')" />
-			<xsl:attribute name="naam"><xsl:value-of select="$extraElementName"/></xsl:attribute>
-			<xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> extraElementName: [{serialize($extraElementName, $debugSerializeParams)}] </xsl:comment></xsl:if>
-			
-			<xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> xpath: [{serialize(path(), $debugSerializeParams)}] </xsl:comment></xsl:if>
-			<xsl:evaluate context-item="$PreValueOverridesContext" xpath="path() || '/text()'"></xsl:evaluate>
-		</StUF:extraElement>
+		<xsl:variable name="extraElement">
+			<StUF:extraElement>
+				<xsl:variable name="extraElementName" select="substring-after(substring-before(., '}'), ':')" />
+				<xsl:attribute name="naam"><xsl:value-of select="$extraElementName"/></xsl:attribute>
+				<xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> extraElementName: [{serialize($extraElementName, $debugSerializeParams)}] </xsl:comment></xsl:if>
+				
+				<xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> xpath: [{serialize(path(), $debugSerializeParams)}] </xsl:comment></xsl:if>
+				<xsl:evaluate context-item="$PreValueOverridesContext" xpath="path() || '/text()'"></xsl:evaluate>
+			</StUF:extraElement>
+		</xsl:variable>
+
+		<xsl:if test="$extraElement != ''">
+			<xsl:copy-of select="$extraElement" />
+		</xsl:if>
   	</xsl:template>
 
 </xsl:stylesheet>

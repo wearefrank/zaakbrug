@@ -13,12 +13,29 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
+            <SenderPipe
+                name="ZgwZaakApplyValueOverridesZgwToZdsSender"
+                getInputFromSessionKey="ZgwZaak"
+                storeResultInSessionKey="ZgwZaak"
+                >
+                <IbisLocalSender
+                    name="ZgwZaakApplyValueOverridesZgwToZdsLocalSender"
+                    javaListener="ApplyValueOverridesZgwToZds"
+                    returnedSessionKeys="Error,ExtraElementen"
+                    >
+                    <Param name="zaaktype" sessionKey="ZgwZaakType" xpathExpression="/ZgwZaakType/identificatie" />
+                    <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaken.ZgwZaak" />
+                </IbisLocalSender>
+                <Forward name="success" path="MapZdsZaakFromZgwZaak" />
+            </SenderPipe>
+
             <XsltPipe name="MapZdsZaakFromZgwZaak"
                 storeResultInSessionKey="ZdsZaak"
                 styleSheetName="Common/xsl/GetZdsZaakFromZgwZaak.xslt"
                 >
-                <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
-                <Forward name="success" path="GetGlobalConfigFromLocalFS"/>
+                <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC" />
+                <Param name="ExtraElementen" sessionKey="ExtraElementen" type="DOMDOC" />
+                <Forward name="success" path="GetGlobalConfigFromLocalFS" />
             </XsltPipe>
 
             <SenderPipe name="GetGlobalConfigFromLocalFS">
