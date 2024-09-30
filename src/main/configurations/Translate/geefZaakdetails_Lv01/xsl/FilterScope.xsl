@@ -3,16 +3,6 @@
     <xsl:param name="ZdsZaak" as="node()" />
     <xsl:param name="Scope" as="node()" />
 
-    <xsl:function name="zgw:convertZdsBetalingsIndicatieToZgwBetalingsIndicatie">
-        <xsl:param name="zdsBetalingsIndicatie" />
-        <xsl:choose>
-            <xsl:when test="$zdsBetalingsIndicatie='N.v.t.'">nvt</xsl:when>
-            <xsl:when test="$zdsBetalingsIndicatie='(Nog) niet'">nog_niet</xsl:when>
-            <xsl:when test="$zdsBetalingsIndicatie='Gedeeltelijk'">gedeeltelijk</xsl:when>
-            <xsl:when test="$zdsBetalingsIndicatie='Geheel'">geheel</xsl:when>
-        </xsl:choose>
-    </xsl:function>
-
     <xsl:template match="@*|node()">
         <xsl:copy>
             <xsl:copy-of select="@*"/>
@@ -29,154 +19,108 @@
 
     <!-- Match for other cases -->
     <xsl:template match="/zakLv01[scope/object/@scope = 'alles']">
-        <ZgwZaak>
-            <xsl:apply-templates select="$ZdsZaak/root/*"/>
-        </ZgwZaak>
+            <xsl:apply-templates select="$ZdsZaak/*" />
     </xsl:template>
 
     <xsl:template match="/zakLv01" priority="0">
-        <ZgwZaak>
-            <identificatie><xsl:value-of select="$ZdsZaak/root/identificatie"/></identificatie>
+        <xsl:copy select="$ZdsZaak/*">
+            <xsl:copy-of select="@*" />
+            <xsl:copy-of select="$ZdsZaak/*:object/*:identificatie" />
             <xsl:if test="$Scope/scope/object/omschrijving">
-                <omschrijving><xsl:value-of select="$ZdsZaak/root/omschrijving"/></omschrijving>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:omschrijving" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/toelichting">
-                <toelichting><xsl:value-of select="$ZdsZaak/root/toelichting"/></toelichting>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:toelichting" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/kenmerk">
-                <xsl:for-each select="$ZdsZaak/root/kenmerk">
-                    <kenmerk>
-                        <kenmerk><xsl:value-of select="kenmerk"/></kenmerk>
-                        <bron><xsl:value-of select="bron"/></bron>
-                    </kenmerk>
-                </xsl:for-each>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:kenmerk" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/anderZaakObject">
-                <xsl:for-each select="$ZdsZaak/root/anderZaakObject">
-                    <anderZaakObject>
-                        <omschrijving><xsl:value-of select="omschrijving"/></omschrijving>
-                        <aanduiding><xsl:value-of select="aanduiding"/></aanduiding>
-                        <lokatie><xsl:value-of select="lokatie"/></lokatie>
-                        <registratie><xsl:value-of select="registratie"/></registratie>
-                    </anderZaakObject>
-                </xsl:for-each>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:anderZaakObject" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/resultaat">
-                <resultaat>
-                    <omschrijving><xsl:value-of select="$ZdsZaak/root/resultaat/omschrijving"/></omschrijving>
-                    <toelichting><xsl:value-of select="$ZdsZaak/root/resultaat/toelichting"/></toelichting>
-                </resultaat>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:resultaat" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/startdatum">
-                <startdatum><xsl:value-of select="$ZdsZaak/root/startdatum"/></startdatum>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:startdatum" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/registratiedatum">
-                <registratiedatum><xsl:value-of select="$ZdsZaak/root/registratiedatum"/></registratiedatum>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:registratiedatum" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/publicatiedatum">
-                <publicatiedatum><xsl:value-of select="$ZdsZaak/root/publicatiedatum"/></publicatiedatum>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:publicatiedatum" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/einddatumGepland">
-                <einddatumGepland><xsl:value-of select="$ZdsZaak/root/einddatumGepland"/></einddatumGepland>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:einddatumGepland" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/uiterlijkeEinddatum">
-                <uiterlijkeEinddatum><xsl:value-of select="$ZdsZaak/root/uiterlijkeEinddatum"/></uiterlijkeEinddatum>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:uiterlijkeEinddatum" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/einddatum">
-                <einddatum><xsl:value-of select="$ZdsZaak/root/einddatum"/></einddatum>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:einddatum" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/opschorting">
-                <xsl:for-each select="$ZdsZaak/root/opschorting">
-                    <opschorting>
-                        <indicatie><xsl:value-of select="indicatie"/></indicatie>
-                        <reden><xsl:value-of select="reden"/></reden>
-                    </opschorting>
-                </xsl:for-each>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:opschorting" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/verlenging">
-                <xsl:for-each select="$ZdsZaak/root/verlenging">
-                    <verlenging>
-                        <duur><xsl:value-of select="duur"/></duur>
-                        <reden><xsl:value-of select="reden"/></reden>
-                    </verlenging>
-                </xsl:for-each>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:verlenging" />
             </xsl:if>
-            <xsl:if test="string-length($Scope/scope/object/betalingsIndicatie) > 0">
-                <betalingsindicatie><xsl:value-of select="zgw:convertZdsBetalingsIndicatieToZgwBetalingsIndicatie($Scope/scope/object/betalingsIndicatie)"/></betalingsindicatie>
+            <xsl:if test="$Scope/scope/object/betalingsIndicatie">
+                <xsl:copy-of select="$ZdsZaak/*:object/*:betalingsIndicatie" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/laatsteBetaaldatum">
-                <laatsteBetaaldatum><xsl:value-of select="$ZdsZaak/root/laatsteBetaaldatum"/></laatsteBetaaldatum>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:laatsteBetaaldatum" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/archiefnominatie">
-                <archiefnominatie><xsl:value-of select="$ZdsZaak/root/archiefnominatie"/></archiefnominatie>
+                <xsl:copy-of select="$ZdsZaak/*:object/archiefnominatie" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/datumVernietigingDossier">
-                <datumVernietigingDossier><xsl:value-of select="$ZdsZaak/root/datumVernietigingDossier"/></datumVernietigingDossier>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:datumVernietigingDossier" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/zaakniveau">
-                <zaakniveau><xsl:value-of select="$ZdsZaak/root/zaakniveau"/></zaakniveau>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:zaakniveau" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/deelzakenIndicatie">
-                <deelzakenIndicatie><xsl:value-of select="$ZdsZaak/root/deelzakenIndicatie"/></deelzakenIndicatie>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:deelzakenIndicatie" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/isVan">
-                <isVan>
-                    <gerelateerde>
-                        <omschrijving><xsl:value-of select="$ZdsZaak/root/isVan/gerelateerde/omschrijving"/></omschrijving>
-                        <code><xsl:value-of select="$ZdsZaak/root/isVan/gerelateerde/code"/></code>
-                    </gerelateerde>
-                </isVan>
+                <ZKN:isVan StUF:entiteittype="ZAKZKT">
+                    <ZKN:gerelateerde StUF:entiteittype="ZKT">
+                        <xsl:copy-of select="$ZdsZaak/*:object/*:isVan/*:gerelateerde/*:omschrijving" />
+                        <xsl:copy-of select="$ZdsZaak/*:object/*:isVan/*:gerelateerde/*:code" />
+                    </ZKN:gerelateerde>
+                </ZKN:isVan>
             </xsl:if>
             <xsl:if test="$Scope/scope/object/heeftBetrekkingOp">
-                <xsl:for-each select="$ZdsZaak/root/heeftBetrekkingOp">
-                    <heeftBetrekkingOp><xsl:apply-templates select="@*|node()"/></heeftBetrekkingOp>
-                </xsl:for-each>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:heeftBetrekkingOp" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/heeftAlsBelanghebbende">
-                <xsl:for-each select="$ZdsZaak/root/heeftAlsBelanghebbende">
-                    <heeftAlsBelanghebbende><xsl:apply-templates select="@*|node()"/></heeftAlsBelanghebbende>
-                </xsl:for-each>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:heeftAlsBelanghebbende" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/heeftAlsGemachtigde">
-                <xsl:for-each select="$ZdsZaak/root/heeftAlsGemachtigde">
-                    <heeftAlsGemachtigde><xsl:apply-templates select="@*|node()"/></heeftAlsGemachtigde>
-                </xsl:for-each>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:heeftAlsGemachtigde" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/heeftAlsInitiator">
-                <xsl:for-each select="$ZdsZaak/root/heeftAlsInitiator">
-                    <heeftAlsInitiator><xsl:apply-templates select="@*|node()"/></heeftAlsInitiator>
-                </xsl:for-each>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:heeftAlsInitiator" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/heeftAlsUitvoerende">
-                <xsl:for-each select="$ZdsZaak/root/heeftAlsUitvoerende">
-                    <heeftAlsUitvoerende><xsl:apply-templates select="@*|node()"/></heeftAlsUitvoerende>
-                </xsl:for-each>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:heeftAlsUitvoerende" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/heeftAlsVerantwoordelijke">
-                <xsl:for-each select="$ZdsZaak/root/heeftAlsVerantwoordelijke">
-                    <heeftAlsVerantwoordelijke><xsl:apply-templates select="@*|node()"/></heeftAlsVerantwoordelijke>
-                </xsl:for-each>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:heeftAlsVerantwoordelijke" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/heeftAlsOverigBetrokkene">
-                <xsl:for-each select="$ZdsZaak/root/heeftAlsOverigBetrokkene">
-                    <heeftAlsOverigBetrokkene><xsl:apply-templates select="@*|node()"/></heeftAlsOverigBetrokkene>
-                </xsl:for-each>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:heeftAlsOverigBetrokkene" />
             </xsl:if>
             <xsl:if test="$Scope/scope/object/heeft">
-                <xsl:for-each select="$ZdsZaak/root/heeft">
-                    <heeft><xsl:apply-templates select="@*|node()"/></heeft>
-                </xsl:for-each>
+                <xsl:copy-of select="$ZdsZaak/*:object/*:heeft" />
             </xsl:if>
-            <xsl:if test="scope/object/heeftRelevant">
-                <xsl:for-each select="$ZdsZaak/root/heeftRelevant">
-                    <heeftRelevant><xsl:apply-templates select="@*|node()"/></heeftRelevant>
-                </xsl:for-each>
+            <xsl:if test="$Scope/scope/object/heeftRelevant">
+                <xsl:copy-of select="$ZdsZaak/*:object/*:heeftRelevant" />
             </xsl:if>
-            <xsl:if test="scope/object/leidtTot">
-                <xsl:for-each select="$ZdsZaak/root/leidtTot">
-                    <leidtTot><xsl:apply-templates select="@*|node()"/></leidtTot>
-                </xsl:for-each>
+            <xsl:if test="$Scope/scope/object/leidtTot">
+                <xsl:copy-of select="$ZdsZaak/*:object/*:leidtTot" />
             </xsl:if>
-        </ZgwZaak>
+        </xsl:copy>
     </xsl:template>
 </xsl:stylesheet>

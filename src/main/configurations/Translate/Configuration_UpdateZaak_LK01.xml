@@ -140,7 +140,7 @@
             </XsltPipe>
 
             <XmlIfPipe name="CheckForDetectZdsZaakChangesResult"
-                xpathExpression="count(/ZdsZaak/*) = 25"
+                xpathExpression="count(/*:object/*) = 25"
                 >
                 <Forward name="then" path="SelectZdsRolesFromZdsWasZaak" />
                 <Forward name="else" path="GetGlobalConfigFromLocalFS" />
