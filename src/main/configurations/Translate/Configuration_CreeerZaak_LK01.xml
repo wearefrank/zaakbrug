@@ -156,9 +156,18 @@
                     </Param>
                     <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC" />
                 </IbisLocalSender>
-                <Forward name="success" path="CreateZaakBody" />
+                <Forward name="success" path="FilterBaseZdsWordtZaak" />
                 <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
+
+            <XsltPipe
+                name="FilterBaseZdsWordtZaak"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="FilteredZdsWordtZaak"
+                styleSheetName="Common/xsl/FilterBaseZdsZaak.xslt"
+                >
+                <Forward name="success" path="CreateZaakBody" />
+            </XsltPipe>
 
             <XsltPipe
                 name="CreateZaakBody"
@@ -168,10 +177,10 @@
                 skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/CreateZaakBody.xsl"
                 >
-                <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
+                <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC" />
                 <Param name="Bronorganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
                 <Param name="VerantwoordelijkeOrganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
-                <Forward name="success" path="ZaakBodyApplyValueOverridesFromTranslationProfileSender"/>
+                <Forward name="success" path="ZaakBodyApplyValueOverridesFromTranslationProfileSender" />
             </XsltPipe>
 
             <SenderPipe
@@ -185,7 +194,7 @@
                 </IbisLocalSender>
                 <Param name="zaaktype" sessionKey="originalMessage" xpathExpression="/zakLk01/object/isVan/gerelateerde/code" />
                 <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaken.ZgwZaak" />
-                <Param name="CurrentContext" sessionKey="originalMessage" xpathExpression="/zakLk01/object" type="DOMDOC" />
+                <Param name="CurrentContext" sessionKey="FilteredZdsWordtZaak" type="DOMDOC" />
                 <Forward name="success" path="CallPostZaak" />
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>

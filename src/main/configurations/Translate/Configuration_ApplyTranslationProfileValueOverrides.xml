@@ -101,6 +101,7 @@
                 styleSheetName="Common/xsl/ResolveDynamicValuesWithExtraElementenContext.xslt"
                 >
                 <Param name="ExtraElementenContext" sessionKey="CurrentContext" type="DOMDOC" />
+                <Param name="PreValueOverridesContext" sessionKey="originalMessage" type="DOMDOC" />
                 <!-- <Param name="debug" value="true" /> -->
                 <Forward name="success" path="EXIT" />
             </XsltPipe>

@@ -79,7 +79,7 @@
             <!-- datumVernietigingDossier -->
             <!-- <zaakniveau>1</zaakniveau> -->
             <!-- <deelzakenIndicatie>N</deelzakenIndicatie> -->
-        </object>
+            <xsl:if test="string-length($ExtraElementen) gt 0"><xsl:copy-of select="$ExtraElementen" copy-namespaces="false" /></xsl:if>
         </ZKN:object>
     </xsl:template>
 
