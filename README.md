@@ -17,10 +17,10 @@ When you are doing development work on ZaakBrug, you may want to boot it using W
 To boot ZaakBrug using the Frank!Runner, you need version control system Git. Choose or create some empty directory in which you can clone Git repositories. For the sake of the argument, we assume it to be `work`. Please do the following:
 
 1. Open a command prompt and change directory to `work`.
-1. Clone the Frank!Runner: `git clone https://github.com/ibissource/frank-runner`.
-1. Clone ZaakBrug: `git clone https://github.com/ibissource/zaakbrug`.
+1. Clone the Frank!Runner: `git clone https://github.com/wearefrank/frank-runner`.
+1. Clone ZaakBrug: `git clone https://github.com/wearefrank/zaakbrug`.
 1. Start the Frank!Runner with one of the boot scripts in the Frank!Runner checkout directory: `start.bat` or `restart.bat` for Windows or `start.sh` or `restart.sh` for Linux or Mac. This step lets the Frank!Runner download Ant, a build tool for Java applications.
-1. Configure your IDE as described in the Frank!Runner's documentation, see https://github.com/ibissource/frank-runner. For VS Code, these instructions let you install the Task Explorer plugin by Scott Meesseman.
+1. Configure your IDE as described in the Frank!Runner's documentation, see https://github.com/wearefrank/frank-runner. For VS Code, these instructions let you install the Task Explorer plugin by Scott Meesseman.
 1. If your IDE is Visual Studio Code, you should have a link to open ZaakBrug, see number 2 in the figure below. Use the menu option number 1 to get access to the link. Click the link to open ZaakBrug using the Frank!Runner.
 
    ![antJobVsCode.jpg](/docs/picturesReadme/antJobVsCode.jpg)
@@ -29,7 +29,7 @@ To boot ZaakBrug using the Frank!Runner, you need version control system Git. Ch
 
 In a production environment it is recommended to run ZaakBrug with Docker. Ensure that Docker is installed on your computer and proceed as follows:
 
-1. Clone GitHub project https://github.com/ibissource/zaakbrug if you have not done so yet.
+1. Clone GitHub project https://github.com/wearefrank/zaakbrug if you have not done so yet.
 1. Open a command prompt and change directory to the checkout directory.
 1. Build your Docker image from the source code using a command like the following: `docker build -t zaakbrug:test .`.
 1. Run ZaakBrug using a command like the following: `docker run -p 8080:8080 -e dtap.stage=LOC --name=zaakbrug zaakbrug:test`.
