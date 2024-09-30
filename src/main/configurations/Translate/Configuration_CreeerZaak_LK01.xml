@@ -186,19 +186,9 @@
                 <Param name="zaaktype" sessionKey="originalMessage" xpathExpression="/zakLk01/object/isVan/gerelateerde/code" />
                 <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaken.ZgwZaak" />
                 <Param name="CurrentContext" sessionKey="originalMessage" xpathExpression="/zakLk01/object" type="DOMDOC" />
-                <Forward name="success" path="ReorderZaak"/>
+                <Forward name="success" path="CallPostZaak" />
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
-
-            <!-- TODO: replace with new style ZgwZaak.xslt -->
-            <XsltPipe
-                name="ReorderZaak"
-                storeResultInSessionKey="ZaakBody"
-                styleSheetName="CreeerZaak_LK01/xsl/CreateZaakBodyWorkaround.xslt"
-                >
-                <Param name="ZgwZaak" type="DOMDOC" />
-                <Forward name="success" path="CallPostZaak"/>
-            </XsltPipe>
 
             <SenderPipe
                 name="CallPostZaak"
