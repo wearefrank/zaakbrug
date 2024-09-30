@@ -175,15 +175,14 @@
 
             <XsltPipe
                 name="CreateUpdateZaakBody"
-                styleSheetName="UpdateZaak_LK01/xsl/CreateUpdateZaakBody.xslt"
                 getInputFromSessionKey="ZdsWordtZaak"
-                storeResultInSessionKey="UpdateZaakBody"
+                storeResultInSessionKey="ZgwWordtZaak"
+                removeNamespaces="true"
+                styleSheetName="UpdateZaak_LK01/xsl/CreateUpdateZaakBody.xslt"
                 >
-                <Param name="ZgwZaak" sessionKey="GetZgwWasZaakResult" type="DOMDOC"/>
-                <Param name="Bronorganisatie" sessionKey="Rsin" xpathExpression="/RSIN"/>
-                <Param name="VerantwoordelijkeOrganisatie" sessionKey="Rsin" xpathExpression="/RSIN"/>
-                <Forward name="success" path="UpdateZgwZaak"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Param name="ZgwZaak" sessionKey="GetZgwWasZaakResult" type="DOMDOC" />
+                <Param name="Bronorganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
+                <Param name="VerantwoordelijkeOrganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
             </XsltPipe>
 
             <SenderPipe
@@ -191,8 +190,9 @@
                 <IbisLocalSender
                     name="CallUpdateZgwZaakSender"
                     javaListener="Zaken_UpdateZgwZaak"
-                    returnedSessionKeys="Error">
-                    <Param name="Url" sessionKey="ZgwZaakUrl"/>
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="Url" sessionKey="ZgwZaakUrl" />
                 </IbisLocalSender>
                 <Forward name="success" path="SelectZdsRolesFromZdsWasZaak" />
                 <Forward name="exception" path="EXCEPTION" />
