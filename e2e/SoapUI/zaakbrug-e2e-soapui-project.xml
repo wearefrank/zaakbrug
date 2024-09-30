@@ -8511,6 +8511,11 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           </con:settings>
           <con:endpoint>${Properties#ZaakUrl}</con:endpoint>
           <con:request/>
+          <con:assertion type="Valid HTTP Status Codes" id="92950b11-ed97-413d-9df1-a89f54b7ce91" name="Valid HTTP Status Codes">
+            <con:configuration>
+              <codes>204</codes>
+            </con:configuration>
+          </con:assertion>
           <con:credentials>
             <con:authType>No Authorization</con:authType>
           </con:credentials>
@@ -8591,6 +8596,11 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           </con:settings>
           <con:endpoint>${Properties#DocumentUrl}</con:endpoint>
           <con:request/>
+          <con:assertion type="Valid HTTP Status Codes" id="d231b52d-f324-4ae6-a122-f19a62996ac0" name="Valid HTTP Status Codes">
+            <con:configuration>
+              <codes>204</codes>
+            </con:configuration>
+          </con:assertion>
           <con:credentials>
             <con:authType>No Authorization</con:authType>
           </con:credentials>
@@ -12911,6 +12921,10 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
               <con:name>CheckedOutId</con:name>
               <con:value/>
             </con:property>
+            <con:property>
+              <con:name>DocumentUrl</con:name>
+              <con:value/>
+            </con:property>
           </con:properties>
         </con:config>
       </con:testStep>
@@ -13514,6 +13528,60 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue('DocumentBa
           </con:request>
         </con:config>
       </con:testStep>
+      <con:testStep type="request" id="03ce7cdc-db9d-4dcc-a8a4-fbb06bf4d0dd" name="06b-cancelCheckout_Di02 - cancelCheckout.xml">
+        <con:settings/>
+        <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:interface>ZdsVrijeBerichten</con:interface>
+          <con:operation>cancelCheckout_Di02</con:operation>
+          <con:request name="06b-cancelCheckout_Di02 - cancelCheckout.xml" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="aa154dbd-fd71-4920-ab16-52a803901083">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#ZaakbrugEndpoint}translate/generic/zds/VrijBericht</con:endpoint>
+            <con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ZKN:cancelCheckout_Di02 xsi:schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 zkn0310_msg_zs-dms.xsd" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\r
+         <ZKN:stuurgegevens>\r
+            <StUF:berichtcode xmlns:StUF="http://www.egem.nl/StUF/StUF0301">Di02</StUF:berichtcode>\r
+            <StUF:zender xmlns:StUF="http://www.egem.nl/StUF/StUF0301">\r
+               <StUF:organisatie>1900</StUF:organisatie>\r
+               <StUF:applicatie>GWS4all</StUF:applicatie>\r
+               <StUF:gebruiker>Gebruiker</StUF:gebruiker>\r
+            </StUF:zender>\r
+            <StUF:ontvanger xmlns:StUF="http://www.egem.nl/StUF/StUF0301">\r
+               <StUF:organisatie>1900</StUF:organisatie>\r
+               <StUF:applicatie>CDR</StUF:applicatie>\r
+            </StUF:ontvanger>\r
+            <StUF:referentienummer xmlns:StUF="http://www.egem.nl/StUF/StUF0301">${=java.util.UUID.randomUUID().toString() }</StUF:referentienummer>\r
+            <StUF:tijdstipBericht xmlns:StUF="http://www.egem.nl/StUF/StUF0301">${=import java.text.SimpleDateFormat; SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS"); sdf.setTimeZone(TimeZone.getTimeZone("${#Project#ZdsTimezone}")); sdf.format(new Date());}</StUF:tijdstipBericht>\r
+            <StUF:functie xmlns:StUF="http://www.egem.nl/StUF/StUF0301">cancelCheckout</StUF:functie>\r
+         </ZKN:stuurgegevens>\r
+         <ZKN:parameters>\r
+            <ZKN:checkedOutId>${Properties#CheckedOutId}</ZKN:checkedOutId>\r
+         </ZKN:parameters>\r
+         <ZKN:document StUF:entiteittype="EDC" StUF:verwerkingssoort="W" StUF:functie="entiteit" xmlns:StUF="http://www.egem.nl/StUF/StUF0301">\r
+            <ZKN:identificatie>${Properties#DocumentIdentificatie}</ZKN:identificatie>\r
+         </ZKN:document>\r
+      </ZKN:cancelCheckout_Di02>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request>
+            <con:assertion type="SOAP Response" id="c42de42f-dd9e-4432-bfcc-e02ade0f9fb6" name="SOAP Response"/>
+            <con:assertion type="Schema Compliance" id="6bcea60e-255d-4c26-be90-0915ea6b597f" name="Schema Compliance">
+              <con:configuration/>
+            </con:assertion>
+            <con:assertion type="SOAP Fault Assertion" id="375ea3c5-6b87-436e-9343-79031dec73d2" name="Not SOAP Fault"/>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.egem.nl/StUF/sector/zkn/0310/cancelCheckout_Di02"/>
+            <con:wsrmConfig version="1.2"/>
+          </con:request>
+        </con:config>
+      </con:testStep>
       <con:testStep type="groovy" name="99a-zgw-generateJwt" id="c3307430-1692-46c3-b229-e6fbd53a29c5">
         <con:settings/>
         <con:config>
@@ -13649,6 +13717,91 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           </con:settings>
           <con:endpoint>${Properties#ZaakUrl}</con:endpoint>
           <con:request/>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${Properties#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="99e-zgw-getDocumentByIdentificatie" id="cb0fd2b5-4eb8-4538-9b2f-049591883e47">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="222f62b6-78c9-4982-89a5-c9ff716b456d" name="99e-zgw-getDocumentByIdentificatie" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${#Project#OpenZaakDocumentenApiRootUrl}/enkelvoudiginformatieobjecten</con:endpoint>
+          <con:request/>
+          <con:assertion type="JsonPath Match" id="d471f2c1-c3aa-450a-b4c8-6f0936324ff8" name="JsonPath Match">
+            <con:configuration>
+              <path>$.results[0].identificatie</path>
+              <content>${Properties#DocumentIdentificatie}</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${Properties#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>identificatie</con:name>
+              <con:value>${Properties#DocumentIdentificatie}</con:value>
+              <con:style>QUERY</con:style>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="transfer" name="99f-TransferDocumentUrl" id="39376b46-dfe0-4bbc-844c-e222e9c0217d">
+        <con:settings/>
+        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+            <con:name>TransferDocumentUrl</con:name>
+            <con:sourceType>Response</con:sourceType>
+            <con:sourceStep>99e-zgw-getDocumentByIdentificatie</con:sourceStep>
+            <con:sourcePath>$.results[0].url</con:sourcePath>
+            <con:targetType>DocumentUrl</con:targetType>
+            <con:targetStep>Properties</con:targetStep>
+            <con:type>JSONPATH</con:type>
+            <con:targetTransferType>JSONPATH</con:targetTransferType>
+            <con:upgraded>true</con:upgraded>
+          </con:transfers>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="99g-zgw-deleteDocument" id="08b9fd02-61e4-4ab4-b090-25c3e5168b44">
+        <con:settings/>
+        <con:config method="DELETE" xsi:type="con:HttpRequest" id="425cebae-0886-4cab-bf6c-e454353dbcf3" name="99g-zgw-deleteDocument" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${Properties#DocumentUrl}</con:endpoint>
+          <con:request/>
+          <con:assertion type="Valid HTTP Status Codes" id="d231b52d-f324-4ae6-a122-f19a62996ac0" name="Valid HTTP Status Codes">
+            <con:configuration>
+              <codes>204</codes>
+            </con:configuration>
+          </con:assertion>
           <con:credentials>
             <con:authType>No Authorization</con:authType>
           </con:credentials>
