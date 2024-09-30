@@ -133,36 +133,7 @@
     </xsl:template>
 
     <xsl:template match="verblijfsadres">
-        <BG:verblijfsadres>
-            <xsl:if test="aoaIdentificatie != ''">
-                <BG:aoa.identificatie><xsl:value-of select="aoaIdentificatie" /></BG:aoa.identificatie>
-                <BG:authentiek StUF:metagegeven="true"><xsl:value-of select="authentiek"/></BG:authentiek>
-            </xsl:if>
-            <xsl:if test="wplWoonplaatsNaam != ''">
-                <BG:wpl.woonplaatsNaam><xsl:value-of select="wplWoonplaatsNaam"/></BG:wpl.woonplaatsNaam>
-            </xsl:if>
-            <xsl:if test="gorOpenbareRuimteNaam != ''">
-                <BG:gor.openbareRuimteNaam><xsl:value-of select="gorOpenbareRuimteNaam"/></BG:gor.openbareRuimteNaam>
-            </xsl:if>
-            <xsl:if test="gorOpenbareRuimteNaam != ''">
-                <BG:gor.straatnaam><xsl:value-of select="gorOpenbareRuimteNaam"/></BG:gor.straatnaam>
-            </xsl:if>
-            <xsl:if test="aoaPostcode != ''">
-                <BG:aoa.postcode><xsl:value-of select="aoaPostcode"/></BG:aoa.postcode>
-            </xsl:if>
-            <xsl:if test="aoaHuisnummer != ''">
-                <BG:aoa.huisnummer><xsl:value-of select="aoaHuisnummer"/></BG:aoa.huisnummer>
-            </xsl:if>
-            <xsl:if test="aoaHuisletter != ''">
-                <BG:aoa.huisletter><xsl:value-of select="aoaHuisletter"/></BG:aoa.huisletter>
-            </xsl:if>
-            <xsl:if test="aoaHuisnummertoevoeging != ''">
-                <BG:aoa.huisnummertoevoeging><xsl:value-of select="aoaHuisnummertoevoeging"/></BG:aoa.huisnummertoevoeging>
-            </xsl:if>
-            <xsl:if test="inpLocatiebeschrijving != ''">
-                <BG:inp.locatiebeschrijving><xsl:value-of select="inpLocatiebeschrijving"/></BG:inp.locatiebeschrijving>
-            </xsl:if>
-        </BG:verblijfsadres>
+                    <BG:authentiek StUF:metagegeven="true"><xsl:value-of select="if (authentiek != '') then authentiek else 'N'"/></BG:authentiek>
     </xsl:template>
 
 </xsl:stylesheet>
