@@ -1,6 +1,7 @@
-<xsl:stylesheet exclude-result-prefixes="xs zgw" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://google.com/zgw" version="2.0">
-    <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
+<xsl:stylesheet exclude-result-prefixes="#all" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zgw="http://google.com/zgw" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" version="2.0">
+    <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="yes" />
     <xsl:param name="ZgwZaak"/>
+    <xsl:param name="ExtraElementen" as="node()?"><StUF:extraElementen/></xsl:param>
 
     <xsl:function name="zgw:convertZdsDateToZgwDate" as="xs:string">
         <xsl:param name="dateStr" as="xs:string"/>
@@ -28,53 +29,106 @@
     </xsl:function>
 
     <xsl:template match="/">
-        <object entiteittype="ZAK">
-            <identificatie><xsl:value-of select="$ZgwZaak/ZgwZaak/identificatie"/></identificatie>
-            <omschrijving><xsl:value-of select="$ZgwZaak/ZgwZaak/omschrijving"/></omschrijving>
-            <toelichting><xsl:value-of select="$ZgwZaak/ZgwZaak/toelichting"/></toelichting>
-            <xsl:apply-templates select="$ZgwZaak/ZgwZaak/kenmerken"/>
+        <ZKN:object StUF:entiteittype="ZAK">
+            <xsl:if test="$ZgwZaak/ZgwZaak/identificatie != ''">
+                <ZKN:identificatie><xsl:value-of select="$ZgwZaak/ZgwZaak/identificatie" /></ZKN:identificatie>
+            </xsl:if>
+            <xsl:if test="$ZgwZaak/ZgwZaak/omschrijving != ''">
+                <ZKN:omschrijving><xsl:value-of select="$ZgwZaak/ZgwZaak/omschrijving" /></ZKN:omschrijving>
+            </xsl:if>
+            <xsl:if test="$ZgwZaak/ZgwZaak/toelichting != ''">
+                <ZKN:toelichting><xsl:value-of select="$ZgwZaak/ZgwZaak/toelichting" /></ZKN:toelichting>
+            </xsl:if>
+            <xsl:apply-templates select="$ZgwZaak/ZgwZaak/kenmerken" />
             <!-- anderZaakObject -->
             <!-- resultaat -->
-            <startdatum><xsl:if test="$ZgwZaak/ZgwZaak/startdatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/startdatum)"/></xsl:if></startdatum>
-            <registratiedatum><xsl:if test="$ZgwZaak/ZgwZaak/registratiedatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/registratiedatum)"/></xsl:if></registratiedatum>
-            <publicatiedatum><xsl:if test="$ZgwZaak/ZgwZaak/publicatiedatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/publicatiedatum)"/></xsl:if></publicatiedatum> <!-- convert -->
-            <einddatumGepland><xsl:if test="$ZgwZaak/ZgwZaak/einddatumGepland"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/einddatumGepland)"/></xsl:if></einddatumGepland> <!-- convert -->
-            <uiterlijkeEinddatum><xsl:if test="$ZgwZaak/ZgwZaak/uiterlijkeEinddatumAfdoening"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/uiterlijkeEinddatumAfdoening)"/></xsl:if></uiterlijkeEinddatum> <!-- convert -->
-            <einddatum><xsl:if test="$ZgwZaak/ZgwZaak/einddatum"><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/einddatum)"/></xsl:if></einddatum> <!-- convert -->
-            <xsl:apply-templates select="$ZgwZaak/ZgwZaak/opschorting"/>
-            <xsl:apply-templates select="$ZgwZaak/ZgwZaak/verlenging"/>
-            <xsl:if test="string-length($ZgwZaak/ZgwZaak/betalingsindicatie) > 0">
-                <betalingsIndicatie><xsl:value-of select="zgw:convertZgwBetalingsIndicatieToZdsBetalingsIndicatie($ZgwZaak/ZgwZaak/betalingsindicatie)"/></betalingsIndicatie>
+            <xsl:if test="$ZgwZaak/ZgwZaak/startdatum != ''">
+                <ZKN:startdatum><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/startdatum)" /></ZKN:startdatum>
             </xsl:if>
-            <laatsteBetaaldatum><xsl:value-of select="$ZgwZaak/ZgwZaak/laatsteBetaaldatum"/></laatsteBetaaldatum> <!-- convert -->
+            <xsl:if test="$ZgwZaak/ZgwZaak/registratiedatum != ''">
+            <ZKN:registratiedatum><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/registratiedatum)" /></ZKN:registratiedatum>
+            </xsl:if>
+            <xsl:if test="$ZgwZaak/ZgwZaak/publicatiedatum != ''">
+                <ZKN:publicatiedatum><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/publicatiedatum)" /></ZKN:publicatiedatum> <!-- convert -->
+            </xsl:if>
+            <xsl:if test="$ZgwZaak/ZgwZaak/einddatumGepland != ''">
+                <ZKN:einddatumGepland><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/einddatumGepland)" /></ZKN:einddatumGepland> <!-- convert -->
+            </xsl:if>
+            <xsl:if test="$ZgwZaak/ZgwZaak/uiterlijkeEinddatumAfdoening != ''">
+                <ZKN:uiterlijkeEinddatum><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/uiterlijkeEinddatumAfdoening)" /></ZKN:uiterlijkeEinddatum> <!-- convert -->
+            </xsl:if>
+            <xsl:if test="$ZgwZaak/ZgwZaak/einddatum != ''">
+                <ZKN:einddatum><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/einddatum)" /></ZKN:einddatum> <!-- convert -->
+            </xsl:if>
+            <xsl:apply-templates select="$ZgwZaak/ZgwZaak/opschorting" />
+            <xsl:apply-templates select="$ZgwZaak/ZgwZaak/verlenging" />
+            <xsl:if test="$ZgwZaak/ZgwZaak/betalingsindicatie != ''">
+                <ZKN:betalingsIndicatie><xsl:value-of select="zgw:convertZgwBetalingsIndicatieToZdsBetalingsIndicatie($ZgwZaak/ZgwZaak/betalingsindicatie)" /></ZKN:betalingsIndicatie>
+            </xsl:if>
+            <xsl:if test="$ZgwZaak/ZgwZaak/laatsteBetaaldatum != ''">
+                <ZKN:laatsteBetaaldatum><xsl:value-of select="$ZgwZaak/ZgwZaak/laatsteBetaaldatum" /></ZKN:laatsteBetaaldatum> <!-- convert -->
+            </xsl:if>
             <xsl:choose>
-                <xsl:when test="$ZgwZaak/ZgwZaak/archiefnominatie = 'vernietigen'"><archiefnominatie>J</archiefnominatie></xsl:when>
-                <xsl:otherwise><archiefnominatie>N</archiefnominatie></xsl:otherwise>
+                <xsl:when test="$ZgwZaak/ZgwZaak/archiefnominatie = 'vernietigen'">
+                    <ZKN:archiefnominatie>J</ZKN:archiefnominatie>
+                </xsl:when>
+                <xsl:otherwise>
+                    <ZKN:archiefnominatie>N</ZKN:archiefnominatie>
+                    </xsl:otherwise>
             </xsl:choose>
             <!-- datumVernietigingDossier -->
             <!-- <zaakniveau>1</zaakniveau> -->
             <!-- <deelzakenIndicatie>N</deelzakenIndicatie> -->
         </object>
+        </ZKN:object>
     </xsl:template>
 
     <xsl:template match="verlenging">
-        <xsl:if test="string-length(reden) > 0 and duur != '0'">
-            <verlenging>
-                <reden><xsl:value-of select="reden"/></reden>
-                <duur><xsl:value-of select="replace(replace(replace(replace(duur, 'D', ''), 'M', ''), 'Y', ''), 'P', '')"/></duur>
-            </verlenging>
+        <xsl:if test="string-length(.) gt 0 and duur != '0'">
+            <ZKN:verlenging>
+                <ZKN:duur><xsl:value-of select="replace(replace(replace(replace(duur, 'D', ''), 'M', ''), 'Y', ''), 'P', '')" /></ZKN:duur>
+                <ZKN:reden>
+                    <xsl:value-of select="reden" />
+                    <xsl:if test="reden = ''">
+                        <xsl:attribute name="xsi:nil" select="'true'" />
+                        <xsl:attribute name="StUF:noValue" select="'geenWaarde'" />
+                    </xsl:if>
+                </ZKN:reden>
+            </ZKN:verlenging>
         </xsl:if>
     </xsl:template>
     <xsl:template match="opschorting">
-        <opschorting>
-            <indicatie><xsl:value-of select="zgw:convertZgwBooleanToZdsBoolean(indicatie)"/></indicatie>
-            <reden><xsl:value-of select="reden"/></reden>
-        </opschorting>
+        <xsl:if test="string-length(.) gt 0">
+            <ZKN:opschorting>
+                <ZKN:indicatie><xsl:value-of select="zgw:convertZgwBooleanToZdsBoolean(indicatie)" /></ZKN:indicatie>
+                <ZKN:reden>
+                    <xsl:value-of select="reden" />
+                    <xsl:if test="reden = ''">
+                        <xsl:attribute name="xsi:nil" select="'true'" />
+                        <xsl:attribute name="StUF:noValue" select="'geenWaarde'" />
+                    </xsl:if>
+                </ZKN:reden>
+            </ZKN:opschorting>
+        </xsl:if>
     </xsl:template>
     <xsl:template match="kenmerken">
-        <kenmerk>
-            <kenmerk><xsl:value-of select="kenmerk"/></kenmerk>
-            <bron><xsl:value-of select="bron"/></bron>
-        </kenmerk>
+        <xsl:if test="string-length(.) gt 0">
+            <ZKN:kenmerk>
+                <ZKN:kenmerk>
+                    <xsl:value-of select="kenmerk" />
+                    <xsl:if test="kenmerk = ''">
+                        <xsl:attribute name="xsi:nil" select="'true'" />
+                        <xsl:attribute name="StUF:noValue" select="'geenWaarde'" />
+                    </xsl:if>
+                </ZKN:kenmerk>
+                <ZKN:bron>
+                    <xsl:value-of select="bron" />
+                    <xsl:if test="bron = ''">
+                        <xsl:attribute name="xsi:nil" select="'true'" />
+                        <xsl:attribute name="StUF:noValue" select="'geenWaarde'" />
+                    </xsl:if>
+                </ZKN:bron>
+            </ZKN:kenmerk>
+        </xsl:if>
     </xsl:template>
 </xsl:stylesheet>

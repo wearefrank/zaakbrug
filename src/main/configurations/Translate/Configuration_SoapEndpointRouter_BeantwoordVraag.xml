@@ -139,7 +139,7 @@
 
             <XmlIfPipe
                 name="CheckGeefZaakDetailsResult" 
-                xpathExpression="string-length(/root) gt 0"
+                xpathExpression="string-length(/*:object) gt 0"
                 >
                 <Forward name="then" path="ReplaceNulls" />
                 <Forward name="else" path="WrapZakLa01Response" />
