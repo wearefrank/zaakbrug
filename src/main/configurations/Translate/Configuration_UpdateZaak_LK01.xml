@@ -140,10 +140,10 @@
             </XsltPipe>
 
             <XmlIfPipe name="CheckForDetectZdsZaakChangesResult"
-                xpathExpression="count(/ZdsZaak/*) = 25"
+                xpathExpression="count(/*:object/*) = 25"
                 >
-                <Forward name="then" path="SetRolesForZdsWasZaak"/>
-                <Forward name="else" path="GetGlobalConfigFromLocalFS"/>
+                <Forward name="then" path="SelectZdsRolesFromZdsWasZaak" />
+                <Forward name="else" path="GetGlobalConfigFromLocalFS" />
             </XmlIfPipe>
 
             <SenderPipe 
@@ -169,60 +169,83 @@
                     returnedSessionKeys="Error">
                     <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
                 </IbisLocalSender>
-                <Forward name="success" path="CreateUpdateZaakBody"/>
+                <Forward name="success" path="FilterBaseZdsWordtZaak"/>
                 <Forward name="exception" path="UncaughtException"/>
             </SenderPipe>
 
             <XsltPipe
-                name="CreateUpdateZaakBody"
-                styleSheetName="UpdateZaak_LK01/xsl/CreateUpdateZaakBody.xslt"
+                name="FilterBaseZdsWordtZaak"
                 getInputFromSessionKey="ZdsWordtZaak"
-                storeResultInSessionKey="UpdateZaakBody"
+                storeResultInSessionKey="FilteredZdsWordtZaak"
+                styleSheetName="Common/xsl/FilterBaseZdsZaak.xslt"
                 >
-                <Param name="ZgwZaak" sessionKey="GetZgwWasZaakResult" type="DOMDOC"/>
-                <Param name="Bronorganisatie" sessionKey="Rsin" xpathExpression="/RSIN"/>
-                <Param name="VerantwoordelijkeOrganisatie" sessionKey="Rsin" xpathExpression="/RSIN"/>
-                <Forward name="success" path="UpdateZgwZaak"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="success" path="CreateUpdateZaakBody" />
+            </XsltPipe>
+
+            <XsltPipe
+                name="CreateUpdateZaakBody"
+                getInputFromSessionKey="ZdsWordtZaak"
+                storeResultInSessionKey="ZgwWordtZaak"
+                removeNamespaces="true"
+                styleSheetName="UpdateZaak_LK01/xsl/CreateUpdateZaakBody.xslt"
+                >
+                <Param name="ZgwZaak" sessionKey="GetZgwWasZaakResult" type="DOMDOC" />
+                <Param name="Bronorganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
+                <Param name="VerantwoordelijkeOrganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
+                <Forward name="success" path="ZgwWordtZaakApplyValueOverridesFromTranslationProfileSender" />
             </XsltPipe>
 
             <SenderPipe
-                name="UpdateZgwZaak">
+                name="ZgwWordtZaakApplyValueOverridesFromTranslationProfileSender"
+                >
+                <IbisLocalSender
+                    name="ZgwWordtZaakApplyValueOverridesFromTranslationProfileLocalSender"
+                    javaListener="ApplyTranslationProfileValueOverrides"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="zaaktype" sessionKey="GetZgwZaaktypeByUrlResult" xpathExpression="/ZgwZaakType/identificatie" />
+                    <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaken.ZgwZaak" />
+                    <Param name="CurrentContext" sessionKey="FilteredZdsWordtZaak" type="DOMDOC" />
+                </IbisLocalSender>
+                <Forward name="success" path="UpdateZgwZaak" />
+                <Forward name="exception" path="UncaughtException" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="UpdateZgwZaak"
+                >
                 <IbisLocalSender
                     name="CallUpdateZgwZaakSender"
                     javaListener="Zaken_UpdateZgwZaak"
-                    returnedSessionKeys="Error">
-                    <Param name="Url" sessionKey="ZgwZaakUrl"/>
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="Url" sessionKey="ZgwZaakUrl" />
                 </IbisLocalSender>
-                <Forward name="success" path="SetRolesForZdsWasZaak"/>
+                <Forward name="success" path="SelectZdsRolesFromZdsWasZaak" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
-                name="SetRolesForZdsWasZaak"
+                name="SelectZdsRolesFromZdsWasZaak"
                 getInputFromSessionKey="GetZdsZaakFromZgwResult"
                 storeResultInSessionKey="ZdsWasZaakRol"
-                removeNamespaces="true"
-                styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xslt"
-                >
-                <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC"/>
-                <Forward name="success" path="SetRolesForZdsWordtZaak"/>
+                styleSheetName="Common/xsl/SelectZdsRoles.xslt"
+                >  
+                <Forward name="success" path="SelectZdsRolesFromZdsWordtZaak" />
             </XsltPipe>
 
             <XsltPipe
-                name="SetRolesForZdsWordtZaak"
+                name="SelectZdsRolesFromZdsWordtZaak"
                 getInputFromSessionKey="ZdsWordtZaak"
                 storeResultInSessionKey="ZdsWordtZaakRol"
-                removeNamespaces="true"
-                styleSheetName="UpdateZaak_LK01/xsl/SetRoles.xslt"
+                styleSheetName="Common/xsl/SelectZdsRoles.xslt"
                 >
-                <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC"/>
-                <Forward name="success" path="CallDetectRolChangesDelete"/>
+                <Forward name="success" path="CallDetectRolChangesDelete" />
             </XsltPipe>
 
             <ForEachChildElementPipe
                 name="CallDetectRolChangesDelete"
-                elementXPathExpression="/roles/role[gerelateerde/@verwerkingssoort = 'V']"
+                elementXPathExpression="/roles/*[@verwerkingssoort = 'V']"
                 storeResultInSessionKey="DetectRolChangesResults">
                 <IbisLocalSender
                     name="CallDetectRolChangesDeleteSender"
@@ -233,7 +256,8 @@
                     <Param name="ZaakTypeUrl" xpathExpression="$GetZgwZaaktypeByUrlResult/ZgwZaakType/url">
                         <Param name="GetZgwZaaktypeByUrlResult" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                     </Param>
-                    <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" xpathExpression="//ZgwZaakType/identificatie" />
+                    <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC" />
+                    <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC" />
                 </IbisLocalSender>
                 <Forward name="success" path="CallDetectRolChanges"/>
                 <Forward name="exception" path="EXCEPTION" />
@@ -242,7 +266,7 @@
             <ForEachChildElementPipe
                 name="CallDetectRolChanges"
                 getInputFromSessionKey="ZdsWordtZaakRol"
-                elementXPathExpression="/roles/role[gerelateerde/@verwerkingssoort != 'V']"
+                elementXPathExpression="/roles/*[@verwerkingssoort != 'V']"
                 storeResultInSessionKey="DetectRolChangesResults">
                 <IbisLocalSender
                     name="CallDetectRolChangesSender"
@@ -253,7 +277,8 @@
                     <Param name="ZaakTypeUrl" xpathExpression="$GetZgwZaaktypeByUrlResult/ZgwZaakType/url">
                         <Param name="GetZgwZaaktypeByUrlResult" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                     </Param>
-                    <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" xpathExpression="//ZgwZaakType/identificatie" />
+                    <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC" />
+                    <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC" />
                 </IbisLocalSender>
                 <Forward name="success" path="WrapZdsWordtZaak"/>
                 <Forward name="exception" path="EXCEPTION" />

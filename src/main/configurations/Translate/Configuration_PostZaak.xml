@@ -50,7 +50,6 @@
                     schema="Zgw/Zaken/Model/PostZgwZaak.xsd"
                     root="ZgwZaak"
                     outputFormat="JSON"
-                    deepSearch="true"
                     throwException="true"
                 />
                 <HttpSender name="PostZgwZaakSender"

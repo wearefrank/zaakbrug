@@ -70,6 +70,16 @@
                 "key": "zgw.zaken-api.rollen.rol.betrokkeneIdentificatie.geslachtsnaam",
                 "value": "fromValueOverride",
                 "condition": "true()"
+            },
+            {
+                "key": "zgw.zaken-api.rollen.rol.betrokkeneIdentificatie.annIdentificatie",
+                "value": "${extraElementen:kvkNummer}",
+                "condition": "true()"
+            },
+            {
+                "key": "zgw.zaken-api.zaken.zaak.vertrouwelijkheidaanduiding",
+                "value": "${extraElementen:vertrouwelijkheidaanduiding}",
+                "condition": "true()"
             }
             ]
         }

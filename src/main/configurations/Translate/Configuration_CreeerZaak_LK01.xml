@@ -100,7 +100,7 @@
                 storeResultInSessionKey="ZgwRolTypen"
                 >
                 <Param name="List" value="ZgwRolTypen"/>
-                <Forward name="success" path="SetRoles"/>
+                <Forward name="success" path="SelectZdsRolesFromZdsWordtZaak"/>
                 <Forward name="exception" path="UncaughtException" />
             </XsltPipe>
 
@@ -115,23 +115,21 @@
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
-                <Forward name="success" path="SetRoles"/>
+                <Forward name="success" path="SelectZdsRolesFromZdsWordtZaak"/>
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>    -->
 
             <XsltPipe
-                name="SetRoles"
+                name="SelectZdsRolesFromZdsWordtZaak"
                 getInputFromSessionKey="originalMessage"
                 storeResultInSessionKey="RolBody"
-                removeNamespaces="true"
-                skipEmptyTags="true"
-                styleSheetName="CreeerZaak_LK01/xsl/SetRoles.xsl"
+                styleSheetName="Common/xsl/SelectZdsRoles.xslt"
                 >
                 <Forward name="success" path="CheckForRoles"/>
             </XsltPipe>
 
             <XmlIfPipe name="CheckForRoles"
-                xpathExpression="string-length(/roles) &gt; 0"
+                xpathExpression="string-length(/roles) gt 0"
                 transactionAttribute="NotSupported"
                 >
                 <Forward name="then" path="RolMappingIterator"/>
@@ -146,20 +144,30 @@
 
             <ForEachChildElementPipe name="RolMappingIterator"
                 storeResultInSessionKey="RolMappingResults"
-                elementXPathExpression="/roles/role">
+                elementXPathExpression="/roles/*">
                 <IbisLocalSender
                     name="CallAddRolToZgw"
                     javaListener="AddRolToZgw"
                     returnedSessionKeys="Error">
-                    <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC"/>
+                    <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC" />
                     <Param name="ZaakType" sessionKey="originalMessage" xpathExpression="/zakLk01/object/isVan/gerelateerde/code" />
                     <Param name="ZaakTypeUrl" xpathExpression="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType/url">
-                        <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
+                        <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC" />
                     </Param>
+                    <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC" />
                 </IbisLocalSender>
-                <Forward name="success" path="CreateZaakBody"/>
+                <Forward name="success" path="FilterBaseZdsWordtZaak" />
                 <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
+
+            <XsltPipe
+                name="FilterBaseZdsWordtZaak"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="FilteredZdsWordtZaak"
+                styleSheetName="Common/xsl/FilterBaseZdsZaak.xslt"
+                >
+                <Forward name="success" path="CreateZaakBody" />
+            </XsltPipe>
 
             <XsltPipe
                 name="CreateZaakBody"
@@ -169,10 +177,10 @@
                 skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/CreateZaakBody.xsl"
                 >
-                <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
+                <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC" />
                 <Param name="Bronorganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
                 <Param name="VerantwoordelijkeOrganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
-                <Forward name="success" path="ZaakBodyApplyValueOverridesFromTranslationProfileSender"/>
+                <Forward name="success" path="ZaakBodyApplyValueOverridesFromTranslationProfileSender" />
             </XsltPipe>
 
             <SenderPipe
@@ -186,19 +194,10 @@
                 </IbisLocalSender>
                 <Param name="zaaktype" sessionKey="originalMessage" xpathExpression="/zakLk01/object/isVan/gerelateerde/code" />
                 <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaken.ZgwZaak" />
-                <Forward name="success" path="ReorderZaak"/>
+                <Param name="CurrentContext" sessionKey="FilteredZdsWordtZaak" type="DOMDOC" />
+                <Forward name="success" path="CallPostZaak" />
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
-
-            <!-- TODO: replace with new style ZgwZaak.xslt -->
-            <XsltPipe
-                name="ReorderZaak"
-                storeResultInSessionKey="ZaakBody"
-                styleSheetName="CreeerZaak_LK01/xsl/CreateZaakBodyWorkaround.xslt"
-                >
-                <Param name="ZgwZaak" type="DOMDOC" />
-                <Forward name="success" path="CallPostZaak"/>
-            </XsltPipe>
 
             <SenderPipe
                 name="CallPostZaak"

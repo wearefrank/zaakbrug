@@ -13,6 +13,20 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
+            <SenderPipe
+                name="ZgwRolesApplyValueOverridesZgwToZdsSender"
+                >
+                <IbisLocalSender
+                    name="ZgwRolesApplyValueOverridesZgwToZdsLocalSender"
+                    javaListener="ApplyValueOverridesZgwToZds"
+                    returnedSessionKeys="Error,ExtraElementen"
+                    >
+                    <Param name="zaaktype" sessionKey="ZgwZaakType" xpathExpression="/ZgwZaakType/identificatie" />
+                    <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.rollen.zgwRol" />
+                </IbisLocalSender>
+                <Forward name="success" path="MatchHeeftBetrekkingOpOmschrijving" />
+            </SenderPipe>
+
             <XmlIfPipe
                 name="MatchHeeftBetrekkingOpOmschrijving"
                 xpathExpression="lower-case($lh)=lower-case($rh)"
@@ -155,14 +169,12 @@
 
             <XsltPipe
                 name="MapZdsRolFromZgwRol"
-                getInputFromSessionKey="originalMessage"
                 storeResultInSessionKey="ZdsRol"
-                removeNamespaces="true"
-                skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/MapZdsRolFromZgwRol.xslt"
                 >
                 <Param name="RolNaam" sessionKey="RolNaam" />
                 <Param name="RolEntiteitType" sessionKey="RolEntiteitType" />
+                <Param name="ExtraElementen" sessionKey="ExtraElementen" type="DOMDOC" />
                 <Forward name="success" path="EXIT" />
             </XsltPipe>
 

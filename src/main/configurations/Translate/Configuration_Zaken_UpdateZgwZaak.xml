@@ -13,17 +13,6 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <Json2XmlValidatorPipe
-                name="XmlToJson"
-                root="ZgwZaakPut"
-                schema="UpdateZaak_LK01/xsd/ZgwZaakPut.xsd"
-                outputFormat="JSON"
-                compactJsonArrays="false"
-                storeResultInSessionKey="storeInput"
-                throwException="true">
-                <Forward name="success" path="GetAuthorizationHeaderForZakenApi" />
-            </Json2XmlValidatorPipe>
-
             <SenderPipe name="GetAuthorizationHeaderForZakenApi"
                 getInputFromFixedValue="&lt;dummy/&gt;">
                 <IbisLocalSender
@@ -35,19 +24,31 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <SenderPipe name="UpdateZgwZaak" getInputFromSessionKey="storeInput">
-				<HttpSender name="UpdateZgwZaakSender" 
-					methodType="PUT"
+            <SenderPipe
+                name="UpdateZgwZaak"
+                getInputFromSessionKey="originalMessage"
+                >
+                <Json2XmlInputValidator
+                    name="ValidatePatch"
+                    schema="Zgw/Zaken/Model/PostZgwZaak.xsd"
+                    root="ZgwZaak"
+                    outputFormat="JSON"
+                    throwException="true"
+                    />
+				<HttpSender
+                    name="UpdateZgwZaakSender" 
+					methodType="PATCH"
 					headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
                     timeout="${zaakbrug.zgw.zaken-api.timeout}"
                     maxExecuteRetries="5"
                     contentType="application/json"
-				/>
-                <Param name="url" sessionKey="Url"/>
-                <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Accept" value="application/json"/>
-                <Param name="Content-Crs"  value="EPSG:4326" />
-                <Param name="Authorization"  sessionKey="Authorization" />
+				    >
+                    <Param name="url" sessionKey="Url"/>
+                    <Param name="Accept-Crs" value="EPSG:4326"/>
+                    <Param name="Accept" value="application/json"/>
+                    <Param name="Content-Crs"  value="EPSG:4326" />
+                    <Param name="Authorization"  sessionKey="Authorization" />
+                </HttpSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="ErrorJsonToXml" />
 			</SenderPipe>
