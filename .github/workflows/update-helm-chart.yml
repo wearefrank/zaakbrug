@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Dispatch an action and get the run ID
-        uses: Codex-/return-dispatch@v1.15.0
+        uses: Codex-/return-dispatch@v2.0.1
         id: return_dispatch
         with:
           token: ${{ secrets.token }}

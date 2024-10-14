@@ -14,7 +14,7 @@ jobs:
       version-next-tag: ${{ steps.next-version.outputs.release-tag }}
       version-next-type: ${{ steps.next-version.outputs.release-type }}
     steps:
-      - uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
+      - uses: step-security/harden-runner@91182cccc01eb5e619899d80e4e971d6181294a7 # v2.10.1
         with:
           disable-sudo: true
           egress-policy: audit
@@ -22,10 +22,10 @@ jobs:
             github.com:443
 
       - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 #4.1.7
+        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 #4.2.1
       
       - name: "Setup Node"
-        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b #4.0.3
+        uses: actions/setup-node@0a44ba7841725637a19e28fa30b79a866c81b0a6 #4.0.4
         with:
           node-version: 20
       
@@ -40,7 +40,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   ci:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@df1db1b1a73abf2e733f3a5e77b87db7693980c0 #1.0.8
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@5f916d5599b9023e0dde73638984a8a58615d2c0 #1.0.9
     needs: analyze-commits
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
@@ -58,12 +58,12 @@ jobs:
       - analyze-commits
       - ci
     steps:
-      - uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
+      - uses: step-security/harden-runner@91182cccc01eb5e619899d80e4e971d6181294a7 # v2.10.1
         with:
           egress-policy: audit
 
       - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 #4.1.7
+        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 #4.2.1
 
       - name: Download Docker tar
         uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 #4.1.8
@@ -114,7 +114,7 @@ jobs:
           fi
 
       - name: Upload SoapUI testreports as artifact
-        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 #4.4.0
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 #4.4.3
         if: always()
         with:
           name: reports-soapui-testreports
@@ -127,12 +127,12 @@ jobs:
       - ci
       - run-soapui-tests
     steps:
-      - uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
+      - uses: step-security/harden-runner@91182cccc01eb5e619899d80e4e971d6181294a7 # v2.10.1
         with:
           egress-policy: audit
 
       - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 #4.1.7
+        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 #4.2.1
         with:
           token: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
@@ -149,7 +149,7 @@ jobs:
           merge-multiple: true
 
       - name: Setup Node
-        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b #4.0.3
+        uses: actions/setup-node@0a44ba7841725637a19e28fa30b79a866c81b0a6 #4.0.4
         with:
           node-version: 20
       
@@ -163,7 +163,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   docker-release:
-    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@df1db1b1a73abf2e733f3a5e77b87db7693980c0 #1.0.8
+    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@5f916d5599b9023e0dde73638984a8a58615d2c0 #1.0.9
     needs: 
     - analyze-commits
     - release
@@ -193,4 +193,4 @@ jobs:
       - release
     # Set to true to enable Docusaurus publishing to GitHub Pages
     if: true
-    uses: wearefrank/ci-cd-templates/.github/workflows/docusaurus-release.yml@df1db1b1a73abf2e733f3a5e77b87db7693980c0 #1.0.8
+    uses: wearefrank/ci-cd-templates/.github/workflows/docusaurus-release.yml@5f916d5599b9023e0dde73638984a8a58615d2c0 #1.0.9
