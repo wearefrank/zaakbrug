@@ -1,6 +1,6 @@
 # Keep in sync with version in frank-runner.properties. Detailed instructions can be found in CONTRIBUTING.md.
 # Check whether java-orig files have changed in F!F and update custom code (java and java-orig files) accordingly
-ARG FF_VERSION=8.3.0-20240910.042339
+ARG FF_VERSION=8.3.0-20241010.042329
 FROM docker.io/frankframework/frankframework:${FF_VERSION} as ff-base
 
 # Copy dependencies
