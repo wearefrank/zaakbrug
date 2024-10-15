@@ -1,5 +1,15 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.22.1](https://github.com/wearefrank/zaakbrug/compare/v1.22.0...v1.22.1) (2024-10-15)
+
+### 🐛 Bug Fixes
+
+* arrays are not correctly processed as arrays when merging ZGW zaak and rol resources if a valueOverride is configured for that resource ([42c329d](https://github.com/wearefrank/zaakbrug/commit/42c329d9791544ee509c5233a6ff1f60220a8834))
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 8.3.0-20241010.042329 ([73c14a4](https://github.com/wearefrank/zaakbrug/commit/73c14a489c46d826d24b70db23d3e8e0e9823c55))
+
 ## [1.22.0](https://github.com/wearefrank/zaakbrug/compare/v1.21.4...v1.22.0) (2024-10-01)
 
 ### 🍕 Features
