@@ -250,10 +250,64 @@
                 styleSheetName="Common/xsl/EnrichEntity_ForEachPipeWrapped.xslt"
                 >
                 <Param name="With" sessionKey="ZdsHeeft" type="DOMDOC"/>
+                <Forward name="success" path="ResultaatExists"/>
+                <Forward name="error" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="ResultaatExists" getInputFromSessionKey="originalMessage" xpathExpression="//resultaat != ''">
+                <Forward name="then" path="GetAuthorizationHeaderForZakenApi" />
+                <Forward name="else" path="ReturnZdsZaak" />
+            </XmlIfPipe>
+
+            <EchoPipe name="ReturnZdsZaak" getInputFromSessionKey="ZdsZaak">
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </EchoPipe>
+            
+            <SenderPipe name="GetAuthorizationHeaderForZakenApi"
+                getInputFromFixedValue="&lt;dummy/&gt;" storeResultInSessionKey="Authorization">
+                <IbisLocalSender
+                    name="GetAuthorizationHeaderForZakenApiSender"
+                    javaListener="GenerateAuthorizationHeaderForZakenApi"
+                    returnedSessionKeys="Error,Authorization">
+                </IbisLocalSender>
+                <Forward name="success" path="GetResultaatSender" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="GetResultaatSender"
+                getInputFromSessionKey="originalMessage"
+            >
+                <HttpSender
+                    name="GetResultaatSender"
+                    methodType="GET"
+                    headersParams="Authorization,Accept-Crs"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    maxExecuteRetries="5"
+                />
+                <Param name="url" sessionKey="ZgwZaak"
+                    xpathExpression="//resultaat"
+                    />
+                <Param name="Accept-Crs" value="EPSG:4326" />
+                <Param name="Authorization"  xpathExpression="concat('Bearer ', $token)">
+                    <Param name="token" sessionKey="Authorization"/>
+                </Param>
+                <Forward name="success" path="Json2XML" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <JsonPipe name="Json2XML" storeResultInSessionKey="Resultaat"/>
+
+            <XsltPipe name="EnrichZdsZaakWithResultaat"
+                getInputFromSessionKey="ZdsZaak"
+                storeResultInSessionKey="ZdsZaak"
+                styleSheetName="geefZaakdetails_Lv01/xsl/AddResultaat.xsl"
+                >
+                <Param name="Resultaat" sessionKey="Resultaat" type="DOMDOC"/>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="error" path="EXCEPTION"/>
             </XsltPipe>
-            
         </Pipeline>
     </Adapter>
 </Module>
