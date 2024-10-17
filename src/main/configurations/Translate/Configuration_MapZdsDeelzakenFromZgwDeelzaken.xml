@@ -34,7 +34,7 @@
                 styleSheetName="Common/xsl/GetSingleResultFromOpenZaakEnvelope.xslt"
                 >
                 <Forward name="success" path="MatchHeeftBetrekkingOpOmschrijving"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <XmlIfPipe name="MatchHeeftBetrekkingOpOmschrijving"

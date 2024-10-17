@@ -108,7 +108,7 @@
                 storeResultInSessionKey="GetZgwZaakResult"
                 >
                 <Forward name="success" path="CallGetZgwZaaktypeByUrl"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <SenderPipe

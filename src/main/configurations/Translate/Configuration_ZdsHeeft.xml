@@ -54,7 +54,7 @@
                 storeResultInSessionKey="GetStatusTypeByZaakTypeAndOmschrijvingResult"
                 >
                 <Forward name="success" path="CreateStatusBody"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <XsltPipe

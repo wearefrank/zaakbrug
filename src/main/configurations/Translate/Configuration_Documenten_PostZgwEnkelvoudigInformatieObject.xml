@@ -71,7 +71,7 @@
             >
                 <Param name="Type" value="ZgwZaakInformatieObject" />
                 <Forward name="success" path="EXIT" />
-                <Forward name="error" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>
         </Pipeline>
     </Adapter>

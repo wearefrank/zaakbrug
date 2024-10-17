@@ -19,7 +19,7 @@
                     <Param name="GemeenteCode" sessionKey="GemeenteCode"/>
                 </Param>
                 <Forward name="success" path="Rsin_NotEmpty"/>
-                <Forward name="error" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
             </PutInSessionPipe>
 
             <XmlIfPipe 
@@ -29,7 +29,7 @@
                 >
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="Rsin_NotEmpty_Exception"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XmlIfPipe>
 
             <XsltPipe 
@@ -44,7 +44,7 @@
                 <!-- <Param name="details" sessionKey="" /> -->
                 <Param name="detailsXml" sessionKey="originalMessage" type="DOMDOC" />
                 <Forward name="success" path="EXCEPTION" />
-                <Forward name="error" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>
         </Pipeline>
     </Adapter>

@@ -67,7 +67,7 @@
                 <Param name="Type" value="ZgwZaak"/>
                 <Param name="List" value="ZgwZaken"/>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
         </Pipeline>
     </Adapter>

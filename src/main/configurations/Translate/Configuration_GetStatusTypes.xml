@@ -58,7 +58,7 @@
                 <Param name="Type" value="ZgwStatusType"/>
                 <Param name="List" value="ZgwStatusTypes"/>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
         </Pipeline>
     </Adapter>

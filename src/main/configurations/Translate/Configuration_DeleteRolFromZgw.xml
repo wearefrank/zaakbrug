@@ -49,7 +49,7 @@
                     <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
                 </Param>
                 <Forward name="success" path="GetSingleZgwRolTypeFromList"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <XsltPipe
@@ -58,7 +58,7 @@
                 storeResultInSessionKey="ZgwRolType"
                 >
                 <Forward name="success" path="CheckForGetRolTypeResult"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <XmlIfPipe name="CheckForGetRolTypeResult"

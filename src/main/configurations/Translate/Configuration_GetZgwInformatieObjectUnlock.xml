@@ -32,7 +32,7 @@
                 >
                 <Param name="ZgwLock" sessionKey="ZgwLock"/>
                 <Forward name="success" path="XmlToJson"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <JsonPipe name="XmlToJson"

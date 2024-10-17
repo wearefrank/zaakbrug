@@ -57,7 +57,7 @@
                 >
                 <Param name="Type" value="ZgwEnkelvoudigInformatieObject"/>
                 <Forward name="success" path="CheckForGetZaakDocumentResult"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <XmlIfPipe name="CheckForGetZaakDocumentResult"

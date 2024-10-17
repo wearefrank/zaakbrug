@@ -33,7 +33,7 @@
                 <Param name="Where" value="omschrijving"/>
                 <Param name="StartsWith" sessionKey="Omschrijving"/>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
         </Pipeline>
     </Adapter>

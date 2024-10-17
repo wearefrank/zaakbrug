@@ -36,7 +36,7 @@
                 >
                 <Param name="List" value="ZgwInformatieObjectTypen"/>
                 <Forward name="success" path="GetZgwInformatieObjectTypenMatchingOmschrijving"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <XsltPipe
@@ -46,7 +46,7 @@
                 <Param name="Where" value="omschrijving"/>
                 <Param name="Equals" sessionKey="Omschrijving"/>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
         </Pipeline>
     </Adapter>
