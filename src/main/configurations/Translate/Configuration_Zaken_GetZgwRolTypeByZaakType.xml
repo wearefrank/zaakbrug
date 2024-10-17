@@ -64,7 +64,7 @@
                 <Param name="Type" value="ZgwRolType"/>
                 <Param name="List" value="ZgwRolTypen"/>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
         </Pipeline>
     </Adapter>

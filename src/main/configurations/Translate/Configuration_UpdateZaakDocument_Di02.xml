@@ -45,7 +45,7 @@
                     pattern="The status of the document is already final, it cannot be updated."
                     ignoreUnresolvablePatternElements="true" />
                 <Forward name="success" path="EXCEPTION" />
-                <Forward name="error" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>
 
             <PutInSessionPipe name="StoreTaal"
@@ -63,7 +63,7 @@
                 <Param name="Taal" sessionKey="Taal"/>
                 <Forward name="true" path="ConvertISO639TaalSender"/>
                 <Forward name="false" path="DecodeInhoud"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XmlSwitchPipe>
 
             <SenderPipe 
