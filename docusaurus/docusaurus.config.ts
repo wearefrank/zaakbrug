@@ -8,7 +8,7 @@ const projectName: String = 'zaakbrug';
 const config: Config = {
   title: 'ZaakBrug',
   tagline: '',
-  favicon: 'img/waf-logo-favicon-16x16.png',
+  favicon: 'img/zaakbrug-icon.png',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -53,12 +53,12 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/waf-logo-192x192.png',
+    image: 'img/zaakbrug-icon.png',
     navbar: {
       title: 'ZaakBrug',
       logo: {
         alt: 'WeAreFrank',
-        src: 'img/waf-logo-192x192.png',
+        src: 'img/zaakbrug-icon.png',
       },
       items: [
         {
