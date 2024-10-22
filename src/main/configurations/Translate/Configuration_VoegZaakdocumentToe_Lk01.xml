@@ -70,7 +70,7 @@
                 storeResultInSessionKey="ZgwZaak"
                 >
                 <Forward name="success" path="CallGetZgwZaaktypeByUrl"/>
-                <Forward name="error" path="UncaughtException"/>
+                <Forward name="exception" path="UncaughtException"/>
             </XsltPipe>
 
             <SenderPipe
@@ -107,7 +107,7 @@
                 storeResultInSessionKey="ZgwInformatieObjectType"
                 >
                 <Forward name="success" path="GetZgwInformatieObjectTypeByOmschrijvingSender_OmschrijvingNotFoundCondition"/>
-                <Forward name="error" path="UncaughtException"/>
+                <Forward name="exception" path="UncaughtException"/>
             </XsltPipe>
 
             <XmlIfPipe 
@@ -177,7 +177,7 @@
                 <Param name="Taal" sessionKey="Taal" />
                 <Forward name="true" path="ConvertISO639TaalSender" />
                 <Forward name="false" path="MapZgwEnkelvoudigInformatieObject" />
-                <Forward name="error" path="UncaughtException" />
+                <Forward name="exception" path="UncaughtException" />
             </XmlSwitchPipe>
 
             <SenderPipe 
@@ -206,7 +206,7 @@
                 <Param name="IndicatieGebruiksrecht" value="false" />
                 <Param name="Taal" sessionKey="Taal" />
                 <Forward name="success" path="PostZgwEnkelvoudigInformatieObjectSender"/>
-                <Forward name="error" path="UncaughtException"/>
+                <Forward name="exception" path="UncaughtException"/>
             </XsltPipe>
             
             <SenderPipe
@@ -231,7 +231,7 @@
                 >
                 <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="PostZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
                 <Forward name="success" path="MapZgwZaakInformatieObject"/>
-                <Forward name="error" path="UncaughtException"/>
+                <Forward name="exception" path="UncaughtException"/>
             </XsltPipe>
 
             <XsltPipe
@@ -245,7 +245,7 @@
                     <Param name="Zaak" sessionKey="ZgwZaak" type="DOMDOC"/>
                 </Param>
                 <Forward name="success" path="PostZgwZaakInformatieObjectSender"/>
-                <Forward name="error" path="UncaughtException"/>
+                <Forward name="exception" path="UncaughtException"/>
             </XsltPipe>
 
             <SenderPipe 
@@ -269,7 +269,7 @@
                 >
                 <Param name="ZgwZaakInformatieObject" sessionKey="PostZgwZaakInformatieObject" type="DOMDOC"/>
                 <Forward name="success" path="GetZgwStatusTypeByZaakTypeAndOmschrijvingSender"/>
-                <Forward name="error" path="UncaughtException"/>
+                <Forward name="exception" path="UncaughtException"/>
             </XsltPipe>
 
             <SenderPipe
@@ -303,7 +303,7 @@
                 storeResultInSessionKey="ZgwStatusType"
                 >
                 <Forward name="success" path="CreateStatusBody"/>
-                <Forward name="error" path="UncaughtException"/>
+                <Forward name="exception" path="UncaughtException"/>
             </XsltPipe>
 
             <XsltPipe

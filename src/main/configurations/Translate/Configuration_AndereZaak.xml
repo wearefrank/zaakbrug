@@ -55,7 +55,7 @@
                 styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
                 >
                 <Forward name="success" path="CheckForGetZgwAndereZaakResult"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <XmlIfPipe name="CheckForGetZgwAndereZaakResult"
