@@ -71,12 +71,14 @@
             </Base64Pipe>
 
             <!-- Fixed value is "{sessionKey:ref_inhoud}" encoded to base64, so that it remains valid base64 for validation -->
-            <FixedResultPipe
+            <ReplacerPipe
                 name="ReplaceInhoudRefWithBase64EncodedRef"
-                returnString="e3Nlc3Npb25LZXk6cmVmX2luaG91ZH0="
-                >
+                storeResultInSessionKey="SafeOriginalMessage"
+                find="{sessionKey:ref_inhoud}"
+                replace="e3Nlc3Npb25LZXk6cmVmX2luaG91ZH0="
+            >
                 <Forward name="success" path="EXIT" />
-            </FixedResultPipe>
+            </ReplacerPipe>
         </Pipeline>
     </Adapter>
 </Module>
