@@ -256,13 +256,8 @@
 
             <XmlIfPipe name="ResultaatExists" getInputFromSessionKey="originalMessage" xpathExpression="//resultaat != ''">
                 <Forward name="then" path="GetAuthorizationHeaderForZakenApi" />
-                <Forward name="else" path="ReturnZdsZaak" />
+                <Forward name="else" path="EXIT" />
             </XmlIfPipe>
-
-            <EchoPipe name="ReturnZdsZaak" getInputFromSessionKey="ZdsZaak">
-                <Forward name="success" path="EXIT" />
-                <Forward name="exception" path="EXCEPTION" />
-            </EchoPipe>
             
             <SenderPipe name="GetAuthorizationHeaderForZakenApi"
                 getInputFromFixedValue="&lt;dummy/&gt;" storeResultInSessionKey="Authorization">
