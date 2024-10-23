@@ -89,7 +89,7 @@
                 >
                 <Param name="With" sessionKey="Rollen" type="DOMDOC"/>
                 <Forward name="success" path="CreateZdsIsVan"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <XsltPipe name="CreateZdsIsVan"
@@ -107,7 +107,7 @@
                 >
                 <Param name="With" sessionKey="ZdsIsVan" type="DOMDOC"/>
                 <Forward name="success" path="ZgwZaakHasHoofdzaak"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <XmlIfPipe name="ZgwZaakHasHoofdzaak"
@@ -150,7 +150,7 @@
                 >
                 <Param name="With" sessionKey="ZdsHeeftAlsHoofdzaak" type="DOMDOC"/>
                 <Forward name="success" path="ZgwZaakHasDeelzaken"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <!-- not tested -->
@@ -182,7 +182,7 @@
                 >
                 <Param name="With" sessionKey="ZgwDeelzaken" type="DOMDOC"/>
                 <Forward name="success" path="ZgwZaakHasZdsRelevanteAndereZaken"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <!-- not tested -->
@@ -214,7 +214,7 @@
                 >
                 <Param name="With" sessionKey="ZdsRelevanteAndereZaken" type="DOMDOC"/>
                 <Forward name="success" path="GetZgwStatusByZaakUrlSender"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <SenderPipe 
@@ -301,7 +301,7 @@
                 >
                 <Param name="Resultaat" sessionKey="Resultaat" type="DOMDOC"/>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
         </Pipeline>
     </Adapter>

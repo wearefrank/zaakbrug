@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.22.2](https://github.com/wearefrank/zaakbrug/compare/v1.22.1...v1.22.2) (2024-10-17)
+
+### 🐛 Bug Fixes
+
+* update FF version to 8.3.0-20240910.042339 ([2b1b9a8](https://github.com/wearefrank/zaakbrug/commit/2b1b9a8cfbabe79d5a660ad8c477c560c2911c07))
+
 ## [1.22.1](https://github.com/wearefrank/zaakbrug/compare/v1.22.0...v1.22.1) (2024-10-15)
 
 ### 🐛 Bug Fixes

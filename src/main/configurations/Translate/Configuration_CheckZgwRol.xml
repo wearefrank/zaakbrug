@@ -21,7 +21,7 @@
                 <Param name="MatchWithZdsRol" sessionKey="MatchWithZdsRol" type="DOMDOC" />
                 <Param name="debug" value="true" />
                 <Forward name="success" path="ZdsRolMatchesExactlyOneZdsRolInList" />
-                <Forward name="error" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>
 
             <XmlIfPipe

@@ -75,7 +75,7 @@
                 <Param name="List" value="ZgwEnkelvoudigInformatieObjecten"/>
                 <Param name="Type" value="ZgwEnkelvoudigInformatieObject"/>
                 <Forward name="success" path="GetSingleZgwEnkelvoudigInformatieObjectFromList"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <XsltPipe
@@ -83,7 +83,7 @@
                 styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
                 >
                 <Forward name="success" path="RemoveNullNodes"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <XsltPipe name="RemoveNullNodes" 
