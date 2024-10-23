@@ -1,5 +1,21 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.22.3](https://github.com/wearefrank/zaakbrug/compare/v1.22.2...v1.22.3) (2024-10-23)
+
+### 🎨 Styles
+
+* update docusaurus styles and images ([#450](https://github.com/wearefrank/zaakbrug/issues/450)) ([78f80a1](https://github.com/wearefrank/zaakbrug/commit/78f80a1381dc48ae262a3b71a6773ba03190b4d2)), closes [#404](https://github.com/wearefrank/zaakbrug/issues/404)
+
+### 🧑‍💻 Code Refactoring
+
+* replace FixedResultPipe with EchoPipe due to deprecated FixedResultPipe functionality ([#449](https://github.com/wearefrank/zaakbrug/issues/449)) ([9c9a2f0](https://github.com/wearefrank/zaakbrug/commit/9c9a2f0cbbda3c5cd85fc66e7126404702db1c23))
+* replace XsltPipe error forwards to exception and use ReplacerPipe instead of FixedResultPipe due to deprecated functionality ([#456](https://github.com/wearefrank/zaakbrug/issues/456)) ([42b7867](https://github.com/wearefrank/zaakbrug/commit/42b786789075d7fe033e974d2722c890089a894b))
+
+### 🤖 Build System
+
+* **dependencies:** bump the docusaurus group across 1 directory with 2 updates ([#458](https://github.com/wearefrank/zaakbrug/issues/458)) ([7582bd6](https://github.com/wearefrank/zaakbrug/commit/7582bd6ba0fdedd66d7e97f6af84f76a00eb02ae))
+* **dependencies:** bump the github-actions group across 1 directory with 6 updates ([#457](https://github.com/wearefrank/zaakbrug/issues/457)) ([bae3359](https://github.com/wearefrank/zaakbrug/commit/bae33593768b1457c5331e2ad53af07eb3b48765))
+
 ## [1.22.2](https://github.com/wearefrank/zaakbrug/compare/v1.22.1...v1.22.2) (2024-10-17)
 
 ### 🐛 Bug Fixes
