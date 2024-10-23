@@ -62,7 +62,7 @@
                 storeResultInSessionKey="GetZgwWasZaakResult"
                 >
                 <Forward name="success" path="RemoveNullNodes"/>
-                <Forward name="error" path="UncaughtException"/>
+                <Forward name="exception" path="UncaughtException"/>
             </XsltPipe>
 
             <XsltPipe name="RemoveNullNodes" 
@@ -125,7 +125,7 @@
                 storeResultInSessionKey="ZdsWordtZaak"
                 >
                 <Forward name="success" path="DetectZdsZaakChanges"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <XsltPipe
@@ -136,7 +136,7 @@
                 >
                 <Param name="ZdsWordtZaak" sessionKey="ZdsWordtZaak" type="DOMDOC"/>
                 <Forward name="success" path="CheckForDetectZdsZaakChangesResult"/>
-                <Forward name="error" path="UncaughtException"/>
+                <Forward name="exception" path="UncaughtException"/>
             </XsltPipe>
 
             <XmlIfPipe name="CheckForDetectZdsZaakChangesResult"
