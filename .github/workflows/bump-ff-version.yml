@@ -1,9 +1,9 @@
 name: Bump F!F Version
 
 on:
+  schedule:
+    - cron: '0 5 * * 1' # At 05:00 on Monday.
   workflow_dispatch:
-    schedule:
-      - cron: '0 5 * * 1' # At 05:00 on Monday.
     inputs:
       ff-version-tag:
         description: 'F!F version tag requested to update in your project to. It has to be after 8.0.1(including).'    
