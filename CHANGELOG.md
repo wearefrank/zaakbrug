@@ -1,5 +1,17 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.22.4](https://github.com/wearefrank/zaakbrug/compare/v1.22.3...v1.22.4) (2024-10-29)
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 9.0.0-20241026.042336 ([cbdceb4](https://github.com/wearefrank/zaakbrug/commit/cbdceb4058ffd4e61aedc7276a2e2509a60b927a))
+* **dependencies:** bump the github-actions group with 1 update ([d819fb2](https://github.com/wearefrank/zaakbrug/commit/d819fb23669d91cc6f5b646b6a0c561cd8c49ca4))
+* **dependencies:** bump the github-actions group with 3 updates ([#460](https://github.com/wearefrank/zaakbrug/issues/460)) ([961fd2f](https://github.com/wearefrank/zaakbrug/commit/961fd2f610ca242bae51c1299b88e57f810fa3fa))
+
+### 🔁 Continuous Integration
+
+* schedule syntax fix for bump-ff-version.yml ([3a37add](https://github.com/wearefrank/zaakbrug/commit/3a37add5101c000d67420661cb4aed29aa8bb2d3))
+
 ## [1.22.3](https://github.com/wearefrank/zaakbrug/compare/v1.22.2...v1.22.3) (2024-10-23)
 
 ### 🎨 Styles
