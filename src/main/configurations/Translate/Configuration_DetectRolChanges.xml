@@ -164,8 +164,16 @@
                     <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
                 </IbisLocalSender>
                 <Forward name="success" path="CallPostRol" /> <!-- Rol should be found -->
-                <Forward name="404" path="LogWarningDelete" /> 
+                <Forward name="404" path="LogWarningDeleteBeforeUpdate" /> 
                 <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="LogWarningDeleteBeforeUpdate"
+                >
+                <LogSender
+                    name="LogWarningSender" />
+                <Forward name="success" path="CallPostRol" />
             </SenderPipe>
 
             <SenderPipe
@@ -207,7 +215,7 @@
                 >
                 <LogSender
                     name="LogWarningSender" />
-                <Forward name="success" path="CallPostRol" />
+                <Forward name="success" path="EXIT" />
             </SenderPipe>
 
         </Pipeline>
