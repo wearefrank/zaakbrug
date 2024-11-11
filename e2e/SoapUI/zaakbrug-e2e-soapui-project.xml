@@ -24253,102 +24253,6 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
         </con:property>
       </con:properties>
     </con:testCase>
-    <con:testCase id="58919512-9485-4822-8986-f4861cd14c33" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TearDown-Delete ZaakTypeOmgevingsvergunning" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
-      <con:settings/>
-      <con:testStep type="properties" name="Properties" id="8c3d318d-bd31-4fe0-acea-cef700648e6e">
-        <con:settings/>
-        <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:properties>
-            <con:property>
-              <con:name>JwtToken</con:name>
-              <con:value/>
-            </con:property>
-          </con:properties>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="groovy" name="00-zgw-generateJwt" id="ce13334c-0099-4101-a105-7c09da025ad1">
-        <con:settings/>
-        <con:config>
-          <script>import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-import javax.crypto.spec.SecretKeySpec
-import javax.crypto.Mac
-import java.time.Duration
-
-def jwtClientId = context.expand( '${#Project#jwtClientId}' )
-def jwtSecret = context.expand( '${#Project#jwtSecret}' )
-
-def createJwt(Integer validSeconds, String clientId, String secret) {
-    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
-    def rightNowMilli = System.currentTimeMillis()
-    def rightNowSec = Math.round(rightNowMilli / 1000)
-    def expirationSec = rightNowSec + validSeconds
-    def jtiValue = UUID.randomUUID().toString()
-
-    Map header = [alg: "HS256", typ: "JWT"]
-    def headerJson = JsonOutput.toJson(header)
-    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-    
-    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
-    def payloadJson = JsonOutput.toJson(payload)
-    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    def toBeSigned = headerBase64 + "." + payloadBase64
-    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
-    
-    Mac mac = Mac.getInstance("HmacSHA256")
-    mac.init(secretKeySpec)
-    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
-    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
-
-    headerBase64 + "." + payloadBase64 + "." + signature
-}
-
-// Create the JWT.
-def token = createJwt(600, jwtClientId, jwtSecret)
-testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
-        </con:config>
-      </con:testStep>
-      <con:testStep type="httprequest" name="01-zgw-deleteZaakTypeOmgevingsvergunning" id="5d760a5b-dc14-43da-afb9-830ecb0053bf">
-        <con:settings/>
-        <con:config method="DELETE" xsi:type="con:HttpRequest" id="e1476f25-af79-4621-8ef5-396d714d0c07" name="01-zgw-deleteZaakTypeOmgevingsvergunning" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <con:settings>
-            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
-          </con:settings>
-          <con:endpoint>${#TestSuite#ZaakTypeOmgevingsvergunningUrl}</con:endpoint>
-          <con:request/>
-          <con:credentials>
-            <con:authType>No Authorization</con:authType>
-          </con:credentials>
-          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-          <con:jmsPropertyConfig/>
-          <con:parameters>
-            <con:parameter>
-              <con:name>Authorization</con:name>
-              <con:value>${Properties#JwtToken}</con:value>
-              <con:style>HEADER</con:style>
-              <con:default>${Properties#JwtToken}</con:default>
-              <con:path xsi:nil="true"/>
-              <con:description xsi:nil="true"/>
-            </con:parameter>
-          </con:parameters>
-        </con:config>
-      </con:testStep>
-      <con:properties/>
-    </con:testCase>
     <con:testCase id="09530e80-f48b-4b3d-89d8-8da95592f113" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="15-TestCase RoleWithVerwerkingsSoortVIAndTTShouldDeleteAndAddRoleWhenVIRoleNotFound" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
       <con:settings/>
       <con:testStep type="properties" name="Properties" id="94159241-81e0-4a06-b9a3-477a84ffe918">
@@ -25052,6 +24956,102 @@ testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken'
           <con:value>0.1</con:value>
         </con:property>
       </con:properties>
+    </con:testCase>
+    <con:testCase id="58919512-9485-4822-8986-f4861cd14c33" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TearDown-Delete ZaakTypeOmgevingsvergunning" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+      <con:settings/>
+      <con:testStep type="properties" name="Properties" id="8c3d318d-bd31-4fe0-acea-cef700648e6e">
+        <con:settings/>
+        <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:properties>
+            <con:property>
+              <con:name>JwtToken</con:name>
+              <con:value/>
+            </con:property>
+          </con:properties>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="groovy" name="00-zgw-generateJwt" id="ce13334c-0099-4101-a105-7c09da025ad1">
+        <con:settings/>
+        <con:config>
+          <script>import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import javax.crypto.spec.SecretKeySpec
+import javax.crypto.Mac
+import java.time.Duration
+
+def jwtClientId = context.expand( '${#Project#jwtClientId}' )
+def jwtSecret = context.expand( '${#Project#jwtSecret}' )
+
+def createJwt(Integer validSeconds, String clientId, String secret) {
+    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
+    def rightNowMilli = System.currentTimeMillis()
+    def rightNowSec = Math.round(rightNowMilli / 1000)
+    def expirationSec = rightNowSec + validSeconds
+    def jtiValue = UUID.randomUUID().toString()
+
+    Map header = [alg: "HS256", typ: "JWT"]
+    def headerJson = JsonOutput.toJson(header)
+    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+    
+    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
+    def payloadJson = JsonOutput.toJson(payload)
+    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+
+    def toBeSigned = headerBase64 + "." + payloadBase64
+    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
+    
+    Mac mac = Mac.getInstance("HmacSHA256")
+    mac.init(secretKeySpec)
+    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
+    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+
+    headerBase64 + "." + payloadBase64 + "." + signature
+}
+
+// Create the JWT.
+def token = createJwt(600, jwtClientId, jwtSecret)
+testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="01-zgw-deleteZaakTypeOmgevingsvergunning" id="5d760a5b-dc14-43da-afb9-830ecb0053bf">
+        <con:settings/>
+        <con:config method="DELETE" xsi:type="con:HttpRequest" id="e1476f25-af79-4621-8ef5-396d714d0c07" name="01-zgw-deleteZaakTypeOmgevingsvergunning" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${#TestSuite#ZaakTypeOmgevingsvergunningUrl}</con:endpoint>
+          <con:request/>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${Properties#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
     </con:testCase>
     <con:properties>
       <con:property>
