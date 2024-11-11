@@ -1,5 +1,15 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.22.5](https://github.com/wearefrank/zaakbrug/compare/v1.22.4...v1.22.5) (2024-11-11)
+
+### 🐛 Bug Fixes
+
+* updateZaak incorrectly adds the be deleted rol when updateZaak message deletes and adds a role with the same roltype when the to be deleted role cannot be found. ([5e68d4c](https://github.com/wearefrank/zaakbrug/commit/5e68d4c57370ce4e6000e0f118fe314bca5c1bae))
+
+### ✅ Tests
+
+* **e2e:** add testcase to test updateZaak deleting and adding a role with the same roltype when role to be deleted cannot be found. ([1781f65](https://github.com/wearefrank/zaakbrug/commit/1781f6596fdb42a4d239bb21fb0a12478151dcdb))
+
 ## [1.22.4](https://github.com/wearefrank/zaakbrug/compare/v1.22.3...v1.22.4) (2024-10-29)
 
 ### 🤖 Build System
