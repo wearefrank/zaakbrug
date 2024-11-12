@@ -120,7 +120,7 @@
 
             <XsltPipe
                 name="MergeWordtZaakRollen"
-                styleSheetName="UpdateZaak_LK01/xsl/MergeWordtZaakRollen.xslt"
+                styleSheetName="UpdateZaak_LK01/xsl/MergeZdsWasAndWordt.xslt"
                 getInputFromSessionKey="originalMessage"
                 storeResultInSessionKey="ZdsWordtZaak"
                 >
