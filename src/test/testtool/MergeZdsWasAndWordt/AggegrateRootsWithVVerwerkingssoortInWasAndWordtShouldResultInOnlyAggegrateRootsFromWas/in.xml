@@ -1,0 +1,114 @@
+<zakLk01 xmlns="http://www.egem.nl/StUF/sector/zkn/0310"
+    xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301"
+    xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <stuurgegevens>
+        <StUF:berichtcode>Lk01</StUF:berichtcode>
+        <StUF:zender>
+            <StUF:organisatie>1900</StUF:organisatie>
+            <StUF:applicatie>GISVG</StUF:applicatie>
+        </StUF:zender>
+        <StUF:ontvanger>
+            <StUF:organisatie>1900</StUF:organisatie>
+            <StUF:applicatie>ZDS</StUF:applicatie>
+        </StUF:ontvanger>
+        <StUF:referentienummer>0f109beb-3326-4891-95c9-16c6ce49c17b</StUF:referentienummer>
+        <StUF:tijdstipBericht>20241111101058102</StUF:tijdstipBericht>
+        <StUF:entiteittype>ZAK</StUF:entiteittype>
+    </stuurgegevens>
+    <parameters>
+        <StUF:mutatiesoort>W</StUF:mutatiesoort>
+        <StUF:indicatorOvername>I</StUF:indicatorOvername>
+    </parameters>
+    <object StUF:entiteittype="ZAK" StUF:verwerkingssoort="W">
+        <identificatie>ZK2024-00001</identificatie>
+        <omschrijving>Dossiernummer GISVG OVZK2024-00001</omschrijving>
+        <toelichting />
+        <resultaat>
+            <omschrijving>Vergunningvrij</omschrijving>
+        </resultaat>
+        <!-- <einddatum />	-->
+        <archiefnominatie>N</archiefnominatie>
+        <isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="I">
+            <gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="I">
+                <omschrijving>Aanvraag omgevingsvergunning</omschrijving>
+                <code>B1210</code>
+                <ingangsdatumObject StUF:noValue="waardeOnbekend" xsi:nil="true" />
+            </gerelateerde>
+        </isVan>
+        <heeftAlsInitiator StUF:entiteittype="ZAKBTRINI" StUF:verwerkingssoort="V">
+            <gerelateerde>
+                <natuurlijkPersoon StUF:entiteittype="NPS" StUF:verwerkingssoort="I">
+                    <BG:inp.bsn>111111110</BG:inp.bsn>
+                    <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+                    <BG:geslachtsnaam>Precies</BG:geslachtsnaam>
+                    <BG:voorvoegselGeslachtsnaam StUF:noValue="geenWaarde" xsi:nil="true" />
+                    <BG:voorletters>P.J.</BG:voorletters>
+                    <BG:voornamen>Piet Je</BG:voornamen>
+                    <BG:geslachtsaanduiding>V</BG:geslachtsaanduiding>
+                    <BG:geboortedatum>19500101</BG:geboortedatum>
+                    <BG:verblijfsadres>
+                        <BG:aoa.identificatie>0091200000046730</BG:aoa.identificatie>
+                        <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+                        <BG:wpl.woonplaatsNaam>Sneek</BG:wpl.woonplaatsNaam>
+                        <BG:gor.openbareRuimteNaam>Marktstraat</BG:gor.openbareRuimteNaam>
+                        <BG:gor.straatnaam>Marktstraat</BG:gor.straatnaam>
+                        <BG:aoa.postcode>8601CR</BG:aoa.postcode>
+                        <BG:aoa.huisnummer>15</BG:aoa.huisnummer>
+                        <BG:aoa.huisletter StUF:noValue="geenWaarde" xsi:nil="true" />
+                        <BG:aoa.huisnummertoevoeging />
+                        <BG:inp.locatiebeschrijving StUF:noValue="geenWaarde" xsi:nil="true" />
+                    </BG:verblijfsadres>
+                </natuurlijkPersoon>
+            </gerelateerde>
+            <code>B1210</code>
+            <omschrijving>Was</omschrijving>
+            <toelichting>Was</toelichting>
+        </heeftAlsInitiator>
+    </object>
+    <object StUF:entiteittype="ZAK" StUF:verwerkingssoort="W">
+        <identificatie>ZK2024-00001</identificatie>
+        <omschrijving>Dossiernummer GISVG OVZK2024-00001</omschrijving>
+        <toelichting />
+        <resultaat>
+            <omschrijving>Vergunningvrij</omschrijving>
+        </resultaat>
+        <einddatum>20210402</einddatum>
+        <archiefnominatie>N</archiefnominatie>
+        <isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="I">
+            <gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="I">
+                <omschrijving>Aanvraag omgevingsvergunning</omschrijving>
+                <code>B1210</code>
+                <ingangsdatumObject StUF:noValue="waardeOnbekend" xsi:nil="true" />
+            </gerelateerde>
+        </isVan>
+        <heeftAlsInitiator StUF:entiteittype="ZAKBTRINI" StUF:verwerkingssoort="V">
+            <gerelateerde>
+                <natuurlijkPersoon StUF:entiteittype="NPS" StUF:verwerkingssoort="I">
+                    <BG:inp.bsn>111111110</BG:inp.bsn>
+                    <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+                    <BG:geslachtsnaam>Precies</BG:geslachtsnaam>
+                    <BG:voorvoegselGeslachtsnaam StUF:noValue="geenWaarde" xsi:nil="true" />
+                    <BG:voorletters>P.J.</BG:voorletters>
+                    <BG:voornamen>Piet Je</BG:voornamen>
+                    <BG:geslachtsaanduiding>V</BG:geslachtsaanduiding>
+                    <BG:geboortedatum>19500101</BG:geboortedatum>
+                    <BG:verblijfsadres>
+                        <BG:aoa.identificatie>0091200000046730</BG:aoa.identificatie>
+                        <BG:authentiek StUF:metagegeven="true">J</BG:authentiek>
+                        <BG:wpl.woonplaatsNaam>Sneek</BG:wpl.woonplaatsNaam>
+                        <BG:gor.openbareRuimteNaam>Marktstraat</BG:gor.openbareRuimteNaam>
+                        <BG:gor.straatnaam>Marktstraat</BG:gor.straatnaam>
+                        <BG:aoa.postcode>8601CR</BG:aoa.postcode>
+                        <BG:aoa.huisnummer>15</BG:aoa.huisnummer>
+                        <BG:aoa.huisletter StUF:noValue="geenWaarde" xsi:nil="true" />
+                        <BG:aoa.huisnummertoevoeging />
+                        <BG:inp.locatiebeschrijving StUF:noValue="geenWaarde" xsi:nil="true" />
+                    </BG:verblijfsadres>
+                </natuurlijkPersoon>
+            </gerelateerde>
+            <code>B1210</code>
+            <omschrijving>Wordt</omschrijving>
+            <toelichting>Wordt</toelichting>
+        </heeftAlsInitiator>
+    </object>
+</zakLk01>
