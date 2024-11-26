@@ -343,7 +343,8 @@
             </XsltPipe>
             
             <SenderPipe
-                name="CallPatchAndereZaak" getInputFromSessionKey="GetZgwWasZaakResult">
+                name="CallPatchAndereZaak" 
+                getInputFromSessionKey="GetZgwWasZaakResult">
                 <IbisLocalSender
                     name="CallPatchAndereZaakSender"
                     javaListener="PatchRelevanteAndereZaak"
