@@ -309,15 +309,90 @@
             </SenderPipe>
 
             <XmlIfPipe name="CheckForHeeftBetrekkingOpAndere"
-                getInputFromSessionKey="originalMessage"
-                xpathExpression="/zakLk01/object/heeftBetrekkingOpAndere/gerelateerde[string-length(identificatie) > 0]"
+                getInputFromSessionKey="ZdsWordtZaak"
+                xpathExpression="/object/heeftBetrekkingOpAndere/gerelateerde[string-length(identificatie) > 0]"
+                thenForwardName="CheckForHeeftBetrekkingOpAndereWithVerwerkingssoortV"
+                elseForwardName="EXIT">
+            </XmlIfPipe>
+
+            <XmlIfPipe name="CheckForHeeftBetrekkingOpAndereWithVerwerkingssoortV"
+                getInputFromSessionKey="ZdsWordtZaak"
+                xpathExpression="/object/heeftBetrekkingOpAndere[@verwerkingssoort = 'V']"
+                thenForwardName="AndereZaakIteratorDelete"
+                elseForwardName="AndereZaakIterator">
+            </XmlIfPipe>
+
+            <ForEachChildElementPipe name="AndereZaakIteratorDelete"
+                getInputFromSessionKey="ZdsWordtZaak"
+                elementXPathExpression="/object/heeftBetrekkingOpAndere[@verwerkingssoort = 'V']"
+                storeResultInSessionKey="AndereZakenDeleteResult">
+
+                <IbisLocalSender
+                    name="CallAndereZaakAdapter"
+                    javaListener="AndereZaakAdapter"
+                    returnedSessionKeys="Error">
+                    <Param name="Url" sessionKey="ZgwZaakUrl" />
+                    <Param name="Identificatie" xpathExpression="heeftBetrekkingOpAndere/gerelateerde/identificatie" />
+                    <Param name="Verwerkingssoort" xpathExpression="heeftBetrekkingOpAndere/@verwerkingssoort"/>
+                </IbisLocalSender>
+                
+                <Forward name="success" path="createListAndereUrlsToDelete"/>
+                <Forward name="exception" path="UncaughtException" />
+            </ForEachChildElementPipe>
+
+            <XsltPipe
+                name="createListAndereUrlsToDelete"
+                styleSheetName="UpdateZaak_LK01/xsl/CreateAndereUrlsBody.xslt"
+                storeResultInSessionKey="AndereZakenResultToDelete"
+                omitXmlDeclaration="true"
+                >
+                <Forward name="success" path="CheckIfListNotEmpty"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckIfListNotEmpty"
+                xpathExpression="/urls/url">
+                <Forward name="then" path="CallPatchAndereZaakDelete" />
+                <Forward name="else" path="CheckForHeeftBetrekkingOpAndereWithVerwerkingssoortNotV" />
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="CallPatchAndereZaakDelete" 
+                getInputFromSessionKey="GetZgwWasZaakResult">
+                <IbisLocalSender
+                    name="CallPatchAndereZaakDeleteSender"
+                    javaListener="PatchRelevanteAndereZaakDelete"
+                    returnedSessionKeys="Error">
+                    <Param name="Url" sessionKey="ZgwZaakUrl" defaultValue="&lt;dummy/&gt;" />
+                    <Param name="AndereUrlsToDelete" sessionKey="AndereZakenResultToDelete" defaultValue="&lt;dummy/&gt;"/>
+                </IbisLocalSender>
+                <Forward name="success" path="ConvertUpdatedZgwZaakIntoXml"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <JsonPipe name="ConvertUpdatedZgwZaakIntoXml">
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToSingle" />
+            </JsonPipe>
+
+            <XsltPipe
+                name="UnwrapOpenZaakApiEnvelopeToSingle"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToSingle.xslt"
+                skipEmptyTags="true" 
+                storeResultInSessionKey="GetZgwWasZaakResult">
+                <Param name="Type" value="ZgwZaak" />
+                <Forward name="success" path="CheckForHeeftBetrekkingOpAndereWithVerwerkingssoortNotV" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForHeeftBetrekkingOpAndereWithVerwerkingssoortNotV"
+                getInputFromSessionKey="ZdsWordtZaak"
+                xpathExpression="/object/heeftBetrekkingOpAndere[@verwerkingssoort != 'V']"
                 thenForwardName="AndereZaakIterator"
                 elseForwardName="EXIT">
             </XmlIfPipe>
 
             <ForEachChildElementPipe name="AndereZaakIterator"
-                getInputFromSessionKey="originalMessage"
-                elementXPathExpression="/zakLk01/object/heeftBetrekkingOpAndere"
+                getInputFromSessionKey="ZdsWordtZaak"
+                elementXPathExpression="/object/heeftBetrekkingOpAndere[@verwerkingssoort != 'V']"
                 storeResultInSessionKey="AndereZakenResult">
 
                 <IbisLocalSender
@@ -326,9 +401,9 @@
                     returnedSessionKeys="Error">
                     <Param name="Url" sessionKey="ZgwZaakUrl" />
                     <Param name="Identificatie" xpathExpression="heeftBetrekkingOpAndere/gerelateerde/identificatie" />
+                    <Param name="Verwerkingssoort" xpathExpression="heeftBetrekkingOpAndere/@verwerkingssoort"/>
                     <!-- <Param name="PostZgwZaakResult" sessionKey="GetZgwWasZaakResult" type="DOMDOC"/> -->
                 </IbisLocalSender>
-                
                 <Forward name="success" path="createListAndereUrls"/>
                 <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
