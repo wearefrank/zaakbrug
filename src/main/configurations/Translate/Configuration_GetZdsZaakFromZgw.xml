@@ -4,7 +4,7 @@
         description="">
     
         <Receiver name="GetZdsZaakFromZgw">
-            <JavaListener name="GetZdsZaakFromZgw" returnedSessionKeys="Error" />
+            <JavaListener name="GetZdsZaakFromZgw" returnedSessionKeys="Error,UrlOfExistingInitiatorRole" />
         </Receiver>
     
         <Pipeline>   
@@ -63,9 +63,14 @@
                         <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
-                <Forward name="success" path="MapZdsRolFromZgwRolIterator"/>
+                <Forward name="success" path="StoreUrlOfExistingInitiatorRole"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
+
+            <PutInSessionPipe name="StoreUrlOfExistingInitiatorRole">
+                <Param name="UrlOfExistingInitiatorRole" xpathExpression="/ZgwRollen/zgwRol[omschrijving='Initiator']/url/text()" defaultValue=""/>
+                <Forward name="success" path="MapZdsRolFromZgwRolIterator" />
+            </PutInSessionPipe>
            
             <ForEachChildElementPipe name="MapZdsRolFromZgwRolIterator"
                 elementXPathExpression="/ZgwRollen/zgwRol"
