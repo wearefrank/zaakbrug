@@ -110,7 +110,7 @@
                     <Param name="MatchWithZdsRol" sessionKey="ZdsRol" type="DOMDOC" />
                 </IbisLocalSender>
                 <Forward name="success" path="LogWarningNew" />
-                <Forward name="404" path="CheckIfZdsRoleIsInitiator" /> <!-- Rol should not be found -->
+                <Forward name="404" path="CallPostRol" /> <!-- Rol should not be found -->
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
@@ -146,36 +146,7 @@
                     name="LogWarningSender"
                     >
                 </LogSender>
-                <Forward name="success" path="CheckIfZdsRoleIsInitiator" />
-            </SenderPipe>
-
-            <XmlIfPipe 
-                name="CheckIfZdsRoleIsInitiator"
-                getInputFromSessionKey="originalMessage"
-                xpathExpression="name(/*) = 'heeftAlsInitiator'">
-                <Forward name="then" path="CheckIfZaakAlreadyHasInitiatorRol"/>
-                <Forward name="else" path="CallPostRol"/>
-            </XmlIfPipe>
-
-            <XmlIfPipe 
-                name="CheckIfZaakAlreadyHasInitiatorRol"
-                getInputFromSessionKey="ZdsWasZaakRol"
-                xpathExpression="/*[local-name()='roles']/*[local-name()='heeftAlsInitiator']">
-                <Forward name="then" path="DeleteExistingInitiatorRolByUrlBeforeAddingNewInitiator"/>
-                <Forward name="else" path="CallPostRol"/>
-            </XmlIfPipe>
-
-            <SenderPipe 
-                name="DeleteExistingInitiatorRolByUrlBeforeAddingNewInitiator"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender 
-                    name="CallDeleteInitiatorRolByUrl"
-                    javaListener="DeleteInitiatorRoleByUrl"
-                    returnedSessionKeys="Error">
-                    <Param name="UrlOfExistingInitiatorRole" sessionKey="UrlOfExistingInitiatorRole"/>
-                </IbisLocalSender>
                 <Forward name="success" path="CallPostRol" />
-                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe

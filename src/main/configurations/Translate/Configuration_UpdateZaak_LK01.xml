@@ -102,7 +102,7 @@
                 <IbisLocalSender
                     name="CallGetZdsZaakFromZgwSender"
                     javaListener="GetZdsZaakFromZgw"
-                    returnedSessionKeys="Error,UrlOfExistingInitiatorRole">
+                    returnedSessionKeys="Error">
                     <Param name="ZgwZaak" sessionKey="GetZgwWasZaakResult" type="DOMDOC"/>
                     <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                 </IbisLocalSender>
@@ -279,7 +279,6 @@
                     </Param>
                     <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC" />
                     <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC" />
-                    <Param name="UrlOfExistingInitiatorRole" sessionKey="UrlOfExistingInitiatorRole" /> <!-- Will be used only to delete existing initiator role in case there is new one. We implement it here since initiator can get T or I as verwerkingssoort according to WSDL -->
                 </IbisLocalSender>
                 <Forward name="success" path="WrapZdsWordtZaak"/>
                 <Forward name="exception" path="EXCEPTION" />
