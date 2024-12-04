@@ -27,7 +27,7 @@ jobs:
 
       - name: Start Application
         run: |
-          docker run -d --name morcoreintegration -p 8080:8080 -e dtap.stage=LOC wearefrank/morcoreintegration:${{ inputs.APP_VERSION }}
+          docker compose -f ./docker-compose.zaakbrug.dev.yml up --build --force-recreate
         timeout-minutes: 2
 
       - name: Wait for Application to be Healthy

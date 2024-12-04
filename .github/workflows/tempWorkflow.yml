@@ -1,0 +1,12 @@
+name: Test Larva Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-larva-scenarios:
+    uses: ./.github/workflows/run-larva-scenarios.yml
+    with:
+      APP_VERSION: "1.0.0"
