@@ -60,7 +60,7 @@
                 $currentGerelateerde/*:statutaireNaam/text() = $matchWithZdsRolGerelateerde/*:statutaireNaam/text() and
                 $currentGerelateerde/*:inn.rechtsvorm/text() = $matchWithZdsRolGerelateerde/*:inn.rechtsvorm/text() and
                 ($currentGerelateerde/*:statutaireNaam/text() != '' or 
-                $currentGerelateerde/*:inn.rechtsvorm/text() != '' or)
+                $currentGerelateerde/*:inn.rechtsvorm/text() != '')
                 ">
                 <xsl:copy-of select="." />
             </xsl:when>
@@ -105,7 +105,7 @@
                 $currentGerelateerde/*:voorletters/text() != '' or 
                 $currentGerelateerde/*:voornamen/text() != '' or 
                 $currentGerelateerde/*:geslachtsaanduiding/text() != '' or 
-                $currentGerelateerde/*:geboortedatum/text() != '' or)
+                $currentGerelateerde/*:geboortedatum/text() != '')
                 ">
                 <xsl:copy-of select="." />
             </xsl:when>
