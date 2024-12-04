@@ -1,0 +1,69 @@
+name: Run Larva Scenarios
+
+on:
+  workflow_call:
+    inputs:
+      APP_VERSION:
+        type: string
+        required: true
+
+jobs:
+  run-larva-scenarios:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 #4.1.7
+
+      - name: Download Docker tar
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 #4.1.8
+        with:
+          name: build-docker-image
+
+      - name: Load Docker tar
+        shell: bash
+        run: |
+          docker load --input image.tar
+          docker image ls -a
+
+      - name: Start Application
+        run: |
+          docker run -d --name morcoreintegration -p 8080:8080 -e dtap.stage=LOC wearefrank/morcoreintegration:${{ inputs.APP_VERSION }}
+        timeout-minutes: 2
+
+      - name: Wait for Application to be Healthy
+        run: |
+          start_time=$(date +%s)
+          timeout=60
+          while true; do
+            if [ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8080/iaf/api/server/health)" == "200" ]; then
+              echo "Application is healthy."
+              break
+            fi
+            current_time=$(date +%s)
+            elapsed_time=$((current_time - start_time))
+            if [ $elapsed_time -ge $timeout ]; then
+              echo "Application did not become healthy within $timeout seconds. Failing the job."
+              exit 1
+            fi
+            echo "Waiting for application to be healthy..."
+            sleep 5
+          done
+        timeout-minutes: 2
+
+      - name: Trigger Larva Tool
+        run: |
+          curl -X POST 'http://localhost:8080/iaf/larva/index.jsp' \
+            --header 'Content-Type: application/x-www-form-urlencoded' \
+            --data-urlencode 'scenariosrootdirectory=/opt/frank/testtool' \
+            --data-urlencode 'waitbeforecleanup=100' \
+            --data-urlencode 'loglevel=WRONG_PIPELINE_MESSAGES_PREPARED_FOR_DIFF' \
+            --data-urlencode 'execute=/opt/frank/testtool' \
+            --data-urlencode 'submit=start' > results.html
+
+      - name: Check if all scenarios passed
+        run: |
+          if ! grep -q 'All scenarios passed' results.html; then
+            echo "Not all scenarios passed. Failing the job."
+            cat results.html
+            exit 1
+          fi
