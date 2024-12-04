@@ -7,6 +7,10 @@ on:
       - master
 
 jobs:
+  test-larva-scenarios:
+    uses: ./.github/workflows/run-larva-scenarios.yml
+    with:
+      APP_VERSION: "1.0.0"
   version-next:
     runs-on: ubuntu-latest
     permissions:
