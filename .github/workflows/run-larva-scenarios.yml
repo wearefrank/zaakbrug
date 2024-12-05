@@ -27,7 +27,7 @@ jobs:
 
       - name: Start Application
         run: |
-          docker run -d --name zaakbrug -p 8080:8080 -e dtap.stage=LOC wearefrank/zaakbrug:1.22.5
+          docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml up -d
         timeout-minutes: 2
 
       - name: Wait for Application to be Healthy
