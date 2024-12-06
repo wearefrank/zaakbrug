@@ -109,3 +109,12 @@ jobs:
         with:
           name: reports-soapui-testreports
           path: ./*/reports
+    
+  test-larva-scenarios:
+    needs:
+      - version-next
+      - ci
+      - run-soapui-tests
+    uses: ./.github/workflows/run-larva-scenarios.yml
+    with:
+      APP_VERSION: "1.0.0"
