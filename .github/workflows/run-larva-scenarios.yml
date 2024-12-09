@@ -62,8 +62,8 @@ jobs:
 
       - name: Check if all scenarios passed
         run: |
+          cat results.html
           if ! grep -q 'All scenarios passed' results.html; then
             echo "Not all scenarios passed. Failing the job."
-            cat results.html
             exit 1
           fi
