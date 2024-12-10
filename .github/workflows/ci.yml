@@ -140,9 +140,13 @@ jobs:
 
           docker image inspect ${{ vars.DOCKER_IMAGE_REPOSITORY }}/${{ vars.DOCKER_IMAGE_NAME }}:${ZAAKBRUG_VERSION}
           docker compose -f ./docker-compose.zaakbrug.dev.yml up -d
+          
+          docker ps
+          sleep 120
           docker ps
 
-          sleep 90
+          echo "Contents of the test folder:"
+          ls -al /opt/frank/testtool
 
           curl -X POST 'http://localhost:8080/iaf/larva/index.jsp' \
             --header 'Content-Type: application/x-www-form-urlencoded' \
