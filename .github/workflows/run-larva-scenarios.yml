@@ -27,13 +27,13 @@ jobs:
 
       - name: Start Application
         run: |
-          docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml up -d
+          docker run -d --name zaakbrug -p 8080:8080 -e dtap.stage=LOC wearefrank/zaakbrug:${{ inputs.APP_VERSION }}
         timeout-minutes: 2
 
       - name: Wait for Application to be Healthy
         run: |
           start_time=$(date +%s)
-          timeout=120
+          timeout=60
           while true; do
             if [ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8080/iaf/api/server/health)" == "200" ]; then
               echo "Application is healthy."
@@ -62,8 +62,8 @@ jobs:
 
       - name: Check if all scenarios passed
         run: |
-          cat results.html
           if ! grep -q 'All scenarios passed' results.html; then
             echo "Not all scenarios passed. Failing the job."
+            cat results.html
             exit 1
           fi

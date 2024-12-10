@@ -48,7 +48,7 @@ jobs:
       - ci
     uses: ./.github/workflows/run-larva-scenarios.yml
     with:
-      APP_VERSION: "1.0.0"
+      APP_VERSION: ${{ needs.version-next.outputs.version-next }}
 
   run-soapui-tests:
     runs-on: ubuntu-latest
