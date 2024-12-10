@@ -3,15 +3,15 @@
     <xs:element name="container">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="relevanteAndereZaken" maxOccurs="unbounded" />
+                <xs:element ref="relevanteAndereZaken" minOccurs="0" maxOccurs="unbounded" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
     <xs:element name="relevanteAndereZaken">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="url" />
-                <xs:element name="aardRelatie" />
+                <xs:element name="url"/>
+                <xs:element name="aardRelatie"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

@@ -1,0 +1,108 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="PatchRelevanteAndereZaakDelete"
+        active="${PatchRelevanteAndereZaakDelete.Active}"
+        description="">
+
+        <Receiver name="PatchRelevanteAndereZaakDelete">
+            <JavaListener name="PatchRelevanteAndereZaakDelete" returnedSessionKeys="Error" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe name="GetAuthorizationHeaderForZakenApi"
+                getInputFromFixedValue="&lt;dummy/&gt;">
+                <IbisLocalSender
+                    name="GetAuthorizationHeaderForZakenApiSender"
+                    javaListener="GenerateAuthorizationHeaderForZakenApi"
+                    returnedSessionKeys="Error,Authorization">
+                </IbisLocalSender>
+                <Forward name="success" path="CheckIfSingleAndereUrl" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XmlIfPipe name="CheckIfSingleAndereUrl"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                xpathExpression="$AndereUrlToDelete">
+                <Param name="AndereUrlToDelete" sessionKey="AndereUrlToDelete"/>
+                <Forward name="then" path="CheckIfZaakRelatedToAndereZaak" />
+                <Forward name="else" path="CreatePatchZaakBodyToDeleteAndereZaak" />
+            </XmlIfPipe>
+
+            <XmlIfPipe name="CheckIfZaakRelatedToAndereZaak"
+                getInputFromSessionKey="originalMessage"
+                xpathExpression="/ZgwZaak/relevanteAndereZaken/url = $AndereUrlToDelete">
+                <Param name="AndereUrlToDelete" sessionKey="AndereUrlToDelete"/>
+                <Forward name="then" path="CreatePatchZaakBodyToDeleteAndereZaak" />
+                <Forward name="else" path="LogWarningZaakNotRelated" />
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="LogWarningZaakNotRelated"
+                >
+                <LogSender
+                    name="LogWarningSender" />
+                <Forward name="success" path="EXIT" />
+            </SenderPipe>
+
+            <XsltPipe name="CreatePatchZaakBodyToDeleteAndereZaak"
+                getInputFromSessionKey="originalMessage"
+                styleSheetName="CreeerZaak_LK01/xsl/CreateZgwAndereZaakBodyToDelete.xslt"
+                >
+                <Param name="AndereUrlToDelete" sessionKey="AndereUrlToDelete"/>
+                <Param name="AndereUrlsToDelete" sessionKey="AndereUrlsToDelete" type="DOMDOC"/>
+                <Forward name="success" path="CheckIfRelevanteAndereZakenListEmpty"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckIfRelevanteAndereZakenListEmpty"
+                xpathExpression="/container/relevanteAndereZaken[1]/url">
+                <Forward name="then" path="XmlToJson"/>
+                <Forward name="else" path="CreateEmptyRelevanteAndereZakenJson"/>
+            </XmlIfPipe>
+
+            <XsltPipe name="CreateEmptyRelevanteAndereZakenJson"
+                styleSheetName="UpdateZaak_LK01/xsl/CreateEmptyRelevanteAndereZakenJson.xslt">
+                <Forward name="success" path="PatchZaak" />
+            </XsltPipe>
+
+            <Json2XmlValidatorPipe
+                name="XmlToJson"
+                root="container"
+                schema="CreeerZaak_LK01/xsd/AndereZaakBodyToJson.xsd"
+                outputFormat="JSON"
+                compactJsonArrays="false"
+                throwException="true">
+                <Forward name="success" path="PatchZaak" />
+            </Json2XmlValidatorPipe>
+
+            <SenderPipe name="PatchZaak">
+				<HttpSender 
+					name="PatchZaakSender" 
+					methodType="PATCH"
+					headersParams="Authorization,Accept-Crs,Content-Crs"
+                    contentType="application/json"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    maxExecuteRetries="5"
+				/>
+                <Param name="url" sessionKey="Url"/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Content-Crs"  value="EPSG:4326"/>
+                <Param name="Authorization"  sessionKey="Authorization" />
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="ErrorJsonToXml" />
+			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="PatchZaak" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
+
+        </Pipeline>
+    </Adapter>
+</Module>
