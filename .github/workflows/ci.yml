@@ -139,7 +139,7 @@ jobs:
           export ZAAKBRUG_VERSION="${{ needs.version-next.outputs.version-next }}"
 
           docker image inspect ${{ vars.DOCKER_IMAGE_REPOSITORY }}/${{ vars.DOCKER_IMAGE_NAME }}:${ZAAKBRUG_VERSION}
-          docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml up -d
+          docker compose -f ./docker-compose.zaakbrug.dev.yml up -d
           docker ps
 
           sleep 90
