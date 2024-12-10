@@ -1,21 +1,16 @@
-<root xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <valueOverrides>
-       <key>zgwRol.roltoelichting</key>
-       <value>lalala</value>
-       <condition>true()</condition>
-    </valueOverrides>
-    <valueOverrides>
-       <key>zgwRol.betrokkeneIdentificatie.inpBsn</key>
-       <value>apple</value>
-       <condition>true()</condition>
-    </valueOverrides>
-    <valueOverrides>
-       <key>zgwRol.betrokkeneIdentificatie.geslachtsnaam</key>
-       <value>banana</value>
-       <condition>true()</condition>
-    </valueOverrides>
-    <valueOverrides>
-       <key>zgwRol.betrokkeneIdentificatie.idontexist</key>
-       <value>kiwi</value>
-    </valueOverrides>
- </root>
+<zgwRol>
+    <roltype>http://open-zaak.nginx:9001/catalogi/api/v1/roltypen/a892d249-d866-417b-bc88-8d1287da7de8</roltype>
+    <omschrijving>Initiator</omschrijving>
+    <omschrijvingGeneriek>initiator</omschrijvingGeneriek>
+    <betrokkeneType>natuurlijk_persoon</betrokkeneType>
+    <roltoelichting>Initiator:Precies</roltoelichting>
+    <betrokkeneIdentificatie>
+        <inpBsn>111111110</inpBsn>
+        <authentiek>J</authentiek>
+        <geslachtsnaam>Precies</geslachtsnaam>
+        <voorletters>P</voorletters>
+        <voornamen>Pietje</voornamen>
+        <geslachtsaanduiding>m</geslachtsaanduiding>
+        <geboortedatum>1901-01-01</geboortedatum>
+    </betrokkeneIdentificatie>
+</zgwRol>

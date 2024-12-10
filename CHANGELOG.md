@@ -1,5 +1,15 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.22.6](https://github.com/wearefrank/zaakbrug/compare/v1.22.5...v1.22.6) (2024-12-06)
+
+### 🐛 Bug Fixes
+
+* remove bezoekadres/verblijfadres from role matching between ZDS and ZGW due to situational dataloss in translation ([#478](https://github.com/wearefrank/zaakbrug/issues/478)) ([38a59bd](https://github.com/wearefrank/zaakbrug/commit/38a59bdb58d9c74fd824156ffaf6b69262113fa0))
+
+### ✅ Tests
+
+* **larva:** cleanup old broken Larva testcases that are now replaced by SoapUI end-2-end testcases ([#480](https://github.com/wearefrank/zaakbrug/issues/480)) ([0749015](https://github.com/wearefrank/zaakbrug/commit/0749015b5fbe4b5b6f360299bb9e74ca46340ca2))
+
 ## [1.22.5](https://github.com/wearefrank/zaakbrug/compare/v1.22.4...v1.22.5) (2024-11-11)
 
 ### 🐛 Bug Fixes
