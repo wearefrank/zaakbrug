@@ -42,18 +42,9 @@ jobs:
       upload-sarif-to-security: false
       run-frank-till-healthy-enabled: false
 
-  test-larva-scenarios:
-    needs:
-      - version-next
-      - ci
-    uses: ./.github/workflows/run-larva-scenarios.yml
-    with:
-      APP_VERSION: ${{ needs.version-next.outputs.version-next }}
-
   run-soapui-tests:
     runs-on: ubuntu-latest
     needs:
-      - test-larva-scenarios
       - version-next
       - ci
     steps:
@@ -118,3 +109,63 @@ jobs:
         with:
           name: reports-soapui-testreports
           path: ./*/reports
+  
+  run-larva-tests:
+    runs-on: ubuntu-latest
+    needs:
+      - version-next
+      - ci
+    steps:
+      - uses: step-security/harden-runner@91182cccc01eb5e619899d80e4e971d6181294a7 # v2.10.1
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #4.2.2
+
+      - name: Download Docker tar
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 #4.1.8
+        with:
+          name: build-docker-image
+
+      - name: Load Docker tar
+        shell: bash
+        run: |
+          docker load --input image.tar
+          docker image ls -a
+
+      - name: Run Larva Tests
+        run: |
+          export ZAAKBRUG_VERSION="${{ needs.version-next.outputs.version-next }}"
+
+          docker image inspect ${{ vars.DOCKER_IMAGE_REPOSITORY }}/${{ vars.DOCKER_IMAGE_NAME }}:${ZAAKBRUG_VERSION}
+          docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml up -d
+          docker ps
+
+          sleep 90
+
+          curl -X POST 'http://localhost:8080/iaf/larva/index.jsp' \
+            --header 'Content-Type: application/x-www-form-urlencoded' \
+            --data-urlencode 'scenariosrootdirectory=/opt/frank/testtool' \
+            --data-urlencode 'waitbeforecleanup=100' \
+            --data-urlencode 'loglevel=WRONG_PIPELINE_MESSAGES_PREPARED_FOR_DIFF' \
+            --data-urlencode 'execute=/opt/frank/testtool' \
+            --data-urlencode 'submit=start' > results.html
+
+          if ! grep -q 'All scenarios passed' results.html; then
+            echo "Not all scenarios passed. Failing the job."
+            cat results.html
+            EXIT_CODE=1
+            exit 1
+          fi
+          
+          docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml down
+        timeout-minutes: 15
+
+      - name: Check if test reports created
+        run: |
+          if [ -z "$(ls -A e2e/reports)" ]
+            then
+              echo "There is no test report found, tests might not have been run. Failing the job."
+              exit 1
+          fi
