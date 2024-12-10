@@ -102,10 +102,6 @@
                 <xsl:when test="$ZgwZaak/ZgwZaak/hoofdzaak != ''"><hoofdzaak><xsl:value-of select="$ZgwZaak/ZgwZaak/hoofdzaak"/></hoofdzaak></xsl:when>
             </xsl:choose>
             <xsl:choose>
-                <xsl:when test="object/relevanteAndereZaken/*"><xsl:copy-of select="object/relevanteAndereZaken"/></xsl:when>
-                <xsl:when test="$ZgwZaak/ZgwZaak/relevanteAndereZaken/*"><xsl:copy-of select="$ZgwZaak/ZgwZaak/relevanteAndereZaken"/></xsl:when>
-            </xsl:choose>
-            <xsl:choose>
                 <xsl:when test="object/kenmerk/*">
                     <xsl:apply-templates select="object/kenmerk" />
                 </xsl:when>
