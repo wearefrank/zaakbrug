@@ -5,7 +5,7 @@
     <xsl:param name="AndereUrls" as="node()"><urls><url/></urls></xsl:param>
 
     <xsl:template match="/">
-        <container>
+        <ZgwZaak>
             <xsl:choose>
                 <xsl:when test="$AndereUrl">
                     <relevanteAndereZaken>
@@ -25,7 +25,7 @@
                 </xsl:otherwise>
             </xsl:choose>
             <xsl:apply-templates select="ZgwZaak/relevanteAndereZaken" />
-        </container>
+        </ZgwZaak>
     </xsl:template>
 
     <xsl:template match="relevanteAndereZaken">

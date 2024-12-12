@@ -6,7 +6,7 @@
     <xsl:param name="AndereUrlsToDelete" as="node()"><urls><url/></urls></xsl:param>
 
      <xsl:template match="/">
-        <container>
+        <ZgwZaak>
             <xsl:for-each select="/ZgwZaak/relevanteAndereZaken">
                 <xsl:if test="not(url = $AndereUrlToDelete) and not($AndereUrlsToDelete//url = url)">
                     <relevanteAndereZaken>
@@ -15,7 +15,7 @@
                     </relevanteAndereZaken>
                 </xsl:if>
             </xsl:for-each>
-        </container>
+        </ZgwZaak>
     </xsl:template>
 
 </xsl:stylesheet>
