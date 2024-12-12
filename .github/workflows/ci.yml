@@ -42,6 +42,14 @@ jobs:
       upload-sarif-to-security: false
       run-frank-till-healthy-enabled: false
 
+  run-larva-scenarios:
+    uses: ./.github/workflows/run-larva-scenarios.yml
+    needs:
+      - version-next
+      - ci
+    with:
+      APP_VERSION: ${{ needs.version-next.outputs.version-next }}
+
   run-soapui-tests:
     runs-on: ubuntu-latest
     needs:
