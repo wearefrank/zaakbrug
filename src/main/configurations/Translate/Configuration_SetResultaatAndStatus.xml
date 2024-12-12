@@ -117,7 +117,7 @@
                     <Param name="Omschrijving" xpathExpression="/*/object/resultaat/omschrijving"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallGetResultatenByZaakUrl_1"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="ResultaatTypeNotFound_Exception" />
             </SenderPipe>
 
             <SenderPipe
@@ -452,6 +452,21 @@
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason" pattern="Adding a new status is failed" />
                 <Param name="detailsXml" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <XsltPipe 
+                name="ResultaatTypeNotFound_Exception"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="ConfigurationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="Omschrijving" sessionKey="originalMessage" xpathExpression="/zakLk01/object/resultaat/omschrijving" />
+                <Param name="reason" pattern="ResultaatType with omschrijving: [{Omschrijving}] not found" ignoreUnresolvablePatternElements="true"/> 
+                <!-- <Param name="details" sessionKey="" /> -->
+                <!-- <Param name="detailsXml" type="DOMDOC" /> -->
                 <Forward name="success" path="EXCEPTION" />
                 <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>
