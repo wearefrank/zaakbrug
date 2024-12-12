@@ -465,7 +465,8 @@
                 <Param name="code" value="ConfigurationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="Omschrijving" sessionKey="originalMessage" xpathExpression="/zakLk01/object/resultaat/omschrijving" />
                 <Param name="reason" pattern="ResultaatType with omschrijving: [{Omschrijving}] not found" ignoreUnresolvablePatternElements="true"/> 
-                <Param name="detailsXml" type="DOMDOC" />
+                <!-- <Param name="details" sessionKey="" /> -->
+                <!-- <Param name="detailsXml" type="DOMDOC" /> -->
                 <Forward name="success" path="EXCEPTION" />
                 <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>
