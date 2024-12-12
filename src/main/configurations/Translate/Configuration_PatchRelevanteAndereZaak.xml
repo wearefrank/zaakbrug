@@ -13,17 +13,6 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <SenderPipe name="GetAuthorizationHeaderForZakenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
-                    name="GetAuthorizationHeaderForZakenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
-                <Forward name="success" path="CreatePatchZaakBody" />
-                <Forward name="exception" path="EXCEPTION" />
-            </SenderPipe>
-
             <XsltPipe
                 name="CreatePatchZaakBody"
                 getInputFromSessionKey="originalMessage"
@@ -32,43 +21,22 @@
                 >
                 <Param name="AndereUrl" sessionKey="AndereUrl"/>
                 <Param name="AndereUrls" sessionKey="AndereUrls" type="DOMDOC"/>
-                <Forward name="success" path="XmlToJson"/>
+                <Forward name="success" path="PatchRelevanteAndereZaak"/>
             </XsltPipe>
 
-            <Json2XmlValidatorPipe
-                name="XmlToJson"
-                root="container"
-                schema="CreeerZaak_LK01/xsd/AndereZaakBodyToJson.xsd"
-                outputFormat="JSON"
-                compactJsonArrays="false"
-                throwException="true">
-                <Forward name="success" path="PatchZaak" />
-            </Json2XmlValidatorPipe>
-
-            <SenderPipe name="PatchZaak">
-				<HttpSender 
-					name="PatchZaakSender" 
-					methodType="PATCH"
-					headersParams="Authorization,Accept-Crs,Content-Crs"
-                    contentType="application/json"
-                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
-                    maxExecuteRetries="5"
-				/>
-                <Param name="url" sessionKey="Url"/>
-                <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Content-Crs"  value="EPSG:4326"/>
-                <Param name="Authorization"  sessionKey="Authorization" />
+            <SenderPipe
+                name="PatchRelevanteAndereZaak"
+                >
+                <IbisLocalSender
+                    name="CallUpdateZgwZaakSender"
+                    javaListener="Zaken_UpdateZgwZaak"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="Url" sessionKey="Url" />
+                </IbisLocalSender>
                 <Forward name="success" path="EXIT" />
-                <Forward name="exception" path="ErrorJsonToXml" />
-			</SenderPipe>
-            <JsonPipe name="ErrorJsonToXml">
-                <Forward name="success" path="buildErrorMsg" />
-            </JsonPipe>
-            <XsltPipe name="buildErrorMsg"
-                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
-                <Param name="senderPipeName" value="PatchZaak" />
-                <Forward name="success" path="EXCEPTION" />
-            </XsltPipe>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
 
         </Pipeline>
     </Adapter>

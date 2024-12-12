@@ -61,12 +61,52 @@
             <XmlIfPipe name="CheckForGetZgwAndereZaakResult"
                 xpathExpression="string-length(ZgwZaak) > 0"
                 >
-                <Forward name="then" path="CallPatchAndereZaak"/>
+                <Forward name="then" path="CheckVerwerkingssoortAttribute"/>
                 <Forward name="else" path="EXIT"/>
             </XmlIfPipe>
 
+            <XmlSwitchPipe
+                name="CheckVerwerkingssoortAttribute"
+                getInputFromSessionKey="originalMessage"
+                xpathExpression="*/@*:verwerkingssoort"
+                notFoundForwardName="unimplemented">
+                <Forward name="I" path="CallPatchAndereZaak" />
+                <Forward name="T" path="CallPatchAndereZaak" />
+                <Forward name="V" path="CallPatchAndereZaakDelete" />
+                <Forward name="unimplemented" path="UnrecognizedVerwerkingssoort_Error" />
+            </XmlSwitchPipe>
+
+            <XsltPipe
+                name="UnrecognizedVerwerkingssoort_Error"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error"
+                >
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> 
+                <Param name="reason" pattern="The value of verwerkingssoort attribute of heeftBetrekkingOpAndere is either not allowed nor not implemented yet." ignoreUnresolvablePatternElements="true" />
+                <Param name="detailsXml" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
             <SenderPipe
-                name="CallPatchAndereZaak" getInputFromSessionKey="ZgwAndereZaakResult">
+                name="CallPatchAndereZaakDelete" 
+                getInputFromSessionKey="ZgwAndereZaakResult">
+                <IbisLocalSender
+                    name="CallPatchAndereZaakDeleteSender"
+                    javaListener="PatchRelevanteAndereZaakDelete"
+                    returnedSessionKeys="Error">
+                    <Param name="Url" xpathExpression="/ZgwZaak/url" defaultValue="&lt;dummy/&gt;" />
+                    <Param name="AndereUrlToDelete" sessionKey="Url" defaultValue="''"/>
+                </IbisLocalSender>
+                <Forward name="success" path="JsonToXml"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallPatchAndereZaak" 
+                getInputFromSessionKey="ZgwAndereZaakResult">
                 <IbisLocalSender
                     name="CallPatchAndereZaakSender"
                     javaListener="PatchRelevanteAndereZaak"
