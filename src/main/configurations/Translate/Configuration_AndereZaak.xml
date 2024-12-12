@@ -65,13 +65,30 @@
                 <Forward name="else" path="EXIT"/>
             </XmlIfPipe>
 
-            <XmlIfPipe name="CheckVerwerkingssoortAttribute"
+            <XmlSwitchPipe
+                name="CheckVerwerkingssoortAttribute"
+                getInputFromSessionKey="originalMessage"
+                xpathExpression="*/@*:verwerkingssoort"
+                notFoundForwardName="unimplemented">
+                <Forward name="I" path="CallPatchAndereZaak" />
+                <Forward name="T" path="CallPatchAndereZaak" />
+                <Forward name="V" path="CallPatchAndereZaakDelete" />
+                <Forward name="unimplemented" path="UnrecognizedVerwerkingssoort_Error" />
+            </XmlSwitchPipe>
+
+            <XsltPipe
+                name="UnrecognizedVerwerkingssoort_Error"
                 getInputFromFixedValue="&lt;dummy/&gt;"
-                xpathExpression="$Verwerkingssoort = 'V'">
-                <Param name="Verwerkingssoort" sessionKey="Verwerkingssoort" defaultValue="''"/>
-                <Forward name="then" path="CallPatchAndereZaakDelete" />
-                <Forward name="else" path="CallPatchAndereZaak" />
-            </XmlIfPipe>
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error"
+                >
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> 
+                <Param name="reason" pattern="The value of verwerkingssoort attribute of heeftBetrekkingOpAndere is either not allowed nor not implemented yet." ignoreUnresolvablePatternElements="true" />
+                <Param name="detailsXml" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
 
             <SenderPipe
                 name="CallPatchAndereZaakDelete" 

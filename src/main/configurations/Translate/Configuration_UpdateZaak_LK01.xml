@@ -401,7 +401,6 @@
                     returnedSessionKeys="Error">
                     <Param name="Url" sessionKey="ZgwZaakUrl" />
                     <Param name="Identificatie" xpathExpression="heeftBetrekkingOpAndere/gerelateerde/identificatie" />
-                    <Param name="Verwerkingssoort" xpathExpression="heeftBetrekkingOpAndere/@verwerkingssoort"/>
                     <!-- <Param name="PostZgwZaakResult" sessionKey="GetZgwWasZaakResult" type="DOMDOC"/> -->
                 </IbisLocalSender>
                 <Forward name="success" path="createListAndereUrls"/>

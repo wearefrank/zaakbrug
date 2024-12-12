@@ -13,17 +13,6 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <SenderPipe name="GetAuthorizationHeaderForZakenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
-                    name="GetAuthorizationHeaderForZakenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
-                <Forward name="success" path="CheckIfSingleAndereUrl" />
-                <Forward name="exception" path="EXCEPTION" />
-            </SenderPipe>
-
             <XmlIfPipe name="CheckIfSingleAndereUrl"
                 getInputFromFixedValue="&lt;dummy/&gt;"
                 xpathExpression="$AndereUrlToDelete">
@@ -50,7 +39,7 @@
 
             <XsltPipe name="CreatePatchZaakBodyToDeleteAndereZaak"
                 getInputFromSessionKey="originalMessage"
-                styleSheetName="CreeerZaak_LK01/xsl/CreateZgwAndereZaakBodyToDelete.xslt"
+                styleSheetName="UpdateZaak_LK01/xsl/CreateZgwAndereZaakBodyToDelete.xslt"
                 >
                 <Param name="AndereUrlToDelete" sessionKey="AndereUrlToDelete"/>
                 <Param name="AndereUrlsToDelete" sessionKey="AndereUrlsToDelete" type="DOMDOC"/>
@@ -58,50 +47,32 @@
             </XsltPipe>
 
             <XmlIfPipe name="CheckIfRelevanteAndereZakenListEmpty"
-                xpathExpression="/container/relevanteAndereZaken[1]/url">
-                <Forward name="then" path="XmlToJson"/>
+                xpathExpression="count(ZgwZaak/relevanteAndereZaken) gt 0">
+                <Forward name="then" path="PatchRelevanteAndereZaak"/>
                 <Forward name="else" path="CreateEmptyRelevanteAndereZakenJson"/>
             </XmlIfPipe>
 
-            <XsltPipe name="CreateEmptyRelevanteAndereZakenJson"
-                styleSheetName="UpdateZaak_LK01/xsl/CreateEmptyRelevanteAndereZakenJson.xslt">
-                <Forward name="success" path="PatchZaak" />
-            </XsltPipe>
+            <DataSonnetPipe name="CreateEmptyRelevanteAndereZakenJson"
+                styleSheetName="UpdateZaak_LK01/jsonnet/CreateEmptyRelevanteAndereZakenJson.jsonnet"
+                outputType="JSON"
+                storeResultInSessionKey="EmptyRelevanteAndereZakenJson">
+                <Forward name="success" path="PatchRelevanteAndereZaak" />
+            </DataSonnetPipe>
 
-            <Json2XmlValidatorPipe
-                name="XmlToJson"
-                root="container"
-                schema="CreeerZaak_LK01/xsd/AndereZaakBodyToJson.xsd"
-                outputFormat="JSON"
-                compactJsonArrays="false"
-                throwException="true">
-                <Forward name="success" path="PatchZaak" />
-            </Json2XmlValidatorPipe>
-
-            <SenderPipe name="PatchZaak">
-				<HttpSender 
-					name="PatchZaakSender" 
-					methodType="PATCH"
-					headersParams="Authorization,Accept-Crs,Content-Crs"
-                    contentType="application/json"
-                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
-                    maxExecuteRetries="5"
-				/>
-                <Param name="url" sessionKey="Url"/>
-                <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Content-Crs"  value="EPSG:4326"/>
-                <Param name="Authorization"  sessionKey="Authorization" />
+            <SenderPipe
+                name="PatchRelevanteAndereZaak"
+                >
+                <IbisLocalSender
+                    name="CallUpdateZgwZaakSender"
+                    javaListener="Zaken_UpdateZgwZaak"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="Url" sessionKey="Url" />
+                    <Param name="EmptyRelevanteAndereZakenJson" sessionKey="EmptyRelevanteAndereZakenJson" />
+                </IbisLocalSender>
                 <Forward name="success" path="EXIT" />
-                <Forward name="exception" path="ErrorJsonToXml" />
-			</SenderPipe>
-            <JsonPipe name="ErrorJsonToXml">
-                <Forward name="success" path="buildErrorMsg" />
-            </JsonPipe>
-            <XsltPipe name="buildErrorMsg"
-                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
-                <Param name="senderPipeName" value="PatchZaak" />
-                <Forward name="success" path="EXCEPTION" />
-            </XsltPipe>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
 
         </Pipeline>
     </Adapter>
