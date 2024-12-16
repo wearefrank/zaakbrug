@@ -3,14 +3,11 @@
     xmlns:StUF="http://www.egem.nl/StUF/StUF0301"
     xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310">
     <heeftAlsInitiator entiteittype="ZAKBTRINI">
-        <gerelateerde xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310"
-            xmlns:StUF="http://www.egem.nl/StUF/StUF0301"
-            xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310">
+        <gerelateerde>
             <natuurlijkPersoon entiteittype="NPS">
-                <inp.bsn>111111110</inp.bsn>
-                <authentiek metagegeven="true">J</authentiek>
+                <inp.a-nummer>1234567890</inp.a-nummer>
                 <geslachtsnaam>Precies</geslachtsnaam>
-                <voorvoegselGeslachtsnaam noValue="geenWaarde" nil="true" />
+                <voorvoegselGeslachtsnaam>Lala</voorvoegselGeslachtsnaam>
                 <voorletters>P</voorletters>
                 <voornamen>Pietje</voornamen>
                 <geslachtsaanduiding>M</geslachtsaanduiding>
@@ -29,7 +26,7 @@
                 </verblijfsadres>
             </natuurlijkPersoon>
         </gerelateerde>
-        <StUF:extraElementen xmlns:StUF="http://www.egem.nl/StUF/StUF0301">
+        <StUF:extraElementen>
             <StUF:extraElement naam="kvkNummer">12345678</StUF:extraElement>
         </StUF:extraElementen>
     </heeftAlsInitiator>
