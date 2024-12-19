@@ -48,7 +48,7 @@ jobs:
       - version-next
       - ci
     with:
-      APP_VERSION: ${{ needs.version-next.outputs.version-next }}
+      image-id: ${{ needs.ci.outputs.image-id }}
 
   run-soapui-tests:
     runs-on: ubuntu-latest

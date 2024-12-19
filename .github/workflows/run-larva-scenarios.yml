@@ -3,9 +3,20 @@ name: Run Larva Scenarios
 on:
   workflow_call:
     inputs:
-      APP_VERSION:
+      image-id:
         type: string
-        required: true
+        description: >
+          Docker image id of the loaded image to use.
+
+          Note that the Docker image needs to be available to the Docker runtime already.
+        required: false
+      docker-image-tag:
+        type: string
+        description: >
+          Docker image tag of the loaded image to use. For example: 'wearefrank/zaakbrug:1.2.0'.
+
+          Note that the Docker image needs to be available to the Docker runtime already.
+        required: false
 
 jobs:
   run-larva-scenarios:
@@ -26,16 +37,19 @@ jobs:
           docker image ls -a
 
       - name: Start Application
+        id: docker-run
+        shell: bash
         run: |
-          docker run -d --name zaakbrug -p 8080:8080 -e dtap.stage=LOC wearefrank/zaakbrug:${{ inputs.APP_VERSION }}
+          echo "container-id=docker run -d -p 8080:8080 -e dtap.stage=LOC ${{ inputs.image-id || inputs.docker-image-tag }}" >> "$GITHUB_OUTPUT"
         timeout-minutes: 2
 
       - name: Wait for Application to be Healthy
+        shell: bash
         run: |
           start_time=$(date +%s)
           timeout=60
           while true; do
-            if [ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8080/iaf/api/server/health)" == "200" ]; then
+            if [ "$(docker inspect --format='{{json .State.Health.Status}}' ${steps.docker-run.outputs.container-id})" = '"healthy"' ]; then
               echo "Application is healthy."
               break
             fi
@@ -48,9 +62,10 @@ jobs:
             echo "Waiting for application to be healthy..."
             sleep 5
           done
-        timeout-minutes: 2
+        timeout-minutes: 5
 
       - name: Trigger Larva Tool
+        shell: bash
         run: |
           curl -X POST 'http://localhost:8080/iaf/larva/index.jsp' \
             --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -61,9 +76,17 @@ jobs:
             --data-urlencode 'submit=start' > results.html
 
       - name: Check if all scenarios passed
+        shell: bash
         run: |
           if ! grep -q 'All scenarios passed' results.html; then
             echo "Not all scenarios passed. Failing the job."
             cat results.html
             exit 1
           fi
+
+      - name: Cleanup
+        shell: bash
+        if: ${{ always() }}
+        run: |
+          docker stop ${{ steps.docker-run.outputs.container-id }}
+          docker rm --volumes ${{ steps.docker-run.outputs.container-id }}
