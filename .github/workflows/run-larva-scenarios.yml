@@ -87,7 +87,7 @@ jobs:
         uses: docker://pandoc/core:3.5
         if: ${{ always() }}
         with:
-          args: -s results.html --from html -o results.md --to markdown_github --standalone
+          args: -s results.html --from html --to gfm --standalone | xmllint --html -xpath "html/body/div" > results.html
       
       - name: Add Larva Result To GitHub Actions Summary
         shell: bash
