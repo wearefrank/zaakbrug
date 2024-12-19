@@ -83,11 +83,18 @@ jobs:
             exit 1
           fi
 
+      - name: Filter Result
+        shell: bash
+        run: |
+          apt-get update -qq
+          apt-get install -y libxml2-utils
+          xmllint --html -xpath "/html/body/div" results.html > results.html
+
       - name: Generate Result in Markdown
         uses: docker://pandoc/core:3.5
         if: ${{ always() }}
         with:
-          args: -s results.html --from html --to gfm --standalone | xmllint --html -xpath "html/body/div" > results.html
+          args: -s results.html --from html -o results.md --to gfm --standalone
       
       - name: Add Larva Result To GitHub Actions Summary
         shell: bash
