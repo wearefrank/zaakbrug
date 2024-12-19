@@ -80,9 +80,20 @@ jobs:
         run: |
           if ! grep -q 'All scenarios passed' results.html; then
             echo "Not all scenarios passed. Failing the job."
-            cat results.html
             exit 1
           fi
+
+      - name: Generate Result in Markdown
+        uses: docker://pandoc/core:3.5
+        if: ${{ always() }}
+        with:
+          args: -s results.html --from html -o results.md --to markdown_github --standalone
+      
+      - name: Add Larva Result To GitHub Actions Summary
+        shell: bash
+        if: ${{ always() }}
+        run: |
+          cat results.md >> $GITHUB_STEP_SUMMARY
 
       - name: Cleanup
         shell: bash
