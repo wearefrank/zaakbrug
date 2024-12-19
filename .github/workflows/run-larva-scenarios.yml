@@ -40,7 +40,7 @@ jobs:
         id: docker-run
         shell: bash
         run: |
-          echo "container-id=docker run -d -p 8080:8080 -e dtap.stage=LOC ${{ inputs.image-id || inputs.docker-image-tag }}" >> "$GITHUB_OUTPUT"
+          echo "container-id=$(docker run -d -p 8080:8080 -e dtap.stage=LOC ${{ inputs.image-id || inputs.docker-image-tag }})" >> "$GITHUB_OUTPUT"
         timeout-minutes: 2
 
       - name: Wait for Application to be Healthy
