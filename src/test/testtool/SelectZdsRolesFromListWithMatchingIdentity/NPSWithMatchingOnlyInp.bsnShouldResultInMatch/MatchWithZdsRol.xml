@@ -2,12 +2,28 @@
     <gerelateerde xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310"
         xmlns:StUF="http://www.egem.nl/StUF/StUF0301"
         xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310">
-        <nietNatuurlijkPersoon entiteittype="NNP">
-            <inn.nnpId>823288444</inn.nnpId>
-            <authentiek>N</authentiek>
-            <statutaireNaam>Gemeente Súdwest-Fryslân</statutaireNaam>
-            <inn.rechtsvorm>overig_privaatrechtelijke_rechtspersoon</inn.rechtsvorm>
-        </nietNatuurlijkPersoon>
+        <natuurlijkPersoon entiteittype="NPS">
+            <inp.bsn>111111110</inp.bsn>
+            <authentiek metagegeven="true">J</authentiek>
+            <geslachtsnaam>Different</geslachtsnaam>
+            <voorvoegselGeslachtsnaam>Lalala</voorvoegselGeslachtsnaam>
+            <voorletters>D</voorletters>
+            <voornamen>Different Name</voornamen>
+            <geslachtsaanduiding>V</geslachtsaanduiding>
+            <geboortedatum indOnvolledigeDatum="V">20000101</geboortedatum>
+            <verblijfsadres>
+                <aoa.identificatie noValue="geenWaarde" nil="true" />
+                <authentiek metagegeven="true">J</authentiek>
+                <wpl.woonplaatsNaam>Bolsward</wpl.woonplaatsNaam>
+                <gor.openbareRuimteNaam noValue="geenWaarde" nil="true" />
+                <gor.straatnaam>Kerkstraat</gor.straatnaam>
+                <aoa.postcode>8701HP</aoa.postcode>
+                <aoa.huisnummer>1</aoa.huisnummer>
+                <aoa.huisletter noValue="geenWaarde" nil="true" />
+                <aoa.huisnummertoevoeging noValue="geenWaarde" nil="true" />
+                <inp.locatiebeschrijving noValue="geenWaarde" nil="true" />
+            </verblijfsadres>
+        </natuurlijkPersoon>
     </gerelateerde>
     <StUF:extraElementen xmlns:StUF="http://www.egem.nl/StUF/StUF0301">
         <StUF:extraElement naam="kvkNummer">12345678</StUF:extraElement>

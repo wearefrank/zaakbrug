@@ -1,0 +1,35 @@
+<roles
+    xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310"
+    xmlns:StUF="http://www.egem.nl/StUF/StUF0301"
+    xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310">
+    <heeftAlsInitiator entiteittype="ZAKBTRINI">
+        <gerelateerde xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310"
+            xmlns:StUF="http://www.egem.nl/StUF/StUF0301"
+            xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310">
+            <natuurlijkPersoon entiteittype="NPS">
+                <anp.identificatie>111111110</anp.identificatie>
+                <geslachtsnaam>Precies</geslachtsnaam>
+                <voorvoegselGeslachtsnaam noValue="geenWaarde" nil="true" />
+                <voorletters>P</voorletters>
+                <voornamen>Pietje</voornamen>
+                <geslachtsaanduiding>M</geslachtsaanduiding>
+                <geboortedatum indOnvolledigeDatum="V">19010101</geboortedatum>
+                <verblijfsadres>
+                    <aoa.identificatie noValue="geenWaarde" nil="true" />
+                    <authentiek metagegeven="true">J</authentiek>
+                    <wpl.woonplaatsNaam>Bolsward</wpl.woonplaatsNaam>
+                    <gor.openbareRuimteNaam noValue="geenWaarde" nil="true" />
+                    <gor.straatnaam>Kerkstraat</gor.straatnaam>
+                    <aoa.postcode>8701HP</aoa.postcode>
+                    <aoa.huisnummer>1</aoa.huisnummer>
+                    <aoa.huisletter noValue="geenWaarde" nil="true" />
+                    <aoa.huisnummertoevoeging noValue="geenWaarde" nil="true" />
+                    <inp.locatiebeschrijving noValue="geenWaarde" nil="true" />
+                </verblijfsadres>
+            </natuurlijkPersoon>
+        </gerelateerde>
+        <StUF:extraElementen xmlns:StUF="http://www.egem.nl/StUF/StUF0301">
+            <StUF:extraElement naam="kvkNummer">12345678</StUF:extraElement>
+        </StUF:extraElementen>
+    </heeftAlsInitiator>
+</roles>
