@@ -57,8 +57,10 @@
             <!-- The test checks if all of the elements have the same value on both sides as a whole AND checks if atleast 1 of them is not empty.
                 OR statements between () is to prevent positively matching on the absence of all elements on both sides. -->
             <xsl:when test="
-                $currentGerelateerde/*:statutaireNaam/text() = $matchWithZdsRolGerelateerde/*:statutaireNaam/text() and
-                $currentGerelateerde/*:inn.rechtsvorm/text() = $matchWithZdsRolGerelateerde/*:inn.rechtsvorm/text() and
+                ($currentGerelateerde/*:statutaireNaam/text() = $matchWithZdsRolGerelateerde/*:statutaireNaam/text() or 
+                (not(exists($currentGerelateerde/*:statutaireNaam)) and not(exists($matchWithZdsRolGerelateerde/*:statutaireNaam)))) and
+                ($currentGerelateerde/*:inn.rechtsvorm/text() = $matchWithZdsRolGerelateerde/*:inn.rechtsvorm/text() or 
+                (not(exists($currentGerelateerde/*:inn.rechtsvorm)) and not(exists($matchWithZdsRolGerelateerde/*:inn.rechtsvorm)))) and
                 ($currentGerelateerde/*:statutaireNaam/text() != '' or 
                 $currentGerelateerde/*:inn.rechtsvorm/text() != '')
                 ">
@@ -92,13 +94,20 @@
             <!-- The test checks if all of the elements have the same value on both sides as a whole AND checks if atleast 1 of them is not empty.
                 OR statements between () is to prevent positively matching on the absence of all elements on both sides. -->
             <xsl:when test="
-                $currentGerelateerde/*:inp.a-nummer/text() = $matchWithZdsRolGerelateerde/*:inp.a-nummer/text() and
-                $currentGerelateerde/*:geslachtsnaam/text() = $matchWithZdsRolGerelateerde/*:geslachtsnaam/text() and
-                $currentGerelateerde/*:voorvoegselGeslachtsnaam/text() = $matchWithZdsRolGerelateerde/*:voorvoegselGeslachtsnaam/text() and
-                $currentGerelateerde/*:voorletters/text() = $matchWithZdsRolGerelateerde/*:voorletters/text() and
-                $currentGerelateerde/*:voornamen/text() = $matchWithZdsRolGerelateerde/*:voornamen/text() and
-                $currentGerelateerde/*:geslachtsaanduiding/text() = $matchWithZdsRolGerelateerde/*:geslachtsaanduiding/text() and
-                $currentGerelateerde/*:geboortedatum/text() = $matchWithZdsRolGerelateerde/*:geboortedatum/text() and
+                ($currentGerelateerde/*:inp.a-nummer/text() = $matchWithZdsRolGerelateerde/*:inp.a-nummer/text() or 
+                (not(exists($currentGerelateerde/*:inp.a-nummer)) and not(exists($matchWithZdsRolGerelateerde/*:inp.a-nummer)))) and
+                ($currentGerelateerde/*:geslachtsnaam/text() = $matchWithZdsRolGerelateerde/*:geslachtsnaam/text() or 
+                (not(exists($currentGerelateerde/*:geslachtsnaam)) and not(exists($matchWithZdsRolGerelateerde/*:geslachtsnaam)))) and
+                ($currentGerelateerde/*:voorvoegselGeslachtsnaam/text() = $matchWithZdsRolGerelateerde/*:voorvoegselGeslachtsnaam/text() or 
+                (not(exists($currentGerelateerde/*:voorvoegselGeslachtsnaam)) and not(exists($matchWithZdsRolGerelateerde/*:voorvoegselGeslachtsnaam)))) and
+                ($currentGerelateerde/*:voorletters/text() = $matchWithZdsRolGerelateerde/*:voorletters/text() or 
+                (not(exists($currentGerelateerde/*:voorletters)) and not(exists($matchWithZdsRolGerelateerde/*:voorletters)))) and
+                ($currentGerelateerde/*:voornamen/text() = $matchWithZdsRolGerelateerde/*:voornamen/text() or 
+                (not(exists($currentGerelateerde/*:voornamen)) and not(exists($matchWithZdsRolGerelateerde/*:voornamen)))) and
+                ($currentGerelateerde/*:geslachtsaanduiding/text() = $matchWithZdsRolGerelateerde/*:geslachtsaanduiding/text() or 
+                (not(exists($currentGerelateerde/*:geslachtsaanduiding)) and not(exists($matchWithZdsRolGerelateerde/*:geslachtsaanduiding)))) and
+                ($currentGerelateerde/*:geboortedatum/text() = $matchWithZdsRolGerelateerde/*:geboortedatum/text() or 
+                (not(exists($currentGerelateerde/*:geboortedatum)) and not(exists($matchWithZdsRolGerelateerde/*:geboortedatum)))) and
                 ($currentGerelateerde/*:inp.a-nummer/text() != '' or
                 $currentGerelateerde/*:geslachtsnaam/text() != '' or 
                 $currentGerelateerde/*:voorvoegselGeslachtsnaam/text() != '' or 
@@ -132,9 +141,12 @@
             <!-- The test checks if all of the elements have the same value on both sides as a whole AND checks if atleast 1 of them is not empty.
                 OR statements between () is to prevent positively matching on the absence of all elements on both sides. -->
             <xsl:when test="
-                $currentGerelateerde/*:achternaam/text() = $matchWithZdsRolGerelateerde/*:achternaam/text() and
-                $currentGerelateerde/*:voorletters/text() = $matchWithZdsRolGerelateerde/*:voorletters/text() and
-                $currentGerelateerde/*:voorvoegselAchternaam/text() = $matchWithZdsRolGerelateerde/*:voorvoegselAchternaam/text() and
+                ($currentGerelateerde/*:achternaam/text() = $matchWithZdsRolGerelateerde/*:achternaam/text() or 
+                (not(exists($currentGerelateerde/*:achternaam)) and not(exists($matchWithZdsRolGerelateerde/*:achternaam)))) and
+                ($currentGerelateerde/*:voorletters/text() = $matchWithZdsRolGerelateerde/*:voorletters/text() or 
+                (not(exists($currentGerelateerde/*:voorletters)) and not(exists($matchWithZdsRolGerelateerde/*:voorletters)))) and
+                ($currentGerelateerde/*:voorvoegselAchternaam/text() = $matchWithZdsRolGerelateerde/*:voorvoegselAchternaam/text() or 
+                (not(exists($currentGerelateerde/*:voorvoegselAchternaam)) and not(exists($matchWithZdsRolGerelateerde/*:voorvoegselAchternaam)))) and
                 ($currentGerelateerde/*:achternaam/text() != '' or 
                 $currentGerelateerde/*:voorletters/text() != '' or 
                 $currentGerelateerde/*:voorvoegselAchternaam/text() != '')
@@ -164,8 +176,10 @@
             <!-- The test checks if all of the elements have the same value on both sides as a whole AND checks if atleast 1 of them is not empty.
                 OR statements between () is to prevent positively matching on the absence of all elements on both sides. -->
             <xsl:when test="
-                $currentGerelateerde/*:naam/text() = $matchWithZdsRolGerelateerde/*:naam/text() and
-                $currentGerelateerde/*:isGehuisvestIn = $matchWithZdsRolGerelateerde/*:isGehuisvestIn and
+                ($currentGerelateerde/*:naam/text() = $matchWithZdsRolGerelateerde/*:naam/text() or 
+                (not(exists($currentGerelateerde/*:naam)) and not(exists($matchWithZdsRolGerelateerde/*:naam)))) and
+                ($currentGerelateerde/*:isGehuisvestIn = $matchWithZdsRolGerelateerde/*:isGehuisvestIn or 
+                (not(exists($currentGerelateerde/*:isGehuisvestIn)) and not(exists($matchWithZdsRolGerelateerde/*:isGehuisvestIn)))) and
                 ($currentGerelateerde/*:naam/text() != '' or
                 string-length($currentGerelateerde/*:isGehuisvestIn) gt 0)
                 ">
@@ -194,7 +208,8 @@
             <!-- The test checks if all of the elements have the same value on both sides as a whole AND checks if atleast 1 of them is not empty.
                 OR statements between () is to prevent positively matching on the absence of all elements on both sides. -->
             <xsl:when test="
-                $currentGerelateerde/*:handelsnaam/text() = $matchWithZdsRolGerelateerde/*:handelsnaam/text() and
+                ($currentGerelateerde/*:handelsnaam/text() = $matchWithZdsRolGerelateerde/*:handelsnaam/text() or 
+                (not(exists($currentGerelateerde/*:handelsnaam)) and not(exists($matchWithZdsRolGerelateerde/*:handelsnaam)))) and
                 $currentGerelateerde/*:handelsnaam/text() != ''
                 ">
                 <xsl:copy-of select="." />
