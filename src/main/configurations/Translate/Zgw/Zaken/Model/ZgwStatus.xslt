@@ -25,10 +25,12 @@
             and (string-length($ZdsEinddatum) > 0) 
             and (string-length($ZdsStatusDatum) = 0) 
             and not($ZdsEinddatum = 'Undefined')">
-                <xsl:value-of select="zgw:toZgwDatetime(concat($ZdsEinddatum,'000000'))"/>
+                <!-- No guarantee that current time is later than statusDatumGezet of last set status if einddatum is in the past -->
+                <xsl:value-of select="zgw:toZgwDatetime(concat($ZdsEinddatum, zgw:currentZdsTime()))" />
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="zgw:toZgwDatetime($ZdsStatusDatum)"/>
+                <!-- No guarantee that current time is later than statusDatumGezet of last set status if einddatum is in the past -->
+                <xsl:value-of select="zgw:toZgwDatetime(concat($ZdsStatusDatum, zgw:currentZdsTime()))" />
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
