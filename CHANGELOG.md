@@ -1,5 +1,26 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.22.7](https://github.com/wearefrank/zaakbrug/compare/v1.22.6...v1.22.7) (2024-12-17)
+
+### 🐛 Bug Fixes
+
+* heeftBetrekkingOpAndere does not respect verwerkingssoort causing duplicates and inability to delete gerelateerde zaken ([7243e0f](https://github.com/wearefrank/zaakbrug/commit/7243e0f20a668037cf657d19823d83e19ada908a))
+* remove bezoekadres/verblijfadres from role matching between ZDS and ZGW due to situational dataloss in translation ([#478](https://github.com/wearefrank/zaakbrug/issues/478)) ([98a24c4](https://github.com/wearefrank/zaakbrug/commit/98a24c4f0c6492245a27fb20c11302adda04a2f3))
+* remove relevanteAndereZaken from updateZaak request cause it is handled separately ([90c51b0](https://github.com/wearefrank/zaakbrug/commit/90c51b039a02b984d1875091ce490d423ba866d5))
+* update verwerkingssoort letter of heeftBetrekkingOpAndere in creeerZaak from W to T ([8a849c1](https://github.com/wearefrank/zaakbrug/commit/8a849c12025bdd8dfada24d90831913461612db2))
+* updateZaak with multiple heeftBetrekkingOpAndere already on the case results in error ([663516b](https://github.com/wearefrank/zaakbrug/commit/663516b48f335744326d164a941db86187c588fc))
+
+### 🧑‍💻 Code Refactoring
+
+* generalize ZDS roles was and wordt merger xslt to support merging all root aggregates ([2131767](https://github.com/wearefrank/zaakbrug/commit/213176726ec9e8c462019c71bd051d893370be49))
+* Used PostZgwZaak.xsd instead of AndereZaakBodyToJson.xsd + used XmlSwitchPipe instead of XmlIfPipe in CheckVerwerkingssoortAttribute + used Zaken_UpdateZgwZaak for patch request ([017bfd9](https://github.com/wearefrank/zaakbrug/commit/017bfd97776151c5f5eb726a8ed61076202fc949))
+
+### ✅ Tests
+
+* **e2e:** add variety of e2e testcases for testing heeftBetrekkingOpAndere behavior ([757f127](https://github.com/wearefrank/zaakbrug/commit/757f127eacd8184bfd86ea99614b5ca367625904))
+* **larva:** cleanup old broken Larva testcases that are now replaced by SoapUI end-2-end testcases ([#480](https://github.com/wearefrank/zaakbrug/issues/480)) ([934e839](https://github.com/wearefrank/zaakbrug/commit/934e8391a1bf4b10a8c116e4a6d95b6c0fac2498))
+* **unit:** MergeZdsWasAndWordt Larva testcases ([6bf6159](https://github.com/wearefrank/zaakbrug/commit/6bf61597fdd8ee872f6ff205d30efc2efad26853))
+
 ## [1.22.6](https://github.com/wearefrank/zaakbrug/compare/v1.22.5...v1.22.6) (2024-12-06)
 
 ### 🐛 Bug Fixes
