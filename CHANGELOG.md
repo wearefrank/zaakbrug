@@ -1,5 +1,32 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.22.8](https://github.com/wearefrank/zaakbrug/compare/v1.22.7...v1.22.8) (2025-01-08)
+
+### 🐛 Bug Fixes
+
+* zaak 'heeft.indicatieLaatsteStatus' incorrectly uses zgw 'statustype.isEindstatus' instead of 'status.indicatieLaatstGezetteStatus' ([e443421](https://github.com/wearefrank/zaakbrug/commit/e44342160faf53f88d443eb5d7f3ff5a925209ee))
+
+### 🧑‍💻 Code Refactoring
+
+* missing descriptive error message when resultaattype not found during updateZaak when resultaat is present in input message ([#486](https://github.com/wearefrank/zaakbrug/issues/486)) ([b0104d9](https://github.com/wearefrank/zaakbrug/commit/b0104d9d49be339fda9e2b10597bb1aef1d90c64))
+* use current zds time instead of 000000 when creating status from einddatum or from sta.datumStatusGezet in voegZaakdocumentToe ([243eb31](https://github.com/wearefrank/zaakbrug/commit/243eb31f2d09b4bdfe44b54547ce6488c5bdbf5b))
+
+### ✅ Tests
+
+* update test cases according to the update of heeft.indicatieLaatsteStatus field ([54c3cec](https://github.com/wearefrank/zaakbrug/commit/54c3cec575dd548f193c2ab8c36acad1d7380c59))
+* **unit:** validate/fix disabled Larva testcases after obsolete broken testcases cleanup ([#489](https://github.com/wearefrank/zaakbrug/issues/489)) ([be19513](https://github.com/wearefrank/zaakbrug/commit/be195130da1f657d0d84e8ccb10d613585ff49f6))
+
+### 🤖 Build System
+
+* **dependencies:** bump the docusaurus group ([#495](https://github.com/wearefrank/zaakbrug/issues/495)) ([6679001](https://github.com/wearefrank/zaakbrug/commit/6679001a765ee1b032832425667d2feef79031c8))
+* **dependencies:** bump the docusaurus group across 1 directory with 7 updates ([#488](https://github.com/wearefrank/zaakbrug/issues/488)) ([748456f](https://github.com/wearefrank/zaakbrug/commit/748456f274154bdba5310f54d90c79438d0925f3))
+* **dependencies:** bump the github-actions group across 1 directory with 2 updates ([#475](https://github.com/wearefrank/zaakbrug/issues/475)) ([930013a](https://github.com/wearefrank/zaakbrug/commit/930013a083ac7810e6f9dc81a6ca63fa9a8d4efa))
+
+### 🔁 Continuous Integration
+
+* automatically run Larva tests as part of CI workflows ([#479](https://github.com/wearefrank/zaakbrug/issues/479)) ([2f18e2d](https://github.com/wearefrank/zaakbrug/commit/2f18e2d78734ce6030fad8e61613b623a51feac4))
+* fix incorrect job dependency version-next to analyze-commits ([55b4ef0](https://github.com/wearefrank/zaakbrug/commit/55b4ef07e040aefd998ccc004b74885ce5c5abdb))
+
 ## [1.22.7](https://github.com/wearefrank/zaakbrug/compare/v1.22.6...v1.22.7) (2024-12-17)
 
 ### 🐛 Bug Fixes

@@ -55,7 +55,7 @@ jobs:
   run-larva-scenarios:
     uses: ./.github/workflows/run-larva-scenarios.yml
     needs:
-      - version-next
+      - analyze-commits
       - ci
     with:
       image-id: ${{ needs.ci.outputs.image-id }}

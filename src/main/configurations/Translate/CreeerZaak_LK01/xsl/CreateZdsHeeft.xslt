@@ -50,7 +50,7 @@
                 </xsl:choose>
                 <xsl:choose>
                     <xsl:when test="$ZgwStatusType">
-                        <indicatieLaatsteStatus><xsl:value-of select="zgw:convertZgwBooleanToZdsBoolean($ZgwStatusType/root/ZgwStatusType/isEindstatus)"/></indicatieLaatsteStatus>
+                        <indicatieLaatsteStatus><xsl:value-of select="zgw:convertZgwBooleanToZdsBoolean($ZgwStatus/ZgwStatus/indicatieLaatstGezetteStatus)"/></indicatieLaatsteStatus>
                     </xsl:when>
                     <xsl:otherwise>
                         <indicatieLaatsteStatus><xsl:value-of select="$IndicatieLaatsteStatus"/></indicatieLaatsteStatus>
