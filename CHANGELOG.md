@@ -1,5 +1,25 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.22.9](https://github.com/wearefrank/zaakbrug/compare/v1.22.8...v1.22.9) (2025-01-09)
+
+### 🐛 Bug Fixes
+
+* matching a ZDS rol with ZGW roles only based on kerngegevens fails when one or more kerngegevens are absent on both sides ([f61371e](https://github.com/wearefrank/zaakbrug/commit/f61371e09114d0b6df035012928cec579751de6a))
+
+### 🎨 Styles
+
+* PostZaak adapter follow styling standards ([766de55](https://github.com/wearefrank/zaakbrug/commit/766de556f110b85c0b28a8350c0dced8d78ec361))
+* replace google.com reference in zgw namespace to wearefrank.nl ([b99012b](https://github.com/wearefrank/zaakbrug/commit/b99012bd75340d0d7b0d58ab460057e177d48524))
+
+### 🧑‍💻 Code Refactoring
+
+* increase default ladybug reports retention ([1624328](https://github.com/wearefrank/zaakbrug/commit/16243287c870a86928c593df6ff177d5109818ec))
+
+### ✅ Tests
+
+* **unit:** NNP matching statutory name but no innRechtsvorm should result in match ([2d34fd3](https://github.com/wearefrank/zaakbrug/commit/2d34fd3fa192b29c30ba0502f49717959368527f))
+* **unit:** NPS testcase with one matching kerngegeven and other absent on both sides ([24de422](https://github.com/wearefrank/zaakbrug/commit/24de422fa713fce336905c010439cc1c1c5def4f))
+
 ## [1.22.8](https://github.com/wearefrank/zaakbrug/compare/v1.22.7...v1.22.8) (2025-01-08)
 
 ### 🐛 Bug Fixes
