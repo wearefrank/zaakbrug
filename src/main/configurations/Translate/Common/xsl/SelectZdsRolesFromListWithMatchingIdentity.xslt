@@ -44,29 +44,25 @@
         <xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> currentGerelateerde: [{serialize($currentGerelateerde, $debugSerializeParams)}] </xsl:comment></xsl:if>
 
         <xsl:choose>
-            <xsl:when test="
-                $currentGerelateerde/*:inn.nnpId/text() = $matchWithZdsRolGerelateerde/*:inn.nnpId/text() and 
-                $currentGerelateerde/*:inn.nnpId/text() != ''
-                ">
-                <xsl:copy-of select="." />
+            <xsl:when test="$currentGerelateerde/*:inn.nnpId/text() != '' and $matchWithZdsRolGerelateerde/*:inn.nnpId/text() != ''">
+                <xsl:if test="$currentGerelateerde/*:inn.nnpId/text() = $matchWithZdsRolGerelateerde/*:inn.nnpId/text()">
+                    <xsl:copy-of select="." />
+                </xsl:if>
             </xsl:when>
-            <xsl:when test="
-                $currentGerelateerde/*:ann.identificatie/text() = $matchWithZdsRolGerelateerde/*:ann.identificatie/text() and 
-                $currentGerelateerde/*:ann.identificatie/text() != ''
-                ">
-                <xsl:copy-of select="." />
+            <xsl:when test="$currentGerelateerde/*:ann.identificatie/text() != '' and $matchWithZdsRolGerelateerde/*:ann.identificatie/text() != ''">
+                <xsl:if test="$currentGerelateerde/*:ann.identificatie/text() = $matchWithZdsRolGerelateerde/*:ann.identificatie/text()">
+                    <xsl:copy-of select="." />
+                </xsl:if>
             </xsl:when>
             <!-- The test checks if all of the elements have the same value on both sides as a whole AND checks if atleast 1 of them is not empty.
                 OR statements between () is to prevent positively matching on the absence of all elements on both sides. -->
             <xsl:when test="
-                $currentGerelateerde/*:statutaireNaam/text() = $matchWithZdsRolGerelateerde/*:statutaireNaam/text() and
-                $currentGerelateerde/*:inn.rechtsvorm/text() = $matchWithZdsRolGerelateerde/*:inn.rechtsvorm/text() and
-                $currentGerelateerde/*:bezoekadres = $matchWithZdsRolGerelateerde/*:bezoekadres and
-                $currentGerelateerde/*:sub.verblijfBuitenland = $matchWithZdsRolGerelateerde/*:sub.verblijfBuitenland and
+                ($currentGerelateerde/*:statutaireNaam/text() = $matchWithZdsRolGerelateerde/*:statutaireNaam/text() or 
+                (not(exists($currentGerelateerde/*:statutaireNaam)) and not(exists($matchWithZdsRolGerelateerde/*:statutaireNaam)))) and
+                ($currentGerelateerde/*:inn.rechtsvorm/text() = $matchWithZdsRolGerelateerde/*:inn.rechtsvorm/text() or 
+                (not(exists($currentGerelateerde/*:inn.rechtsvorm)) and not(exists($matchWithZdsRolGerelateerde/*:inn.rechtsvorm)))) and
                 ($currentGerelateerde/*:statutaireNaam/text() != '' or 
-                $currentGerelateerde/*:inn.rechtsvorm/text() != '' or 
-                string-length($currentGerelateerde/*:bezoekadres) gt 0 or 
-                string-length($currentGerelateerde/*:sub.verblijfBuitenland) gt 0)
+                $currentGerelateerde/*:inn.rechtsvorm/text() != '')
                 ">
                 <xsl:copy-of select="." />
             </xsl:when>
@@ -85,39 +81,40 @@
         <xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> currentGerelateerde: [{serialize($currentGerelateerde, $debugSerializeParams)}] </xsl:comment></xsl:if>
 
         <xsl:choose>
-            <xsl:when test="
-                $currentGerelateerde/*:inp.bsn/text() = $matchWithZdsRolGerelateerde/*:inp.bsn/text() and 
-                $currentGerelateerde/*:inp.bsn/text() != ''
-                ">
-                <xsl:copy-of select="." />
+            <xsl:when test="$currentGerelateerde/*:inp.bsn/text() != '' and $matchWithZdsRolGerelateerde/*:inp.bsn/text() != ''">
+                <xsl:if test="$currentGerelateerde/*:inp.bsn/text() = $matchWithZdsRolGerelateerde/*:inp.bsn/text()">
+                    <xsl:copy-of select="." />
+                </xsl:if>
             </xsl:when>
-            <xsl:when test="
-                $currentGerelateerde/*:anp.identificatie/text() = $matchWithZdsRolGerelateerde/*:anp.identificatie/text() and 
-                $currentGerelateerde/*:anp.identificatie/text() != ''
-                ">
-                <xsl:copy-of select="." />
+            <xsl:when test="$currentGerelateerde/*:anp.identificatie/text() != '' and $matchWithZdsRolGerelateerde/*:anp.identificatie/text() != ''">
+                <xsl:if test="$currentGerelateerde/*:anp.identificatie/text() = $matchWithZdsRolGerelateerde/*:anp.identificatie/text()">
+                    <xsl:copy-of select="." />
+                </xsl:if>
             </xsl:when>
             <!-- The test checks if all of the elements have the same value on both sides as a whole AND checks if atleast 1 of them is not empty.
                 OR statements between () is to prevent positively matching on the absence of all elements on both sides. -->
             <xsl:when test="
-                $currentGerelateerde/*:inp.a-nummer/text() = $matchWithZdsRolGerelateerde/*:inp.a-nummer/text() and
-                $currentGerelateerde/*:geslachtsnaam/text() = $matchWithZdsRolGerelateerde/*:geslachtsnaam/text() and
-                $currentGerelateerde/*:voorvoegselGeslachtsnaam/text() = $matchWithZdsRolGerelateerde/*:voorvoegselGeslachtsnaam/text() and
-                $currentGerelateerde/*:voorletters/text() = $matchWithZdsRolGerelateerde/*:voorletters/text() and
-                $currentGerelateerde/*:voornamen/text() = $matchWithZdsRolGerelateerde/*:voornamen/text() and
-                $currentGerelateerde/*:geslachtsaanduiding/text() = $matchWithZdsRolGerelateerde/*:geslachtsaanduiding/text() and
-                $currentGerelateerde/*:geboortedatum/text() = $matchWithZdsRolGerelateerde/*:geboortedatum/text() and
-                $currentGerelateerde/*:verblijfsadres = $matchWithZdsRolGerelateerde/*:verblijfsadres and
-                $currentGerelateerde/*:sub.verblijfBuitenland = $matchWithZdsRolGerelateerde/*:sub.verblijfBuitenland and 
+                ($currentGerelateerde/*:inp.a-nummer/text() = $matchWithZdsRolGerelateerde/*:inp.a-nummer/text() or 
+                (not(exists($currentGerelateerde/*:inp.a-nummer)) and not(exists($matchWithZdsRolGerelateerde/*:inp.a-nummer)))) and
+                ($currentGerelateerde/*:geslachtsnaam/text() = $matchWithZdsRolGerelateerde/*:geslachtsnaam/text() or 
+                (not(exists($currentGerelateerde/*:geslachtsnaam)) and not(exists($matchWithZdsRolGerelateerde/*:geslachtsnaam)))) and
+                ($currentGerelateerde/*:voorvoegselGeslachtsnaam/text() = $matchWithZdsRolGerelateerde/*:voorvoegselGeslachtsnaam/text() or 
+                (not(exists($currentGerelateerde/*:voorvoegselGeslachtsnaam)) and not(exists($matchWithZdsRolGerelateerde/*:voorvoegselGeslachtsnaam)))) and
+                ($currentGerelateerde/*:voorletters/text() = $matchWithZdsRolGerelateerde/*:voorletters/text() or 
+                (not(exists($currentGerelateerde/*:voorletters)) and not(exists($matchWithZdsRolGerelateerde/*:voorletters)))) and
+                ($currentGerelateerde/*:voornamen/text() = $matchWithZdsRolGerelateerde/*:voornamen/text() or 
+                (not(exists($currentGerelateerde/*:voornamen)) and not(exists($matchWithZdsRolGerelateerde/*:voornamen)))) and
+                ($currentGerelateerde/*:geslachtsaanduiding/text() = $matchWithZdsRolGerelateerde/*:geslachtsaanduiding/text() or 
+                (not(exists($currentGerelateerde/*:geslachtsaanduiding)) and not(exists($matchWithZdsRolGerelateerde/*:geslachtsaanduiding)))) and
+                ($currentGerelateerde/*:geboortedatum/text() = $matchWithZdsRolGerelateerde/*:geboortedatum/text() or 
+                (not(exists($currentGerelateerde/*:geboortedatum)) and not(exists($matchWithZdsRolGerelateerde/*:geboortedatum)))) and
                 ($currentGerelateerde/*:inp.a-nummer/text() != '' or
                 $currentGerelateerde/*:geslachtsnaam/text() != '' or 
                 $currentGerelateerde/*:voorvoegselGeslachtsnaam/text() != '' or 
                 $currentGerelateerde/*:voorletters/text() != '' or 
                 $currentGerelateerde/*:voornamen/text() != '' or 
                 $currentGerelateerde/*:geslachtsaanduiding/text() != '' or 
-                $currentGerelateerde/*:geboortedatum/text() != '' or 
-                string-length($currentGerelateerde/*:verblijfsadres) gt 0 or 
-                string-length($currentGerelateerde/*:sub.verblijfBuitenland) gt 0)
+                $currentGerelateerde/*:geboortedatum/text() != '')
                 ">
                 <xsl:copy-of select="." />
             </xsl:when>
@@ -136,18 +133,20 @@
         <xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> currentGerelateerde: [{serialize($currentGerelateerde, $debugSerializeParams)}] </xsl:comment></xsl:if>
 
         <xsl:choose>
-            <xsl:when test="
-                $currentGerelateerde/*:identificatie/text() = $matchWithZdsRolGerelateerde/*:identificatie/text() and 
-                $currentGerelateerde/*:identificatie/text() != ''
-                ">
-                <xsl:copy-of select="." />
+            <xsl:when test="$currentGerelateerde/*:identificatie/text() != '' and $matchWithZdsRolGerelateerde/*:identificatie/text() != ''">
+                <xsl:if test="$currentGerelateerde/*:identificatie/text() = $matchWithZdsRolGerelateerde/*:identificatie/text()">
+                    <xsl:copy-of select="." />
+                </xsl:if>
             </xsl:when>
             <!-- The test checks if all of the elements have the same value on both sides as a whole AND checks if atleast 1 of them is not empty.
                 OR statements between () is to prevent positively matching on the absence of all elements on both sides. -->
             <xsl:when test="
-                $currentGerelateerde/*:achternaam/text() = $matchWithZdsRolGerelateerde/*:achternaam/text() and
-                $currentGerelateerde/*:voorletters/text() = $matchWithZdsRolGerelateerde/*:voorletters/text() and
-                $currentGerelateerde/*:voorvoegselAchternaam/text() = $matchWithZdsRolGerelateerde/*:voorvoegselAchternaam/text() and
+                ($currentGerelateerde/*:achternaam/text() = $matchWithZdsRolGerelateerde/*:achternaam/text() or 
+                (not(exists($currentGerelateerde/*:achternaam)) and not(exists($matchWithZdsRolGerelateerde/*:achternaam)))) and
+                ($currentGerelateerde/*:voorletters/text() = $matchWithZdsRolGerelateerde/*:voorletters/text() or 
+                (not(exists($currentGerelateerde/*:voorletters)) and not(exists($matchWithZdsRolGerelateerde/*:voorletters)))) and
+                ($currentGerelateerde/*:voorvoegselAchternaam/text() = $matchWithZdsRolGerelateerde/*:voorvoegselAchternaam/text() or 
+                (not(exists($currentGerelateerde/*:voorvoegselAchternaam)) and not(exists($matchWithZdsRolGerelateerde/*:voorvoegselAchternaam)))) and
                 ($currentGerelateerde/*:achternaam/text() != '' or 
                 $currentGerelateerde/*:voorletters/text() != '' or 
                 $currentGerelateerde/*:voorvoegselAchternaam/text() != '')
@@ -169,17 +168,18 @@
         <xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> currentGerelateerde: [{serialize($currentGerelateerde, $debugSerializeParams)}] </xsl:comment></xsl:if>
 
         <xsl:choose>
-            <xsl:when test="
-                $currentGerelateerde/*:identificatie/text() = $matchWithZdsRolGerelateerde/*:identificatie/text() and 
-                $currentGerelateerde/*:identificatie/text() != ''
-                ">
-                <xsl:copy-of select="." />
+            <xsl:when test="$currentGerelateerde/*:identificatie/text() != '' and $matchWithZdsRolGerelateerde/*:identificatie/text() != ''">
+                <xsl:if test="$currentGerelateerde/*:identificatie/text() = $matchWithZdsRolGerelateerde/*:identificatie/text()">
+                    <xsl:copy-of select="." />
+                </xsl:if>
             </xsl:when>
             <!-- The test checks if all of the elements have the same value on both sides as a whole AND checks if atleast 1 of them is not empty.
                 OR statements between () is to prevent positively matching on the absence of all elements on both sides. -->
             <xsl:when test="
-                $currentGerelateerde/*:naam/text() = $matchWithZdsRolGerelateerde/*:naam/text() and
-                $currentGerelateerde/*:isGehuisvestIn = $matchWithZdsRolGerelateerde/*:isGehuisvestIn and
+                ($currentGerelateerde/*:naam/text() = $matchWithZdsRolGerelateerde/*:naam/text() or 
+                (not(exists($currentGerelateerde/*:naam)) and not(exists($matchWithZdsRolGerelateerde/*:naam)))) and
+                ($currentGerelateerde/*:isGehuisvestIn = $matchWithZdsRolGerelateerde/*:isGehuisvestIn or 
+                (not(exists($currentGerelateerde/*:isGehuisvestIn)) and not(exists($matchWithZdsRolGerelateerde/*:isGehuisvestIn)))) and
                 ($currentGerelateerde/*:naam/text() != '' or
                 string-length($currentGerelateerde/*:isGehuisvestIn) gt 0)
                 ">
@@ -200,21 +200,17 @@
         <xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> currentGerelateerde: [{serialize($currentGerelateerde, $debugSerializeParams)}] </xsl:comment></xsl:if>
 
         <xsl:choose>
-            <xsl:when test="
-                $currentGerelateerde/*:vestigingsNummer/text() = $matchWithZdsRolGerelateerde/*:vestigingsNummer/text() and 
-                $currentGerelateerde/*:vestigingsNummer/text() != ''
-                ">
-                <xsl:copy-of select="." />
+            <xsl:when test="$currentGerelateerde/*:vestigingsNummer/text() != '' and $matchWithZdsRolGerelateerde/*:vestigingsNummer/text() != ''">
+                <xsl:if test="$currentGerelateerde/*:vestigingsNummer/text() = $matchWithZdsRolGerelateerde/*:vestigingsNummer/text()">
+                    <xsl:copy-of select="." />
+                </xsl:if>
             </xsl:when>
             <!-- The test checks if all of the elements have the same value on both sides as a whole AND checks if atleast 1 of them is not empty.
                 OR statements between () is to prevent positively matching on the absence of all elements on both sides. -->
             <xsl:when test="
-                $currentGerelateerde/*:handelsnaam/text() = $matchWithZdsRolGerelateerde/*:handelsnaam/text() and
-                $currentGerelateerde/*:verblijfsadres = $matchWithZdsRolGerelateerde/*:verblijfsadres and
-                $currentGerelateerde/*:sub.verblijfBuitenland = $matchWithZdsRolGerelateerde/*:sub.verblijfBuitenland and
-                ($currentGerelateerde/*:handelsnaam/text() != '' or
-                string-length($currentGerelateerde/*:verblijfsadres) gt 0 or
-                string-length($currentGerelateerde/*:sub.verblijfBuitenland) gt 0)
+                ($currentGerelateerde/*:handelsnaam/text() = $matchWithZdsRolGerelateerde/*:handelsnaam/text() or 
+                (not(exists($currentGerelateerde/*:handelsnaam)) and not(exists($matchWithZdsRolGerelateerde/*:handelsnaam)))) and
+                $currentGerelateerde/*:handelsnaam/text() != ''
                 ">
                 <xsl:copy-of select="." />
             </xsl:when>

@@ -1,4 +1,4 @@
-<xsl:stylesheet exclude-result-prefixes="xs zgw" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://google.com/zgw" version="2.0">
+<xsl:stylesheet exclude-result-prefixes="xs zgw" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://www.wearefrank.nl/zgw" version="2.0">
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="yes"/>
     <xsl:param name="ZgwZaakType" select="''"/>
     <xsl:param name="ZgwStatus" select="''"/>
@@ -50,7 +50,7 @@
                 </xsl:choose>
                 <xsl:choose>
                     <xsl:when test="$ZgwStatusType">
-                        <indicatieLaatsteStatus><xsl:value-of select="zgw:convertZgwBooleanToZdsBoolean($ZgwStatusType/root/ZgwStatusType/isEindstatus)"/></indicatieLaatsteStatus>
+                        <indicatieLaatsteStatus><xsl:value-of select="zgw:convertZgwBooleanToZdsBoolean($ZgwStatus/ZgwStatus/indicatieLaatstGezetteStatus)"/></indicatieLaatsteStatus>
                     </xsl:when>
                     <xsl:otherwise>
                         <indicatieLaatsteStatus><xsl:value-of select="$IndicatieLaatsteStatus"/></indicatieLaatsteStatus>

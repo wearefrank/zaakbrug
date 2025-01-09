@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://google.com/zgw" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://www.wearefrank.nl/zgw" version="2.0">
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
     <xsl:include href="../../ZgwFunctionsBase.xslt" />
 
@@ -25,10 +25,12 @@
             and (string-length($ZdsEinddatum) > 0) 
             and (string-length($ZdsStatusDatum) = 0) 
             and not($ZdsEinddatum = 'Undefined')">
-                <xsl:value-of select="zgw:toZgwDatetime(concat($ZdsEinddatum,'000000'))"/>
+                <!-- No guarantee that current time is later than statusDatumGezet of last set status if einddatum is in the past -->
+                <xsl:value-of select="zgw:toZgwDatetime(concat($ZdsEinddatum, zgw:currentZdsTime()))" />
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="zgw:toZgwDatetime($ZdsStatusDatum)"/>
+                <!-- No guarantee that current time is later than statusDatumGezet of last set status if einddatum is in the past -->
+                <xsl:value-of select="zgw:toZgwDatetime(concat($ZdsStatusDatum, zgw:currentZdsTime()))" />
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>

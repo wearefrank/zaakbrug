@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zgw="http://google.com/zgw">
-    <xs:import namespace="http://google.com/zgw" schemaLocation="../ZgwZakenApi.xsd" />
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zgw="http://www.wearefrank.nl/zgw">
+    <xs:import namespace="http://www.wearefrank.nl/zgw" schemaLocation="../ZgwZakenApi.xsd" />
     <xs:element name="ZgwZaakInformatieObject">
         <xs:complexType>
             <xs:sequence>
