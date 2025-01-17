@@ -89,7 +89,7 @@
                     name="CallCheckZgwRolSender"
                     javaListener="CheckZgwRol"
                     >
-                    <Param name="MatchWithZdsRol" sessionKey="AddRolResult" type="DOMDOC" />
+                    <Param name="MatchWithZgwRol" sessionKey="AddRolResult" type="DOMDOC" />
                 </IbisLocalSender>
                 <Forward name="success" path="LogWarningNew" />
                 <Forward name="404" path="CallPostRol" /> <!-- Rol should not be found -->
