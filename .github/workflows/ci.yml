@@ -15,7 +15,7 @@ jobs:
       version-next: ${{ steps.reference.outputs.next-reference }}
       version-next-strict: ${{ steps.reference.outputs.next-reference }}
     steps:
-      - uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
+      - uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
         with:
           disable-sudo: true
           egress-policy: block
@@ -27,10 +27,10 @@ jobs:
 
       - name: Next Reference
         id: reference
-        uses: wearefrank/ci-cd-templates/next-reference@bdd980ea3327366c72f021c09685abc676b74585 #1.0.12
+        uses: wearefrank/ci-cd-templates/next-reference@2d74f03376f0ed039183954beefda47558a23437 #1.0.15
 
   ci:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@bdd980ea3327366c72f021c09685abc676b74585 #1.0.12
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@2d74f03376f0ed039183954beefda47558a23437 #1.0.15
     needs:
       - version-next
     secrets:
@@ -57,7 +57,7 @@ jobs:
       - ci
       - run-larva-scenarios
     steps:
-      - uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
+      - uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
         with:
           egress-policy: audit
 
@@ -113,7 +113,7 @@ jobs:
           fi
 
       - name: Upload SoapUI testreports as artifact
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 #4.4.3
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 #4.6.0
         if: always()
         with:
           name: reports-soapui-testreports
