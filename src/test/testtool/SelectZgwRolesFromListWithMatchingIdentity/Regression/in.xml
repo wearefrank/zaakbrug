@@ -1,204 +1,182 @@
-<roles
-    xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310"
-    xmlns:StUF="http://www.egem.nl/StUF/StUF0301"
-    xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310">
-    <heeftAlsInitiator entiteittype="ZAKBTRINI" verwerkingssoort="I">
-        <gerelateerde>
-            <natuurlijkPersoon entiteittype="NPS" verwerkingssoort="I">
-                <inp.bsn>111111110</inp.bsn>
-                <authentiek metagegeven="true">J</authentiek>
-                <geslachtsnaam>Precies</geslachtsnaam>
-                <voorvoegselGeslachtsnaam noValue="geenWaarde" nil="true" />
-                <voorletters>P</voorletters>
-                <voornamen>Pietje</voornamen>
-                <geslachtsaanduiding>M</geslachtsaanduiding>
-                <geboortedatum indOnvolledigeDatum="V">19010101</geboortedatum>
-                <verblijfsadres>
-                    <aoa.identificatie noValue="geenWaarde" nil="true" />
-                    <authentiek metagegeven="true">J</authentiek>
-                    <wpl.woonplaatsNaam>Bolsward</wpl.woonplaatsNaam>
-                    <gor.openbareRuimteNaam noValue="geenWaarde" nil="true" />
-                    <gor.straatnaam>Kerkstraat</gor.straatnaam>
-                    <aoa.postcode>8701HP</aoa.postcode>
-                    <aoa.huisnummer>1</aoa.huisnummer>
-                    <aoa.huisletter noValue="geenWaarde" nil="true" />
-                    <aoa.huisnummertoevoeging noValue="geenWaarde" nil="true" />
-                    <inp.locatiebeschrijving noValue="geenWaarde" nil="true" />
-                </verblijfsadres>
-            </natuurlijkPersoon>
-        </gerelateerde>
-        <StUF:extraElementen>
-            <StUF:extraElement naam="kvkNummer">12345678</StUF:extraElement>
-        </StUF:extraElementen>
-    </heeftAlsInitiator>
-    <heeftAlsInitiator entiteittype="ZAKBTRINI">
-        <gerelateerde>
-            <nietNatuurlijkPersoon entiteittype="NNP">
-                <inn.nnpId>823288444</inn.nnpId>
-                <authentiek>N</authentiek>
-                <ann.identificatie />
-                <statutaireNaam>Gemeente Súdwest-Fryslân</statutaireNaam>
-                <inn.rechtsvorm>overig_privaatrechtelijke_rechtspersoon</inn.rechtsvorm>
-            </nietNatuurlijkPersoon>
-        </gerelateerde>
-        <StUF:extraElementen>
-            <StUF:extraElement naam="kvkNummer">12345678</StUF:extraElement>
-        </StUF:extraElementen>
-    </heeftAlsInitiator>
-    <heeftBetrekkingOp entiteittype="ZAKBTRINI" verwerkingssoort="I">
-        <gerelateerde>
-            <natuurlijkPersoon entiteittype="NPS" verwerkingssoort="I">
-                <inp.bsn>111111110</inp.bsn>
-                <authentiek metagegeven="true">J</authentiek>
-                <geslachtsnaam>Precies</geslachtsnaam>
-                <voorvoegselGeslachtsnaam noValue="geenWaarde" nil="true" />
-                <voorletters>P</voorletters>
-                <voornamen>Pietje</voornamen>
-                <geslachtsaanduiding>M</geslachtsaanduiding>
-                <geboortedatum indOnvolledigeDatum="V">19010101</geboortedatum>
-                <verblijfsadres>
-                    <aoa.identificatie noValue="geenWaarde" nil="true" />
-                    <authentiek metagegeven="true">J</authentiek>
-                    <wpl.woonplaatsNaam>Bolsward</wpl.woonplaatsNaam>
-                    <gor.openbareRuimteNaam noValue="geenWaarde" nil="true" />
-                    <gor.straatnaam>Kerkstraat</gor.straatnaam>
-                    <aoa.postcode>8701HP</aoa.postcode>
-                    <aoa.huisnummer>1</aoa.huisnummer>
-                    <aoa.huisletter noValue="geenWaarde" nil="true" />
-                    <aoa.huisnummertoevoeging noValue="geenWaarde" nil="true" />
-                    <inp.locatiebeschrijving noValue="geenWaarde" nil="true" />
-                </verblijfsadres>
-            </natuurlijkPersoon>
-        </gerelateerde>
-    </heeftBetrekkingOp>
-    <heeftAlsBelanghebbende entiteittype="ZAKBTRINI" verwerkingssoort="I">
-        <gerelateerde>
-            <natuurlijkPersoon entiteittype="NPS" verwerkingssoort="I">
-                <inp.bsn>111111110</inp.bsn>
-                <authentiek metagegeven="true">J</authentiek>
-                <geslachtsnaam>Precies</geslachtsnaam>
-                <voorvoegselGeslachtsnaam noValue="geenWaarde" nil="true" />
-                <voorletters>P</voorletters>
-                <voornamen>Pietje</voornamen>
-                <geslachtsaanduiding>M</geslachtsaanduiding>
-                <geboortedatum indOnvolledigeDatum="V">19010101</geboortedatum>
-                <verblijfsadres>
-                    <aoa.identificatie noValue="geenWaarde" nil="true" />
-                    <authentiek metagegeven="true">J</authentiek>
-                    <wpl.woonplaatsNaam>Bolsward</wpl.woonplaatsNaam>
-                    <gor.openbareRuimteNaam noValue="geenWaarde" nil="true" />
-                    <gor.straatnaam>Kerkstraat</gor.straatnaam>
-                    <aoa.postcode>8701HP</aoa.postcode>
-                    <aoa.huisnummer>1</aoa.huisnummer>
-                    <aoa.huisletter noValue="geenWaarde" nil="true" />
-                    <aoa.huisnummertoevoeging noValue="geenWaarde" nil="true" />
-                    <inp.locatiebeschrijving noValue="geenWaarde" nil="true" />
-                </verblijfsadres>
-            </natuurlijkPersoon>
-        </gerelateerde>
-    </heeftAlsBelanghebbende>
-    <heeftAlsUitvoerende entiteittype="ZAKBTRINI" verwerkingssoort="I">
-        <gerelateerde>
-            <natuurlijkPersoon entiteittype="NPS" verwerkingssoort="I">
-                <inp.bsn>111111110</inp.bsn>
-                <authentiek metagegeven="true">J</authentiek>
-                <geslachtsnaam>Precies</geslachtsnaam>
-                <voorvoegselGeslachtsnaam noValue="geenWaarde" nil="true" />
-                <voorletters>P</voorletters>
-                <voornamen>Pietje</voornamen>
-                <geslachtsaanduiding>M</geslachtsaanduiding>
-                <geboortedatum indOnvolledigeDatum="V">19010101</geboortedatum>
-                <verblijfsadres>
-                    <aoa.identificatie noValue="geenWaarde" nil="true" />
-                    <authentiek metagegeven="true">J</authentiek>
-                    <wpl.woonplaatsNaam>Bolsward</wpl.woonplaatsNaam>
-                    <gor.openbareRuimteNaam noValue="geenWaarde" nil="true" />
-                    <gor.straatnaam>Kerkstraat</gor.straatnaam>
-                    <aoa.postcode>8701HP</aoa.postcode>
-                    <aoa.huisnummer>1</aoa.huisnummer>
-                    <aoa.huisletter noValue="geenWaarde" nil="true" />
-                    <aoa.huisnummertoevoeging noValue="geenWaarde" nil="true" />
-                    <inp.locatiebeschrijving noValue="geenWaarde" nil="true" />
-                </verblijfsadres>
-            </natuurlijkPersoon>
-        </gerelateerde>
-    </heeftAlsUitvoerende>
-    <heeftAlsVerantwoordelijke entiteittype="ZAKBTRINI" verwerkingssoort="I">
-        <gerelateerde>
-            <natuurlijkPersoon entiteittype="NPS" verwerkingssoort="I">
-                <inp.bsn>111111110</inp.bsn>
-                <authentiek metagegeven="true">J</authentiek>
-                <geslachtsnaam>Precies</geslachtsnaam>
-                <voorvoegselGeslachtsnaam noValue="geenWaarde" nil="true" />
-                <voorletters>P</voorletters>
-                <voornamen>Pietje</voornamen>
-                <geslachtsaanduiding>M</geslachtsaanduiding>
-                <geboortedatum indOnvolledigeDatum="V">19010101</geboortedatum>
-                <verblijfsadres>
-                    <aoa.identificatie noValue="geenWaarde" nil="true" />
-                    <authentiek metagegeven="true">J</authentiek>
-                    <wpl.woonplaatsNaam>Bolsward</wpl.woonplaatsNaam>
-                    <gor.openbareRuimteNaam noValue="geenWaarde" nil="true" />
-                    <gor.straatnaam>Kerkstraat</gor.straatnaam>
-                    <aoa.postcode>8701HP</aoa.postcode>
-                    <aoa.huisnummer>1</aoa.huisnummer>
-                    <aoa.huisletter noValue="geenWaarde" nil="true" />
-                    <aoa.huisnummertoevoeging noValue="geenWaarde" nil="true" />
-                    <inp.locatiebeschrijving noValue="geenWaarde" nil="true" />
-                </verblijfsadres>
-            </natuurlijkPersoon>
-        </gerelateerde>
-    </heeftAlsVerantwoordelijke>
-    <heeftAlsGemachtigde entiteittype="ZAKBTRINI" verwerkingssoort="I">
-        <gerelateerde>
-            <natuurlijkPersoon entiteittype="NPS" verwerkingssoort="I">
-                <inp.bsn>111111110</inp.bsn>
-                <authentiek metagegeven="true">J</authentiek>
-                <geslachtsnaam>Precies</geslachtsnaam>
-                <voorvoegselGeslachtsnaam noValue="geenWaarde" nil="true" />
-                <voorletters>P</voorletters>
-                <voornamen>Pietje</voornamen>
-                <geslachtsaanduiding>M</geslachtsaanduiding>
-                <geboortedatum indOnvolledigeDatum="V">19010101</geboortedatum>
-                <verblijfsadres>
-                    <aoa.identificatie noValue="geenWaarde" nil="true" />
-                    <authentiek metagegeven="true">J</authentiek>
-                    <wpl.woonplaatsNaam>Bolsward</wpl.woonplaatsNaam>
-                    <gor.openbareRuimteNaam noValue="geenWaarde" nil="true" />
-                    <gor.straatnaam>Kerkstraat</gor.straatnaam>
-                    <aoa.postcode>8701HP</aoa.postcode>
-                    <aoa.huisnummer>1</aoa.huisnummer>
-                    <aoa.huisletter noValue="geenWaarde" nil="true" />
-                    <aoa.huisnummertoevoeging noValue="geenWaarde" nil="true" />
-                    <inp.locatiebeschrijving noValue="geenWaarde" nil="true" />
-                </verblijfsadres>
-            </natuurlijkPersoon>
-        </gerelateerde>
-    </heeftAlsGemachtigde>
-    <heeftAlsOverigBetrokkene entiteittype="ZAKBTRINI" verwerkingssoort="I">
-        <gerelateerde>
-            <natuurlijkPersoon entiteittype="NPS" verwerkingssoort="I">
-                <inp.bsn>111111110</inp.bsn>
-                <authentiek metagegeven="true">J</authentiek>
-                <geslachtsnaam>Precies</geslachtsnaam>
-                <voorvoegselGeslachtsnaam noValue="geenWaarde" nil="true" />
-                <voorletters>P</voorletters>
-                <voornamen>Pietje</voornamen>
-                <geslachtsaanduiding>M</geslachtsaanduiding>
-                <geboortedatum indOnvolledigeDatum="V">19010101</geboortedatum>
-                <verblijfsadres>
-                    <aoa.identificatie noValue="geenWaarde" nil="true" />
-                    <authentiek metagegeven="true">J</authentiek>
-                    <wpl.woonplaatsNaam>Bolsward</wpl.woonplaatsNaam>
-                    <gor.openbareRuimteNaam noValue="geenWaarde" nil="true" />
-                    <gor.straatnaam>Kerkstraat</gor.straatnaam>
-                    <aoa.postcode>8701HP</aoa.postcode>
-                    <aoa.huisnummer>1</aoa.huisnummer>
-                    <aoa.huisletter noValue="geenWaarde" nil="true" />
-                    <aoa.huisnummertoevoeging noValue="geenWaarde" nil="true" />
-                    <inp.locatiebeschrijving noValue="geenWaarde" nil="true" />
-                </verblijfsadres>
-            </natuurlijkPersoon>
-        </gerelateerde>
-    </heeftAlsOverigBetrokkene>
-</roles>
+<ZgwRollen>
+	<zgwRol>
+		<roltype>http://open-zaak.nginx:9001/catalogi/api/v1/roltypen/8fec2864-8d49-4349-b963-429409607973</roltype>
+		<omschrijving>Initiator</omschrijving>
+		<omschrijvingGeneriek>initiator</omschrijvingGeneriek>
+		<betrokkeneType>natuurlijk_persoon</betrokkeneType>
+		<roltoelichting>Initiator:Precies</roltoelichting>
+		<betrokkeneIdentificatie>
+			<inpBsn>111111110</inpBsn>
+			<authentiek>J</authentiek>
+            <geslachtsnaam>Precies</geslachtsnaam>
+            <voorvoegselGeslachtsnaam>Lalala</voorvoegselGeslachtsnaam>
+            <voorletters>P</voorletters>
+            <voornamen>Pietje</voornamen>
+            <geslachtsaanduiding>m</geslachtsaanduiding>
+            <geboortedatum>1901-01-01</geboortedatum>
+            <verblijfsadres>
+                <aoaIdentificatie>0091200000046730</aoaIdentificatie>
+                <wplWoonplaatsNaam>Bolsward</wplWoonplaatsNaam>
+                <gorOpenbareRuimteNaam>Marktstraat</gorOpenbareRuimteNaam>
+                <aoaPostcode>8701HP</aoaPostcode>
+                <aoaHuisnummer>1</aoaHuisnummer>
+            </verblijfsadres>
+		</betrokkeneIdentificatie>
+	</zgwRol>
+    <zgwRol>
+        <betrokkeneIdentificatie>
+            <innNnpId>823288444</innNnpId>
+            <innRechtsvorm>overig_privaatrechtelijke_rechtspersoon</innRechtsvorm>
+            <statutaireNaam>Gemeente Súdwest-Fryslân</statutaireNaam>
+        </betrokkeneIdentificatie>
+        <betrokkeneType>niet_natuurlijk_persoon</betrokkeneType>
+        <omschrijving>Initiator</omschrijving>
+        <omschrijvingGeneriek>initiator</omschrijvingGeneriek>
+        <roltoelichting>Initiator:Gemeente Súdwest-Fryslân</roltoelichting>
+        <roltype>http://open-zaak.nginx:9001/catalogi/api/v1/roltypen/b75c2af6-3636-45e2-aed5-3c9cc67585be</roltype>
+    </zgwRol>
+    <zgwRol>
+		<roltype>http://open-zaak.nginx:9001/catalogi/api/v1/roltypen/8fec2864-8d49-4349-b963-429409607973</roltype>
+		<omschrijving>BetrekkingOp</omschrijving>
+		<omschrijvingGeneriek>belanghebbende</omschrijvingGeneriek>
+		<betrokkeneType>natuurlijk_persoon</betrokkeneType>
+		<roltoelichting>Initiator:Precies</roltoelichting>
+		<betrokkeneIdentificatie>
+			<inpBsn>111111110</inpBsn>
+			<authentiek>J</authentiek>
+            <geslachtsnaam>Precies</geslachtsnaam>
+            <voorvoegselGeslachtsnaam>Lalala</voorvoegselGeslachtsnaam>
+            <voorletters>P</voorletters>
+            <voornamen>Pietje</voornamen>
+            <geslachtsaanduiding>m</geslachtsaanduiding>
+            <geboortedatum>1901-01-01</geboortedatum>
+            <verblijfsadres>
+                <aoaIdentificatie>0091200000046730</aoaIdentificatie>
+                <wplWoonplaatsNaam>Bolsward</wplWoonplaatsNaam>
+                <gorOpenbareRuimteNaam>Marktstraat</gorOpenbareRuimteNaam>
+                <aoaPostcode>8701HP</aoaPostcode>
+                <aoaHuisnummer>1</aoaHuisnummer>
+            </verblijfsadres>
+		</betrokkeneIdentificatie>
+	</zgwRol>
+    <zgwRol>
+		<roltype>http://open-zaak.nginx:9001/catalogi/api/v1/roltypen/8fec2864-8d49-4349-b963-429409607973</roltype>
+		<omschrijving>Belanghebbende</omschrijving>
+		<omschrijvingGeneriek>belanghebbende</omschrijvingGeneriek>
+		<betrokkeneType>natuurlijk_persoon</betrokkeneType>
+		<roltoelichting>Initiator:Precies</roltoelichting>
+		<betrokkeneIdentificatie>
+			<inpBsn>111111110</inpBsn>
+			<authentiek>J</authentiek>
+            <geslachtsnaam>Precies</geslachtsnaam>
+            <voorvoegselGeslachtsnaam>Lalala</voorvoegselGeslachtsnaam>
+            <voorletters>P</voorletters>
+            <voornamen>Pietje</voornamen>
+            <geslachtsaanduiding>m</geslachtsaanduiding>
+            <geboortedatum>1901-01-01</geboortedatum>
+            <verblijfsadres>
+                <aoaIdentificatie>0091200000046730</aoaIdentificatie>
+                <wplWoonplaatsNaam>Bolsward</wplWoonplaatsNaam>
+                <gorOpenbareRuimteNaam>Marktstraat</gorOpenbareRuimteNaam>
+                <aoaPostcode>8701HP</aoaPostcode>
+                <aoaHuisnummer>1</aoaHuisnummer>
+            </verblijfsadres>
+		</betrokkeneIdentificatie>
+	</zgwRol>
+    <zgwRol>
+		<roltype>http://open-zaak.nginx:9001/catalogi/api/v1/roltypen/8fec2864-8d49-4349-b963-429409607973</roltype>
+		<omschrijving>Uitvoerende</omschrijving>
+		<omschrijvingGeneriek>behandelaar</omschrijvingGeneriek>
+		<betrokkeneType>natuurlijk_persoon</betrokkeneType>
+		<roltoelichting>Initiator:Precies</roltoelichting>
+		<betrokkeneIdentificatie>
+			<inpBsn>111111110</inpBsn>
+			<authentiek>J</authentiek>
+            <geslachtsnaam>Precies</geslachtsnaam>
+            <voorvoegselGeslachtsnaam>Lalala</voorvoegselGeslachtsnaam>
+            <voorletters>P</voorletters>
+            <voornamen>Pietje</voornamen>
+            <geslachtsaanduiding>m</geslachtsaanduiding>
+            <geboortedatum>1901-01-01</geboortedatum>
+            <verblijfsadres>
+                <aoaIdentificatie>0091200000046730</aoaIdentificatie>
+                <wplWoonplaatsNaam>Bolsward</wplWoonplaatsNaam>
+                <gorOpenbareRuimteNaam>Marktstraat</gorOpenbareRuimteNaam>
+                <aoaPostcode>8701HP</aoaPostcode>
+                <aoaHuisnummer>1</aoaHuisnummer>
+            </verblijfsadres>
+		</betrokkeneIdentificatie>
+	</zgwRol>
+    <zgwRol>
+		<roltype>http://open-zaak.nginx:9001/catalogi/api/v1/roltypen/8fec2864-8d49-4349-b963-429409607973</roltype>
+		<omschrijving>Verantwoordelijke</omschrijving>
+		<omschrijvingGeneriek>beslisser</omschrijvingGeneriek>
+		<betrokkeneType>natuurlijk_persoon</betrokkeneType>
+		<roltoelichting>Initiator:Precies</roltoelichting>
+		<betrokkeneIdentificatie>
+			<inpBsn>111111110</inpBsn>
+			<authentiek>J</authentiek>
+            <geslachtsnaam>Precies</geslachtsnaam>
+            <voorvoegselGeslachtsnaam>Lalala</voorvoegselGeslachtsnaam>
+            <voorletters>P</voorletters>
+            <voornamen>Pietje</voornamen>
+            <geslachtsaanduiding>m</geslachtsaanduiding>
+            <geboortedatum>1901-01-01</geboortedatum>
+            <verblijfsadres>
+                <aoaIdentificatie>0091200000046730</aoaIdentificatie>
+                <wplWoonplaatsNaam>Bolsward</wplWoonplaatsNaam>
+                <gorOpenbareRuimteNaam>Marktstraat</gorOpenbareRuimteNaam>
+                <aoaPostcode>8701HP</aoaPostcode>
+                <aoaHuisnummer>1</aoaHuisnummer>
+            </verblijfsadres>
+		</betrokkeneIdentificatie>
+	</zgwRol>
+    <zgwRol>
+		<roltype>http://open-zaak.nginx:9001/catalogi/api/v1/roltypen/8fec2864-8d49-4349-b963-429409607973</roltype>
+		<omschrijving>Gemachtigde</omschrijving>
+		<omschrijvingGeneriek>beslisser</omschrijvingGeneriek>
+		<betrokkeneType>natuurlijk_persoon</betrokkeneType>
+		<roltoelichting>Initiator:Precies</roltoelichting>
+		<betrokkeneIdentificatie>
+			<inpBsn>111111110</inpBsn>
+			<authentiek>J</authentiek>
+            <geslachtsnaam>Precies</geslachtsnaam>
+            <voorvoegselGeslachtsnaam>Lalala</voorvoegselGeslachtsnaam>
+            <voorletters>P</voorletters>
+            <voornamen>Pietje</voornamen>
+            <geslachtsaanduiding>m</geslachtsaanduiding>
+            <geboortedatum>1901-01-01</geboortedatum>
+            <verblijfsadres>
+                <aoaIdentificatie>0091200000046730</aoaIdentificatie>
+                <wplWoonplaatsNaam>Bolsward</wplWoonplaatsNaam>
+                <gorOpenbareRuimteNaam>Marktstraat</gorOpenbareRuimteNaam>
+                <aoaPostcode>8701HP</aoaPostcode>
+                <aoaHuisnummer>1</aoaHuisnummer>
+            </verblijfsadres>
+		</betrokkeneIdentificatie>
+	</zgwRol>
+    <zgwRol>
+		<roltype>http://open-zaak.nginx:9001/catalogi/api/v1/roltypen/8fec2864-8d49-4349-b963-429409607973</roltype>
+		<omschrijving>OverigeBetrokkene</omschrijving>
+		<omschrijvingGeneriek>behandelaar</omschrijvingGeneriek>
+		<betrokkeneType>natuurlijk_persoon</betrokkeneType>
+		<roltoelichting>Initiator:Precies</roltoelichting>
+		<betrokkeneIdentificatie>
+			<inpBsn>111111110</inpBsn>
+			<authentiek>J</authentiek>
+            <geslachtsnaam>Precies</geslachtsnaam>
+            <voorvoegselGeslachtsnaam>Lalala</voorvoegselGeslachtsnaam>
+            <voorletters>P</voorletters>
+            <voornamen>Pietje</voornamen>
+            <geslachtsaanduiding>m</geslachtsaanduiding>
+            <geboortedatum>1901-01-01</geboortedatum>
+            <verblijfsadres>
+                <aoaIdentificatie>0091200000046730</aoaIdentificatie>
+                <wplWoonplaatsNaam>Bolsward</wplWoonplaatsNaam>
+                <gorOpenbareRuimteNaam>Marktstraat</gorOpenbareRuimteNaam>
+                <aoaPostcode>8701HP</aoaPostcode>
+                <aoaHuisnummer>1</aoaHuisnummer>
+            </verblijfsadres>
+		</betrokkeneIdentificatie>
+	</zgwRol>
+</ZgwRollen>

@@ -1,15 +1,13 @@
-<roles
-    xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310"
-    xmlns:StUF="http://www.egem.nl/StUF/StUF0301"
-    xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310">
-    <heeftAlsInitiator entiteittype="ZAKBTRINI">
-        <gerelateerde>
-            <nietNatuurlijkPersoon entiteittype="NNP">
-                <statutaireNaam>Gemeente Súdwest-Fryslân</statutaireNaam>
-            </nietNatuurlijkPersoon>
-        </gerelateerde>
-        <StUF:extraElementen>
-            <StUF:extraElement naam="kvkNummer">different but no kerngegeven</StUF:extraElement>
-        </StUF:extraElementen>
-    </heeftAlsInitiator>
-</roles>
+<ZgwRollen>
+	<zgwRol>
+		<betrokkeneIdentificatie>
+			<authentiek>N</authentiek>
+			<statutaireNaam>Gemeente Súdwest-Fryslân</statutaireNaam>
+		</betrokkeneIdentificatie>
+		<betrokkeneType>niet_natuurlijk_persoon</betrokkeneType>
+		<omschrijving>Initiator</omschrijving>
+		<omschrijvingGeneriek>initiator</omschrijvingGeneriek>
+		<roltoelichting>Initiator:Gemeente Súdwest-Fryslân</roltoelichting>
+		<roltype>http://open-zaak.nginx:9001/catalogi/api/v1/roltypen/b75c2af6-3636-45e2-aed5-3c9cc67585be</roltype>
+	</zgwRol>
+</ZgwRollen>

@@ -1,35 +1,25 @@
-<roles
-    xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310"
-    xmlns:StUF="http://www.egem.nl/StUF/StUF0301"
-    xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310">
-    <heeftAlsInitiator entiteittype="ZAKBTRINI">
-        <gerelateerde xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310"
-            xmlns:StUF="http://www.egem.nl/StUF/StUF0301"
-            xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310">
-            <natuurlijkPersoon entiteittype="NPS">
-                <inp.a-nummer>1234567890</inp.a-nummer>
-                <geslachtsnaam>Precies</geslachtsnaam>
-                <voorvoegselGeslachtsnaam>Lala</voorvoegselGeslachtsnaam>
-                <voorletters>P</voorletters>
-                <voornamen>Pietje</voornamen>
-                <geslachtsaanduiding>M</geslachtsaanduiding>
-                <geboortedatum indOnvolledigeDatum="V">19010101</geboortedatum>
-                <verblijfsadres>
-                    <aoa.identificatie noValue="geenWaarde" nil="true" />
-                    <authentiek metagegeven="true">J</authentiek>
-                    <wpl.woonplaatsNaam>Bolsward</wpl.woonplaatsNaam>
-                    <gor.openbareRuimteNaam noValue="geenWaarde" nil="true" />
-                    <gor.straatnaam>Kerkstraat</gor.straatnaam>
-                    <aoa.postcode>8701HP</aoa.postcode>
-                    <aoa.huisnummer>1</aoa.huisnummer>
-                    <aoa.huisletter noValue="geenWaarde" nil="true" />
-                    <aoa.huisnummertoevoeging noValue="geenWaarde" nil="true" />
-                    <inp.locatiebeschrijving noValue="geenWaarde" nil="true" />
-                </verblijfsadres>
-            </natuurlijkPersoon>
-        </gerelateerde>
-        <StUF:extraElementen xmlns:StUF="http://www.egem.nl/StUF/StUF0301">
-            <StUF:extraElement naam="kvkNummer">12345678</StUF:extraElement>
-        </StUF:extraElementen>
-    </heeftAlsInitiator>
-</roles>
+<ZgwRollen>
+	<zgwRol>
+		<roltype>http://open-zaak.nginx:9001/catalogi/api/v1/roltypen/8fec2864-8d49-4349-b963-429409607973</roltype>
+		<omschrijving>Initiator</omschrijving>
+		<omschrijvingGeneriek>initiator</omschrijvingGeneriek>
+		<betrokkeneType>natuurlijk_persoon</betrokkeneType>
+		<roltoelichting>Initiator:Precies</roltoelichting>
+		<betrokkeneIdentificatie>
+			<inpA_nummer>1234567890</inpA_nummer>
+            <geslachtsnaam>Precies</geslachtsnaam>
+            <voorvoegselGeslachtsnaam>Lalala</voorvoegselGeslachtsnaam>
+            <voorletters>P</voorletters>
+            <voornamen>Pietje</voornamen>
+            <geslachtsaanduiding>m</geslachtsaanduiding>
+            <geboortedatum>1901-01-01</geboortedatum>
+            <verblijfsadres>
+                <aoaIdentificatie>0091200000046730</aoaIdentificatie>
+                <wplWoonplaatsNaam>Bolsward</wplWoonplaatsNaam>
+                <gorOpenbareRuimteNaam>Marktstraat</gorOpenbareRuimteNaam>
+                <aoaPostcode>8701HP</aoaPostcode>
+                <aoaHuisnummer>1</aoaHuisnummer>
+            </verblijfsadres>
+		</betrokkeneIdentificatie>
+	</zgwRol>
+</ZgwRollen>
