@@ -16,14 +16,14 @@
         <xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> MatchWithZgwRol: [{serialize($MatchWithZgwRol, $debugSerializeParams)}] </xsl:comment></xsl:if>
         <xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> rootName: [{serialize($rootName, $debugSerializeParams)}] </xsl:comment></xsl:if>
 
-        <roles>
+        <ZgwRollen>
             <xsl:variable name="matchingRoles">
                 <xsl:apply-templates select="//*[local-name() = $rootName]"/>
             </xsl:variable>
             <xsl:copy-of select="$matchingRoles//namespace-node()" />
             <!-- Transfer any namespaces from children to roles parent -->
             <xsl:copy-of select="$matchingRoles" copy-namespaces="false" />
-        </roles>
+        </ZgwRollen>
     </xsl:template>
 
     <xsl:template match="*:zgwRol">
