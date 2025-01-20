@@ -1,5 +1,16 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.22.10](https://github.com/wearefrank/zaakbrug/compare/v1.22.9...v1.22.10) (2025-01-20)
+
+### 🧑‍💻 Code Refactoring
+
+* match zds and zgw roles on the zgw side instead of the zds side due to valueoverrides being applied on the zgw side aswell ([#499](https://github.com/wearefrank/zaakbrug/issues/499)) ([8144b7f](https://github.com/wearefrank/zaakbrug/commit/8144b7f535b8483121966c8c3c5942ce98929b4b))
+
+### 🤖 Build System
+
+* **dependencies:** bump the github-actions group with 5 updates ([#501](https://github.com/wearefrank/zaakbrug/issues/501)) ([4d4fa96](https://github.com/wearefrank/zaakbrug/commit/4d4fa96d9667f47f4e4e42f9f96460d676199c3d))
+* **dependencies:** bump typescript ([#498](https://github.com/wearefrank/zaakbrug/issues/498)) ([1845306](https://github.com/wearefrank/zaakbrug/commit/1845306f1adc624338e1bfab27d12eee2829a723))
+
 ## [1.22.9](https://github.com/wearefrank/zaakbrug/compare/v1.22.8...v1.22.9) (2025-01-09)
 
 ### 🐛 Bug Fixes
