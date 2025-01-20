@@ -1,0 +1,117 @@
+name: SoapUI TestRunner
+
+on:
+  workflow_call:
+    inputs:
+      project-dir:
+        type: string
+        description: >
+          Absolute path to project folder.
+
+          Default: ${PWD}
+        required: false
+        default: '${PWD}'
+      soapui-project:
+        type: string
+        description: >
+          Filename of the SoapUI project file.
+
+          Warning: Is is very strongly recommended to have the SoapUI project file at the root of the project.
+        required: true
+      reports-dir:
+        type: string
+        description: >
+          Directory relative to project directory for writing test reports to.
+
+          Default: <project-dir>/soapui-reports
+        required: false
+        default: 'soapui-reports'
+      properties-file:
+        type: string
+        description: >
+          Path to optional properties file relative to the project folder. Properties should be formatted as a <key>=<value> per line.
+          Properties will be loaded as 'Global' properties, which can be references within the project by `${<key>}`, `${#Global#<key>}` or `${#System#<key>}`.
+
+          Default: <project-dir>/soapui.ci.properties
+        required: false
+        default: 'soapui.ci.properties'
+      soapui-version:
+        type: string
+        description: >
+          SoapUI version.
+
+          Default: latest
+        required: false
+        default: 'latest'
+      frank-version:
+        type: string
+        description: asd
+        required: true
+      image-id:
+        type: string
+        description: asd
+        required: true
+      image-name:
+        type: string
+        description: asd
+        required: true
+      setup-script:
+        type: string
+        description: >
+          asd
+        required: false
+      teardown-script:
+        type: string
+        description: >
+          asd
+        required: false
+    secrets:
+      token:
+        required: true
+
+jobs:
+  soapui-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #4.2.2
+        with:
+          token: ${{secrets.token}}
+
+      - name: Download Docker tar
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 #4.1.8
+        with:
+          name: build-docker-image
+
+      - name: Load Docker tar
+        shell: bash
+        run: |
+          docker load --input image.tar
+          docker image ls -a
+
+      - name: Setup Test Environment
+        shell: bash
+        env:
+          IMAGE_ID: ${{inputs.image-id}}
+          IMAGE_TAG: ${{inputs.image-name}}
+        run: ${{inputs.setup-script}}
+      
+      - name: Wait Till Healthy
+        uses: ./actions/wait-till-healthy-container
+        with:
+          image-id: ${{inputs.image-id}}
+          image-name: ${{inputs.image-name}}
+
+      - name: SoapUI Tests
+        uses: ./actions/soapui-testrunner
+        timeout-minutes: 15
+        with:
+          soapui-project: ${{inputs.soapui-project}}
+          reports-dir: ${{inputs.reports-dir}}
+          project-dir: ${{inputs.project-dir}}
+          properties-file: ${{inputs.properties-file}}
+          soapui-version: ${{inputs.soapui-version}}
+      
+      - name: Teardown Test Environment
+        shell: bash
+        run: ${{inputs.teardown-script}}

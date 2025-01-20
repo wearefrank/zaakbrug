@@ -1,0 +1,73 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  junit-to-md:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #4.2.2
+ 
+      - uses: ././actions/junit-to-markdown
+        with:
+          reports-dir: ${PWD}/soapui-reports
+
+  # version-next:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: read
+  #   outputs:
+  #     version-next: ${{ steps.reference.outputs.next-reference }}
+  #     version-next-strict: ${{ steps.reference.outputs.next-reference }}
+  #   steps:
+  #     - uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
+  #       with:
+  #         disable-sudo: true
+  #         egress-policy: block
+  #         allowed-endpoints: >
+  #           github.com:443
+
+  #     - name: Checkout
+  #       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #4.2.2
+
+  #     - name: Next Reference
+  #       id: reference
+  #       uses: wearefrank/ci-cd-templates/next-reference@bdd980ea3327366c72f021c09685abc676b74585 #1.0.12
+
+  ci:
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@bdd980ea3327366c72f021c09685abc676b74585 #1.0.12
+    needs:
+      - version-next
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      version: ${{ needs.version-next.outputs.version-next }}
+      docker-image-repo: 'wearefrank'
+      docker-image-name: 'zaakbrug'
+      upload-sarif-to-security: false
+      run-frank-till-healthy-enabled: false
+
+  soapui-tests:
+    uses: ./.github/workflows/soapui-testrunner.yml
+    needs:
+      - version-next
+      - ci
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      soapui-project: 'soapui-project.xml'
+      project-dir: 'C:/Projects/zaakbrug'
+      image-id: ${{needs.ci.outputs.image-id}}
+      image-name: wearefrank/zaakbrug
+      frank-version: ${{needs.version-next.outputs.version-next}}
+      setup-script: |
+        docker compose -f ./compose.ci.yaml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml up -d --force-recreate
+      teardown-script: |
+        docker compose -f ./compose.ci.yaml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml down -v

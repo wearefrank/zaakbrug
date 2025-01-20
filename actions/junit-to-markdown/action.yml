@@ -1,0 +1,22 @@
+name: "JUnit To Markdown"
+description: "Converts JUnit reports to Markdown format"
+inputs:
+  reports-dir:
+    description: >
+      Directory relative to project directory to read reports from.
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Dependencies
+      shell: bash
+      run: |
+        sudo apt-get update && sudo apt-get install xsltproc -y
+
+    - name: Merge reports
+      shell: bash
+      run: |
+        cd ${{inputs.reports-dir}}
+        xsltproc 'merge.xslt' -o 'merged.xml' --path '*TEST*.xml' -v
+      

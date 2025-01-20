@@ -42,7 +42,7 @@ services:
       DB_HOSTNAME: zaakbrug-postgres
       DB_PORT: 5432
     volumes:
-      - ./docker/zaakbrug-postgres/context.xml:/usr/local/tomcat/conf/Catalina/localhost/ROOT.xml:rw
+      - C:/Projects/zaakbrug/docker/zaakbrug-postgres/context.xml:/usr/local/tomcat/conf/Catalina/localhost/ROOT.xml:rw
     depends_on:
       - zaakbrug-postgres
 

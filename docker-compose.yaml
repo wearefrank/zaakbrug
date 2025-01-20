@@ -1,0 +1,59 @@
+services:
+  frank:
+    build:
+      context: .
+      args:
+        FF_VERSION: ${FF_VERSION:-8.3.0-20240730.042429}
+    image: wearefrank/frank:${VERSION:-latest}
+    ports:
+      - "${PORT:-8080}:8080"
+    environment:
+      application.server.type.custom: ${TRANSACTION_MANAGER:-NARAYANA}
+      credentialFactory.class: nl.nn.credentialprovider.PropertyFileCredentialFactory
+      credentialFactory.map.properties: /opt/frank/resources/credentials.properties
+      TZ: ${TIME_ZONE:-Europe/Amsterdam}
+    env_file:
+      - .env
+    volumes:
+      - frank-h2db-data:/opt/frank/h2
+      - frank-logs:/usr/local/tomcat/logs
+    develop:
+      watch:
+        - action: sync
+          path: C:/Projects/zaakbrug/src/main/configurations
+          target: /opt/frank/configurations
+        - action: sync
+          path: C:/Projects/zaakbrug/src/main/resources
+          target: /opt/frank/resources
+        - action: sync
+          path: C:/Projects/zaakbrug/src/test/testtool
+          target: /opt/frank/testtool
+        - action: sync+restart
+          path: C:/Projects/zaakbrug/src/main/resources/DeploymentSpecifics.properties
+          target: /opt/frank/resources/DeploymentSpecifics.properties
+        - action: sync+restart
+          path: C:/Projects/zaakbrug/src/main/resources/ladybug/DatabaseChangelog_Custom.xml
+          target: /opt/frank/resources/ladybug/DatabaseChangelog_Custom.xml
+        - action: sync+restart
+          path: C:/Projects/zaakbrug/src/main/resources/springIbisTestToolCustom.xml
+          target: /opt/frank/resources/springIbisTestToolCustom.xml
+        - action: sync+restart
+          path: C:/Projects/zaakbrug/src/main/secrets
+          target: /opt/frank/secrets
+        - action: rebuild
+          path: C:/Projects/zaakbrug/src/main/java
+        - action: rebuild
+          path: C:/Projects/zaakbrug/src/main/webapp/META-INF/context.xml
+    networks:
+      - zaakbrug-stack
+      - zaakbrug-backend
+    restart: unless-stopped
+
+networks:
+  zaakbrug-stack:
+  zaakbrug-backend:
+
+volumes:
+  frank-logs:
+  frank-h2db-data:
+

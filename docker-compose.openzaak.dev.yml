@@ -11,7 +11,7 @@ services:
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
-      - ./docker/open-zaak-db/postgres.entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+      - C:/Projects/zaakbrug/docker/open-zaak-db/postgres.entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
       - open-zaak-db:/var/lib/postgresql/data
     networks:
       - open-zaak-backend
@@ -56,7 +56,7 @@ services:
     volumes: &open-zaak-volumes
       - open-zaak-media:/app/media
       - open-zaak-private-media:/app/private-media
-      - ./docker/open-zaak:/app/fixtures
+      - C:/Projects/zaakbrug/docker/open-zaak:/app/fixtures
     depends_on:
       - open-zaak-db
       - open-zaak-redis
@@ -88,7 +88,7 @@ services:
     image: nginx
     container_name: open-zaak.nginx
     volumes:
-      - ./docker/open-zaak-nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - C:/Projects/zaakbrug/docker/open-zaak-nginx/default.conf:/etc/nginx/conf.d/default.conf
       - open-zaak-private-media:/private-media
     networks:
       - zaakbrug-stack
@@ -101,7 +101,7 @@ services:
   nginx:
     image: nginx
     volumes:
-      - ./docker/open-zaak-nginx/openzaak.conf:/etc/nginx/includes/openzaak.conf
+      - C:/Projects/zaakbrug/docker/open-zaak-nginx/openzaak.conf:/etc/nginx/includes/openzaak.conf
     networks:
       - open-zaak-backend
     ports:

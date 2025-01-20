@@ -1,0 +1,85 @@
+name: "Wait Till Docker Container Healthy"
+description: "Waits till Docker container's health endpoint returns 'HEALTHY'."
+inputs:
+  image-id:
+    description: >
+      Docker image id of the loaded image to use.
+
+      Note that the Docker image needs to be available to the Docker runtime already.
+    required: false
+  image-name:
+    description: >
+      Docker image name of the loaded image to use. For example: 'wearefrank/zaakbrug'.
+
+      Note that the Docker image needs to be available to the Docker runtime already.
+    required: false
+  timeout-sec:
+    description: Maximum duration to wait for a healthy container.
+    required: false
+    default: '300'
+
+runs:
+  using: "composite"
+  steps:
+    - name: List loaded Docker images
+      if: runner.debug == '1'
+      shell: bash
+      run: |
+        docker ps -aq --no-trunc
+
+    - name: Container-Id From Image-Id
+      id: from-image-id
+      if: inputs.image-id != ''
+      shell: bash
+      run: |
+        echo "container-id=$(docker ps --latest -aqf ancestor=${{inputs.image-id}} --no-trunc)" >> "$GITHUB_OUTPUT"
+
+    - name: Container-Id From Image-Name
+      id: from-image-name
+      if: inputs.image-name != '' && steps.from-image-id.outcome != 'success'
+      shell: bash
+      run: |
+        echo "container-id=$(docker ps --latest -aqf ancestor=${{inputs.image-name}} --no-trunc)" >> "$GITHUB_OUTPUT"
+
+    - name: Container-Id Not Found
+      if: steps.from-image-id.outcome != 'success' && steps.from-image-name.outcome != 'success'
+      shell: bash
+      run: |
+        echo "Container-Id could not be resolved with from image-id: [${{inputs.image-id}}] or image-name: [${{inputs.image-name}}]."
+        exit 1
+
+    - name: Wait Till Container Healthy
+      env:
+        TIMEOUT: ${{inputs.timeout-sec}}
+        CONTAINER_ID: ${{steps.from-image-id.outputs.container-id || steps.from-image-name.outputs.container-id}}
+      shell: bash
+      run: |
+        set -eux
+
+        START_TIME=$(date +%s)
+
+        while true; do
+          if [ "$(docker inspect --format='{{json .State.Health.Status}}' $CONTAINER_ID)" = '"healthy"' ]; then
+            echo "Application is healthy."
+            break
+          fi
+          CURRENT_TIME=$(date +%s)
+          ELAPSED_TIME=$((CURRENT_TIME - START_TIME))
+          if [ $ELAPSED_TIME -ge $TIMEOUT ]; then
+            echo "Application did not become healthy within [$TIMEOUT] seconds. Failing the job."
+            exit 1
+          fi
+          echo "Waiting for application to be healthy..."
+          sleep 5
+        done
+
+    - name: Docker inspect, stats and logs
+      if: failure() || runner.debug == '1'
+      env:
+        CONTAINER_ID: ${{steps.from-image-id.outputs.container-id || steps.from-image-name.outputs.container-id}}
+      shell: bash
+      run: |
+        docker inspect $CONTAINER_ID
+        docker logs $CONTAINER_ID
+        docker stats --no-stream $CONTAINER_ID
+      

@@ -1,0 +1,131 @@
+name: SoapUI TestRunner
+description: Runs SoapUI tests
+inputs:
+  project-dir:
+    description: >
+      Absolute path to project folder.
+
+      Default: ${PWD}
+    required: true
+    default: '${PWD}'
+  soapui-project:
+    description: >
+      Filename of the SoapUI project file.
+
+      Warning: Is is very strongly recommended to have the SoapUI project file at the root of the project.
+    required: true
+  reports-dir:
+    description: >
+      Directory relative to project directory for writing test reports to.
+
+      Default: <project-dir>/soapui-reports
+    required: true
+    default: 'soapui-reports'
+  properties-file:
+    description: >
+      Path to optional properties file relative to the project folder. Properties should be formatted as a <key>=<value> per line.
+      Properties will be loaded as 'Global' properties, which can be references within the project by `${<key>}`, `${#Global#<key>}` or `${#System#<key>}`.
+
+      Default: <project-dir>/soapui.ci.properties
+    required: true
+    default: 'soapui.ci.properties'
+  soapui-cmd-options-args:
+    description: >
+      Command-line option arguments for SoapUI. '-f' is already provided by `reports-dir`.
+      Refer to [TestRunner Command-Line Arguments](https://www.soapui.org/docs/test-automation/running-from-command-line/functional-tests/)
+      for all the available arguments.
+
+      Note: Many arguments, in particular report format related arguments, seem to not work.
+      Default: -a -A -j -r
+    required: true
+    default: '-a -A -j -r -M'
+  soapui-version:
+    description: >
+      SoapUI version.
+
+      Default: latest
+    required: true
+    default: 'latest'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Parse Global Properties
+      id: global-props
+      shell: bash
+      env:
+        PROPERTIES_FILE: ${{inputs.properties-file}}
+      run: |
+        set -eux
+
+        GLOBAL_PROPS=;
+        if [ -f $PROPERTIES_FILE ]; then
+          while IFS="" read -r p || [ -n "$p" ]
+          do
+            GLOBAL_PROPS+="'-G${p%%[[:cntrl:]]}' ";
+          done < $PROPERTIES_FILE
+        fi
+
+        echo "global-props=$GLOBAL_PROPS" >> "$GITHUB_OUTPUT"
+
+    - name: Run SoapUI TestRunner
+      id: run-testrunner
+      shell: bash
+      env:
+        PROJECT_DIR: ${{inputs.project-dir}}
+        REPORTS_DIR: ${{inputs.project-dir}}/${{inputs.reports-dir}}
+        SOAPUI_PROJECT: ${{inputs.soapui-project}}
+        SOAPUI_VERSION: ${{inputs.soapui-version}}
+        SOAPUI_CMD_OPTIONS_ARGS: ${{inputs.soapui-cmd-options-args}}
+        GLOBAL_PROPS: ${{steps.global-props.outputs.global-props}}
+      run: |
+        set -eux
+        
+        SOAPUI_CONTAINER_ID=$(docker run \
+          -d \
+          -v=$PROJECT_DIR:/project \
+          -v=$REPORTS_DIR:/reports \
+          --network host \
+          -e COMMAND_LINE="-f/%reports% /%project%/$SOAPUI_PROJECT $SOAPUI_CMD_OPTIONS_ARGS $GLOBAL_PROPS" \
+          smartbear/soapuios-testrunner:$SOAPUI_VERSION)
+
+        echo "soapui-container-id=$SOAPUI_CONTAINER_ID" >> "$GITHUB_OUTPUT"
+
+    - name: Wait for TestRunner Completion
+      id: wait-for-completion
+      env: 
+        SOAPUI_CONTAINER_ID: ${{steps.run-testrunner.outputs.soapui-container-id}}
+      shell: bash
+      run: |
+        EXIT_CODE=$(docker wait $SOAPUI_CONTAINER_ID)
+        echo "soapui-exit-code=$EXIT_CODE" >> "$GITHUB_OUTPUT"
+
+    - name: Evaluate TestRunner Result
+      shell: bash
+      env:
+        EXIT_CODE: ${{steps.wait-for-completion.outputs.soapui-exit-code}}
+      run: |
+        if [ "$EXIT_CODE" -ne 0 ]
+          then
+            echo "Test(s) failed. Failing the job."
+            exit $EXIT_CODE
+        fi
+
+    - name: Check if test reports created
+      shell: bash
+      env:
+        REPORTS_DIR: ${{inputs.reports-dir}}
+      run: |
+        if [ -z "$(ls -A $REPORTS_DIR)" ]
+          then
+            echo "There is no test report found, tests might not have been run. Failing the job."
+            exit 1
+        fi
+
+    - name: Upload SoapUI Test Reports as artifact
+      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 #4.4.3
+      if: always()
+      with:
+        name: reports-soapui-testreports
+        path: ${{inputs.reports-dir}}
+        
