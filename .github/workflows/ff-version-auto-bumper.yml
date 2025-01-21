@@ -116,7 +116,7 @@ jobs:
         echo "OCI Image Version: [$REQUESTED_IMAGE_VERSION_TAG]"
 
     - name: Mark PR Outdated
-      if: ${{!contains(fromJson(env.existing-prs)[0].title, env.REQUESTED_IMAGE_VERSION_TAG)}}
+      if: ${{!contains(fromJson(env.existing-prs)[0].title, env.REQUESTED_IMAGE_VERSION_TAG) && env.existing-prs != '[]'}}
       run: |
         echo "pr-outdated=true" >> "$GITHUB_ENV"
         echo "PR outdated: [$pr-outdated]"
