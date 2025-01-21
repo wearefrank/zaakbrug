@@ -127,7 +127,7 @@ jobs:
         GH_TOKEN: ${{ secrets.token }}
         PR_URL: ${{fromJson(env.existing-prs)[0].url}}
       run: |
-        gh pr close '$PR_URL' -d
+        gh pr close $PR_URL -d
 
     - name: Get Current F!F Image Tag From Dockerfile
       if: (env.pr-outdated || env.existing-prs == '[]')
