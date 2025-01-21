@@ -112,11 +112,11 @@ jobs:
       id: ff-tag
       run: |
         OCI_IMAGE_VERSION=$(docker inspect --format='{{ index .Config.Labels "org.opencontainers.image.version" }}' frankframework/frankframework:${{ inputs.ff-version-tag }})
-        echo "oci-image-version=$OCI_IMAGE_VERSION" >> "$GITHUB_ENV"
+        echo "oci-image-version=9.1.0-20250116.042325" >> "$GITHUB_ENV"
         echo "OCI Image Version: [$OCI_IMAGE_VERSION]"
 
     - name: Check If PR Targets Latest Available F!F Tag
-      if: ${{env.existing-prs}} != '[]'
+      if: contains(fromJson(env.existing-prs)[0].title, env.oci-image-version)
       env:
         LATEST_FF_TAG: ${{env.oci-image-version}}
         EXISTING_PRS: ${{env.existing-prs}}
