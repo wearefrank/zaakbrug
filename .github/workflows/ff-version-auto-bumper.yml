@@ -121,7 +121,7 @@ jobs:
         LATEST_FF_TAG: ${{steps.ff-tag.outputs.oci-image-version}}
         EXISTING_PRS: ${{toJson(steps.get-pr.outputs.existing-prs)}}
       run: |
-        PR_TITLE=$(echo "$EXISTING_PRS" | jq -r '.[0].title')
+        PR_TITLE=$(echo $EXISTING_PRS | jq -r '.[0]')
         echo "PR Title: [$PR_TITLE]"
 
         if [[ $PR_TITLE == *${LATEST_FF_TAG}* ]]; then
