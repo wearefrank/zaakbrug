@@ -104,130 +104,133 @@ jobs:
       env:
         GH_TOKEN: ${{secrets.token}}
       run: |
-        EXISTING_PRS=$(gh pr list -S 'type:pr is:open bump-f!f-version-to- in:title' --json 'id,title,headRefName')
+        EXISTING_PRS=$(gh pr list -S 'type:pr is:open bump-f!f-version-to- in:title' --json 'url,title,headRefName')
         echo "existing-prs=$EXISTING_PRS" >> "$GITHUB_ENV"
         echo "Exsting PR's: [$EXISTING_PRS]"
 
     - name: Obtain F!F Image Tag From OCI Label
       id: ff-tag
       run: |
-        OCI_IMAGE_VERSION=$(docker inspect --format='{{ index .Config.Labels "org.opencontainers.image.version" }}' frankframework/frankframework:${{ inputs.ff-version-tag }})
-        echo "oci-image-version=$OCI_IMAGE_VERSION" >> "$GITHUB_ENV"
-        echo "OCI Image Version: [$OCI_IMAGE_VERSION]"
+        REQUESTED_IMAGE_VERSION_TAG=$(docker inspect --format='{{ index .Config.Labels "org.opencontainers.image.version" }}' frankframework/frankframework:${{ inputs.ff-version-tag }})
+        echo "REQUESTED_IMAGE_VERSION_TAG=$REQUESTED_IMAGE_VERSION_TAG" >> "$GITHUB_ENV"
+        echo "OCI Image Version: [$REQUESTED_IMAGE_VERSION_TAG]"
 
-    - name: Check If PR Targets Latest Available F!F Tag
-      if: contains(fromJson(env.existing-prs)[0].title, env.oci-image-version)
-      env:
-        LATEST_FF_TAG: ${{env.oci-image-version}}
-        EXISTING_PRS: ${{env.existing-prs}}
+    - name: Mark PR Outdated
+      if: ${{!contains(fromJson(env.existing-prs)[0].title, env.REQUESTED_IMAGE_VERSION_TAG)}}
       run: |
-        PR_TITLE=$(echo $EXISTING_PRS | jq -r '.[0].title')
-        echo "PR Title: [$PR_TITLE]"
+        echo "pr-outdated=true" >> "$GITHUB_ENV"
+        echo "PR outdated: [$pr-outdated]"
 
-        if [[ "$PR_TITLE" == *"$LATEST_FF_TAG" ]]; then
-          echo "PR already targets latest available f!f tag."
-        fi
+    - name: Delete Outdated PR
+      if: env.pr-outdated
+      env: 
+        GH_TOKEN: ${{ secrets.token }}
+        PR_URL: ${{fromJson(env.existing-prs)[0].url}}
+      run: |
+        gh pr close '$PR_URL' -d
 
     - name: Get Current F!F Image Tag From Dockerfile
+      if: (env.pr-outdated || env.existing-prs == '[]')
       run: |
         current_image_version_tag=$(awk -F'=' '/${{ inputs.regex-for-dockerfile }}/ {print $2}' ${{ inputs.dockerfile-path }})
         echo "CURRENT_IMAGE_VERSION_TAG=${current_image_version_tag}" >> "$GITHUB_ENV"
         echo "Current Image Version: ${current_image_version_tag}"
       
-    # - name: Check if requested F!F version is different than current F!F version
-    #   run: |
-    #     if [ "${{ env.REQUESTED_IMAGE_VERSION_TAG }}" != "${{ env.CURRENT_IMAGE_VERSION_TAG }}" ]
-    #       then
-    #         echo "Requested F!F version is different than current F!F version. Applying it to ${{ github.event.repository.name }} project."
-    #         echo "VERSION_CHANGED=true" >> "$GITHUB_ENV"
-    #     else
-    #       echo "Requested F!F version is same as current F!F version. No action needed."
-    #       echo "VERSION_CHANGED=false" >> "$GITHUB_ENV"
-    #     fi
+    - name: Check if requested F!F version is different than current F!F version
+      if: (env.pr-outdated || env.existing-prs == '[]')
+      run: |
+        if [ "${{ env.REQUESTED_IMAGE_VERSION_TAG }}" != "${{ env.CURRENT_IMAGE_VERSION_TAG }}" ]
+          then
+            echo "Requested F!F version is different than current F!F version. Applying it to ${{ github.event.repository.name }} project."
+            echo "VERSION_CHANGED=true" >> "$GITHUB_ENV"
+        else
+          echo "Requested F!F version is same as current F!F version. No action needed."
+          echo "VERSION_CHANGED=false" >> "$GITHUB_ENV"
+        fi
 
-    # - name: Checkout the new branch
-    #   if: ${{ env.VERSION_CHANGED }}
-    #   run: |
-    #     git checkout ${{ github.event.repository.default_branch }}
-    #     git checkout -b bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}
+    - name: Checkout New Branch
+      if: (env.pr-outdated || env.existing-prs == '[]') && env.VERSION_CHANGED
+      run: |
+        git checkout ${{ github.event.repository.default_branch }}
+        git checkout -b bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}
     
-    # - name: Update F!F version in Dockerfile
-    #   if: ${{ env.VERSION_CHANGED && inputs.update-dockerfile-enabled }}
-    #   run: |
-    #     sed -i "s/${{ inputs.regex-for-dockerfile }}/${{ inputs.replacement-for-dockerfile }}${{ env.REQUESTED_IMAGE_VERSION_TAG }}/" ${{ inputs.dockerfile-path }}
-    #     git add ${{ inputs.dockerfile-path }}
-    #   continue-on-error: true
+    - name: Update F!F version in Dockerfile
+      if: (env.pr-outdated || env.existing-prs == '[]') && env.VERSION_CHANGED && inputs.update-dockerfile-enabled
+      run: |
+        sed -i "s/${{ inputs.regex-for-dockerfile }}/${{ inputs.replacement-for-dockerfile }}${{ env.REQUESTED_IMAGE_VERSION_TAG }}/" ${{ inputs.dockerfile-path }}
+        git add ${{ inputs.dockerfile-path }}
+      continue-on-error: true
 
-    # - name: Update F!F version in frankrunner.properties
-    #   if: ${{ env.VERSION_CHANGED && inputs.update-frankrunnerproperties-enabled }}
-    #   run: |
-    #     sed -i "s/${{ inputs.regex-for-frankrunnerproperties }}/${{inputs.replacement-for-frankrunnerproperties}}${{ env.REQUESTED_IMAGE_VERSION_TAG }}/" ${{ inputs.frankrunnerproperties-path }}
-    #     git add ${{ inputs.frankrunnerproperties-path }}
-    #   continue-on-error: true
+    - name: Update F!F version in frankrunner.properties
+      if: (env.pr-outdated || env.existing-prs == '[]') && env.VERSION_CHANGED && inputs.update-frankrunnerproperties-enabled
+      run: |
+        sed -i "s/${{ inputs.regex-for-frankrunnerproperties }}/${{inputs.replacement-for-frankrunnerproperties}}${{ env.REQUESTED_IMAGE_VERSION_TAG }}/" ${{ inputs.frankrunnerproperties-path }}
+        git add ${{ inputs.frankrunnerproperties-path }}
+      continue-on-error: true
 
-    # - name: Update F!F version in docker-compose file
-    #   if: ${{ env.VERSION_CHANGED && inputs.update-dockercompose-enabled }}
-    #   run: |
-    #     sed -i "s/${{inputs.regex-for-dockercompose}}/${{inputs.replacement-for-dockercompose}}${{ env.REQUESTED_IMAGE_VERSION_TAG }}}/" ${{ inputs.dockercompose-path }}
-    #     git add ${{ inputs.dockercompose-path }}
-    #   continue-on-error: true
+    - name: Update F!F version in docker-compose file
+      if: (env.pr-outdated || env.existing-prs == '[]') && env.VERSION_CHANGED && inputs.update-dockercompose-enabled
+      run: |
+        sed -i "s/${{inputs.regex-for-dockercompose}}/${{inputs.replacement-for-dockercompose}}${{ env.REQUESTED_IMAGE_VERSION_TAG }}}/" ${{ inputs.dockercompose-path }}
+        git add ${{ inputs.dockercompose-path }}
+      continue-on-error: true
 
-    # - name: Update FrankConfig.xsd files
-    #   if: ${{ env.VERSION_CHANGED && inputs.update-frankconfig-enabled }}
-    #   run: |
-    #     wget -O parent.jar "https://repo1.maven.org/maven2/org/frankframework/frankframework-parent/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-parent-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-frankdoc.jar" || \
-    #     wget -O parent.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-parent/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-parent-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-frankdoc.jar"
-    #     mkdir -p parent_temp_extract
-    #     unzip -q parent.jar -d ./parent_temp_extract
-    #     find "${{ inputs.configurations-folder-dir }}/.." -type f -name "FrankConfig.xsd" \( -path "${{ inputs.configurations-folder-dir }}" -o -path "${{ inputs.configurations-folder-dir }}/*" \) -exec sh -c '
-    #       for frankconfig_path; do
-    #         cp ./parent_temp_extract/xml/xsd/FrankConfig.xsd "$frankconfig_path"
-    #         echo "Updated $frankconfig_path"
-    #         git add "$frankconfig_path"
-    #       done
-    #     ' sh {} +
+    - name: Update FrankConfig.xsd files
+      if: (env.pr-outdated || env.existing-prs == '[]') && env.VERSION_CHANGED && inputs.update-frankconfig-enabled
+      run: |
+        wget -O parent.jar "https://repo1.maven.org/maven2/org/frankframework/frankframework-parent/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-parent-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-frankdoc.jar" || \
+        wget -O parent.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-parent/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-parent-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-frankdoc.jar"
+        mkdir -p parent_temp_extract
+        unzip -q parent.jar -d ./parent_temp_extract
+        find "${{ inputs.configurations-folder-dir }}/.." -type f -name "FrankConfig.xsd" \( -path "${{ inputs.configurations-folder-dir }}" -o -path "${{ inputs.configurations-folder-dir }}/*" \) -exec sh -c '
+          for frankconfig_path; do
+            cp ./parent_temp_extract/xml/xsd/FrankConfig.xsd "$frankconfig_path"
+            echo "Updated $frankconfig_path"
+            git add "$frankconfig_path"
+          done
+        ' sh {} +
     
-    # - name: Update Parameter.java-orig file
-    #   if: ${{ env.VERSION_CHANGED && inputs.update-customcode-enabled }}
-    #   run: |
-    #     wget -O source.jar "https://repo1.maven.org/maven2/org/frankframework/frankframework-core/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-core-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-sources.jar" || \
-    #     wget -O source.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-core/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-core-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-sources.jar"
-    #     mkdir -p source_temp_extract
-    #     unzip -q source.jar -d ./source_temp_extract
-    #       if cmp -s source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
-    #         then
-    #           echo "Parameter.java file hasn't been updated."
-    #       else
-    #         echo "Parameter.java file has been updated. Copying the new version of Parameter.java file to the Parameter.java-orig file in repository."
-    #         cp ./source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
-    #       fi
-    #     git add ./src/main/java/org/frankframework/parameters/Parameter.java-orig
-    #   continue-on-error: true
+    - name: Update Parameter.java-orig file
+      if: (env.pr-outdated || env.existing-prs == '[]') && env.VERSION_CHANGED && inputs.update-customcode-enabled
+      run: |
+        wget -O source.jar "https://repo1.maven.org/maven2/org/frankframework/frankframework-core/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-core-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-sources.jar" || \
+        wget -O source.jar "https://nexus.frankframework.org/repository/releases/org/frankframework/frankframework-core/${{ env.REQUESTED_IMAGE_VERSION_TAG }}/frankframework-core-${{ env.REQUESTED_IMAGE_VERSION_TAG }}-sources.jar"
+        mkdir -p source_temp_extract
+        unzip -q source.jar -d ./source_temp_extract
+          if cmp -s source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
+            then
+              echo "Parameter.java file hasn't been updated."
+          else
+            echo "Parameter.java file has been updated. Copying the new version of Parameter.java file to the Parameter.java-orig file in repository."
+            cp ./source_temp_extract/org/frankframework/parameters/Parameter.java ./src/main/java/org/frankframework/parameters/Parameter.java-orig
+          fi
+        git add ./src/main/java/org/frankframework/parameters/Parameter.java-orig
+      continue-on-error: true
 
-    # - name: Commit and push updated files
-    #   if: ${{ env.VERSION_CHANGED }}
-    #   run: |
-    #     git commit -m 'build(dependencies): bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
-    #     git push origin bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}
-    #   continue-on-error: true
+    - name: Commit and push updated files
+      if: (env.pr-outdated || env.existing-prs == '[]') && env.VERSION_CHANGED
+      run: |
+        git commit -m 'build(dependencies): bump f!f version to ${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+        git push origin bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}
+      continue-on-error: true
 
-    # - name: Docker Scout
-    #   if: ${{ env.VERSION_CHANGED }}
-    #   id: docker-scout
-    #   uses: docker/scout-action@v1
-    #   with:
-    #     command: compare
-    #     image: frankframework/frankframework:${{ env.REQUESTED_IMAGE_VERSION_TAG }}
-    #     to: frankframework/frankframework:${{ env.CURRENT_IMAGE_VERSION_TAG }}
-    #     ignore-unchanged: true
-    #     write-comment: false
-    #     format: markdown
-    #     github-token: ${{ secrets.token }}
+    - name: Docker Scout
+      if: (env.pr-outdated || env.existing-prs == '[]') && env.VERSION_CHANGED
+      id: docker-scout
+      uses: docker/scout-action@v1
+      with:
+        command: compare
+        image: frankframework/frankframework:${{ env.REQUESTED_IMAGE_VERSION_TAG }}
+        to: frankframework/frankframework:${{ env.CURRENT_IMAGE_VERSION_TAG }}
+        ignore-unchanged: true
+        write-comment: false
+        format: markdown
+        github-token: ${{ secrets.token }}
       
-    # - name: Create Pull Request
-    #   if: ${{ env.VERSION_CHANGED }}
-    #   env: 
-    #     GH_TOKEN: ${{ secrets.token }}
-    #   run: |
-    #     gh pr create -B '${{ github.event.repository.default_branch }}' -H 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' -b '${{ steps.docker-scout.outputs.compare }}' -t 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' || \
-    #     gh pr create -B '${{ github.event.repository.default_branch }}' -H 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' -b 'The Docker Scout output was too long to include in this PR.' -t 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
+    - name: Create New Pull Request
+      if: (env.pr-outdated || env.existing-prs == '[]') && env.VERSION_CHANGED
+      env: 
+        GH_TOKEN: ${{ secrets.token }}
+      run: |
+        gh pr create -B '${{ github.event.repository.default_branch }}' -H 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' -b '${{ steps.docker-scout.outputs.compare }}' -t 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' || \
+        gh pr create -B '${{ github.event.repository.default_branch }}' -H 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}' -b 'The Docker Scout output was too long to include in this PR.' -t 'bump-f!f-version-to-${{ env.REQUESTED_IMAGE_VERSION_TAG }}'
