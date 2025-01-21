@@ -105,7 +105,7 @@ jobs:
         GH_TOKEN: ${{secrets.token}}
       run: |
         EXISTING_PRS=$(gh pr list -S 'type:pr is:open bump-f!f-version-to- in:title' --json 'id,title,headRefName')
-        echo "existing-prs=$EXISTING_PRS" >> "$GITHUB_ENV"
+        echo "EXISTING_PRS=$EXISTING_PRS" >> "$GITHUB_ENV"
         echo "Exsting PR's: [$EXISTING_PRS]"
 
     - name: Obtain F!F Image Tag From OCI Label
@@ -119,10 +119,9 @@ jobs:
       if: toJson(steps.get-pr.outputs.existing-prs) != '[]'
       env:
         LATEST_FF_TAG: ${{steps.ff-tag.outputs.oci-image-version}}
-        EXISTING_PRS: ${{fromJson(steps.get-pr.outputs.existing-prs)}}
       run: |
-        PR_TITLE=$(echo "$EXISTING_PRS" | jq -r '.[0].title')
-        echo "PR Title: [$EXISTING_PRS]"
+        PR_TITLE=$(echo "${{env.EXISTING_PRS}}" | jq -r '.[0].title')
+        echo "PR Title: [${{env.EXISTING_PRS}}]"
 
         if [[ $PR_TITLE == *${oci-image-version}* ]]; then
           echo "PR already targets latest available f!f tag."
