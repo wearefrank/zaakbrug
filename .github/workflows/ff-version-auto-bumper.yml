@@ -100,6 +100,8 @@ jobs:
         git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
     - name: Look For Existing PR
+      env:
+        GH_TOKEN: ${{secrets.token}}
       run: |
         EXISTING_PR=$(gh pr list -S 'type:pr is:open bump-f!f-version-to- in:title' --json 'id,headRefName')
 
