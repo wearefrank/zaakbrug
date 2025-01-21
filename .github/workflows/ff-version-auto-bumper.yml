@@ -124,7 +124,7 @@ jobs:
         PR_TITLE=$(echo $EXISTING_PRS | jq -r '.[0].title')
         echo "PR Title: [$PR_TITLE]"
 
-        if [[ "$PR_TITLE" == *"$LATEST_FF_TAG"* ]]; then
+        if [[ "$PR_TITLE" == *"$LATEST_FF_TAG" ]]; then
           echo "PR already targets latest available f!f tag."
         fi
 
