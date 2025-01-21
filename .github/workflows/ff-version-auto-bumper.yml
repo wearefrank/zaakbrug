@@ -116,7 +116,7 @@ jobs:
         echo "OCI Image Version: [$OCI_IMAGE_VERSION]"
 
     - name: Check If PR Targets Latest Available F!F Tag
-      if: fromJson(steps.get-pr.outputs.existing-prs).title != ''
+      if: toJson(steps.get-pr.outputs.existing-prs) != '{}'
       env:
         LATEST_FF_TAG: ${{steps.ff-tag.outputs.oci-image-version}}
         EXISTING_PRS: ${{steps.get-pr.outputs.existing-prs}}
