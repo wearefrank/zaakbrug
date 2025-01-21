@@ -100,18 +100,33 @@ jobs:
         git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
     - name: Look For Existing PR
+      id: get-pr
       env:
         GH_TOKEN: ${{secrets.token}}
       run: |
         EXISTING_PRS=$(gh pr list -S 'type:pr is:open bump-f!f-version-to- in:title' --json 'id,title,headRefName')
         echo "existing-prs=$EXISTING_PRS" >> "$GITHUB_ENV"
+        echo "Exsting PR's: [$EXISTING_PRS]"
 
     - name: Obtain F!F Image Tag From OCI Label
+      id: ff-tag
       run: |
-        ff_image_inspect=$(docker inspect --format='{{ index .Config.Labels "org.opencontainers.image.version" }}' frankframework/frankframework:${{ inputs.ff-version-tag }})
-        # requested_image_version_tag=$(echo "$ff_image_inspect" | jq -r '.[0].Config.Labels."org.opencontainers.image.version"')
-        echo "REQUESTED_IMAGE_VERSION_TAG=$ff_image_inspect" >> "$GITHUB_ENV"
-        echo "Requested Image Version: $ff_image_inspect"
+        OCI_IMAGE_VERSION=$(docker inspect --format='{{ index .Config.Labels "org.opencontainers.image.version" }}' frankframework/frankframework:${{ inputs.ff-version-tag }})
+        echo "oci-image-version=$OCI_IMAGE_VERSION" >> "$GITHUB_ENV"
+        echo "OCI Image Version: [$OCI_IMAGE_VERSION]"
+
+    - name: Check If PR Targets Latest Available F!F Tag
+      if: steps.get-pr.outputs.existing-prs != ''
+      env:
+        LATEST_FF_TAG: ${{steps.ff-tag.outputs.oci-image-version}}
+        EXISTING_PRS: ${{steps.get-pr.outputs.existing-prs}}
+      run: |
+        PR_TITLE=$(echo "$EXISTING_PRS" | jq -r '.[0].title')
+        echo "PR Title: [$PR_TITLE]"
+
+        if [[ $PR_TITLE == *"$LATEST_FF_TAG"* ]]; then
+          echo "PR already targets latest available f!f tag."
+        fi
 
     - name: Get Current F!F Image Tag From Dockerfile
       run: |
