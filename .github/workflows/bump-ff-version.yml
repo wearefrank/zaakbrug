@@ -1,6 +1,10 @@
 name: Bump F!F Version
 
 on:
+  pull_request:
+    branches:
+      - main
+      - master
   schedule:
     - cron: '0 5 * * 1' # At 05:00 on Monday.
   workflow_dispatch:
@@ -12,7 +16,7 @@ on:
 
 jobs:
   bump-ff-version:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ff-version-auto-bumper.yml@2d74f03376f0ed039183954beefda47558a23437 # 1.0.15
+    uses: ./.github/workflows/ff-version-auto-bumper.yml
     secrets:
       token: ${{ secrets.WEAREFRANK_BOT_PAT }}
       dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
