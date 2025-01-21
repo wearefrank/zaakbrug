@@ -103,7 +103,10 @@ jobs:
       env:
         GH_TOKEN: ${{secrets.token}}
       run: |
+        gh pr list -S 'type:pr is:open bump-f!f-version-to- in:title'
+
         EXISTING_PR=$(gh pr list -S 'type:pr is:open bump-f!f-version-to- in:title' --json 'id,headRefName')
+        echo "$EXISTING_PR"
 
     # - name: Get requested and current image tags of F!F
     #   run: |
