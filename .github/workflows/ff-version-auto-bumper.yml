@@ -103,21 +103,21 @@ jobs:
       env:
         GH_TOKEN: ${{secrets.token}}
       run: |
-        gh pr list -S 'type:pr is:open bump-f!f-version-to- in:title'
+        EXISTING_PRS=$(gh pr list -S 'type:pr is:open bump-f!f-version-to- in:title' --json 'id,title,headRefName')
+        echo "existing-prs=$EXISTING_PRS" >> "$GITHUB_ENV"
 
-        EXISTING_PR=$(gh pr list -S 'type:pr is:open bump-f!f-version-to- in:title' --json 'id,headRefName')
-        echo "$EXISTING_PR"
+    - name: Obtain F!F Image Tag From OCI Label
+      run: |
+        ff_image_inspect=$(docker inspect --format='{{json .Config.Labels.'org.opencontainers.image.version'}}' frankframework/frankframework:${{ inputs.ff-version-tag }})
+        # requested_image_version_tag=$(echo "$ff_image_inspect" | jq -r '.[0].Config.Labels."org.opencontainers.image.version"')
+        echo "REQUESTED_IMAGE_VERSION_TAG=$ff_image_inspect" >> "$GITHUB_ENV"
+        echo "Requested Image Version: $ff_image_inspect"
 
-    # - name: Get requested and current image tags of F!F
-    #   run: |
-    #     ff_image_inspect=$(docker inspect frankframework/frankframework:${{ inputs.ff-version-tag }})
-    #     requested_image_version_tag=$(echo "$ff_image_inspect" | jq -r '.[0].Config.Labels."org.opencontainers.image.version"')
-    #     echo "REQUESTED_IMAGE_VERSION_TAG=${requested_image_version_tag}" >> "$GITHUB_ENV"
-    #     echo "Requested Image Version: ${requested_image_version_tag}"
-
-    #     current_image_version_tag=$(awk -F'=' '/${{ inputs.regex-for-dockerfile }}/ {print $2}' ${{ inputs.dockerfile-path }})
-    #     echo "CURRENT_IMAGE_VERSION_TAG=${current_image_version_tag}" >> "$GITHUB_ENV"
-    #     echo "Current Image Version: ${current_image_version_tag}"
+    - name: Get Current F!F Image Tag From Dockerfile
+      run: |
+        current_image_version_tag=$(awk -F'=' '/${{ inputs.regex-for-dockerfile }}/ {print $2}' ${{ inputs.dockerfile-path }})
+        echo "CURRENT_IMAGE_VERSION_TAG=${current_image_version_tag}" >> "$GITHUB_ENV"
+        echo "Current Image Version: ${current_image_version_tag}"
       
     # - name: Check if requested F!F version is different than current F!F version
     #   run: |
