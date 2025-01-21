@@ -120,7 +120,7 @@ jobs:
       env:
         LATEST_FF_TAG: ${{steps.ff-tag.outputs.oci-image-version}}
       run: |
-        PR_TITLE=$(echo "${{env.EXISTING_PRS}}" | jq -r '.[0].title')
+        PR_TITLE=$(echo '${{env.EXISTING_PRS}}' | jq -r '.[0].title')
         echo "PR Title: [${{env.EXISTING_PRS}}]"
 
         if [[ $PR_TITLE == *${oci-image-version}* ]]; then
