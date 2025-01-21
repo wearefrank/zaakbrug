@@ -108,7 +108,7 @@ jobs:
 
     - name: Obtain F!F Image Tag From OCI Label
       run: |
-        ff_image_inspect=$(docker inspect --format='{{json .Config.Labels.'org.opencontainers.image.version'}}' frankframework/frankframework:${{ inputs.ff-version-tag }})
+        ff_image_inspect=$(docker inspect --format='{{ index .Config.Labels "org.opencontainers.image.version" }}' frankframework/frankframework:${{ inputs.ff-version-tag }})
         # requested_image_version_tag=$(echo "$ff_image_inspect" | jq -r '.[0].Config.Labels."org.opencontainers.image.version"')
         echo "REQUESTED_IMAGE_VERSION_TAG=$ff_image_inspect" >> "$GITHUB_ENV"
         echo "Requested Image Version: $ff_image_inspect"
