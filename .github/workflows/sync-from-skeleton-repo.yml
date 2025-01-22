@@ -1,0 +1,23 @@
+name: Sync From Skeleton Repo
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+      - master
+  schedule:
+    - cron: '0 5 * * 1' # At 05:00 on Monday.
+  # workflow_dispatch:
+  #   inputs:
+  #     ff-version-tag:
+  #       description: 'F!F version tag requested to update in your project to. It has to be after 8.0.1(including).'    
+  #       required: true
+  #       default: 'latest'
+
+jobs:
+  sync-from-template-repo:
+    uses: ./.github/workflows/sync-from-template-repo.yml
+    secrets:
+      token: ${{ secrets.WEAREFRANK_BOT_PAT }}
+

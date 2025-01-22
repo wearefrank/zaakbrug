@@ -1,0 +1,26 @@
+name: Sync From Template Repo
+
+on:
+  workflow_call:
+    secrets:
+      token:
+        required: true
+
+jobs:
+  sync-from-template-repo:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{secrets.token}}
+          
+      - name: actions-template-sync
+        uses: AndreasAugustin/actions-template-sync@v2
+        with:
+          github_token: ${{secrets.token}}
+          source_repo_path: wearefrank/skeleton
+          upstream_branch: main
