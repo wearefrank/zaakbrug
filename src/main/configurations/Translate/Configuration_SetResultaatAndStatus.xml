@@ -80,7 +80,7 @@
                 <IbisLocalSender
                     name="CallZdsHeeftAdapter"
                     javaListener="ZdsHeeftAdapter"
-                    returnedSessionKeys="NewStatuses,Beeindigd,Error">
+                    returnedSessionKeys="NewStatuses,Error">
                     <Param name="ZgwStatussen" sessionKey="ZgwStatussen" type="DOMDOC"/>
                     <Param name="ZaakTypeUrl" xpathExpression="$ZgwZaakType/ZgwZaakType/url">
                         <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
@@ -89,7 +89,6 @@
                         <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
                     </Param>
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
-                    <Param name="Beeindigd" sessionKey="Beeindigd"/>
                     <Param name="Einddatum" xpathExpression="/*/object/einddatum" sessionKey="originalMessage"/>
                     <Param name="isActualiseerZaakStatusMessage" sessionKey="isActualiseerZaakStatusMessage"/>
                 </IbisLocalSender>
