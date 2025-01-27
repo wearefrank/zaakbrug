@@ -43,10 +43,19 @@
 
     <xsl:template match="*/*:gerelateerde/*:natuurlijkPersoon[@*:entiteittype='NPS']">
         <betrokkeneType>natuurlijk_persoon</betrokkeneType>
-        <roltoelichting><xsl:value-of select="concat($ZgwRolTypeOmschrijving, ':', geslachtsnaam)"/></roltoelichting>
+        <roltoelichting>
+            <xsl:choose>
+                <xsl:when test="authentiek != ''">
+                    <xsl:value-of select="concat($ZgwRolTypeOmschrijving, ':', geslachtsnaam, ', {# authentiek:', authentiek, ' #}')"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="concat($ZgwRolTypeOmschrijving, ':', geslachtsnaam)"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </roltoelichting>
         <betrokkeneIdentificatie>
             <xsl:if test="inp.bsn != ''"><inpBsn><xsl:value-of select="inp.bsn"/></inpBsn></xsl:if>
-            <xsl:if test="authentiek != ''"><authentiek><xsl:value-of select="authentiek"/></authentiek></xsl:if>
+            <xsl:if test="anp.identificatie != ''"><anpIdentificatie><xsl:value-of select="anp.identificatie"/></anpIdentificatie></xsl:if>
             <xsl:if test="geslachtsnaam != ''"><geslachtsnaam><xsl:value-of select="geslachtsnaam"/></geslachtsnaam></xsl:if>
             <xsl:if test="voorvoegselGeslachtsnaam != ''"><voorvoegselGeslachtsnaam><xsl:value-of select="voorvoegselGeslachtsnaam"/></voorvoegselGeslachtsnaam></xsl:if>
             <xsl:if test="voorletters != ''"><voorletters><xsl:value-of select="voorletters"/></voorletters></xsl:if>
@@ -61,10 +70,18 @@
 
     <xsl:template match="*/*:gerelateerde/*:nietNatuurlijkPersoon[@*:entiteittype='NNP']">
         <betrokkeneType>niet_natuurlijk_persoon</betrokkeneType>
-        <roltoelichting><xsl:value-of select="concat($ZgwRolTypeOmschrijving, ':', statutaireNaam)"/></roltoelichting>
+        <roltoelichting>
+            <xsl:choose>
+                <xsl:when test="authentiek != ''">
+                    <xsl:value-of select="concat($ZgwRolTypeOmschrijving, ':', statutaireNaam, ', {# authentiek:', authentiek, ' #}')"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="concat($ZgwRolTypeOmschrijving, ':', statutaireNaam)"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </roltoelichting>
         <betrokkeneIdentificatie>
             <xsl:if test="inn.nnpId != ''"><innNnpId><xsl:value-of select="inn.nnpId"/></innNnpId></xsl:if>
-            <xsl:if test="authentiek != ''"><authentiek><xsl:value-of select="authentiek"/></authentiek></xsl:if>
             <xsl:if test="ann.identificatie != ''"><annIdentificatie><xsl:value-of select="ann.identificatie"/></annIdentificatie></xsl:if>
             <xsl:if test="statutaireNaam != ''"><statutaireNaam><xsl:value-of select="statutaireNaam"/></statutaireNaam></xsl:if>
             <xsl:if test="inn.rechtsvorm != ''"><innRechtsvorm>
@@ -139,10 +156,18 @@
 
     <xsl:template match="*/*:gerelateerde/*:vestiging[@*:entiteittype='VES']">
         <betrokkeneType>vestiging</betrokkeneType>
-        <roltoelichting><xsl:value-of select="concat($ZgwRolTypeOmschrijving, ':', handelsnaam)"/></roltoelichting>
+        <roltoelichting>
+            <xsl:choose>
+                <xsl:when test="authentiek != ''">
+                    <xsl:value-of select="concat($ZgwRolTypeOmschrijving, ':', handelsnaam, ', {# authentiek:', authentiek, ' #}')"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="concat($ZgwRolTypeOmschrijving, ':', handelsnaam)"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </roltoelichting>
         <betrokkeneIdentificatie>
             <xsl:if test="vestigingsNummer != ''"><vestigingsNummer><xsl:value-of select="vestigingsNummer"/></vestigingsNummer></xsl:if>
-            <xsl:if test="authentiek != ''"><authentiek><xsl:value-of select="authentiek"/></authentiek></xsl:if>
             <xsl:if test="handelsnaam != ''"><handelsnaam><xsl:value-of select="handelsnaam"/></handelsnaam></xsl:if>
             <xsl:if test="verblijfsadres/aoa.identificatie != '' and verblijfsadres/wpl.woonplaatsNaam != '' and verblijfsadres/gor.openbareRuimteNaam != '' and verblijfsadres/aoa.huisnummer != ''">
                 <xsl:apply-templates select="verblijfsadres"/>
