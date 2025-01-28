@@ -57,7 +57,8 @@ jobs:
         with:
           token: ${{secrets.token}}
           commit-message: 'build(dependencies): project template sync'
-          base: ${{github.event.repository.default_branch}}
+          # base: ${{github.event.repository.default_branch}}
+          base: skeleton-sync
           branch: template-sync
           delete-branch: true
           branch-suffix: timestamp
