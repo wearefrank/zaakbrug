@@ -1,0 +1,92 @@
+diff a/CONTRIBUTING.md b/CONTRIBUTING.md	(rejected hunks)
+@@ -2,7 +2,89 @@
+ 
+ This project builds the following artifacts:
+ * A docker image that can be used to run this application stand-alone.
+-* A .jar file with only the Frank configuration of this project. The .jar file can be uploaded in het-integratie-platform, see https://github.com/wearefrank/het-integratie-platform. 
++
++# Development
++## Local development with Docker Compose
++Docker Compose file `compose.frank.dev.yaml` brings up an instance for local development.
++
++It is recommended to a 'sync+restart' watch action for each configuration's 'DeploymentSpecifics' files.
++This ensures that the container is automatically restarted when a change is made in it. Additionally,
++it is recommended to set the 'classLoaderType' to 'ScanningDirectoryClassLoader', so that the Frank!Framework
++automatically reloads the configuration when changes are made to it.
++
++To use this Docker Compose file:
++```
++docker compose -f ./compose.frank.dev.yaml up --build --force-recreate --watch
++```
++Arguments:
++- `--build` - Builds a new image from your local source.
++- `--force-recreate` - Eventhough you built a new image, by default Docker reuses the already existing container. This forces Docker to recreate the container, which will then use your newly built image to build the new container from.
++- `--watch` - Use the Docker Watch functionality to automatically sync, restart or rebuild the container when certain files in your local source change. Which files/folders trigger what action can be found in the Docker Compose file under the `frank` service, in the `develop.watch` section.
++
++Access the Frank!Console by navigating to `http://localhost:8080/`.
++
++## Local Development Docusaurus
++1. Navigate to "docusaurus" subfolder.
++    ```
++    cd ./docusaurus
++    ```
++
++2. Install dependencies.
++    ```
++    npm install
++    ```
++
++3. Serve Docusaurus webserver locally.
++    ```
++    ./node_modules/.bin/docusaurus.cmd start
++    ```
++    By default it is served at `http://localhost:3000/`.
++
++4. Basic guide on how to use Docusaurus and a styleguide can be found at `./docusaurus/docs/_README.md`.
++
++# Dependencies
++## Update Docusaurus dependencies
++1. Navigate to the 'docusaurus' subfolder:
++    ```
++    cd ./docusaurus
++    ```
++2. Update dependencies:
++    ```
++    npm i @docusaurus/core@latest @docusaurus/preset-classic@latest @docusaurus/theme-mermaid@latest @docusaurus/module-type-aliases@latest @docusaurus/tsconfig@latest @docusaurus/types@latest
++    ```
++## Merge changes from 'Skeleton' project template
++The 'Skeleton' project template repository will always stay up-to-date with the latest developments and best practices. It is recommended to merge changes from the Skeleton repo every one or two months.
++Otherwise projects will over time become less and less compatible with the Skeleton project. This leads to extra troubleshooting work, because usually the issues you might run into are already fixed in the
++Skeleton repo. Additionally, the Skeleton repo ia regularly expanded with new tools and features to make development and maintenance easier and faster.
++
++To merge changes from the Skeleton repo, the Skeleton repo needs to be added as an upstream. Because of the way GitHub template repositories work, the project's Git history is not related to the Skeleton repo's
++Git history. Because of this, it is needed to merge with the `--allow-unrelated-histories` argument. Unfortunatly this creates very ugly and hard to resolve merge conflicts, because Git can't use the commit history
++to diff properly. To resolve this, it is recommended to do a rebase once instead of a merge. This will apply every single commit in the project repo on top of the Skeleton repo's Git history. After a rebase, future
++merging should be as easy as merging simple PR, as for Git the project repo is now effectively a fork of the Skeleton repo with a shared Git History.
++
++1. Add the Skeleton repo as upstream.
++    ```
++    git remote add upstream https://github.com/wearefrank/skeleton.git
++    ```
++1. Fetch from upstream.
++    ```
++    git fetch upstream
++    ```
++1. Create and switch to new branch.
++    ```
++    git checkout -b <branchname-for-upstream-changes>
++    ```
++1. Merge from upstream.
++    ```
++    git merge upstream/main --allow-unrelated-histories
++    ```
++1. Stage and commit changes.
++    ```
++    git add .
++    git commit -m "<commit message>"
++    ```
++1. Create Pull Request.
++
+ 
+ # CI/CD
+ 

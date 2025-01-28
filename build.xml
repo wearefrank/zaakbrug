@@ -11,6 +11,8 @@
             <arg value="${arg}"/>
             <arg value="-Dprojects.dir=${basedir}/.."/>
             <arg value="-Dproject.dir=${project.dir}"/>
+            <arg value="-DcredentialFactory.class=nl.nn.credentialprovider.PropertyFileCredentialFactory"/>
+            <arg value="-DcredentialFactory.map.properties=${basedir}/src/main/secrets/credentials.properties"/>
         </exec>
     </target>
 </project>

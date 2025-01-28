@@ -1,0 +1,40 @@
+diff a/.github/workflows/ci.yml b/.github/workflows/ci.yml	(rejected hunks)
+@@ -1,4 +1,3 @@
+-
+ name: Continuous Integration
+ 
+ on:
+@@ -16,7 +15,7 @@ jobs:
+       version-next: ${{ steps.reference.outputs.next-reference }}
+       version-next-strict: ${{ steps.reference.outputs.next-reference }}
+     steps:
+-      - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
++      - uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
+         with:
+           disable-sudo: true
+           egress-policy: block
+@@ -24,14 +23,14 @@ jobs:
+             github.com:443
+ 
+       - name: Checkout
+-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 #4.1.1
++        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 #4.1.7
+ 
+       - name: Next Reference
+         id: reference
+-        uses: wearefrank/ci-cd-templates/next-reference@main
++        uses: wearefrank/ci-cd-templates/next-reference@e073950d36ffdeb9f018b14b2ca0c13449825b2f #1.0.3
+ 
+   ci:
+-    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@main
++    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@e073950d36ffdeb9f018b14b2ca0c13449825b2f #1.0.3
+     needs:
+       - version-next
+     secrets:
+@@ -39,5 +38,4 @@ jobs:
+     with:
+       version: ${{ needs.version-next.outputs.version-next }}
+ 
+-
+   
+\ No newline at end of file

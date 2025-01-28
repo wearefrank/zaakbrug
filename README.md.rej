@@ -1,0 +1,72 @@
+diff a/README.md b/README.md	(rejected hunks)
+@@ -1,29 +1,26 @@
+-# Skeleton
++# ZaakBrug
+ 
+-Project for Frank applications deployed by JAR or Docker
++Project for Frank applications deployed by Docker
+ 
+ <!-- TOC -->
+-* [Skeleton Project for Frank applications deployed by JAR or Docker](#skeleton-project-for-frank-applications-deployed-by-jar-or-docker)
+-  * [Introduction](#introduction)
+-  * [Included](#included)
+-  * [Usage](#usage)
+-    * [Steps](#steps)
+-    * [Template variables](#template-variables)
++* [Introduction](#introduction)
++* [Included](#included)
++* [Usage](#usage)
++  * [Steps](#steps)
++  * [Template variables](#template-variables)
+ <!-- TOC -->
+ 
+ ## Introduction
+-
+ This project serves as a starting point for new projects or as example for existing ones.
+ This "empty" Frank! will have configuration files to build and deploy.
+  
+ ## Included
+-
+ * Dockerfile
+ * Docker compose
+ * Publicode (WIP)
+ * GitHub Actions
+-  * Release
+-  * Docker build & upload
++  * Continuous Integration workflow
++  * Release workflow
+ 
+ Please check if you deem all these functionalities necessary, if not remove them.
+ 
+@@ -31,16 +28,23 @@ Please check if you deem all these functionalities necessary, if not remove them
+ 
+ ### Steps
+ 
+-1. Clone or download this project
+-2. Find-and-replace the template variables listed in the [template variables](#Template variables) section
+-3. Add your own configuration files
+-4. Make sure that the GitHub action credentials are added
+-5. Commit & Profit!
++1. Create a new repository and choose this as template repository
++2. Clone the newly created project
++3. Fill in the skeletonrc.json to replace the template strings
++4. Run the skeleton.js script with node e.g. `node ./skeleton.js`
++5. Add your own configuration files
++6. Make sure that the GitHub action credentials are added
++7. Commit & Profit!
++
++### Configure Docusaurus GitHub Pages deployment
++1. Navigate to `GitHub -> Repository -> Pages -> Build and deployment` and select `GitHub Actions` from the **source** dropdown.
++2. Navigate to `GitHub -> Repository -> Environments` and create a **New Environment** called `github-pages` if it does not exist yet.
++3. Enable the "docusaurus-release" job in `.github/workflows/release.yml` by setting "if" to `true`.
+ 
+-### Template variables
++## Template variables
+ 
+ | Template variable             | Description                                                                                    | Example        |
+ |-------------------------------|------------------------------------------------------------------------------------------------|----------------|
+ | `ZaakBrug`            | The name of the Frank! to be deployed. It's best to keep this inline with the name of the repo | Frank2Skeleton |
+-| `zaakbrug` | Lowercase version of the instance name.                                                        | frank2example  |
+-| `Translate`      | The name of the first configuration (others have to be added manually)                         | Sans           |
++| `zaakbrug`         | Lowercase version of the instance name.                                                        | frank2example  |
++| `Translate`       | The name of the first configuration (others have to be added manually)                         | Sans           |
