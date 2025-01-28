@@ -27,10 +27,10 @@ jobs:
 
       - name: Next Reference
         id: reference
-        uses: wearefrank/ci-cd-templates/next-reference@2d74f03376f0ed039183954beefda47558a23437 #1.0.15
+        uses: wearefrank/ci-cd-templates/next-reference@40908d8bac3a35504b4ed59d9c462ad715931fb0 #1.3.0
 
   ci:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@2d74f03376f0ed039183954beefda47558a23437 #1.0.15
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@40908d8bac3a35504b4ed59d9c462ad715931fb0 #1.3.0
     needs:
       - version-next
     secrets:

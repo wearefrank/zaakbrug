@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #4.2.2
       
       - name: "Setup Node"
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af #4.1.0
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a #4.2.0
         with:
           node-version: 20
       
@@ -40,7 +40,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   ci:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@2d74f03376f0ed039183954beefda47558a23437 #1.0.15
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@40908d8bac3a35504b4ed59d9c462ad715931fb0 #1.3.0
     needs: analyze-commits
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
@@ -158,7 +158,7 @@ jobs:
           merge-multiple: true
 
       - name: Setup Node
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af #4.1.0
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a #4.2.0
         with:
           node-version: 20
       
@@ -172,7 +172,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   docker-release:
-    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@2d74f03376f0ed039183954beefda47558a23437 #1.0.15
+    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@40908d8bac3a35504b4ed59d9c462ad715931fb0 #1.3.0
     needs: 
     - analyze-commits
     - release
@@ -202,4 +202,4 @@ jobs:
       - release
     # Set to true to enable Docusaurus publishing to GitHub Pages
     if: true
-    uses: wearefrank/ci-cd-templates/.github/workflows/docusaurus-release.yml@2d74f03376f0ed039183954beefda47558a23437 #1.0.15
+    uses: wearefrank/ci-cd-templates/.github/workflows/docusaurus-release.yml@40908d8bac3a35504b4ed59d9c462ad715931fb0 #1.3.0
