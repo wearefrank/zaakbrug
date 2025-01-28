@@ -1,5 +1,5 @@
-<project default="restart-zaakbrug">
-    <target name="restart-zaakbrug">
+<project default="restart-{{ cookiecutter.instance_name }}">
+    <target name="restart-{{ cookiecutter.instance_name }}">
         <basename property="project.dir" file="${basedir}"/>
         <condition property="exe" value="../frank-runner/restart.bat" else="/bin/bash">
             <os family="windows"/>
@@ -11,6 +11,8 @@
             <arg value="${arg}"/>
             <arg value="-Dprojects.dir=${basedir}/.."/>
             <arg value="-Dproject.dir=${project.dir}"/>
+            <arg value="-DcredentialFactory.class=nl.nn.credentialprovider.PropertyFileCredentialFactory"/>
+            <arg value="-DcredentialFactory.map.properties=${basedir}/src/main/secrets/credentials.properties"/>
         </exec>
     </target>
 </project>

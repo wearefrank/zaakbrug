@@ -1,18 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <Context>
-	<JarScanner scanClassPath="false" scanAllFiles="false" scanAllDirectories="false"/>
-	<Resource
-			name="jdbc/zaakbrug"
-			type="org.h2.jdbcx.JdbcDataSource"
-			factory="org.apache.naming.factory.BeanFactory"
-			URL="jdbc:h2:./data/zaakbrug"
-	/>
+    <JarScanner scanClassPath="false" scanAllFiles="false" scanAllDirectories="false"/>
 
-	<!-- <Resource name="jdbc/zaakbrug" auth="Container"
-              type="javax.sql.DataSource"
-              driverClassName="org.postgresql.Driver"
-              url="jdbc:postgresql://${jdbc.hostname:-localhost}:5400/zaakbrug"
-              username="${database/username:-zaakbrug}"
-              password="${database/password:-zaakbrug}"
-    /> -->
+    <Resource
+        name="jdbc/{{ cookiecutter.instance_name_lc }}"
+        type="org.h2.jdbcx.JdbcDataSource"
+        factory="org.apache.naming.factory.BeanFactory"
+        URL="jdbc:h2:/opt/frank/h2/{{ cookiecutter.instance_name_lc }}"
+    />
+
+    <Resource
+        name="jdbc/{{ cookiecutter.instance_name_lc }}-postgresql"
+        auth="Container"
+        factory="org.apache.naming.factory.BeanFactory"
+        type="org.postgresql.xa.PGXADataSource"
+        url="jdbc:postgresql://${jdbc.hostname}:${jdbc.port:-5432}/${jdbc.database}?tcpKeepAlive=${jdbc.tcpKeepAlive:-true}${jdbc.adittionalUrlParameters}"
+        user="${jdbc/username}"
+        password="${jdbc/password}"
+    />
 </Context>

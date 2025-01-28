@@ -1,0 +1,66 @@
+# This docker-compose file brings up an instance of {{ cookiecutter.instance_name }} for local development.
+#
+# For local development it is recommended to a 'sync+restart' watch action for each configuration's 'DeploymentSpecific' files.
+# This ensures that the container is automatically restarted when a change is made in it. Additionally,
+# it is recommended to set the 'classLoaderType' to 'ScanningDirectoryClassLoader', so that the Frank!Framework
+# automatically reloads the configuration when changes are made to it.
+#
+# To use this docker-compose file:
+#    docker compose -f ./compose.frank.dev.yaml <command> (eg. up, down)
+#
+# Recommended for local developent:
+#    docker compose -f ./compose.frank.dev.yaml up --build --force-recreate --watch
+#
+# Access the Frank!Console by navigating to http://localhost:8080/.
+#
+services:
+  frank:
+    build:
+      context: .
+      pull: true # makes sure that the base image is forcefully pulled when using 'latest' tag.
+      args:
+        FF_VERSION: ${FF_VERSION:-latest}
+    image: wearefrank/{{ cookiecutter.instance_name_lc }}:${VERSION:-latest}
+    environment:
+      dtap.stage: DEV
+      configurations.{{ cookiecutter.configuration_name }}.classLoaderType: ScanningDirectoryClassLoader
+    volumes:
+      - h2-data:/opt/frank/h2:rw
+      - logs:/usr/local/tomcat/logs:rw
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./src/main/configurations/{{ cookiecutter.configuration_name }}/DeploymentSpecifics.properties
+          target: /opt/frank/configurations/{{ cookiecutter.configuration_name }}/DeploymentSpecifics.properties
+        - action: sync
+          path: ./src/main/configurations
+          target: /opt/frank/configurations
+        - action: sync
+          path: ./src/main/resources
+          target: /opt/frank/resources
+        - action: sync
+          path: ./src/test/testtool
+          target: /opt/frank/testtool
+        - action: sync+restart
+          path: ./src/main/secrets
+          target: /opt/frank/secrets
+        - action: sync+restart
+          path: ./src/main/resources/DeploymentSpecifics.properties
+          target: /opt/frank/resources/DeploymentSpecifics.properties
+        - action: sync+restart
+          path: ./src/main/resources/ladybug/DatabaseChangelog_Custom.xml
+          target: /opt/frank/resources/ladybug/DatabaseChangelog_Custom.xml
+        - action: sync+restart
+          path: ./src/main/resources/springIbisTestToolCustom.xml
+          target: /opt/frank/resources/springIbisTestToolCustom.xml
+        - action: rebuild
+          path: ./src/main/java
+        - action: rebuild
+          path: ./src/main/webapp/META-INF/context.xml
+    ports:
+      - "${PORT:-8080}:8080"
+    restart: unless-stopped
+
+volumes:
+  logs:
+  h2-data:

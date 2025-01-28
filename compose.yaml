@@ -1,0 +1,25 @@
+# This docker-compose file brings up an example instance of {{ cookiecutter.instance_name }}.
+# 
+# A H2 file-based database is used as example. This is not recommended for production environments.
+#
+# To use this docker-compose file:
+#    docker compose <command> (eg. up, down)
+#
+# Access the Frank!Console by navigating to http://localhost:8080/.
+#
+services:
+  frank:
+    image: wearefrank/{{ cookiecutter.instance_name_lc }}:${VERSION:-latest}
+    environment:
+      TZ: ${TIME_ZONE:-Europe/Amsterdam}
+      dtap.stage: ${DTAP_STAGE:-LOC}
+    volumes:
+      - h2-data:/opt/frank/h2:rw
+      - logs:/usr/local/tomcat/logs:rw
+    ports:
+      - "${PORT:-8080}:8080"
+    restart: unless-stopped
+
+volumes:
+  logs:
+  h2-data:

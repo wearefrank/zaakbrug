@@ -1,6 +1,5 @@
 {
-  "branches": ["master", "main", "1.0.x"],
-  "debug": "true",
+  "branches": ["main", "1.0.x"],
   "plugins": [
     [
       "@semantic-release/commit-analyzer",
@@ -78,8 +77,8 @@
         "assets": [
           "CHANGELOG.md",
           "src/main/resources/BuildInfo.properties",
-          "classes/BuildInfo.properties",
-          "./charts/zaakbrug/Chart.yaml"
+          "configurations/{{ cookiecutter.configuration_name }}/BuildInfo.properties",
+          "publiccode.yaml"
         ],
         "message": "chore(<%= nextRelease.type %>): release <%= nextRelease.version %> <%= nextRelease.channel !== null ? `on ${nextRelease.channel} channel ` : '' %>[skip ci]\n\n<%= nextRelease.notes %>"
       }

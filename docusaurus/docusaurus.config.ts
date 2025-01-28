@@ -3,12 +3,12 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const organizationName: String = 'WeAreFrank';
-const projectName: String = 'zaakbrug';
+const projectName: String = '{{ cookiecutter.instance_name_lc }}';
 
 const config: Config = {
-  title: 'ZaakBrug',
+  title: '{{ cookiecutter.instance_name }}',
   tagline: '',
-  favicon: 'img/zaakbrug-icon.png',
+  favicon: 'img/waf-logo-favicon-16x16.png',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -16,10 +16,10 @@ const config: Config = {
   projectName: `${projectName}`, // Usually your repo name.
 
   // Set the production url of your site here
-  url: `https://docs.zaakbrug.nl`,
+  url: `https://${organizationName}.github.io`,
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: `/${projectName}/`,
 
 
   onBrokenLinks: 'throw',
@@ -32,6 +32,11 @@ const config: Config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+  
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
 
   presets: [
     [
@@ -53,12 +58,12 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/zaakbrug-icon.png',
+    image: 'img/waf-logo-192x192.png',
     navbar: {
-      title: 'ZaakBrug',
+      title: '{{ cookiecutter.instance_name }}',
       logo: {
         alt: 'WeAreFrank',
-        src: 'img/zaakbrug-icon.png',
+        src: 'img/waf-logo-192x192.png',
       },
       items: [
         {

@@ -6,31 +6,35 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --zaakbrug-color: rgb(0,255,194);
-  --zaakbrug-color-darker: rgb(0, 215, 143);
-  --ifm-color-primary: var(--zaakbrug-color-darker);
+  --ifm-color-primary: #fdc300;
+  --ifm-color-primary-dark: #e4b000;
+  --ifm-color-primary-darker: #d7a600;
+  --ifm-color-primary-darkest: #b18900;
+  --ifm-color-primary-light: #ffca17;
+  --ifm-color-primary-lighter: #ffcd24;
+  --ifm-color-primary-lightest: #ffd54a;
   --ifm-footer-background-color: #1e1e1e;
   --ifm-footer-color: var(--ifm-footer-link-color);
-  --ifm-footer-link-color: var(--zaakbrug-color);
-  --ifm-footer-title-color: var(--zaakbrug-color);
+  --ifm-footer-link-color: var(--ifm-color-white);
+  --ifm-footer-title-color: var(--ifm-color-white);
   --ifm-code-font-size: 95%;
   --ifm-hero-background-color: var(--ifm-color-primary-darkest);
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
-  --ifm-link-hover-color: var(--zaakbrug-color  );
-  --ifm-button-color: var(--zaakbrug-color);
-  --ifm-toc-border-color: var(--zaakbrug-color);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: var(--zaakbrug-color);
-  --zaakbrug-color-darker: rgb(0, 215, 143);
+  --ifm-color-primary: #fdc300;
+  --ifm-color-primary-dark: #e4b000;
+  --ifm-color-primary-darker: #d7a600;
+  --ifm-color-primary-darkest: #b18900;
+  --ifm-color-primary-light: #ffca17;
+  --ifm-color-primary-lighter: #ffcd24;
+  --ifm-color-primary-lightest: #ffd54a;
   --ifm-background-color: #1e1e1e;
-  --ifm-footer-background-color: var(--zaakbrug-color);
+  --ifm-footer-background-color: #fdc300;
   --ifm-footer-color: var(--ifm-footer-link-color);
   --ifm-footer-link-color: var(--ifm-color-black);
   --ifm-footer-title-color: var(--ifm-color-black);
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
-  --ifm-link-hover-color: rgb(0, 168, 129);
-  --ifm-toc-border-color: var(--zaakbrug-color);
 }

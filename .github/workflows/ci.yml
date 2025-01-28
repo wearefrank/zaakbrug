@@ -1,11 +1,10 @@
 name: Continuous Integration
 
 on:
-  workflow_dispatch:
-  # pull_request:
-  #   branches:
-  #     - main
-  #     - master
+  pull_request:
+    branches:
+      - main
+      - master
 
 jobs:
   version-next:
@@ -16,7 +15,7 @@ jobs:
       version-next: ${{ steps.reference.outputs.next-reference }}
       version-next-strict: ${{ steps.reference.outputs.next-reference }}
     steps:
-      - uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
+      - uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
         with:
           disable-sudo: true
           egress-policy: block
@@ -24,98 +23,19 @@ jobs:
             github.com:443
 
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #4.2.2
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 #4.1.7
 
       - name: Next Reference
         id: reference
-        uses: wearefrank/ci-cd-templates/next-reference@2d74f03376f0ed039183954beefda47558a23437 #1.0.15
+        uses: wearefrank/ci-cd-templates/next-reference@e073950d36ffdeb9f018b14b2ca0c13449825b2f #1.0.3
 
   ci:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@2d74f03376f0ed039183954beefda47558a23437 #1.0.15
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@e073950d36ffdeb9f018b14b2ca0c13449825b2f #1.0.3
     needs:
       - version-next
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
     with:
       version: ${{ needs.version-next.outputs.version-next }}
-      docker-image-repo: ${{ vars.DOCKER_IMAGE_REPOSITORY }}
-      docker-image-name: ${{ vars.DOCKER_IMAGE_NAME }}
-      upload-sarif-to-security: false
-      run-frank-till-healthy-enabled: false
 
-  run-larva-scenarios:
-    uses: ./.github/workflows/run-larva-scenarios.yml
-    needs:
-      - version-next
-      - ci
-    with:
-      image-id: ${{ needs.ci.outputs.image-id }}
-
-  run-soapui-tests:
-    runs-on: ubuntu-latest
-    needs:
-      - version-next
-      - ci
-      - run-larva-scenarios
-    steps:
-      - uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
-        with:
-          egress-policy: audit
-
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #4.2.2
-
-      - name: Download Docker tar
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 #4.1.8
-        with:
-          name: build-docker-image
-
-      - name: Load Docker tar
-        shell: bash
-        run: |
-          docker load --input image.tar
-          docker image ls -a
-
-      - name: Run SoapUI Tests
-        run: |
-          export ZAAKBRUG_VERSION="${{ needs.version-next.outputs.version-next }}"
-
-          docker image inspect ${{ vars.DOCKER_IMAGE_REPOSITORY }}/${{ vars.DOCKER_IMAGE_NAME }}:${ZAAKBRUG_VERSION}
-          docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up -d
-          docker ps
-
-          sleep 90
-
-          STATUS=$(docker inspect --format='{{json .State.Status}}' soapui-testrunner)
-          until [ "$STATUS" = '"exited"' ]
-          do
-            STATUS=$(docker inspect --format='{{json .State.Status}}' soapui-testrunner)
-            sleep 15
-          done
-
-          EXIT_CODE=$(docker inspect --format='{{json .State.ExitCode}}' soapui-testrunner)
-          echo "Exit Code: $EXIT_CODE"
-
-          docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml down
-          
-          if [ "$EXIT_CODE" -ne 0 ]
-            then
-              echo "Test(s) failed. Failing the job."
-              exit 1
-          fi
-        timeout-minutes: 15
-
-      - name: Check if test reports created
-        run: |
-          if [ -z "$(ls -A e2e/reports)" ]
-            then
-              echo "There is no test report found, tests might not have been run. Failing the job."
-              exit 1
-          fi
-
-      - name: Upload SoapUI testreports as artifact
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 #4.6.0
-        if: always()
-        with:
-          name: reports-soapui-testreports
-          path: ./*/reports
+  

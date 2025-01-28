@@ -2,8 +2,8 @@ publiccodeYmlVersion: "0.2"
 # Instructies: https://github.com/OpenCatalogi/OpenCatalogiBundle/blob/main/docs/Publiccode.md
 name: {{ cookiecutter.instance_name }}
 url: "https://github.com/wearefrank/{{ cookiecutter.instance_name }}.git"
-softwareVersion: "6.7.5"    # Optional
-releaseDate: 2023-08-14
+softwareVersion: "${instance_version}"    # Optional
+releaseDate: ${versionDate_yyyymmdd}
 applicationSuite: frankframework
 platforms:
   - frankframework
@@ -21,16 +21,16 @@ description:
   en:
     shortDescription: >
       The {{ cookiecutter.instance_name }} component is an integration component.
-          
+
     longDescription: >
       The {{ cookiecutter.instance_name }} component is an integration component.
 
     features:
-       - Statelessness
-       - Atomicity
-       - Loose Coupling
-       - Error Tracking
-       - Standardized Interface
+      - Statelessness
+      - Atomicity
+      - Loose Coupling
+      - Error Tracking
+      - Standardized Interface
 
 legal:
   license: European Union Public License 1.2
@@ -49,9 +49,9 @@ localisation:
 nl:
   countryExtensionVersion: "1.0"
   commonground:
-  - layerType: "integration"
-  - installationType: "docker"
-  - intendedOrganisations: "https://github.com/wearefrank"
+    - layerType: "integration"
+    - installationType: "docker"
+    - intendedOrganisations: "https://github.com/wearefrank"
   gemma:
     bedrijfsfuncties:
       - "sadsad"
