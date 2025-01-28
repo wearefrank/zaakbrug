@@ -1,5 +1,15 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.22.11](https://github.com/wearefrank/zaakbrug/compare/v1.22.10...v1.22.11) (2025-01-28)
+
+### 🐛 Bug Fixes
+
+* if no resultaat in translation profile for eindStatus, then check for resultaat for eindDatum if eindDatum exists ([e0db5e1](https://github.com/wearefrank/zaakbrug/commit/e0db5e15281d6ef89850b36218612bc1c81ed4a9))
+
+### 🤖 Build System
+
+* **dependencies:** bump the github-actions group with 2 updates ([#507](https://github.com/wearefrank/zaakbrug/issues/507)) ([956983b](https://github.com/wearefrank/zaakbrug/commit/956983b82808abfc4eebe846cc5358fd6f57cd53))
+
 ## [1.22.10](https://github.com/wearefrank/zaakbrug/compare/v1.22.9...v1.22.10) (2025-01-20)
 
 ### 🧑‍💻 Code Refactoring
