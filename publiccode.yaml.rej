@@ -1,0 +1,49 @@
+diff a/publiccode.yaml b/publiccode.yaml	(rejected hunks)
+@@ -1,12 +1,12 @@
+ publiccodeYmlVersion: "0.2"
+ # Instructies: https://github.com/OpenCatalogi/OpenCatalogiBundle/blob/main/docs/Publiccode.md
+-name: %%INSTACE_NAME%%
+-url: "https://github.com/Sudwest-Fryslan/%%INSTACE_NAME%%.git"
++name: ZaakBrug
++url: "https://github.com/wearefrank/ZaakBrug.git"
+ softwareVersion: "6.7.5"    # Optional
+ releaseDate: 2023-08-14
+-applicationSuite: het-integratie-platform
++applicationSuite: frankframework
+ platforms:
+-  - frank-framework
++  - frankframework
+ 
+ categories:
+   - translation
+@@ -20,10 +20,10 @@ softwareType: "standalone/other"
+ description:
+   en:
+     shortDescription: >
+-      The %%INSTACE_NAME%% component is an integration component.
++      The ZaakBrug component is an integration component.
+           
+     longDescription: >
+-      The %%INSTACE_NAME%% component is an integration component.
++      The ZaakBrug component is an integration component.
+ 
+     features:
+        - Statelessness
+@@ -39,7 +39,7 @@ maintenance:
+   type: "community"
+ 
+   contacts:
+-    - name: Eduard Witteveen
++    - name: Sander Bult
+ 
+ localisation:
+   localisationReady: true
+@@ -51,7 +51,7 @@ nl:
+   commonground:
+   - layerType: "integration"
+   - installationType: "docker"
+-  - intendedOrganisations: "https://github.com/Sudwest-Fryslan"
++  - intendedOrganisations: "https://github.com/wearefrank"
+   gemma:
+     bedrijfsfuncties:
+       - "sadsad"

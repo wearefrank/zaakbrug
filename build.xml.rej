@@ -1,0 +1,9 @@
+diff a/build.xml b/build.xml	(rejected hunks)
+@@ -1,5 +1,5 @@
+-<project default="restart-%%INSTANCE_NAME%%">
+-    <target name="restart-%%INSTANCE_NAME%%">
++<project default="restart-ZaakBrug">
++    <target name="restart-ZaakBrug">
+         <basename property="project.dir" file="${basedir}"/>
+         <condition property="exe" value="../frank-runner/restart.bat" else="/bin/bash">
+             <os family="windows"/>
