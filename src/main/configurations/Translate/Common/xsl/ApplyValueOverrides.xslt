@@ -4,8 +4,9 @@
 
     <xsl:param name="valueOverrides" as="node()?"><xsl:document><root /></xsl:document></xsl:param>
     <xsl:param name="mergeWith" as="node()?"><xsl:document /></xsl:param>
-    <xsl:param name="defaultMergeCondition" as="xs:string">string-length(.) = 0</xsl:param>
+    <xsl:param name="defaultMergeCondition" as="xs:string">string-length($current) = 0</xsl:param>
     <xsl:param name="processAsArrayKeys" select="''" as="xs:string" />
+	<xsl:variable name="valueOverrideConditionContext" select="root()/*" />
 
     <xsl:param name="debug" as="xs:string" select="'false'" />
 	<xsl:variable name="debugSerializeParams" as="map(xs:string, item()?)">
@@ -71,17 +72,15 @@
 						<xsl:variable name="valueOverrideCondition" select="if ($valueOverride/condition) then $valueOverride/condition else $defaultMergeCondition" />
 						<xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> resolvedValueOverrideCondition: [{serialize($valueOverrideCondition, $debugSerializeParams)}] </xsl:comment></xsl:if>
 
-						<xsl:variable name="contextItem">
-							<xsl:choose>
-								<xsl:when test="current-merge-group('inputContext')">
-									<xsl:copy-of select="current-merge-group('inputContext')" />
-								</xsl:when>
-								<xsl:otherwise><emptyContextItem/></xsl:otherwise>
-							</xsl:choose>
+						<xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> current-item: [{serialize(current-merge-group('inputContext'), $debugSerializeParams)}] </xsl:comment></xsl:if>
+						<xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> entityContext: [{serialize($valueOverrideConditionContext, $debugSerializeParams)}] </xsl:comment></xsl:if>
+						<xsl:variable name="valueOverrideConditionResult" as="xs:boolean">
+							<xsl:value-of>
+								<xsl:evaluate xpath="$valueOverrideCondition" context-item="$valueOverrideConditionContext" as="xs:boolean">
+									<xsl:with-param name="current" select="current-merge-group('inputContext')" as="node()*" />
+								</xsl:evaluate>
+							</xsl:value-of>
 						</xsl:variable>
-						<xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> context-item: [{serialize($contextItem, $debugSerializeParams)}] </xsl:comment></xsl:if>
-
-						<xsl:variable name="valueOverrideConditionResult" as="xs:boolean"><xsl:value-of><xsl:evaluate xpath="$valueOverrideCondition" context-item="$contextItem" as="xs:boolean" /></xsl:value-of></xsl:variable>
 						<xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> evaluateConditionResult: [{serialize($valueOverrideConditionResult, $debugSerializeParams)}] </xsl:comment></xsl:if>
 
 						<xsl:choose>
