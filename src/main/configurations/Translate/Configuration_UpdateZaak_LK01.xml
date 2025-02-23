@@ -361,7 +361,7 @@
                 getInputFromSessionKey="ZdsWordtZaak"
                 xpathExpression="/object/heeftBetrekkingOpAndere/gerelateerde[string-length(identificatie) > 0]"
                 thenForwardName="CheckForHeeftBetrekkingOpAndereWithVerwerkingssoortV"
-                elseForwardName="EXIT">
+                elseForwardName="CheckForHeeftAlsDeelzaak">
             </XmlIfPipe>
 
             <XmlIfPipe name="CheckForHeeftBetrekkingOpAndereWithVerwerkingssoortV"
@@ -475,9 +475,30 @@
                     <Param name="Url" sessionKey="ZgwZaakUrl" defaultValue="&lt;dummy/&gt;" />
                     <Param name="AndereUrls" sessionKey="AndereZakenResult" defaultValue="&lt;dummy/&gt;"/>
                 </IbisLocalSender>
-                <Forward name="success" path="EXIT"/>
+                <Forward name="success" path="CheckForHeeftAlsDeelzaak"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
+
+            <XmlIfPipe name="CheckForHeeftAlsDeelzaak"
+                getInputFromSessionKey="ZdsWordtZaak"
+                xpathExpression="/object/heeftAlsDeelzaak[1]/gerelateerde[string-length(identificatie) > 0]"
+                thenForwardName="DeelzaakIterator"
+                elseForwardName="EXIT">
+            </XmlIfPipe>
+
+            <ForEachChildElementPipe 
+                name="DeelzaakIterator"
+                elementXPathExpression="/object/heeftAlsDeelzaak">
+                <IbisLocalSender
+                    name="DeelzaakSender"
+                    javaListener="Deelzaak"
+                    returnedSessionKeys="Error">
+                    <Param name="Url" sessionKey="ZgwZaakUrl" />
+                    <Param name="DeelzaakIdentificatie" xpathExpression="heeftAlsDeelzaak/gerelateerde/identificatie" />
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </ForEachChildElementPipe>
 
             <XsltPipe 
                 name="UncaughtException"

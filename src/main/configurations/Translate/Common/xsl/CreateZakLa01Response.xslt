@@ -251,8 +251,8 @@
     </xsl:template>
 
     <xsl:template match="*:heeftAlsDeelzaak/*:gerelateerde">
-        <ZKN:heeftAlsHoofdzaak StUF:entiteittype="ZAKZAKDEL">
-            <ZKN:gerelateerde>
+        <ZKN:heeftAlsDeelzaak StUF:entiteittype="ZAKZAKDEL">
+            <ZKN:gerelateerde StUF:entiteittype="ZAK">
                 <xsl:if test="*:code">
                     <ZKN:identificatie><xsl:value-of select="*:code"/></ZKN:identificatie>
                 </xsl:if>
@@ -260,12 +260,12 @@
                     <ZKN:omschrijving><xsl:value-of select="*:omschrijving"/></ZKN:omschrijving>
                 </xsl:if>
             </ZKN:gerelateerde>
-        </ZKN:heeftAlsHoofdzaak>
+        </ZKN:heeftAlsDeelzaak>
     </xsl:template>
 
     <xsl:template match="*:heeftAlsHoofdzaak/*:gerelateerde">
         <ZKN:heeftAlsHoofdzaak StUF:entiteittype="ZAKZAKHFD">
-            <ZKN:gerelateerde>
+            <ZKN:gerelateerde StUF:entiteittype="ZAK">
                 <xsl:if test="*:code">
                     <ZKN:identificatie><xsl:value-of select="*:code"/></ZKN:identificatie>
                 </xsl:if>

@@ -1,0 +1,58 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="DeleteHoofdzaak"
+        active="${DeleteHoofdzaak.Active}"
+        description="">
+
+        <Receiver name="DeleteHoofdzaak">
+            <JavaListener name="DeleteHoofdzaak" returnedSessionKeys="Error" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <XmlIfPipe 
+                name="CheckIfExistingHoofdzaakSameAsNewHoofdzaak"
+                xpathExpression="/ZgwZaak/hoofdzaak = $HoofdzaakUrl">
+                <Param name="HoofdzaakUrl" sessionKey="HoofdzaakUrl" />
+                <Forward name="then" path="CreateEmptyHoofdzaakJson" />
+                <Forward name="else" path="LogWarningHoofdzaakNotMatch" />
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="LogWarningHoofdzaakNotMatch"
+                >
+                <LogSender
+                    name="LogWarningSender"
+                    >
+                </LogSender>
+                <Forward name="success" path="EXIT" />
+            </SenderPipe>
+
+            <DataSonnetPipe name="CreateEmptyHoofdzaakJson"
+                styleSheetName="UpdateZaak_LK01/jsonnet/CreateEmptyHoofdzaakJson.jsonnet"
+                outputType="JSON"
+                storeResultInSessionKey="EmptyHoofdzaakJson">
+                <Forward name="success" path="PatchHoofdzaak" />
+            </DataSonnetPipe>
+
+            <SenderPipe
+                name="PatchHoofdzaak"
+                >
+                <IbisLocalSender
+                    name="CallUpdateZgwZaakSender"
+                    javaListener="Zaken_UpdateZgwZaak"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="Url" sessionKey="originalMessage" xpathExpression="/ZgwZaak/url"/>
+                    <Param name="EmptyHoofdzaakJson" sessionKey="EmptyHoofdzaakJson" />
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+        </Pipeline>
+    </Adapter>
+</Module>

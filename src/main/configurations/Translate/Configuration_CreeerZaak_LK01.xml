@@ -249,11 +249,9 @@
             
             <SenderPipe
                 name="DeleteZaakSender"
-                getInputFromFixedValue="&lt;dummy/&gt;"
-                >
+                getInputFromFixedValue="&lt;dummy/&gt;">
                 <IbisLocalSender
-                    javaListener="Zaken_DeleteZgwZaak"
-                    >
+                    javaListener="Zaken_DeleteZgwZaak">
                     <Param name="url" sessionKey="PostZgwZaakResult" xpathExpression="ZgwZaak/url" />
                 </IbisLocalSender>
                 <Forward name="success" path="EXCEPTION" />
@@ -264,14 +262,14 @@
                 getInputFromSessionKey="originalMessage"
                 xpathExpression="/zakLk01/object/heeftBetrekkingOpAndere/gerelateerde[string-length(identificatie) > 0]"
                 thenForwardName="AndereZaakIterator"
-                elseForwardName="EXIT">
+                elseForwardName="CheckForHeeftAlsDeelzaak">
             </XmlIfPipe>
 
-            <ForEachChildElementPipe name="AndereZaakIterator"
+            <ForEachChildElementPipe 
+                name="AndereZaakIterator"
                 getInputFromSessionKey="originalMessage"
                 elementXPathExpression="/zakLk01/object/heeftBetrekkingOpAndere"
                 storeResultInSessionKey="AndereZakenResult">
-
                 <IbisLocalSender
                     name="CallAndereZaakAdapter"
                     javaListener="AndereZaakAdapter"
@@ -280,7 +278,6 @@
                     <Param name="Identificatie" xpathExpression="heeftBetrekkingOpAndere/gerelateerde/identificatie" />
                     <!-- <Param name="PostZgwZaakResult" sessionKey="GetZgwWasZaakResult" type="DOMDOC"/> -->
                 </IbisLocalSender>
-                
                 <Forward name="success" path="createListAndereUrls"/>
                 <Forward name="exception" path="DeleteZaakSender" />
             </ForEachChildElementPipe>
@@ -295,7 +292,8 @@
             </XsltPipe>
 
             <SenderPipe
-                name="CallPatchAndereZaak" getInputFromSessionKey="PostZgwZaakResult">
+                name="CallPatchAndereZaak" 
+                getInputFromSessionKey="PostZgwZaakResult">
                 <IbisLocalSender
                     name="CallPatchAndereZaakSender"
                     javaListener="PatchRelevanteAndereZaak"
@@ -303,11 +301,60 @@
                     <Param name="Url" xpathExpression="ZgwZaak/url" defaultValue="&lt;dummy/&gt;" />
                     <Param name="AndereUrls" sessionKey="AndereZakenResult" defaultValue="&lt;dummy/&gt;"/>
                 </IbisLocalSender>
-                <Forward name="success" path="EXIT"/>
+                <Forward name="success" path="CheckForHeeftAlsDeelzaak"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
-            
 
+
+            <!--We assume there will be only one hoofdzaak but to prevent the xpath error we take the first element just in case since is is allowed to have more than one hoodzaak element according to wsdl-->
+            <!-- <XmlIfPipe name="CheckForHeeftAlsHoofdzaak"
+                getInputFromSessionKey="originalMessage"
+                xpathExpression="/zakLk01/object/heeftAlsHoofdzaak[1]/gerelateerde[string-length(identificatie) > 0]"
+                thenForwardName="StoreHeeftAlsHoofdzaakElement"
+                elseForwardName="EXIT">
+            </XmlIfPipe>
+
+            <PutInSessionPipe 
+                name="StoreHeeftAlsHoofdzaakElement">
+                <Param name="HeeftAlsHoofdzaakElement" xpathExpression="/zakLk01/object/heeftAlsHoofdzaak[1]"/> 
+                <Forward name="success" path="CallHoofdzaakAdapter"/>
+            </PutInSessionPipe>
+
+            <SenderPipe 
+                name="CallHoofdzaakAdapter"
+                getInputFromSessionKey="HeeftAlsHoofdzaakElement">
+                <IbisLocalSender 
+                    name="HoofdzaakSender"
+                    javaListener="Deelzaak"
+                    returnedSessionKeys="Error">
+                    <Param name="Url" sessionKey="PostZgwZaakResult" xpathExpression="ZgwZaak/url" />
+                    <Param name="HoofdzaakIdentification" xpathExpression="/zakLk01/object/heeftAlsHoofdzaak[1]/gerelateerde/identificatie" />
+                </IbisLocalSender>
+                <Forward name="success" path="CheckForHeeftAlsDeelzaak"/>
+                <Forward name="exception" path="DeleteZaakSender" />
+            </SenderPipe> -->
+
+            <XmlIfPipe name="CheckForHeeftAlsDeelzaak"
+                getInputFromSessionKey="originalMessage"
+                xpathExpression="/zakLk01/object/heeftAlsDeelzaak[1]/gerelateerde[string-length(identificatie) > 0]"
+                thenForwardName="DeelzaakIterator"
+                elseForwardName="EXIT">
+            </XmlIfPipe>
+
+            <ForEachChildElementPipe 
+                name="DeelzaakIterator"
+                elementXPathExpression="/zakLk01/object/heeftAlsDeelzaak">
+                <IbisLocalSender
+                    name="DeelzaakSender"
+                    javaListener="Deelzaak"
+                    returnedSessionKeys="Error">
+                    <Param name="Url" sessionKey="PostZgwZaakResult" xpathExpression="ZgwZaak/url" />
+                    <Param name="DeelzaakIdentificatie" xpathExpression="heeftAlsDeelzaak/gerelateerde/identificatie" />
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </ForEachChildElementPipe>
+            
             <XsltPipe 
                 name="UncaughtException"
                 getInputFromFixedValue="&lt;dummy/&gt;"

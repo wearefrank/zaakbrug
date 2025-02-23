@@ -1,0 +1,152 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="Deelzaak"
+        active="${Deelzaak.Active}">
+
+        <Receiver name="Deelzaak">
+            <JavaListener name="Deelzaak" returnedSessionKeys="Error" />
+        </Receiver>
+
+        <Pipeline> 
+            <Exits> 
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                name="CallGetZgwDeelzaak"
+                storeResultInSessionKey="ZgwDeelzaakResult">
+                <IbisLocalSender
+                    name="CallGetZgwZaakSender"
+                    javaListener="GetZgwZaak"
+                    returnedSessionKeys="Error">
+                    <Param name="Identificatie" sessionKey="DeelzaakIdentificatie"/>
+                </IbisLocalSender>
+                <Forward name="success" path="ZaakNotFound_Condition"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XmlIfPipe
+                name="ZaakNotFound_Condition"
+                xpathExpression="string-length(ZgwZaken) = 0"
+                >
+                <Forward name="then" path="ZaakNotFound_Exception" />
+                <Forward name="else" path="GetSingleZgwDeelzaakFromZgwZakenList" />
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="ZaakNotFound_Exception"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error"
+                >
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> 
+                <Param name="reason" pattern="No zaak with the identificatie:{Identificatie} is found in GetZgwZaak" ignoreUnresolvablePatternElements="true" />
+                <Param name="detailsXml" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <XsltPipe
+                name="GetSingleZgwDeelzaakFromZgwZakenList"
+                storeResultInSessionKey="ZgwDeelzaakResult"
+                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
+                >
+                <Forward name="success" path="CheckForGetZgwDeelzaakResult"/>
+                <Forward name="exception" path="EXCEPTION"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckForGetZgwDeelzaakResult"
+                xpathExpression="string-length(ZgwZaak) > 0"
+                >
+                <Forward name="then" path="CheckVerwerkingssoortAttribute"/>
+                <Forward name="else" path="EXIT"/>
+            </XmlIfPipe>
+
+            <XmlSwitchPipe
+                name="CheckVerwerkingssoortAttribute"
+                getInputFromSessionKey="originalMessage"
+                xpathExpression="*/@*:verwerkingssoort"
+                notFoundForwardName="unimplemented">
+                <Forward name="I" path="CallCheckHoofdzaak" />
+                <Forward name="T" path="CallAddHoofdzaak" />
+                <Forward name="W" path="CallUpdateHoofdzaak" />
+                <Forward name="V" path="CallDeleteHoofdzaak" />
+                <Forward name="unimplemented" path="UnrecognizedVerwerkingssoort_Error" />
+            </XmlSwitchPipe>
+
+            <XsltPipe
+                name="UnrecognizedVerwerkingssoort_Error"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error"
+                >
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> 
+                <Param name="reason" pattern="The value of verwerkingssoort attribute of heeftAlsHoofdzaak is either not allowed nor not implemented yet." ignoreUnresolvablePatternElements="true" />
+                <Param name="detailsXml" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <SenderPipe
+                name="CallCheckHoofdzaak" 
+                getInputFromSessionKey="ZgwDeelzaakResult">
+                <IbisLocalSender
+                    name="CallCheckHoofdzaakSender"
+                    javaListener="CheckHoofdzaak"
+                    returnedSessionKeys="Error">
+                    <Param name="HoofdzaakUrl" sessionKey="Url" />
+                </IbisLocalSender>
+                <Forward name="success" path="JsonToXml"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallAddHoofdzaak"
+                getInputFromSessionKey="ZgwDeelzaakResult">
+                <IbisLocalSender
+                    name="CallAddHoofdzaakSender"
+                    javaListener="AddHoofdzaak"
+                    returnedSessionKeys="Error">
+                    <Param name="HoofdzaakUrl" sessionKey="Url" />
+                </IbisLocalSender>
+                <Forward name="success" path="JsonToXml"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallUpdateHoofdzaak"
+                getInputFromSessionKey="ZgwDeelzaakResult">
+                <IbisLocalSender
+                    name="CallUpdateHoofdzaakSender"
+                    javaListener="UpdateHoofdzaak"
+                    returnedSessionKeys="Error">
+                    <Param name="DeelzaakUrl" xpathExpression="/ZgwZaak/url" defaultValue="&lt;dummy/&gt;" />
+                    <Param name="HoofdzaakUrl" sessionKey="Url" />
+                </IbisLocalSender>
+                <Forward name="success" path="JsonToXml"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallDeleteHoofdzaak" 
+                getInputFromSessionKey="ZgwDeelzaakResult">
+                <IbisLocalSender
+                    name="CallDeleteHoofdzaakSender"
+                    javaListener="DeleteHoofdzaak" 
+                    returnedSessionKeys="Error">
+                    <Param name="DeelzaakUrl" xpathExpression="/ZgwZaak/url" defaultValue="&lt;dummy/&gt;" />
+                    <Param name="HoofdzaakUrl" sessionKey="Url" />
+                </IbisLocalSender>
+                <Forward name="success" path="JsonToXml"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+
+            <JsonPipe name="JsonToXml">
+                <Forward name="success" path="EXIT"/>
+            </JsonPipe>
+        </Pipeline>
+    </Adapter>
+</Module>
