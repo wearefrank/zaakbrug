@@ -74,7 +74,12 @@
             {
                 "key": "zgw.zaken-api.rollen.rol.betrokkeneIdentificatie.annIdentificatie",
                 "value": "${extraElementen:kvkNummer}",
-                "condition": "true()"
+                "condition": "//betrokkeneType = 'niet_natuurlijk_persoon'"
+            },
+            {
+                "key": "zgw.zaken-api.rollen.rol.betrokkeneIdentificatie.anpIdentificatie",
+                "value": "${extraElementen:kvkNummer}",
+                "condition": "//betrokkeneType = 'natuurlijk_persoon'"
             },
             {
                 "key": "zgw.zaken-api.zaken.zaak.vertrouwelijkheidaanduiding",

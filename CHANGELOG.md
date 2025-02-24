@@ -1,5 +1,20 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.23.0](https://github.com/wearefrank/zaakbrug/compare/v1.22.11...v1.23.0) (2025-02-21)
+
+### 🍕 Features
+
+* conditional valueOverrides with xpath expressions ([1ed436d](https://github.com/wearefrank/zaakbrug/commit/1ed436d29b6d5dd59e62b9a447d13b225063a609))
+
+### ✅ Tests
+
+* **unit:** larva testcases checking value override condition evaluating to false ([f0fb212](https://github.com/wearefrank/zaakbrug/commit/f0fb21216c8c8ff9ee7edbaa5d7406f32c43f438))
+* update profile.json to include conditional valueOverrides with overlapping source extraElement ([1e339e7](https://github.com/wearefrank/zaakbrug/commit/1e339e7ee1f91be3ab56d5f95cdac51eea35c85d))
+
+### 🤖 Build System
+
+* **dependencies:** bump the github-actions group across 1 directory with 2 updates ([#517](https://github.com/wearefrank/zaakbrug/issues/517)) ([597a97c](https://github.com/wearefrank/zaakbrug/commit/597a97c84a0e4b4705056cbce403d67632944cc2))
+
 ## [1.22.11](https://github.com/wearefrank/zaakbrug/compare/v1.22.10...v1.22.11) (2025-01-28)
 
 ### 🐛 Bug Fixes
