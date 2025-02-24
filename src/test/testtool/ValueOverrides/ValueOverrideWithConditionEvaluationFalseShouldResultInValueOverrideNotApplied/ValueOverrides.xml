@@ -1,0 +1,12 @@
+<root>
+    <valueOverrides>
+        <key>zgwRol.roltoelichting</key>
+        <value>Niet-Natuurlijk Persoon</value>
+        <condition>//betrokkeneType = 'niet_natuurlijk_persoon'</condition>
+    </valueOverrides>
+    <valueOverrides>
+        <key>zgwRol.betrokkeneIdentificatie.statutaireNaam</key>
+        <value>Andere Statutaire Naam</value>
+        <condition>//betrokkeneType = 'natuurlijk_persoon'</condition>
+    </valueOverrides>
+</root>
