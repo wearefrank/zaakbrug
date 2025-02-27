@@ -8,7 +8,9 @@
         <zgwResultaat>
             <zaak><xsl:value-of select="$ZaakUrl"/></zaak>
             <resultaattype><xsl:value-of select="$ResultaatType"/></resultaattype>
-            <toelichting><xsl:value-of select="$Toelichting"/></toelichting>
+            <xsl:if test="$Toelichting != ''">
+                <toelichting><xsl:value-of select="$Toelichting"/></toelichting>
+            </xsl:if>
         </zgwResultaat>
     </xsl:template>
 </xsl:stylesheet>

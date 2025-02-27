@@ -180,7 +180,7 @@
                     <Param name="ResultaatType" xpathExpression="$GetResultaatTypeByZaakTypeAndOmschrijvingResult/resultaatType/url">
                         <Param name="GetResultaatTypeByZaakTypeAndOmschrijvingResult" sessionKey="GetResultaatTypeByZaakTypeAndOmschrijvingResult" type="DOMDOC"/>
                     </Param>
-                    <Param name="Toelichting" xpathExpression="/*/object/resultaat/omschrijving"/>
+                    <Param name="Toelichting" xpathExpression="/*/object/resultaat/toelichting"/>
                 </IbisLocalSender>
                 <Forward name="success" path="SelectEndStatusFromNewStatusses"/>
                 <Forward name="exception" path="EXCEPTION" />
@@ -319,7 +319,6 @@
                     returnedSessionKeys="Error">
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                     <Param name="ResultaatType" xpathExpression="/resultaatType/url"/>
-                    <Param name="Toelichting" xpathExpression="/resultaatType/omschrijving"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForEindDatum"/>
                 <Forward name="exception" path="EXCEPTION" />
@@ -405,7 +404,6 @@
                     returnedSessionKeys="Error">
                     <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
                     <Param name="ResultaatType" xpathExpression="/resultaatType/url"/>
-                    <Param name="Toelichting" xpathExpression="/resultaatType/omschrijving"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CreateStatusBody"/>
                 <Forward name="exception" path="EXCEPTION" />

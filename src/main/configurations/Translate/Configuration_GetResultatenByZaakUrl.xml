@@ -27,7 +27,7 @@
 			<SenderPipe name="GetZgwResultatenByZaakUrl" 
                 getInputFromFixedValue="&lt;dummy/&gt;">
 				<HttpSender 
-					name="GetZgwRoltypeByIdSender" 
+					name="GetZgwResultatenByZaakUrlSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
                     timeout="${zaakbrug.zgw.zaken-api.timeout}"
