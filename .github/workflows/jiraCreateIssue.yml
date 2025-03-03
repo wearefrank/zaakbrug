@@ -18,7 +18,7 @@ jobs:
 
     - name: create
       id: create
-      uses: atlassian/gajira-create@efc6ccbf894ad3f93f0fe588ca46c170340518a2
+      uses: atlassian/gajira-create@1c54357fdde9dab6273a0e26d67cb175ffffe498
       with:
         project: GT
         issuetype: Task
