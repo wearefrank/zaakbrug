@@ -52,7 +52,20 @@ If you would like to run the test cases which are already prepared in the repo, 
 - Go to the directory that has the ZaakBrug project downloaded.
 - Go to the folder ./e2e/SoapUI and select the zaakbrug-e2e-soapui-project.xml file
 
-When you have imported the tests you can run any test case under the TestSuite, the test case will manage creating own catalog with required data and delete everything created after the test run is completed. These processes will be done by "SetUp" and "TearDown" test cases which are disabled as default and no need to enable them because they are called inside the main test case.
+There are three ways of runnings tests manually: **running all test suites in parallel**, **running a test suite** and **running a test case**. For each way you can follow the steps below.
+
+#### 1. Running all test suites in parallel
+- If you want to run everything at once and in parallel then you can just run the test suite named "ProjectTestController". This test suite has a setup script which calls the "SetUp-CreateCatalog" test case (disabled as default) which will create the catalog. Then the test case named "ExecuteAllTestsInParallel" is run and it will run all other test suites and test cases inside those test suites in parallel. 
+
+#### 2. Running a test suite
+- If you want to run a specific test suite, you first need to run the test case named "SetUp-CreateCatalog" in the test suite named "ProjectTestController" manually in order to create the catalog. Without having a catalog none of the tests will pass. DO NOT run the whole test suite named "ProjectTestController" but just the test case named "SetUp-CreateCatalog".
+- Then you can run any test suite. Each test suite has its own setup and teardown scripts which are run automatically and which are handling the ZaakType and InformatieObjectType creation and deletion so no need to run anything manually in order to create ZaakType and InformatieObjectType, running the test suite is enough. The test cases inside the test suite will be run in parallel.
+
+#### 3. Running a test case
+- If you want to run a specific test case in a test suite, you first need to run the test case named "SetUp-CreateCatalog" in the test suite named "ProjectTestController" manually in order to create the catalog. Without having a catalog none of the tests will pass. DO NOT run the whole test suite named "ProjectTestController" but just the test case named "SetUp-CreateCatalog".
+- Then run the test case with the name starting with "SetUp-...." in the test suite that has the test case you want to run. This will create the needed ZaakType and InformatieObjectType.
+- Then run the test case you want to run manually. You can run any other test case in the same test suite manually. For running a test case in another test suite you need to apply the same steps above for that test suite.
+- After running the test cases manually, it is recommended to run the test case with the name starting with "TearDown-..." in order to delete the ZaakType and InformatieObjectType (if exists).
 
 ## Running test cases automatically in Docker container on your local
 If you would like to run the test cases which are already prepared in the repo automatically in the docker container on your local then the command would be as follows:
