@@ -1,5 +1,13 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.23.1](https://github.com/wearefrank/zaakbrug/compare/v1.23.0...v1.23.1) (2025-03-11)
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 9.1.0-20250305.042327 ([984c2be](https://github.com/wearefrank/zaakbrug/commit/984c2be96856701ba2523f76ccfc0551a9ee9370))
+* **dependencies:** bump the github-actions group across 1 directory with 3 updates ([e61195d](https://github.com/wearefrank/zaakbrug/commit/e61195dbd9d4530417e232619b1d76c5ea16c532))
+* **dependencies:** bump typescript ([6897fc5](https://github.com/wearefrank/zaakbrug/commit/6897fc5261feb6b58842692f4f7d5af253e24806))
+
 ## [1.23.0](https://github.com/wearefrank/zaakbrug/compare/v1.22.11...v1.23.0) (2025-02-21)
 
 ### 🍕 Features
