@@ -43,7 +43,7 @@
             <xsl:apply-templates select="$ZgwZaak/ZgwZaak/kenmerken" />
             <!-- anderZaakObject -->
             <xsl:if test="$ZdsResultaat">
-                <xsl:apply-templates select="$ZdsResultaat/resultaat" />
+                <xsl:copy-of select="$ZdsResultaat" />
             </xsl:if>
             <xsl:if test="$ZgwZaak/ZgwZaak/startdatum != ''">
                 <ZKN:startdatum><xsl:value-of select="zgw:convertZdsDateToZgwDate($ZgwZaak/ZgwZaak/startdatum)" /></ZKN:startdatum>
@@ -133,23 +133,5 @@
                 </ZKN:bron>
             </ZKN:kenmerk>
         </xsl:if>
-    </xsl:template>
-    <xsl:template match="resultaat">
-        <ZKN:resultaat>
-            <ZKN:omschrijving>
-                <xsl:value-of select="omschrijving" />
-                <xsl:if test="omschrijving = ''">
-                    <xsl:attribute name="xsi:nil" select="'true'" />
-                    <xsl:attribute name="StUF:noValue" select="'geenWaarde'" />
-                </xsl:if>
-            </ZKN:omschrijving>
-            <ZKN:toelichting>
-                <xsl:value-of select="toelichting" />
-                <xsl:if test="toelichting = ''">
-                    <xsl:attribute name="xsi:nil" select="'true'" />
-                    <xsl:attribute name="StUF:noValue" select="'geenWaarde'" />
-                </xsl:if>
-            </ZKN:toelichting>
-        </ZKN:resultaat>
     </xsl:template>
 </xsl:stylesheet>
