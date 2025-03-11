@@ -122,7 +122,6 @@
                     name="CallUpdateHoofdzaakSender"
                     javaListener="UpdateHoofdzaak"
                     returnedSessionKeys="Error">
-                    <Param name="DeelzaakUrl" xpathExpression="/ZgwZaak/url" defaultValue="&lt;dummy/&gt;" />
                     <Param name="HoofdzaakUrl" sessionKey="Url" />
                 </IbisLocalSender>
                 <Forward name="success" path="JsonToXml"/>
@@ -136,7 +135,6 @@
                     name="CallDeleteHoofdzaakSender"
                     javaListener="DeleteHoofdzaak" 
                     returnedSessionKeys="Error">
-                    <Param name="DeelzaakUrl" xpathExpression="/ZgwZaak/url" defaultValue="&lt;dummy/&gt;" />
                     <Param name="HoofdzaakUrl" sessionKey="Url" />
                 </IbisLocalSender>
                 <Forward name="success" path="JsonToXml"/>
