@@ -53,47 +53,6 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-
-            <!-- <XmlIfPipe 
-                name="CheckIfZgwDeelzaakHasHoofdzaak"
-                xpathExpression="string-length(/ZgwZaak/hoofdzaak) gt 0">
-                <Forward name="then" path="CheckIfExistingHoofdzaakSameAsNewHoofdzaak" />
-                <Forward name="else" path="CreatePatchZaakBody" />
-            </XmlIfPipe>
-
-            <XmlIfPipe 
-                name="CheckIfExistingHoofdzaakSameAsNewHoofdzaak"
-                xpathExpression="/ZgwZaak/hoofdzaak = $HoofdzaakUrl">
-                <Param name="HoofdzaakUrl" sessionKey="HoofdzaakUrl" />
-                <Forward name="then" path="LogWarningAlreadyExistsHoofdzaak" />
-                <Forward name="else" path="DeelzaakHasAnotherHoofdzaak_Exception" />
-            </XmlIfPipe>
-
-            <SenderPipe
-                name="LogWarningAlreadyExistsHoofdzaak"
-                >
-                <LogSender
-                    name="LogWarningSender"
-                    >
-                </LogSender>
-                <Forward name="success" path="EXIT" />
-            </SenderPipe>
-
-            <XsltPipe
-                name="DeelzaakHasAnotherHoofdzaak_Exception"
-                styleSheetName="Common/xsl/BuildError.xsl"
-                storeResultInSessionKey="Error"
-                >
-                <Param name="cause" sessionKey="Error" type="DOMDOC" />
-                <Param name="code" value="TechnicalError" /> 
-                <Param name="Identificatie" xpathExpression="/ZgwZaak/identificatie" />
-                <Param name="HoofdzaakUrl" sessionKey="/ZgwZaak/hoofdzaak" />
-                <Param name="reason" pattern="The Deelzaak with identificatie:{Identificatie} already has another Hoofdzaak with url:{HoofdzaakUrl}. Verwerkingssoort value of heeftAlsDeelzaak element should be W instead of T to update." ignoreUnresolvablePatternElements="true" />
-                <Param name="detailsXml" type="DOMDOC" />
-                <Forward name="success" path="EXCEPTION" />
-                <Forward name="exception" path="EXCEPTION" />
-            </XsltPipe> -->
-
         </Pipeline>
     </Adapter>
 </Module>
