@@ -26,19 +26,65 @@
                     <Param name="zaaktype" sessionKey="ZgwZaakType" xpathExpression="/ZgwZaakType/identificatie" />
                     <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaken.ZgwZaak" />
                 </IbisLocalSender>
-                <Forward name="success" path="MapZdsZaakFromZgwZaak" />
+                <Forward name="success" path="CheckIfResultaatExists" />
             </SenderPipe>
 
-            <XsltPipe name="MapZdsZaakFromZgwZaak"
+            <XmlIfPipe 
+                name="CheckIfResultaatExists"
+                xpathExpression="string-length(/ZgwZaak/resultaat) gt 0">
+                <Forward name="then" path="GetZgwResultaatByUrlSender" />
+                <Forward name="else" path="MapZdsZaakFromZgwZaak" />
+            </XmlIfPipe>
+
+            <SenderPipe 
+                name="GetZgwResultaatByUrlSender" 
+                storeResultInSessionKey="ZgwResultaat">
+                <IbisLocalSender 
+                    name="GetZgwResultaatByUrlLocalSender" 
+                    javaListener="Zaken_GetZgwResultaatByUrl">
+                    <Param name="url" xpathExpression="/ZgwZaak/resultaat" />
+                </IbisLocalSender>
+                <Forward name="success" path="GetZgwResultaatTypeByUrlSender"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe 
+                name="GetZgwResultaatTypeByUrlSender" 
+                storeResultInSessionKey="ZgwResultaatType">
+                <IbisLocalSender 
+                    name="GetZgwResultaatTypeByUrlLocalSender" 
+                    javaListener="Zaken_GetZgwResultaatTypeByUrl">
+                    <Param name="url" xpathExpression="/ZgwResultaat/resultaattype" />
+                </IbisLocalSender>
+                <Forward name="success" path="MapZdsResultaatFromZgwResultaat"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="MapZdsResultaatFromZgwResultaat"
+                storeResultInSessionKey="ZdsResultaat"
+                styleSheetName="geefZaakdetails_Lv01/xsl/MapZdsResultaatFromZgwResultaat.xslt"
+                >
+                <Param name="Omschrijving" sessionKey="ZgwResultaatType" xpathExpression="/ZgwResultaatType/omschrijving"/>
+                <Param name="Toelichting" sessionKey="ZgwResultaat" xpathExpression="/ZgwResultaat/toelichting"/>
+                <Forward name="success" path="MapZdsZaakFromZgwZaak" />
+            </XsltPipe>
+
+            <XsltPipe 
+                name="MapZdsZaakFromZgwZaak" 
+                getInputFromSessionKey="ZgwZaak"
                 storeResultInSessionKey="ZdsZaak"
                 styleSheetName="Common/xsl/GetZdsZaakFromZgwZaak.xslt"
                 >
                 <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC" />
+                <Param name="ZdsResultaat" sessionKey="ZdsResultaat" type="DOMDOC" />
                 <Param name="ExtraElementen" sessionKey="ExtraElementen" type="DOMDOC" />
                 <Forward name="success" path="GetGlobalConfigFromLocalFS" />
             </XsltPipe>
 
-            <SenderPipe name="GetGlobalConfigFromLocalFS">
+            <SenderPipe 
+                name="GetGlobalConfigFromLocalFS"
+                getInputFromSessionKey="ZdsZaak">
                 <IbisLocalSender
                     name="CallImportFromLocalFS"
                     javaListener="ImportFromLocalFS"
@@ -49,7 +95,8 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <PutInSessionPipe name="StoreRolMappingFromConfig">
+            <PutInSessionPipe 
+                name="StoreRolMappingFromConfig">
 				<Param name="RolMapping" xpathExpression="/root/rolMapping" type="DOMDOC"/>
                 <Forward name="success" path="GetZgwRolesByZaakUrl"/>
 			</PutInSessionPipe>
@@ -253,7 +300,6 @@
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
-            
         </Pipeline>
     </Adapter>
 </Module>
