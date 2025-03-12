@@ -41,7 +41,7 @@ Additionally, to help out diff tools, also enable the option **Pretty Print Proj
 - When you open the SoapUI project in a new version of SoapUI, Save the project and create a seperate PR for any changes in the project file.
 - Try to keep to one change at a time and keep them small.
 - Whenever possible, avoid combining changes that both add and remove lots of things.
-
+- When importing/referencing WSDL's, OAS or any other resources in the repository, make sure to change the absolute path's to relative paths. These paths should be relative to the **folder containing the SoapUI project file**.
 
 ## Manual testing with own test cases
 If you would like to create and run your own test cases in SoapUI then you should complete the configuration under "docker-compose.openzaak.dev" section below to be able to have the catalog imported. Afterwards, you could create your own test cases in SoapUI.
@@ -52,22 +52,24 @@ If you would like to run the test cases which are already prepared in the repo, 
 - Go to the directory that has the ZaakBrug project downloaded.
 - Go to the folder ./e2e/SoapUI and select the zaakbrug-e2e-soapui-project.xml file
 
-There are three ways of runnings tests manually: **running all test suites in parallel**, **running a test suite** and **running a test case**. For each way you can follow the steps below.
+There are three ways of runnings tests manually: **Running all TestSuites**, **Running a single TestSuite** and **Running TestCases manually**. For each way you can follow the steps below.
 
-#### 1. Running all test suites in parallel
-- If you want to run everything at once and in parallel then you can just run the test suite named "ProjectTestController". This test suite has a setup script which calls the "SetUp-CreateCatalog" test case (disabled as default) which will create the catalog. Then the test case named "ExecuteAllTestsInParallel" is run and it will run all other test suites and test cases inside those test suites in parallel. 
+#### Running all TestSuites
+To run all TestSuites on the project **right-click the project -> Show Project View -> Test Suites**. From here you can also switch between `sequential` or `parallel`(default) execution.
 
-#### 2. Running a test suite
-- If you want to run a specific test suite, you first need to run the test case named "SetUp-CreateCatalog" in the test suite named "ProjectTestController" manually in order to create the catalog. Without having a catalog none of the tests will pass. DO NOT run the whole test suite named "ProjectTestController" but just the test case named "SetUp-CreateCatalog".
-- Then you can run any test suite. Each test suite has its own setup and teardown scripts which are run automatically and which are handling the ZaakType and InformatieObjectType creation and deletion so no need to run anything manually in order to create ZaakType and InformatieObjectType, running the test suite is enough. The test cases inside the test suite will be run in parallel.
+#### Running a single TestSuite
+To run a single TestSuite **right-click the TestSuite -> Show TestSuite Editor**. From here you can also switch between `sequential` or `parallel`(default) execution.
 
-#### 3. Running a test case
-- If you want to run a specific test case in a test suite, you first need to run the test case named "SetUp-CreateCatalog" in the test suite named "ProjectTestController" manually in order to create the catalog. Without having a catalog none of the tests will pass. DO NOT run the whole test suite named "ProjectTestController" but just the test case named "SetUp-CreateCatalog".
-- Then run the test case with the name starting with "SetUp-...." in the test suite that has the test case you want to run. This will create the needed ZaakType and InformatieObjectType.
-- Then run the test case you want to run manually. You can run any other test case in the same test suite manually. For running a test case in another test suite you need to apply the same steps above for that test suite.
-- After running the test cases manually, it is recommended to run the test case with the name starting with "TearDown-..." in order to delete the ZaakType and InformatieObjectType (if exists).
+The TestSuite's **Setup Script** and **Teardown Script** will automatically run the disabled TestCases prefixed with "SetUp" and "TearDown" to add the required catalog in OpenZaak and remove it again afterwards.
 
-## Running test cases automatically in Docker container on your local
+#### Running TestCases manually
+To run TestCases manually it is first needed to add the required catalog to OpenZaak. The easiest way to do this is to navigate to the TestSuite editor **right-click the TestSuite -> Show TestSuite Editor** and run the `SetUp Script`. Make sure to also run the `TearDown Script` when done with manual testing.
+
+To run the TestCase itself **right-click the TestCase -> Show TestCase Editor -> Green "Play"-button**.
+
+> Note: The **TearDown** TestCases rely on stored url's on the TestSuite's **Custom Properties** created by the **SetUp** TestCases, to clean them up. It can sometimes happen that you get stuck in a state where the catalog is already present in OpenZaak, but the url's for those resources are not stored in SoapUI. If this becomes a problem, the easiest way to remedy this issue is to delete the OpenZaak related containers in the development environment and then deleting their volumes aswell. This results in a completely empty OpenZaak instance again.
+
+### Running test cases automatically in Docker container on your local
 If you would like to run the test cases which are already prepared in the repo automatically in the docker container on your local then the command would be as follows:
 `docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up --build`
 This command will first have Zaakbrug and Openzaak up and running and afterwards it will automatically run the SoapUI test cases in 'soapui-testrunner' docker container.
