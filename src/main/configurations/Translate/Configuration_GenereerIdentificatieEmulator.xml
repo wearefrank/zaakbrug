@@ -26,7 +26,7 @@
                     resultQuery="SELECT IDENTIFICATIE FROM IDENTIFICATIE WHERE TYPE  = 'ZaakIdentificatie'"
                 />
                 <Param name="IdentificatieType" sessionKey="IdentificatieType" />
-                <Locker objectId="LockIdZaak" numRetries="20" />
+                <Locker objectId="LockIdZaak" numRetries="-1" retryDelay="200" />
                 <Forward name="success" path="CheckForDBResult" />
 
 
@@ -40,7 +40,7 @@
                     resultQuery="SELECT IDENTIFICATIE FROM IDENTIFICATIE WHERE TYPE  = 'DocumentIdentificatie'"
                 />
                 <Param name="IdentificatieType" sessionKey="IdentificatieType" />
-                <Locker objectId="LockIdDoc" numRetries="20" />
+                <Locker objectId="LockIdDoc" numRetries="-1" retryDelay="200" />
                 <Forward name="success" path="CheckForDBResult" />
 
             </SenderPipe>
@@ -53,9 +53,7 @@
                     resultQuery="SELECT IDENTIFICATIE FROM IDENTIFICATIE WHERE TYPE  = 'BesluitIdentificatie'"
                 />
                 <Param name="IdentificatieType" sessionKey="IdentificatieType" />
-                <!--remove
-                comment when version FF >20231002         <Locker objectId="LockIdBesluit" numRetries="20"
-                />-->
+                <Locker objectId="LockIdBesluit" numRetries="-1" retryDelay="200" />
                 <Forward name="success" path="CheckForDBResult" />
             </SenderPipe>
 
