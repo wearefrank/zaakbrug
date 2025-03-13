@@ -18,14 +18,17 @@
                 xpathExpression="/ZgwZaak/hoofdzaak = $HoofdzaakUrl">
                 <Param name="HoofdzaakUrl" sessionKey="HoofdzaakUrl" />
                 <Forward name="then" path="CreateEmptyHoofdzaakJson" />
-                <Forward name="else" path="LogWarningHoofdzaakNotMatch" />
+                <Forward name="else" path="LogErrorHoofdzaakNotMatch" />
             </XmlIfPipe>
 
+            <!-- This log will be replaced by an actual error once errorStore is implemented. -->
             <SenderPipe
-                name="LogWarningHoofdzaakNotMatch"
+                name="LogErrorHoofdzaakNotMatch"
                 >
                 <LogSender
-                    name="LogWarningSender"
+                    name="LogErrorSender"
+                    logCategory="HoofdzaakNotMatch"
+                    logLevel="ERROR"
                     >
                 </LogSender>
                 <Forward name="success" path="EXIT" />

@@ -70,7 +70,6 @@
                 notFoundForwardName="unimplemented">
                 <Forward name="I" path="CallCheckHoofdzaak" />
                 <Forward name="T" path="CallAddHoofdzaak" />
-                <Forward name="W" path="CallUpdateHoofdzaak" />
                 <Forward name="V" path="CallDeleteHoofdzaak" />
                 <Forward name="unimplemented" path="UnrecognizedVerwerkingssoort_Error" />
             </XmlSwitchPipe>
@@ -108,19 +107,6 @@
                 <IbisLocalSender
                     name="CallAddHoofdzaakSender"
                     javaListener="AddHoofdzaak"
-                    returnedSessionKeys="Error">
-                    <Param name="HoofdzaakUrl" sessionKey="Url" />
-                </IbisLocalSender>
-                <Forward name="success" path="JsonToXml"/>
-                <Forward name="exception" path="EXCEPTION" />
-            </SenderPipe>
-
-            <SenderPipe
-                name="CallUpdateHoofdzaak"
-                getInputFromSessionKey="ZgwDeelzaakResult">
-                <IbisLocalSender
-                    name="CallUpdateHoofdzaakSender"
-                    javaListener="UpdateHoofdzaak"
                     returnedSessionKeys="Error">
                     <Param name="HoofdzaakUrl" sessionKey="Url" />
                 </IbisLocalSender>
