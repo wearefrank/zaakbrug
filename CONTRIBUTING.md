@@ -41,7 +41,7 @@ Additionally, to help out diff tools, also enable the option **Pretty Print Proj
 - When you open the SoapUI project in a new version of SoapUI, Save the project and create a seperate PR for any changes in the project file.
 - Try to keep to one change at a time and keep them small.
 - Whenever possible, avoid combining changes that both add and remove lots of things.
-
+- When importing/referencing WSDL's, OAS or any other resources in the repository, make sure to change the absolute path's to relative paths. These paths should be relative to the **folder containing the SoapUI project file**.
 
 ## Manual testing with own test cases
 If you would like to create and run your own test cases in SoapUI then you should complete the configuration under "docker-compose.openzaak.dev" section below to be able to have the catalog imported. Afterwards, you could create your own test cases in SoapUI.
@@ -52,9 +52,24 @@ If you would like to run the test cases which are already prepared in the repo, 
 - Go to the directory that has the ZaakBrug project downloaded.
 - Go to the folder ./e2e/SoapUI and select the zaakbrug-e2e-soapui-project.xml file
 
-When you have imported the tests you can run any test case under the TestSuite, the test case will manage creating own catalog with required data and delete everything created after the test run is completed. These processes will be done by "SetUp" and "TearDown" test cases which are disabled as default and no need to enable them because they are called inside the main test case.
+There are three ways of runnings tests manually: **Running all TestSuites**, **Running a single TestSuite** and **Running TestCases manually**. For each way you can follow the steps below.
 
-## Running test cases automatically in Docker container on your local
+#### Running all TestSuites
+To run all TestSuites on the project **right-click the project -> Show Project View -> Test Suites**. From here you can also switch between `sequential` or `parallel`(default) execution.
+
+#### Running a single TestSuite
+To run a single TestSuite **right-click the TestSuite -> Show TestSuite Editor**. From here you can also switch between `sequential` or `parallel`(default) execution.
+
+The TestSuite's **Setup Script** and **Teardown Script** will automatically run the disabled TestCases prefixed with "SetUp" and "TearDown" to add the required catalog in OpenZaak and remove it again afterwards.
+
+#### Running TestCases manually
+To run TestCases manually it is first needed to add the required catalog to OpenZaak. The easiest way to do this is to navigate to the TestSuite editor **right-click the TestSuite -> Show TestSuite Editor** and run the `SetUp Script`. Make sure to also run the `TearDown Script` when done with manual testing.
+
+To run the TestCase itself **right-click the TestCase -> Show TestCase Editor -> Green "Play"-button**.
+
+> Note: The **TearDown** TestCases rely on stored url's on the TestSuite's **Custom Properties** created by the **SetUp** TestCases, to clean them up. It can sometimes happen that you get stuck in a state where the catalog is already present in OpenZaak, but the url's for those resources are not stored in SoapUI. If this becomes a problem, the easiest way to remedy this issue is to delete the OpenZaak related containers in the development environment and then deleting their volumes aswell. This results in a completely empty OpenZaak instance again.
+
+### Running test cases automatically in Docker container on your local
 If you would like to run the test cases which are already prepared in the repo automatically in the docker container on your local then the command would be as follows:
 `docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up --build`
 This command will first have Zaakbrug and Openzaak up and running and afterwards it will automatically run the SoapUI test cases in 'soapui-testrunner' docker container.
