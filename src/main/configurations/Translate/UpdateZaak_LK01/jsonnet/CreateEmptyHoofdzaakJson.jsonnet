@@ -1,3 +1,3 @@
 {
-  "hoofdzaak": ""
+  "hoofdzaak": null
 }
