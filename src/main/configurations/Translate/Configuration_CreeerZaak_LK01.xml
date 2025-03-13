@@ -305,35 +305,6 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-
-            <!--We assume there will be only one hoofdzaak but to prevent the xpath error we take the first element just in case since is is allowed to have more than one hoodzaak element according to wsdl-->
-            <!-- <XmlIfPipe name="CheckForHeeftAlsHoofdzaak"
-                getInputFromSessionKey="originalMessage"
-                xpathExpression="/zakLk01/object/heeftAlsHoofdzaak[1]/gerelateerde[string-length(identificatie) > 0]"
-                thenForwardName="StoreHeeftAlsHoofdzaakElement"
-                elseForwardName="EXIT">
-            </XmlIfPipe>
-
-            <PutInSessionPipe 
-                name="StoreHeeftAlsHoofdzaakElement">
-                <Param name="HeeftAlsHoofdzaakElement" xpathExpression="/zakLk01/object/heeftAlsHoofdzaak[1]"/> 
-                <Forward name="success" path="CallHoofdzaakAdapter"/>
-            </PutInSessionPipe>
-
-            <SenderPipe 
-                name="CallHoofdzaakAdapter"
-                getInputFromSessionKey="HeeftAlsHoofdzaakElement">
-                <IbisLocalSender 
-                    name="HoofdzaakSender"
-                    javaListener="Deelzaak"
-                    returnedSessionKeys="Error">
-                    <Param name="Url" sessionKey="PostZgwZaakResult" xpathExpression="ZgwZaak/url" />
-                    <Param name="HoofdzaakIdentification" xpathExpression="/zakLk01/object/heeftAlsHoofdzaak[1]/gerelateerde/identificatie" />
-                </IbisLocalSender>
-                <Forward name="success" path="CheckForHeeftAlsDeelzaak"/>
-                <Forward name="exception" path="DeleteZaakSender" />
-            </SenderPipe> -->
-
             <XmlIfPipe name="CheckForHeeftAlsDeelzaak"
                 getInputFromSessionKey="originalMessage"
                 xpathExpression="/zakLk01/object/heeftAlsDeelzaak[1]/gerelateerde[string-length(identificatie) > 0]"
