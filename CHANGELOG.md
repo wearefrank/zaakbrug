@@ -1,5 +1,20 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.23.2](https://github.com/wearefrank/zaakbrug/compare/v1.23.1...v1.23.2) (2025-03-14)
+
+### 🐛 Bug Fixes
+
+* reduce retry delay on locks when retrieving the last used id for cases and documents improving concurrent performance ([925bdaa](https://github.com/wearefrank/zaakbrug/commit/925bdaa8170241c454532a275e70165ef52c6a9d))
+* zaak resultaat is not returned in ZakLa01(geefZaakDetails) ([#454](https://github.com/wearefrank/zaakbrug/issues/454)) ([2888fac](https://github.com/wearefrank/zaakbrug/commit/2888facd722833144a574d5c8d0ea55c8af43f86))
+
+### 📝 Documentation
+
+* adjust documentation in contributing.md to reflect changes to running SoapUI tests ([e405ad6](https://github.com/wearefrank/zaakbrug/commit/e405ad6b367cc522d580a6b0951d504d62e5261c))
+
+### ✅ Tests
+
+* **e2e:** run SoapUI e2e testscases in parallel to reduce continuous integration runtime ([ac2ca58](https://github.com/wearefrank/zaakbrug/commit/ac2ca58d8fca1ac07941a7828b62278bc96b7d1b))
+
 ## [1.23.1](https://github.com/wearefrank/zaakbrug/compare/v1.23.0...v1.23.1) (2025-03-11)
 
 ### 🤖 Build System
