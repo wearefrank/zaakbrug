@@ -1,0 +1,79 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="CheckHoofdzaak"
+        active="${CheckHoofdzaak.Active}"
+        description="">
+
+        <Receiver name="CheckHoofdzaak">
+            <JavaListener name="CheckHoofdzaak" returnedSessionKeys="Error" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <XmlIfPipe 
+                name="CheckIfZgwDeelzaakHasHoofdzaak"
+                xpathExpression="string-length(/ZgwZaak/hoofdzaak) gt 0">
+                <Forward name="then" path="CheckIfExistingHoofdzaakSameAsNewHoofdzaak" />
+                <Forward name="else" path="LogWarningDeelzaakHasNoHoofdzaak" />
+            </XmlIfPipe>
+
+            <XmlIfPipe 
+                name="CheckIfExistingHoofdzaakSameAsNewHoofdzaak"
+                xpathExpression="/ZgwZaak/hoofdzaak = $HoofdzaakUrl">
+                <Param name="HoofdzaakUrl" sessionKey="HoofdzaakUrl" />
+                <Forward name="then" path="EXIT" />
+                <Forward name="else" path="LogErrorHoofdzaakNotMatch" />
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="LogWarningDeelzaakHasNoHoofdzaak"
+                >
+                <LogSender
+                    name="LogWarningSender"
+                    >
+                </LogSender>
+                <Forward name="success" path="CreatePatchZaakBody" />
+            </SenderPipe>
+
+            <!-- This log will be replaced by an actual error once errorStore is implemented. -->
+            <SenderPipe
+                name="LogErrorHoofdzaakNotMatch"
+                >
+                <LogSender
+                    name="LogErrorSender"
+                    logCategory="HoofdzaakNotMatch"
+                    logLevel="ERROR"
+                    >
+                </LogSender>
+                <Forward name="success" path="EXIT" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="CreatePatchZaakBody"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/CreateHoofdzaakBody.xsl"
+                >
+                <Param name="HoofdzaakUrl" sessionKey="HoofdzaakUrl"/>
+                <Forward name="success" path="PatchHoofdzaak"/>
+            </XsltPipe>
+
+            <SenderPipe
+                name="PatchHoofdzaak"
+                >
+                <IbisLocalSender
+                    name="CallUpdateZgwZaakSender"
+                    javaListener="Zaken_UpdateZgwZaak"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="Url" sessionKey="originalMessage" xpathExpression="/ZgwZaak/url"/>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+        </Pipeline>
+    </Adapter>
+</Module>

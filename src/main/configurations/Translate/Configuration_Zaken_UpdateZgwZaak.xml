@@ -20,9 +20,25 @@
                     javaListener="GenerateAuthorizationHeaderForZakenApi"
                     returnedSessionKeys="Error,Authorization">
                 </IbisLocalSender>
-                <Forward name="success" path="UpdateZgwZaak" />
+                <Forward name="success" path="CheckIfThereIsEmptyJsonToPatch" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
+
+            <XmlIfPipe 
+                name="CheckIfThereIsEmptyJsonToPatch"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                xpathExpression="$EmptyHoofdzaakJson or $EmptyRelevanteAndereZakenJson">
+                <Param name="EmptyHoofdzaakJson" sessionKey="EmptyHoofdzaakJson"/>
+                <Param name="EmptyRelevanteAndereZakenJson" sessionKey="EmptyRelevanteAndereZakenJson"/>
+                <Forward name="then" path="StoreIfEmptyJsonExistance"/>
+                <Forward name="else" path="UpdateZgwZaak"/>
+            </XmlIfPipe>
+
+            <PutInSessionPipe 
+                name="StoreIfEmptyJsonExistance">
+                <Param name="EmptyJsonExistance" value="true"/>
+                <Forward name="success" path="UpdateZgwZaak" />
+            </PutInSessionPipe>
 
             <SenderPipe
                 name="UpdateZgwZaak"
@@ -31,7 +47,7 @@
                 <Json2XmlInputValidator
                     name="ValidatePatch"
                     schema="Zgw/Zaken/Model/PostZgwZaak.xsd"
-                    unlessSessionKey="EmptyRelevanteAndereZakenJson"
+                    unlessSessionKey="EmptyJsonExistance"
                     root="ZgwZaak"
                     outputFormat="JSON"
                     throwException="true"
