@@ -127,7 +127,6 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-
             <JsonPipe name="JsonToXml">
                 <Forward name="success" path="EXIT"/>
             </JsonPipe>
