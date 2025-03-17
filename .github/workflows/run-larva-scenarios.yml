@@ -89,7 +89,7 @@ jobs:
         with:
           args: -s results.html --from html -o results.md --to gfm --standalone
       
-      - name: Upload Larva Test Results as Artifact
+      - name: Upload Larva Test Results as an Artifact
         uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
