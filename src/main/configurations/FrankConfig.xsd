@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="9.1.0-20250305.042327">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="9.1.0-20250312.042324">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>Container of Adapters that belong together.
@@ -4888,42 +4888,42 @@
     </xs:attribute>
     <xs:attribute name="autoFormat" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If true, the format on 'output' is set to the same as the format of the input message on 'input'. The format of the input message is stored in and retrieved from the session variable specified by outputFormatSessionKey Default: true</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the format on 'output' is set to the same as the format of the input message on 'input'. The format of the input message is stored in and retrieved from the session variable specified by outputFormatSessionKey Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="compactJsonArrays" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If true assume arrays in JSON do not have the element containers like in XML Default: true</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt; assume arrays in JSON do not have the element containers like in XML Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="strictJsonArraySyntax" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If true check that incoming JSON adheres to the specified syntax (compact or full), otherwise both types are accepted for conversion from JSON to XML Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt; check that incoming JSON adheres to the specified syntax (compact or full), otherwise both types are accepted for conversion from JSON to XML Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="jsonWithRootElements" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If true, assume that JSON contains/must contain a root element Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, assume that JSON contains/must contain a root element Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="deepSearch" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If true, and converting from JSON to XML, parameter substitutions are searched for optional sub elements too. By default, only mandatory elements are searched for parameter substitutions. N.B. Currently this option might cause problems. Please try using more qualified parameters names (using '/') first Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, and converting from JSON to XML, parameter substitutions are searched for optional sub elements too. By default, only mandatory elements are searched for parameter substitutions. N.B. Currently this option might cause problems. Please try using more qualified parameters names (using '/') first Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="ignoreUndeclaredElements" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If true, and converting from JSON to XML, elements in JSON that are not found in the XML Schema are ignored Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, and converting from JSON to XML, elements in JSON that are not found in the XML Schema are ignored Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="failOnWildcards" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If true, an exception is thrown when a wildcard is found in the XML Schema when parsing an object. This often indicates that an element is not properly typed in the XML Schema, and could lead to ambuigities. Default: true</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, an exception is thrown when a wildcard is found in the XML Schema when parsing an object. This often indicates that an element is not properly typed in the XML Schema, and could lead to ambuigities. Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="acceptNamespacelessXml" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If true, all XML is allowed to be without namespaces. If no namespaces are detected (by the presence of the string 'xmlns') in the XML, the root namespace is added to the XML Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, all XML is allowed to be without namespaces. If no namespaces are detected (by the presence of the string 'xmlns') in the XML, the root namespace is added to the XML Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="produceNamespacelessXml" type="frankBoolean">
@@ -4933,7 +4933,7 @@
     </xs:attribute>
     <xs:attribute name="validateJsonToRootElementOnly" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If true, and converting to or from JSON, then the message root is the only rootValidation, ignoring root validations like for SOAP envelope and header set by descender classes like SoapValidator Default: true</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, and converting to or from JSON, then the message root is the only rootValidation, ignoring root validations like for SOAP envelope and header set by descender classes like SoapValidator Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="allowJson" type="frankBoolean">
@@ -5065,7 +5065,7 @@
   <xs:attributeGroup name="FixedForwardPipeDeclaredAttributeGroup">
     <xs:attribute name="skipOnEmptyInput" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set, the processing continues directly at the forward of this pipe, without executing the pipe itself, if the input is empty Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the processing continues directly at the forward of this pipe, without executing the pipe itself, if the input is empty Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="ifParam" type="xs:string">
@@ -8512,7 +8512,7 @@
     </xs:attribute>
     <xs:attribute name="commandWithArguments" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>In case the command that will be executed contains arguments then this flag should be set to true Default: false</xs:documentation>
+        <xs:documentation>In case the command that will be executed contains arguments then this flag should be set to &lt;code&gt;true&lt;/code&gt; Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -9388,7 +9388,7 @@
     </xs:attribute>
     <xs:attribute name="synchronous" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;false&lt;/code&gt;, the call is made asynchronously. This implies &lt;code&gt;isolated=true&lt;/code&gt; Default: true</xs:documentation>
+        <xs:documentation>If &lt;code&gt;false&lt;/code&gt;, the call is made asynchronously. This implies &lt;code&gt;isolated=true&lt;/code&gt; Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="isolated" type="frankBoolean">
@@ -9408,7 +9408,7 @@
     </xs:attribute>
     <xs:attribute name="throwJavaListenerNotFoundException" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;false&lt;/code&gt;, the xml-string \"&amp;lt;error&amp;gt;could not find JavaListener [...]&amp;lt;/error&amp;gt;\" is returned instead of throwing a senderexception Default: true</xs:documentation>
+        <xs:documentation>If &lt;code&gt;false&lt;/code&gt;, the xml-string "&amp;lt;error&amp;gt;could not find JavaListener [...]&amp;lt;/error&amp;gt;" is returned instead of throwing a senderexception Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -9695,7 +9695,7 @@
     </xs:attribute>
     <xs:attribute name="preserveInput" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, the input of a pipe is restored before processing the next one Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the input of a pipe is restored before processing the next one Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="storeResultInSessionKey" type="xs:string">
@@ -9721,7 +9721,7 @@
   <xs:attributeGroup name="JsonXsltSenderDeclaredAttributeGroup">
     <xs:attribute name="jsonResult" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>When &lt;code&gt;true&lt;/code&gt;, the xml result of the transformation is converted back to json Default: true</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the xml result of the transformation is converted back to json Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="namespaceDefs" type="xs:string">
@@ -9759,7 +9759,7 @@
     </xs:attribute>
     <xs:attribute name="disableOutputEscaping" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, any output is reparsed before being handled as XML again. If not set, the stylesheet is searched for &lt;code&gt;@disable-output-escaping='yes'&lt;/code&gt; and the value is set accordingly Default: false, if not set in stylesheet</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, any output is reparsed before being handled as XML again. If not set, the stylesheet is searched for &lt;code&gt;@disable-output-escaping='yes'&lt;/code&gt; and the value is set accordingly Default: false, if not set in stylesheet</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="outputType">
@@ -9772,23 +9772,23 @@
     </xs:attribute>
     <xs:attribute name="indentXml" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, result is pretty-printed. If not set, the value specified in the stylesheet is followed Default: false, if not set in stylesheet</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, result is pretty-printed. If not set, the value specified in the stylesheet is followed Default: false, if not set in stylesheet</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="removeNamespaces" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt; namespaces (and prefixes) in the input message are removed before transformation Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt; namespaces (and prefixes) in the input message are removed before transformation Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="handleLexicalEvents" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, the transformer is enabled to handle lexical events, allowing it for example to process comments and to distinghuish CDATA from escaped text.
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the transformer is enabled to handle lexical events, allowing it for example to process comments and to distinghuish CDATA from escaped text.
  Beware that this option can cause spurious NullPointerExceptions due to a race condition in streaming XSLT 1.0 processing in Xalan 2.7.2 Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="skipEmptyTags" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt; empty tags in the output are removed after transformation Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt; empty tags in the output are removed after transformation Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="xsltVersion" type="frankInt">
@@ -9832,13 +9832,13 @@
     </xs:attribute>
     <xs:attribute name="disableOutputEscaping" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, any output is reparsed before being handled as XML again. If not set, the stylesheet is searched for &lt;code&gt;@disable-output-escaping='yes'&lt;/code&gt; and the value is set accordingly Default: false, if not set in stylesheet</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, any output is reparsed before being handled as XML again. If not set, the stylesheet is searched for &lt;code&gt;@disable-output-escaping='yes'&lt;/code&gt; and the value is set accordingly Default: false, if not set in stylesheet</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="namespaceDefs" type="xs:string">
       <xs:annotation>
         <xs:documentation>Namespace defintions for xpathExpression. Must be in the form of a comma or space separated list of &lt;code&gt;prefix=namespaceuri&lt;/code&gt;-definitions. For some other use cases (NOT xpathExpression), one entry can be without a prefix, that will define the default namespace.
- If left empty, an the xpathExpression will match any namespace</xs:documentation>
+ If left empty, the xpathExpression will match any namespace</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="outputType">
@@ -9851,23 +9851,23 @@
     </xs:attribute>
     <xs:attribute name="indentXml" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, result is pretty-printed. If not set, the value specified in the stylesheet is followed Default: false, if not set in stylesheet</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, result is pretty-printed. If not set, the value specified in the stylesheet is followed Default: false, if not set in stylesheet</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="removeNamespaces" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt; namespaces (and prefixes) in the input message are removed before transformation Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt; namespaces (and prefixes) in the input message are removed before transformation Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="handleLexicalEvents" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, the transformer is enabled to handle lexical events, allowing it for example to process comments and to distinghuish CDATA from escaped text.
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the transformer is enabled to handle lexical events, allowing it for example to process comments and to distinghuish CDATA from escaped text.
  Beware that this option can cause spurious NullPointerExceptions due to a race condition in streaming XSLT 1.0 processing in Xalan 2.7.2 Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="skipEmptyTags" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt; empty tags in the output are removed after transformation Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt; empty tags in the output are removed after transformation Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="xsltVersion" type="frankInt">
@@ -10014,7 +10014,7 @@
     </xs:attribute>
     <xs:attribute name="useSsl" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>When set to true, we ensure TLS is being used Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, we ensure TLS is being used Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -10904,7 +10904,7 @@
     </xs:attribute>
     <xs:attribute name="waitForShadowsToFinish" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt; the sender will wait for all shadows to have finished. Otherwise the collection of results will happen in a background thread. Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt; the sender will wait for all shadows to have finished. Otherwise the collection of results will happen in a background thread. Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -12231,7 +12231,7 @@
       <xs:element name="DelayPipe">
         <xs:annotation>
           <xs:documentation>Pipe that sleeps for a specified time, which defaults to 5000 msecs.
- Usefull for testing purposes.</xs:documentation>
+ Useful for testing purposes.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:complexContent>
@@ -13986,12 +13986,12 @@
     </xs:attribute>
     <xs:attribute name="auditTrailSessionKey" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Key of a PipelineSession-variable. If specified, the value of the PipelineSession variable is used as audit trail (instead of the default 'no audit trail)</xs:documentation>
+        <xs:documentation>Key of a PipelineSession-variable. If specified, the value of the PipelineSession variable is used as audit trail (instead of the default 'no audit trail')</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="useInputForExtract" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, the input of the Pipe is used to extract audit trail, correlationid and label (instead of the wrapped input) Default: true</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the input of the Pipe is used to extract audit trail, correlationid and label (instead of the wrapped input) Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -14044,7 +14044,7 @@
     </xs:attribute>
     <xs:attribute name="checkXmlWellFormed" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, the XML Well-Formedness of the result is checked Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the XML Well-Formedness of the result is checked Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="checkRootTag" type="xs:string">
@@ -14075,7 +14075,7 @@
     </xs:attribute>
     <xs:attribute name="retryXPath" type="xs:string">
       <xs:annotation>
-        <xs:documentation>XPath expression evaluated on each technical successful reply. Retry is done if condition returns true</xs:documentation>
+        <xs:documentation>XPath expression evaluated on each technical successful reply. Retry is done if condition returns &lt;code&gt;true&lt;/code&gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="retryNamespaceDefs" type="xs:string">
@@ -14377,7 +14377,7 @@
     </xs:attribute>
     <xs:attribute name="combineBlocks" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, all items in a block are sent at once. If set false, items are sent individually, potentially leveraging block enabled sending capabilities of the sender Default: true</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, all items in a block are sent at once. If &lt;code&gt;false&lt;/code&gt;, items are sent individually, potentially leveraging block enabled sending capabilities of the sender Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="blockPrefix" type="xs:string">
@@ -14467,7 +14467,7 @@
   <xs:attributeGroup name="CompareStringPipeDeclaredAttributeGroup">
     <xs:attribute name="xml" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>when set &lt;code&gt;true&lt;/code&gt; the string values to compare are considered to be xml strings and before the actual compare both xml strings are transformed to a canonical form Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt; the string values to compare are considered to be xml strings and before the actual compare both xml strings are transformed to a canonical form Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -14483,7 +14483,7 @@
   <xs:attributeGroup name="CompressPipeDeclaredAttributeGroup">
     <xs:attribute name="compress" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>if &lt;code&gt;true&lt;/code&gt; the pipe compresses, otherwise it decompress Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt; the pipe compresses, otherwise it decompress Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="messageIsContent" type="frankBoolean">
@@ -14653,7 +14653,7 @@
   <xs:attributeGroup name="TimeoutGuardPipeDeclaredAttributeGroup">
     <xs:attribute name="throwException" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>when &lt;code&gt;true&lt;/code&gt;, a piperunexception is thrown. otherwise the output is only logged as an error (and returned in a xml string with 'error' tags) Default: true</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, a piperunexception is thrown. otherwise the output is only logged as an error (and returned in a xml string with 'error' tags) Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="timeout" type="frankInt">
@@ -14811,7 +14811,7 @@
     </xs:attribute>
     <xs:attribute name="removeNamespaces" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt; namespaces (and prefixes) are removed from the items just before forwarding them to the sender. N.B. This takes place &lt;strong&gt;after&lt;/strong&gt; the transformation for &lt;code&gt;elementXPathExpression&lt;/code&gt; if that is specified</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt; namespaces (and prefixes) are removed from the items just before forwarding them to the sender. N.B. This takes place &lt;strong&gt;after&lt;/strong&gt; the transformation for &lt;code&gt;elementXPathExpression&lt;/code&gt; if that is specified</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -14982,7 +14982,7 @@
     </xs:attribute>
     <xs:attribute name="xpathExpression" type="xs:string">
       <xs:annotation>
-        <xs:documentation>xpath expression to be applied to the input-message. if not set, no transformation is done when the input message is mediatype XML</xs:documentation>
+        <xs:documentation>xpath expression to be applied to the input-message. If not set, no transformation is done when the input message is mediatype XML</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="jsonPathExpression" type="xs:string">
@@ -15098,7 +15098,7 @@
     <xs:attribute name="addXmlRootElement" type="frankBoolean">
       <xs:annotation>
         <xs:documentation>When direction is JSON2XML, it wraps a root element around the converted message.
- When direction is XML2JSON, it includes the name of the root element as a key in the converted message, thus preserving the structure of the original input message. Default: TRUE when JSON2XML and FALSE when XML2JSON</xs:documentation>
+ When direction is XML2JSON, it includes the name of the root element as a key in the converted message, thus preserving the structure of the original input message. Default: &lt;code&gt;true&lt;/code&gt; when JSON2XML and &lt;code&gt;false&lt;/code&gt; when XML2JSON</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="rootElementName" type="xs:string">
@@ -15130,7 +15130,7 @@
   <xs:attributeGroup name="JsonXsltPipeDeclaredAttributeGroup">
     <xs:attribute name="jsonResult" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>When &lt;code&gt;true&lt;/code&gt;, the xml result of the transformation is converted back to json Default: true</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the xml result of the transformation is converted back to json Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="namespaceDefs" type="xs:string">
@@ -15168,7 +15168,7 @@
     </xs:attribute>
     <xs:attribute name="disableOutputEscaping" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, any output is reparsed before being handled as XML again. If not set, the stylesheet is searched for &lt;code&gt;@disable-output-escaping='yes'&lt;/code&gt; and the value is set accordingly Default: false, if not set in stylesheet</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, any output is reparsed before being handled as XML again. If not set, the stylesheet is searched for &lt;code&gt;@disable-output-escaping='yes'&lt;/code&gt; and the value is set accordingly Default: false, if not set in stylesheet</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="outputType">
@@ -15181,23 +15181,23 @@
     </xs:attribute>
     <xs:attribute name="indentXml" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, result is pretty-printed. If not set, the value specified in the stylesheet is followed Default: false, if not set in stylesheet</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, result is pretty-printed. If not set, the value specified in the stylesheet is followed Default: false, if not set in stylesheet</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="removeNamespaces" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt; namespaces (and prefixes) in the input message are removed before transformation Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt; namespaces (and prefixes) in the input message are removed before transformation Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="handleLexicalEvents" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, the transformer is enabled to handle lexical events, allowing it for example to process comments and to distinghuish CDATA from escaped text.
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the transformer is enabled to handle lexical events, allowing it for example to process comments and to distinghuish CDATA from escaped text.
  Beware that this option can cause spurious NullPointerExceptions due to a race condition in streaming XSLT 1.0 processing in Xalan 2.7.2 Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="skipEmptyTags" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt; empty tags in the output are removed after transformation Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt; empty tags in the output are removed after transformation Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="xsltVersion" type="frankInt">
@@ -15240,13 +15240,13 @@
     </xs:attribute>
     <xs:attribute name="disableOutputEscaping" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, any output is reparsed before being handled as XML again. If not set, the stylesheet is searched for &lt;code&gt;@disable-output-escaping='yes'&lt;/code&gt; and the value is set accordingly Default: false, if not set in stylesheet</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, any output is reparsed before being handled as XML again. If not set, the stylesheet is searched for &lt;code&gt;@disable-output-escaping='yes'&lt;/code&gt; and the value is set accordingly Default: false, if not set in stylesheet</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="namespaceDefs" type="xs:string">
       <xs:annotation>
         <xs:documentation>Namespace defintions for xpathExpression. Must be in the form of a comma or space separated list of &lt;code&gt;prefix=namespaceuri&lt;/code&gt;-definitions. For some other use cases (NOT xpathExpression), one entry can be without a prefix, that will define the default namespace.
- If left empty, an the xpathExpression will match any namespace</xs:documentation>
+ If left empty, the xpathExpression will match any namespace</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="outputType">
@@ -15259,23 +15259,23 @@
     </xs:attribute>
     <xs:attribute name="indentXml" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, result is pretty-printed. If not set, the value specified in the stylesheet is followed Default: false, if not set in stylesheet</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, result is pretty-printed. If not set, the value specified in the stylesheet is followed Default: false, if not set in stylesheet</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="removeNamespaces" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt; namespaces (and prefixes) in the input message are removed before transformation Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt; namespaces (and prefixes) in the input message are removed before transformation Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="handleLexicalEvents" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, the transformer is enabled to handle lexical events, allowing it for example to process comments and to distinghuish CDATA from escaped text.
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the transformer is enabled to handle lexical events, allowing it for example to process comments and to distinghuish CDATA from escaped text.
  Beware that this option can cause spurious NullPointerExceptions due to a race condition in streaming XSLT 1.0 processing in Xalan 2.7.2 Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="skipEmptyTags" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt; empty tags in the output are removed after transformation Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt; empty tags in the output are removed after transformation Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="xsltVersion" type="frankInt">
@@ -15654,12 +15654,12 @@
   <xs:attributeGroup name="LogContextPipeDeclaredAttributeGroup">
     <xs:attribute name="export" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set to &lt;code&gt;true&lt;/code&gt; the ThreadContext parameters will be exported from the current PipeLine up in the call tree. Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt; the ThreadContext parameters will be exported from the current PipeLine up in the call tree. Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="continueOnError" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt; the pipe will never forward to the &lt;code&gt;ExceptionForward&lt;/code&gt; even if an error occurred during execution. Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt; the pipe will never forward to the &lt;code&gt;ExceptionForward&lt;/code&gt; even if an error occurred during execution. Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -15715,7 +15715,7 @@
         <xs:documentation>Emails of the senders. This will be used to verify that all the senders have signed the given message.
  If not set, and the action is verify; this pipe will validate that at least one person has signed.
  For signing action, it needs to be set to the email that was used to generate the private key
- "that is being used for this process.</xs:documentation>
+ that is being used for this process.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="secretKey" type="xs:string">
@@ -16098,7 +16098,7 @@
   <xs:attributeGroup name="RemoveFromSessionDeclaredAttributeGroup">
     <xs:attribute name="sessionKey" type="xs:string">
       <xs:annotation>
-        <xs:documentation>name of the key of the entry in the &lt;code&gt;pipelinesession&lt;/code&gt; to remove. if this key is empty the input message is interpretted as key. for multiple keys use ',' as delimiter</xs:documentation>
+        <xs:documentation>name of the key of the entry in the &lt;code&gt;pipelinesession&lt;/code&gt; to remove. If this key is empty the input message is interpretted as key. for multiple keys use ',' as delimiter</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -16438,7 +16438,7 @@
     </xs:attribute>
     <xs:attribute name="signatureBase64" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>if true, the signature is (expected to be) base64 encoded Default: true</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the signature is (expected to be) base64 encoded Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="keystore" type="xs:string" use="required">
@@ -16528,7 +16528,7 @@
     </xs:attribute>
     <xs:attribute name="startOfLineString" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Marks the start of a new record. If set, a new record is started when this line is read.</xs:documentation>
+        <xs:documentation>Marks the start of a new record. If &lt;code&gt;true&lt;/code&gt;, a new record is started when this line is read.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="closeInputstreamOnExit" type="frankBoolean">
@@ -16549,7 +16549,7 @@
   <xs:attributeGroup name="StreamPipeDeclaredAttributeGroup">
     <xs:attribute name="extractFirstStringPart" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>(only used for parameter &lt;code&gt;httprequest&lt;/code&gt;) when true the first part is not put in a session key but returned to the pipeline (as the result of this pipe) Default: false</xs:documentation>
+        <xs:documentation>(only used for parameter &lt;code&gt;httprequest&lt;/code&gt;) If &lt;code&gt;true&lt;/code&gt; the first part is not put in a session key but returned to the pipeline (as the result of this pipe) Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="multipartXmlSessionKey" type="xs:string">
@@ -16559,17 +16559,17 @@
     </xs:attribute>
     <xs:attribute name="checkAntiVirus" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>(only used for parameter &lt;code&gt;httprequest&lt;/code&gt;) when true parts are checked for antivirus scan returncode. these antivirus scan parts have been added by another application (so the antivirus scan is not performed in this pipe). for each file part an antivirus scan part have been added by this other application (directly after this file part) Default: false</xs:documentation>
+        <xs:documentation>(only used for parameter &lt;code&gt;httprequest&lt;/code&gt;) If &lt;code&gt;true&lt;/code&gt; parts are checked for antivirus scan returncode. these antivirus scan parts have been added by another application (so the antivirus scan is not performed in this pipe). for each file part an antivirus scan part have been added by this other application (directly after this file part) Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="antiVirusPartName" type="xs:string">
       <xs:annotation>
-        <xs:documentation>(only used for parameter &lt;code&gt;httprequest&lt;/code&gt; and when &lt;code&gt;checkantivirus=true&lt;/code&gt;) name of antivirus scan status parts Default: &lt;code&gt;antivirus_rc&lt;/code&gt;</xs:documentation>
+        <xs:documentation>(only used for parameter &lt;code&gt;httprequest&lt;/code&gt; and when &lt;code&gt;true&lt;/code&gt;) name of antivirus scan status parts Default: &lt;code&gt;antivirus_rc&lt;/code&gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="antiVirusMessagePartName" type="xs:string">
       <xs:annotation>
-        <xs:documentation>(only used for parameter &lt;code&gt;httprequest&lt;/code&gt; and when &lt;code&gt;checkantivirus=true&lt;/code&gt;) name of antivirus scan message parts Default: &lt;code&gt;antivirus_msg&lt;/code&gt;</xs:documentation>
+        <xs:documentation>(only used for parameter &lt;code&gt;httprequest&lt;/code&gt; and when &lt;code&gt;true&lt;/code&gt; &lt;code&gt;checkantivirus=true&lt;/code&gt;) name of antivirus scan message parts Default: &lt;code&gt;antivirus_msg&lt;/code&gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="antiVirusPassedMessage" type="xs:string">
@@ -16579,7 +16579,7 @@
     </xs:attribute>
     <xs:attribute name="antiVirusFailureAsSoapFault" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>(only used for parameter &lt;code&gt;httprequest&lt;/code&gt; and when &lt;code&gt;checkantivirus=true&lt;/code&gt;) when true and the antivirusfailed forward is specified and the antivirus scan did not pass, a soap fault is returned instead of only a plain error message Default: false</xs:documentation>
+        <xs:documentation>(only used for parameter &lt;code&gt;httprequest&lt;/code&gt; and when &lt;code&gt;checkantivirus=true&lt;/code&gt;) If &lt;code&gt;true&lt;/code&gt; and the antivirusfailed forward is specified and the antivirus scan did not pass, a soap fault is returned instead of only a plain error message Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="antiVirusFailureReasonSessionKey" type="xs:string">
@@ -16637,7 +16637,7 @@
     </xs:attribute>
     <xs:attribute name="softSplit" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If true, try to break up the message at spaces, instead of in the middle of words Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, try to break up the message at spaces, instead of in the middle of words Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -16682,12 +16682,12 @@
     </xs:attribute>
     <xs:attribute name="collectResults" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;false&lt;/code&gt;, only a small summary (count of items in zip) is returned Default: true</xs:documentation>
+        <xs:documentation>If &lt;code&gt;false&lt;/code&gt;, only a small summary (count of items in zip) is returned Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="collectFileContents" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, the contents of the files in the zip are returned in the result xml message of this pipe. Please note this can consume a lot of memory for large files or a large number of files Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the contents of the files in the zip are returned in the result xml message of this pipe. Please note this can consume a lot of memory for large files or a large number of files Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="collectFileContentsBase64Encoded" type="xs:string">
@@ -16697,17 +16697,17 @@
     </xs:attribute>
     <xs:attribute name="keepOriginalFileName" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;false&lt;/code&gt;, a suffix is added to the original filename to be sure it is unique Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;false&lt;/code&gt;, a suffix is added to the original filename to be sure it is unique Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="keepOriginalFilePath" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, the path of the zip entry will be preserved. Otherwise, the zip entries will be extracted to the root folder Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the path of the zip entry will be preserved. Otherwise, the zip entries will be extracted to the root folder Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="assumeDirectoryExists" type="frankBoolean">
       <xs:annotation>
-        <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, validation of directory is ignored Default: false</xs:documentation>
+        <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, validation of directory is ignored Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -20369,12 +20369,12 @@
   </xs:attribute>
   <xs:attribute name="writeToSecLog" type="frankBoolean">
     <xs:annotation>
-      <xs:documentation>when set to &lt;code&gt;true&lt;/code&gt; a record is written to the security log when the pipe has finished successfully</xs:documentation>
+      <xs:documentation>If &lt;code&gt;true&lt;/code&gt; a record is written to the security log when the pipe has finished successfully</xs:documentation>
     </xs:annotation>
   </xs:attribute>
   <xs:attribute name="secLogSessionKeys" type="xs:string">
     <xs:annotation>
-      <xs:documentation>(only used when &lt;code&gt;writeToSecLog=true&lt;/code&gt;) comma separated list of keys of session variables that is appended to the security log record</xs:documentation>
+      <xs:documentation>(only used when &lt;code&gt;writeToSecLog&lt;/code&gt; is &lt;code&gt;true&lt;/code&gt;) comma separated list of keys of session variables that is appended to the security log record</xs:documentation>
     </xs:annotation>
   </xs:attribute>
   <xs:attribute name="logIntermediaryResults" type="xs:string">
@@ -20435,7 +20435,7 @@
   </xs:attribute>
   <xs:attribute name="noNamespaceSchemaLocation" type="xs:string">
     <xs:annotation>
-      <xs:documentation>A uri reference as a hint as to the location of a schema document with no target namespace.</xs:documentation>
+      <xs:documentation>A URI reference as a hint as to the location of a schema document with no target namespace.</xs:documentation>
     </xs:annotation>
   </xs:attribute>
   <xs:attribute name="responseRoot" type="xs:string">
@@ -20487,7 +20487,7 @@
   </xs:attribute>
   <xs:attribute name="useBaseImportedSchemaLocationsToIgnore" type="frankBoolean">
     <xs:annotation>
-      <xs:documentation>If set &lt;code&gt;true&lt;/code&gt;, the comparison for importedSchemaLocationsToIgnore is done on base filename without any path Default: false</xs:documentation>
+      <xs:documentation>If &lt;code&gt;true&lt;/code&gt;, the comparison for importedSchemaLocationsToIgnore is done on base filename without any path Default: false</xs:documentation>
     </xs:annotation>
   </xs:attribute>
   <xs:attribute name="importedNamespacesToIgnore" type="xs:string">
@@ -20902,7 +20902,7 @@
   </xs:attribute>
   <xs:attribute name="debugInput" type="frankBoolean">
     <xs:annotation>
-      <xs:documentation>If set &lt;code&gt;true&lt;/code&gt; the input is written to the log file, at DEBUG level Default: false</xs:documentation>
+      <xs:documentation>If &lt;code&gt;true&lt;/code&gt; the input is written to the log file, at DEBUG level Default: false</xs:documentation>
     </xs:annotation>
   </xs:attribute>
   <xs:attribute name="userId" type="xs:string">
@@ -20927,12 +20927,12 @@
   </xs:attribute>
   <xs:attribute name="defaultMessageType" type="xs:string">
     <xs:annotation>
-      <xs:documentation>when messageType is not specified defaultMessageType will be used Default: text/plain</xs:documentation>
+      <xs:documentation>When messageType is not specified defaultMessageType will be used Default: text/plain</xs:documentation>
     </xs:annotation>
   </xs:attribute>
   <xs:attribute name="defaultMessageBase64" type="frankBoolean">
     <xs:annotation>
-      <xs:documentation>when messageBase64 is not specified defaultMessageBase64 will be used Default: false</xs:documentation>
+      <xs:documentation>When messageBase64 is not specified defaultMessageBase64 will be used Default: false</xs:documentation>
     </xs:annotation>
   </xs:attribute>
   <xs:attribute name="bounceAddress" type="xs:string">
@@ -20975,7 +20975,7 @@
   </xs:attribute>
   <xs:attribute name="collectResults" type="frankBoolean">
     <xs:annotation>
-      <xs:documentation>Controls whether all the results of each iteration will be collected in one result message. If set &lt;code&gt;false&lt;/code&gt;, only a small summary is returned.
+      <xs:documentation>Controls whether all the results of each iteration will be collected in one result message. If &lt;code&gt;false&lt;/code&gt;, only a small summary is returned.
  Setting this attributes to &lt;code&gt;false&lt;/code&gt; is often required to enable processing of very large files. N.B. Remember in such a case that setting transactionAttribute to NotSupported might be necessary too Default: true</xs:documentation>
     </xs:annotation>
   </xs:attribute>
