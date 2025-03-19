@@ -89,11 +89,12 @@ jobs:
         with:
           args: -s results.html --from html -o results.md --to gfm --standalone
       
-      - name: Add Larva Result To GitHub Actions Summary
-        shell: bash
+      - name: Upload Larva Test Results as an Artifact
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 #4.6.1
         if: ${{ always() }}
-        run: |
-          cat results.md >> $GITHUB_STEP_SUMMARY
+        with:
+          name: larva-test-results
+          path: results.md
 
       - name: Cleanup
         shell: bash
