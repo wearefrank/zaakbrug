@@ -159,7 +159,7 @@
 
             <XmlIfPipe name="ZgwZaakHasHoofdzaak"
                 getInputFromSessionKey="ZgwZaak"
-                xpathExpression="string-length(ZgwZaak/hoofdzaak) > 4"
+                xpathExpression="string-length(ZgwZaak/hoofdzaak) gt 0"
                 >
                 <Forward name="then" path="GetZgwHoofdzaak"/>
                 <Forward name="else" path="ZgwZaakHasDeelzaken"/>
@@ -184,9 +184,9 @@
             <XsltPipe name="CreateZdsHeeftAlsHoofdzaak"
                 storeResultInSessionKey="ZdsHeeftAlsHoofdzaak"
                 skipEmptyTags="true"
-                styleSheetName="CreeerZaak_LK01/xsl/CreateZdsHeeftAlsHoofdzaak.xslt"
+                styleSheetName="geefZaakdetails_Lv01/xsl/CreateZdsHeeftAlsHoofdzaak.xslt"
                 >
-                <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
+                <Param name="ZgwZaak" sessionKey="ZgwHoofdzaak" type="DOMDOC"/>
                 <Forward name="success" path="EnrichZdsZaakWithZdsHeeftAlsHoofdzaak"/>
             </XsltPipe>
 
@@ -203,7 +203,7 @@
             <!-- not tested -->
             <XmlIfPipe name="ZgwZaakHasDeelzaken"
                 getInputFromSessionKey="ZgwZaak"
-                xpathExpression="string-length(ZgwZaak/deelzaken) > 4"
+                xpathExpression="string-length(ZgwZaak/deelzaken[1]) gt 0"
                 >
                 <Forward name="then" path="MapZgwDeelzakenIterator"/>
                 <Forward name="else" path="ZgwZaakHasZdsRelevanteAndereZaken"/>
@@ -225,7 +225,7 @@
             <XsltPipe name="EnrichZdsZaakWithZgwDeelzaken"
                 getInputFromSessionKey="ZdsZaak"
                 storeResultInSessionKey="ZdsZaak"
-                styleSheetName="Common/xsl/EnrichEntity.xslt"
+                styleSheetName="Common/xsl/EnrichEntity_ForEachPipeWrapped.xslt"
                 >
                 <Param name="With" sessionKey="ZgwDeelzaken" type="DOMDOC"/>
                 <Forward name="success" path="ZgwZaakHasZdsRelevanteAndereZaken"/>
