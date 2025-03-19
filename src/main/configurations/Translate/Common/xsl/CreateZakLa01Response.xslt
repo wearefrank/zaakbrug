@@ -66,8 +66,8 @@
                             <xsl:copy-of select="*:heeftAlsUitvoerende" />
                             <xsl:copy-of select="*:heeftAlsVerantwoordelijke" />
                             <xsl:copy-of select="*:heeftAlsOverigBetrokkene" />
-                            <xsl:apply-templates select="*:heeftAlsDeelzaak/*:gerelateerde" />
-                            <xsl:apply-templates select="*:heeftAlsHoofdzaak/*:gerelateerde" />
+                            <xsl:copy-of select="*:heeftAlsDeelzaak" />
+                            <xsl:copy-of select="*:heeftAlsHoofdzaak" />
                             <xsl:apply-templates select="*:heeftBetrekkingOpAndere/*:gerelateerde" />
                             <xsl:apply-templates select="*:heeft" />
                         </xsl:copy>
@@ -248,32 +248,6 @@
                 </xsl:if>
             </ZKN:gerelateerde>
         </ZKN:isVan>
-    </xsl:template>
-
-    <xsl:template match="*:heeftAlsDeelzaak/*:gerelateerde">
-        <ZKN:heeftAlsHoofdzaak StUF:entiteittype="ZAKZAKDEL">
-            <ZKN:gerelateerde>
-                <xsl:if test="*:code">
-                    <ZKN:identificatie><xsl:value-of select="*:code"/></ZKN:identificatie>
-                </xsl:if>
-                <xsl:if test="*:omschrijving">
-                    <ZKN:omschrijving><xsl:value-of select="*:omschrijving"/></ZKN:omschrijving>
-                </xsl:if>
-            </ZKN:gerelateerde>
-        </ZKN:heeftAlsHoofdzaak>
-    </xsl:template>
-
-    <xsl:template match="*:heeftAlsHoofdzaak/*:gerelateerde">
-        <ZKN:heeftAlsHoofdzaak StUF:entiteittype="ZAKZAKHFD">
-            <ZKN:gerelateerde>
-                <xsl:if test="*:code">
-                    <ZKN:identificatie><xsl:value-of select="*:code"/></ZKN:identificatie>
-                </xsl:if>
-                <xsl:if test="*:omschrijving">
-                    <ZKN:omschrijving><xsl:value-of select="*:omschrijving"/></ZKN:omschrijving>
-                </xsl:if>
-            </ZKN:gerelateerde>
-        </ZKN:heeftAlsHoofdzaak>
     </xsl:template>
 
     <xsl:template match="*:heeftBetrekkingOpAndere/*:gerelateerde">

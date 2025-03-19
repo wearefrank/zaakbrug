@@ -1,13 +1,17 @@
 <!DOCTYPE configuration [
   <!ENTITY ActualiseerZaakStatus                          SYSTEM "./Configuration_ActualiseerZaakStatus.xml">
+  <!ENTITY AddHoofdzaak                                   SYSTEM "./Configuration_AddHoofdzaak.xml">
   <!ENTITY AddRolToZgw                                    SYSTEM "./Configuration_AddRolToZgw.xml">
   <!ENTITY AndereZaak                                     SYSTEM "./Configuration_AndereZaak.xml">
   <!ENTITY ApplyValueOverridesZgwToZds                    SYSTEM "./Configuration_ApplyValueOverridesZgwToZds.xml">
   <!ENTITY CancelCheckOutZaakDocument_Di02                SYSTEM "./Configuration_CancelCheckOutZaakDocument_Di02.xml">
+  <!ENTITY CheckHoofdzaak                                 SYSTEM "./Configuration_CheckHoofdzaak.xml">
   <!ENTITY CheckOutZaakDocument                           SYSTEM "./Configuration_CheckOutZaakDocument.xml">
   <!ENTITY CheckZgwRol                                    SYSTEM "./Configuration_CheckZgwRol.xml">
   <!ENTITY ConvertISO639Taal                              SYSTEM "./Configuration_ConvertISO639Taal.xml">
   <!ENTITY CreeerZaak_Lk01                                SYSTEM "./Configuration_CreeerZaak_LK01.xml">
+  <!ENTITY Deelzaak                                       SYSTEM "./Configuration_Deelzaak.xml">
+  <!ENTITY DeleteHoofdzaak                                SYSTEM "./Configuration_DeleteHoofdzaak.xml">
   <!ENTITY DeleteRolFromZgw                               SYSTEM "./Configuration_DeleteRolFromZgw.xml">
   <!ENTITY DeleteZgwZaak                                  SYSTEM "./Configuration_Zaken_DeleteZgwZaak.xml">
   <!ENTITY DetectRolChanges                               SYSTEM "./Configuration_DetectRolChanges.xml">
@@ -83,14 +87,18 @@
 
 <configuration name="Translate">
   &ActualiseerZaakStatus;
+  &AddHoofdzaak;
   &AddRolToZgw;
   &AndereZaak;
   &ApplyValueOverridesZgwToZds;
   &CancelCheckOutZaakDocument_Di02;
+  &CheckHoofdzaak;
   &CheckOutZaakDocument;
   &CheckZgwRol;
   &ConvertISO639Taal;
   &CreeerZaak_Lk01;
+  &Deelzaak;
+  &DeleteHoofdzaak;
   &DeleteRolFromZgw;
   &DeleteZgwZaak;
   &DetectRolChanges;
