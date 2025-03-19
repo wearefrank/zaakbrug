@@ -1,5 +1,23 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.24.0](https://github.com/wearefrank/zaakbrug/compare/v1.23.2...v1.24.0) (2025-03-19)
+
+### 🍕 Features
+
+* process ZDS entities 'heeftAlsDeelzaak' & 'heeftAlsHoofdzaak' in creeerZaak and updateZaak ([#520](https://github.com/wearefrank/zaakbrug/issues/520)) ([a3a96fb](https://github.com/wearefrank/zaakbrug/commit/a3a96fb7177add33d5af36b2dc41a79df5b4a38f))
+
+### ✅ Tests
+
+* **load:** fix broken load-tests and run testsuites sequentially due to socket timeouts ([#531](https://github.com/wearefrank/zaakbrug/issues/531)) ([820f2eb](https://github.com/wearefrank/zaakbrug/commit/820f2eb10491f5971e62be20e4cffa97989295dd))
+
+### 🤖 Build System
+
+* **dependencies:** bump the github-actions group across 1 directory with 2 updates ([#530](https://github.com/wearefrank/zaakbrug/issues/530)) ([0246501](https://github.com/wearefrank/zaakbrug/commit/0246501ee4933063e9fe6216259ea773cac51eed))
+
+### 🔁 Continuous Integration
+
+* upload Larva results as artifact instead of showing it as GitHub summary ([#529](https://github.com/wearefrank/zaakbrug/issues/529)) ([466bc9f](https://github.com/wearefrank/zaakbrug/commit/466bc9f30dcf6c99cfe55b48ca6507c4eabe8da0))
+
 ## [1.23.2](https://github.com/wearefrank/zaakbrug/compare/v1.23.1...v1.23.2) (2025-03-14)
 
 ### 🐛 Bug Fixes
