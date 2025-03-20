@@ -382,7 +382,6 @@
                     returnedSessionKeys="Error">
                     <Param name="Url" sessionKey="ZgwZaakUrl" />
                     <Param name="Identificatie" xpathExpression="heeftBetrekkingOpAndere/gerelateerde/identificatie" />
-                    <Param name="Verwerkingssoort" xpathExpression="heeftBetrekkingOpAndere/@verwerkingssoort"/>
                 </IbisLocalSender>
                 
                 <Forward name="success" path="createListAndereUrlsToDelete"/>
