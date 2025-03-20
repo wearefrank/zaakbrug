@@ -88,9 +88,9 @@
 
             <XmlIfPipe name="CheckForIncomingStatusIsEindstatus"
                 getInputFromSessionKey="IsIncomingStatusEindStatus"
-                xpathExpression="/beeindigd = 'true'"
-                thenForwardName="CheckIfActualiseerZaakStatus"
-                elseForwardName="CompareDatumStatusGezet">
+                xpathExpression="/beeindigd = 'true'">
+                <Forward name="then" path="CheckIfActualiseerZaakStatus"/>
+                <Forward name="else" path="CompareDatumStatusGezet"/>
             </XmlIfPipe>
             
             <XmlIfPipe name="CheckIfActualiseerZaakStatus"
