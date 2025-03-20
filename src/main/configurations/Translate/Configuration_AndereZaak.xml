@@ -16,7 +16,7 @@
             <SenderPipe
                 name="CallGetZgwAndereZaak"
                 getInputFromSessionKey="originalMessage"
-                storeResultInSessionKey="ZgwZaakAndereResult">
+                storeResultInSessionKey="ZgwAndereZaakResult">
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
                     javaListener="GetZgwZaak"
