@@ -98,9 +98,9 @@
 
             <XmlIfPipe name="CheckForResultaat"
                 getInputFromSessionKey="originalMessage"
-                xpathExpression="string-length(/*/object/resultaat/omschrijving) gt 0"
-                thenForwardName="CallGetResultaatTypeByZaakTypeAndOmschrijving_1"
-                elseForwardName="CheckForEndStatusType">
+                xpathExpression="string-length(/*/object/resultaat/omschrijving) gt 0">
+                <Forward name="then" path="CallGetResultaatTypeByZaakTypeAndOmschrijving_1"/>
+                <Forward name="else" path="CheckForEndStatusType"/>
             </XmlIfPipe>
 
             <SenderPipe
@@ -199,13 +199,12 @@
 
             <XmlIfPipe
                 name="EinddatumAndResultaatButNoEndStatus"
-                xpathExpression="string-length($EndStatusFromNewStatusses/ZgwStatus) = 0 and $Beeindigd/beeindigd = 'false' and string-length($Einddatum) gt 0"
-                thenForwardName="CreateNewEndStatusFromEinddatum"
-                elseForwardName="PostStatusIterator"
-                >
+                xpathExpression="string-length($EndStatusFromNewStatusses/ZgwStatus) = 0 and $Beeindigd/beeindigd = 'false' and string-length($Einddatum) gt 0">
                 <Param name="Beeindigd" sessionKey="Beeindigd" type="DOMDOC" />
                 <Param name="EndStatusFromNewStatusses" sessionKey="EndStatusFromNewStatusses" type="DOMDOC" />
                 <Param name="Einddatum" xpathExpression="/*/object/einddatum" sessionKey="originalMessage" />
+                <Forward name="then" path="CreateNewEndStatusFromEinddatum"/>
+                <Forward name="else" path="PostStatusIterator"/>
             </XmlIfPipe>
 
             <XsltPipe
@@ -229,10 +228,9 @@
 
             <XmlIfPipe name="CheckForEndStatusType"
                 getInputFromSessionKey="SetEndStatusTypeResult"
-                xpathExpression="string-length(/ZgwStatusType) gt 0"
-                thenForwardName="SetNewEndStatus"
-                elseForwardName="CheckForNewEndStatus"
-                >
+                xpathExpression="string-length(/ZgwStatusType) gt 0">
+                <Forward name="then" path="SetNewEndStatus"/>
+                <Forward name="else" path="CheckForNewEndStatus"/>
             </XmlIfPipe>
 
             <XsltPipe
@@ -245,9 +243,9 @@
             </XsltPipe>
 
             <XmlIfPipe name="CheckForNewEndStatus"
-                xpathExpression="string-length(/ZgwStatus) gt 0"
-                thenForwardName="CallGetResultatenByZaakUrl_2"
-                elseForwardName="CheckForEindDatum">
+                xpathExpression="string-length(/ZgwStatus) gt 0">
+                <Forward name="then" path="CallGetResultatenByZaakUrl_2"/>
+                <Forward name="else" path="CheckForEindDatum"/>
             </XmlIfPipe>
 
             <SenderPipe
@@ -264,9 +262,9 @@
             </SenderPipe>
 
             <XmlIfPipe name="CheckForResultaten"
-                xpathExpression="root/count = 0"
-                thenForwardName="GetResolveProfileValuesSender_1"
-                elseForwardName="CheckForEindDatum">
+                xpathExpression="root/count = 0">
+                <Forward name="then" path="GetResolveProfileValuesSender_1"/>
+                <Forward name="else" path="CheckForEindDatum"/>
             </XmlIfPipe>
 
             <SenderPipe name="GetResolveProfileValuesSender_1">
@@ -289,9 +287,9 @@
             </XsltPipe>
 
             <XmlIfPipe name="CheckForCoalesceResultaat_1"
-                xpathExpression="string-length(/result/coalesceResultaat) gt 0"
-                thenForwardName="CallGetResultaatTypeByZaakTypeAndOmschrijving_2"
-                elseForwardName="CheckForEindDatum">
+                xpathExpression="string-length(/result/coalesceResultaat) gt 0">
+                <Forward name="then" path="CallGetResultaatTypeByZaakTypeAndOmschrijving_2"/>
+                <Forward name="else" path="CheckForEindDatum"/>
             </XmlIfPipe>
 
             <SenderPipe
@@ -326,10 +324,10 @@
 
             <XmlIfPipe name="CheckForEindDatum"
                 getInputFromSessionKey="originalMessage"
-                xpathExpression="string-length(/*/object/einddatum) gt 0 and $Beeindigd/beeindigd = 'false'"
-                thenForwardName="GetResolveProfileValuesSender_2"
-                elseForwardName="PostStatusIterator">
+                xpathExpression="string-length(/*/object/einddatum) gt 0 and $Beeindigd/beeindigd = 'false'">
                 <Param name="Beeindigd" sessionKey="Beeindigd" type="DOMDOC"/>
+                <Forward name="then" path="GetResolveProfileValuesSender_2"/>
+                <Forward name="else" path="PostStatusIterator"/>
             </XmlIfPipe>
 
             <SenderPipe name="GetResolveProfileValuesSender_2">
@@ -353,9 +351,9 @@
             </XsltPipe>
 
             <XmlIfPipe name="CheckForCoalesceResultaat_2"
-                xpathExpression="string-length(/result/coalesceResultaat) gt 0"
-                thenForwardName="CallGetResultatenByZaakUrl_3"
-                elseForwardName="PostStatusIterator">
+                xpathExpression="string-length(/result/coalesceResultaat) gt 0">
+                <Forward name="then" path="CallGetResultatenByZaakUrl_3"/>
+                <Forward name="else" path="PostStatusIterator"/>
             </XmlIfPipe>
 
             <SenderPipe
@@ -372,9 +370,9 @@
             </SenderPipe>
 
             <XmlIfPipe name="CheckForResultaten_2"
-                xpathExpression="root/count = 0"
-                thenForwardName="CallGetResultaatTypeByZaakTypeAndOmschrijving_3"
-                elseForwardName="CreateStatusBody">
+                xpathExpression="root/count = 0">
+                <Forward name="then" path="CallGetResultaatTypeByZaakTypeAndOmschrijving_3"/>
+                <Forward name="else" path="CreateStatusBody"/>
             </XmlIfPipe>
 
             <SenderPipe
