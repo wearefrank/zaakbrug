@@ -359,16 +359,16 @@
 
             <XmlIfPipe name="CheckForHeeftBetrekkingOpAndere"
                 getInputFromSessionKey="ZdsWordtZaak"
-                xpathExpression="/object/heeftBetrekkingOpAndere/gerelateerde[string-length(identificatie) > 0]"
-                thenForwardName="CheckForHeeftBetrekkingOpAndereWithVerwerkingssoortV"
-                elseForwardName="CheckForHeeftAlsDeelzaak">
+                xpathExpression="/object/heeftBetrekkingOpAndere/gerelateerde[string-length(identificatie) > 0]">
+                <Forward name="then" path="CheckForHeeftBetrekkingOpAndereWithVerwerkingssoortV"/>
+                <Forward name="else" path="CheckForHeeftAlsDeelzaak"/>
             </XmlIfPipe>
 
             <XmlIfPipe name="CheckForHeeftBetrekkingOpAndereWithVerwerkingssoortV"
                 getInputFromSessionKey="ZdsWordtZaak"
-                xpathExpression="/object/heeftBetrekkingOpAndere[@verwerkingssoort = 'V']"
-                thenForwardName="AndereZaakIteratorDelete"
-                elseForwardName="AndereZaakIterator">
+                xpathExpression="/object/heeftBetrekkingOpAndere[@verwerkingssoort = 'V']">
+                <Forward name="then" path="AndereZaakIteratorDelete"/>
+                <Forward name="else" path="AndereZaakIterator"/>
             </XmlIfPipe>
 
             <ForEachChildElementPipe name="AndereZaakIteratorDelete"
@@ -433,9 +433,9 @@
 
             <XmlIfPipe name="CheckForHeeftBetrekkingOpAndereWithVerwerkingssoortNotV"
                 getInputFromSessionKey="ZdsWordtZaak"
-                xpathExpression="/object/heeftBetrekkingOpAndere[@verwerkingssoort != 'V']"
-                thenForwardName="AndereZaakIterator"
-                elseForwardName="EXIT">
+                xpathExpression="/object/heeftBetrekkingOpAndere[@verwerkingssoort != 'V']">
+                <Forward name="then" path="AndereZaakIterator"/>
+                <Forward name="else" path="EXIT"/>
             </XmlIfPipe>
 
             <ForEachChildElementPipe name="AndereZaakIterator"
@@ -480,9 +480,9 @@
 
             <XmlIfPipe name="CheckForHeeftAlsDeelzaak"
                 getInputFromSessionKey="ZdsWordtZaak"
-                xpathExpression="/object/heeftAlsDeelzaak[1]/gerelateerde[string-length(identificatie) > 0]"
-                thenForwardName="DeelzaakIterator"
-                elseForwardName="EXIT">
+                xpathExpression="/object/heeftAlsDeelzaak[1]/gerelateerde[string-length(identificatie) > 0]">
+                <Forward name="then" path="DeelzaakIterator"/>
+                <Forward name="else" path="EXIT"/>
             </XmlIfPipe>
 
             <ForEachChildElementPipe 

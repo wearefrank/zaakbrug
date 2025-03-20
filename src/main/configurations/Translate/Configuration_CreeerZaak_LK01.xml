@@ -260,9 +260,9 @@
 
             <XmlIfPipe name="CheckForHeeftBetrekkingOpAndere"
                 getInputFromSessionKey="originalMessage"
-                xpathExpression="/zakLk01/object/heeftBetrekkingOpAndere/gerelateerde[string-length(identificatie) > 0]"
-                thenForwardName="AndereZaakIterator"
-                elseForwardName="CheckForHeeftAlsDeelzaak">
+                xpathExpression="/zakLk01/object/heeftBetrekkingOpAndere/gerelateerde[string-length(identificatie) > 0]">
+                <Forward name="then" path="AndereZaakIterator"/>
+                <Forward name="else" path="CheckForHeeftAlsDeelzaak"/>
             </XmlIfPipe>
 
             <ForEachChildElementPipe 
@@ -307,9 +307,9 @@
 
             <XmlIfPipe name="CheckForHeeftAlsDeelzaak"
                 getInputFromSessionKey="originalMessage"
-                xpathExpression="/zakLk01/object/heeftAlsDeelzaak[1]/gerelateerde[string-length(identificatie) > 0]"
-                thenForwardName="DeelzaakIterator"
-                elseForwardName="EXIT">
+                xpathExpression="/zakLk01/object/heeftAlsDeelzaak[1]/gerelateerde[string-length(identificatie) > 0]">
+                <Forward name="then" path="DeelzaakIterator"/>
+                <Forward name="else" path="EXIT"/>
             </XmlIfPipe>
 
             <ForEachChildElementPipe 
