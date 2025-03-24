@@ -8,7 +8,32 @@ There is a new specification named "zaakgericht werken" (zgw) for case register 
 
 This project, ZaakBrug, is meant to be a successor of Open-ZaakBrug. It leverages the [Frank!Framework](https://wearefrank.nl/en/framework) and its debugger Ladybug. The debugger shows for each incoming request which steps are executed to process the message. If there are errors, this information can be used for easy debugging. ZaakBrug does not only connect zds systems with case register system [OpenZaak](https://openzaak.org/en), but with any case register system that implements zgw.
 
-# Starting ZaakBrug
+## Compatibility
+ZDS 1.1 functionality is supported with the exception of the `geefZaakstatus_Lv01` and `maakZaakdocument_Lk01` messages. Additional elements from RGBZ/StUF-Zaken are partially supported. Due to the broadness of RGBZ/StUF-Zaken, support for additional elements is implemented on-demand. 
+
+Raw StUF-Zaken messages are officially not supported and therefor not part of automated testing, but ZaakBrug does accept them and does a best-effort translation. Simple use-cases such as creating a case or adding a document are usually translated without issue.
+
+| Webservice Operation | Status |
+| --------------- | --- |
+| ZDS 1.1 - genereerZaakIdentificatie_Di02 | supported |
+| ZDS 1.1 - creeerZaak_Lk01 | supported |
+| ZDS 1.1 - updateZaak_Lk01 | supported |
+| ZDS 1.1 - actualiseerZaakstatus_Lk01 | supported |
+| ZDS 1.1 - geefZaakdetails_Lv01 | supported |
+| ZDS 1.1 - geefZaakstatus_Lv01 | not supported |
+| ZDS 1.1 - genereerDocumentIdentificatie_Di02 | supported |
+| ZDS 1.1 - geefLijstZaakdocumenten_Lv01 | supported |
+| ZDS 1.1 - maakZaakdocument_Lk01 | not supported |
+| ZDS 1.1 - voegZaakdocumentToe_Lk01 | supported |
+| ZDS 1.1 - geefZaakdocumentLezen_Lv01 | supported |
+| ZDS 1.1 - geefZaakdocumentbewerken_Di02 | supported |
+| ZDS 1.1 - updateZaakdocument_Di02 | supported |
+| ZDS 1.1 - cancelCheckout_Di02 | supported |
+| StUF-Zkn 3.1 zakLv01 | best-effort |
+| StUF-Zkn 3.1 zakLk01 | best-effort |
+| StUF-Zkn 3.1 edcLk01 | best-effort |
+
+## Starting ZaakBrug
 
 ### Development in Visual Studio Code
 
