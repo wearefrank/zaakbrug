@@ -1,0 +1,111 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="RelevanteAndereZaakDelete"
+        active="${RelevanteAndereZaakDelete.Active}"
+        description="">
+
+        <Receiver name="RelevanteAndereZaakDelete">
+            <JavaListener name="RelevanteAndereZaakDelete" returnedSessionKeys="Error" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <XmlIfPipe 
+                name="CheckIfMainZaakRelatedToAndereZaak"
+                getInputFromSessionKey="ZgwMainZaakResult"
+                xpathExpression="/ZgwZaak/relevanteAndereZaken/url = $AndereZaakUrl">
+                <Param name="AndereZaakUrl" xpathExpression="$ZgwAndereZaakResult/ZgwZaak/url">
+                    <Param name="ZgwAndereZaakResult" sessionKey="ZgwAndereZaakResult" type="DOMDOC"/>
+                </Param>
+                <Forward name="then" path="CreatePatchZaakBodyToDeleteMainZaakFromAndereZaak" />
+                <Forward name="else" path="LogWarningZaakNotRelated" />
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="LogWarningZaakNotRelated"
+                >
+                <LogSender
+                    name="LogWarningSender" />
+                <Forward name="success" path="EXIT" />
+            </SenderPipe>
+
+            <XsltPipe 
+                name="CreatePatchZaakBodyToDeleteMainZaakFromAndereZaak"
+                getInputFromSessionKey="ZgwAndereZaakResult"
+                styleSheetName="UpdateZaak_LK01/xsl/CreateZgwAndereZaakBodyToDelete.xslt"
+                >
+                <Param name="MainZaakUrl" sessionKey="ZgwMainZaakResult" xpathExpression="/ZgwZaak/url"/>
+                <Forward name="success" path="CheckIfRelevanteAndereZakenListOfAndereZaakEmpty"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckIfRelevanteAndereZakenListOfAndereZaakEmpty"
+                xpathExpression="count(ZgwZaak/relevanteAndereZaken) gt 0">
+                <Forward name="then" path="DeleteRelevanteMainZaakFromAndereZaak"/>
+                <Forward name="else" path="CreateEmptyRelevanteAndereZakenForAndereZaakJson"/>
+            </XmlIfPipe>
+
+            <DataSonnetPipe name="CreateEmptyRelevanteAndereZakenForAndereZaakJson"
+                styleSheetName="UpdateZaak_LK01/jsonnet/CreateEmptyRelevanteAndereZakenJson.jsonnet"
+                outputType="JSON"
+                storeResultInSessionKey="EmptyRelevanteAndereZakenForAndereZaakJson">
+                <Forward name="success" path="DeleteRelevanteMainZaakFromAndereZaak" />
+            </DataSonnetPipe>
+
+            <SenderPipe
+                name="DeleteRelevanteMainZaakFromAndereZaak"
+                >
+                <IbisLocalSender
+                    name="CallUpdateZgwZaakSender"
+                    javaListener="Zaken_UpdateZgwZaak"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="Url" sessionKey="ZgwAndereZaakResult" xpathExpression="/ZgwZaak/url" />
+                    <Param name="EmptyRelevanteAndereZakenJson" sessionKey="EmptyRelevanteAndereZakenForAndereZaakJson" />
+                </IbisLocalSender>
+                <Forward name="success" path="CreatePatchZaakBodyToDeleteAndereZaakFromMainZaak" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+             <XsltPipe 
+                name="CreatePatchZaakBodyToDeleteAndereZaakFromMainZaak"
+                getInputFromSessionKey="ZgwMainZaakResult"
+                styleSheetName="UpdateZaak_LK01/xsl/CreateZgwAndereZaakBodyToDelete.xslt"
+                >
+                <Param name="AndereZaakUrl" sessionKey="ZgwAndereZaakResult" xpathExpression="/ZgwZaak/url"/>
+                <Forward name="success" path="CheckIfRelevanteAndereZakenListOfMainZaakEmpty"/>
+            </XsltPipe>
+
+            <XmlIfPipe name="CheckIfRelevanteAndereZakenListOfMainZaakEmpty"
+                xpathExpression="count(ZgwZaak/relevanteAndereZaken) gt 0">
+                <Forward name="then" path="DeleteRelevanteAndereZaakFromMainZaak"/>
+                <Forward name="else" path="CreateEmptyRelevanteAndereZakenForMainZaakJson"/>
+            </XmlIfPipe>
+
+            <DataSonnetPipe name="CreateEmptyRelevanteAndereZakenForMainZaakJson"
+                styleSheetName="UpdateZaak_LK01/jsonnet/CreateEmptyRelevanteAndereZakenJson.jsonnet"
+                outputType="JSON"
+                storeResultInSessionKey="EmptyRelevanteAndereZakenForMainZaakJson">
+                <Forward name="success" path="DeleteRelevanteAndereZaakFromMainZaak" />
+            </DataSonnetPipe>
+
+            <SenderPipe
+                name="DeleteRelevanteAndereZaakFromMainZaak"
+                >
+                <IbisLocalSender
+                    name="CallUpdateZgwZaakSender"
+                    javaListener="Zaken_UpdateZgwZaak"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="Url" sessionKey="ZgwMainZaakResult" xpathExpression="/ZgwZaak/url" />
+                    <Param name="EmptyRelevanteAndereZakenJson" sessionKey="EmptyRelevanteAndereZakenForMainZaakJson" />
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+        </Pipeline>
+    </Adapter>
+</Module>

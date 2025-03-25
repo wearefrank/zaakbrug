@@ -2,13 +2,13 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     <xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/>
 
-    <xsl:param name="AndereUrlToDelete"></xsl:param>
-    <xsl:param name="AndereUrlsToDelete" as="node()"><urls><url/></urls></xsl:param>
+    <xsl:param name="MainZaakUrl"></xsl:param>
+    <xsl:param name="AndereZaakUrl"></xsl:param>
 
      <xsl:template match="/">
         <ZgwZaak>
             <xsl:for-each select="/ZgwZaak/relevanteAndereZaken">
-                <xsl:if test="not(url = $AndereUrlToDelete) and not($AndereUrlsToDelete//url = url)">
+                <xsl:if test="not(url = $MainZaakUrl) and not(url = $AndereZaakUrl)">
                     <relevanteAndereZaken>
                         <xsl:copy-of select="url" />
                         <aardRelatie>onderwerp</aardRelatie>

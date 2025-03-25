@@ -1,0 +1,66 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="RelevanteAndereZaakAdd"
+        active="${RelevanteAndereZaakAdd.Active}"
+        description="">
+
+        <Receiver name="RelevanteAndereZaakAdd">
+            <JavaListener name="RelevanteAndereZaakAdd" returnedSessionKeys="Error" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <XsltPipe
+                name="CreatePatchZaakBodyForAndereZaak"
+                getInputFromSessionKey="ZgwAndereZaakResult"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/CreateZgwAndereZaakBody.xsl"
+                >
+                <Param name="MainZaakUrl" sessionKey="ZgwMainZaakResult" xpathExpression="/ZgwZaak/url"/>
+                <Forward name="success" path="PatchRelevanteMainZaakIntoAndereZaak"/>
+            </XsltPipe>
+
+            <SenderPipe
+                name="PatchRelevanteMainZaakIntoAndereZaak"
+                >
+                <IbisLocalSender
+                    name="CallUpdateZgwZaakSender"
+                    javaListener="Zaken_UpdateZgwZaak"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="Url" sessionKey="ZgwAndereZaakResult" xpathExpression="/ZgwZaak/url"/>
+                </IbisLocalSender>
+                <Forward name="success" path="CreatePatchZaakBodyForMainZaak" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="CreatePatchZaakBodyForMainZaak"
+                getInputFromSessionKey="ZgwMainZaakResult"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/CreateZgwAndereZaakBody.xsl"
+                >
+                <Param name="AndereZaakUrl" sessionKey="ZgwAndereZaakResult" xpathExpression="/ZgwZaak/url"/>
+                <Forward name="success" path="PatchRelevantAndereZaakIntoMainZaak"/>
+            </XsltPipe>
+
+            <SenderPipe
+                name="PatchRelevantAndereZaakIntoMainZaak"
+                >
+                <IbisLocalSender
+                    name="CallUpdateZgwZaakSender"
+                    javaListener="Zaken_UpdateZgwZaak"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="Url" sessionKey="ZgwMainZaakResult" xpathExpression="/ZgwZaak/url"/>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+        </Pipeline>
+    </Adapter>
+</Module>
