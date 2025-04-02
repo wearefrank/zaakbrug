@@ -19,7 +19,7 @@
                 skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/CreateZgwAndereZaakBody.xsl"
                 >
-                <Param name="MainZaakUrl" sessionKey="ZgwMainZaakResult" xpathExpression="/ZgwZaak/url"/>
+                <Param name="ZaakUrl" sessionKey="ZgwMainZaakResult" xpathExpression="/ZgwZaak/url"/>
                 <Forward name="success" path="PatchRelevanteMainZaakIntoAndereZaak"/>
             </XsltPipe>
 
@@ -43,7 +43,7 @@
                 skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/CreateZgwAndereZaakBody.xsl"
                 >
-                <Param name="AndereZaakUrl" sessionKey="ZgwAndereZaakResult" xpathExpression="/ZgwZaak/url"/>
+                <Param name="ZaakUrl" sessionKey="ZgwAndereZaakResult" xpathExpression="/ZgwZaak/url"/>
                 <Forward name="success" path="PatchRelevantAndereZaakIntoMainZaak"/>
             </XsltPipe>
 

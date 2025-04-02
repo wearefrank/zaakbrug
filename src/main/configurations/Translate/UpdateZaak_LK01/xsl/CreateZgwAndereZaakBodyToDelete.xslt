@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     <xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/>
-
-    <xsl:param name="MainZaakUrl"></xsl:param>
-    <xsl:param name="AndereZaakUrl"></xsl:param>
+    <xsl:param name="ZaakUrl"></xsl:param>
 
      <xsl:template match="/">
         <ZgwZaak>
             <xsl:for-each select="/ZgwZaak/relevanteAndereZaken">
-                <xsl:if test="not(url = $MainZaakUrl) and not(url = $AndereZaakUrl)">
+                <xsl:if test="not(url = $ZaakUrl)">
                     <relevanteAndereZaken>
                         <xsl:copy-of select="url" />
                         <aardRelatie>onderwerp</aardRelatie>
@@ -17,5 +15,4 @@
             </xsl:for-each>
         </ZgwZaak>
     </xsl:template>
-
 </xsl:stylesheet>

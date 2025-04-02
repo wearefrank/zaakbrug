@@ -37,7 +37,7 @@
                 getInputFromSessionKey="ZgwAndereZaakResult"
                 styleSheetName="UpdateZaak_LK01/xsl/CreateZgwAndereZaakBodyToDelete.xslt"
                 >
-                <Param name="MainZaakUrl" sessionKey="ZgwMainZaakResult" xpathExpression="/ZgwZaak/url"/>
+                <Param name="ZaakUrl" sessionKey="ZgwMainZaakResult" xpathExpression="/ZgwZaak/url"/>
                 <Forward name="success" path="CheckIfRelevanteAndereZakenListOfAndereZaakEmpty"/>
             </XsltPipe>
 
@@ -74,7 +74,7 @@
                 getInputFromSessionKey="ZgwMainZaakResult"
                 styleSheetName="UpdateZaak_LK01/xsl/CreateZgwAndereZaakBodyToDelete.xslt"
                 >
-                <Param name="AndereZaakUrl" sessionKey="ZgwAndereZaakResult" xpathExpression="/ZgwZaak/url"/>
+                <Param name="ZaakUrl" sessionKey="ZgwAndereZaakResult" xpathExpression="/ZgwZaak/url"/>
                 <Forward name="success" path="CheckIfRelevanteAndereZakenListOfMainZaakEmpty"/>
             </XsltPipe>
 
