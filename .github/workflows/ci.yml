@@ -66,3 +66,4 @@ jobs:
         docker compose -f docker-compose.zaakbrug.dev.yml -f docker-compose.zaakbrug.postgres.yml -f docker-compose.openzaak.dev.yml up -d
       teardown-script: |
         docker compose -f docker-compose.zaakbrug.dev.yml -f docker-compose.zaakbrug.postgres.yml -f docker-compose.openzaak.dev.yml down -v
+        
