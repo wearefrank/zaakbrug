@@ -1,5 +1,16 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.24.1](https://github.com/wearefrank/zaakbrug/compare/v1.24.0...v1.24.1) (2025-04-04)
+
+### 🧑‍💻 Code Refactoring
+
+* heeftBetrekkingOpAndere handling has dedicated adapters for verwerkingssoort "I", "T" and "V" ([#535](https://github.com/wearefrank/zaakbrug/issues/535)) ([961811d](https://github.com/wearefrank/zaakbrug/commit/961811dbf8411cfd7f040adf7a589d8f07aa4c44))
+
+### 🤖 Build System
+
+* **dependencies:** bump the docusaurus group ([880c492](https://github.com/wearefrank/zaakbrug/commit/880c49279e74568565bf653fef863a76d219e439))
+* **dependencies:** bump the github-actions group with 2 updates ([48dad68](https://github.com/wearefrank/zaakbrug/commit/48dad68cd5de5876dd393cc024de1db59d1eb23d))
+
 ## [1.24.0](https://github.com/wearefrank/zaakbrug/compare/v1.23.2...v1.24.0) (2025-03-19)
 
 ### 🍕 Features
