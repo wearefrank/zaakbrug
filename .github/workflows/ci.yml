@@ -58,8 +58,7 @@ jobs:
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
     with:
-      project-dir: 'e2e/SoapUI'
-      soapui-project: 'zaakbrug-e2e-soapui-project.xml'
+      soapui-project: 'e2e/SoapUI/zaakbrug-e2e-soapui-project.xml'
       image-id: ${{needs.ci.outputs.image-id}}
       image-build-artifact-name: 'build-docker-image'
       image-tarball-file: 'image.tar'
