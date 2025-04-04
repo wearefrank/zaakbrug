@@ -50,71 +50,19 @@ jobs:
     with:
       image-id: ${{ needs.ci.outputs.image-id }}
 
-  run-soapui-tests:
-    runs-on: ubuntu-latest
+  soapui-testrunner:
+    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@6d9d6438dd46887a375db769167b29bb54b39d78 #1.4.2
     needs:
-      - version-next
       - ci
       - run-larva-scenarios
-    steps:
-      - uses: step-security/harden-runner@4d991eb9b905ef189e4c376166672c3f2f230481 # v2.11.0
-        with:
-          egress-policy: audit
-
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #4.2.2
-
-      - name: Download Docker tar
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e #4.2.1
-        with:
-          name: build-docker-image
-
-      - name: Load Docker tar
-        shell: bash
-        run: |
-          docker load --input image.tar
-          docker image ls -a
-
-      - name: Run SoapUI Tests
-        run: |
-          export ZAAKBRUG_VERSION="${{ needs.version-next.outputs.version-next }}"
-
-          docker image inspect ${{ vars.DOCKER_IMAGE_REPOSITORY }}/${{ vars.DOCKER_IMAGE_NAME }}:${ZAAKBRUG_VERSION}
-          docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up -d
-          docker ps
-
-          sleep 90
-
-          STATUS=$(docker inspect --format='{{json .State.Status}}' soapui-testrunner)
-          until [ "$STATUS" = '"exited"' ]
-          do
-            STATUS=$(docker inspect --format='{{json .State.Status}}' soapui-testrunner)
-            sleep 15
-          done
-
-          EXIT_CODE=$(docker inspect --format='{{json .State.ExitCode}}' soapui-testrunner)
-          echo "Exit Code: $EXIT_CODE"
-
-          docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml -f ./docker-compose.openzaak.dev.yml down
-          
-          if [ "$EXIT_CODE" -ne 0 ]
-            then
-              echo "Test(s) failed. Failing the job."
-              exit 1
-          fi
-        timeout-minutes: 15
-
-      - name: Check if test reports created
-        run: |
-          if [ -z "$(ls -A e2e/reports)" ]
-            then
-              echo "There is no test report found, tests might not have been run. Failing the job."
-              exit 1
-          fi
-
-      - name: Upload SoapUI testreports as artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 #4.6.2
-        if: always()
-        with:
-          name: reports-soapui-testreports
-          path: ./*/reports
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      soapui-project: 'e2e/SoapUI/zaakbrug-e2e-soapui-project.xml'
+      image-id: ${{needs.ci.outputs.image-id}}
+      image-build-artifact-name: 'build-docker-image'
+      image-tarball-file: 'image.tar'
+      setup-script: |
+        docker compose -f docker-compose.zaakbrug.dev.yml -f docker-compose.zaakbrug.postgres.yml -f docker-compose.openzaak.dev.yml up -d
+      teardown-script: |
+        docker compose -f docker-compose.zaakbrug.dev.yml -f docker-compose.zaakbrug.postgres.yml -f docker-compose.openzaak.dev.yml down -v
