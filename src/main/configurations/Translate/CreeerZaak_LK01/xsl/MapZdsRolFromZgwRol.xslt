@@ -23,7 +23,10 @@
                 <ZKN:natuurlijkPersoon StUF:entiteittype="NPS">
                     <xsl:if test="betrokkeneIdentificatie/inpBsn != ''">
                         <BG:inp.bsn><xsl:value-of select="betrokkeneIdentificatie/inpBsn"/></BG:inp.bsn>
-                        <BG:authentiek StUF:metagegeven="true">N</BG:authentiek> <!-- Required by ZDS schema, but no place to store in ZGW -->
+                        <xsl:apply-templates select="roltoelichting"/> <!-- To get authentiek value -->
+                    </xsl:if>
+                    <xsl:if test="betrokkeneIdentificatie/anpIdentificatie != ''">
+                        <BG:anp.identificatie><xsl:value-of select="betrokkeneIdentificatie/anpIdentificatie"/></BG:anp.identificatie>
                     </xsl:if>
                     <xsl:if test="betrokkeneIdentificatie/geslachtsnaam != ''">
                         <BG:geslachtsnaam><xsl:value-of select="betrokkeneIdentificatie/geslachtsnaam"/></BG:geslachtsnaam>
@@ -57,7 +60,7 @@
                 <ZKN:nietNatuurlijkPersoon StUF:entiteittype="NNP">
                     <xsl:if test="betrokkeneIdentificatie/innNnpId != ''">
                         <BG:inn.nnpId><xsl:value-of select="betrokkeneIdentificatie/innNnpId" /></BG:inn.nnpId>
-                        <BG:authentiek StUF:metagegeven="true">N</BG:authentiek> <!-- Required by ZDS schema, but no place to store in ZGW -->
+                        <xsl:apply-templates select="roltoelichting"/> <!-- To get authentiek value -->
                     </xsl:if>
                     <xsl:if test="betrokkeneIdentificatie/annIdentificatie != ''">
                         <BG:ann.identificatie><xsl:value-of select="betrokkeneIdentificatie/annIdentificatie"/></BG:ann.identificatie>
@@ -84,6 +87,7 @@
                     <xsl:if test="betrokkeneIdentificatie/vestigingsNummer != ''">
                         <BG:vestigingsNummer><xsl:value-of select="betrokkeneIdentificatie/vestigingsNummer"/></BG:vestigingsNummer>
                     </xsl:if>
+                    <xsl:apply-templates select="roltoelichting"/> <!-- To get authentiek value -->
                     <xsl:for-each select="betrokkeneIdentificatie/handelsnaam">
                         <BG:handelsnaam><xsl:value-of select="."/></BG:handelsnaam>
                     </xsl:for-each>
@@ -166,5 +170,22 @@
             </BG:verblijfsadres>
         </xsl:if>
     </xsl:template>
+
+    <xsl:template match="roltoelichting">
+        <xsl:variable name="authentiekValue">
+            <xsl:value-of select="substring-before(substring-after(., '{# authentiek:'), ' #}')"/>
+        </xsl:variable>
+        <BG:authentiek StUF:metagegeven="true">
+            <xsl:choose>
+                <xsl:when test="string-length($authentiekValue) gt 0">
+                    <xsl:value-of select="$authentiekValue"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:text>N</xsl:text>
+                </xsl:otherwise>
+            </xsl:choose>
+        </BG:authentiek>
+    </xsl:template>
+
 
 </xsl:stylesheet>
