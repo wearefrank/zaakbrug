@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.24.2](https://github.com/wearefrank/zaakbrug/compare/v1.24.1...v1.24.2) (2025-04-04)
+
+### 🔁 Continuous Integration
+
+* switch to new reusable soapui testrunner workflow ([#539](https://github.com/wearefrank/zaakbrug/issues/539)) ([292aaae](https://github.com/wearefrank/zaakbrug/commit/292aaae7f052c3a63f253276d3ced94a122f3471))
+
 ## [1.24.1](https://github.com/wearefrank/zaakbrug/compare/v1.24.0...v1.24.1) (2025-04-04)
 
 ### 🧑‍💻 Code Refactoring
