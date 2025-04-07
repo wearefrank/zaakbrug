@@ -1,5 +1,13 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.24.3](https://github.com/wearefrank/zaakbrug/compare/v1.24.2...v1.24.3) (2025-04-07)
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 9.1.0-20250406.172201 ([#540](https://github.com/wearefrank/zaakbrug/issues/540)) ([cfb0d1b](https://github.com/wearefrank/zaakbrug/commit/cfb0d1b9a832354529023571432a560e2b973f2a))
+* **dependencies:** bump the github-actions group with 2 updates ([#541](https://github.com/wearefrank/zaakbrug/issues/541)) ([383766a](https://github.com/wearefrank/zaakbrug/commit/383766a722b1122ac13cfa6daad09ed4353d3244))
+* **dependencies:** bump typescript ([#542](https://github.com/wearefrank/zaakbrug/issues/542)) ([74aaa6a](https://github.com/wearefrank/zaakbrug/commit/74aaa6a23357818924c3ad2303d0fc864a286835))
+
 ## [1.24.2](https://github.com/wearefrank/zaakbrug/compare/v1.24.1...v1.24.2) (2025-04-04)
 
 ### 🔁 Continuous Integration
