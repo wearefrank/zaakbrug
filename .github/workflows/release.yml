@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #4.2.2
       
       - name: "Setup Node"
-        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e #4.3.0
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 #4.4.0
         with:
           node-version: 20
       
@@ -40,7 +40,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   ci:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@6d9d6438dd46887a375db769167b29bb54b39d78 #1.4.2
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@2f83b83141c47c3141586b6d6abd5f4bd2dffee7 #2.0.0
     needs: analyze-commits
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
@@ -61,7 +61,7 @@ jobs:
       image-id: ${{ needs.ci.outputs.image-id }}
 
   soapui-testrunner:
-    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@6d9d6438dd46887a375db769167b29bb54b39d78 #1.4.2
+    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@2f83b83141c47c3141586b6d6abd5f4bd2dffee7 #2.0.0
     needs:
       - ci
       - run-larva-scenarios
@@ -106,7 +106,7 @@ jobs:
           merge-multiple: true
 
       - name: Setup Node
-        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e #4.3.0
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 #4.4.0
         with:
           node-version: 20
       
@@ -120,7 +120,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   docker-release:
-    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@6d9d6438dd46887a375db769167b29bb54b39d78 #1.4.2
+    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@2f83b83141c47c3141586b6d6abd5f4bd2dffee7 #2.0.0
     needs: 
     - analyze-commits
     - release
@@ -150,4 +150,4 @@ jobs:
       - release
     # Set to true to enable Docusaurus publishing to GitHub Pages
     if: true
-    uses: wearefrank/ci-cd-templates/.github/workflows/docusaurus-release.yml@6d9d6438dd46887a375db769167b29bb54b39d78 #1.4.2
+    uses: wearefrank/ci-cd-templates/.github/workflows/docusaurus-release.yml@2f83b83141c47c3141586b6d6abd5f4bd2dffee7 #2.0.0
