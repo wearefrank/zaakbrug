@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Public FrankDoc XSD, should be used within an IDE to validate a configuration. -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="9.1.0-20250406.172201">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="9.2.0-20250412.042329">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>Container of Adapters that belong together.
@@ -13383,6 +13383,18 @@
           </xs:complexContent>
         </xs:complexType>
       </xs:element>
+      <xs:element name="LarvaPipe">
+        <xs:annotation>
+          <xs:documentation>Call Larva Test Tool</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension base="LarvaPipeType">
+              <xs:attribute name="elementRole" type="xs:string" fixed="pipe" use="prohibited" />
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="LdapFindGroupMembershipsPipe">
         <xs:annotation>
           <xs:documentation>Pipe that returns the memberships of a userDN.
@@ -15649,6 +15661,50 @@
   </xs:attributeGroup>
   <xs:attributeGroup name="LadybugPipeCumulativeAttributeGroup">
     <xs:attributeGroup ref="LadybugPipeDeclaredAttributeGroup" />
+    <xs:attributeGroup ref="FixedForwardPipeCumulativeAttributeGroup" />
+  </xs:attributeGroup>
+  <xs:complexType name="LarvaPipeType">
+    <xs:group ref="AbstractPipeDeclaredChildGroup" />
+    <xs:attributeGroup ref="LarvaPipeCumulativeAttributeGroup" />
+    <xs:attribute name="className" type="xs:string" fixed="org.frankframework.pipes.LarvaPipe" use="prohibited" />
+  </xs:complexType>
+  <xs:attributeGroup name="LarvaPipeDeclaredAttributeGroup">
+    <xs:attribute name="writeToLog" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>Default: false</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="writeToSystemOut" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>Default: false</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="execute" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The scenario sub directory to execute</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="logLevel">
+      <xs:annotation>
+        <xs:documentation>the larva log level: one of [debug], [pipeline messages prepared for diff], [pipeline messages], [wrong pipeline messages prepared for diff], [wrong pipeline messages], [step passed/failed], [scenario passed/failed], [scenario failed], [totals], [error] Default: wrong pipeline messages</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:union memberTypes="LarvaLogLevelAttributeValuesType variableRef" />
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="waitBeforeCleanup" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Default: 100ms</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="timeout" type="frankInt">
+      <xs:annotation>
+        <xs:documentation>the larva timeout in milliseconds Default: 10000</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="LarvaPipeCumulativeAttributeGroup">
+    <xs:attributeGroup ref="LarvaPipeDeclaredAttributeGroup" />
     <xs:attributeGroup ref="FixedForwardPipeCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="LdapFindGroupMembershipsPipeType">
@@ -19952,6 +20008,20 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="JSON2XML" />
       <xs:enumeration value="XML2JSON" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="LarvaLogLevelAttributeValuesType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DEBUG" />
+      <xs:enumeration value="PIPELINE_MESSAGES_PREPARED_FOR_DIFF" />
+      <xs:enumeration value="PIPELINE_MESSAGES" />
+      <xs:enumeration value="WRONG_PIPELINE_MESSAGES_PREPARED_FOR_DIFF" />
+      <xs:enumeration value="WRONG_PIPELINE_MESSAGES" />
+      <xs:enumeration value="STEP_PASSED_FAILED" />
+      <xs:enumeration value="SCENARIO_PASSED_FAILED" />
+      <xs:enumeration value="SCENARIO_FAILED" />
+      <xs:enumeration value="TOTALS" />
+      <xs:enumeration value="ERROR" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="DirectionAttributeValuesType_5">
