@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  zaakbrug:
+    volumes:
+      - ./src/main/resources/roxit/credentials.properties:/opt/frank/resources/credentials.properties:ro
+    environment:
+      - zaakbrug.zgw.zaken-api.root-url=https://zaken.preprod-rx-services.nl/api/v1/
+      - zaakbrug.zgw.documenten-api.root-url=https://documenten.preprod-rx-services.nl/api/v1/
+      - zaakbrug.zgw.catalogi-api.root-url=https://catalogi.preprod-rx-services.nl/api/v1/
+      - zaakbrug.zgw.besluiten-api.root-url=http://open-zaak.nginx:9001/besluiten/api/v1/
