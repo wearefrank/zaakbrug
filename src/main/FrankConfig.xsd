@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Public FrankDoc XSD, should be used within an IDE to validate a configuration. -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="9.1.0-20250406.172201">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="9.2.0-20250419.042327">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>Container of Adapters that belong together.
@@ -805,7 +805,7 @@
     <xs:sequence>
       <xs:group ref="JobElementGroup" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
-    <xs:attribute name="className" type="xs:string" fixed="org.frankframework.configuration.ScheduleManager" use="prohibited" />
+    <xs:attribute name="className" type="xs:string" fixed="org.frankframework.scheduler.ScheduleManager" use="prohibited" />
     <xs:attribute ref="active" />
     <xs:attribute name="elementRole" type="xs:string" fixed="scheduler" use="prohibited" />
     <xs:anyAttribute namespace="##other" processContents="skip" />
@@ -13113,15 +13113,16 @@
       </xs:element>
       <xs:element name="IfPipe">
         <xs:annotation>
-          <xs:documentation>Selects a forward based on an expression. The expression type is coupled to the mediaType:
+          <xs:documentation>&lt;p&gt;Selects a forward based on an expression. The expression type is coupled to the mediaType:&lt;/p&gt;
  &lt;ul&gt;
      &lt;li&gt;XML (application/xml) uses Xpath.&lt;/li&gt;
      &lt;li&gt;JSON (application/json) uses jsonPath.&lt;/li&gt;
  &lt;/ul&gt;
- The XML mediaType is the default type. If you want to use JSON, you need to set this using 'mimeType' in the Message.
+
+ &lt;p&gt;The XML mediaType is the default type. If you want to use JSON, you need to set this using 'mimeType' in the Message.&lt;/p&gt;
 
  &lt;h4&gt;Expressions&lt;/h4&gt;
- Expressions are used to select nodes in the given input document. Imagine a collection of books:
+ &lt;p&gt;Expressions are used to select nodes in the given input document. Imagine a collection of books:&lt;/p&gt;
  &lt;pre&gt;&lt;code&gt;{
    &amp;quot;store&amp;quot;: {
      &amp;quot;book&amp;quot;: [
@@ -13154,48 +13155,37 @@
      ]
    }
  }&lt;/code&gt;&lt;/pre&gt;
- &lt;p&gt;
- With both expression languages, you'll be able to select one or multiple nodes from this collection.
- &lt;br/&gt;
- Using this pipe, there are two options. Use it only with an &lt;code&gt;expression&lt;/code&gt; or combine it with an &lt;code&gt;expressionValue&lt;/code&gt;. When using the expression,
- the pipe evaluates to &lt;code&gt;thenForwardName&lt;/code&gt; when &lt;em&gt;there is a match&lt;/em&gt;, even if it is empty. In the given example, this might be one of:
+
+ &lt;p&gt;With both expression languages, you'll be able to select one or multiple nodes from this collection.&lt;/p&gt;
+
+ &lt;p&gt;Using this pipe, there are two options. Use it only with an &lt;code&gt;expression&lt;/code&gt; or combine it with an &lt;code&gt;expressionValue&lt;/code&gt;. When using the expression,
+ the pipe evaluates to &lt;code&gt;thenForwardName&lt;/code&gt; when &lt;em&gt;there is a match&lt;/em&gt;, even if it is empty. In the given example, this might be one of:&lt;/p&gt;
  &lt;pre&gt;&lt;code&gt;$.store
    $.store.book[1]
    $.store.book[?(@.price == 22.99)].author
    $.store.book[?(@.category == 'fiction')]&lt;/code&gt;&lt;/pre&gt;
 
  &lt;h4&gt;expressionValue&lt;/h4&gt;
- When using expression combined with expressionValue, the pipe evaluates to &lt;code&gt;thenForwardName&lt;/code&gt; when &lt;em&gt;the matched value is equal to
- expressionValue&lt;/em&gt;. This needs to be an exact match.
- &lt;br/&gt;
+ &lt;p&gt;When using expression combined with expressionValue, the pipe evaluates to &lt;code&gt;thenForwardName&lt;/code&gt; when &lt;em&gt;the matched value is equal to
+ expressionValue&lt;/em&gt;. This needs to be an exact match.&lt;/p&gt;
 
  &lt;h4&gt;XML/XPATH&lt;/h4&gt;
- Xpath has been around a long time. Information about the syntax can be found everywhere on the internet.
+ &lt;p&gt;Xpath has been around a long time. Information about the syntax can be found everywhere on the internet.
  The XML implementation wraps the Xpath expression in an XSL. This enables us to use complex expressions which evaluate to true or false instead of
  being used only as a selector of nodes in the input XML. This is available to be backwards compatible with the XmlIf pipe.
- For instance, take the following example input:
+ For instance, take the following example input:&lt;/p&gt;
  &lt;pre&gt;&lt;code&gt;&amp;lt;results&amp;gt;
      &amp;lt;result name=&amp;quot;test&amp;quot;&amp;gt;&amp;lt;/result&amp;gt;
      &amp;lt;result name=&amp;quot;test&amp;quot;&amp;gt;&amp;lt;/result&amp;gt;
    &amp;lt;/results&amp;gt;&lt;/code&gt;&lt;/pre&gt;
- Examples with complex expressions might be something like: &lt;code&gt;number(count(/results/result[contains(@name , 'test')])) &amp;gt; 1&lt;/code&gt;, to test if there's more
+
+ &lt;p&gt;Examples with complex expressions might be something like: &lt;code&gt;number(count(/results/result[contains(@name , 'test')])) &amp;gt; 1&lt;/code&gt;, to test if there's more
  than one node found containing the string 'test'. Please check if a simpler, less error-prone expression like
- &lt;code&gt;/results/result[contains(@name, 'test')]&lt;/code&gt; can suffice.
- &lt;p&gt;&lt;/p&gt;
+ &lt;code&gt;/results/result[contains(@name, 'test')]&lt;/code&gt; can suffice.&lt;/p&gt;
 
  &lt;h4&gt;Without expression&lt;/h4&gt;
- Without an expression, the default behaviour is to assume the input is a string. The code will try to match the string to an optional regular expression
- or tries to match the string value to the optional expressionValue.
- &lt;p&gt;&lt;/p&gt;
-
- &lt;h4&gt;Resources&lt;/h4&gt;
- &lt;ul&gt;
-     &lt;li&gt;&lt;a href="https://github.com/json-path/JsonPath"&gt;JsonPath / Jayway implementation including examples&lt;/a&gt;&lt;/li&gt;
-     &lt;li&gt;&lt;a href="https://jsonpath.fly.dev/"&gt;JsonPath online evaluator&lt;/a&gt;&lt;/li&gt;
-     &lt;li&gt;&lt;a href="https://www.w3schools.com/xml/xpath_syntax.asp"&gt;Xpath syntax&lt;/a&gt;&lt;/li&gt;
-     &lt;li&gt;&lt;a href="https://www.freeformatter.com/xpath-tester.html"&gt;Xpath online evaluator&lt;/a&gt;&lt;/li&gt;
-     &lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/XPath"&gt;Xpath information and history&lt;/a&gt;&lt;/li&gt;
- &lt;/ul&gt;</xs:documentation>
+ &lt;p&gt;Without an expression, the default behaviour is to assume the input is a string. The code will try to match the string to an optional regular expression
+ or tries to match the string value to the optional expressionValue.&lt;/p&gt;</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:complexContent>
@@ -13378,6 +13368,18 @@
         <xs:complexType>
           <xs:complexContent>
             <xs:extension base="LadybugPipeType">
+              <xs:attribute name="elementRole" type="xs:string" fixed="pipe" use="prohibited" />
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="LarvaPipe">
+        <xs:annotation>
+          <xs:documentation>Call Larva Test Tool</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension base="LarvaPipeType">
               <xs:attribute name="elementRole" type="xs:string" fixed="pipe" use="prohibited" />
             </xs:extension>
           </xs:complexContent>
@@ -15649,6 +15651,50 @@
   </xs:attributeGroup>
   <xs:attributeGroup name="LadybugPipeCumulativeAttributeGroup">
     <xs:attributeGroup ref="LadybugPipeDeclaredAttributeGroup" />
+    <xs:attributeGroup ref="FixedForwardPipeCumulativeAttributeGroup" />
+  </xs:attributeGroup>
+  <xs:complexType name="LarvaPipeType">
+    <xs:group ref="AbstractPipeDeclaredChildGroup" />
+    <xs:attributeGroup ref="LarvaPipeCumulativeAttributeGroup" />
+    <xs:attribute name="className" type="xs:string" fixed="org.frankframework.pipes.LarvaPipe" use="prohibited" />
+  </xs:complexType>
+  <xs:attributeGroup name="LarvaPipeDeclaredAttributeGroup">
+    <xs:attribute name="writeToLog" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>Default: false</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="writeToSystemOut" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>Default: false</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="execute" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The scenario sub directory to execute</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="logLevel">
+      <xs:annotation>
+        <xs:documentation>the larva log level: one of [debug], [pipeline messages prepared for diff], [pipeline messages], [wrong pipeline messages prepared for diff], [wrong pipeline messages], [step passed/failed], [scenario passed/failed], [scenario failed], [totals], [error] Default: wrong pipeline messages</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:union memberTypes="LarvaLogLevelAttributeValuesType variableRef" />
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="waitBeforeCleanup" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Default: 100ms</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="timeout" type="frankInt">
+      <xs:annotation>
+        <xs:documentation>the larva timeout in milliseconds Default: 10000</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="LarvaPipeCumulativeAttributeGroup">
+    <xs:attributeGroup ref="LarvaPipeDeclaredAttributeGroup" />
     <xs:attributeGroup ref="FixedForwardPipeCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="LdapFindGroupMembershipsPipeType">
@@ -19952,6 +19998,20 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="JSON2XML" />
       <xs:enumeration value="XML2JSON" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="LarvaLogLevelAttributeValuesType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DEBUG" />
+      <xs:enumeration value="PIPELINE_MESSAGES_PREPARED_FOR_DIFF" />
+      <xs:enumeration value="PIPELINE_MESSAGES" />
+      <xs:enumeration value="WRONG_PIPELINE_MESSAGES_PREPARED_FOR_DIFF" />
+      <xs:enumeration value="WRONG_PIPELINE_MESSAGES" />
+      <xs:enumeration value="STEP_PASSED_FAILED" />
+      <xs:enumeration value="SCENARIO_PASSED_FAILED" />
+      <xs:enumeration value="SCENARIO_FAILED" />
+      <xs:enumeration value="TOTALS" />
+      <xs:enumeration value="ERROR" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="DirectionAttributeValuesType_5">
