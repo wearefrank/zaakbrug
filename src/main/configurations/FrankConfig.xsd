@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Public FrankDoc XSD, should be used within an IDE to validate a configuration. -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="9.1.0-20250406.172201">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="9.2.0-20250427.042326">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>Container of Adapters that belong together.
@@ -577,6 +577,11 @@
         <xs:documentation>Timeout (in seconds) of transaction started to process a message. Default: &lt;code&gt;0&lt;/code&gt; (use system default)</xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Name of the sender or the listener</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute ref="datasourceName" />
     <xs:attribute name="authAlias" type="xs:string">
       <xs:annotation>
@@ -599,21 +604,6 @@
       </xs:annotation>
     </xs:attribute>
     <xs:attribute ref="connectionsArePooled" />
-    <xs:attribute ref="authentication" />
-    <xs:attribute ref="credentials" />
-    <xs:attribute ref="initialContextFactoryName" />
-    <xs:attribute ref="providerURL" />
-    <xs:attribute ref="securityProtocol" />
-    <xs:attribute ref="urlPkgPrefixes" />
-    <xs:attribute ref="principal" />
-    <xs:attribute ref="jndiAuthAlias" />
-    <xs:attribute ref="jndiContextPrefix" />
-    <xs:attribute ref="jndiProperties" />
-    <xs:attribute name="name" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>Name of the sender or the listener</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.util.Locker" use="prohibited" />
     <xs:attribute ref="active" />
     <xs:attribute name="elementRole" type="xs:string" fixed="locker" use="prohibited" />
@@ -805,7 +795,7 @@
     <xs:sequence>
       <xs:group ref="JobElementGroup" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
-    <xs:attribute name="className" type="xs:string" fixed="org.frankframework.configuration.ScheduleManager" use="prohibited" />
+    <xs:attribute name="className" type="xs:string" fixed="org.frankframework.scheduler.ScheduleManager" use="prohibited" />
     <xs:attribute ref="active" />
     <xs:attribute name="elementRole" type="xs:string" fixed="scheduler" use="prohibited" />
     <xs:anyAttribute namespace="##other" processContents="skip" />
@@ -1056,6 +1046,22 @@
           </xs:complexContent>
         </xs:complexType>
       </xs:element>
+      <xs:element name="JsonParam">
+        <xs:annotation>
+          <xs:documentation>A parameter which represents its value as a Message with mimetype `application/json`. If the
+ derived value was of type `application/xml` then it will be converted into JSON using the same rules as the
+ org.frankframework.pipes.JsonPipe.
+ If the derived value of the parameter was neither XML nor JSON format then a JSON will be constructed that looks like
+ &lt;code&gt;{&amp;quot;paramName&amp;quot;:value}&lt;/code&gt;. (The value will be quoted if it was not a number or boolean value).</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension base="JsonParameterType">
+              <xs:attribute name="elementRole" type="xs:string" fixed="param" use="prohibited" />
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="NumberParam">
         <xs:complexType>
           <xs:complexContent>
@@ -1110,13 +1116,13 @@
     </xs:attribute>
     <xs:attribute name="value" type="xs:string">
       <xs:annotation>
-        <xs:documentation>The value of the parameter, or the base for transformation using xpathExpression or stylesheet, or formatting.</xs:documentation>
+        <xs:documentation>The value of the parameter, or the base for transformation using xpathExpression, jpathExpression or stylesheet, or formatting.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="sessionKey" type="xs:string">
       <xs:annotation>
         <xs:documentation>Key of a PipelineSession-variable. &lt;br/&gt;If specified, the value of the PipelineSession variable is used as input for
- the xpathExpression or stylesheet, instead of the current input message. &lt;br/&gt;If no xpathExpression or stylesheet are
+ the xpathExpression, jpathExpression or stylesheet, instead of the current input message. &lt;br/&gt;If no xpathExpression, jpathExpression or stylesheet are
  specified, the value itself is returned. &lt;br/&gt;If the value '*' is specified, all existing sessionkeys are added as
  parameter of which the name starts with the name of this parameter. &lt;br/&gt;If also the name of the parameter has the
  value '*' then all existing sessionkeys are added as parameter (except tsReceived)</xs:documentation>
@@ -1132,6 +1138,11 @@
         <xs:documentation>Instead of a fixed &lt;code&gt;sessionKey&lt;/code&gt; it's also possible to use a XPath expression applied to the input message to extract the name of the session-variable.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="sessionKeyJPath" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Instead of a fixed &lt;code&gt;sessionKey&lt;/code&gt; it's also possible to use a JPath expression applied to the input message to extract the name of the session-variable.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="styleSheetName" type="xs:string">
       <xs:annotation>
         <xs:documentation>URL to a stylesheet that wil be applied to the contents of the message or the value of the session-variable.</xs:documentation>
@@ -1140,6 +1151,14 @@
     <xs:attribute name="xpathExpression" type="xs:string">
       <xs:annotation>
         <xs:documentation>the XPath expression to extract the parameter value from the (xml formatted) input or session-variable.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="jsonPathExpression" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The JPath expression to extract the parameter value from the input or session-variable.
+ The input should be JSON or XML formatted, if it is XML formatter a simple XML-to-JSON conversion is done.
+ When &lt;code&gt;jsonPathExpression&lt;/code&gt; is set, then the value of the parameter will be derived using the same order
+ of precedence as with &lt;code&gt;xpathExpression&lt;/code&gt;.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="xsltVersion" type="frankInt">
@@ -1269,6 +1288,11 @@
     <xs:attributeGroup ref="DateParameterDeclaredAttributeGroup" />
     <xs:attributeGroup ref="AbstractParameterDeclaredAttributeGroup" />
   </xs:attributeGroup>
+  <xs:complexType name="JsonParameterType">
+    <xs:group ref="AbstractParameterDeclaredChildGroup" />
+    <xs:attributeGroup ref="AbstractParameterDeclaredAttributeGroup" />
+    <xs:attribute name="className" type="xs:string" fixed="org.frankframework.parameters.JsonParameter" use="prohibited" />
+  </xs:complexType>
   <xs:complexType name="NumberParameterType">
     <xs:group ref="AbstractParameterDeclaredChildGroup" />
     <xs:attributeGroup ref="NumberParameterCumulativeAttributeGroup" />
@@ -2657,21 +2681,53 @@
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jndi.JndiBase" use="prohibited" />
   </xs:complexType>
   <xs:attributeGroup name="JndiBaseDeclaredAttributeGroup">
-    <xs:attribute ref="authentication" />
-    <xs:attribute ref="credentials" />
-    <xs:attribute ref="initialContextFactoryName" />
-    <xs:attribute ref="providerURL" />
-    <xs:attribute ref="securityProtocol" />
-    <xs:attribute ref="urlPkgPrefixes" />
+    <xs:attribute name="authentication" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>maps to the field context.security_authentication</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="credentials" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>username to connect to context, maps to context.security_credentials</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="initialContextFactoryName" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>class to use as initial context factory</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="providerURL" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Sets the value of providerURL</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="securityProtocol" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>maps to the field context.security_protocol</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="urlPkgPrefixes" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>maps to the field context.url_pkg_prefixes</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="jmsRealm" type="xs:string">
       <xs:annotation>
         <xs:documentation>loads JNDI (and other) properties from a JmsRealm</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute ref="principal" />
-    <xs:attribute ref="jndiAuthAlias" />
-    <xs:attribute ref="jndiContextPrefix" />
-    <xs:attribute ref="jndiProperties" />
+    <xs:attribute name="principal" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>username to connect to context, maps to context.security_principal</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="jndiAuthAlias" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>authentication alias, may be used to override principal and credential-settings</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="jndiContextPrefix" type="xs:string" />
+    <xs:attribute name="jndiProperties" type="xs:string" />
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
         <xs:documentation>Name of the sender or the listener</xs:documentation>
@@ -3282,13 +3338,18 @@
   </xs:attributeGroup>
   <xs:attributeGroup name="JdbcListenerCumulativeAttributeGroup">
     <xs:attributeGroup ref="JdbcListenerDeclaredAttributeGroup" />
-    <xs:attributeGroup ref="JdbcFacadeCumulativeAttributeGroup" />
+    <xs:attributeGroup ref="JdbcFacadeDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="JdbcFacadeType">
-    <xs:attributeGroup ref="JdbcFacadeCumulativeAttributeGroup" />
+    <xs:attributeGroup ref="JdbcFacadeDeclaredAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jdbc.JdbcFacade" use="prohibited" />
   </xs:complexType>
   <xs:attributeGroup name="JdbcFacadeDeclaredAttributeGroup">
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Name of the sender or the listener</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute ref="datasourceName" />
     <xs:attribute name="authAlias" type="xs:string">
       <xs:annotation>
@@ -3311,24 +3372,6 @@
       </xs:annotation>
     </xs:attribute>
     <xs:attribute ref="connectionsArePooled" />
-  </xs:attributeGroup>
-  <xs:attributeGroup name="JdbcFacadeCumulativeAttributeGroup">
-    <xs:attributeGroup ref="JdbcFacadeDeclaredAttributeGroup" />
-    <xs:attribute ref="authentication" />
-    <xs:attribute ref="credentials" />
-    <xs:attribute ref="initialContextFactoryName" />
-    <xs:attribute ref="providerURL" />
-    <xs:attribute ref="securityProtocol" />
-    <xs:attribute ref="urlPkgPrefixes" />
-    <xs:attribute ref="principal" />
-    <xs:attribute ref="jndiAuthAlias" />
-    <xs:attribute ref="jndiContextPrefix" />
-    <xs:attribute ref="jndiProperties" />
-    <xs:attribute name="name" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>Name of the sender or the listener</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
     <xs:attribute ref="active" />
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
@@ -3512,7 +3555,7 @@
     </xs:attribute>
     <xs:attribute ref="additionalFields" />
     <xs:attribute ref="trace" />
-    <xs:attributeGroup ref="JdbcFacadeCumulativeAttributeGroup" />
+    <xs:attributeGroup ref="JdbcFacadeDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="MqttListenerType">
     <xs:attributeGroup ref="MqttFacadeDeclaredAttributeGroup" />
@@ -3887,7 +3930,7 @@
   </xs:attributeGroup>
   <xs:attributeGroup name="SimpleJdbcListenerCumulativeAttributeGroup">
     <xs:attributeGroup ref="SimpleJdbcListenerDeclaredAttributeGroup" />
-    <xs:attributeGroup ref="JdbcFacadeCumulativeAttributeGroup" />
+    <xs:attributeGroup ref="JdbcFacadeDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="TibcoLogJmsListenerType">
     <xs:group ref="AbstractJmsListenerDeclaredChildGroup" />
@@ -4487,7 +4530,7 @@
   </xs:attributeGroup>
   <xs:attributeGroup name="AbstractJdbcMessageBrowserCumulativeAttributeGroup">
     <xs:attributeGroup ref="AbstractJdbcMessageBrowserDeclaredAttributeGroup" />
-    <xs:attributeGroup ref="JdbcFacadeCumulativeAttributeGroup" />
+    <xs:attributeGroup ref="JdbcFacadeDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:group name="MessageLogElementGroup">
     <xs:choice>
@@ -8843,7 +8886,7 @@
   </xs:attributeGroup>
   <xs:attributeGroup name="AbstractJdbcSenderCumulativeAttributeGroup">
     <xs:attributeGroup ref="AbstractJdbcSenderDeclaredAttributeGroup" />
-    <xs:attributeGroup ref="JdbcFacadeCumulativeAttributeGroup" />
+    <xs:attributeGroup ref="JdbcFacadeDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:attributeGroup name="AbstractJdbcQuerySenderDeclaredAttributeGroup">
     <xs:attribute ref="packageContent" />
@@ -11991,11 +12034,6 @@
         <xs:documentation>JNDI name of datasource to be used, can be configured via jmsRealm, too Default: &lt;code&gt;jdbc.datasource.default&lt;/code&gt;</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="jmsRealm" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>loads JNDI (and other) properties from a JmsRealm</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
   </xs:attributeGroup>
   <xs:attributeGroup name="Result2LobWriterBaseCumulativeAttributeGroup">
     <xs:attributeGroup ref="Result2LobWriterBaseDeclaredAttributeGroup" />
@@ -13113,15 +13151,16 @@
       </xs:element>
       <xs:element name="IfPipe">
         <xs:annotation>
-          <xs:documentation>Selects a forward based on an expression. The expression type is coupled to the mediaType:
+          <xs:documentation>&lt;p&gt;Selects a forward based on an expression. The expression type is coupled to the mediaType:&lt;/p&gt;
  &lt;ul&gt;
      &lt;li&gt;XML (application/xml) uses Xpath.&lt;/li&gt;
      &lt;li&gt;JSON (application/json) uses jsonPath.&lt;/li&gt;
  &lt;/ul&gt;
- The XML mediaType is the default type. If you want to use JSON, you need to set this using 'mimeType' in the Message.
+
+ &lt;p&gt;The XML mediaType is the default type. If you want to use JSON, you need to set this using 'mimeType' in the Message.&lt;/p&gt;
 
  &lt;h4&gt;Expressions&lt;/h4&gt;
- Expressions are used to select nodes in the given input document. Imagine a collection of books:
+ &lt;p&gt;Expressions are used to select nodes in the given input document. Imagine a collection of books:&lt;/p&gt;
  &lt;pre&gt;&lt;code&gt;{
    &amp;quot;store&amp;quot;: {
      &amp;quot;book&amp;quot;: [
@@ -13154,48 +13193,37 @@
      ]
    }
  }&lt;/code&gt;&lt;/pre&gt;
- &lt;p&gt;
- With both expression languages, you'll be able to select one or multiple nodes from this collection.
- &lt;br/&gt;
- Using this pipe, there are two options. Use it only with an &lt;code&gt;expression&lt;/code&gt; or combine it with an &lt;code&gt;expressionValue&lt;/code&gt;. When using the expression,
- the pipe evaluates to &lt;code&gt;thenForwardName&lt;/code&gt; when &lt;em&gt;there is a match&lt;/em&gt;, even if it is empty. In the given example, this might be one of:
+
+ &lt;p&gt;With both expression languages, you'll be able to select one or multiple nodes from this collection.&lt;/p&gt;
+
+ &lt;p&gt;Using this pipe, there are two options. Use it only with an &lt;code&gt;expression&lt;/code&gt; or combine it with an &lt;code&gt;expressionValue&lt;/code&gt;. When using the expression,
+ the pipe evaluates to &lt;code&gt;thenForwardName&lt;/code&gt; when &lt;em&gt;there is a match&lt;/em&gt;, even if it is empty. In the given example, this might be one of:&lt;/p&gt;
  &lt;pre&gt;&lt;code&gt;$.store
    $.store.book[1]
    $.store.book[?(@.price == 22.99)].author
    $.store.book[?(@.category == 'fiction')]&lt;/code&gt;&lt;/pre&gt;
 
  &lt;h4&gt;expressionValue&lt;/h4&gt;
- When using expression combined with expressionValue, the pipe evaluates to &lt;code&gt;thenForwardName&lt;/code&gt; when &lt;em&gt;the matched value is equal to
- expressionValue&lt;/em&gt;. This needs to be an exact match.
- &lt;br/&gt;
+ &lt;p&gt;When using expression combined with expressionValue, the pipe evaluates to &lt;code&gt;thenForwardName&lt;/code&gt; when &lt;em&gt;the matched value is equal to
+ expressionValue&lt;/em&gt;. This needs to be an exact match.&lt;/p&gt;
 
  &lt;h4&gt;XML/XPATH&lt;/h4&gt;
- Xpath has been around a long time. Information about the syntax can be found everywhere on the internet.
+ &lt;p&gt;Xpath has been around a long time. Information about the syntax can be found everywhere on the internet.
  The XML implementation wraps the Xpath expression in an XSL. This enables us to use complex expressions which evaluate to true or false instead of
  being used only as a selector of nodes in the input XML. This is available to be backwards compatible with the XmlIf pipe.
- For instance, take the following example input:
+ For instance, take the following example input:&lt;/p&gt;
  &lt;pre&gt;&lt;code&gt;&amp;lt;results&amp;gt;
      &amp;lt;result name=&amp;quot;test&amp;quot;&amp;gt;&amp;lt;/result&amp;gt;
      &amp;lt;result name=&amp;quot;test&amp;quot;&amp;gt;&amp;lt;/result&amp;gt;
    &amp;lt;/results&amp;gt;&lt;/code&gt;&lt;/pre&gt;
- Examples with complex expressions might be something like: &lt;code&gt;number(count(/results/result[contains(@name , 'test')])) &amp;gt; 1&lt;/code&gt;, to test if there's more
+
+ &lt;p&gt;Examples with complex expressions might be something like: &lt;code&gt;number(count(/results/result[contains(@name , 'test')])) &amp;gt; 1&lt;/code&gt;, to test if there's more
  than one node found containing the string 'test'. Please check if a simpler, less error-prone expression like
- &lt;code&gt;/results/result[contains(@name, 'test')]&lt;/code&gt; can suffice.
- &lt;p&gt;&lt;/p&gt;
+ &lt;code&gt;/results/result[contains(@name, 'test')]&lt;/code&gt; can suffice.&lt;/p&gt;
 
  &lt;h4&gt;Without expression&lt;/h4&gt;
- Without an expression, the default behaviour is to assume the input is a string. The code will try to match the string to an optional regular expression
- or tries to match the string value to the optional expressionValue.
- &lt;p&gt;&lt;/p&gt;
-
- &lt;h4&gt;Resources&lt;/h4&gt;
- &lt;ul&gt;
-     &lt;li&gt;&lt;a href="https://github.com/json-path/JsonPath"&gt;JsonPath / Jayway implementation including examples&lt;/a&gt;&lt;/li&gt;
-     &lt;li&gt;&lt;a href="https://jsonpath.fly.dev/"&gt;JsonPath online evaluator&lt;/a&gt;&lt;/li&gt;
-     &lt;li&gt;&lt;a href="https://www.w3schools.com/xml/xpath_syntax.asp"&gt;Xpath syntax&lt;/a&gt;&lt;/li&gt;
-     &lt;li&gt;&lt;a href="https://www.freeformatter.com/xpath-tester.html"&gt;Xpath online evaluator&lt;/a&gt;&lt;/li&gt;
-     &lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/XPath"&gt;Xpath information and history&lt;/a&gt;&lt;/li&gt;
- &lt;/ul&gt;</xs:documentation>
+ &lt;p&gt;Without an expression, the default behaviour is to assume the input is a string. The code will try to match the string to an optional regular expression
+ or tries to match the string value to the optional expressionValue.&lt;/p&gt;</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:complexContent>
@@ -13383,29 +13411,38 @@
           </xs:complexContent>
         </xs:complexType>
       </xs:element>
+      <xs:element name="LarvaPipe">
+        <xs:annotation>
+          <xs:documentation>Call Larva Test Tool</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension base="LarvaPipeType">
+              <xs:attribute name="elementRole" type="xs:string" fixed="pipe" use="prohibited" />
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="LdapFindGroupMembershipsPipe">
         <xs:annotation>
-          <xs:documentation>Pipe that returns the memberships of a userDN.
- The input is a fullDn, of a user or a group.
- &lt;br/&gt;
- Sample result:&lt;br/&gt;&lt;code&gt;&lt;pre&gt;
-	&amp;lt;ldap&amp;gt;
-	 &amp;lt;entry name="CN=xxyyzz,OU=Users,DC=domain,DC=ext"&amp;gt;
-	   &amp;lt;attributes&amp;gt;
-	    &amp;lt;attribute&amp;gt;
-	    &amp;lt;attribute name="memberOf" value="Extern"/&amp;gt;
-	    &amp;lt;attribute name="departmentCode" value="358000"/&amp;gt;
-	    &amp;lt;attribute name="organizationalHierarchy"&amp;gt;
-	        &amp;lt;item value="ou=zzyyxx"/&amp;gt;
-	        &amp;lt;item value="ou=OPS&amp;amp;IT,ou=Group,ou=domain,o=ext"/&amp;gt;
-	    &amp;lt;/attribute&gt;
-	    &amp;lt;attribute name="givenName" value="Gerrit"/&gt;
-	   &amp;lt;/attributes&amp;gt;
-	  &amp;lt;/entry&amp;gt;
-   &amp;lt;entry&amp;gt; .... &amp;lt;/entry&amp;gt;
-   .....
-	&amp;lt;/ldap&amp;gt;
- &lt;/pre&gt;&lt;/code&gt; &lt;br/&gt;</xs:documentation>
+          <xs:documentation>&lt;p&gt;Pipe that returns the memberships of a userDN. The input is a fullDn, of a user or a group.&lt;/p&gt;
+ &lt;p&gt;Sample result:&lt;/p&gt;
+
+ &lt;pre&gt;&lt;code&gt;&amp;lt;ldap&amp;gt;
+     &amp;lt;entry name=&amp;quot;CN=xxyyzz,OU=Users,DC=domain,DC=ext&amp;quot;&amp;gt;
+         &amp;lt;attributes&amp;gt;
+             &amp;lt;attribute&amp;gt;
+             &amp;lt;attribute name=&amp;quot;memberOf&amp;quot; value=&amp;quot;Extern&amp;quot;/&amp;gt;
+             &amp;lt;attribute name=&amp;quot;departmentCode&amp;quot; value=&amp;quot;358000&amp;quot;/&amp;gt;
+             &amp;lt;attribute name=&amp;quot;organizationalHierarchy&amp;quot;&amp;gt;
+                 &amp;lt;item value=&amp;quot;ou=zzyyxx&amp;quot;/&amp;gt;
+                 &amp;lt;item value=&amp;quot;ou=OPS&amp;amp;IT,ou=Group,ou=domain,o=ext&amp;quot;/&amp;gt;
+             &amp;lt;/attribute&amp;gt;
+             &amp;lt;attribute name=&amp;quot;givenName&amp;quot; value=&amp;quot;Gerrit&amp;quot;&amp;gt;
+         &amp;lt;/attributes&amp;gt;
+     &amp;lt;/entry&amp;gt;
+     &amp;lt;entry&amp;gt; .... &amp;lt;/entry&amp;gt;
+ &amp;lt;/ldap&amp;gt;&lt;/code&gt;&lt;/pre&gt;</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:complexContent>
@@ -15649,6 +15686,50 @@
   </xs:attributeGroup>
   <xs:attributeGroup name="LadybugPipeCumulativeAttributeGroup">
     <xs:attributeGroup ref="LadybugPipeDeclaredAttributeGroup" />
+    <xs:attributeGroup ref="FixedForwardPipeCumulativeAttributeGroup" />
+  </xs:attributeGroup>
+  <xs:complexType name="LarvaPipeType">
+    <xs:group ref="AbstractPipeDeclaredChildGroup" />
+    <xs:attributeGroup ref="LarvaPipeCumulativeAttributeGroup" />
+    <xs:attribute name="className" type="xs:string" fixed="org.frankframework.pipes.LarvaPipe" use="prohibited" />
+  </xs:complexType>
+  <xs:attributeGroup name="LarvaPipeDeclaredAttributeGroup">
+    <xs:attribute name="writeToLog" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>Default: false</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="writeToSystemOut" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>Default: false</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="execute" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The scenario sub directory to execute</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="logLevel">
+      <xs:annotation>
+        <xs:documentation>the larva log level: one of [debug], [pipeline messages prepared for diff], [pipeline messages], [wrong pipeline messages prepared for diff], [wrong pipeline messages], [step passed/failed], [scenario passed/failed], [scenario failed], [totals], [error] Default: wrong pipeline messages</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:union memberTypes="LarvaLogLevelAttributeValuesType variableRef" />
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="waitBeforeCleanup" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Default: 100ms</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="timeout" type="frankInt">
+      <xs:annotation>
+        <xs:documentation>the larva timeout in milliseconds Default: 10000</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="LarvaPipeCumulativeAttributeGroup">
+    <xs:attributeGroup ref="LarvaPipeDeclaredAttributeGroup" />
     <xs:attributeGroup ref="FixedForwardPipeCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="LdapFindGroupMembershipsPipeType">
@@ -18947,6 +19028,15 @@
  DEPRECATED: Type LIST can also be used in larva test to Convert a List to an xml-string (&amp;lt;items&amp;gt;&amp;lt;item&amp;gt;...&amp;lt;/item&amp;gt;&amp;lt;item&amp;gt;...&amp;lt;/item&amp;gt;&amp;lt;/items&amp;gt;)</xs:documentation>
         </xs:annotation>
       </xs:enumeration>
+      <xs:enumeration value="JSON">
+        <xs:annotation>
+          <xs:documentation>A parameter which represents its value as a Message with mimetype `application/json`. If the
+ derived value was of type `application/xml` then it will be converted into JSON using the same rules as the
+ org.frankframework.pipes.JsonPipe.
+ If the derived value of the parameter was neither XML nor JSON format then a JSON will be constructed that looks like
+ &lt;code&gt;{&amp;quot;paramName&amp;quot;:value}&lt;/code&gt;. (The value will be quoted if it was not a number or boolean value).</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="XmlTypeAttributeValuesType">
@@ -19954,6 +20044,20 @@
       <xs:enumeration value="XML2JSON" />
     </xs:restriction>
   </xs:simpleType>
+  <xs:simpleType name="LarvaLogLevelAttributeValuesType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DEBUG" />
+      <xs:enumeration value="PIPELINE_MESSAGES_PREPARED_FOR_DIFF" />
+      <xs:enumeration value="PIPELINE_MESSAGES" />
+      <xs:enumeration value="WRONG_PIPELINE_MESSAGES_PREPARED_FOR_DIFF" />
+      <xs:enumeration value="WRONG_PIPELINE_MESSAGES" />
+      <xs:enumeration value="STEP_PASSED_FAILED" />
+      <xs:enumeration value="SCENARIO_PASSED_FAILED" />
+      <xs:enumeration value="SCENARIO_FAILED" />
+      <xs:enumeration value="TOTALS" />
+      <xs:enumeration value="ERROR" />
+    </xs:restriction>
+  </xs:simpleType>
   <xs:simpleType name="DirectionAttributeValuesType_5">
     <xs:restriction base="xs:string">
       <xs:enumeration value="OBFUSCATE" />
@@ -20247,48 +20351,6 @@
       <xs:documentation>If set &lt;code&gt;false&lt;/code&gt;, the destinationName is used directly instead of performing a JNDI lookup Default: true</xs:documentation>
     </xs:annotation>
   </xs:attribute>
-  <xs:attribute name="authentication" type="xs:string">
-    <xs:annotation>
-      <xs:documentation>maps to the field context.security_authentication</xs:documentation>
-    </xs:annotation>
-  </xs:attribute>
-  <xs:attribute name="credentials" type="xs:string">
-    <xs:annotation>
-      <xs:documentation>username to connect to context, maps to context.security_credentials</xs:documentation>
-    </xs:annotation>
-  </xs:attribute>
-  <xs:attribute name="initialContextFactoryName" type="xs:string">
-    <xs:annotation>
-      <xs:documentation>class to use as initial context factory</xs:documentation>
-    </xs:annotation>
-  </xs:attribute>
-  <xs:attribute name="providerURL" type="xs:string">
-    <xs:annotation>
-      <xs:documentation>Sets the value of providerURL</xs:documentation>
-    </xs:annotation>
-  </xs:attribute>
-  <xs:attribute name="securityProtocol" type="xs:string">
-    <xs:annotation>
-      <xs:documentation>maps to the field context.security_protocol</xs:documentation>
-    </xs:annotation>
-  </xs:attribute>
-  <xs:attribute name="urlPkgPrefixes" type="xs:string">
-    <xs:annotation>
-      <xs:documentation>maps to the field context.url_pkg_prefixes</xs:documentation>
-    </xs:annotation>
-  </xs:attribute>
-  <xs:attribute name="principal" type="xs:string">
-    <xs:annotation>
-      <xs:documentation>username to connect to context, maps to context.security_principal</xs:documentation>
-    </xs:annotation>
-  </xs:attribute>
-  <xs:attribute name="jndiAuthAlias" type="xs:string">
-    <xs:annotation>
-      <xs:documentation>authentication alias, may be used to override principal and credential-settings</xs:documentation>
-    </xs:annotation>
-  </xs:attribute>
-  <xs:attribute name="jndiContextPrefix" type="xs:string" />
-  <xs:attribute name="jndiProperties" type="xs:string" />
   <xs:attribute name="peekUntransacted" type="frankBoolean">
     <xs:annotation>
       <xs:documentation>when true, then PollingListener container will execute getRawMessage() only when hasRawMessageAvailable() has returned true. This avoids rolling back a lot of XA transactions, that appears to be problematic on MS SQL Server Default: true</xs:documentation>
