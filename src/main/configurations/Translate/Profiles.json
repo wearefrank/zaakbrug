@@ -1,5 +1,4 @@
 {
-    "profileDefaults": {},
     "profile": [
         {
             "zaakTypeIdentificatie": "B9999",
@@ -11,19 +10,19 @@
             }
         },
         {
-            "zaakTypeIdentificatie": "B1210",
+            "zaakTypeIdentificatie": "B1211",
             "endDateAndResultLastStatus": {
                 "coalesceResultaat":"Vergunningvrij" 
             }
         },
         {
-            "zaakTypeIdentificatie": "B1026",
+            "zaakTypeIdentificatie": "B1027",
             "endCaseEndDate": {
                 "coalesceResultaat": "Toegekend"
             }
         },
         {
-            "zaakTypeIdentificatie": "B0208",
+            "zaakTypeIdentificatie": "B0209",
             "endCaseEndDate": {
                 "coalesceResultaat":"Uitgereikt" 
             },
@@ -59,6 +58,35 @@
             "endDateAndResultLastStatus": {
                 "coalesceResultaat": "Gave a thing"
             }
+        },
+        {
+            "zaakTypeIdentificatie": "VO-A",
+            "valueOverrides": [
+            {
+                "key": "zgw.zaken-api.zaken.zaak.betalingsindicatie",
+                "value": "nvt"
+            },
+            {
+                "key": "zgw.zaken-api.rollen.rol.betrokkeneIdentificatie.geslachtsnaam",
+                "value": "fromValueOverride",
+                "condition": "true()"
+            },
+            {
+                "key": "zgw.zaken-api.rollen.rol.betrokkeneIdentificatie.annIdentificatie",
+                "value": "${extraElementen:kvkNummer}",
+                "condition": "//betrokkeneType = 'niet_natuurlijk_persoon'"
+            },
+            {
+                "key": "zgw.zaken-api.rollen.rol.betrokkeneIdentificatie.anpIdentificatie",
+                "value": "${extraElementen:kvkNummer}",
+                "condition": "//betrokkeneType = 'natuurlijk_persoon'"
+            },
+            {
+                "key": "zgw.zaken-api.zaken.zaak.vertrouwelijkheidaanduiding",
+                "value": "${extraElementen:vertrouwelijkheidaanduiding}",
+                "condition": "true()"
+            }
+            ]
         }
     ]
 }

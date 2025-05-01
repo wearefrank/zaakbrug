@@ -1,0 +1,52 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="RelevanteAndereZaakCheck"
+        active="${RelevanteAndereZaakCheck.Active}"
+        description="">
+
+        <Receiver name="RelevanteAndereZaakCheck">
+            <JavaListener name="RelevanteAndereZaakCheck" returnedSessionKeys="Error" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <XmlIfPipe 
+                name="CheckIfMainZaakRelatedToAndereZaak"
+                getInputFromSessionKey="ZgwMainZaakResult"
+                xpathExpression="/ZgwZaak/relevanteAndereZaken/url = $AndereZaakUrl">
+                <Param name="AndereZaakUrl" xpathExpression="$ZgwAndereZaakResult/ZgwZaak/url">
+                    <Param name="ZgwAndereZaakResult" sessionKey="ZgwAndereZaakResult" type="DOMDOC"/>
+                </Param>
+                <Forward name="then" path="EXIT" />
+                <Forward name="else" path="LogWarningMainZaakNotRelatedToAndereZaak" />
+            </XmlIfPipe>
+
+            <SenderPipe
+                name="LogWarningMainZaakNotRelatedToAndereZaak"
+                >
+                <LogSender
+                    name="LogWarningSender"
+                    >
+                </LogSender>
+                <Forward name="success" path="CallRelevanteAndereZaakAdd" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallRelevanteAndereZaakAdd" 
+                getInputFromFixedValue="&lt;dummy/&gt;">
+                <IbisLocalSender
+                    name="CallRelevanteAndereZaakAddSender"
+                    javaListener="RelevanteAndereZaakAdd"
+                    returnedSessionKeys="Error">
+                    <Param name="ZgwMainZaakResult" sessionKey="ZgwMainZaakResult"/>
+                    <Param name="ZgwAndereZaakResult" sessionKey="ZgwAndereZaakResult"/>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

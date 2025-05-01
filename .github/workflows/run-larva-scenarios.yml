@@ -1,0 +1,104 @@
+name: Run Larva Scenarios
+
+on:
+  workflow_call:
+    inputs:
+      image-id:
+        type: string
+        description: >
+          Docker image id of the loaded image to use.
+
+          Note that the Docker image needs to be available to the Docker runtime already.
+        required: false
+      docker-image-tag:
+        type: string
+        description: >
+          Docker image tag of the loaded image to use. For example: 'wearefrank/zaakbrug:1.2.0'.
+
+          Note that the Docker image needs to be available to the Docker runtime already.
+        required: false
+
+jobs:
+  run-larva-scenarios:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #4.2.2
+
+      - name: Download Docker tar
+        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e #4.2.1
+        with:
+          name: build-docker-image
+
+      - name: Load Docker tar
+        shell: bash
+        run: |
+          docker load --input image.tar
+          docker image ls -a
+
+      - name: Start Application
+        id: docker-run
+        shell: bash
+        run: |
+          echo "container-id=$(docker run -d -p 8080:8080 -e dtap.stage=LOC ${{ inputs.image-id || inputs.docker-image-tag }})" >> "$GITHUB_OUTPUT"
+        timeout-minutes: 2
+
+      - name: Wait for Application to be Healthy
+        shell: bash
+        run: |
+          start_time=$(date +%s)
+          timeout=300
+          while true; do
+            if [ "$(docker inspect --format='{{json .State.Health.Status}}' ${{steps.docker-run.outputs.container-id}})" = '"healthy"' ]; then
+              echo "Application is healthy."
+              break
+            fi
+            current_time=$(date +%s)
+            elapsed_time=$((current_time - start_time))
+            if [ $elapsed_time -ge $timeout ]; then
+              echo "Application did not become healthy within $timeout seconds. Failing the job."
+              exit 1
+            fi
+            echo "Waiting for application to be healthy..."
+            sleep 5
+          done
+        timeout-minutes: 6
+
+      - name: Trigger Larva Tool
+        shell: bash
+        run: |
+          curl -X POST 'http://localhost:8080/iaf/larva/index.jsp' \
+            --header 'Content-Type: application/x-www-form-urlencoded' \
+            --data-urlencode 'scenariosrootdirectory=/opt/frank/testtool' \
+            --data-urlencode 'waitbeforecleanup=100' \
+            --data-urlencode 'loglevel=WRONG_PIPELINE_MESSAGES_PREPARED_FOR_DIFF' \
+            --data-urlencode 'execute=/opt/frank/testtool' \
+            --data-urlencode 'submit=start' > results.html
+
+      - name: Check if all scenarios passed
+        shell: bash
+        run: |
+          if ! grep -q 'All scenarios passed' results.html; then
+            echo "Not all scenarios passed. Failing the job."
+            exit 1
+          fi
+
+      - name: Generate Result in Markdown
+        uses: docker://pandoc/core:3.5
+        if: ${{ always() }}
+        with:
+          args: -s results.html --from html -o results.md --to gfm --standalone
+      
+      - name: Upload Larva Test Results as an Artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 #4.6.2
+        if: ${{ always() }}
+        with:
+          name: larva-test-results
+          path: results.md
+
+      - name: Cleanup
+        shell: bash
+        if: ${{ always() }}
+        run: |
+          docker stop ${{ steps.docker-run.outputs.container-id }}
+          docker rm --volumes ${{ steps.docker-run.outputs.container-id }}

@@ -3,10 +3,10 @@
 
     <xsl:template match="/">
         <xsl:choose>
-            <xsl:when test="role/gerelateerde[@verwerkingssoort='T']">New</xsl:when>
-            <xsl:when test="role/gerelateerde[@verwerkingssoort='V']">Delete</xsl:when>
-            <xsl:when test="role/gerelateerde[@verwerkingssoort='W']">Changed</xsl:when>
-            <xsl:when test="role/gerelateerde[@verwerkingssoort='I']">Check</xsl:when>
+            <xsl:when test="/*[@*:verwerkingssoort='T']">New</xsl:when>
+            <xsl:when test="/*[@*:verwerkingssoort='V']">Delete</xsl:when>
+            <xsl:when test="/*[@*:verwerkingssoort='W']">Changed</xsl:when>
+            <xsl:when test="/*[@*:verwerkingssoort='I']">Check</xsl:when>
             <xsl:otherwise>Exit</xsl:otherwise>
         </xsl:choose>
     </xsl:template>

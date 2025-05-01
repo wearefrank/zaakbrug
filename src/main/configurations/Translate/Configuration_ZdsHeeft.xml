@@ -4,7 +4,7 @@
         description="Handle each ZdsHeeft">
 
         <Receiver name="ZdsHeeftAdapter">
-            <JavaListener name="ZdsHeeftAdapter" returnedSessionKeys="NewStatuses,Beeindigd,Error" />
+            <JavaListener name="ZdsHeeftAdapter" returnedSessionKeys="NewStatuses,Error" />
         </Receiver>
 
         <Pipeline>
@@ -54,7 +54,7 @@
                 storeResultInSessionKey="GetStatusTypeByZaakTypeAndOmschrijvingResult"
                 >
                 <Forward name="success" path="CreateStatusBody"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <XsltPipe
@@ -68,13 +68,13 @@
                 <Param name="Zaak" sessionKey="ZaakUrl"/>
                 <Param name="ZdsEinddatum" sessionKey="Einddatum"  defaultValue="Undefined"/>
                 <Param name="ZdsStatusDatum" xpathExpression="heeft/datumStatusGezet"/>
-                <Forward name="success" path="SetBeeindigdIfIsEindstatus"/>
+                <Forward name="success" path="SetIfIncomingStatusIsEindstatus"/>
             </XsltPipe>
 
             <XsltPipe
-                name="SetBeeindigdIfIsEindstatus"
-                storeResultInSessionKey="Beeindigd"
-                styleSheetName="CreeerZaak_LK01/xsl/SetBeeindigdIfIsEindstatus.xslt"
+                name="SetIfIncomingStatusIsEindstatus"
+                storeResultInSessionKey="IsIncomingStatusEindStatus"
+                styleSheetName="CreeerZaak_LK01/xsl/SetIfIncomingStatusIsEindstatus.xslt"
                 >
                 <Param name="IsEindstatus" sessionKey="GetStatusTypeByZaakTypeAndOmschrijvingResult" type="DOMDOC"/>
                 <Forward name="success" path="PutStatusExistsInSession"/>
@@ -83,14 +83,14 @@
             <PutInSessionPipe name="PutStatusExistsInSession"
                 sessionKey="StatusExists" 
                 value="&lt;statusExists&gt;false&lt;/statusExists&gt;">
-                <Forward name="success" path="CheckForBeeindigd" />
+                <Forward name="success" path="CheckForIncomingStatusIsEindstatus" />
             </PutInSessionPipe> 
 
-            <XmlIfPipe name="CheckForBeeindigd"
-                getInputFromSessionKey="Beeindigd"
-                xpathExpression="/beeindigd = 'true'"
-                thenForwardName="CheckIfActualiseerZaakStatus"
-                elseForwardName="CompareDatumStatusGezet">
+            <XmlIfPipe name="CheckForIncomingStatusIsEindstatus"
+                getInputFromSessionKey="IsIncomingStatusEindStatus"
+                xpathExpression="/beeindigd = 'true'">
+                <Forward name="then" path="CheckIfActualiseerZaakStatus"/>
+                <Forward name="else" path="CompareDatumStatusGezet"/>
             </XmlIfPipe>
             
             <XmlIfPipe name="CheckIfActualiseerZaakStatus"

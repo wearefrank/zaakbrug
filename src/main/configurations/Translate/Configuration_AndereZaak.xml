@@ -16,12 +16,12 @@
             <SenderPipe
                 name="CallGetZgwAndereZaak"
                 getInputFromSessionKey="originalMessage"
-                storeResultInSessionKey="ZgwZaakAndereResult">
+                storeResultInSessionKey="ZgwAndereZaakResult">
                 <IbisLocalSender
                     name="CallGetZgwZaakSender"
                     javaListener="GetZgwZaak"
                     returnedSessionKeys="Error">
-                    <Param name="Identificatie" sessionKey="Identificatie"/>
+                    <Param name="Identificatie" sessionKey="AndereZaakIdentificatie"/>
                 </IbisLocalSender>
                 <Forward name="success" path="ZaakNotFound_Condition"/>
                 <Forward name="exception" path="EXCEPTION" />
@@ -43,7 +43,7 @@
                 >
                 <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> 
-                <Param name="reason" pattern="No zaak with the identificatie:{Identificatie} is found in GetZgwZaak" ignoreUnresolvablePatternElements="true" />
+                <Param name="reason" pattern="No zaak with the identificatie:{AndereZaakIdentificatie} is found in GetZgwZaak" ignoreUnresolvablePatternElements="true" />
                 <Param name="detailsXml" type="DOMDOC" />
                 <Forward name="success" path="EXCEPTION" />
                 <Forward name="exception" path="EXCEPTION" />
@@ -55,32 +55,103 @@
                 styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
                 >
                 <Forward name="success" path="CheckForGetZgwAndereZaakResult"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <XmlIfPipe name="CheckForGetZgwAndereZaakResult"
                 xpathExpression="string-length(ZgwZaak) > 0"
                 >
-                <Forward name="then" path="CallPatchAndereZaak"/>
+                <Forward name="then" path="CallGetZgwMainZaak"/>
                 <Forward name="else" path="EXIT"/>
             </XmlIfPipe>
 
             <SenderPipe
-                name="CallPatchAndereZaak" getInputFromSessionKey="ZgwAndereZaakResult">
+                name="CallGetZgwMainZaak"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="ZgwMainZaakResult">
                 <IbisLocalSender
-                    name="CallPatchAndereZaakSender"
-                    javaListener="PatchRelevanteAndereZaak"
+                    name="CallGetZgwZaakByUrlSender"
+                    javaListener="GetZgwZaakByUrl"
                     returnedSessionKeys="Error">
-                    <Param name="Url" xpathExpression="/ZgwZaak/url" defaultValue="&lt;dummy/&gt;" />
-                    <Param name="AndereUrl" sessionKey="Url" defaultValue="&lt;dummy/&gt;"/>
+                    <Param name="Url" sessionKey="MainZaakUrl" />
                 </IbisLocalSender>
-                <Forward name="success" path="JsonToXml"/>
+                <Forward name="success" path="CheckForZgwMainZaakResult"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <JsonPipe name="JsonToXml">
+            <XmlIfPipe name="CheckForZgwMainZaakResult"
+                xpathExpression="string-length(/ZgwZaak) gt 0"
+                >
+                <Forward name="then" path="CheckVerwerkingssoortAttribute"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </XmlIfPipe>
+
+            <XmlSwitchPipe
+                name="CheckVerwerkingssoortAttribute"
+                getInputFromSessionKey="originalMessage"
+                xpathExpression="*/@*:verwerkingssoort"
+                notFoundForwardName="unimplemented">
+                <Forward name="I" path="CallRelevanteAndereZaakCheck" />
+                <Forward name="T" path="CallRelevanteAndereZaakAdd" />
+                <Forward name="V" path="CallRelevanteAndereZaakDelete" />
+                <Forward name="unimplemented" path="UnrecognizedVerwerkingssoort_Error" />
+            </XmlSwitchPipe>
+
+            <XsltPipe
+                name="UnrecognizedVerwerkingssoort_Error"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error"
+                >
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> 
+                <Param name="reason" pattern="The value of verwerkingssoort attribute of heeftBetrekkingOpAndere is either not allowed nor not implemented yet." ignoreUnresolvablePatternElements="true" />
+                <Param name="detailsXml" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <SenderPipe
+                name="CallRelevanteAndereZaakDelete" 
+                getInputFromFixedValue="&lt;dummy/&gt;">
+                <IbisLocalSender
+                    name="CallRelevanteAndereZaakDeleteSender"
+                    javaListener="RelevanteAndereZaakDelete"
+                    returnedSessionKeys="Error">
+                    <Param name="ZgwMainZaakResult" sessionKey="ZgwMainZaakResult"/>
+                    <Param name="ZgwAndereZaakResult" sessionKey="ZgwAndereZaakResult"/>
+                </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
-            </JsonPipe>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallRelevanteAndereZaakCheck" 
+                getInputFromFixedValue="&lt;dummy/&gt;">
+                <IbisLocalSender
+                    name="CallRelevanteAndereZaakCheckSender"
+                    javaListener="RelevanteAndereZaakCheck"
+                    returnedSessionKeys="Error">
+                    <Param name="ZgwMainZaakResult" sessionKey="ZgwMainZaakResult"/>
+                    <Param name="ZgwAndereZaakResult" sessionKey="ZgwAndereZaakResult"/>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallRelevanteAndereZaakAdd" 
+                getInputFromFixedValue="&lt;dummy/&gt;">
+                <IbisLocalSender
+                    name="CallRelevanteAndereZaakAddSender"
+                    javaListener="RelevanteAndereZaakAdd"
+                    returnedSessionKeys="Error">
+                    <Param name="ZgwMainZaakResult" sessionKey="ZgwMainZaakResult"/>
+                    <Param name="ZgwAndereZaakResult" sessionKey="ZgwAndereZaakResult"/>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
         </Pipeline>
     </Adapter>
 </Module>

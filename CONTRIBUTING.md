@@ -11,7 +11,7 @@ Execute the following steps when bumping the Frank!Framework version:
 4. Replace the default value for `FF_VERSION` under `services.zaakbrug.build.args` in `docker-compose.zaakbrug.dev.yml` with the new tag. NOTE: Watch out to not replace the '-' in front of the tag: ${FF_VERSION:-<new tag>}
 5. Replace the value of `ff.version` in `frank-runner.properties` with the new tag.
 6. Start ZaakBrug with the `Frank!Runner` to automatically replace the `./src/main/configuration/<configuration-name>/FrankConfig.xsd` and `./src/main/configuration/FrankConfig.xsd` with the newer version. You can stop the Frank!Runner once the files are replaced. Note that currently the Frank!Runner will also add `FrankConfig.xsd` to the `.gitignore` file. Make sure to revert the change to `.gitignore`.
-7. Run the e2e testsuite by using the below Docker-Compose and configuration to validate the changes. You should only need `docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml up --build --force-recreate` for this. (TODO: Automate running of e2e tests in ci/cd).
+7. Run the e2e testsuite by using the below Docker-Compose and configuration to validate the changes. You should only need `docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml up --build --force-recreate` for this. (TODO: Automate running of e2e tests in ci/cd).
 8. Commit you changes on a branch with as message: `build(dependencies): bump f!f version to <new tag>`. Create a PR to have your changes merged to master.
 
 ## Docusaurus version
@@ -41,7 +41,7 @@ Additionally, to help out diff tools, also enable the option **Pretty Print Proj
 - When you open the SoapUI project in a new version of SoapUI, Save the project and create a seperate PR for any changes in the project file.
 - Try to keep to one change at a time and keep them small.
 - Whenever possible, avoid combining changes that both add and remove lots of things.
-
+- When importing/referencing WSDL's, OAS or any other resources in the repository, make sure to change the absolute path's to relative paths. These paths should be relative to the **folder containing the SoapUI project file**.
 
 ## Manual testing with own test cases
 If you would like to create and run your own test cases in SoapUI then you should complete the configuration under "docker-compose.openzaak.dev" section below to be able to have the catalog imported. Afterwards, you could create your own test cases in SoapUI.
@@ -52,11 +52,26 @@ If you would like to run the test cases which are already prepared in the repo, 
 - Go to the directory that has the ZaakBrug project downloaded.
 - Go to the folder ./e2e/SoapUI and select the zaakbrug-e2e-soapui-project.xml file
 
-When you have imported the tests you can run any test case under the TestSuite, the test case will manage creating own catalog with required data and delete everything created after the test run is completed. These processes will be done by "SetUp" and "TearDown" test cases which are disabled as default and no need to enable them because they are called inside the main test case.
+There are three ways of runnings tests manually: **Running all TestSuites**, **Running a single TestSuite** and **Running TestCases manually**. For each way you can follow the steps below.
 
-## Running test cases automatically in Docker container on your local
+#### Running all TestSuites
+To run all TestSuites on the project **right-click the project -> Show Project View -> Test Suites**. From here you can also switch between `sequential` or `parallel`(default) execution.
+
+#### Running a single TestSuite
+To run a single TestSuite **right-click the TestSuite -> Show TestSuite Editor**. From here you can also switch between `sequential` or `parallel`(default) execution.
+
+The TestSuite's **Setup Script** and **Teardown Script** will automatically run the disabled TestCases prefixed with "SetUp" and "TearDown" to add the required catalog in OpenZaak and remove it again afterwards.
+
+#### Running TestCases manually
+To run TestCases manually it is first needed to add the required catalog to OpenZaak. The easiest way to do this is to navigate to the TestSuite editor **right-click the TestSuite -> Show TestSuite Editor** and run the `SetUp Script`. Make sure to also run the `TearDown Script` when done with manual testing.
+
+To run the TestCase itself **right-click the TestCase -> Show TestCase Editor -> Green "Play"-button**.
+
+> Note: The **TearDown** TestCases rely on stored url's on the TestSuite's **Custom Properties** created by the **SetUp** TestCases, to clean them up. It can sometimes happen that you get stuck in a state where the catalog is already present in OpenZaak, but the url's for those resources are not stored in SoapUI. If this becomes a problem, the easiest way to remedy this issue is to delete the OpenZaak related containers in the development environment and then deleting their volumes aswell. This results in a completely empty OpenZaak instance again.
+
+### Running test cases automatically in Docker container on your local
 If you would like to run the test cases which are already prepared in the repo automatically in the docker container on your local then the command would be as follows:
-`docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up --build`
+`docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up --build`
 This command will first have Zaakbrug and Openzaak up and running and afterwards it will automatically run the SoapUI test cases in 'soapui-testrunner' docker container.
 The test reports will be created under "./e2e/reports" folder.
 
@@ -66,9 +81,9 @@ In case you would like to do any change on Zaakbrug project you can create a PR 
 
 
 # Docker-compose
-The docker-compose development environment is designed to be flexible and composable. This prevents the need for developers to run the entire stack eventhough their work requires only a small part of the stack. For this we make use of a docker-compose feature that merges a given array of docker-compose files together. Simply provide a `-f ./docker-compose.<application>.yml` argument for each docker-compose file you wish to include in the `docker-compose up`command.
+The docker compose development environment is designed to be flexible and composable. This prevents the need for developers to run the entire stack eventhough their work requires only a small part of the stack. For this we make use of a docker compose feature that merges a given array of docker compose files together. Simply provide a `-f ./docker-compose.<application>.yml` argument for each docker compose file you wish to include in the `docker compose up`command.
 
-To run the entire stack the command would be `docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.staging.dev.yml -f ./docker-compose.openzaak.dev.yml -f ./docker-compose.openforms.dev.yml up --build`
+To run the entire stack the command would be `docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.staging.dev.yml -f ./docker-compose.openzaak.dev.yml -f ./docker-compose.openforms.dev.yml up --build`
 
 > WARNING: It is important to use `host.docker.internal` instead of the usual `localhost`. The url-validator that is used by most components with invalidate any urls that contain only a hostname. It requires a full canonical domain name.
 
@@ -97,17 +112,17 @@ ZaakBrug Console can accessed from `host.docker.internal:9000/zaakbrug/`
 ZaakBrug is also exposed on `host.docker.internal:8080/`
 
 #### Configuration
-By default ZaakBrug uses a filebased H2 database for storing the last used zaak and documenten identifiers. To facilitate easy swapping between development with docker-compose and the Frank!Runner, the default mount for the database file is `../frank-runner/data`. Using the same database file between the Frank!Runner and docker-compose prevents errors surrounding duplicate identifiers while running tests against OpenZaak. If you don't have the Frank!Runner installed, you can use `./data` that is commented out instead or add a volume for it.
+By default ZaakBrug uses a filebased H2 database for storing the last used zaak and documenten identifiers. To facilitate easy swapping between development with docker compose and the Frank!Runner, the default mount for the database file is `../frank-runner/data`. Using the same database file between the Frank!Runner and docker compose prevents errors surrounding duplicate identifiers while running tests against OpenZaak. If you don't have the Frank!Runner installed, you can use `./data` that is commented out instead or add a volume for it.
 
 ### Postgres
-Instead of the default filebased H2 database, a Postgresql database can be used too. Adding `-f ./docker-compose.zaakbrug.postgres.yml` to your `docker-compose up` command is all that is needed for this.
+Instead of the default filebased H2 database, a Postgresql database can be used too. Adding `-f ./docker-compose.zaakbrug.postgres.yml` to your `docker compose up` command is all that is needed for this.
 
-For example: `docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml up --build`
+For example: `docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml up --build`
 
 > Note: Database data is not seamlessly shared with the Frank!Runner out-off-the-box. In `src/webapp/META_INF/context.xml` you can comment out the H2 configuration and uncomment the Postgress one. The Frank!Runner will then use the Postgres database used in the docker-compose.
 
 #### PgAdmin4
-To aid with debugging you can use PgAdmin4 to browse/edit the Postgres database. PgAdmin4 is included and pre-configured in `docker-compose.zaakbrug.postgres` and can be enabled by adding `--profile pgadmin` to your `docker-compose up` command.
+To aid with debugging you can use PgAdmin4 to browse/edit the Postgres database. PgAdmin4 is included and pre-configured in `docker-compose.zaakbrug.postgres` and can be enabled by adding `--profile pgadmin` to your `docker compose up` command.
 
 The PgAdmin4 web-GUI is exposed on port `5050`, so can be accessed with `localhost:5050` or `host.docker.internal:5050`
 
@@ -115,13 +130,13 @@ The PgAdmin4 web-GUI is exposed on port `5050`, so can be accessed with `localho
 email: `admin@wearefrank.nl`  
 password: `admin` 
 
-For example: `docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml --profile pgadmin up --build`
+For example: `docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.zaakbrug.postgres.yml --profile pgadmin up --build`
 
 ### SoapUI
 As mentioned under *'Running test cases automatically in Docker container on your local'* under *'Testing with SoapUI'* section we could run SoapUI application in a Docker container. Afterwards, we could run our test cases in this SoapUI application automatically in this container. This is why we created **soapui-testrunner** service in docker-compose.zaakbrug.dev.yml file.
 #### soapui-testrunner
 To be able to use this service and to run the test cases automatically use the following command which is also mentioned under *'Running test cases automatically in Docker container on your local'* section:
-`docker-compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up --build`
+`docker compose -f ./docker-compose.zaakbrug.dev.yml -f ./docker-compose.openzaak.dev.yml --profile soapui up --build`
 
 ## docker-compose.zaakbrug.staging.dev
 Contains an instance of OpenZaak specifically configured to act as cache or staging for ZGW to ZDS translations. It shares a network with ZaakBrug, and should be considered a component of the ZaakBrug deployment for when ZGW to ZDS translations are required.
@@ -173,17 +188,17 @@ Running Sentry for the first time requires some configuration.
 
 TODO: Automate configuration
 
-1. Makes sure the `docker-compose.sentry.dev.yml` is included in your ` docker-compose up` and is running.
-2. Open a CMD or Powershell in this repository folder and run `docker-compose -f ./docker-compose.sentry.dev.yml exec sentry sentry upgrade`.
+1. Makes sure the `docker-compose.sentry.dev.yml` is included in your ` docker compose up` and is running.
+2. Open a CMD or Powershell in this repository folder and run `docker compose -f ./docker-compose.sentry.dev.yml exec sentry sentry upgrade`.
 3. After approx. a minute you will get asked if you want to create a user account. Choose `y` and hit enter.
 4. We use the following defaults: email=`admin@wearefrank.nl`, password: `admin`.
-5. Once finished, run the command: `docker-compose -f ./docker-compose.sentry.dev.yml restart sentry` to restart the sentry container.
+5. Once finished, run the command: `docker compose -f ./docker-compose.sentry.dev.yml restart sentry` to restart the sentry container.
 6. Open a browser and navigate to `host.docker.internal:9500` or `localhost:9500`. You should see the Sentry login page. Login we the email and password from step 4.
 7. Make sure the root url is `http://host.docker.internal:9500` and choose `Please keep my usage information anonymous` under Usage Statistics.
 8. In the top-right corner hit the `add...` button and choose `project`.
 9. Select the appropriate platform. For OpenZaak, ZaakBrug-Staging and OpenForms this will be `Django`. Change the project name appropriately and hit the `Create Project` button.
 10. On the next page look for the word `dsn` and copy the value.
-11. In the appropriate docker-compose file, add the following to the environment variables of the `open-zaak`, `zaakbrug-staging` and/or `open-forms` service:
+11. In the appropriate docker compose file, add the following to the environment variables of the `open-zaak`, `zaakbrug-staging` and/or `open-forms` service:
 ```
 - SENTRY_DSN=<Your copied DSN from step 10>
 - SDK_SENTRY_DSN=<Your copied DSN from step 10>

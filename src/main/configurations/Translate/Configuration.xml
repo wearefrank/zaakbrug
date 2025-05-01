@@ -1,12 +1,17 @@
 <!DOCTYPE configuration [
   <!ENTITY ActualiseerZaakStatus                          SYSTEM "./Configuration_ActualiseerZaakStatus.xml">
+  <!ENTITY AddHoofdzaak                                   SYSTEM "./Configuration_AddHoofdzaak.xml">
   <!ENTITY AddRolToZgw                                    SYSTEM "./Configuration_AddRolToZgw.xml">
   <!ENTITY AndereZaak                                     SYSTEM "./Configuration_AndereZaak.xml">
+  <!ENTITY ApplyValueOverridesZgwToZds                    SYSTEM "./Configuration_ApplyValueOverridesZgwToZds.xml">
   <!ENTITY CancelCheckOutZaakDocument_Di02                SYSTEM "./Configuration_CancelCheckOutZaakDocument_Di02.xml">
+  <!ENTITY CheckHoofdzaak                                 SYSTEM "./Configuration_CheckHoofdzaak.xml">
   <!ENTITY CheckOutZaakDocument                           SYSTEM "./Configuration_CheckOutZaakDocument.xml">
   <!ENTITY CheckZgwRol                                    SYSTEM "./Configuration_CheckZgwRol.xml">
   <!ENTITY ConvertISO639Taal                              SYSTEM "./Configuration_ConvertISO639Taal.xml">
   <!ENTITY CreeerZaak_Lk01                                SYSTEM "./Configuration_CreeerZaak_LK01.xml">
+  <!ENTITY Deelzaak                                       SYSTEM "./Configuration_Deelzaak.xml">
+  <!ENTITY DeleteHoofdzaak                                SYSTEM "./Configuration_DeleteHoofdzaak.xml">
   <!ENTITY DeleteRolFromZgw                               SYSTEM "./Configuration_DeleteRolFromZgw.xml">
   <!ENTITY DeleteZgwZaak                                  SYSTEM "./Configuration_Zaken_DeleteZgwZaak.xml">
   <!ENTITY DetectRolChanges                               SYSTEM "./Configuration_DetectRolChanges.xml">
@@ -46,6 +51,8 @@
   <!ENTITY GetZgwZaakByUrl                                SYSTEM "./Configuration_GetZgwZaakByUrl.xml">
   <!ENTITY GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl      SYSTEM "./Configuration_GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl.xml">
   <!ENTITY GetZgwZaakTypeByIdentificatie                  SYSTEM "./Configuration_GetZgwZaakTypeByIdentificatie.xml">
+  <!ENTITY GetZgwResultaatByUrl                           SYSTEM "./Configuration_Zaken_GetZgwResultaatByUrl.xml">
+  <!ENTITY GetZgwResultaatTypeByUrl                       SYSTEM "./Configuration_Zaken_GetZgwResultaatTypeByUrl.xml">
   <!ENTITY HandleZgwZaakInformatieObjecten                SYSTEM "./Configuration_HandleZgwZaakInformatieObjecten.xml">
   <!ENTITY ImportFromLocalFS                              SYSTEM "./Configuration_ImportFromLocalFS.xml"> 
   <!ENTITY ApplyTranslationProfileValueOverrides     SYSTEM "./Configuration_ApplyTranslationProfileValueOverrides.xml"> 
@@ -53,7 +60,9 @@
   <!ENTITY MapZdsHeeftFromZgwStatus                       SYSTEM "./Configuration_MapZdsHeeftFromZgwStatus.xml">
   <!ENTITY MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken   SYSTEM "./Configuration_MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken.xml">
   <!ENTITY MapZdsRolFromZgwRol                            SYSTEM "./Configuration_MapZdsRolFromZgwRol.xml">
-  <!ENTITY PatchRelevanteAndereZaak                       SYSTEM "./Configuration_PatchRelevanteAndereZaak.xml">
+  <!ENTITY RelevanteAndereZaakAdd                         SYSTEM "./Configuration_RelevanteAndereZaakAdd.xml">
+  <!ENTITY RelevanteAndereZaakCheck                       SYSTEM "./Configuration_RelevanteAndereZaakCheck.xml">
+  <!ENTITY RelevanteAndereZaakDelete                      SYSTEM "./Configuration_RelevanteAndereZaakDelete.xml">
   <!ENTITY PostResultaat                                  SYSTEM "./Configuration_PostResultaat.xml">
   <!ENTITY Zaken_PostZgwRol                               SYSTEM "./Configuration_Zaken_PostZgwRol.xml">
   <!ENTITY Zaken_PostZgwStatus                            SYSTEM "./Configuration_Zaken_PostZgwStatus.xml">
@@ -79,13 +88,18 @@
 
 <configuration name="Translate">
   &ActualiseerZaakStatus;
+  &AddHoofdzaak;
   &AddRolToZgw;
   &AndereZaak;
+  &ApplyValueOverridesZgwToZds;
   &CancelCheckOutZaakDocument_Di02;
+  &CheckHoofdzaak;
   &CheckOutZaakDocument;
   &CheckZgwRol;
   &ConvertISO639Taal;
   &CreeerZaak_Lk01;
+  &Deelzaak;
+  &DeleteHoofdzaak;
   &DeleteRolFromZgw;
   &DeleteZgwZaak;
   &DetectRolChanges;
@@ -125,6 +139,8 @@
   &GetZgwZaakByUrl;
   &GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl;
   &GetZgwZaakTypeByIdentificatie;
+  &GetZgwResultaatByUrl;
+  &GetZgwResultaatTypeByUrl;
   &HandleZgwZaakInformatieObjecten;
   &ImportFromLocalFS;
   &ApplyTranslationProfileValueOverrides;
@@ -132,7 +148,9 @@
   &MapZdsHeeftFromZgwStatus;
   &MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken;
   &MapZdsRolFromZgwRol;
-  &PatchRelevanteAndereZaak;
+  &RelevanteAndereZaakAdd;
+  &RelevanteAndereZaakCheck;
+  &RelevanteAndereZaakDelete;
   &PostResultaat;
   &Zaken_PostZgwRol;
   &Zaken_PostZgwStatus;

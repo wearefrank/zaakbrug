@@ -1,5 +1,364 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.24.3](https://github.com/wearefrank/zaakbrug/compare/v1.24.2...v1.24.3) (2025-04-07)
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 9.1.0-20250406.172201 ([#540](https://github.com/wearefrank/zaakbrug/issues/540)) ([cfb0d1b](https://github.com/wearefrank/zaakbrug/commit/cfb0d1b9a832354529023571432a560e2b973f2a))
+* **dependencies:** bump the github-actions group with 2 updates ([#541](https://github.com/wearefrank/zaakbrug/issues/541)) ([383766a](https://github.com/wearefrank/zaakbrug/commit/383766a722b1122ac13cfa6daad09ed4353d3244))
+* **dependencies:** bump typescript ([#542](https://github.com/wearefrank/zaakbrug/issues/542)) ([74aaa6a](https://github.com/wearefrank/zaakbrug/commit/74aaa6a23357818924c3ad2303d0fc864a286835))
+
+## [1.24.2](https://github.com/wearefrank/zaakbrug/compare/v1.24.1...v1.24.2) (2025-04-04)
+
+### 🔁 Continuous Integration
+
+* switch to new reusable soapui testrunner workflow ([#539](https://github.com/wearefrank/zaakbrug/issues/539)) ([292aaae](https://github.com/wearefrank/zaakbrug/commit/292aaae7f052c3a63f253276d3ced94a122f3471))
+
+## [1.24.1](https://github.com/wearefrank/zaakbrug/compare/v1.24.0...v1.24.1) (2025-04-04)
+
+### 🧑‍💻 Code Refactoring
+
+* heeftBetrekkingOpAndere handling has dedicated adapters for verwerkingssoort "I", "T" and "V" ([#535](https://github.com/wearefrank/zaakbrug/issues/535)) ([961811d](https://github.com/wearefrank/zaakbrug/commit/961811dbf8411cfd7f040adf7a589d8f07aa4c44))
+
+### 🤖 Build System
+
+* **dependencies:** bump the docusaurus group ([880c492](https://github.com/wearefrank/zaakbrug/commit/880c49279e74568565bf653fef863a76d219e439))
+* **dependencies:** bump the github-actions group with 2 updates ([48dad68](https://github.com/wearefrank/zaakbrug/commit/48dad68cd5de5876dd393cc024de1db59d1eb23d))
+
+## [1.24.0](https://github.com/wearefrank/zaakbrug/compare/v1.23.2...v1.24.0) (2025-03-19)
+
+### 🍕 Features
+
+* process ZDS entities 'heeftAlsDeelzaak' & 'heeftAlsHoofdzaak' in creeerZaak and updateZaak ([#520](https://github.com/wearefrank/zaakbrug/issues/520)) ([a3a96fb](https://github.com/wearefrank/zaakbrug/commit/a3a96fb7177add33d5af36b2dc41a79df5b4a38f))
+
+### ✅ Tests
+
+* **load:** fix broken load-tests and run testsuites sequentially due to socket timeouts ([#531](https://github.com/wearefrank/zaakbrug/issues/531)) ([820f2eb](https://github.com/wearefrank/zaakbrug/commit/820f2eb10491f5971e62be20e4cffa97989295dd))
+
+### 🤖 Build System
+
+* **dependencies:** bump the github-actions group across 1 directory with 2 updates ([#530](https://github.com/wearefrank/zaakbrug/issues/530)) ([0246501](https://github.com/wearefrank/zaakbrug/commit/0246501ee4933063e9fe6216259ea773cac51eed))
+
+### 🔁 Continuous Integration
+
+* upload Larva results as artifact instead of showing it as GitHub summary ([#529](https://github.com/wearefrank/zaakbrug/issues/529)) ([466bc9f](https://github.com/wearefrank/zaakbrug/commit/466bc9f30dcf6c99cfe55b48ca6507c4eabe8da0))
+
+## [1.23.2](https://github.com/wearefrank/zaakbrug/compare/v1.23.1...v1.23.2) (2025-03-14)
+
+### 🐛 Bug Fixes
+
+* reduce retry delay on locks when retrieving the last used id for cases and documents improving concurrent performance ([925bdaa](https://github.com/wearefrank/zaakbrug/commit/925bdaa8170241c454532a275e70165ef52c6a9d))
+* zaak resultaat is not returned in ZakLa01(geefZaakDetails) ([#454](https://github.com/wearefrank/zaakbrug/issues/454)) ([2888fac](https://github.com/wearefrank/zaakbrug/commit/2888facd722833144a574d5c8d0ea55c8af43f86))
+
+### 📝 Documentation
+
+* adjust documentation in contributing.md to reflect changes to running SoapUI tests ([e405ad6](https://github.com/wearefrank/zaakbrug/commit/e405ad6b367cc522d580a6b0951d504d62e5261c))
+
+### ✅ Tests
+
+* **e2e:** run SoapUI e2e testscases in parallel to reduce continuous integration runtime ([ac2ca58](https://github.com/wearefrank/zaakbrug/commit/ac2ca58d8fca1ac07941a7828b62278bc96b7d1b))
+
+## [1.23.1](https://github.com/wearefrank/zaakbrug/compare/v1.23.0...v1.23.1) (2025-03-11)
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 9.1.0-20250305.042327 ([984c2be](https://github.com/wearefrank/zaakbrug/commit/984c2be96856701ba2523f76ccfc0551a9ee9370))
+* **dependencies:** bump the github-actions group across 1 directory with 3 updates ([e61195d](https://github.com/wearefrank/zaakbrug/commit/e61195dbd9d4530417e232619b1d76c5ea16c532))
+* **dependencies:** bump typescript ([6897fc5](https://github.com/wearefrank/zaakbrug/commit/6897fc5261feb6b58842692f4f7d5af253e24806))
+
+## [1.23.0](https://github.com/wearefrank/zaakbrug/compare/v1.22.11...v1.23.0) (2025-02-21)
+
+### 🍕 Features
+
+* conditional valueOverrides with xpath expressions ([1ed436d](https://github.com/wearefrank/zaakbrug/commit/1ed436d29b6d5dd59e62b9a447d13b225063a609))
+
+### ✅ Tests
+
+* **unit:** larva testcases checking value override condition evaluating to false ([f0fb212](https://github.com/wearefrank/zaakbrug/commit/f0fb21216c8c8ff9ee7edbaa5d7406f32c43f438))
+* update profile.json to include conditional valueOverrides with overlapping source extraElement ([1e339e7](https://github.com/wearefrank/zaakbrug/commit/1e339e7ee1f91be3ab56d5f95cdac51eea35c85d))
+
+### 🤖 Build System
+
+* **dependencies:** bump the github-actions group across 1 directory with 2 updates ([#517](https://github.com/wearefrank/zaakbrug/issues/517)) ([597a97c](https://github.com/wearefrank/zaakbrug/commit/597a97c84a0e4b4705056cbce403d67632944cc2))
+
+## [1.22.11](https://github.com/wearefrank/zaakbrug/compare/v1.22.10...v1.22.11) (2025-01-28)
+
+### 🐛 Bug Fixes
+
+* if no resultaat in translation profile for eindStatus, then check for resultaat for eindDatum if eindDatum exists ([e0db5e1](https://github.com/wearefrank/zaakbrug/commit/e0db5e15281d6ef89850b36218612bc1c81ed4a9))
+
+### 🤖 Build System
+
+* **dependencies:** bump the github-actions group with 2 updates ([#507](https://github.com/wearefrank/zaakbrug/issues/507)) ([956983b](https://github.com/wearefrank/zaakbrug/commit/956983b82808abfc4eebe846cc5358fd6f57cd53))
+
+## [1.22.10](https://github.com/wearefrank/zaakbrug/compare/v1.22.9...v1.22.10) (2025-01-20)
+
+### 🧑‍💻 Code Refactoring
+
+* match zds and zgw roles on the zgw side instead of the zds side due to valueoverrides being applied on the zgw side aswell ([#499](https://github.com/wearefrank/zaakbrug/issues/499)) ([8144b7f](https://github.com/wearefrank/zaakbrug/commit/8144b7f535b8483121966c8c3c5942ce98929b4b))
+
+### 🤖 Build System
+
+* **dependencies:** bump the github-actions group with 5 updates ([#501](https://github.com/wearefrank/zaakbrug/issues/501)) ([4d4fa96](https://github.com/wearefrank/zaakbrug/commit/4d4fa96d9667f47f4e4e42f9f96460d676199c3d))
+* **dependencies:** bump typescript ([#498](https://github.com/wearefrank/zaakbrug/issues/498)) ([1845306](https://github.com/wearefrank/zaakbrug/commit/1845306f1adc624338e1bfab27d12eee2829a723))
+
+## [1.22.9](https://github.com/wearefrank/zaakbrug/compare/v1.22.8...v1.22.9) (2025-01-09)
+
+### 🐛 Bug Fixes
+
+* matching a ZDS rol with ZGW roles only based on kerngegevens fails when one or more kerngegevens are absent on both sides ([f61371e](https://github.com/wearefrank/zaakbrug/commit/f61371e09114d0b6df035012928cec579751de6a))
+
+### 🎨 Styles
+
+* PostZaak adapter follow styling standards ([766de55](https://github.com/wearefrank/zaakbrug/commit/766de556f110b85c0b28a8350c0dced8d78ec361))
+* replace google.com reference in zgw namespace to wearefrank.nl ([b99012b](https://github.com/wearefrank/zaakbrug/commit/b99012bd75340d0d7b0d58ab460057e177d48524))
+
+### 🧑‍💻 Code Refactoring
+
+* increase default ladybug reports retention ([1624328](https://github.com/wearefrank/zaakbrug/commit/16243287c870a86928c593df6ff177d5109818ec))
+
+### ✅ Tests
+
+* **unit:** NNP matching statutory name but no innRechtsvorm should result in match ([2d34fd3](https://github.com/wearefrank/zaakbrug/commit/2d34fd3fa192b29c30ba0502f49717959368527f))
+* **unit:** NPS testcase with one matching kerngegeven and other absent on both sides ([24de422](https://github.com/wearefrank/zaakbrug/commit/24de422fa713fce336905c010439cc1c1c5def4f))
+
+## [1.22.8](https://github.com/wearefrank/zaakbrug/compare/v1.22.7...v1.22.8) (2025-01-08)
+
+### 🐛 Bug Fixes
+
+* zaak 'heeft.indicatieLaatsteStatus' incorrectly uses zgw 'statustype.isEindstatus' instead of 'status.indicatieLaatstGezetteStatus' ([e443421](https://github.com/wearefrank/zaakbrug/commit/e44342160faf53f88d443eb5d7f3ff5a925209ee))
+
+### 🧑‍💻 Code Refactoring
+
+* missing descriptive error message when resultaattype not found during updateZaak when resultaat is present in input message ([#486](https://github.com/wearefrank/zaakbrug/issues/486)) ([b0104d9](https://github.com/wearefrank/zaakbrug/commit/b0104d9d49be339fda9e2b10597bb1aef1d90c64))
+* use current zds time instead of 000000 when creating status from einddatum or from sta.datumStatusGezet in voegZaakdocumentToe ([243eb31](https://github.com/wearefrank/zaakbrug/commit/243eb31f2d09b4bdfe44b54547ce6488c5bdbf5b))
+
+### ✅ Tests
+
+* update test cases according to the update of heeft.indicatieLaatsteStatus field ([54c3cec](https://github.com/wearefrank/zaakbrug/commit/54c3cec575dd548f193c2ab8c36acad1d7380c59))
+* **unit:** validate/fix disabled Larva testcases after obsolete broken testcases cleanup ([#489](https://github.com/wearefrank/zaakbrug/issues/489)) ([be19513](https://github.com/wearefrank/zaakbrug/commit/be195130da1f657d0d84e8ccb10d613585ff49f6))
+
+### 🤖 Build System
+
+* **dependencies:** bump the docusaurus group ([#495](https://github.com/wearefrank/zaakbrug/issues/495)) ([6679001](https://github.com/wearefrank/zaakbrug/commit/6679001a765ee1b032832425667d2feef79031c8))
+* **dependencies:** bump the docusaurus group across 1 directory with 7 updates ([#488](https://github.com/wearefrank/zaakbrug/issues/488)) ([748456f](https://github.com/wearefrank/zaakbrug/commit/748456f274154bdba5310f54d90c79438d0925f3))
+* **dependencies:** bump the github-actions group across 1 directory with 2 updates ([#475](https://github.com/wearefrank/zaakbrug/issues/475)) ([930013a](https://github.com/wearefrank/zaakbrug/commit/930013a083ac7810e6f9dc81a6ca63fa9a8d4efa))
+
+### 🔁 Continuous Integration
+
+* automatically run Larva tests as part of CI workflows ([#479](https://github.com/wearefrank/zaakbrug/issues/479)) ([2f18e2d](https://github.com/wearefrank/zaakbrug/commit/2f18e2d78734ce6030fad8e61613b623a51feac4))
+* fix incorrect job dependency version-next to analyze-commits ([55b4ef0](https://github.com/wearefrank/zaakbrug/commit/55b4ef07e040aefd998ccc004b74885ce5c5abdb))
+
+## [1.22.7](https://github.com/wearefrank/zaakbrug/compare/v1.22.6...v1.22.7) (2024-12-17)
+
+### 🐛 Bug Fixes
+
+* heeftBetrekkingOpAndere does not respect verwerkingssoort causing duplicates and inability to delete gerelateerde zaken ([7243e0f](https://github.com/wearefrank/zaakbrug/commit/7243e0f20a668037cf657d19823d83e19ada908a))
+* remove bezoekadres/verblijfadres from role matching between ZDS and ZGW due to situational dataloss in translation ([#478](https://github.com/wearefrank/zaakbrug/issues/478)) ([98a24c4](https://github.com/wearefrank/zaakbrug/commit/98a24c4f0c6492245a27fb20c11302adda04a2f3))
+* remove relevanteAndereZaken from updateZaak request cause it is handled separately ([90c51b0](https://github.com/wearefrank/zaakbrug/commit/90c51b039a02b984d1875091ce490d423ba866d5))
+* update verwerkingssoort letter of heeftBetrekkingOpAndere in creeerZaak from W to T ([8a849c1](https://github.com/wearefrank/zaakbrug/commit/8a849c12025bdd8dfada24d90831913461612db2))
+* updateZaak with multiple heeftBetrekkingOpAndere already on the case results in error ([663516b](https://github.com/wearefrank/zaakbrug/commit/663516b48f335744326d164a941db86187c588fc))
+
+### 🧑‍💻 Code Refactoring
+
+* generalize ZDS roles was and wordt merger xslt to support merging all root aggregates ([2131767](https://github.com/wearefrank/zaakbrug/commit/213176726ec9e8c462019c71bd051d893370be49))
+* Used PostZgwZaak.xsd instead of AndereZaakBodyToJson.xsd + used XmlSwitchPipe instead of XmlIfPipe in CheckVerwerkingssoortAttribute + used Zaken_UpdateZgwZaak for patch request ([017bfd9](https://github.com/wearefrank/zaakbrug/commit/017bfd97776151c5f5eb726a8ed61076202fc949))
+
+### ✅ Tests
+
+* **e2e:** add variety of e2e testcases for testing heeftBetrekkingOpAndere behavior ([757f127](https://github.com/wearefrank/zaakbrug/commit/757f127eacd8184bfd86ea99614b5ca367625904))
+* **larva:** cleanup old broken Larva testcases that are now replaced by SoapUI end-2-end testcases ([#480](https://github.com/wearefrank/zaakbrug/issues/480)) ([934e839](https://github.com/wearefrank/zaakbrug/commit/934e8391a1bf4b10a8c116e4a6d95b6c0fac2498))
+* **unit:** MergeZdsWasAndWordt Larva testcases ([6bf6159](https://github.com/wearefrank/zaakbrug/commit/6bf61597fdd8ee872f6ff205d30efc2efad26853))
+
+## [1.22.6](https://github.com/wearefrank/zaakbrug/compare/v1.22.5...v1.22.6) (2024-12-06)
+
+### 🐛 Bug Fixes
+
+* remove bezoekadres/verblijfadres from role matching between ZDS and ZGW due to situational dataloss in translation ([#478](https://github.com/wearefrank/zaakbrug/issues/478)) ([38a59bd](https://github.com/wearefrank/zaakbrug/commit/38a59bdb58d9c74fd824156ffaf6b69262113fa0))
+
+### ✅ Tests
+
+* **larva:** cleanup old broken Larva testcases that are now replaced by SoapUI end-2-end testcases ([#480](https://github.com/wearefrank/zaakbrug/issues/480)) ([0749015](https://github.com/wearefrank/zaakbrug/commit/0749015b5fbe4b5b6f360299bb9e74ca46340ca2))
+
+## [1.22.5](https://github.com/wearefrank/zaakbrug/compare/v1.22.4...v1.22.5) (2024-11-11)
+
+### 🐛 Bug Fixes
+
+* updateZaak incorrectly adds the be deleted rol when updateZaak message deletes and adds a role with the same roltype when the to be deleted role cannot be found. ([5e68d4c](https://github.com/wearefrank/zaakbrug/commit/5e68d4c57370ce4e6000e0f118fe314bca5c1bae))
+
+### ✅ Tests
+
+* **e2e:** add testcase to test updateZaak deleting and adding a role with the same roltype when role to be deleted cannot be found. ([1781f65](https://github.com/wearefrank/zaakbrug/commit/1781f6596fdb42a4d239bb21fb0a12478151dcdb))
+
+## [1.22.4](https://github.com/wearefrank/zaakbrug/compare/v1.22.3...v1.22.4) (2024-10-29)
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 9.0.0-20241026.042336 ([cbdceb4](https://github.com/wearefrank/zaakbrug/commit/cbdceb4058ffd4e61aedc7276a2e2509a60b927a))
+* **dependencies:** bump the github-actions group with 1 update ([d819fb2](https://github.com/wearefrank/zaakbrug/commit/d819fb23669d91cc6f5b646b6a0c561cd8c49ca4))
+* **dependencies:** bump the github-actions group with 3 updates ([#460](https://github.com/wearefrank/zaakbrug/issues/460)) ([961fd2f](https://github.com/wearefrank/zaakbrug/commit/961fd2f610ca242bae51c1299b88e57f810fa3fa))
+
+### 🔁 Continuous Integration
+
+* schedule syntax fix for bump-ff-version.yml ([3a37add](https://github.com/wearefrank/zaakbrug/commit/3a37add5101c000d67420661cb4aed29aa8bb2d3))
+
+## [1.22.3](https://github.com/wearefrank/zaakbrug/compare/v1.22.2...v1.22.3) (2024-10-23)
+
+### 🎨 Styles
+
+* update docusaurus styles and images ([#450](https://github.com/wearefrank/zaakbrug/issues/450)) ([78f80a1](https://github.com/wearefrank/zaakbrug/commit/78f80a1381dc48ae262a3b71a6773ba03190b4d2)), closes [#404](https://github.com/wearefrank/zaakbrug/issues/404)
+
+### 🧑‍💻 Code Refactoring
+
+* replace FixedResultPipe with EchoPipe due to deprecated FixedResultPipe functionality ([#449](https://github.com/wearefrank/zaakbrug/issues/449)) ([9c9a2f0](https://github.com/wearefrank/zaakbrug/commit/9c9a2f0cbbda3c5cd85fc66e7126404702db1c23))
+* replace XsltPipe error forwards to exception and use ReplacerPipe instead of FixedResultPipe due to deprecated functionality ([#456](https://github.com/wearefrank/zaakbrug/issues/456)) ([42b7867](https://github.com/wearefrank/zaakbrug/commit/42b786789075d7fe033e974d2722c890089a894b))
+
+### 🤖 Build System
+
+* **dependencies:** bump the docusaurus group across 1 directory with 2 updates ([#458](https://github.com/wearefrank/zaakbrug/issues/458)) ([7582bd6](https://github.com/wearefrank/zaakbrug/commit/7582bd6ba0fdedd66d7e97f6af84f76a00eb02ae))
+* **dependencies:** bump the github-actions group across 1 directory with 6 updates ([#457](https://github.com/wearefrank/zaakbrug/issues/457)) ([bae3359](https://github.com/wearefrank/zaakbrug/commit/bae33593768b1457c5331e2ad53af07eb3b48765))
+
+## [1.22.2](https://github.com/wearefrank/zaakbrug/compare/v1.22.1...v1.22.2) (2024-10-17)
+
+### 🐛 Bug Fixes
+
+* update FF version to 8.3.0-20240910.042339 ([2b1b9a8](https://github.com/wearefrank/zaakbrug/commit/2b1b9a8cfbabe79d5a660ad8c477c560c2911c07))
+
+## [1.22.1](https://github.com/wearefrank/zaakbrug/compare/v1.22.0...v1.22.1) (2024-10-15)
+
+### 🐛 Bug Fixes
+
+* arrays are not correctly processed as arrays when merging ZGW zaak and rol resources if a valueOverride is configured for that resource ([42c329d](https://github.com/wearefrank/zaakbrug/commit/42c329d9791544ee509c5233a6ff1f60220a8834))
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 8.3.0-20241010.042329 ([73c14a4](https://github.com/wearefrank/zaakbrug/commit/73c14a489c46d826d24b70db23d3e8e0e9823c55))
+
+## [1.22.0](https://github.com/wearefrank/zaakbrug/compare/v1.21.4...v1.22.0) (2024-10-01)
+
+### 🍕 Features
+
+* support for valueOverrides sourced from StUF:extraElementen for zgw zaak ([1296089](https://github.com/wearefrank/zaakbrug/commit/12960897911c9f54428b6553cd7f7dad869afbe7))
+* support for valueOverrides sourced from StUF:extraElementen for zgw zaak ([6fd6707](https://github.com/wearefrank/zaakbrug/commit/6fd67073557553330795ef112838bc7210494e5d))
+* support for valueOverrides values to be dynamicly sourced from StUF:extraElementen by using ${extraElementen:<name>} as value ([e9748f0](https://github.com/wearefrank/zaakbrug/commit/e9748f0d14a946e56d20fab2a2ca34a2cea04b05))
+* support for valueOverrides values to be dynamicly sourced from StUF:extraElementen by using ${extraElementen:<name>} as value ([2df33c2](https://github.com/wearefrank/zaakbrug/commit/2df33c20d03908c32139ce50249f5632998053f6))
+* valueOverrides values sourced from extraElementen are translated back to extraElementen during zgw to zds translations for case roles ([d5fefae](https://github.com/wearefrank/zaakbrug/commit/d5fefaebbb40cc36ef6c05dc1f268bc1002c0cab))
+* valueOverrides values sourced from extraElementen are translated back to extraElementen during zgw to zds translations for case roles ([b881ee3](https://github.com/wearefrank/zaakbrug/commit/b881ee3d69fe85379933d10283e16c880b10db06))
+
+### 🐛 Bug Fixes
+
+* add default value 'N' for verblijfsadres authentiek for consistency between zgw to zds translations ([5a1b54b](https://github.com/wearefrank/zaakbrug/commit/5a1b54bc2b81220942ba6be0d5c44ea8a607de6a))
+* add default value 'N' for verblijfsadres authentiek for consistency between zgw to zds translations ([bf84e6f](https://github.com/wearefrank/zaakbrug/commit/bf84e6f913b151ec9ac4cab8720d61ba8e409048))
+* case roles with natuurlijkPersoon gerelateerde that use anp.identificatie or inp.a-nummer as identifier are not getting deleted ([1759e35](https://github.com/wearefrank/zaakbrug/commit/1759e35aa3721e72ada44674af037811a2fcb5c7))
+* case roles with natuurlijkPersoon gerelateerde that use anp.identificatie or inp.a-nummer as identifier are not getting deleted ([c1468e0](https://github.com/wearefrank/zaakbrug/commit/c1468e0554d1fab56bb537bd52a6164994cb3e11))
+
+### 📝 Documentation
+
+* dynamic value overrides from StUF:extraElementen configuration ([046918d](https://github.com/wearefrank/zaakbrug/commit/046918d76ed626bcd1cee041a7045e59fd0d0008))
+
+### 🧑‍💻 Code Refactoring
+
+* add optional extraElementen section to zds rol to zgw rol translation ([c4c20b1](https://github.com/wearefrank/zaakbrug/commit/c4c20b1aa4e1bfd0498f928d2bbfd2c20b81e130))
+* add optional extraElementen section to zds rol to zgw rol translation ([6837589](https://github.com/wearefrank/zaakbrug/commit/683758938d962c511aae9d868096adc3080d0401))
+* change zgw updateZgwZaak adapter from PUT to PATCH and merge xsd's with PostZgwZaak.xsd ([5b91acb](https://github.com/wearefrank/zaakbrug/commit/5b91acbc0f910a980cfde2a245ab228e897553d0))
+* change zgw updateZgwZaak adapter from PUT to PATCH and merge xsd's with PostZgwZaak.xsd ([8350e30](https://github.com/wearefrank/zaakbrug/commit/8350e307607a03a3aec5f5f210ea77c3d5a119f4))
+* combine seperate translations to betrokkeneIdentificatie and zgw rol into a single translation from zds rol to zgw rol ([2168249](https://github.com/wearefrank/zaakbrug/commit/2168249b7eda2d9e9312c12dd3d4015af66bb556))
+* combine seperate translations to betrokkeneIdentificatie and zgw rol into a single translation from zds rol to zgw rol ([0d9bbff](https://github.com/wearefrank/zaakbrug/commit/0d9bbff5f25b0de0e5e6da4cce7c7f0755ef36b0))
+* copy zds heeftAls elements and gerelateerde instead of only gerelateerde during zds roles processing ([dccae08](https://github.com/wearefrank/zaakbrug/commit/dccae08b24a95c6a750aaa9d7bf55f53b4cca24e))
+* copy zds heeftAls elements and gerelateerde instead of only gerelateerde during zds roles processing ([719324e](https://github.com/wearefrank/zaakbrug/commit/719324e8b593d440fb357e75845fd8fb3f0b3b23))
+* correct order of elements for zgw to zds zaak translation ([d89d990](https://github.com/wearefrank/zaakbrug/commit/d89d990dfe087cf84e7c928e7499912404deafeb))
+* correct order of elements for zgw to zds zaak translation ([3433818](https://github.com/wearefrank/zaakbrug/commit/34338188aa6ef12a29e4d46939ddc95ce7f4646d))
+* move adding of namespace from zakLa01 response xslt to zgw to zds translation and copy it to the zakLa01 response instead ([67ad039](https://github.com/wearefrank/zaakbrug/commit/67ad03940756d280d733dda98a29eab80c01bb8f))
+* move adding of namespace from zakLa01 response xslt to zgw to zds translation and copy it to the zakLa01 response instead ([60135c4](https://github.com/wearefrank/zaakbrug/commit/60135c45ebcd5f3c1175556e6ceb4b105b765d20))
+* move adding of namespaces to zgw to zds translation ([faa0bda](https://github.com/wearefrank/zaakbrug/commit/faa0bda35980afdd0f1999d14975abb85e9205a8))
+* move adding of namespaces to zgw to zds translation ([b48eb91](https://github.com/wearefrank/zaakbrug/commit/b48eb91b2a1d068631337bb7e9d1381ea60c8993))
+* rewrite zds was zaak and wordt zaak role comparison to exclusively match on the primary identifier of the gerelateerde and if not available match on remaining kerngegevens elements ([48bf2ed](https://github.com/wearefrank/zaakbrug/commit/48bf2ed7ef1d65d1f5d4e76ce66a80b86edb7914))
+* rewrite zds was zaak and wordt zaak role comparison to exclusively match on the primary identifier of the gerelateerde and if not available match on remaining kerngegevens elements ([2f99960](https://github.com/wearefrank/zaakbrug/commit/2f9996067ce1a3ed1921f864a347a9bad47bfa50))
+* verblijfsadres should not be in response when empty ([be5fc8e](https://github.com/wearefrank/zaakbrug/commit/be5fc8e47319735432f9ffff3240690c94d31c9a))
+* verblijfsadres should not be in response when empty ([651b301](https://github.com/wearefrank/zaakbrug/commit/651b30101e40a6620e7e65e7ca84e2661df8f715))
+
+### ✅ Tests
+
+* EnrichtEntity & EnrichEntity_ForEachPipeWrapped Larva testcases ([e13c0db](https://github.com/wearefrank/zaakbrug/commit/e13c0dbc3f3a3344d50ad915046fedf9ebdc29e0))
+* EnrichtEntity & EnrichEntity_ForEachPipeWrapped Larva testcases ([11c286b](https://github.com/wearefrank/zaakbrug/commit/11c286bf4dc007eb6e063a9e019ff49879dda101))
+* FilterBaseZdsZaak Larva testcases ([7d24fc6](https://github.com/wearefrank/zaakbrug/commit/7d24fc6e9b5228a1008977109cd5ee5a8f2fd73a))
+* FilterBaseZdsZaak Larva testcases ([1f30193](https://github.com/wearefrank/zaakbrug/commit/1f3019333d85b3daafd93b7b047fe2bd42b426d3))
+* fix testsuite 1 teardown failing due not able to delete a locked document ([86d7077](https://github.com/wearefrank/zaakbrug/commit/86d70774a47d6e0ede4763a39d0fd3820f86f9c3))
+* fix testsuite 1 teardown failing due not able to delete a locked document ([5c4acd0](https://github.com/wearefrank/zaakbrug/commit/5c4acd009f6f0e552d67c31064e245ba54a193df))
+* fix testsuite 1 teardown failing due not able to delete a locked document ([c982dd2](https://github.com/wearefrank/zaakbrug/commit/c982dd2f9aeed0f69cf6fcfaca9ac8ffabf9149b))
+* fix testsuite 1 teardown failing due not able to delete a locked document ([287df7d](https://github.com/wearefrank/zaakbrug/commit/287df7dfad308f1573b1e7cac8f21ad93628b6b4))
+* SelectZdsRoles & SelectZdsRolesFromListWithMatchingIdentity Larva testcases ([0350978](https://github.com/wearefrank/zaakbrug/commit/0350978102f1a0001a80363c5655224a18e2b20d))
+* SelectZdsRoles & SelectZdsRolesFromListWithMatchingIdentity Larva testcases ([5094ca4](https://github.com/wearefrank/zaakbrug/commit/5094ca4d45891e9b6378d3fae40631468c8e6f33))
+* valueOverrides related Larva testcases ([f2de2a7](https://github.com/wearefrank/zaakbrug/commit/f2de2a7238a95cee6f2ab6b3bec34af3b1d89b5f))
+* valueOverrides related Larva testcases ([22e16de](https://github.com/wearefrank/zaakbrug/commit/22e16de67c74b22f5090caa1363cb3b50e3c8d11))
+* valueOverrides sourced from extraElementen e2e testcases ([8a7b450](https://github.com/wearefrank/zaakbrug/commit/8a7b450c1abeb568dc0c0cfa1d807c11004a0ff7))
+* valueOverrides sourced from extraElementen e2e testcases ([b78ae28](https://github.com/wearefrank/zaakbrug/commit/b78ae28215add7b83a2970ca77b634a26ca80602))
+* ZgwRol xslt Larva regression test ([a76fb7f](https://github.com/wearefrank/zaakbrug/commit/a76fb7fa7fca2f032ea942340fc5b56f019802bf))
+* ZgwRol xslt Larva regression test ([e8425a8](https://github.com/wearefrank/zaakbrug/commit/e8425a8f6e053ad38854bf2c8a76b080d6745966))
+
+## [1.21.4](https://github.com/wearefrank/zaakbrug/compare/v1.21.3...v1.21.4) (2024-09-13)
+
+### 🤖 Build System
+
+* **dependencies:** bump-f!f-version-to-8.3.0-20240910.042339 ([#425](https://github.com/wearefrank/zaakbrug/issues/425)) ([7ca3cb9](https://github.com/wearefrank/zaakbrug/commit/7ca3cb9a7ee3af484b1000fe8ad36ef181ee0364))
+
+## [1.21.3](https://github.com/wearefrank/zaakbrug/compare/v1.21.2...v1.21.3) (2024-09-13)
+
+### 🐛 Bug Fixes
+
+* having both einddatum and resultaat but no eindstatus in updateZaak does not close zaak based on einddatum ([#440](https://github.com/wearefrank/zaakbrug/issues/440)) ([4346f16](https://github.com/wearefrank/zaakbrug/commit/4346f1606c60d5563644977bffbf92deeac513d1))
+
+### 🤖 Build System
+
+* **dependencies:** bump prism-react-renderer ([#437](https://github.com/wearefrank/zaakbrug/issues/437)) ([c4bca52](https://github.com/wearefrank/zaakbrug/commit/c4bca52ae5d501a710d48c2e60f79a30365a7b4b))
+* **dependencies:** bump the github-actions group across 1 directory with 2 updates ([#439](https://github.com/wearefrank/zaakbrug/issues/439)) ([56cef55](https://github.com/wearefrank/zaakbrug/commit/56cef55ae6b0807c0f629454f66e743cd3397443))
+
+## [1.21.2](https://github.com/wearefrank/zaakbrug/compare/v1.21.1...v1.21.2) (2024-09-04)
+
+### 🧑‍💻 Code Refactoring
+
+* skip empty query parameters in GetRolByZaakUrlAndRolTypeUrl adapter ([c3343e1](https://github.com/wearefrank/zaakbrug/commit/c3343e12eb52bf059b25a459c6f78e7e2d64de5a))
+
+## [1.21.1](https://github.com/wearefrank/zaakbrug/compare/v1.21.0...v1.21.1) (2024-09-03)
+
+### 🐛 Bug Fixes
+
+* updateZaak when deleting an existing gerelateerde and add new one back on the same role performs add action before delete action resulting in an error when only 1 of that roltype is allowed ([34ff319](https://github.com/wearefrank/zaakbrug/commit/34ff319fd990a824b885bcd473ff4fe8160537a6))
+
+### ✅ Tests
+
+* change delete&add roles testcase to use initiator instead so that order of operation is checked aswell ([ac0cade](https://github.com/wearefrank/zaakbrug/commit/ac0cadea0d99fcf3ab8d0c2d5fc5a1a66d5bf297))
+
+## [1.21.0](https://github.com/wearefrank/zaakbrug/compare/v1.20.2...v1.21.0) (2024-08-30)
+
+### 🍕 Features
+
+* valueOverrides in the translation profiles can now also be applied to case roles ([17e9371](https://github.com/wearefrank/zaakbrug/commit/17e937132c1eafd3b942df7887ada0b197d083ef))
+
+### 🐛 Bug Fixes
+
+* case rol geboortedatum throws error when absent or empty in input message ([d11a769](https://github.com/wearefrank/zaakbrug/commit/d11a7697a22a01502183f3984db2b0a155147889))
+* map annIdentificatie field from zds to zgw ([38378da](https://github.com/wearefrank/zaakbrug/commit/38378da451065f086911041ac54db7f30e2d6722))
+
+### 🧑‍💻 Code Refactoring
+
+* add omschrijving and omschrijvingGeneriek to case role zds to zgw translation to match the zaken api and to retain roltype information ([57b7625](https://github.com/wearefrank/zaakbrug/commit/57b7625d98d74872ea9af508baf6d528121ad30f))
+* case role betrokkkeneInformatie translation removes empty elements only where appropriate now instead of skipping all empty element always ([0811ce7](https://github.com/wearefrank/zaakbrug/commit/0811ce702dc780f60d96a9ebc7666995999a018f))
+* move zgw api envelope unwrap to the adapter responsible for making the api call ([8113511](https://github.com/wearefrank/zaakbrug/commit/81135115daa3609fb5f96d8953c0c84e35b47259))
+* rewrite of xslt responsible for merging the 2 object updateZaak variant to the 1 object variant ([667abae](https://github.com/wearefrank/zaakbrug/commit/667abae49d1b5ecda6159129face40b3c9e6594d))
+* xsd for correctly converting a case from xml to json changed to contain only the element which it, so that the ordering of elements is no longer neccesary ([babe98b](https://github.com/wearefrank/zaakbrug/commit/babe98bd79bbad3350dcd6d58707b7d1bae98cc0))
+* xsd's for correctly converting xml to json changed to contain element which require it, so that the ordering of elements in no longer necessary ([522acf3](https://github.com/wearefrank/zaakbrug/commit/522acf348da434665158a7096e7a0478fa3aed03))
+
+### ✅ Tests
+
+* e2e testcases for valueOverrides system ([a8206cf](https://github.com/wearefrank/zaakbrug/commit/a8206cf02ab5c8aa9689e53181a145cdf7588357))
+* larva testcases for validating valueOverrides related adapters and xslt's ([9f3f960](https://github.com/wearefrank/zaakbrug/commit/9f3f9600e75b82eb0f8e3b2ba488dcb72db94a3a))
+
+### 🤖 Build System
+
+* **dependencies:** bump the docusaurus group across 1 directory with 6 updates ([#433](https://github.com/wearefrank/zaakbrug/issues/433)) ([9662a51](https://github.com/wearefrank/zaakbrug/commit/9662a51be17fd219ed50e2d6852c689d7a450fd9))
+* **dependencies:** bump the github-actions group across 1 directory with 4 updates ([#435](https://github.com/wearefrank/zaakbrug/issues/435)) ([b044ba2](https://github.com/wearefrank/zaakbrug/commit/b044ba2cc832c05a867054387856bcbe3ea540eb))
+
 ## [1.20.2](https://github.com/wearefrank/zaakbrug/compare/v1.20.1...v1.20.2) (2024-07-26)
 
 ### 🤖 Build System

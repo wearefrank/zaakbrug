@@ -12,12 +12,16 @@
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
-            <SenderPipe name="GetAuthorizationHeaderForZakenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
+
+            <SenderPipe
+                name="GetAuthorizationHeaderForZakenApi"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                >
                 <IbisLocalSender
                     name="GetAuthorizationHeaderForZakenApiSender"
                     javaListener="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization">
+                    returnedSessionKeys="Error,Authorization"
+                    >
                 </IbisLocalSender>
                 <Forward name="success" path="AddZaakUrl" />
                 <Forward name="exception" path="EXCEPTION" />
@@ -30,87 +34,48 @@
                 skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/AddZaakUrl.xsl"
                 >
-                <Param name="ZaakUrl" sessionKey="ZaakUrl"/>
-                <Forward name="success" path="BetrokkeneTypeSwitch"/>
+                <Param name="ZaakUrl" sessionKey="ZaakUrl" />
+                <Forward name="success" path="PostZgwRol" />
             </XsltPipe>
 
-            <XmlSwitchPipe 
-                name="BetrokkeneTypeSwitch"
-				xpathExpression="/zgwRol/betrokkeneType"
-                />
-
-            <Json2XmlValidatorPipe
-                name="natuurlijk_persoon"
-                schema="CreeerZaak_LK01/xsd/ZgwRolNatuurlijkPersoon.xsd"
-                root="zgwRol"
-                outputFormat="JSON"
-                deepSearch="true"
-                throwException="true">
-                <Forward name="success" path="PostZgwRol"/>
-            </Json2XmlValidatorPipe>
-
-            <Json2XmlValidatorPipe
-                name="medewerker"
-                schema="CreeerZaak_LK01/xsd/ZgwRolMedewerker.xsd"
-                root="zgwRol"
-                outputFormat="JSON"
-                deepSearch="true"
-                throwException="true">
-                <Forward name="success" path="PostZgwRol"/>
-            </Json2XmlValidatorPipe>
-
-            <Json2XmlValidatorPipe
-                name="niet_natuurlijk_persoon"
-                schema="CreeerZaak_LK01/xsd/ZgwRolNietNatuurlijkPersoon.xsd"
-                root="zgwRol"
-                outputFormat="JSON"
-                deepSearch="true"
-                throwException="true">
-                <Forward name="success" path="PostZgwRol"/>
-            </Json2XmlValidatorPipe>
-
-            <Json2XmlValidatorPipe
-                name="vestiging"
-                schema="CreeerZaak_LK01/xsd/ZgwRolVestiging.xsd"
-                root="zgwRol"
-                outputFormat="JSON"
-                deepSearch="true"
-                throwException="true">
-                <Forward name="success" path="PostZgwRol"/>
-            </Json2XmlValidatorPipe>
-            
-            <Json2XmlValidatorPipe
-                name="organisatorische_eenheid"
-                schema="CreeerZaak_LK01/xsd/ZgwRolOrganisatorischeEenheid.xsd"
-                root="zgwRol"
-                outputFormat="JSON"
-                deepSearch="true"
-                throwException="true">
-                <Forward name="success" path="PostZgwRol"/>
-            </Json2XmlValidatorPipe>
-
-            <SenderPipe name="PostZgwRol" 
-                storeResultInSessionKey="PostZgwRolResult">
-				<HttpSender 
+            <SenderPipe
+                name="PostZgwRol"
+                storeResultInSessionKey="PostZgwRolResult"
+                >
+                <Json2XmlInputValidator
+                    name="XmlToJson"
+                    schema="CreeerZaak_LK01/xsd/ZgwRol.xsd"
+                    root="zgwRol"
+                    outputFormat="JSON"
+                    throwException="true"
+                    >
+                </Json2XmlInputValidator>
+				<HttpSender
 					name="PostZgwRolSender"
 					methodType="POST"
 					headersParams="Authorization,Accept-Crs,Content-Crs"
                     contentType="application/json"
                     timeout="${zaakbrug.zgw.zaken-api.timeout}"
                     maxExecuteRetries="5"
-				/>
-                <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}rollen"/>
-                <Param name="Accept-Crs" value="EPSG:4326"/>
-                <Param name="Content-Crs"  value="EPSG:4326"/>
+				    />
+                <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}rollen" />
+                <Param name="Accept-Crs" value="EPSG:4326" />
+                <Param name="Content-Crs"  value="EPSG:4326" />
                 <Param name="Authorization"  sessionKey="Authorization" />
                 <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="ErrorJsonToXml" />
 			</SenderPipe>
-            <JsonPipe name="ErrorJsonToXml">
+
+            <JsonPipe
+                name="ErrorJsonToXml"
+                >
                 <Forward name="success" path="buildErrorMsg" />
             </JsonPipe>
-            <XsltPipe name="buildErrorMsg"
-                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+
+            <XsltPipe
+                name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl"
+                >
                 <Param name="senderPipeName" value="PostZgwRol" />
                 <Forward name="success" path="EXCEPTION" />
             </XsltPipe>

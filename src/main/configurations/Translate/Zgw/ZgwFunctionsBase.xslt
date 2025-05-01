@@ -1,4 +1,4 @@
-<xsl:stylesheet exclude-result-prefixes="xs xsl zgw" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://google.com/zgw" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" >
+<xsl:stylesheet exclude-result-prefixes="xs xsl zgw" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:zgw="http://www.wearefrank.nl/zgw" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" >
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="yes" exclude-result-prefixes="xsi"/>
     
     <xsl:function name="zgw:toZgwDatetime" as="xs:dateTime">
@@ -258,6 +258,34 @@
             </xsl:when>
             <xsl:otherwise/>
         </xsl:choose>
+    </xsl:function>
+
+    <xsl:function name="zgw:currentZdsDateTime" as="xs:string">
+        <xsl:variable name="currentUtcDateTime" select="adjust-dateTime-to-timezone(current-dateTime(), xs:dayTimeDuration('PT0H'))" />
+        <xsl:variable name="timezoneOffset" select="format-dateTime($currentUtcDateTime, '[Z]', (), (), environment-variable('zaakbrug.zds.timezone'))" />
+        <xsl:variable name="dayTimeDuration" as="xs:dayTimeDuration">
+            <xsl:choose>
+                <xsl:when test="starts-with($timezoneOffset, '+')">
+                    <xsl:value-of select="concat('PT', substring-before(substring-after($timezoneOffset, '+'), ':'), 'H')" />
+                </xsl:when>
+                <xsl:when test="starts-with($timezoneOffset, '-')">
+                    <xsl:value-of select="concat('PT-', substring-before(substring-after($timezoneOffset, '-'), ':'), 'H')" />
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="'PT0H'"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:variable name="adjustedDateTime" select="adjust-dateTime-to-timezone($currentUtcDateTime, $dayTimeDuration)" />
+        <xsl:value-of select="format-dateTime($adjustedDateTime, '[Y0001][M01][D01][H01][m01][s01]')" />
+    </xsl:function>
+
+    <xsl:function name="zgw:currentZdsDate" as="xs:string">
+        <xsl:value-of select="substring(zgw:currentZdsDateTime(), 1, 8)" />
+    </xsl:function>
+
+    <xsl:function name="zgw:currentZdsTime" as="xs:string">
+        <xsl:value-of select="substring(zgw:currentZdsDateTime(), 9, 6)" />
     </xsl:function>
 
 </xsl:stylesheet>

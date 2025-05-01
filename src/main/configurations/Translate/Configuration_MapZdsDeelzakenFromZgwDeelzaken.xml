@@ -16,153 +16,23 @@
 
             <SenderPipe
                 name="GetZgwDeelzaakSender"
-                storeResultInSessionKey="GetZgwDeelzaak">
+                storeResultInSessionKey="ZgwDeelzaak">
                 <IbisLocalSender
                     name="GetZgwDeelzaakLocalSender"
                     javaListener="GetZgwZaakByUrl"
                     returnedSessionKeys="Error">
-                    <Param name="Url" sessionKey="Url"/>
+                    <Param name="Url" xpathExpression="/deelzaken"/>
                 </IbisLocalSender>
-                <Forward name="success" path="GetSingleResultFromZgwRolEnvelope"/>
+                <Forward name="success" path="CreateZdsHeeftAlsDeelzaak"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XsltPipe
-                name="GetSingleResultFromZgwRolEnvelope"
-                getInputFromSessionKey="originalMessage"
-                storeResultInSessionKey="ZgwRol"
-                styleSheetName="Common/xsl/GetSingleResultFromOpenZaakEnvelope.xslt"
+            <XsltPipe 
+                name="CreateZdsHeeftAlsDeelzaak"
+                skipEmptyTags="true"
+                styleSheetName="geefZaakdetails_Lv01/xsl/CreateZdsHeeftAlsDeelzaak.xslt"
                 >
-                <Forward name="success" path="MatchHeeftBetrekkingOpOmschrijving"/>
-                <Forward name="error" path="EXCEPTION"/>
-            </XsltPipe>
-
-            <XmlIfPipe name="MatchHeeftBetrekkingOpOmschrijving"
-                xpathExpression="lower-case($lh)=lower-case($rh)"
-                >
-                <Param name="lh" xpathExpression="$RolMapping/rolMapping/heeftBetrekkingOp">
-                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC"/>
-                </Param>
-                <Param name="rh" xpathExpression="/root/omschrijving" type="STRING"/>
-                <Forward name="then" path="StoreHeeftBetrekkingOpKeys"/>
-                <Forward name="else" path="MatchHeeftAlsBelanghebbendeOmschrijving"/>
-            </XmlIfPipe>
-
-            <PutInSessionPipe name="StoreHeeftBetrekkingOpKeys">
-				<Param name="RolNaam" value="heeftBetrekkingOp" type="STRING"/>
-				<Param name="RolEntiteitType" value="ZAKOBJ" type="STRING"/>
-                <Forward name="success" path="MapZdsRolFromZgwRol"/>
-			</PutInSessionPipe>
-
-            <XmlIfPipe name="MatchHeeftAlsBelanghebbendeOmschrijving"
-                xpathExpression="lower-case($lh)=lower-case($rh)"
-                >
-                <Param name="lh" xpathExpression="$RolMapping/rolMapping/heeftAlsBelanghebbende" type="STRING">
-                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC"/>
-                </Param>
-                <Param name="rh" xpathExpression="/root/omschrijving" type="STRING"/>
-                <Forward name="then" path="StoreHeeftAlsBelanghebbendeKeys"/>
-                <Forward name="else" path="MatchHeeftAlsInitiatorOmschrijving"/>
-            </XmlIfPipe>
-
-            <PutInSessionPipe name="StoreHeeftAlsBelanghebbendeKeys">
-				<Param name="RolNaam" value="heeftAlsBelanghebbende" type="STRING"/>
-				<Param name="RolEntiteitType" value="ZAKBTRBLH" type="STRING"/>
-                <Forward name="success" path="MapZdsRolFromZgwRol"/>
-			</PutInSessionPipe>
-
-            <XmlIfPipe name="MatchHeeftAlsInitiatorOmschrijving"
-                xpathExpression="lower-case($lh)=lower-case($rh)"
-                >
-                <Param name="lh" xpathExpression="$RolMapping/rolMapping/heeftAlsInitiator" type="STRING">
-                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC"/>
-                </Param>
-                <Param name="rh" xpathExpression="/root/omschrijving" type="STRING"/>
-                <Forward name="then" path="StoreHeeftAlsInitiatorKeys"/>
-                <Forward name="else" path="MatchHeeftAlsUitvoerendeOmschrijving"/>
-            </XmlIfPipe>
-
-            <PutInSessionPipe name="StoreHeeftAlsInitiatorKeys">
-				<Param name="RolNaam" value="heeftAlsInitiator" type="STRING"/>
-				<Param name="RolEntiteitType" value="ZAKBTRINI" type="STRING"/>
-                <Forward name="success" path="MapZdsRolFromZgwRol"/>
-			</PutInSessionPipe>
-
-            <XmlIfPipe name="MatchHeeftAlsUitvoerendeOmschrijving"
-                xpathExpression="lower-case($lh)=lower-case($rh)"
-                >
-                <Param name="lh" xpathExpression="$RolMapping/rolMapping/heeftAlsUitvoerende" type="STRING">
-                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC"/>
-                </Param>
-                <Param name="rh" xpathExpression="/root/omschrijving" type="STRING"/>
-                <Forward name="then" path="StoreHeeftAlsUitvoerendeKeys"/>
-                <Forward name="else" path="MatchHeeftAlsVerantwoordelijkeOmschrijving"/>
-            </XmlIfPipe>
-
-            <PutInSessionPipe name="StoreHeeftAlsUitvoerendeKeys">
-				<Param name="RolNaam" value="heeftAlsUitvoerende" type="STRING"/>
-				<Param name="RolEntiteitType" value="ZAKBTRUTV" type="STRING"/>
-                <Forward name="success" path="MapZdsRolFromZgwRol"/>
-			</PutInSessionPipe>
-
-            <XmlIfPipe name="MatchHeeftAlsVerantwoordelijkeOmschrijving"
-                xpathExpression="lower-case($lh)=lower-case($rh)"
-                >
-                <Param name="lh" xpathExpression="$RolMapping/rolMapping/heeftAlsVerantwoordelijke" type="STRING">
-                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC"/>
-                </Param>
-                <Param name="rh" xpathExpression="/root/omschrijving" type="STRING"/>
-                <Forward name="then" path="StoreHeeftAlsVerantwoordelijkeKeys"/>
-                <Forward name="else" path="MatchHeeftAlsGemachtigdeOmschrijving"/>
-            </XmlIfPipe>
-
-            <PutInSessionPipe name="StoreHeeftAlsVerantwoordelijkeKeys">
-				<Param name="RolNaam" value="heeftAlsVerantwoordelijke" type="STRING"/>
-				<Param name="RolEntiteitType" value="ZAKBTRVRA" type="STRING"/>
-                <Forward name="success" path="MapZdsRolFromZgwRol"/>
-			</PutInSessionPipe>
-
-            <XmlIfPipe name="MatchHeeftAlsGemachtigdeOmschrijving"
-                xpathExpression="lower-case($lh)=lower-case($rh)"
-                >
-                <Param name="lh" xpathExpression="$RolMapping/rolMapping/heeftAlsGemachtigde" type="STRING">
-                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC"/>
-                </Param>
-                <Param name="rh" xpathExpression="/root/omschrijving" type="STRING"/>
-                <Forward name="then" path="StoreHeeftAlsGemachtigdeKeys"/>
-                <Forward name="else" path="MatchHeeftAlsOverigBetrokkeneOmschrijving"/>
-            </XmlIfPipe>
-
-            <PutInSessionPipe name="StoreHeeftAlsGemachtigdeKeys">
-				<Param name="RolNaam" value="heeftAlsGemachtigde" type="STRING"/>
-				<Param name="RolEntiteitType" value="ZAKBTRGMC" type="STRING"/>
-                <Forward name="success" path="MapZdsRolFromZgwRol"/>
-			</PutInSessionPipe>
-
-            <XmlIfPipe name="MatchHeeftAlsOverigBetrokkeneOmschrijving"
-                xpathExpression="lower-case($lh)=lower-case($rh)"
-                >
-                <Param name="lh" xpathExpression="$RolMapping/rolMapping/heeftAlsOverigBetrokkene" type="STRING">
-                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC"/>
-                </Param>
-                <Param name="rh" xpathExpression="/root/omschrijving" type="STRING"/>
-                <Forward name="then" path="StoreHeeftAlsOverigBetrokkeneKeys"/>
-                <Forward name="else" path="EXCEPTION"/>
-            </XmlIfPipe>
-
-            <PutInSessionPipe name="StoreHeeftAlsOverigBetrokkeneKeys">
-				<Param name="RolNaam" value="heeftAlsOverigBetrokkene" type="STRING"/>
-				<Param name="RolEntiteitType" value="ZAKBTROVR" type="STRING"/>
-                <Forward name="success" path="MapZdsRolFromZgwRol"/>
-			</PutInSessionPipe>
-
-            <XsltPipe name="MapZdsRolFromZgwRol"
-                getInputFromSessionKey="ZgwRol"
-                storeResultInSessionKey="ZdsRol"
-                styleSheetName="CreeerZaak_LK01/xsl/MapZdsRolFromZgwRol.xslt"
-                >
-                <Param name="RolNaam" sessionKey="RolNaam" type="STRING"/>
-                <Param name="RolEntiteitType" sessionKey="RolEntiteitType" type="STRING"/>
+                <Param name="ZgwZaak" sessionKey="ZgwDeelzaak" type="DOMDOC"/>
                 <Forward name="success" path="EXIT"/>
             </XsltPipe>
 

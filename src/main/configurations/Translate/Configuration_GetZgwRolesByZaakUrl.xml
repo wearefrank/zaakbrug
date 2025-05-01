@@ -13,44 +13,67 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <SenderPipe name="GetAuthorizationHeaderForZakenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
+            <SenderPipe
+                name="GetAuthorizationHeaderForZakenApi"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                >
                 <IbisLocalSender
                     name="GetAuthorizationHeaderForZakenApiSender"
                     javaListener="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization">
+                    returnedSessionKeys="Error,Authorization"
+                    >
                 </IbisLocalSender>
                 <Forward name="success" path="GetZgwRolesByZaakUrl" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-			<SenderPipe name="GetZgwRolesByZaakUrl" 
-                getInputFromFixedValue="&lt;dummy/&gt;">
-				<HttpSender 
-					name="GetZgwRolesByZaakUrlSender" 
+			<SenderPipe
+                name="GetZgwRolesByZaakUrl"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                >
+				<HttpSender
+					name="GetZgwRolesByZaakUrlSender"
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
                     timeout="${zaakbrug.zgw.zaken-api.timeout}"
-				/>
-                <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}rollen"/>
+				    />
+                <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}rollen" />
                 <Param name="zaak" sessionKey="ZaakUrl" />
-                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Accept-Crs" value="EPSG:4326" />
                 <Param name="Authorization"  sessionKey="Authorization" />
                 <Forward name="success" path="JsonToXml" />
                 <Forward name="exception" path="ErrorJsonToXml" />
 			</SenderPipe>
-            <JsonPipe name="ErrorJsonToXml">
+
+            <JsonPipe
+                name="ErrorJsonToXml"
+                >
                 <Forward name="success" path="buildErrorMsg" />
             </JsonPipe>
-            <XsltPipe name="buildErrorMsg"
-                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+
+            <XsltPipe
+                name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl"
+                >
                 <Param name="senderPipeName" value="GetZgwRolesByZaakUrl" />
                 <Forward name="success" path="EXCEPTION" />
             </XsltPipe>
 
-            <JsonPipe name="JsonToXml">
-                <Forward name="success" path="EXIT"/>
+            <JsonPipe
+                name="JsonToXml"
+                >
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList" />
             </JsonPipe>
+
+            <XsltPipe
+                name="UnwrapOpenZaakApiEnvelopeToList"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
+                >
+                <Param name="Type" value="zgwRol" />
+                <Param name="List" value="ZgwRollen" />
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>

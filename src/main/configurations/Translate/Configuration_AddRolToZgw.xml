@@ -15,29 +15,30 @@
 
             <XmlIfPipe
                 name="CheckForZdsGerelateerde"
-                xpathExpression="count(role/gerelateerde) > 0"
+                xpathExpression="count(*/*:gerelateerde) gt 0"
                 >
-                <Forward name="then" path="CreateZgwBetrokkeneIdentificatie"/>
-                <Forward name="else" path="EXIT"/>
+                <Forward name="then" path="CreateZgwRol" />
+                <Forward name="else" path="EXIT" />
             </XmlIfPipe>
 
             <XsltPipe
-                name="CreateZgwBetrokkeneIdentificatie"
+                name="CreateZgwRol"
                 getInputFromSessionKey="originalMessage"
-                storeResultInSessionKey="ZgwBetrokkeneIdentificatie"
-                styleSheetName="CreeerZaak_LK01/xsl/CreateZgwBetrokkeneIdentificatie.xsl"
+                storeResultInSessionKey="RolBody"
+                styleSheetName="Common/xsl/ZgwRol.xslt"
                 >
-                <Param name="TypeRolOmschrijving" xpathExpression="role/typeRolOmschrijving"/>
-                <Forward name="success" path="CheckForZgwBetrokkeneIdentificatie"/>
+                <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC" />
+                <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
+                <Forward name="success" path="CheckForZgwBetrokkeneIdentificatie" />
             </XsltPipe>
 
             <XmlIfPipe
                 name="CheckForZgwBetrokkeneIdentificatie"
-                xpathExpression="string-length(zgwRol/betrokkeneIdentificatie)>0"
-            >
-                <Forward name="then" path="CreateRolBody"/>
-                <Forward name="else" path="EmptyResult"/>
-                <Forward name="exception" path="EXIT"/> <!-- Temporary solution for lack of adres processing -->
+                xpathExpression="string-length(zgwRol/betrokkeneIdentificatie) gt 0"
+                >
+                <Forward name="then" path="CheckForZgwRolType" />
+                <Forward name="else" path="EmptyResult" />
+                <Forward name="exception" path="EXIT" /> <!-- Temporary solution for lack of adres processing -->
             </XmlIfPipe>
 
             <EchoPipe name="EmptyResult"
@@ -45,25 +46,29 @@
                 <Forward name="success" path="EXIT"/>
             </EchoPipe>
 
-            <XsltPipe
-                name="CreateRolBody"
-                getInputFromSessionKey="originalMessage"
-                storeResultInSessionKey="RolBody"
-                styleSheetName="CreeerZaak_LK01/xsl/CreateRolBody.xsl"
-                >
-                <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC"/>
-                <Param name="ZgwBetrokkeneIdentificatie" sessionKey="ZgwBetrokkeneIdentificatie" type="DOMDOC"/>
-                <Param name="TypeRolOmschrijving" xpathExpression="role/typeRolOmschrijving"/>
-                <Forward name="success" path="CheckForZgwRolType"/>
-            </XsltPipe> 
-
             <XmlIfPipe
                 name="CheckForZgwRolType"
                 xpathExpression="string-length(zgwRol/roltype)>0"
                 >
-                <Forward name="then" path="EXIT"/>
+                <Forward name="then" path="RolBodyApplyValueOverridesFromTranslationProfileSender"/>
                 <Forward name="else" path="ResultWithErrorMessage"/>
-            </XmlIfPipe>   
+            </XmlIfPipe>
+            
+            <SenderPipe
+                name="RolBodyApplyValueOverridesFromTranslationProfileSender"
+                >
+                <IbisLocalSender
+                    name="RolBodyApplyValueOverridesFromTranslationProfileLocalSender"
+                    javaListener="ApplyTranslationProfileValueOverrides"
+                    returnedSessionKeys="Error"
+                    >
+                </IbisLocalSender>
+                <Param name="zaaktype" sessionKey="ZaakType" />
+                <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.rollen.zgwRol" />
+                <Param name="CurrentContext" sessionKey="originalMessage" type="DOMDOC" />
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="UncaughtException" />
+            </SenderPipe>
 
             <XsltPipe
                 name="ResultWithErrorMessage"
@@ -80,6 +85,20 @@
                     pattern="omschrijving:{TypeRolOmschrijving} cannot be found in the list of roltypes" ignoreUnresolvablePatternElements="true" >
                 </Param>
                 <Param name="detailsXml" sessionKey="ZgwRolTypen" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <XsltPipe 
+                name="UncaughtException"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Uncaught exception" /> 
+                <!-- <Param name="details" sessionKey="" /> -->
+                <Param name="detailsXml" type="DOMDOC" />
                 <Forward name="success" path="EXCEPTION" />
                 <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>

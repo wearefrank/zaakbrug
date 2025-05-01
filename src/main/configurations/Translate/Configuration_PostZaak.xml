@@ -1,11 +1,18 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="PostZaakAdapter"
+    <Adapter
+        name="PostZaakAdapter"
         active="${PostZaakAdapter.Active}"
-        description="">
+        description=""
+        >
 
-        <Receiver name="PostZaakAdapter">
-            <JavaListener name="PostZaakAdapter" returnedSessionKeys="Error" />
+        <Receiver
+            name="PostZaakAdapter"
+            >
+            <JavaListener
+                name="PostZaakAdapter"
+                returnedSessionKeys="Error"
+                />
         </Receiver>
 
         <Pipeline>
@@ -14,82 +21,77 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-
-            <!-- <Json2XmlValidatorPipe
-                name="ValidatePostBody"
-            schema="CreeerZaak_LK01/xsd/ZgwZaak.xsd"
-                root="zgwZaak"
-            outputFormat="JSON"
-                deepSearch="true"
-                throwException="true"
-            >
-                <Forward name="success" path="PostZgwZaak"/>
-            </Json2XmlValidatorPipe> -->
-
-            <!-- <XsltPipe
-                name="json"
-                styleSheetName="Common/xsl/ManualJson.xslt"
-            outputType="TEXT">
-                <Forward name="success" path="PostZgwZaak"/>
-            </XsltPipe> -->
-
-            <SenderPipe name="GetAuthorizationHeaderForZakenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
+            <SenderPipe
+                name="GetAuthorizationHeaderForZakenApi"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                >
                 <IbisLocalSender
                     name="GetAuthorizationHeaderForZakenApiSender"
                     javaListener="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization">
+                    returnedSessionKeys="Error,Authorization"
+                    >
                 </IbisLocalSender>
                 <Forward name="success" path="PostZgwZaak" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
             
-            <SenderPipe name="PostZgwZaak" getInputFromSessionKey="originalMessage">
-
-                <Json2XmlInputValidator name="ValidatePost"
+            <SenderPipe
+                name="PostZgwZaak"
+                getInputFromSessionKey="originalMessage"
+                >
+                <Json2XmlInputValidator
+                    name="ValidatePost"
                     schema="Zgw/Zaken/Model/PostZgwZaak.xsd"
                     root="ZgwZaak"
                     outputFormat="JSON"
-                    deepSearch="true"
                     throwException="true"
-                />
-                <HttpSender name="PostZgwZaakSender"
+                    />
+                <HttpSender
+                    name="PostZgwZaakSender"
                     methodType="POST"
                     headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
                     timeout="${zaakbrug.zgw.zaken-api.timeout}"
                     maxExecuteRetries="5"
-                    contentType="application/json">
+                    contentType="application/json"
+                    >
                     <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}zaken"/>
                     <Param name="Accept-Crs" value="EPSG:4326" />
                     <Param name="Accept" value="application/json" />
                     <Param name="Content-Crs" value="EPSG:4326" />
                     <Param name="Authorization" sessionKey="Authorization" />
                 </HttpSender>
-
                 <Forward name="success" path="JsonToXml" />
                 <Forward name="exception" path="ErrorJsonToXml" />
             </SenderPipe>
-            <JsonPipe name="ErrorJsonToXml">
+
+            <JsonPipe
+                name="ErrorJsonToXml"
+                >
                 <Forward name="success" path="buildErrorMsg" />
             </JsonPipe>
-            <XsltPipe name="buildErrorMsg"
-                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+
+            <XsltPipe
+                name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl"
+                >
                 <Param name="senderPipeName" value="PostZgwZaak" />
                 <Forward name="success" path="EXCEPTION" />
             </XsltPipe>
 
-            <JsonPipe name="JsonToXml"
-                storeResultInSessionKey="PostZgwZaakResult">
+            <JsonPipe
+                name="JsonToXml"
+                storeResultInSessionKey="PostZgwZaakResult"
+                >
                 <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToSingle" />
             </JsonPipe>
 
             <XsltPipe
                 name="UnwrapOpenZaakApiEnvelopeToSingle"
                 styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToSingle.xslt"
-            >
+                >
                 <Param name="Type" value="ZgwZaak" />
                 <Forward name="success" path="EXIT" />
-                <Forward name="error" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>
         </Pipeline>
     </Adapter>

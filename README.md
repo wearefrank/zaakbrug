@@ -8,7 +8,32 @@ There is a new specification named "zaakgericht werken" (zgw) for case register 
 
 This project, ZaakBrug, is meant to be a successor of Open-ZaakBrug. It leverages the [Frank!Framework](https://wearefrank.nl/en/framework) and its debugger Ladybug. The debugger shows for each incoming request which steps are executed to process the message. If there are errors, this information can be used for easy debugging. ZaakBrug does not only connect zds systems with case register system [OpenZaak](https://openzaak.org/en), but with any case register system that implements zgw.
 
-# Starting ZaakBrug
+## Compatibility
+ZDS 1.1 functionality is supported with the exception of the `geefZaakstatus_Lv01` and `maakZaakdocument_Lk01` messages. Additional elements from RGBZ/StUF-Zaken are partially supported. Due to the broadness of RGBZ/StUF-Zaken, support for additional elements is implemented on-demand. 
+
+Raw StUF-Zaken messages are officially not supported and therefor not part of automated testing, but ZaakBrug does accept them and does a best-effort translation. Simple use-cases such as creating a case or adding a document are usually translated without issue.
+
+| Webservice Operation | Status |
+| --------------- | --- |
+| ZDS 1.1 - genereerZaakIdentificatie_Di02 | supported |
+| ZDS 1.1 - creeerZaak_Lk01 | supported |
+| ZDS 1.1 - updateZaak_Lk01 | supported |
+| ZDS 1.1 - actualiseerZaakstatus_Lk01 | supported |
+| ZDS 1.1 - geefZaakdetails_Lv01 | supported |
+| ZDS 1.1 - geefZaakstatus_Lv01 | not supported |
+| ZDS 1.1 - genereerDocumentIdentificatie_Di02 | supported |
+| ZDS 1.1 - geefLijstZaakdocumenten_Lv01 | supported |
+| ZDS 1.1 - maakZaakdocument_Lk01 | not supported |
+| ZDS 1.1 - voegZaakdocumentToe_Lk01 | supported |
+| ZDS 1.1 - geefZaakdocumentLezen_Lv01 | supported |
+| ZDS 1.1 - geefZaakdocumentbewerken_Di02 | supported |
+| ZDS 1.1 - updateZaakdocument_Di02 | supported |
+| ZDS 1.1 - cancelCheckout_Di02 | supported |
+| StUF-Zkn 3.1 zakLv01 | best-effort |
+| StUF-Zkn 3.1 zakLk01 | best-effort |
+| StUF-Zkn 3.1 edcLk01 | best-effort |
+
+## Starting ZaakBrug
 
 ### Development in Visual Studio Code
 
@@ -17,10 +42,10 @@ When you are doing development work on ZaakBrug, you may want to boot it using W
 To boot ZaakBrug using the Frank!Runner, you need version control system Git. Choose or create some empty directory in which you can clone Git repositories. For the sake of the argument, we assume it to be `work`. Please do the following:
 
 1. Open a command prompt and change directory to `work`.
-1. Clone the Frank!Runner: `git clone https://github.com/ibissource/frank-runner`.
-1. Clone ZaakBrug: `git clone https://github.com/ibissource/zaakbrug`.
+1. Clone the Frank!Runner: `git clone https://github.com/wearefrank/frank-runner`.
+1. Clone ZaakBrug: `git clone https://github.com/wearefrank/zaakbrug`.
 1. Start the Frank!Runner with one of the boot scripts in the Frank!Runner checkout directory: `start.bat` or `restart.bat` for Windows or `start.sh` or `restart.sh` for Linux or Mac. This step lets the Frank!Runner download Ant, a build tool for Java applications.
-1. Configure your IDE as described in the Frank!Runner's documentation, see https://github.com/ibissource/frank-runner. For VS Code, these instructions let you install the Task Explorer plugin by Scott Meesseman.
+1. Configure your IDE as described in the Frank!Runner's documentation, see https://github.com/wearefrank/frank-runner. For VS Code, these instructions let you install the Task Explorer plugin by Scott Meesseman.
 1. If your IDE is Visual Studio Code, you should have a link to open ZaakBrug, see number 2 in the figure below. Use the menu option number 1 to get access to the link. Click the link to open ZaakBrug using the Frank!Runner.
 
    ![antJobVsCode.jpg](/docs/picturesReadme/antJobVsCode.jpg)
@@ -29,7 +54,7 @@ To boot ZaakBrug using the Frank!Runner, you need version control system Git. Ch
 
 In a production environment it is recommended to run ZaakBrug with Docker. Ensure that Docker is installed on your computer and proceed as follows:
 
-1. Clone GitHub project https://github.com/ibissource/zaakbrug if you have not done so yet.
+1. Clone GitHub project https://github.com/wearefrank/zaakbrug if you have not done so yet.
 1. Open a command prompt and change directory to the checkout directory.
 1. Build your Docker image from the source code using a command like the following: `docker build -t zaakbrug:test .`.
 1. Run ZaakBrug using a command like the following: `docker run -p 8080:8080 -e dtap.stage=LOC --name=zaakbrug zaakbrug:test`.
@@ -141,126 +166,6 @@ Will result in:
     ]
 }
 ```
-
-
-### Profile Defaults
-Profile defaults can be used to configure common translation profile settings. The settings configured in the `profileDefaults` section are applied to **all** zaaktypen. When a regular translation profile for a specific zaaktype is also configured, the settings are merged together. The more specific per zaaktype translation profile will always override any overlapping settings from the `profileDefaults` section. Items in array's like `valuesOverrides` will be combined instead, unless there is an overlapping key. Here the more specific per zaaktype translation profile will also always override any overlapping keys from the ones in the `profileDefaults` section.
-
-For example, the following configuration:
-```json
-{
-    "profileDefaults": {
-        "endCaseEndDate": {
-            "coalesceResultaat": "Onbekend"
-        },
-        "valueOverrides": [
-            {
-                "key": "zgw.zaken-api.zaken.zaak.toelichting",
-                "value": "toelichting from profileDefaults"
-            }
-        ]
-    },
-    "profile": [
-        {
-            "zaakTypeIdentificatie": "B9999",
-            "endDateAndResultLastStatus": {
-                "coalesceResultaat": "Onbekend"
-            },
-            "valueOverrides": [
-                {
-                    "key": "zgw.zaken-api.zaken.zaak.communicatiekanaal",
-                    "value": "http://example.com"
-                }
-            ]
-        },
-        {
-            "zaakTypeIdentificatie": "B1026",
-            "endCaseEndDate": {
-                "coalesceResultaat": "Toegekend"
-            },
-            "valueOverrides": [
-                {
-                    "key": "zgw.zaken-api.zaken.zaak.toelichting",
-                    "value": "toelichting from specific translation profile"
-                }
-            ]
-        }
-    ]
-}
-```
-
-Will result in:
-```json
-{
-    "profile": [
-        {
-            "zaakTypeIdentificatie": "B9999",
-            // highlight-start
-            "endCaseEndDate": {
-                "coalesceResultaat": "Onbekend",
-            },
-            // highlight-end
-            "endDateAndResultLastStatus": {
-                "coalesceResultaat": "Onbekend"
-            },
-            "valueOverrides": [
-                // highlight-start
-                {
-                    "key": "zgw.zaken-api.zaken.zaak.toelichting",
-                    "value": "toelichting from profileDefaults"
-                },
-                // // highlight-end
-                {
-                    "key": "zgw.zaken-api.zaken.zaak.communicatiekanaal",
-                    "value": "http://example.com"
-                }
-            ]
-        },
-        {
-            "zaakTypeIdentificatie": "B1026",
-            "endCaseEndDate": {
-                // highlight-next-line
-                "coalesceResultaat": "Toegekend"
-            },
-            "valueOverrides": [
-                {
-                    "key": "zgw.zaken-api.zaken.zaak.toelichting",
-                    // highlight-next-line
-                    "value": "toelichting from specific translation profile"
-                }
-            ]
-        }
-    ]
-}
-```
-
-### Value Overrides
-The translations from ZDS/StUF to ZGW are made to be as neutral as possible. With value overrides it is possible to diverge from the generic translation defaults or add static properties.
-
-Value overrides can be configured in `src/main/configurations/Translate/profiles.json` or in the `zaakbrug.profiles` section of the Helm chart.
-
-The keys for the the different properties can be deducted from the OpenApi specification of the API's. 
-The keys follow the following format: `zgw.<api-name>.<collection-name>.<object-name>.<property>`. For example the key for the zaak property `betalingsindicatie` would be: `zgw.zaken-api.zaken.zaak.betalingsindicatie`. In the translation profile this would look like this:
-```json
-{
-    "profile": [
-        {
-            "zaakTypeIdentificatie": "example",
-            "valueOverrides": [
-                {
-                    "key": "zgw.zaken-api.zaken.zaak.betalingsindicatie",
-                    "value": "nvt"
-                }
-            ]
-        }
-    ]
-}
-```
-
-A value override is only applied if the property's value after the translation from ZDS/StUF to ZGW is **not present, empty string or null**.
-
-Currently this feature implemented for:
-- (zaken-api) zaak
 
 ## Local Development Docusaurus
 1. Navigate to "docusaurus" subfolder with `cd ./docusaurus`.

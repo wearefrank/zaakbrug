@@ -13,15 +13,78 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <XsltPipe name="MapZdsZaakFromZgwZaak"
+            <SenderPipe
+                name="ZgwZaakApplyValueOverridesZgwToZdsSender"
+                getInputFromSessionKey="ZgwZaak"
+                storeResultInSessionKey="ZgwZaak"
+                >
+                <IbisLocalSender
+                    name="ZgwZaakApplyValueOverridesZgwToZdsLocalSender"
+                    javaListener="ApplyValueOverridesZgwToZds"
+                    returnedSessionKeys="Error,ExtraElementen"
+                    >
+                    <Param name="zaaktype" sessionKey="ZgwZaakType" xpathExpression="/ZgwZaakType/identificatie" />
+                    <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaken.ZgwZaak" />
+                </IbisLocalSender>
+                <Forward name="success" path="CheckIfResultaatExists" />
+            </SenderPipe>
+
+            <XmlIfPipe 
+                name="CheckIfResultaatExists"
+                xpathExpression="string-length(/ZgwZaak/resultaat) gt 0">
+                <Forward name="then" path="GetZgwResultaatByUrlSender" />
+                <Forward name="else" path="MapZdsZaakFromZgwZaak" />
+            </XmlIfPipe>
+
+            <SenderPipe 
+                name="GetZgwResultaatByUrlSender" 
+                storeResultInSessionKey="ZgwResultaat">
+                <IbisLocalSender 
+                    name="GetZgwResultaatByUrlLocalSender" 
+                    javaListener="Zaken_GetZgwResultaatByUrl">
+                    <Param name="url" xpathExpression="/ZgwZaak/resultaat" />
+                </IbisLocalSender>
+                <Forward name="success" path="GetZgwResultaatTypeByUrlSender"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe 
+                name="GetZgwResultaatTypeByUrlSender" 
+                storeResultInSessionKey="ZgwResultaatType">
+                <IbisLocalSender 
+                    name="GetZgwResultaatTypeByUrlLocalSender" 
+                    javaListener="Zaken_GetZgwResultaatTypeByUrl">
+                    <Param name="url" xpathExpression="/ZgwResultaat/resultaattype" />
+                </IbisLocalSender>
+                <Forward name="success" path="MapZdsResultaatFromZgwResultaat"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="MapZdsResultaatFromZgwResultaat"
+                storeResultInSessionKey="ZdsResultaat"
+                styleSheetName="geefZaakdetails_Lv01/xsl/MapZdsResultaatFromZgwResultaat.xslt"
+                >
+                <Param name="Omschrijving" sessionKey="ZgwResultaatType" xpathExpression="/ZgwResultaatType/omschrijving"/>
+                <Param name="Toelichting" sessionKey="ZgwResultaat" xpathExpression="/ZgwResultaat/toelichting"/>
+                <Forward name="success" path="MapZdsZaakFromZgwZaak" />
+            </XsltPipe>
+
+            <XsltPipe 
+                name="MapZdsZaakFromZgwZaak" 
+                getInputFromSessionKey="ZgwZaak"
                 storeResultInSessionKey="ZdsZaak"
                 styleSheetName="Common/xsl/GetZdsZaakFromZgwZaak.xslt"
                 >
-                <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
-                <Forward name="success" path="GetGlobalConfigFromLocalFS"/>
+                <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC" />
+                <Param name="ZdsResultaat" sessionKey="ZdsResultaat" type="DOMDOC" />
+                <Param name="ExtraElementen" sessionKey="ExtraElementen" type="DOMDOC" />
+                <Forward name="success" path="GetGlobalConfigFromLocalFS" />
             </XsltPipe>
 
-            <SenderPipe name="GetGlobalConfigFromLocalFS">
+            <SenderPipe 
+                name="GetGlobalConfigFromLocalFS"
+                getInputFromSessionKey="ZdsZaak">
                 <IbisLocalSender
                     name="CallImportFromLocalFS"
                     javaListener="ImportFromLocalFS"
@@ -32,7 +95,8 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <PutInSessionPipe name="StoreRolMappingFromConfig">
+            <PutInSessionPipe 
+                name="StoreRolMappingFromConfig">
 				<Param name="RolMapping" xpathExpression="/root/rolMapping" type="DOMDOC"/>
                 <Forward name="success" path="GetZgwRolesByZaakUrl"/>
 			</PutInSessionPipe>
@@ -51,15 +115,17 @@
             </SenderPipe>
            
             <ForEachChildElementPipe name="MapZdsRolFromZgwRolIterator"
-                elementXPathExpression="/root/results"
+                elementXPathExpression="/ZgwRollen/zgwRol"
                 storeResultInSessionKey="Rollen">
                 <IbisLocalSender
                     name="CallMapZdsRolFromZgwRol"
                     javaListener="MapZdsRolFromZgwRol"
-                    returnedSessionKeys="Error">
-                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC"/>
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
+                    <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC" />
                 </IbisLocalSender>
-                <Forward name="success" path="EnrichZdsZaakWithRol"/>
+                <Forward name="success" path="EnrichZdsZaakWithRol" />
                 <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
 
@@ -70,7 +136,7 @@
                 >
                 <Param name="With" sessionKey="Rollen" type="DOMDOC"/>
                 <Forward name="success" path="CreateZdsIsVan"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <XsltPipe name="CreateZdsIsVan"
@@ -88,12 +154,12 @@
                 >
                 <Param name="With" sessionKey="ZdsIsVan" type="DOMDOC"/>
                 <Forward name="success" path="ZgwZaakHasHoofdzaak"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <XmlIfPipe name="ZgwZaakHasHoofdzaak"
                 getInputFromSessionKey="ZgwZaak"
-                xpathExpression="string-length(ZgwZaak/hoofdzaak) > 4"
+                xpathExpression="string-length(ZgwZaak/hoofdzaak) gt 0"
                 >
                 <Forward name="then" path="GetZgwHoofdzaak"/>
                 <Forward name="else" path="ZgwZaakHasDeelzaken"/>
@@ -118,27 +184,26 @@
             <XsltPipe name="CreateZdsHeeftAlsHoofdzaak"
                 storeResultInSessionKey="ZdsHeeftAlsHoofdzaak"
                 skipEmptyTags="true"
-                styleSheetName="CreeerZaak_LK01/xsl/CreateZdsHeeftAlsHoofdzaak.xslt"
+                styleSheetName="geefZaakdetails_Lv01/xsl/CreateZdsHeeftAlsHoofdzaak.xslt"
                 >
-                <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
+                <Param name="ZgwZaak" sessionKey="ZgwHoofdzaak" type="DOMDOC"/>
                 <Forward name="success" path="EnrichZdsZaakWithZdsHeeftAlsHoofdzaak"/>
             </XsltPipe>
 
             <XsltPipe name="EnrichZdsZaakWithZdsHeeftAlsHoofdzaak"
                 getInputFromSessionKey="ZdsZaak"
                 storeResultInSessionKey="ZdsZaak"
-                skipEmptyTags="true"
                 styleSheetName="Common/xsl/EnrichEntity.xslt"
                 >
                 <Param name="With" sessionKey="ZdsHeeftAlsHoofdzaak" type="DOMDOC"/>
                 <Forward name="success" path="ZgwZaakHasDeelzaken"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <!-- not tested -->
             <XmlIfPipe name="ZgwZaakHasDeelzaken"
                 getInputFromSessionKey="ZgwZaak"
-                xpathExpression="string-length(ZgwZaak/deelzaken) > 4"
+                xpathExpression="string-length(ZgwZaak/deelzaken[1]) gt 0"
                 >
                 <Forward name="then" path="MapZgwDeelzakenIterator"/>
                 <Forward name="else" path="ZgwZaakHasZdsRelevanteAndereZaken"/>
@@ -160,12 +225,11 @@
             <XsltPipe name="EnrichZdsZaakWithZgwDeelzaken"
                 getInputFromSessionKey="ZdsZaak"
                 storeResultInSessionKey="ZdsZaak"
-                skipEmptyTags="true"
-                styleSheetName="Common/xsl/EnrichEntity.xslt"
+                styleSheetName="Common/xsl/EnrichEntity_ForEachPipeWrapped.xslt"
                 >
                 <Param name="With" sessionKey="ZgwDeelzaken" type="DOMDOC"/>
                 <Forward name="success" path="ZgwZaakHasZdsRelevanteAndereZaken"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <!-- not tested -->
@@ -193,12 +257,11 @@
             <XsltPipe name="EnrichZdsRelevanteAndereZaken"
                 getInputFromSessionKey="ZdsZaak"
                 storeResultInSessionKey="ZdsZaak"
-                skipEmptyTags="true"
                 styleSheetName="Common/xsl/EnrichEntity_ForEachPipeWrapped.xslt"
                 >
                 <Param name="With" sessionKey="ZdsRelevanteAndereZaken" type="DOMDOC"/>
                 <Forward name="success" path="GetZgwStatusByZaakUrlSender"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <SenderPipe 
@@ -235,9 +298,8 @@
                 >
                 <Param name="With" sessionKey="ZdsHeeft" type="DOMDOC"/>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
-            
         </Pipeline>
     </Adapter>
 </Module>

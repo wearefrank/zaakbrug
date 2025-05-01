@@ -1,4 +1,4 @@
-<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ibisdoc.xsd">
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="CheckZgwRol"
         active="${CheckZgwRol.Active}"
         description="">
@@ -9,25 +9,27 @@
 
         <Pipeline>
             <Exits>
-                <Exit name="exists" state="SUCCESS"/>
+                <Exit name="exists" state="SUCCESS" />
                 <Exit name="NOTFOUND" state="SUCCESS" code="404" />
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <XsltPipe name="CheckRol"
-                styleSheetName="UpdateZaak_LK01/xsl/CheckZgwRol.xslt"
-                getInputFromSessionKey="originalMessage">
-                <Param name="role" sessionKey="originalMessage" type="DOMDOC"/>
-                <Param name="roles" sessionKey="ZdsWasZaakRol" type="DOMDOC"/>
-                <Forward name="success" path="CheckForTrue" />
-                <Forward name="error" path="EXCEPTION" />
+            <XsltPipe
+                name="SelectZgwRolesFromListWithMatchingIdentity"
+                styleSheetName="Common/xsl/SelectZgwRolesFromListWithMatchingIdentity.xslt"
+                >
+                <Param name="MatchWithZgwRol" sessionKey="MatchWithZgwRol" type="DOMDOC" />
+                <Param name="debug" value="true" />
+                <Forward name="success" path="ZgwRolMatchesExactlyOneZgwRolInList" />
+                <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>
 
-            <XmlIfPipe name="CheckForTrue"
-                xpathExpression="/Check/true"
+            <XmlIfPipe
+                name="ZgwRolMatchesExactlyOneZgwRolInList"
+                xpathExpression="count(/ZgwRollen/*) = 1"
                 >
-                <Forward name="then" path="exists"/>
-                <Forward name="else" path="NOTFOUND"/>
+                <Forward name="then" path="exists" />
+                <Forward name="else" path="NOTFOUND" />
             </XmlIfPipe>
         </Pipeline>
     </Adapter>

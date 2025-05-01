@@ -31,6 +31,7 @@
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
                     timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    parametersToSkipWhenEmpty="*"
 				/>
                 <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}rollen"/>
                 <Param name="zaak" sessionKey="ZaakUrl"/>
@@ -67,7 +68,7 @@
                 <Param name="List" value="Rollen"/>
                 <Param name="Type" value="Rol"/>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="error" path="EXCEPTION"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
         </Pipeline>
