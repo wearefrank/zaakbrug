@@ -1,5 +1,15 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.24.4](https://github.com/wearefrank/zaakbrug/compare/v1.24.3...v1.24.4) (2025-05-06)
+
+### ⏩ Reverts
+
+* revert "refactor: add expected value to xmlIfPipe to make it more robust sinc…" ([#549](https://github.com/wearefrank/zaakbrug/issues/549)) ([54d12db](https://github.com/wearefrank/zaakbrug/commit/54d12db6fcce6d168c1e40b650b980de6eff6ccd))
+
+### 🧑‍💻 Code Refactoring
+
+* add expected value to xmlIfPipe to make it more robust since it checks the string value not the boolean value ([3b6ab16](https://github.com/wearefrank/zaakbrug/commit/3b6ab1682e767292b715c58d7955786d6547e39f))
+
 ## [1.24.3](https://github.com/wearefrank/zaakbrug/compare/v1.24.2...v1.24.3) (2025-04-07)
 
 ### 🤖 Build System
