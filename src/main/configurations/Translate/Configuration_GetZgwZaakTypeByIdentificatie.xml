@@ -32,6 +32,13 @@
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
                     timeout="${zaakbrug.zgw.catalogi-api.timeout}"
+                    verifyHostname="${zaakbrug.zgw.catalogi-api.verifyHostname}"
+                    allowSelfSignedCertificates="${zaakbrug.zgw.catalogi-api.allowSelfSignedCertificates}"
+                    disableCookies="${zaakbrug.zgw.catalogi-api.disableCookies}"
+                    ignoreCertificateExpiredException="${zaakbrug.zgw.catalogi-api.ignoreCertificateExpiredException}"
+                    truststore="${zaakbrug.zgw.catalogi-api.truststore.uri}"
+                    truststoreAuthAlias="${zaakbrug.zgw.catalogi-api.truststore.authAlias}"
+                    truststoreType="${zaakbrug.zgw.catalogi-api.truststore.type}"
                 />
                 <Param name="url" value="${zaakbrug.zgw.catalogi-api.root-url}zaaktypen"/>
                 <Param name="identificatie" sessionKey="ZaakTypeCode"/>
