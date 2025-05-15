@@ -51,6 +51,13 @@
 					methodType="PUT"
 					headersParams="Authorization,Accept-Crs"
                     timeout="${zaakbrug.zgw.documenten-api.timeout}"
+                    verifyHostname="${zaakbrug.zgw.documenten-api.verifyHostname}"
+                    allowSelfSignedCertificates="${zaakbrug.zgw.documenten-api.allowSelfSignedCertificates}"
+                    disableCookies="${zaakbrug.zgw.documenten-api.disableCookies}"
+                    ignoreCertificateExpiredException="${zaakbrug.zgw.documenten-api.ignoreCertificateExpiredException}"
+                    truststore="${zaakbrug.zgw.documenten-api.truststore.uri}"
+                    truststoreAuthAlias="${zaakbrug.zgw.documenten-api.truststore.authAlias}"
+                    truststoreType="${zaakbrug.zgw.documenten-api.truststore.type}"
                     contentType="application/json"
 				/>
                 <Param name="url" sessionKey="Url"/>

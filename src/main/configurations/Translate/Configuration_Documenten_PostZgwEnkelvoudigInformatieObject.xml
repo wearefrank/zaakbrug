@@ -38,6 +38,13 @@
                     methodType="POST"
                     headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
                     timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    verifyHostname="${zaakbrug.zgw.zaken-api.verifyHostname}"
+                    allowSelfSignedCertificates="${zaakbrug.zgw.zaken-api.allowSelfSignedCertificates}"
+                    disableCookies="${zaakbrug.zgw.zaken-api.disableCookies}"
+                    ignoreCertificateExpiredException="${zaakbrug.zgw.zaken-api.ignoreCertificateExpiredException}"
+                    truststore="${zaakbrug.zgw.zaken-api.truststore.uri}"
+                    truststoreAuthAlias="${zaakbrug.zgw.zaken-api.truststore.authAlias}"
+                    truststoreType="${zaakbrug.zgw.zaken-api.truststore.type}"
                     maxExecuteRetries="5"
                     contentType="application/json">
                     <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}zaakinformatieobjecten"/>
