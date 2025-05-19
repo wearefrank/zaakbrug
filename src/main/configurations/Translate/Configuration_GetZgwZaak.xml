@@ -38,7 +38,7 @@
 					name="GetZgwZaakByIdentificatieSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    sharedResourceRef="zaken-api-connector"
 				/>
                 <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}zaken"/>
                 <Param name="identificatie" sessionKey="Identificatie"/>

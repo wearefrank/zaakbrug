@@ -61,7 +61,7 @@
                 <HttpSender name="UpdateBestandsdeelSender"
                     methodType="PUT"
                     headersParams="Authorization,Accept-Crs,Content-Crs,Accept,Host"
-                    timeout="${zaakbrug.zgw.documenten-api.timeout}"
+                    sharedResourceRef="documenten-api-connector"
                     maxExecuteRetries="5"
                     contentType="application/json">
                     <Param name="url" sessionKey="UrlParam" />

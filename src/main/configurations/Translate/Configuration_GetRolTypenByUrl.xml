@@ -29,7 +29,7 @@
                     name="GetRolTypenByUrlHttpSender"
                     methodType="GET"
                     headersParams="Authorization,Accept-Crs"
-                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    sharedResourceRef="zaken-api-connector"
                     maxExecuteRetries="5"
                 />
                 <Param name="url" sessionKey="Url" />

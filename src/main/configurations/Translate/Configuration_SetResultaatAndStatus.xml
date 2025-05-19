@@ -150,7 +150,7 @@
                     name="DeleteZaakResultaatSender" 
 					methodType="DELETE"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    sharedResourceRef="zaken-api-connector"
 				>
                     <Param name="url" xpathExpression="results/url"/>
                     <Param name="Accept-Crs" value="EPSG:4326"/>

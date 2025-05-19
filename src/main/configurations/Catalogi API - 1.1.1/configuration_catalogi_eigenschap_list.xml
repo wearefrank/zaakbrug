@@ -62,7 +62,7 @@
                 <HttpSender name="GetEigenschapSender"
                     methodType="GET"
                     headersParams="Authorization,Accept-Crs,Content-Crs,Accept,Host"
-                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
+                    sharedResourceRef="catalogi-api-connector"
                     maxExecuteRetries="5"
                     contentType="application/json">
                     <!-- <Param name="url" value="http://zaakbrug.staging.nginx:9002/catalogi/api/v1/besluittypen" /> -->

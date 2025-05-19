@@ -63,7 +63,7 @@
                 <HttpSender name="GetRolTypeSender"
                     methodType="GET"
                     headersParams="Authorization,Accept-Crs,Content-Crs,Accept,Host,X-Forwarded-Host,X-Forwarded-Port,X-Forwarded-Server,X-Forwarded-Proto"
-                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
+                    sharedResourceRef="catalogi-api-connector"
                     maxExecuteRetries="5"
                     contentType="application/json"
 					parametersToSkipWhenEmpty="*">

@@ -30,7 +30,7 @@
 					name="GetRolByZaakUrlAndRolTypeUrlSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    sharedResourceRef="zaken-api-connector"
                     parametersToSkipWhenEmpty="*"
 				/>
                 <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}rollen"/>

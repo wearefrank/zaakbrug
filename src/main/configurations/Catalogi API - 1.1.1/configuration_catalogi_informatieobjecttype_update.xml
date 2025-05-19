@@ -59,7 +59,7 @@
                 <HttpSender name="PutInformatieObjectTypeSender"
                     methodType="PUT"
                     headersParams="Authorization,Accept-Crs,Content-Crs,Accept,Host"
-                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
+                    sharedResourceRef="catalogi-api-connector"
                     maxExecuteRetries="5"
                     contentType="application/json">
                     <Param name="url" sessionKey="UrlParam" />
