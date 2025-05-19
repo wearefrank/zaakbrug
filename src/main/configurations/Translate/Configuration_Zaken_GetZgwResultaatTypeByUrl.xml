@@ -31,7 +31,7 @@
 					name="GetZgwResultaatTypeByUrlHttpSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
+                    sharedResourceRef="catalogi-api-connector"
                     maxExecuteRetries="5"
 				/>
                 <Param name="url" sessionKey="url" />

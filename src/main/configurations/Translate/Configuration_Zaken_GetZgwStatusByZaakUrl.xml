@@ -30,7 +30,7 @@
 					name="GetZgwStatusByZaakUrlHttpSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    sharedResourceRef="zaken-api-connector"
 				/>
                 <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}statussen"/>
                 <Param name="zaak" sessionKey="ZaakUrl"/>

@@ -56,7 +56,7 @@
                     name="UpdateZgwZaakSender" 
 					methodType="PATCH"
 					headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
-                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    sharedResourceRef="zaken-api-connector"
                     maxExecuteRetries="5"
                     contentType="application/json"
 				    >

@@ -63,7 +63,7 @@
                 <HttpSender name="CreateZaakbesluitSender"
                     methodType="POST"
                     headersParams="Authorization,Accept-Crs,Content-Crs,Accept,Host"
-                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    sharedResourceRef="zaken-api-connector"
                     maxExecuteRetries="5"
                     contentType="application/json">
                     <Param name="url" sessionKey="UrlParam" />

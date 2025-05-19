@@ -31,7 +31,7 @@
 					name="GetZgwZaakTypeByIdentificatieSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
+                    sharedResourceRef="catalogi-api-connector"
                 />
                 <Param name="url" value="${zaakbrug.zgw.catalogi-api.root-url}zaaktypen"/>
                 <Param name="identificatie" sessionKey="ZaakTypeCode"/>

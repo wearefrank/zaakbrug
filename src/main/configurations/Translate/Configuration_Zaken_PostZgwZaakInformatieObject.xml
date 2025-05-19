@@ -56,7 +56,7 @@
                 <HttpSender name="PostZgwEnkelvoudigInformatieObjectHttpSender"
                     methodType="POST"
                     headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
-                    timeout="${zaakbrug.zgw.documenten-api.timeout}"
+                    sharedResourceRef="documenten-api-connector"
                     maxExecuteRetries="5"
                     contentType="application/json">
                     <Param name="url" value="${zaakbrug.zgw.documenten-api.root-url}enkelvoudiginformatieobjecten"/>

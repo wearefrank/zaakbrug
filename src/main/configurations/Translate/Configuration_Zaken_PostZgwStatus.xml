@@ -43,7 +43,7 @@
 					methodType="POST"
 					headersParams="Authorization,Accept-Crs,Content-Crs"
                     contentType="application/json"
-                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    sharedResourceRef="zaken-api-connector"
                     maxExecuteRetries="5"
 				/>
                 <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}statussen"/>

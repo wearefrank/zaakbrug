@@ -31,7 +31,7 @@
 					name="GetZgwInformatieObjectTypeByUrlSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
+                    sharedResourceRef="catalogi-api-connector"
 				/>
                 <Param name="url" sessionKey="Url"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>

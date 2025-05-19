@@ -39,7 +39,7 @@
 					name="GetZgwEnkelvoudigInformatieObjectByIdentificatieSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${zaakbrug.zgw.documenten-api.timeout}"
+                    sharedResourceRef="documenten-api-connector"
 				/>
                 <Param name="url" value="${zaakbrug.zgw.documenten-api.root-url}enkelvoudiginformatieobjecten"/>
                 <Param name="identificatie" sessionKey="Identificatie"/>

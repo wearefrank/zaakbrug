@@ -32,7 +32,7 @@
 					name="GetZgwRolTypeByZaakTypeHttpSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
+                    sharedResourceRef="catalogi-api-connector"
                     maxExecuteRetries="5"
 				/>
                 <Param name="url" value="${zaakbrug.zgw.catalogi-api.root-url}roltypen"/>
