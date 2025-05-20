@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.24.6](https://github.com/wearefrank/zaakbrug/compare/v1.24.5...v1.24.6) (2025-05-20)
+
+### 🧑‍💻 Code Refactoring
+
+* allow truststore and security related attributes for ZGW API calls to be configured per API via properties ([a51b95d](https://github.com/wearefrank/zaakbrug/commit/a51b95dced8707a6a45d5d7ccae46c0ba18f59ee))
+
 ## [1.24.5](https://github.com/wearefrank/zaakbrug/compare/v1.24.4...v1.24.5) (2025-05-13)
 
 ### 🤖 Build System
