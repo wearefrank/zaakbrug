@@ -62,6 +62,9 @@ jobs:
 
   soapui-testrunner:
     uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@6d9d6438dd46887a375db769167b29bb54b39d78 #1.4.2
+    strategy:
+      matrix:
+        postgres-version: [14, 15, 16, 17]
     needs:
       - ci
       - run-larva-scenarios
@@ -73,6 +76,7 @@ jobs:
       image-build-artifact-name: 'build-docker-image'
       image-tarball-file: 'image.tar'
       setup-script: |
+        export POSTGRES_VERSION=${{ matrix.postgres-version }}
         docker compose -f docker-compose.zaakbrug.dev.yml -f docker-compose.zaakbrug.postgres.yml -f docker-compose.openzaak.dev.yml up -d
       teardown-script: |
         docker compose -f docker-compose.zaakbrug.dev.yml -f docker-compose.zaakbrug.postgres.yml -f docker-compose.openzaak.dev.yml down -v
