@@ -38,7 +38,7 @@
                     name="MergeProfileDefaultsWithProfilesJavascriptSender"
                     jsFileName="MergeProfileDefaultsWithProfiles.js"
                     jsFunctionName="mergeProfileDefaultsWithProfiles"
-                    >
+                    engineName="GRAALJS">
 				</JavascriptSender>
                 <Param name="profilesFile" />
                 <Forward name="success" path="JsonToXml" />
