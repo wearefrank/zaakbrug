@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.24.7](https://github.com/wearefrank/zaakbrug/compare/v1.24.6...v1.24.7) (2025-05-21)
+
+### 🐛 Bug Fixes
+
+* switch to 'graaljs' javascript engine due to arm binary availability ([#557](https://github.com/wearefrank/zaakbrug/issues/557)) ([c327285](https://github.com/wearefrank/zaakbrug/commit/c3272858a20612e3dabe2f3926cd45b0c8da3949))
+
 ## [1.24.6](https://github.com/wearefrank/zaakbrug/compare/v1.24.5...v1.24.6) (2025-05-20)
 
 ### 🧑‍💻 Code Refactoring
