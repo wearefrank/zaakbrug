@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.24.8](https://github.com/wearefrank/zaakbrug/compare/v1.24.7...v1.24.8) (2025-05-21)
+
+### 🐛 Bug Fixes
+
+* default value for 'zaakbrug.javascriptEngine' property includes comment in value ([09675a3](https://github.com/wearefrank/zaakbrug/commit/09675a392cd077ceb639a7a087f3339e26dd4f0c))
+
 ## [1.24.7](https://github.com/wearefrank/zaakbrug/compare/v1.24.6...v1.24.7) (2025-05-21)
 
 ### 🐛 Bug Fixes
