@@ -24,23 +24,40 @@
             <LocalFileSystemPipe
                 name="ReadFile"
                 action="read"
+                storeResultInSessionKey="profilesFile"
                 >
                 <Param name="filename" value="${configurations.directory}/Translate/Profiles.json" />
-                <Forward name="success" path="MergeProfileDefaultsWithProfilesSender" />
+                <Forward name="success" path="EscapeJsonForGraalJS" />
                 <Forward name="exception" path="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException" />
             </LocalFileSystemPipe>
+
+            <!--    This is a workaround for https://github.com/frankframework/frankframework/issues/9023 because J2V8 engine having no arm64 support
+                    and the GRAALJS engine has an issue with encoding of the input message. -->
+            <PutInSessionPipe
+                name="EscapeJsonForGraalJS"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                ifParam="javascriptEngine"
+                ifValue="GRAALJS">
+                <Param name="profilesFile" xpathExpression="normalize-space(replace(replace(replace(replace(replace($fileContent, '&amp;', '\\&amp;'), '\r', ''), '\t', ''), '\n', ''), '&quot;', '\\&quot;'))">
+                    <Param name="fileContent" sessionKey="profilesFile" type="STRING" />
+                </Param>
+                <Param name="javascriptEngine" value="${zaakbrug.javascriptEngine}" />
+                <Forward name="success" path="MergeProfileDefaultsWithProfilesSender" />
+                <Forward name="exception" path="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException" />
+            </PutInSessionPipe>
 
             <SenderPipe
                 name="MergeProfileDefaultsWithProfilesSender"
                 storeResultInSessionKey="mergedProfiles"
+                getInputFromFixedValue="&lt;dummy/&gt;"
                 >
 				<JavascriptSender
                     name="MergeProfileDefaultsWithProfilesJavascriptSender"
                     jsFileName="MergeProfileDefaultsWithProfiles.js"
                     jsFunctionName="mergeProfileDefaultsWithProfiles"
-                    engineName="GRAALJS">
+                    engineName="${zaakbrug.javascriptEngine}">
 				</JavascriptSender>
-                <Param name="profilesFile" />
+                <Param name="profilesFile" sessionKey="profilesFile" />
                 <Forward name="success" path="JsonToXml" />
                 <Forward name="exception" path="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException" />
 			</SenderPipe>
