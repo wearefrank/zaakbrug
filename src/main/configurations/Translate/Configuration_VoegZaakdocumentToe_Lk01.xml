@@ -58,7 +58,7 @@
                 >
                 <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> 
-                <Param name="reason" pattern="No zaak with the identificatie:{Identificatie} is found in GetZgwZaak" ignoreUnresolvablePatternElements="true" />
+                <Param name="reason" pattern="No zaak with the identificatie: [{Identificatie}] found." ignoreUnresolvablePatternElements="true" />
                 <Param name="detailsXml" type="DOMDOC"/>
                 <Forward name="success" path="EXCEPTION" />
                 <Forward name="exception" path="EXCEPTION" />
