@@ -79,7 +79,7 @@
                 getInputFromSessionKey="originalMessage"
                 xpathExpression="//*:object/@*:entiteittype">
                 <Forward name="ZAK" path="ZdsHeeftIterator"/>
-                <Forward name="EDC" path="MapZgwStatusFromZdsIsRelevantVoorSender"/>
+                <Forward name="EDC" path="EdcObjectHasIsRelevantVoorWithStatusContext" />
             </XmlSwitchPipe>
 
             <ForEachChildElementPipe
@@ -104,6 +104,17 @@
                 <Forward name="success" path="CheckForResultaat"/>
                 <Forward name="exception" path="ResultWithErrorMessage" />
             </ForEachChildElementPipe>
+
+            <XmlIfPipe
+                name="EdcObjectHasIsRelevantVoorWithStatusContext"
+                getInputFromSessionKey="originalMessage"
+                xpathExpression="string-length($Omschrijving) gt 0">
+                <XmlParam name="Omschrijving" xpathExpression="$EdcObject//*:object/*[@*:entiteittype = 'EDCZAK']/*:stt.omschrijving">
+                    <XmlParam name="EdcObject" sessionKey="originalMessage" />
+                </XmlParam>
+                <Forward name="then" path="MapZgwStatusFromZdsIsRelevantVoorSender" />
+                <Forward name="else" path="CheckForResultaat" />
+            </XmlIfPipe>
 
             <SenderPipe
                 name="MapZgwStatusFromZdsIsRelevantVoorSender"
