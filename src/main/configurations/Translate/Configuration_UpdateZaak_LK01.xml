@@ -350,7 +350,7 @@
                     name="CallSetResultaatAndStatusSender"
                     javaListener="SetResultaatAndStatus"
                     returnedSessionKeys="Error">
-                    <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>                   
+                    <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                     <Param name="ZaakUrl" sessionKey="ZgwZaakUrl"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CheckForHeeftBetrekkingOpAndere"/>

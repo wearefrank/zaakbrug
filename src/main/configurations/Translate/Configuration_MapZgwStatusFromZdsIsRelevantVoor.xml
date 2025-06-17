@@ -1,0 +1,103 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="MapZgwStatusFromZdsIsRelevantVoor"
+        active="${MapZgwStatusFromZdsIsRelevantVoor.Active}"
+        description="">
+
+        <Receiver name="MapZgwStatusFromZdsIsRelevantVoor">
+            <JavaListener name="MapZgwStatusFromZdsIsRelevantVoor" returnedSessionKeys="Error" />
+        </Receiver>
+        
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+            
+            <PutInSessionPipe
+                name="StoreLocalContext">
+                <Param name="Omschrijving" sessionKey="ZdsIsRelevantVoor" xpathExpression="*:isRelevantVoor/*:stt.omschrijving"/>
+                <Param name="Volgnummer" sessionKey="ZdsIsRelevantVoor" xpathExpression="*:isRelevantVoor/*:stt.volgnummer"/>
+                <Param name="ZgwZaakType_url" sessionKey="ZgwZaakType" xpathExpression="ZgwZaakType/url"/>
+            </PutInSessionPipe>
+
+            <SenderPipe
+                name="GetZgwStatusTypeByZaakTypeAndOmschrijvingSender"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="ZgwStatusType">
+                <IbisLocalSender
+                    name="GetZgwStatusTypeByZaakTypeAndOmschrijvingLocalSender"
+                    javaListener="GetStatusTypeByZaakTypeAndOmschrijving"
+                    returnedSessionKeys="Error">
+                    <Param name="ZaakTypeUrl" sessionKey="ZgwZaakType_url"/>
+                    <Param name="Omschrijving" sessionKey="Omschrijving"/>
+                    <Param name="Volgnummer" sessionKey="Volgnummer"/>
+                </IbisLocalSender>
+                <Forward name="success" path="StatusTypeNotFound_Condition" />
+            </SenderPipe>
+
+            <XmlIfPipe
+                name="StatusTypeNotFound_Condition"
+                xpathExpression="count(ZgwStatusTypes/ZgwStatusType) = 0">
+                <Forward name="then" path="StatusTypeNotFound_Error" />
+                <Forward name="else" path="MultipleStatusTypesFound_Condition" />
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="StatusTypeNotFound_Error"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="ConfigurationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError -->
+                <Param name="reason" pattern="StatusType not found with omschrijving: [{Omschrijving}], volgnummer: [{Volgnummer}] and ZaakType url: [{ZgwZaakType_url}]." ignoreUnresolvablePatternElements="true" />
+                <Param name="detailsXml" sessionKey="ZgwStatusType" type="DOMDOC" />
+                <Forward name="success" path="StatusTypeNotFound_Exception" />
+            </XsltPipe>
+            
+            <ExceptionPipe
+                name="StatusTypeNotFound_Exception" />
+
+            <XmlIfPipe
+                name="MultipleStatusTypesFound_Condition"
+                xpathExpression="count(ZgwStatusTypes/ZgwStatusType) gt 1">
+                <Forward name="then" path="MultipleStatusTypesFound_Error" />
+                <Forward name="else" path="GetSingleZgwStatusTypeFromList" />
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="MultipleStatusTypesFound_Error"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="ConfigurationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError -->
+                <Param name="reason" pattern="Multiple StatusTypes found for omschrijving: [{Omschrijving}], volgnummer: [{Volgnummer}] and ZaakType url: [{ZgwZaakType_url}]." ignoreUnresolvablePatternElements="true"/>
+                <Param name="detailsXml" sessionKey="ZgwStatusType" type="DOMDOC" />
+                <Forward name="success" path="MultipleStatusTypesFound_Exception" />
+                <Forward name="exception" path="MultipleStatusTypesFound_Exception" />
+            </XsltPipe>
+
+            <ExceptionPipe
+                name="MultipleStatusTypesFound_Exception" />
+
+            <XsltPipe
+                name="GetSingleZgwStatusTypeFromList"
+                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
+                storeResultInSessionKey="ZgwStatusType">
+                <Forward name="success" path="CreateStatusBody"/>
+            </XsltPipe>
+
+            <XsltPipe
+                name="CreateStatusBody"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Zgw/Zaken/Model/ZgwStatus.xslt">
+                <Param name="Zaak" sessionKey="ZgwZaak_url"/>
+                <XmlParam name="ZgwStatusType" sessionKey="ZgwStatusType"/>
+                <Param name="ZdsStatusDatum" xpathExpression="$ZdsIsRelevantVoor//*:isRelevantVoor/*:sta.datumStatusGezet">
+                    <XmlParam name="ZdsIsRelevantVoor" sessionKey="ZdsIsRelevantVoor" />
+                </Param>
+                <Forward name="success" path="EXIT"/>
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>
