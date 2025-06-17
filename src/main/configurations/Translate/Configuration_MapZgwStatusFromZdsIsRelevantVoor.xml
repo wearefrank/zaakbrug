@@ -20,6 +20,29 @@
                 <Param name="ZgwZaakType_url" sessionKey="ZgwZaakType" xpathExpression="ZgwZaakType/url"/>
             </PutInSessionPipe>
 
+            <XmlIfPipe
+                name="MisingStatusContext_Condition"
+                xpathExpression="string-length($Omschrijving) = 0">
+                <Param name="Omschrijving" sessionKey="Omschrijving" />
+                <Forward name="then" path="MisingStatusContext_Error" />
+                <Forward name="else" path="GetZgwStatusTypeByZaakTypeAndOmschrijvingSender" />
+            </XmlIfPipe>
+
+            <XsltPipe
+                name="MisingStatusContext_Error"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError -->
+                <Param name="reason" pattern="Missing status context in 'isRelevantVoor' to 'ZgwStatus' translation." ignoreUnresolvablePatternElements="true" />
+                <Param name="detailsXml" sessionKey="ZdsIsRelevantVoor" type="DOMDOC" />
+                <Forward name="success" path="MisingStatusContext_Exception" />
+            </XsltPipe>
+            
+            <ExceptionPipe
+                name="MisingStatusContext_Exception" />
+
             <SenderPipe
                 name="GetZgwStatusTypeByZaakTypeAndOmschrijvingSender"
                 getInputFromFixedValue="&lt;dummy/&gt;"
