@@ -1,0 +1,11 @@
+services:
+  zaakbrug:
+    command:
+      - catalina.sh
+      - jpda
+      - run
+    environment:
+      JPDA_ADDRESS: \*:8001
+      JPDA_TRANSPORT: dt_socket
+    ports:
+      - "8001:8001"
