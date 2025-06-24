@@ -33,37 +33,21 @@ Raw StUF-Zaken messages are officially not supported and therefor not part of au
 | StUF-Zkn 3.1 zakLk01 | best-effort |
 | StUF-Zkn 3.1 edcLk01 | best-effort |
 
-## Starting ZaakBrug
+# Starting ZaakBrug
+These methods show how to start ZaakBrug with the bare minimum and without any configuration. These steps are meant as a quick-start and are not production-ready. Refer to [ZaakBrug Documentation](https://docs.zaakbrug.nl) for more information on using and configuring ZaakBrug.
 
-### Development in Visual Studio Code
-
-When you are doing development work on ZaakBrug, you may want to boot it using WeAreFrank!'s Frank!Runner. When you use the Frank!Runner, you can boot ZaakBrug from within your Integrated Development Environment (IDE); we support the two IDEs Visual Studio Code and Eclipse.
-
-To boot ZaakBrug using the Frank!Runner, you need version control system Git. Choose or create some empty directory in which you can clone Git repositories. For the sake of the argument, we assume it to be `work`. Please do the following:
-
-1. Open a command prompt and change directory to `work`.
-1. Clone the Frank!Runner: `git clone https://github.com/wearefrank/frank-runner`.
-1. Clone ZaakBrug: `git clone https://github.com/wearefrank/zaakbrug`.
-1. Start the Frank!Runner with one of the boot scripts in the Frank!Runner checkout directory: `start.bat` or `restart.bat` for Windows or `start.sh` or `restart.sh` for Linux or Mac. This step lets the Frank!Runner download Ant, a build tool for Java applications.
-1. Configure your IDE as described in the Frank!Runner's documentation, see https://github.com/wearefrank/frank-runner. For VS Code, these instructions let you install the Task Explorer plugin by Scott Meesseman.
-1. If your IDE is Visual Studio Code, you should have a link to open ZaakBrug, see number 2 in the figure below. Use the menu option number 1 to get access to the link. Click the link to open ZaakBrug using the Frank!Runner.
-
-   ![antJobVsCode.jpg](/docs/picturesReadme/antJobVsCode.jpg)
-
-### Running with Docker
-
-In a production environment it is recommended to run ZaakBrug with Docker. Ensure that Docker is installed on your computer and proceed as follows:
-
+## Docker Compose
+It is recommended to run ZaakBrug with Docker. Ensure that Docker is installed on your computer and proceed as follows:
 1. Clone GitHub project https://github.com/wearefrank/zaakbrug if you have not done so yet.
-1. Open a command prompt and change directory to the checkout directory.
-1. Build your Docker image from the source code using a command like the following: `docker build -t zaakbrug:test .`.
-1. Run ZaakBrug using a command like the following: `docker run -p 8080:8080 -e dtap.stage=LOC --name=zaakbrug zaakbrug:test`.
-1. To see the user interface of ZaakBrug, open a webbrowser and visit http://localhost:8080.
-1. ZaakBrug provides an automated health check. You can run it with the following command: `docker inspect --format='{{json .State.Health.Status}}' zaakbrug`.
+1. Run the following command in the root of the checked out repository:
+   ```bash
+   docker compose up
+   ```
+1. Access the Frank!Console by navigating to `http://zaakbrug.localtest.me:8080/`, `http://frank.localtest.me:8080/` or `http://localhost:8080/` in the browser.
+1. (Optional) Access the Frank!Flow by navigating to `http://frank-flow.localtest.me:8090/` in the browser.
 
-   > **Warning:** In a DOS command window under Windows, the string after `--format=` has to be enclosed between `""`. You have `docker inspect --format="{{json .State.Health.Status}}" zaakbrug`.
-   
-   > **Info:** If you know the Frank!Framework, the following information may be helpful. If the health check produces the value `healthy`, it is guarenteed that all adapters in the Frank configuration have booted without errors.
+## Helm
+Refer to [ZaakBrug Helm Chart](https://wearefrank.github.io/charts/zaakbrug).
 
 # Configuration
 ## Zaak- and Documentidentificatie
@@ -167,8 +151,5 @@ Will result in:
 }
 ```
 
-## Local Development Docusaurus
-1. Navigate to "docusaurus" subfolder with `cd ./docusaurus`.
-2. Install dependencies with `npm install`.
-3. Serve Docusaurus webserver locally with `docusaurus start`. By default it is served at `http://localhost:3000/`.
-4. Basic guide on how to use Docusaurus and a styleguide can be found at `./docusaurus/docs/_README.md`.
+## ZaakBrug Development
+Refer to `CONTRIBUTING.md`.
