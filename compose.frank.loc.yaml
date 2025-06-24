@@ -1,0 +1,129 @@
+# This docker-compose file brings up an instance for local development.
+#
+# For local development it is recommended to a 'sync+restart' watch action for each configuration's 'DeploymentSpecific' files.
+# This ensures that the container is automatically restarted when a change is made in it. Additionally,
+# it is recommended to set the 'classLoaderType' to 'ScanningDirectoryClassLoader', so that the Frank!Framework
+# automatically reloads the configuration when changes are made to it.
+#
+# To use this docker-compose file:
+#    docker compose -f ./compose.frank.loc.yaml <command> (eg. up, down)
+#
+# Recommended for local developent:
+#    docker compose -f ./compose.frank.loc.yaml up --build --force-recreate --watch
+#
+# Access the Frank!Console by navigating to http://localhost:8080/.
+# Access the Frank!Flow by navigating to http://localhost:8090/.
+#
+services:
+  nginx:
+    image: nginx
+    volumes:
+      - ./contrib/zaakbrug-nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - zaakbrug-stack
+      - zaakbrug-backend
+    ports:
+      - "9000:9000"
+    depends_on:
+      - zaakbrug
+
+  zaakbrug:
+    build:
+      context: .
+      pull: true # makes sure that the base image is forcefully pulled when using 'latest' tag.
+    image: ${IMAGE_ID:-${IMAGE_TAG:-wearefrank/zaakbrug}}
+    container_name: zaakbrug.dev
+    environment:
+      zaakbrug.zds.timezone: UTC
+      TZ: Europe/Amsterdam
+      GC_LOGGING_ENABLED: false
+      JAVA_OPTS: $JAVA_OPTS -XX:InitialRAMPercentage=25.0 -XX:MaxRAMPercentage=75.0
+      dtap.stage: LOC
+      configurations.Translate.classLoaderType: ScanningDirectoryClassLoader
+      management.gateway.inbound.class: org.frankframework.management.gateway.HazelcastInboundGateway
+    volumes:
+      - h2-data:/opt/frank/h2:rw
+      - logs:/usr/local/tomcat/logs:rw
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./src/main/configurations/Translate/DeploymentSpecifics.properties
+          target: /opt/frank/configurations/Translate/DeploymentSpecifics.properties
+        - action: sync+restart
+          path: ./src/main/configurations/Translate/Global.json
+          target: /opt/frank/configurations/Translate/Global.json
+        - action: sync+restart
+          path: ./src/main/configurations/Translate/Profiles.json
+          target: /opt/frank/configurations/Translate/Profiles.json
+        - action: sync
+          path: ./src/main/configurations
+          target: /opt/frank/configurations
+        - action: sync
+          path: ./src/main/resources
+          target: /opt/frank/resources
+        - action: sync
+          path: ./src/test/testtool
+          target: /opt/frank/testtool
+        - action: sync+restart
+          path: ./src/main/secrets
+          target: /opt/frank/secrets
+        - action: sync+restart
+          path: ./src/main/resources/DeploymentSpecifics.properties
+          target: /opt/frank/resources/DeploymentSpecifics.properties
+        - action: sync+restart
+          path: ./src/main/resources/ladybug/DatabaseChangelog_Custom.xml
+          target: /opt/frank/resources/ladybug/DatabaseChangelog_Custom.xml
+        - action: sync+restart
+          path: ./src/main/resources/springIbisTestToolCustom.xml
+          target: /opt/frank/resources/springIbisTestToolCustom.xml
+        - action: rebuild
+          path: ./src/main/java
+        - action: rebuild
+          path: ./src/main/webapp/META-INF/context.xml
+    networks:
+      zaakbrug-stack:
+        aliases:
+          - zaakbrug.localtest.me
+      zaakbrug-backend: {}
+    ports:
+      - "${PORT:-8080}:8080"
+      - "9010:9010"
+
+  frank-flow:
+    image: frankframework/frank-flow:latest
+    environment:
+      configurations.directory: /opt/frank/configurations
+    volumes:
+      - ./src/main/:/opt/frank/:rw
+    networks:
+      zaakbrug-stack:
+        aliases:
+          - frank-flow.localtest.me
+      zaakbrug-backend: {}
+    ports:
+      - "8090:8080"
+
+
+  soapui-testrunner:
+    profiles:
+      - soapui
+    image: smartbear/soapuios-testrunner:latest
+    container_name: soapui-testrunner
+    volumes:
+      - ./src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02:/zaakbrug/src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02
+      - ./e2e/SoapUI/zaakbrug-e2e-soapui-project.xml:/zaakbrug/e2e/SoapUI/zaakbrug-e2e-soapui-project.xml
+      - ./e2e/reports:/reports
+    environment:
+      - COMMAND_LINE=-f/%reports% '/zaakbrug/e2e/SoapUI/zaakbrug-e2e-soapui-project.xml' -a -A -j -r
+    depends_on:
+      zaakbrug:
+        condition: service_healthy
+    network_mode: host
+
+volumes:
+  h2-data: {}
+  logs: {}
+
+networks:
+  zaakbrug-stack: {}
+  zaakbrug-backend: {}
