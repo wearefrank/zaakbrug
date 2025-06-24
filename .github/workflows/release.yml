@@ -73,9 +73,9 @@ jobs:
       image-build-artifact-name: 'build-docker-image'
       image-tarball-file: 'image.tar'
       setup-script: |
-        docker compose -f docker-compose.zaakbrug.dev.yml -f docker-compose.zaakbrug.postgres.yml -f docker-compose.openzaak.dev.yml up -d
+        docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml up -d
       teardown-script: |
-        docker compose -f docker-compose.zaakbrug.dev.yml -f docker-compose.zaakbrug.postgres.yml -f docker-compose.openzaak.dev.yml down -v
+        docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml down -v
 
   release:
     runs-on: ubuntu-latest
