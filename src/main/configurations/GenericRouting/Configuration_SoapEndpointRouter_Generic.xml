@@ -13,6 +13,31 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
+            <PutInSessionPipe name="PutInSession">
+                <Param name="fromSoapAction" xpathExpression="tokenize($SOAPAction, '/')[last()]"/>
+                <Param name="zaaktype" xpathExpression="//object/isVan/gerelateerde/code" namespaceDefs="http://www.egem.nl/StUF/sector/zkn/0310"/>
+            </PutInSessionPipe>
+
+            <SenderPipe name="ResolveProfileValuesSender">
+                <IbisLocalSender
+                        name="ResolveProfileValuesLocalSender"
+                        javaListener="ResolveProfileValues"
+                        returnedSessionKeys="Error">
+                    <Param name="profilesFile" value="/opt/frank/resources/SoapRouteMapping.json"/>
+                </IbisLocalSender>
+                <Forward name="success" path="ExtractRouteFromProfiles" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XsltPipe
+                    name="ExtractRouteFromProfiles"
+                    styleSheetName="xsl/ExtractRouteFromProfiles.xsl"
+                    storeResultInSessionKey="route">
+                <Param name="zaaktype" sessionKey="zaaktype" />
+                <Param name="SOAPAction" sessionKey="fromSoapAction" />
+                <Forward name="success" path="EXIT" />
+            </XsltPipe>
+
             <SenderPipe
                     name="SendToPipeline">
                 <WebServiceSender
@@ -21,8 +46,7 @@
                         soapActionParam="SOAPAction"
                         urlParam="url"
                         timeout="${zaakbrug.soap.router.generic.timeout}">
-                    <Param name="fromSoapAction" xpathExpression="tokenize($SOAPAction, '/')[last()]"/>
-                    <Param name="url" pattern="${zaakbrug.soap.router.generic.${fromSoapAction}.path}"/>
+                    <Param name="url" pattern="${zaakbrug.soap.router.generic.${route}}"/>
                     <Param name="SOAPAction" sessionKey="SOAPAction" />
                 </WebServiceSender>
                 <Forward name="success" path="EchoEndpointRouterResponse" />
