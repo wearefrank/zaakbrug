@@ -1,0 +1,37 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="SoapEndpointReplicator_OntvangAsynchroon"
+        active="${SoapEndpointReplicator_OntvangAsynchroon.Active}"
+        description="This adapter will first send the message to the endpoint router, if the response is successful, it also sends the message to SSD">
+
+        <Receiver name="SoapEndpointReplicator_OntvangAsynchroon">
+            <WebServiceListener name="SoapEndpointReplicator_OntvangAsynchroon" address="${zaakbrug.soap.replicator.ontvang-asynchroon.endpoint}" soap="false"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                    name="SendToRouter"
+                    preserveInput="true"
+                    storeResultInSessionKey="EndpointRouterResponse">
+                <FrankSender
+                        name="SendToRouterSender"
+                        target="SoapEndpointRouter_OntvangAsynchroon"
+                        returnedSessionKeys="SOAPAction"/>
+                <Forward name="success" path="SendToSSD" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe name="SendToProxy">
+                <FrankSender name="SendToProxySender" target="SoapEndpointProxy_OntvangAsynchroon">
+                    <Param name="SOAPAction" sessionKey="SOAPAction"/>
+                </FrankSender>
+            </SenderPipe>
+
+            <EchoPipe name="EchoEndpointRouterResponse" getInputFromSessionKey="EndpointRouterResponse"/>
+        </Pipeline>
+    </Adapter>
+</Module>

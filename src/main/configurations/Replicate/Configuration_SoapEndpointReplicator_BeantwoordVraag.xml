@@ -1,0 +1,54 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="SoapEndpointReplicator_BeantwoordVraag"
+        active="${SoapEndpointReplicator_BeantwoordVraag.Active}"
+        description="This adapter will first send the message to the endpoint router, if the response is successful, it also sends the message to SSD">
+
+        <Receiver name="SoapEndpointReplicator_BeantwoordVraag">
+            <WebServiceListener name="SoapEndpointReplicator_BeantwoordVraag" address="${zaakbrug.soap.replicator.beantwoord-vraag.endpoint}" soap="false"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                    name="SendToRouter" storeResultInSessionKey="EndpointRouterResponse">
+                <FrankSender
+                        name="SendToRouterSender"
+                        target="SoapEndpointRouter_BeantwoordVraag"
+                        returnedSessionKeys="SOAPAction"/>
+                <Forward name="success" path="SendToSSD" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                    name="SendToSSD">
+                <WebServiceSender
+                        name="SendToSSDSender"
+                        soap="false"
+                        soapActionParam="SOAPAction"
+                        url="${zaakbrug.soap.replicator.beantwoord-vraag.SSD.url}"
+                        timeout="${zaakbrug.soap.replicator.beantwoord-vraag.SSD.timeout}"
+                        verifyHostname="${zaakbrug.soap.replicator.beantwoord-vraag.SSD.verifyHostname}"
+                        allowSelfSignedCertificates="${zaakbrug.soap.replicator.beantwoord-vraag.SSD.allowSelfSignedCertificates}"
+                        disableCookies="${zaakbrug.soap.replicator.beantwoord-vraag.SSD.disableCookies}"
+                        ignoreCertificateExpiredException="${zaakbrug.soap.replicator.beantwoord-vraag.SSD.ignoreCertificateExpiredException}"
+                        truststore="${zaakbrug.soap.replicator.beantwoord-vraag.SSD.truststore.uri}"
+                        truststoreAuthAlias="${zaakbrug.soap.replicator.beantwoord-vraag.SSD.truststore.authAlias}"
+                        truststoreType="${zaakbrug.soap.replicator.beantwoord-vraag.SSD.truststore.type}"
+                        keystore="${zaakbrug.soap.replicator.beantwoord-vraag.SSD.keystore.uri}"
+                        keystoreAlias="${zaakbrug.soap.replicator.beantwoord-vraag.SSD.keystore.alias}"
+                        keystoreAuthAlias="${zaakbrug.soap.replicator.beantwoord-vraag.SSD.keystore.authAlias}"
+                        keystoreType="${zaakbrug.soap.replicator.beantwoord-vraag.SSD.keystore.type}">
+                    <Param name="SOAPAction" sessionKey="SOAPAction" />
+                </WebServiceSender>
+                <Forward name="success" path="EchoEndpointRouterResponse" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <EchoPipe name="EchoEndpointRouterResponse" getInputFromSessionKey="EndpointRouterResponse"/>
+        </Pipeline>
+    </Adapter>
+</Module>

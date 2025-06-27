@@ -1,0 +1,42 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="SoapEndpointProxy_VrijeBerichten"
+        active="${SoapEndpointProxy_VrijeBerichten.Active}"
+        description="This adapter will send the message to SSD">
+
+        <Receiver name="SoapEndpointProxy_VrijeBerichten">
+            <WebServiceListener name="SoapEndpointProxy_VrijeBerichten" address="${zaakbrug.soap.proxy.vrije-berichten.endpoint}" soap="false"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                    name="SendToSSD">
+                <WebServiceSender
+                        name="SendToSSDSender"
+                        soap="false"
+                        soapActionParam="SOAPAction"
+                        url="${zaakbrug.soap.proxy.vrije-berichten.SSD.url}"
+                        timeout="${zaakbrug.soap.proxy.vrije-berichten.SSD.timeout}"
+                        verifyHostname="${zaakbrug.soap.proxy.vrije-berichten.SSD.verifyHostname}"
+                        allowSelfSignedCertificates="${zaakbrug.soap.proxy.vrije-berichten.SSD.allowSelfSignedCertificates}"
+                        disableCookies="${zaakbrug.soap.proxy.vrije-berichten.SSD.disableCookies}"
+                        ignoreCertificateExpiredException="${zaakbrug.soap.proxy.vrije-berichten.SSD.ignoreCertificateExpiredException}"
+                        truststore="${zaakbrug.soap.proxy.vrije-berichten.SSD.truststore.uri}"
+                        truststoreAuthAlias="${zaakbrug.soap.proxy.vrije-berichten.SSD.truststore.authAlias}"
+                        truststoreType="${zaakbrug.soap.proxy.vrije-berichten.SSD.truststore.type}"
+                        keystore="${zaakbrug.soap.proxy.vrije-berichten.SSD.keystore.uri}"
+                        keystoreAlias="${zaakbrug.soap.proxy.vrije-berichten.SSD.keystore.alias}"
+                        keystoreAuthAlias="${zaakbrug.soap.proxy.vrije-berichten.SSD.keystore.authAlias}"
+                        keystoreType="${zaakbrug.soap.proxy.vrije-berichten.SSD.keystore.type}">
+                    <Param name="SOAPAction" sessionKey="SOAPAction" />
+                </WebServiceSender>
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

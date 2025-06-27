@@ -1,0 +1,35 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="SoapEndpointRouter_Generic"
+        active="${SoapEndpointRouter_Generic.Active}"
+        description="This adapter will send the message to either the proxy, replicate, or translate pipeline based on their SOAPAction">
+
+        <Receiver name="SoapEndpointRouter_Generic">
+            <WebServiceListener name="SoapEndpointRouter_Generic" address="${zaakbrug.soap.router.generic.endpoint}" soap="false"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                    name="SendToPipeline">
+                <WebServiceSender
+                        name="SendToPipelineSender"
+                        soap="false"
+                        soapActionParam="SOAPAction"
+                        urlParam="url"
+                        timeout="${zaakbrug.soap.router.generic.timeout}">
+                    <Param name="fromSoapAction" xpathExpression="tokenize($SOAPAction, '/')[last()]"/>
+                    <Param name="url" pattern="${zaakbrug.soap.router.generic.${fromSoapAction}.path}"/>
+                    <Param name="SOAPAction" sessionKey="SOAPAction" />
+                </WebServiceSender>
+                <Forward name="success" path="EchoEndpointRouterResponse" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <EchoPipe name="EchoEndpointRouterResponse" getInputFromSessionKey="EndpointRouterResponse"/>
+        </Pipeline>
+    </Adapter>
+</Module>

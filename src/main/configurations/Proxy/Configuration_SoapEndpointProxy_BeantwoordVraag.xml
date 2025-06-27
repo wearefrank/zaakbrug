@@ -1,0 +1,42 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="SoapEndpointProxy_BeantwoordVraag"
+        active="${SoapEndpointProxy_BeantwoordVraag.Active}"
+        description="This adapter will send the message to SSD">
+
+        <Receiver name="SoapEndpointProxy_BeantwoordVraag">
+            <WebServiceListener name="SoapEndpointProxy_BeantwoordVraag" address="${zaakbrug.soap.proxy.beantwoord-vraag.endpoint}" soap="false"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                    name="SendToSSD">
+                <WebServiceSender
+                        name="SendToSSDSender"
+                        soap="false"
+                        soapActionParam="SOAPAction"
+                        url="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.url}"
+                        timeout="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.timeout}"
+                        verifyHostname="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.verifyHostname}"
+                        allowSelfSignedCertificates="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.allowSelfSignedCertificates}"
+                        disableCookies="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.disableCookies}"
+                        ignoreCertificateExpiredException="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.ignoreCertificateExpiredException}"
+                        truststore="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.truststore.uri}"
+                        truststoreAuthAlias="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.truststore.authAlias}"
+                        truststoreType="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.truststore.type}"
+                        keystore="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.keystore.uri}"
+                        keystoreAlias="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.keystore.alias}"
+                        keystoreAuthAlias="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.keystore.authAlias}"
+                        keystoreType="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.keystore.type}">
+                    <Param name="SOAPAction" sessionKey="SOAPAction" />
+                </WebServiceSender>
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

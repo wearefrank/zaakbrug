@@ -1,0 +1,44 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="SoapEndpointProxy_OntvangAsynchroon"
+        active="${SoapEndpointProxy_OntvangAsynchroon.Active}"
+        description="This adapter will send the message to SSD">
+
+        <Receiver name="SoapEndpointProxy_OntvangAsynchroon">
+            <WebServiceListener name="SoapEndpointProxy_OntvangAsynchroon" address="${zaakbrug.soap.proxy.ontvang-asynchroon.endpoint}" soap="false"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <XsltPipe name="AddZaakType" styleSheetName="xsl/addZaakType.xsl"/>
+
+            <SenderPipe
+                    name="SendToSSD">
+                <WebServiceSender
+                        name="SendToSSDSender"
+                        soap="false"
+                        soapActionParam="SOAPAction"
+                        url="${zaakbrug.soap.proxy.ontvang-asynchroon.SSD.url}"
+                        timeout="${zaakbrug.soap.proxy.ontvang-asynchroon.SSD.timeout}"
+                        verifyHostname="${zaakbrug.soap.proxy.ontvang-asynchroon.SSD.verifyHostname}"
+                        allowSelfSignedCertificates="${zaakbrug.soap.proxy.ontvang-asynchroon.SSD.allowSelfSignedCertificates}"
+                        disableCookies="${zaakbrug.soap.proxy.ontvang-asynchroon.SSD.disableCookies}"
+                        ignoreCertificateExpiredException="${zaakbrug.soap.proxy.ontvang-asynchroon.SSD.ignoreCertificateExpiredException}"
+                        truststore="${zaakbrug.soap.proxy.ontvang-asynchroon.SSD.truststore.uri}"
+                        truststoreAuthAlias="${zaakbrug.soap.proxy.ontvang-asynchroon.SSD.truststore.authAlias}"
+                        truststoreType="${zaakbrug.soap.proxy.ontvang-asynchroon.SSD.truststore.type}"
+                        keystore="${zaakbrug.soap.proxy.ontvang-asynchroon.SSD.keystore.uri}"
+                        keystoreAlias="${zaakbrug.soap.proxy.ontvang-asynchroon.SSD.keystore.alias}"
+                        keystoreAuthAlias="${zaakbrug.soap.proxy.ontvang-asynchroon.SSD.keystore.authAlias}"
+                        keystoreType="${zaakbrug.soap.proxy.ontvang-asynchroon.SSD.keystore.type}">
+                    <Param name="SOAPAction" sessionKey="SOAPAction" />
+                </WebServiceSender>
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+        </Pipeline>
+    </Adapter>
+</Module>
