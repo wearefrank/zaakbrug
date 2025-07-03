@@ -1,7 +1,7 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="SoapEndpointReplicator_VrijeBerichten"
         active="${SoapEndpointReplicator_VrijeBerichten.Active}"
-        description="This adapter will first send the message to the endpoint router, if the response is successful, it also sends the message to SSD">
+        description="This adapter will first send the message to the endpoint router, and (optionally only if the response is successful) it also sends the message the proxy">
 
         <Receiver name="SoapEndpointReplicator_VrijeBerichten">
             <WebServiceListener name="SoapEndpointReplicator_VrijeBerichten" address="${zaakbrug.soap.replicator.vrije-berichten.endpoint}" soap="false"/>
@@ -14,41 +14,34 @@
             </Exits>
 
             <SenderPipe
-                    name="SendToRouter" storeResultInSessionKey="EndpointRouterResponse">
+                    name="SendToRouter"
+                    preserveInput="true"
+                    storeResultInSessionKey="EndpointRouterResponse">
                 <FrankSender
                         name="SendToRouterSender"
                         target="SoapEndpointRouter_VrijeBerichten"
-                        returnedSessionKeys="SOAPAction"/>
-                <Forward name="success" path="SendToSSD" />
-                <Forward name="exception" path="EXCEPTION" />
+                        returnedSessionKeys="SOAPAction, exitState"/>
+                <Forward name="success" path="SendToProxy" />
+                <Forward name="exception" path="CheckIfShouldSendToProxyAnyways" />
             </SenderPipe>
 
-            <SenderPipe
-                    name="SendToSSD">
-                <WebServiceSender
-                        name="SendToSSDSender"
-                        soap="false"
-                        soapActionParam="SOAPAction"
-                        url="${zaakbrug.soap.replicator.vrije-berichten.SSD.url}"
-                        timeout="${zaakbrug.soap.replicator.vrije-berichten.SSD.timeout}"
-                        verifyHostname="${zaakbrug.soap.replicator.vrije-berichten.SSD.verifyHostname}"
-                        allowSelfSignedCertificates="${zaakbrug.soap.replicator.vrije-berichten.SSD.allowSelfSignedCertificates}"
-                        disableCookies="${zaakbrug.soap.replicator.vrije-berichten.SSD.disableCookies}"
-                        ignoreCertificateExpiredException="${zaakbrug.soap.replicator.vrije-berichten.SSD.ignoreCertificateExpiredException}"
-                        truststore="${zaakbrug.soap.replicator.vrije-berichten.SSD.truststore.uri}"
-                        truststoreAuthAlias="${zaakbrug.soap.replicator.vrije-berichten.SSD.truststore.authAlias}"
-                        truststoreType="${zaakbrug.soap.replicator.vrije-berichten.SSD.truststore.type}"
-                        keystore="${zaakbrug.soap.replicator.vrije-berichten.SSD.keystore.uri}"
-                        keystoreAlias="${zaakbrug.soap.replicator.vrije-berichten.SSD.keystore.alias}"
-                        keystoreAuthAlias="${zaakbrug.soap.replicator.vrije-berichten.SSD.keystore.authAlias}"
-                        keystoreType="${zaakbrug.soap.replicator.vrije-berichten.SSD.keystore.type}">
-                    <Param name="SOAPAction" sessionKey="SOAPAction" />
-                </WebServiceSender>
-                <Forward name="success" path="EchoEndpointRouterResponse" />
-                <Forward name="exception" path="EXCEPTION" />
+            <IfPipe name="CheckIfShouldSendToProxyAnyways" getInputFromFixedValue="${zaakbrug.soap.replicator.vrije-berichten.shadowMode}">
+                <Forward name="then" path="SendToProxy"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </IfPipe>
+
+            <SenderPipe name="SendToProxy">
+                <FrankSender name="SendToProxySender" target="SoapEndpointProxy_VrijeBerichten" synchronous="false">
+                    <Param name="SOAPAction" sessionKey="SOAPAction"/>
+                </FrankSender>
             </SenderPipe>
 
             <EchoPipe name="EchoEndpointRouterResponse" getInputFromSessionKey="EndpointRouterResponse"/>
+
+            <IfPipe name="IfEndpointRouterSuccess" getInputFromSessionKey="exitState" expressionValue="SUCCESS">
+                <Forward name="then" path="EXIT"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </IfPipe>
         </Pipeline>
     </Adapter>
 </Module>

@@ -1,7 +1,7 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="SoapEndpointReplicator_OntvangAsynchroon"
         active="${SoapEndpointReplicator_OntvangAsynchroon.Active}"
-        description="This adapter will first send the message to the endpoint router, if the response is successful, it also sends the message to SSD">
+        description="This adapter will first send the message to the endpoint router, and (optionally only if the response is successful) it also sends the message the proxy">
 
         <Receiver name="SoapEndpointReplicator_OntvangAsynchroon">
             <WebServiceListener name="SoapEndpointReplicator_OntvangAsynchroon" address="${zaakbrug.soap.replicator.ontvang-asynchroon.endpoint}" soap="false"/>
@@ -20,18 +20,28 @@
                 <FrankSender
                         name="SendToRouterSender"
                         target="SoapEndpointRouter_OntvangAsynchroon"
-                        returnedSessionKeys="SOAPAction"/>
-                <Forward name="success" path="SendToSSD" />
-                <Forward name="exception" path="EXCEPTION" />
+                        returnedSessionKeys="SOAPAction, exitState"/>
+                <Forward name="success" path="SendToProxy" />
+                <Forward name="exception" path="CheckIfShouldSendToProxyAnyways" />
             </SenderPipe>
 
+            <IfPipe name="CheckIfShouldSendToProxyAnyways" getInputFromFixedValue="${zaakbrug.soap.replicator.ontvang-asynchroon.shadowMode}">
+                <Forward name="then" path="SendToProxy"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </IfPipe>
+
             <SenderPipe name="SendToProxy">
-                <FrankSender name="SendToProxySender" target="SoapEndpointProxy_OntvangAsynchroon">
+                <FrankSender name="SendToProxySender" target="SoapEndpointProxy_OntvangAsynchroon" synchronous="false">
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
                 </FrankSender>
             </SenderPipe>
 
             <EchoPipe name="EchoEndpointRouterResponse" getInputFromSessionKey="EndpointRouterResponse"/>
+
+            <IfPipe name="IfEndpointRouterSuccess" getInputFromSessionKey="exitState" expressionValue="SUCCESS">
+                <Forward name="then" path="EXIT"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </IfPipe>
         </Pipeline>
     </Adapter>
 </Module>
