@@ -1,5 +1,3 @@
-version: '3.8'
-
 x-zaakbrug-postgres-env:
   environment: &zaakbrug-postgres-env
     POSTGRES_USER: zaakbrug
@@ -42,7 +40,7 @@ services:
       DB_HOSTNAME: zaakbrug-postgres
       DB_PORT: 5432
     volumes:
-      - ./docker/zaakbrug-postgres/context.xml:/usr/local/tomcat/conf/Catalina/localhost/ROOT.xml:rw
+      - ./contrib/zaakbrug-postgres/context.xml:/usr/local/tomcat/conf/Catalina/localhost/ROOT.xml:rw
     depends_on:
       - zaakbrug-postgres
 

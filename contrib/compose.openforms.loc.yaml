@@ -1,12 +1,10 @@
-version: '3.8'
-
 services:
   open-forms-db:
     image: postgres:${PG_VERSION:-14}
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
-      - ./docker/open-forms-db/docker-entrypoint-initdb.d/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql:ro
+      - ./contrib/open-forms-db/docker-entrypoint-initdb.d/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql:ro
       - open-forms-db:/var/lib/postgresql/data
     networks:
       - open-forms-backend
@@ -82,7 +80,7 @@ services:
     image: nginx
     container_name: open-forms.nginx
     volumes:
-      - ./docker/open-forms-nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./contrib/open-forms-nginx/default.conf:/etc/nginx/conf.d/default.conf
       - open-forms-private-media:/app/private_media
     ports:
       - 9003:9003
@@ -94,7 +92,7 @@ services:
   nginx:
     image: nginx
     volumes:
-      - ./docker/open-forms-nginx/openforms.conf:/etc/nginx/includes/openforms.conf
+      - ./contrib/open-forms-nginx/openforms.conf:/etc/nginx/includes/openforms.conf
     ports:
       - 9000:9000
     depends_on:

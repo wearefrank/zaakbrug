@@ -19,8 +19,6 @@ export JAVA_OPTS="\
 	-XX:MaxMetaspaceSize=256m \
 	-XX:G1HeapRegionSize=16m \
 	-XX:G1NewSizePercent=30 \
-	-XX:+PrintFlagsFinal \
-	-XshowSettings \
 	$JAVA_OPTS"
 
 # Enables writing of GC logs to /usr/local/tomcat/logs. Impacts performance!

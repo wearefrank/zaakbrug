@@ -1,5 +1,30 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.24.9](https://github.com/wearefrank/zaakbrug/compare/v1.24.8...v1.24.9) (2025-06-30)
+
+### 🔥 Performance Improvements
+
+* remove JVM print settings and final flags during startup to reduce log bloat and big log write ([3f06831](https://github.com/wearefrank/zaakbrug/commit/3f06831309a79ae43f993d5660495cbb0790d52f))
+
+### 🎨 Styles
+
+* capitalize as to AS in dockerfile to satisfy linter ([c68d30b](https://github.com/wearefrank/zaakbrug/commit/c68d30b8c42580020f92f1d82cdbf7d22664aa5e))
+* quote ports in zaakbrug docker compose and remove dubious volumemounts ([d160aea](https://github.com/wearefrank/zaakbrug/commit/d160aea760b36f2b1f647124f6b8d15859f32c69))
+
+### ✅ Tests
+
+* add .jdpa override compose file for remote JVM debugging ([19a23cf](https://github.com/wearefrank/zaakbrug/commit/19a23cf268a66a7a740ac1f24b6c26ade7701afc))
+* update, rename and move compose files to contrib folder ([a7d00c8](https://github.com/wearefrank/zaakbrug/commit/a7d00c84b1e8add3dc6e95095664d31b9df1456b))
+
+### 🤖 Build System
+
+* create placeholder folder for h2 database to make sure it won't get created under root user ([099a2d4](https://github.com/wearefrank/zaakbrug/commit/099a2d4d85ff891e39641bd9fa730f52524e1a84))
+* move dummy credentials.properties from resources to secrets folder ([dac0b1e](https://github.com/wearefrank/zaakbrug/commit/dac0b1ec0674a3c36cf9466871e0803139110be5))
+
+### 🔁 Continuous Integration
+
+* reflect docker compose file renaming in SoapUI setup and teardown commands ([3ef6e09](https://github.com/wearefrank/zaakbrug/commit/3ef6e09addd00a2f91f343924caef646d7232891))
+
 ## [1.24.8](https://github.com/wearefrank/zaakbrug/compare/v1.24.7...v1.24.8) (2025-05-21)
 
 ### 🐛 Bug Fixes

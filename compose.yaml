@@ -1,0 +1,47 @@
+# This docker-compose file brings up an example instance.
+# 
+# A H2 file-based database is used as example. This is not recommended for production environments.
+#
+# To use this docker-compose file:
+#    docker compose <command> (eg. up, down)
+#
+# Access the Frank!Console by navigating to http://frank.localtest.me:8080/.
+# Access the Frank!Flow by navigating to http://frank-flow.localtest.me:8090/.
+#
+services:
+  frank:
+    image: wearefrank/zaakbrug:${VERSION:-latest}
+    environment:
+      TZ: ${TIME_ZONE:-Europe/Amsterdam}
+      dtap.stage: ${DTAP_STAGE:-LOC}
+    volumes:
+      - h2-data:/opt/frank/h2:rw
+      - logs:/usr/local/tomcat/logs:rw
+    networks:
+      frank:
+        aliases:
+          - frank.localtest.me
+          - zaakbrug.localtest.me
+    ports:
+      - "${PORT:-8080}:8080"
+    restart: unless-stopped
+
+  frank-flow:
+    image: frankframework/frank-flow:latest
+    environment:
+      configurations.directory: /opt/frank/configurations
+    volumes:
+      - ./src/main/:/opt/frank/:rw
+    networks:
+      frank:
+        aliases:
+          - frank-flow.localtest.me
+    ports:
+      - "${FRANK-FLOW_PORT:-8090}:8080"
+
+networks:
+  frank: {}
+
+volumes:
+  logs:
+  h2-data:

@@ -1,7 +1,7 @@
 # Keep in sync with version in frank-runner.properties. Detailed instructions can be found in CONTRIBUTING.md.
 # Check whether java-orig files have changed in F!F and update custom code (java and java-orig files) accordingly
 ARG FF_VERSION=9.1.1-20250513.130355
-FROM docker.io/frankframework/frankframework:${FF_VERSION} as ff-base
+FROM docker.io/frankframework/frankframework:${FF_VERSION} AS ff-base
 
 # Copy dependencies
 COPY --chown=tomcat lib/server/* /usr/local/tomcat/lib/
@@ -29,7 +29,7 @@ COPY --chown=tomcat docker/entrypoint.sh /scripts/entrypoint.sh
 
 # TempFix TODO: Move this to the credentialprovider.properties
 ENV credentialFactory.class=nl.nn.credentialprovider.PropertyFileCredentialFactory
-ENV credentialFactory.map.properties=/opt/frank/resources/credentials.properties
+ENV credentialFactory.map.properties=/opt/frank/secrets/credentials.properties
 
 # Set sensable defaults
 ENV log.level=INFO
@@ -41,7 +41,14 @@ COPY --chown=tomcat src/main/webapp/META-INF/context.xml /usr/local/tomcat/conf/
 # Copy Frank!
 COPY --chown=tomcat src/main/configurations/ /opt/frank/configurations/
 COPY --chown=tomcat src/main/resources/ /opt/frank/resources/
+COPY --chown=tomcat src/main/secrets/ /opt/frank/secrets/
 COPY --chown=tomcat src/test/testtool/ /opt/frank/testtool/
+
+
+# Create h2 folder under 'tomcat' user. QoL addition to avoid Docker creating the h2 folder under 'root' when mounted.
+# This would normally cause a permission denied error because the framework running under the 'tomcat' user is not
+# allowed to write to a folder owned by 'root'.
+RUN mkdir -p /opt/frank/h2/
 
 # # Copy compiled custom class
 # COPY --from=custom-code-builder --chown=tomcat /tmp/classes/ /usr/local/tomcat/webapps/ROOT/WEB-INF/classes
