@@ -14,24 +14,24 @@
             </Exits>
 
             <SenderPipe
-                    name="SendToSSD">
+                    name="SendToProxy">
                 <WebServiceSender
-                        name="SendToSSDSender"
+                        name="SendToProxySender"
                         soap="false"
                         soapActionParam="SOAPAction"
-                        url="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.url}"
-                        timeout="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.timeout}"
-                        verifyHostname="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.verifyHostname}"
-                        allowSelfSignedCertificates="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.allowSelfSignedCertificates}"
-                        disableCookies="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.disableCookies}"
-                        ignoreCertificateExpiredException="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.ignoreCertificateExpiredException}"
-                        truststore="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.truststore.uri}"
-                        truststoreAuthAlias="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.truststore.authAlias}"
-                        truststoreType="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.truststore.type}"
-                        keystore="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.keystore.uri}"
-                        keystoreAlias="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.keystore.alias}"
-                        keystoreAuthAlias="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.keystore.authAlias}"
-                        keystoreType="${zaakbrug.soap.proxy.beantwoord-vraag.SSD.keystore.type}">
+                        url="${zaakbrug.soap.proxy.beantwoord-vraag.proxy.url}"
+                        timeout="${zaakbrug.soap.proxy.beantwoord-vraag.proxy.timeout}"
+                        verifyHostname="${zaakbrug.soap.proxy.beantwoord-vraag.proxy.verifyHostname}"
+                        allowSelfSignedCertificates="${zaakbrug.soap.proxy.beantwoord-vraag.proxy.allowSelfSignedCertificates}"
+                        disableCookies="${zaakbrug.soap.proxy.beantwoord-vraag.proxy.disableCookies}"
+                        ignoreCertificateExpiredException="${zaakbrug.soap.proxy.beantwoord-vraag.proxy.ignoreCertificateExpiredException}"
+                        truststore="${zaakbrug.soap.proxy.beantwoord-vraag.proxy.truststore.uri}"
+                        truststoreAuthAlias="${zaakbrug.soap.proxy.beantwoord-vraag.proxy.truststore.authAlias}"
+                        truststoreType="${zaakbrug.soap.proxy.beantwoord-vraag.proxy.truststore.type}"
+                        keystore="${zaakbrug.soap.proxy.beantwoord-vraag.proxy.keystore.uri}"
+                        keystoreAlias="${zaakbrug.soap.proxy.beantwoord-vraag.proxy.keystore.alias}"
+                        keystoreAuthAlias="${zaakbrug.soap.proxy.beantwoord-vraag.proxy.keystore.authAlias}"
+                        keystoreType="${zaakbrug.soap.proxy.beantwoord-vraag.proxy.keystore.type}">
                     <Param name="SOAPAction" sessionKey="SOAPAction" />
                 </WebServiceSender>
                 <Forward name="success" path="EXIT" />

@@ -215,7 +215,11 @@ frank:
     side: ""
   # Configurations to load.
   configurations:
-    names: "Translate"
+    names:
+      - GenericRouting
+      - Translate
+      - Proxy
+      - Replicate
   properties: {}
 
 connections:

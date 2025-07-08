@@ -19,7 +19,7 @@
                     storeResultInSessionKey="EndpointRouterResponse">
                 <FrankSender
                         name="SendToRouterSender"
-                        target="SoapEndpointRouter_BeantwoordVraag"
+                        target="Translate/SoapEndpointRouter_BeantwoordVraag"
                         returnedSessionKeys="SOAPAction, exitState"/>
                 <Forward name="success" path="SendToProxy" />
                 <Forward name="exception" path="CheckIfShouldSendToProxyAnyways" />
@@ -31,7 +31,7 @@
             </IfPipe>
 
             <SenderPipe name="SendToProxy">
-                <FrankSender name="SendToProxySender" target="SoapEndpointProxy_BeantwoordVraag" synchronous="false">
+                <FrankSender name="SendToProxySender" target="Proxy/SoapEndpointProxy_BeantwoordVraag" synchronous="false">
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
                 </FrankSender>
             </SenderPipe>

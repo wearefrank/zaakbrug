@@ -39,7 +39,10 @@ services:
       GC_LOGGING_ENABLED: false
       JAVA_OPTS: $JAVA_OPTS -XX:InitialRAMPercentage=25.0 -XX:MaxRAMPercentage=75.0
       dtap.stage: LOC
+      configurations.GenericRouting.classLoaderType: ScanningDirectoryClassLoader
       configurations.Translate.classLoaderType: ScanningDirectoryClassLoader
+      configurations.Proxy.classLoaderType: ScanningDirectoryClassLoader
+      configurations.Replicate.classLoaderType: ScanningDirectoryClassLoader
       management.gateway.inbound.class: org.frankframework.management.gateway.HazelcastInboundGateway
     volumes:
       - h2-data:/opt/frank/h2:rw
@@ -47,8 +50,20 @@ services:
     develop:
       watch:
         - action: sync+restart
+          path: ./src/main/resources/SoapRouteMapping.json
+          target: /opt/frank/resources/SoapRouteMapping.json
+        - action: sync+restart
+          path: ./src/main/configurations/GenericRouting/DeploymentSpecifics.properties
+          target: /opt/frank/configurations/GenericRouting/DeploymentSpecifics.properties
+        - action: sync+restart
           path: ./src/main/configurations/Translate/DeploymentSpecifics.properties
           target: /opt/frank/configurations/Translate/DeploymentSpecifics.properties
+        - action: sync+restart
+          path: ./src/main/configurations/Proxy/DeploymentSpecifics.properties
+          target: /opt/frank/configurations/Proxy/DeploymentSpecifics.properties
+        - action: sync+restart
+          path: ./src/main/configurations/Replicate/DeploymentSpecifics.properties
+          target: /opt/frank/configurations/Replicate/DeploymentSpecifics.properties
         - action: sync+restart
           path: ./src/main/configurations/Translate/Global.json
           target: /opt/frank/configurations/Translate/Global.json
