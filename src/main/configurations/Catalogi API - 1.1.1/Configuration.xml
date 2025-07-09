@@ -55,7 +55,7 @@
 	<!ENTITY zaaktype_publish SYSTEM "./configuration_catalogi_zaaktype_publish.xml">
 	]>
 
-<Configuration name="Catalogi API - 1.1.1">
+<Configuration name="Catalogi API - 1.1.1" active="${configurations.catalogi-api.active}">
 	&besluittype_list;
 	&besluittype_create;
 	&besluittype_read;
