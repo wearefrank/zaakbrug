@@ -56,7 +56,7 @@
 	<!ENTITY zaakeigenschap_partial_update SYSTEM "./configuration_zaken_zaakeigenschap_partial_update.xml">
 	]>
 
-<Configuration name="Zaken API - 1.2.0">
+<Configuration name="Zaken API - 1.2.0" active="${configurations.zaken-api.active}">
 	&klantcontact_list;
 	&klantcontact_create;
 	&klantcontact_read;
