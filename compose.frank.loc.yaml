@@ -39,11 +39,22 @@ services:
       GC_LOGGING_ENABLED: false
       JAVA_OPTS: $JAVA_OPTS -XX:InitialRAMPercentage=25.0 -XX:MaxRAMPercentage=75.0
       dtap.stage: LOC
-      configurations.GenericRouting.classLoaderType: ScanningDirectoryClassLoader
-      configurations.Translate.classLoaderType: ScanningDirectoryClassLoader
-      configurations.Proxy.classLoaderType: ScanningDirectoryClassLoader
-      configurations.Replicate.classLoaderType: ScanningDirectoryClassLoader
       management.gateway.inbound.class: org.frankframework.management.gateway.HazelcastInboundGateway
+
+      #Routing uris
+      zaakbrug.soap.router.generic.endpoint:               routing/generic/zds
+
+      zaakbrug.soap.translate.beantwoord-vraag.endpoint:   translate/generic/zds/BeantwoordVraag
+      zaakbrug.soap.translate.ontvang-asynchroon.endpoint: translate/generic/zds/OntvangAsynchroon
+      zaakbrug.soap.translate.vrije-berichten.endpoint:    translate/generic/zds/VrijBericht
+
+      zaakbrug.soap.replicate.beantwoord-vraag.endpoint:   replicate/generic/zds/BeantwoordVraag
+      zaakbrug.soap.replicate.ontvang-asynchroon.endpoint: replicate/generic/zds/OntvangAsynchroon
+      zaakbrug.soap.replicate.vrije-berichten.endpoint:    replicate/generic/zds/VrijBericht
+
+      zaakbrug.soap.proxy.beantwoord-vraag.endpoint:       proxy/generic/zds/BeantwoordVraag
+      zaakbrug.soap.proxy.ontvang-asynchroon.endpoint:     proxy/generic/zds/OntvangAsynchroon
+      zaakbrug.soap.proxy.vrije-berichten.endpoint:        proxy/generic/zds/VrijBericht
     volumes:
       - h2-data:/opt/frank/h2:rw
       - logs:/usr/local/tomcat/logs:rw

@@ -24,7 +24,7 @@
             <LocalFileSystemPipe
                     name="ReadFile"
                     action="read"
-                    storeResultInSessionKey="fileContentRaw">
+                    storeResultInSessionKey="profilesFileContent">
                 <Param name="filename" sessionKey="profilesFile" />
                 <Forward name="success" path="EscapeJsonForGraalJS" />
                 <Forward name="exception" path="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException" />
@@ -37,8 +37,8 @@
                     getInputFromFixedValue="&lt;dummy/&gt;"
                     ifParam="javascriptEngine"
                     ifValue="GRAALJS">
-                <Param name="fileContentEscaped" xpathExpression="normalize-space(replace(replace(replace(replace(replace($fileContentRaw, '&amp;', '\\&amp;'), '\r', ''), '\t', ''), '\n', ''), '&quot;', '\\&quot;'))">
-                    <Param name="fileContentRaw" sessionKey="fileContentRaw" type="STRING" />
+                <Param name="profilesFileContent" xpathExpression="normalize-space(replace(replace(replace(replace(replace($fileContentRaw, '&amp;', '\\&amp;'), '\r', ''), '\t', ''), '\n', ''), '&quot;', '\\&quot;'))">
+                    <Param name="fileContentRaw" sessionKey="profilesFileContent" type="STRING" />
                 </Param>
                 <Param name="javascriptEngine" value="${zaakbrug.javascriptEngine}" />
                 <Forward name="success" path="MergeProfileDefaultsWithProfilesSender" />
@@ -55,7 +55,7 @@
                         jsFunctionName="mergeProfileDefaultsWithProfiles"
                         engineName="${zaakbrug.javascriptEngine}">
 				</JavascriptSender>
-                <Param name="profilesFile" sessionKey="fileContentEscaped" />
+                <Param name="profilesFile" sessionKey="profilesFileContent" />
                 <Forward name="success" path="JsonToXml" />
                 <Forward name="exception" path="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException" />
 			</SenderPipe>

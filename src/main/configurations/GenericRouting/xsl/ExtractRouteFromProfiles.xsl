@@ -10,7 +10,7 @@
                 <xsl:value-of select="//profile[zaakTypeIdentificatie = $zaaktype]/*[@name=$SOAPAction]"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="//profileDefaults/*[@name=$SOAPAction]"/>
+                <xsl:value-of select="//profileDefaults/*[name()=$SOAPAction]"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>

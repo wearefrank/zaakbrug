@@ -37,25 +37,34 @@
                     storeResultInSessionKey="route">
                 <Param name="zaaktype" sessionKey="zaaktype" />
                 <Param name="SOAPAction" sessionKey="fromSoapAction" />
-                <Forward name="success" path="EXIT" />
             </XsltPipe>
 
-            <SenderPipe
-                    name="SendToPipeline">
+            <ReplacerPipe
+                    name="GetUrl"
+                    getInputFromFixedValue="^{zaakbrug.soap.?{route}.endpoint}"
+                    find="^"
+                    replace="$"
+                    substituteVars="true"
+                    storeResultInSessionKey="uri">
+                <Param name="route" sessionKey="route"/>
+
+            </ReplacerPipe>
+
+            <SenderPipe name="SendToPipeline" getInputFromSessionKey="originalMessage">
                 <WebServiceSender
                         name="SendToPipelineSender"
                         soap="false"
                         soapActionParam="SOAPAction"
                         urlParam="url"
                         timeout="${zaakbrug.soap.router.generic.timeout}">
-                    <Param name="url" pattern="${zaakbrug.soap.router.generic.${route}}"/>
+                    <Param name="url" pattern="http://localhost:8080/services/{uri}">
+                        <Param name="uri" sessionKey="uri"/>
+                    </Param>
                     <Param name="SOAPAction" sessionKey="SOAPAction" />
                 </WebServiceSender>
-                <Forward name="success" path="EchoEndpointRouterResponse" />
+                <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
-
-            <EchoPipe name="EchoEndpointRouterResponse" getInputFromSessionKey="EndpointRouterResponse"/>
         </Pipeline>
     </Adapter>
 </Module>
