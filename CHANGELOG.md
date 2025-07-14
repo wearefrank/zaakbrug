@@ -1,5 +1,24 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.24.10](https://github.com/wearefrank/zaakbrug/compare/v1.24.9...v1.24.10) (2025-07-14)
+
+### 🧑‍💻 Code Refactoring
+
+* autoload configuration from configurations directory and enable/disable configuration via 'active' property instead of 'configuration.names' ([b429917](https://github.com/wearefrank/zaakbrug/commit/b42991780d55c4fa4d302aafb283d62e18de4d09))
+
+### ✅ Tests
+
+* use new 'configuration.directory.classLoaderType' property in development docker compose instead of configuring the classLoadType separately for each configuration ([7c51da4](https://github.com/wearefrank/zaakbrug/commit/7c51da40fde228b1ce8de2478ae30a0dcd7bf388))
+
+### 🤖 Build System
+
+* **dependencies:** bump the docusaurus group ([29567f1](https://github.com/wearefrank/zaakbrug/commit/29567f1509eea26d9ba445898add456748ea714e))
+* **dependencies:** bump the github-actions group across 1 directory with 5 updates ([1c21852](https://github.com/wearefrank/zaakbrug/commit/1c218521ccc524c507e1ef9cb4c0d10d87eb7954))
+
+### 🔁 Continuous Integration
+
+* update docker-release workflow to major 2 ([e04042f](https://github.com/wearefrank/zaakbrug/commit/e04042f9d2122e00ee18c313b522d27cc26b0fed))
+
 ## [1.24.9](https://github.com/wearefrank/zaakbrug/compare/v1.24.8...v1.24.9) (2025-06-30)
 
 ### 🔥 Performance Improvements
