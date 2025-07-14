@@ -126,10 +126,11 @@ jobs:
     - release
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
-      dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
-      dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
+      registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
+      registry-token: ${{ secrets.DOCKERHUB_TOKEN }}
     with:
       version: ${{ needs.analyze-commits.outputs.version-next }}
+      registry-prefix: 'docker.io/'
 
   update-helm:
     uses: ./.github/workflows/update-helm-chart.yml
