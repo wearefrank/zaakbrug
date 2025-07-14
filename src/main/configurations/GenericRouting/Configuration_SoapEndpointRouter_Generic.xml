@@ -1,0 +1,70 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="SoapEndpointRouter_Generic"
+        active="${SoapEndpointRouter_Generic.Active}"
+        description="This adapter will send the message to either the proxy, replicate, or translate pipeline based on their SOAPAction">
+
+        <Receiver name="SoapEndpointRouter_Generic">
+            <WebServiceListener name="SoapEndpointRouter_Generic" address="${zaakbrug.soap.router.generic.endpoint}" soap="false"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <PutInSessionPipe name="PutInSession">
+                <Param name="fromSoapAction" xpathExpression="tokenize($SOAPAction, '/')[last()]">
+                    <Param name="SOAPAction" sessionKey="SOAPAction"/>
+                </Param>
+                <Param name="zaaktype" xpathExpression="//object/isVan/gerelateerde/code" namespaceDefs="http://www.egem.nl/StUF/sector/zkn/0310"/>
+            </PutInSessionPipe>
+
+            <SenderPipe name="ResolveProfileValuesSender">
+                <IbisLocalSender
+                        name="ResolveProfileValuesLocalSender"
+                        javaListener="ResolveProfileValues"
+                        returnedSessionKeys="Error">
+                    <Param name="profilesFile" value="/opt/frank/resources/SoapRouteMapping.json"/>
+                </IbisLocalSender>
+                <Forward name="success" path="ExtractRouteFromProfiles" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XsltPipe
+                    name="ExtractRouteFromProfiles"
+                    styleSheetName="xsl/ExtractRouteFromProfiles.xsl"
+                    storeResultInSessionKey="route">
+                <Param name="zaaktype" sessionKey="zaaktype" />
+                <Param name="SOAPAction" sessionKey="fromSoapAction" />
+            </XsltPipe>
+
+            <ReplacerPipe
+                    name="GetUrl"
+                    getInputFromFixedValue="^{zaakbrug.soap.?{route}.endpoint}"
+                    find="^"
+                    replace="$"
+                    substituteVars="true"
+                    storeResultInSessionKey="uri">
+                <Param name="route" sessionKey="route"/>
+
+            </ReplacerPipe>
+
+            <SenderPipe name="SendToPipeline" getInputFromSessionKey="originalMessage">
+                <WebServiceSender
+                        name="SendToPipelineSender"
+                        soap="false"
+                        soapActionParam="SOAPAction"
+                        urlParam="url"
+                        timeout="${zaakbrug.soap.router.generic.timeout}">
+                    <Param name="url" pattern="http://localhost:8080/services/{uri}">
+                        <Param name="uri" sessionKey="uri"/>
+                    </Param>
+                    <Param name="SOAPAction" sessionKey="SOAPAction" />
+                </WebServiceSender>
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

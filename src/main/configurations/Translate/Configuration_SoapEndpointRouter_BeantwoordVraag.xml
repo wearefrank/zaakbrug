@@ -10,7 +10,7 @@
         -->
 
         <Receiver name="SoapEndpointRouter_BeantwoordVraag">
-            <WebServiceListener name="SoapEndpointRouter_BeantwoordVraag" address="${zaakbrug.soap.beantwoord-vraag.endpoint}" soap="false"/>
+            <WebServiceListener name="SoapEndpointRouter_BeantwoordVraag" address="${zaakbrug.soap.translate.beantwoord-vraag.endpoint}" soap="false"/>
         </Receiver>
 
         <Pipeline>

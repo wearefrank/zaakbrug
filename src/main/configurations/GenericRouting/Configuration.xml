@@ -1,0 +1,7 @@
+<!DOCTYPE configuration [
+  <!ENTITY SoapEndpointRouter_Generic SYSTEM "./Configuration_SoapEndpointRouter_Generic.xml">
+]>
+
+<configuration name="GenericRouting">
+  &SoapEndpointRouter_Generic;
+</configuration>
