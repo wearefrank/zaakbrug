@@ -111,7 +111,7 @@
 
             <SenderPipe
                 name="CallSetResultaatAndStatus"
-                getInputFromSessionKey="originalMessage"
+                getInputFromSessionKey="object"
                 storeResultInSessionKey="SetResultaatAndStatusResult">
                 <IbisLocalSender
                     name="CallSetResultaatAndStatusSender"

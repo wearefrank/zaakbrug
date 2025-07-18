@@ -58,7 +58,7 @@
                 >
                 <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> 
-                <Param name="reason" pattern="No zaak with the identificatie:{Identificatie} is found in GetZgwZaak" ignoreUnresolvablePatternElements="true" />
+                <Param name="reason" pattern="No zaak with the identificatie: [{Identificatie}] found." ignoreUnresolvablePatternElements="true" />
                 <Param name="detailsXml" type="DOMDOC"/>
                 <Forward name="success" path="EXCEPTION" />
                 <Forward name="exception" path="EXCEPTION" />
@@ -268,66 +268,25 @@
                 storeResultInSessionKey="ZgwZaakInformatieObject"
                 >
                 <Param name="ZgwZaakInformatieObject" sessionKey="PostZgwZaakInformatieObject" type="DOMDOC"/>
-                <Forward name="success" path="GetZgwStatusTypeByZaakTypeAndOmschrijvingSender"/>
+                <Forward name="success" path="CallSetResultaatAndStatus" />
                 <Forward name="exception" path="UncaughtException"/>
             </XsltPipe>
 
             <SenderPipe
-                name="GetZgwStatusTypeByZaakTypeAndOmschrijvingSender"
-                getInputFromSessionKey="ZdsZaakDocumentInhoud"
-                storeResultInSessionKey="ZgwStatusType">
+                name="CallSetResultaatAndStatus"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="SetResultaatAndStatusResult">
                 <IbisLocalSender
-                    name="GetZgwStatusTypeByZaakTypeAndOmschrijvingLocalSender"
-                    javaListener="GetStatusTypeByZaakTypeAndOmschrijving"
+                    name="CallSetResultaatAndStatusSender"
+                    javaListener="SetResultaatAndStatus"
                     returnedSessionKeys="Error">
-                    <Param name="ZaakTypeUrl" xpathExpression="$ZgwZaakType/ZgwZaakType/url">
-                        <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
+                    <XmlParam name="ZgwZaakType" sessionKey="ZgwZaakType"/>
+                    <Param name="ZaakUrl" xpathExpression="$ZgwZaak/ZgwZaak/url">
+                        <XmlParam name="ZgwZaak" sessionKey="ZgwZaak"/>
                     </Param>
-                    <Param name="Omschrijving" xpathExpression="object/isRelevantVoor/stt.omschrijving"/>
-                    <Param name="Volgnummer" xpathExpression="object/isRelevantVoor/stt.volgnummer"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CheckForZgwStatusTypeResult"/>
-                <Forward name="exception" path="UncaughtException" />
-            </SenderPipe>
-
-            <XmlIfPipe name="CheckForZgwStatusTypeResult"
-                xpathExpression="count(*/ZgwStatusType) = 1"
-                >
-                <Forward name="then" path="GetSingleZgwStatusTypeFromList"/>
-                <Forward name="else" path="EXIT"/>
-            </XmlIfPipe>
-
-            <XsltPipe
-                name="GetSingleZgwStatusTypeFromList"
-                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
-                storeResultInSessionKey="ZgwStatusType"
-                >
-                <Forward name="success" path="CreateStatusBody"/>
-                <Forward name="exception" path="UncaughtException"/>
-            </XsltPipe>
-
-            <XsltPipe
-                name="CreateStatusBody"
-                getInputFromSessionKey="ZdsZaakDocumentInhoud"
-                styleSheetName="Zgw/Zaken/Model/ZgwStatus.xslt"
-                >
-                <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
-                <Param name="ZgwStatusType" sessionKey="ZgwStatusType" type="DOMDOC"/>
-                <Param name="ZdsStatusDatum" xpathExpression="object/isRelevantVoor/sta.datumStatusGezet"/>
-                <Forward name="success" path="PostZgwStatusSender"/>
-            </XsltPipe>
-
-            <SenderPipe
-                name="PostZgwStatusSender"
-                storeResultInSessionKey="ZgwStatus"
-                >
-                <IbisLocalSender
-                    name="PostZgwStatusLocalSender"
-                    javaListener="Zaken_PostZgwStatus"
-                    returnedSessionKeys="Error">
-                </IbisLocalSender>
-                <Forward name="success" path="EXIT"/>
-                <Forward name="exception" path="UncaughtException" />
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe 
@@ -336,7 +295,7 @@
                 styleSheetName="Common/xsl/BuildError.xsl">
                 <Param name="cause" xpathExpression="/error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
-                <Param name="reason" pattern="Uncaught exception" /> 
+                <Param name="reason" pattern="Uncaught exception" />
                 <!-- <Param name="details" sessionKey="" /> -->
                 <Param name="detailsXml" type="DOMDOC" />
                 <Forward name="success" path="EXCEPTION" />
