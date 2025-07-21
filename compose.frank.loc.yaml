@@ -39,6 +39,7 @@ services:
       GC_LOGGING_ENABLED: false
       JAVA_OPTS: $JAVA_OPTS -XX:InitialRAMPercentage=25.0 -XX:MaxRAMPercentage=75.0
       dtap.stage: LOC
+      configurations.directory.classLoaderType: ScanningDirectoryClassLoader
       management.gateway.inbound.class: org.frankframework.management.gateway.HazelcastInboundGateway
 
       #Routing uris

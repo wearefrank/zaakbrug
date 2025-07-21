@@ -53,7 +53,8 @@ RUN mkdir -p /opt/frank/h2/
 # # Copy compiled custom class
 # COPY --from=custom-code-builder --chown=tomcat /tmp/classes/ /usr/local/tomcat/webapps/ROOT/WEB-INF/classes
 
-# Check if Frank! is still healthy
+# Healthcheck to validate that the instance is healthy(e.g. all mandatory connections are established and all adapters started successfully).
+# Note: Second 'curl' command ensures that the cause of an unhealthy state can be found with a `docker inspect` command.
 HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=60 \
 	CMD curl --fail --silent http://localhost:8080/iaf/api/server/health || \
         (curl --silent http://localhost:8080/iaf/api/server/health && exit 1)

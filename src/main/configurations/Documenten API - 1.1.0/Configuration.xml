@@ -23,7 +23,7 @@
 	<!ENTITY objectinformatieobject_delete SYSTEM "./configuration_documenten_objectinformatieobject_delete.xml">
 	]>
 
-<Configuration name="Documenten API - 1.1.0">
+<Configuration name="Documenten API - 1.1.0" active="${configurations.documenten-api.active}">
 	&bestandsdeel_update;
 	&enkelvoudiginformatieobject_list;
 	&enkelvoudiginformatieobject_create;
