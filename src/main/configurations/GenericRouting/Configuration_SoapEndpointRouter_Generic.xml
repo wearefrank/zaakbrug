@@ -47,7 +47,6 @@
                     substituteVars="true"
                     storeResultInSessionKey="uri">
                 <Param name="route" sessionKey="route"/>
-
             </ReplacerPipe>
 
             <SenderPipe name="SendToPipeline" getInputFromSessionKey="originalMessage">

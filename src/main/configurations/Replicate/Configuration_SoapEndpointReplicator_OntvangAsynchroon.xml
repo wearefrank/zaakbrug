@@ -4,7 +4,7 @@
         description="This adapter will first send the message to the endpoint router, and (optionally only if the response is successful) it also sends the message the proxy">
 
         <Receiver name="SoapEndpointReplicator_OntvangAsynchroon">
-            <WebServiceListener name="SoapEndpointReplicator_OntvangAsynchroon" address="${zaakbrug.soap.replicator.ontvang-asynchroon.endpoint}" soap="false"/>
+            <WebServiceListener name="SoapEndpointReplicator_OntvangAsynchroon" address="${zaakbrug.soap.replicate.ontvang-asynchroon.endpoint}" soap="false"/>
         </Receiver>
 
         <Pipeline>

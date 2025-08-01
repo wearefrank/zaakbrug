@@ -4,7 +4,7 @@
         description="This adapter will first send the message to the endpoint router, and (optionally only if the response is successful) it also sends the message the proxy">
 
         <Receiver name="SoapEndpointReplicator_VrijeBerichten">
-            <WebServiceListener name="SoapEndpointReplicator_VrijeBerichten" address="${zaakbrug.soap.replicator.vrije-berichten.endpoint}" soap="false"/>
+            <WebServiceListener name="SoapEndpointReplicator_VrijeBerichten" address="${zaakbrug.soap.replicate.vrije-berichten.endpoint}" soap="false"/>
         </Receiver>
 
         <Pipeline>
