@@ -13,6 +13,10 @@
             <WebServiceListener name="SoapEndpointRouter_VrijeBerichten" address="${zaakbrug.soap.translate.vrije-berichten.endpoint}" soap="false"/>
         </Receiver>
 
+        <Receiver name="SoapEndpointRouter_VrijeBerichten_Java">
+            <JavaListener name="SoapEndpointRouter_VrijeBerichten"/>
+        </Receiver>
+
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>

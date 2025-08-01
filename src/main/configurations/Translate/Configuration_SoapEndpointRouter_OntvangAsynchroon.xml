@@ -13,6 +13,10 @@
             <WebServiceListener name="SoapEndpointRouter_OntvangAsynchroon" address="${zaakbrug.soap.translate.ontvang-asynchroon.endpoint}" soap="false"/>
         </Receiver>
 
+        <Receiver name="SoapEndpointRouter_OntvangAsynchroon_Java">
+            <JavaListener name="SoapEndpointRouter_OntvangAsynchroon"/>
+        </Receiver>
+
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>

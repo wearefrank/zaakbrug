@@ -17,9 +17,13 @@
                     name="SendToRouter"
                     preserveInput="true"
                     storeResultInSessionKey="EndpointRouterResponse">
-                <FrankSender
+<!--                <FrankSender-->
+<!--                        name="SendToRouterSender"-->
+<!--                        target="Translate/SoapEndpointRouter_BeantwoordVraag"-->
+<!--                        returnedSessionKeys="SOAPAction, exitState"/>-->
+                <IbisLocalSender
                         name="SendToRouterSender"
-                        target="Translate/SoapEndpointRouter_BeantwoordVraag"
+                        javaListener="SoapEndpointRouter_BeantwoordVraag"
                         returnedSessionKeys="SOAPAction, exitState"/>
                 <Forward name="success" path="SendToProxy" />
                 <Forward name="exception" path="CheckIfShouldSendToProxyAnyways" />
@@ -31,9 +35,12 @@
             </IfPipe>
 
             <SenderPipe name="SendToProxy">
-                <FrankSender name="SendToProxySender" target="Proxy/SoapEndpointProxy_BeantwoordVraag" synchronous="false">
+<!--                <FrankSender name="SendToProxySender" target="Proxy/SoapEndpointProxy_BeantwoordVraag" synchronous="false">-->
+<!--                    <Param name="SOAPAction" sessionKey="SOAPAction"/>-->
+<!--                </FrankSender>-->
+                <IbisLocalSender name="SendToProxySender" javaListener="SoapEndpointProxy_BeantwoordVraag" synchronous="false">
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
-                </FrankSender>
+                </IbisLocalSender>
             </SenderPipe>
 
             <EchoPipe name="EchoEndpointRouterResponse" getInputFromSessionKey="EndpointRouterResponse"/>

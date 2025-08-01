@@ -7,6 +7,10 @@
             <WebServiceListener name="SoapEndpointProxy_OntvangAsynchroon" address="${zaakbrug.soap.proxy.ontvang-asynchroon.endpoint}" soap="false"/>
         </Receiver>
 
+        <Receiver name="SoapEndpointProxy_OntvangAsynchroon_Java">
+            <JavaListener name="SoapEndpointProxy_OntvangAsynchroon"/>
+        </Receiver>
+
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
