@@ -1,0 +1,11 @@
+<!DOCTYPE configuration [
+        <!ENTITY SoapEndpointReplicator_BeantwoordVraag    SYSTEM "./Configuration_SoapEndpointReplicator_BeantwoordVraag.xml">
+        <!ENTITY SoapEndpointReplicator_OntvangAsynchroon  SYSTEM "./Configuration_SoapEndpointReplicator_OntvangAsynchroon.xml">
+        <!ENTITY SoapEndpointReplicator_VrijeBerichten     SYSTEM "./Configuration_SoapEndpointReplicator_VrijeBerichten.xml">
+]>
+
+<configuration name="Replicate">
+  &SoapEndpointReplicator_BeantwoordVraag;
+  &SoapEndpointReplicator_OntvangAsynchroon;
+  &SoapEndpointReplicator_VrijeBerichten;
+</configuration>
