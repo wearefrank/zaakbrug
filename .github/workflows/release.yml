@@ -14,7 +14,7 @@ jobs:
       version-next-tag: ${{ steps.next-version.outputs.release-tag }}
       version-next-type: ${{ steps.next-version.outputs.release-type }}
     steps:
-      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49 # v2.12.2
+      - uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
         with:
           disable-sudo: true
           egress-policy: audit
@@ -40,7 +40,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   ci:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@692c637ef4f5519d986d69e443997ab80fed8deb #2.0.2
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@e89e41bafa1b61a03984af9a3c9fe0ab87943c1f #2.0.4
     needs: analyze-commits
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
@@ -61,7 +61,7 @@ jobs:
       image-id: ${{ needs.ci.outputs.image-id }}
 
   soapui-testrunner:
-    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@692c637ef4f5519d986d69e443997ab80fed8deb #2.0.2
+    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@e89e41bafa1b61a03984af9a3c9fe0ab87943c1f #2.0.4
     needs:
       - ci
       - run-larva-scenarios
@@ -84,7 +84,7 @@ jobs:
       - ci
       - soapui-testrunner
     steps:
-      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49 # v2.12.2
+      - uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
         with:
           egress-policy: audit
 
@@ -120,7 +120,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   docker-release:
-    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@692c637ef4f5519d986d69e443997ab80fed8deb #2.0.2
+    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@e89e41bafa1b61a03984af9a3c9fe0ab87943c1f #2.0.4
     needs: 
     - analyze-commits
     - release
@@ -151,4 +151,4 @@ jobs:
       - release
     # Set to true to enable Docusaurus publishing to GitHub Pages
     if: true
-    uses: wearefrank/ci-cd-templates/.github/workflows/docusaurus-release.yml@692c637ef4f5519d986d69e443997ab80fed8deb #2.0.2
+    uses: wearefrank/ci-cd-templates/.github/workflows/docusaurus-release.yml@e89e41bafa1b61a03984af9a3c9fe0ab87943c1f #2.0.4

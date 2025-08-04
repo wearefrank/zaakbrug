@@ -15,7 +15,7 @@ jobs:
       version-next: ${{ steps.reference.outputs.next-reference }}
       version-next-strict: ${{ steps.reference.outputs.next-reference }}
     steps:
-      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49 # v2.12.2
+      - uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
         with:
           disable-sudo: true
           egress-policy: block
@@ -27,10 +27,10 @@ jobs:
 
       - name: Next Reference
         id: reference
-        uses: wearefrank/ci-cd-templates/next-reference@692c637ef4f5519d986d69e443997ab80fed8deb #2.0.2
+        uses: wearefrank/ci-cd-templates/next-reference@e89e41bafa1b61a03984af9a3c9fe0ab87943c1f #2.0.4
 
   ci:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@692c637ef4f5519d986d69e443997ab80fed8deb #2.0.2
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@e89e41bafa1b61a03984af9a3c9fe0ab87943c1f #2.0.4
     needs:
       - version-next
     secrets:
@@ -51,7 +51,7 @@ jobs:
       image-id: ${{ needs.ci.outputs.image-id }}
 
   soapui-testrunner:
-    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@692c637ef4f5519d986d69e443997ab80fed8deb #2.0.2
+    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@e89e41bafa1b61a03984af9a3c9fe0ab87943c1f #2.0.4
     needs:
       - ci
       - run-larva-scenarios
