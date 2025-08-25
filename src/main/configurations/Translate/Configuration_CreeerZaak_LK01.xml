@@ -80,17 +80,46 @@
                     returnedSessionKeys="Error">
                     <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
                 </IbisLocalSender>
-                <Forward name="success" path="GetRolTypenByUrl"/>
+                <Forward name="success" path="CheckForHeeftBetrekkingOp"/>
                 <Forward name="exception" path="UncaughtException"/>
             </SenderPipe>
+
+            <IfPipe
+                name="CheckForHeeftBetrekkingOp"
+                getInputFromSessionKey="originalMessage"
+                xpathExpression="boolean(/*:zakLk01/*:object/*:heeftBetrekkingOp/*:gerelateerde/*)">
+                <Forward name="then" path="ZaakObjectMappingIterator"/>
+                <Forward name="else" path="StoreZaakObjectMappingResults"/>
+            </IfPipe>
+
+            <PutInSessionPipe
+                name="StoreZaakObjectMappingResults">
+                <Param name="ZaakObjectMappingResults" value="&lt;dummy/&gt;"/>
+                <Forward name="success" path="GetRolTypenByUrl"/>
+            </PutInSessionPipe>
+
+            <ForEachChildElementPipe
+                name="ZaakObjectMappingIterator"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="ZaakObjectMappingResults"
+                elementXPathExpression="/zakLk01/object/heeftBetrekkingOp">
+                <IbisLocalSender
+                    name="CallAddZaakObjectToZgw"
+                    javaListener="AddZaakObjectToZgw"
+                    returnedSessionKeys="Error">
+                    <Param name="ZaakType" sessionKey="originalMessage" xpathExpression="/zakLk01/object/isVan/gerelateerde/code" />
+                </IbisLocalSender>
+                <Forward name="success" path="GetRolTypenByUrl" />
+                <Forward name="exception" path="UncaughtException" />
+            </ForEachChildElementPipe>
 
             <ForEachChildElementPipe
                 name="GetRolTypenByUrl"
                 elementXPathExpression="ZgwZaakTypen/ZgwZaakType/roltypen"
                 getInputFromSessionKey="GetZaakTypeResult"
                 >
-                <IbisLocalSender 
-                    javaListener="GetRolTypenByUrl" 
+                <IbisLocalSender
+                    javaListener="GetRolTypenByUrl"
                     returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/roltypen" />
                 </IbisLocalSender>
@@ -209,10 +238,27 @@
                     javaListener="PostZaakAdapter"
                     returnedSessionKeys="Error">
                 </IbisLocalSender>
-                <Forward name="success" path="PostRolIterator"/>
+                <Forward name="success" path="PostZaakObjectIterator"/>
                 <Forward name="exception" path="EXCEPTION" />
-            </SenderPipe> 
+            </SenderPipe>
 <!-- Post zaak end -->
+
+            <ForEachChildElementPipe
+                name="PostZaakObjectIterator"
+                 getInputFromSessionKey="ZaakObjectMappingResults"
+                 elementXPathExpression="/results/result/zgwZaakObject">
+                <IbisLocalSender
+                    name="PostZgwZaakObjectLocalSender"
+                    javaListener="PostZgwZaakObject"
+                    returnedSessionKeys="Error">
+                    <Param name="ZgwZaakUrl" xpathExpression="$PostZgwZaakResult/ZgwZaak/url">
+                        <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="PostRolIterator"/>
+                <Forward name="exception" path="DeleteZaakSender" />
+            </ForEachChildElementPipe>
+
             <ForEachChildElementPipe name="PostRolIterator"
                 getInputFromSessionKey="RolMappingResults"
                 elementXPathExpression="/results/result/zgwRol">
