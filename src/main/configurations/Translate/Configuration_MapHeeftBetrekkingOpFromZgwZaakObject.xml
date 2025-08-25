@@ -1,0 +1,38 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="MapHeeftBetrekkingOpFromZgwZaakObject"
+        active="${MapHeeftBetrekkingOpFromZgwZaakObject.Active}"
+        description="">
+        
+        <Receiver name="MapHeeftBetrekkingOpFromZgwZaakObject">
+            <JavaListener name="MapHeeftBetrekkingOpFromZgwZaakObject" returnedSessionKeys="Error" />
+        </Receiver>
+        
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                name="ZgwZaakObjectsApplyValueOverridesZgwToZdsSender">
+                <IbisLocalSender
+                    name="ZgwZaakObjectsApplyValueOverridesZgwToZdsLocalSender"
+                    javaListener="ApplyValueOverridesZgwToZds"
+                    returnedSessionKeys="Error,ExtraElementen"
+                    >
+                    <Param name="zaaktype" sessionKey="ZgwZaakType" xpathExpression="/ZgwZaakType/identificatie" />
+                    <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaakobjecten.zgwZaakObject" />
+                </IbisLocalSender>
+                <Forward name="success" path="MapHeeftBetrekkingOpFromZgwZaakObject" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="MapHeeftBetrekkingOpFromZgwZaakObject"
+                storeResultInSessionKey="HeeftBetrekkingOp"
+                styleSheetName="geefZaakdetails_Lv01/xsl/MapHeeftBetrekkingOpFromZgwZaakObject.xslt">
+                <Forward name="success" path="EXIT" />
+            </XsltPipe>
+
+        </Pipeline>
+    </Adapter>
+</Module>

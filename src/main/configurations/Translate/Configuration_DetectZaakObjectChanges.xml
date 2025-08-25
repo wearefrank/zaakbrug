@@ -1,0 +1,169 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="DetectZaakObjectChanges"
+        active="${DetectZaakObjectChanges.Active}"
+        description="">
+    
+        <Receiver name="DetectZaakObjectChanges">
+            <JavaListener name="DetectZaakObjectChanges" returnedSessionKeys="Error" />
+        </Receiver>
+        
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                name="CallAddZaakObjectToZgw"
+                storeResultInSessionKey="AddZaakObjectToZgwResult">
+                <IbisLocalSender
+                    name="CallAddZaakObjectToZgwSender"
+                    javaListener="AddZaakObjectToZgw"
+                    returnedSessionKeys="Error">
+                    <Param name="ZaakType" sessionKey="ZaakType" xpathExpression="/ZgwZaakType/identificatie" />
+                </IbisLocalSender>
+                <Forward name="success" path="CheckVerwerkingssoortAttribute" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XmlSwitchPipe 
+                name="CheckVerwerkingssoortAttribute"
+                getInputFromSessionKey="originalMessage"
+                styleSheetName="UpdateZaak_LK01/xsl/CheckVerwerkingssoortAttribute.xslt">
+                <Forward name="New" path="CallCheckZgwZaakObjectNew" />
+                <Forward name="Delete" path="CallCheckZgwZaakObjectBeforeDelete" />
+                <Forward name="Changed" path="CallCheckZgwZaakObjectBeforeUpdate" />
+                <Forward name="Check" path="CallCheckZgwZaakObject" />
+                <Forward name="Exit" path="EXCEPTION" />
+            </XmlSwitchPipe>
+
+            <SenderPipe
+                name="CallCheckZgwZaakObjectNew"
+                getInputFromSessionKey="ZgwWasZaakZaakObjecten"
+                storeResultInSessionKey="CheckCheck">
+                <IbisLocalSender
+                    name="CallCheckZgwZaakObjectSender"
+                    javaListener="CheckZgwZaakObject">
+                    <Param name="MatchWithZgwZaakObject" sessionKey="AddZaakObjectToZgwResult" type="DOMDOC" />
+                </IbisLocalSender>
+                <Forward name="success" path="LogWarningNew" />
+                <Forward name="404" path="CallPostZgwZaakObject" /> <!-- ZaakObject should not be found -->
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="LogWarningNew">
+                <LogSender
+                    name="LogWarningSender"/>
+                <Forward name="success" path="EXIT" />
+            </SenderPipe>
+                
+            <SenderPipe
+                name="CallCheckZgwZaakObject"
+                getInputFromSessionKey="ZgwWasZaakZaakObjecten"
+                storeResultInSessionKey="CheckCheck">
+                <IbisLocalSender
+                    name="CallCheckZgwZaakObjectSender"
+                    javaListener="CheckZgwZaakObject">
+                    <Param name="MatchWithZgwZaakObject" sessionKey="AddZaakObjectToZgwResult" type="DOMDOC" />
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT" />          <!-- ZaakObject should be found -->
+                <Forward name="404" path="LogWarningCheck" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="LogWarningCheck">
+                <LogSender
+                    name="LogWarningSender">
+                </LogSender>
+                <Forward name="success" path="CallPostZgwZaakObject" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallCheckZgwZaakObjectBeforeUpdate"
+                getInputFromSessionKey="ZgwWasZaakZaakObjecten"
+                storeResultInSessionKey="CheckBeforeUpdate">
+                <IbisLocalSender
+                    name="CallCheckZgwZaakObjectSender"
+                    javaListener="CheckZgwZaakObject">
+                    <Param name="MatchWithZgwZaakObject" sessionKey="AddZaakObjectToZgwResult" type="DOMDOC" />
+                </IbisLocalSender>
+                <Forward name="success" path="CallUpdateZgwZaakObject" />  <!-- ZaakObject should be found in existing ZaakObjecten-->
+                <Forward name="404" path="LogWarningUpdate" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallUpdateZgwZaakObject"
+                getInputFromSessionKey="AddZaakObjectToZgwResult">
+                <IbisLocalSender
+                    name="CallUpdateZgwZaakObjectSender"
+                    javaListener="UpdateZgwZaakObject"
+                    returnedSessionKeys="Error">
+                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl" />
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT" />  <!-- ZaakObject should be found in and deleted from Openzaak-->
+                <Forward name="404" path="LogWarningUpdate" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="LogWarningUpdate">
+                <LogSender
+                    name="LogWarningSender" />
+                <Forward name="success" path="CallPostZgwZaakObject" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallPostZgwZaakObject"
+                getInputFromSessionKey="AddZaakObjectToZgwResult">
+                <IbisLocalSender
+                    name="CallPostZgwZaakObjectSender"
+                    javaListener="PostZgwZaakObject"
+                    returnedSessionKeys="Error">
+                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl" />
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallCheckZgwZaakObjectBeforeDelete"
+                getInputFromSessionKey="ZgwWasZaakZaakObjecten"
+                storeResultInSessionKey="CheckBeforeDelete">
+                <IbisLocalSender
+                    name="CallCheckZgwZaakObjectSender"
+                    javaListener="CheckZgwZaakObject">
+                    <Param name="MatchWithZgwZaakObject" sessionKey="AddZaakObjectToZgwResult" type="DOMDOC" />
+                </IbisLocalSender>
+                <Forward name="success" path="CallDeleteZaakObjectFromZgw" />  <!-- ZaakObject should be found in existing ZaakObjecten-->
+                <Forward name="404" path="LogWarningDelete" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallDeleteZaakObjectFromZgw"
+                getInputFromSessionKey="AddZaakObjectToZgwResult"
+                storeResultInSessionKey="DeleteZaakObjectFromZgwResult">
+                <IbisLocalSender
+                    name="CallDeleteZaakObjectFromZgwSender"
+                    javaListener="DeleteZaakObjectFromZgw"
+                    returnedSessionKeys="Error">
+                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl" />
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT" />  <!-- ZaakObject should be found in and deleted from Openzaak-->
+                <Forward name="404" path="LogWarningDelete" /> 
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="LogWarningDelete">
+                <LogSender
+                    name="LogWarningSender" />
+                <Forward name="success" path="EXIT" />
+            </SenderPipe>
+
+        </Pipeline>
+    </Adapter>
+</Module>

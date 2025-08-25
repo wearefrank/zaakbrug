@@ -1,0 +1,34 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="CheckZgwZaakObject"
+        active="${CheckZgwZaakObject.Active}"
+        description="">
+
+        <Receiver name="CheckZgwZaakObject">
+            <JavaListener name="CheckZgwZaakObject"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="exists" state="SUCCESS" />
+                <Exit name="NOTFOUND" state="SUCCESS" code="404" />
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <XsltPipe
+                name="SelectZgwZaakObjectsFromListWithMatchingIdentity"
+                styleSheetName="Common/xsl/SelectZgwZaakObjectsFromListWithMatchingIdentity.xslt">
+                <Param name="MatchWithZgwZaakObject" sessionKey="MatchWithZgwZaakObject" type="DOMDOC" />
+                <Param name="debug" value="true" />
+                <Forward name="success" path="ZgwZaakObjectMatchesExactlyOneZgwZaakObjectInList" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <IfPipe
+                name="ZgwZaakObjectMatchesExactlyOneZgwZaakObjectInList"
+                xpathExpression="count(/ZgwZaakObjecten/*) = 1">
+                <Forward name="then" path="exists" />
+                <Forward name="else" path="NOTFOUND" />
+            </IfPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

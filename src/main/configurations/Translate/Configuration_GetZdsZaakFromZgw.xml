@@ -79,7 +79,46 @@
                 <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC" />
                 <Param name="ZdsResultaat" sessionKey="ZdsResultaat" type="DOMDOC" />
                 <Param name="ExtraElementen" sessionKey="ExtraElementen" type="DOMDOC" />
-                <Forward name="success" path="GetGlobalConfigFromLocalFS" />
+                <Forward name="success" path="GetZgwZaakObjectsByZaakUrl" />
+            </XsltPipe>
+
+            <SenderPipe
+                name="GetZgwZaakObjectsByZaakUrl"
+                getInputFromFixedValue="&lt;dummy/&gt;">
+                <IbisLocalSender
+                    name="GetZgwZaakObjectsByZaakUrlSender"
+                    javaListener="GetZgwZaakObjectsByZaakUrl"
+                    returnedSessionKeys="Error">
+                    <Param name="ZgwZaakUrl" xpathExpression="$ZgwZaak/ZgwZaak/url" type="STRING">
+                        <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="MapHeeftBetrekkingOpFromZgwZaakObjectIterator"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <ForEachChildElementPipe
+                name="MapHeeftBetrekkingOpFromZgwZaakObjectIterator"
+                elementXPathExpression="/ZgwZaakObjecten/zgwZaakObject"
+                storeResultInSessionKey="ZaakObjecten">
+                <IbisLocalSender
+                    name="CallMapHeeftBetrekkingOpFromZgwZaakObject"
+                    javaListener="MapHeeftBetrekkingOpFromZgwZaakObject"
+                    returnedSessionKeys="Error">
+                    <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC" />
+                </IbisLocalSender>
+                <Forward name="success" path="EnrichZdsZaakWithZaakObject" />
+                <Forward name="exception" path="EXCEPTION" />
+            </ForEachChildElementPipe>
+
+            <XsltPipe
+                name="EnrichZdsZaakWithZaakObject"
+                getInputFromSessionKey="ZdsZaak"
+                storeResultInSessionKey="ZdsZaak"
+                styleSheetName="Common/xsl/EnrichEntity_ForEachPipeWrapped.xslt">
+                <Param name="With" sessionKey="ZaakObjecten" type="DOMDOC"/>
+                <Forward name="success" path="GetGlobalConfigFromLocalFS"/>
+                <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
             <SenderPipe 

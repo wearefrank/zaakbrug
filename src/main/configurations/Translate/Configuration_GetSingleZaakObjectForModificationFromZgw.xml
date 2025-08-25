@@ -1,0 +1,67 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="GetSingleZaakObjectForModificationFromZgw"
+        active="${GetSingleZaakObjectForModificationFromZgw.Active}"
+        description="">
+
+        <Receiver name="GetSingleZaakObjectForModificationFromZgw">
+            <JavaListener name="GetSingleZaakObjectForModificationFromZgw" returnedSessionKeys="Error,Authorization" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="NOTFOUND" state="SUCCESS" code="404" />
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                name="GetAuthorizationHeaderForZakenApi"
+                getInputFromFixedValue="&lt;dummy/&gt;">
+                <IbisLocalSender
+                    name="GetAuthorizationHeaderForZakenApiSender"
+                    javaListener="GenerateAuthorizationHeaderForZakenApi"
+                    returnedSessionKeys="Error,Authorization">
+                </IbisLocalSender>
+                <Forward name="success" path="GetZgwZaakObjectsByZaakUrl" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="GetZgwZaakObjectsByZaakUrl"
+                getInputFromFixedValue="&lt;dummy/&gt;">
+                <IbisLocalSender
+                    name="GetZgwZaakObjectsByZaakUrlSender"
+                    javaListener="GetZgwZaakObjectsByZaakUrl"
+                    returnedSessionKeys="Error">
+                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
+                </IbisLocalSender>
+                <Forward name="success" path="SelectZgwZaakObjectsFromListWithMatchingIdentity"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="SelectZgwZaakObjectsFromListWithMatchingIdentity"
+                styleSheetName="Common/xsl/SelectZgwZaakObjectsFromListWithMatchingIdentity.xslt">
+                <Param name="MatchWithZgwZaakObject" sessionKey="originalMessage" type="DOMDOC" />
+                <Param name="debug" value="false" />
+                <Forward name="success" path="CheckSelectZgwZaakObjectsFromListResult1" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <IfPipe
+                name="CheckSelectZgwZaakObjectsFromListResult1"
+                xpathExpression="count(/ZgwZaakObjecten/*) = 0">
+                <Forward name="then" path="NOTFOUND" />
+                <Forward name="else" path="CheckSelectZgwZaakObjectsFromListResult2" />
+            </IfPipe>
+
+            <IfPipe
+                name="CheckSelectZgwZaakObjectsFromListResult2"
+                xpathExpression="count(/ZgwZaakObjecten/*) >= 2">
+                <Forward name="then" path="EXCEPTION" />
+                <Forward name="else" path="EXIT" />
+            </IfPipe>
+
+        </Pipeline>
+    </Adapter>
+</Module>

@@ -177,8 +177,7 @@
                 name="FilterBaseZdsWordtZaak"
                 getInputFromSessionKey="ZdsWordtZaak"
                 storeResultInSessionKey="FilteredZdsWordtZaak"
-                styleSheetName="Common/xsl/FilterBaseZdsZaak.xslt"
-                >
+                styleSheetName="Common/xsl/FilterBaseZdsZaak.xslt">
                 <Forward name="success" path="CreateUpdateZaakBody" />
             </XsltPipe>
 
@@ -212,18 +211,82 @@
             </SenderPipe>
 
             <SenderPipe
-                name="UpdateZgwZaak"
-                >
+                name="UpdateZgwZaak">
                 <IbisLocalSender
                     name="CallUpdateZgwZaakSender"
                     javaListener="Zaken_UpdateZgwZaak"
-                    returnedSessionKeys="Error"
-                    >
+                    returnedSessionKeys="Error">
                     <Param name="Url" sessionKey="ZgwZaakUrl" />
                 </IbisLocalSender>
-                <Forward name="success" path="SelectZdsRolesFromZdsWasZaak" />
+                <Forward name="success" path="RemoveNamespacesFromGetZdsZaakFromZgwResult" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
+
+            <XsltPipe
+                name="RemoveNamespacesFromGetZdsZaakFromZgwResult"
+                getInputFromSessionKey="GetZdsZaakFromZgwResult"
+                xpathExpression="root()"
+                outputType="XML"
+                removeNamespaces="true">
+                <Forward name="success" path="CallAddZaakObjectToZgwForExistingZaakObjects" />
+            </XsltPipe>
+
+            <ForEachChildElementPipe
+                name="CallAddZaakObjectToZgwForExistingZaakObjects"
+                elementXPathExpression="/object/heeftBetrekkingOp"
+                storeResultInSessionKey="ZgwWasZaakZaakObjecten">
+                <IbisLocalSender
+                    name="CallAddZaakObjectToZgwSender"
+                    javaListener="AddZaakObjectToZgw"
+                    returnedSessionKeys="Error">
+                    <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" xpathExpression="/ZgwZaakType/identificatie" />
+                </IbisLocalSender>
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToZgwZaakObjectenList" />
+                <Forward name="exception" path="EXCEPTION" />
+            </ForEachChildElementPipe>
+
+            <XsltPipe
+                name="UnwrapOpenZaakApiEnvelopeToZgwZaakObjectenList"
+                styleSheetName="Common/xsl/UnwrapForEachChildPipeEnvelopeToList.xslt"
+                storeResultInSessionKey="ZgwWasZaakZaakObjecten">
+                <Param name="List" value="ZgwZaakObjecten"/>
+                <Forward name="success" path="CallDetectZaakObjectChangesDelete"/>
+                <Forward name="exception" path="UncaughtException" />
+            </XsltPipe>
+
+            <ForEachChildElementPipe
+                name="CallDetectZaakObjectChangesDelete"
+                getInputFromSessionKey="ZdsWordtZaak"
+                elementXPathExpression="/object/heeftBetrekkingOp[@verwerkingssoort = 'V']"
+                storeResultInSessionKey="DetectZaakObjectChangesResults">
+                <IbisLocalSender
+                    name="CallDetectZaakObjectChangesDeleteSender"
+                    javaListener="DetectZaakObjectChanges"
+                    returnedSessionKeys="Error">
+                    <Param name="ZgwWasZaakZaakObjecten" sessionKey="ZgwWasZaakZaakObjecten" type="DOMDOC"/>
+                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
+                    <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC" />
+                </IbisLocalSender>
+                <Forward name="success" path="CallDetectZaakObjectChanges"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </ForEachChildElementPipe>
+
+            <ForEachChildElementPipe
+                name="CallDetectZaakObjectChanges"
+                getInputFromSessionKey="ZdsWordtZaak"
+                elementXPathExpression="/object/heeftBetrekkingOp[@verwerkingssoort != 'V']"
+                storeResultInSessionKey="DetectZaakObjectChangesResults">
+                <IbisLocalSender
+                    name="CallDetectZaakObjectChangesSender"
+                    javaListener="DetectZaakObjectChanges"
+                    returnedSessionKeys="Error">
+                    <Param name="ZgwWasZaakZaakObjecten" sessionKey="ZgwWasZaakZaakObjecten" type="DOMDOC"/>
+                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
+                    <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC" />
+                </IbisLocalSender>
+                <Forward name="success" path="SelectZdsRolesFromZdsWasZaak"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </ForEachChildElementPipe>
 
             <XsltPipe
                 name="SelectZdsRolesFromZdsWasZaak"
@@ -267,12 +330,12 @@
                     <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" xpathExpression="/ZgwZaakType/identificatie" />
                     <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC" />
                 </IbisLocalSender>
-                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList" />
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToZgwRollenList" />
                 <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
 
             <XsltPipe
-                name="UnwrapOpenZaakApiEnvelopeToList"
+                name="UnwrapOpenZaakApiEnvelopeToZgwRollenList"
                 styleSheetName="Common/xsl/UnwrapForEachChildPipeEnvelopeToList.xslt"
                 storeResultInSessionKey="ZgwWasZaakRollen"
                 >

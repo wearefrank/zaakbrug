@@ -1,0 +1,68 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="DeleteZaakObjectFromZgw"
+        active="${DeleteZaakObjectFromZgw.Active}"
+        description="">
+
+        <Receiver name="DeleteZaakObjectFromZgw">
+            <JavaListener name="DeleteZaakObjectFromZgw" returnedSessionKeys="Error" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="NOTFOUND" state="SUCCESS" code="404" />
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                name="CallGetSingleZaakObjectForModificationFromZgw">
+                <IbisLocalSender
+                    name="CallGetSingleZaakObjectForModificationFromZgwSender"
+                    javaListener="GetSingleZaakObjectForModificationFromZgw"
+                    returnedSessionKeys="Error,Authorization">
+                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl" />
+                </IbisLocalSender>
+                <Forward name="success" path="StoreZgwZaakObjectUrlForDeletion" />
+                <Forward name="404" path="NOTFOUND" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <PutInSessionPipe
+                name="StoreZgwZaakObjectUrlForDeletion">
+                <Param name="ZgwZaakObjectUrlForDeletion" xpathExpression="/ZgwZaakObjecten/zgwZaakObject/url"/>
+                <Forward name="success" path="DeleteZgwZaakObject"/>
+            </PutInSessionPipe>
+
+            <SenderPipe
+                name="DeleteZgwZaakObject">
+                <HttpSender
+                    name="DeleteZgwZaakObjectSender"
+                    methodType="DELETE"
+                    headersParams="Authorization,Accept-Crs"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    verifyHostname="${zaakbrug.zgw.zaken-api.verifyHostname}"
+                    allowSelfSignedCertificates="${zaakbrug.zgw.zaken-api.allowSelfSignedCertificates}"
+                    disableCookies="${zaakbrug.zgw.zaken-api.disableCookies}"
+                    ignoreCertificateExpiredException="${zaakbrug.zgw.zaken-api.ignoreCertificateExpiredException}"
+                    truststore="${zaakbrug.zgw.zaken-api.truststore.uri}"
+                    truststoreAuthAlias="${zaakbrug.zgw.zaken-api.truststore.authAlias}"
+                    truststoreType="${zaakbrug.zgw.zaken-api.truststore.type}">
+                    <Param name="url" sessionKey="ZgwZaakObjectUrlForDeletion"/>
+                    <Param name="Accept-Crs" value="EPSG:4326"/>
+                    <Param name="Authorization"  sessionKey="Authorization" />
+                </HttpSender>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="ErrorJsonToXml" />
+            </SenderPipe>
+
+            <JsonPipe name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="DeleteZaakObject" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>
