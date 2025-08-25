@@ -4,7 +4,6 @@
     <xsl:template match="/">
         <roles>
             <xsl:variable name="result">
-                <xsl:apply-templates select="//*:heeftBetrekkingOp"/>
                 <xsl:apply-templates select="//*:heeftAlsBelanghebbende"/>
                 <xsl:apply-templates select="//*:heeftAlsInitiator"/>
                 <xsl:apply-templates select="//*:heeftAlsUitvoerende"/>
@@ -18,9 +17,7 @@
         </roles>
     </xsl:template>
 
-    <xsl:template match="*:heeftAlsBelanghebbende | *:heeftAlsInitiator | *:heeftAlsUitvoerende | *:heeftAlsVerantwoordelijke | *:heeftAlsGemachtigde | *:heeftAlsOverigBetrokkene | *:heeftBetrekkingOp">
+    <xsl:template match="*:heeftAlsBelanghebbende | *:heeftAlsInitiator | *:heeftAlsUitvoerende | *:heeftAlsVerantwoordelijke | *:heeftAlsGemachtigde | *:heeftAlsOverigBetrokkene">
         <xsl:copy-of select="." />
     </xsl:template>
-
-    <xsl:template match="*:heeftBetrekkingOp[*:gerelateerde/*[@*:entiteittype = 'AOA']]" />
 </xsl:stylesheet>
