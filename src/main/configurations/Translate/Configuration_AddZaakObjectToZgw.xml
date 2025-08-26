@@ -30,7 +30,6 @@
                 name="CheckZdsObjectTypeAdresIdentificationFields"
                 getInputFromSessionKey="originalMessage"
                 styleSheetName="Common/xsl/ValidateZdsObjectTypeAdresIdentificationFields.xslt">
-                <Param name="ObjectTypeAdres" xpathExpression="/*:heeftBetrekkingOp/*:gerelateerde/*:adres" type="DOMDOC"/>
                 <Forward name="success" path="CheckZdsObjectTypeAdresValidationResult"/>
             </XsltPipe>
 
