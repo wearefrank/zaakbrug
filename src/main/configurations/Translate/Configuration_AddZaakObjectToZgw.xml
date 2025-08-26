@@ -52,7 +52,6 @@
                 name="MapZaakObjectFromHeeftBetrekkingOp"
                 getInputFromSessionKey="originalMessage"
                 styleSheetName="Common/xsl/MapZaakObjectFromHeeftBetrekkingOp.xslt">
-                <Param name="ObjectType" xpathExpression="name(/*:heeftBetrekkingOp/*:gerelateerde/*[1])"/> <!-- This is always 'adres' for now until the others are implemented -->
                 <Param name="ZaakObjectIdentificatie" sessionKey="ObjectTypeAdresIdentificatie" type="DOMDOC"/>
                 <Forward name="success" path="ZaakObjectBodyApplyValueOverridesFromTranslationProfileSender"/>
             </XsltPipe>
