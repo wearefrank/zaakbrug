@@ -45,7 +45,6 @@
                 getInputFromSessionKey="originalMessage"
                 styleSheetName="Common/xsl/MapObjectTypeAdresIdentification.xslt"
                 storeResultInSessionKey="ObjectTypeAdresIdentificatie">
-                <Param name="ObjectTypeAdres" xpathExpression="/*:heeftBetrekkingOp/*:gerelateerde/*:adres" type="DOMDOC"/>
                 <Forward name="success" path="MapZaakObjectFromHeeftBetrekkingOp"/>
             </XsltPipe>
 

@@ -4,27 +4,30 @@
     <xsl:param name="ObjectTypeAdres" as="node()"><ObjectTypeAdres/></xsl:param>
 
     <xsl:template match="/">
+
+        <xsl:variable name="adres" select="/*:heeftBetrekkingOp/*:gerelateerde/*:adres"/>
+
         <objectIdentificatie>
             <identificatie>
-                <xsl:value-of select="$ObjectTypeAdres//*:identificatie"/>
+                <xsl:value-of select="$adres/*:identificatie"/>
             </identificatie>
             <wplWoonplaatsNaam>
-                <xsl:value-of select="$ObjectTypeAdres//*:wpl.woonplaatsNaam"/>
+                <xsl:value-of select="$adres/*:wpl.woonplaatsNaam"/>
             </wplWoonplaatsNaam>
             <gorOpenbareRuimteNaam>
-                <xsl:value-of select="$ObjectTypeAdres//*:gor.openbareRuimteNaam"/>
+                <xsl:value-of select="$adres/*:gor.openbareRuimteNaam"/>
             </gorOpenbareRuimteNaam>
             <huisnummer>
-                <xsl:value-of select="$ObjectTypeAdres//*:huisnummer"/>
+                <xsl:value-of select="$adres/*:huisnummer"/>
             </huisnummer>
             <huisletter>
-                <xsl:value-of select="$ObjectTypeAdres//*:huisletter"/>
+                <xsl:value-of select="$adres/*:huisletter"/>
             </huisletter>
             <huisnummertoevoeging>
-                <xsl:value-of select="$ObjectTypeAdres//*:huisnummertoevoeging"/>
+                <xsl:value-of select="$adres/*:huisnummertoevoeging"/>
             </huisnummertoevoeging>
             <postcode>
-                <xsl:value-of select="$ObjectTypeAdres//*:postcode"/>
+                <xsl:value-of select="$adres/*:postcode"/>
             </postcode>
         </objectIdentificatie>
     </xsl:template>
