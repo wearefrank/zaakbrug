@@ -67,12 +67,12 @@
                 <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
-            <XmlIfPipe name="CheckForGetZaakDocumentResult"
+            <IfPipe name="CheckForGetZaakDocumentResult"
                 xpathExpression="string-length(/ZgwEnkelvoudigInformatieObject) > 0"
                 >
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="EXCEPTION"/>
-            </XmlIfPipe>
+            </IfPipe>
         </Pipeline>
     </Adapter>
 </Module>

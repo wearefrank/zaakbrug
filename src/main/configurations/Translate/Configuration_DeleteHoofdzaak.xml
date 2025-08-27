@@ -13,13 +13,13 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <XmlIfPipe 
+            <IfPipe 
                 name="CheckIfExistingHoofdzaakSameAsNewHoofdzaak"
                 xpathExpression="/ZgwZaak/hoofdzaak = $HoofdzaakUrl">
                 <Param name="HoofdzaakUrl" sessionKey="HoofdzaakUrl" />
                 <Forward name="then" path="CreateEmptyHoofdzaakJson" />
                 <Forward name="else" path="LogErrorHoofdzaakNotMatch" />
-            </XmlIfPipe>
+            </IfPipe>
 
             <!-- This log will be replaced by an actual error once errorStore is implemented. -->
             <SenderPipe

@@ -13,13 +13,13 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <XmlIfPipe
+            <IfPipe
                 name="CheckForZdsGerelateerde"
                 xpathExpression="count(*/*:gerelateerde) gt 0"
                 >
                 <Forward name="then" path="CreateZgwRol" />
                 <Forward name="else" path="EXIT" />
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="CreateZgwRol"
@@ -32,27 +32,27 @@
                 <Forward name="success" path="CheckForZgwBetrokkeneIdentificatie" />
             </XsltPipe>
 
-            <XmlIfPipe
+            <IfPipe
                 name="CheckForZgwBetrokkeneIdentificatie"
                 xpathExpression="string-length(zgwRol/betrokkeneIdentificatie) gt 0"
                 >
                 <Forward name="then" path="CheckForZgwRolType" />
                 <Forward name="else" path="EmptyResult" />
                 <Forward name="exception" path="EXIT" /> <!-- Temporary solution for lack of adres processing -->
-            </XmlIfPipe>
+            </IfPipe>
 
             <EchoPipe name="EmptyResult"
                 getInputFromFixedValue="&lt;dummy/&gt;">
                 <Forward name="success" path="EXIT"/>
             </EchoPipe>
 
-            <XmlIfPipe
+            <IfPipe
                 name="CheckForZgwRolType"
                 xpathExpression="string-length(zgwRol/roltype)>0"
                 >
                 <Forward name="then" path="RolBodyApplyValueOverridesFromTranslationProfileSender"/>
                 <Forward name="else" path="ResultWithErrorMessage"/>
-            </XmlIfPipe>
+            </IfPipe>
             
             <SenderPipe
                 name="RolBodyApplyValueOverridesFromTranslationProfileSender"

@@ -19,12 +19,12 @@
                 <Forward name="success" path="CheckForOmschrijving" />
             </PutInSessionPipe>
 
-            <XmlIfPipe name="CheckForOmschrijving"
+            <IfPipe name="CheckForOmschrijving"
                 xpathExpression="string-length(heeft/gerelateerde/omschrijving) > 0"
                 >
                 <Forward name="then" path="CallGetStatusTypeByZaakTypeAndOmschrijving"/>
                 <Forward name="else" path="EXIT"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe
                 name="CallGetStatusTypeByZaakTypeAndOmschrijving"
@@ -41,12 +41,12 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForZgwStatusTypeResult"
+            <IfPipe name="CheckForZgwStatusTypeResult"
                 xpathExpression="count(*/ZgwStatusType) = 1"
                 >
                 <Forward name="then" path="GetSingleZgwStatusTypeFromList"/>
                 <Forward name="else" path="EXCEPTION"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="GetSingleZgwStatusTypeFromList"
@@ -86,19 +86,19 @@
                 <Forward name="success" path="CheckForIncomingStatusIsEindstatus" />
             </PutInSessionPipe> 
 
-            <XmlIfPipe name="CheckForIncomingStatusIsEindstatus"
+            <IfPipe name="CheckForIncomingStatusIsEindstatus"
                 getInputFromSessionKey="IsIncomingStatusEindStatus"
                 xpathExpression="/beeindigd = 'true'">
                 <Forward name="then" path="CheckIfActualiseerZaakStatus"/>
                 <Forward name="else" path="CompareDatumStatusGezet"/>
-            </XmlIfPipe>
+            </IfPipe>
             
-            <XmlIfPipe name="CheckIfActualiseerZaakStatus"
+            <IfPipe name="CheckIfActualiseerZaakStatus"
                 xpathExpression="$isActualiseerZaakStatusMessage">
                 <Param name="isActualiseerZaakStatusMessage" sessionKey="isActualiseerZaakStatusMessage" />
                 <Forward name="then" path="ResolveProfileValuesSender"/>
                 <Forward name="else" path="SetStatusExists"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe 
                 name="ResolveProfileValuesSender">
@@ -120,13 +120,13 @@
                 <Forward name="success" path="CheckZaakClosureIgnored" />
             </XsltPipe>
 
-            <XmlIfPipe name="CheckZaakClosureIgnored"
+            <IfPipe name="CheckZaakClosureIgnored"
                 getInputFromFixedValue="&lt;dummy/&gt;"
                 xpathExpression="$ignoreEindStatusInActualiseerZaakStatus = 'true'">
                 <Param name="ignoreEindStatusInActualiseerZaakStatus" sessionKey="ignoreEindStatusInActualiseerZaakStatus" />
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="SetStatusExists"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="SetStatusExists"
@@ -148,13 +148,13 @@
                 <Forward name="success" path="CheckForCompareDatumStatusGezetResult"/>
             </XsltPipe>
 
-            <XmlIfPipe name="CheckForCompareDatumStatusGezetResult"
+            <IfPipe name="CheckForCompareDatumStatusGezetResult"
                 preserveInput="true"
                 xpathExpression="exists(/result/exception)"
                 >
                 <Forward name="then" path="ResultWithDatumErrorMessage"/>
                 <Forward name="else" path="CompareStatusType"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="ResultWithDatumErrorMessage"
@@ -180,13 +180,13 @@
                 <Forward name="success" path="CheckForCompareStatusTypeResult"/>
             </XsltPipe>
 
-            <XmlIfPipe name="CheckForCompareStatusTypeResult"
+            <IfPipe name="CheckForCompareStatusTypeResult"
                 preserveInput="true"
                 xpathExpression="exists(/result/exception)"
                 >
                 <Forward name="then" path="ResultWithTypeErrorMessage"/>
                 <Forward name="else" path="CheckForStatusExists"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="ResultWithTypeErrorMessage"
@@ -200,13 +200,13 @@
                 <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>
 
-            <XmlIfPipe name="CheckForStatusExists"
+            <IfPipe name="CheckForStatusExists"
                 emptyInputReplacement="&lt;statusExists&gt;false&lt;/statusExists&gt;"
                 xpathExpression="//statusExists = 'true'"
                 >
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="AddToNewStatuses"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="AddToNewStatuses"

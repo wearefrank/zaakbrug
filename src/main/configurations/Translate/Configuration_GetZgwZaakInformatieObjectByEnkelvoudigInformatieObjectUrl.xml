@@ -70,12 +70,12 @@
                 <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
-            <XmlIfPipe name="CheckForGetZgwZaakInformatieObjectResult"
+            <IfPipe name="CheckForGetZgwZaakInformatieObjectResult"
                 xpathExpression="count(/ZgwZaakInformatieObjecten/ZgwZaakInformatieObject) = 0"
                 >
                 <Forward name="then" path="EXCEPTION"/>
                 <Forward name="else" path="GetSingleZgwZaakInformatieObjectFromList"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="GetSingleZgwZaakInformatieObjectFromList"

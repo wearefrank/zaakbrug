@@ -29,12 +29,12 @@
                 <Forward name="success" path="CheckIfResultaatExists" />
             </SenderPipe>
 
-            <XmlIfPipe 
+            <IfPipe 
                 name="CheckIfResultaatExists"
                 xpathExpression="string-length(/ZgwZaak/resultaat) gt 0">
                 <Forward name="then" path="GetZgwResultaatByUrlSender" />
                 <Forward name="else" path="MapZdsZaakFromZgwZaak" />
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe 
                 name="GetZgwResultaatByUrlSender" 
@@ -196,13 +196,13 @@
                 <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
-            <XmlIfPipe name="ZgwZaakHasHoofdzaak"
+            <IfPipe name="ZgwZaakHasHoofdzaak"
                 getInputFromSessionKey="ZgwZaak"
                 xpathExpression="string-length(ZgwZaak/hoofdzaak) gt 0"
                 >
                 <Forward name="then" path="GetZgwHoofdzaak"/>
                 <Forward name="else" path="ZgwZaakHasDeelzaken"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <!-- not tested -->
             <SenderPipe name="GetZgwHoofdzaak"
@@ -240,13 +240,13 @@
             </XsltPipe>
 
             <!-- not tested -->
-            <XmlIfPipe name="ZgwZaakHasDeelzaken"
+            <IfPipe name="ZgwZaakHasDeelzaken"
                 getInputFromSessionKey="ZgwZaak"
                 xpathExpression="string-length(ZgwZaak/deelzaken[1]) gt 0"
                 >
                 <Forward name="then" path="MapZgwDeelzakenIterator"/>
                 <Forward name="else" path="ZgwZaakHasZdsRelevanteAndereZaken"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <!-- not tested -->
             <ForEachChildElementPipe name="MapZgwDeelzakenIterator"
@@ -272,13 +272,13 @@
             </XsltPipe>
 
             <!-- not tested -->
-            <XmlIfPipe name="ZgwZaakHasZdsRelevanteAndereZaken"
+            <IfPipe name="ZgwZaakHasZdsRelevanteAndereZaken"
                 getInputFromSessionKey="ZgwZaak"
                 xpathExpression="/ZgwZaak/relevanteAndereZaken[string-length(url) > 0]"
                 >
                 <Forward name="then" path="MapZdsRelevanteAndereZakenIterator"/>
                 <Forward name="else" path="GetZgwStatusByZaakUrlSender"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <!-- not tested -->
             <ForEachChildElementPipe name="MapZdsRelevanteAndereZakenIterator"

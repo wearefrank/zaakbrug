@@ -34,13 +34,13 @@
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
             
-            <XmlIfPipe
+            <IfPipe
                 name="ZaakNotFound_Condition"
                 xpathExpression="string-length(ZgwZaken) = 0"
                 >
                 <Forward name="then" path="ZaakNotFound_Exception" />
                 <Forward name="else" path="GetSingleZgwZaakFromZgwZakenList" />
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="ZaakNotFound_Exception"
@@ -110,13 +110,13 @@
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForInputZaakObjectCount"
+            <IfPipe name="CheckForInputZaakObjectCount"
                 getInputFromSessionKey="originalMessage"
                 xpathExpression="count(/zakLk01/object) = 2 or count(/zakLk01/object) = 1"
                 >
                 <Forward name="then" path="MergeWordtZaakRollen"/>
                 <Forward name="else" path="EXCEPTION"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="MergeWordtZaakRollen"
@@ -139,12 +139,12 @@
                 <Forward name="exception" path="UncaughtException"/>
             </XsltPipe>
 
-            <XmlIfPipe name="CheckForDetectZdsZaakChangesResult"
+            <IfPipe name="CheckForDetectZdsZaakChangesResult"
                 xpathExpression="count(/*:object/*) = 25"
                 >
                 <Forward name="then" path="SelectZdsRolesFromZdsWasZaak" />
                 <Forward name="else" path="GetGlobalConfigFromLocalFS" />
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe 
                 name="GetGlobalConfigFromLocalFS"
@@ -420,19 +420,19 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForHeeftBetrekkingOpAndere"
+            <IfPipe name="CheckForHeeftBetrekkingOpAndere"
                 getInputFromSessionKey="ZdsWordtZaak"
                 xpathExpression="/object/heeftBetrekkingOpAndere/gerelateerde[string-length(identificatie) > 0]">
                 <Forward name="then" path="CheckForHeeftBetrekkingOpAndereWithVerwerkingssoortV"/>
                 <Forward name="else" path="CheckForHeeftAlsDeelzaak"/>
-            </XmlIfPipe>
+            </IfPipe>
 
-            <XmlIfPipe name="CheckForHeeftBetrekkingOpAndereWithVerwerkingssoortV"
+            <IfPipe name="CheckForHeeftBetrekkingOpAndereWithVerwerkingssoortV"
                 getInputFromSessionKey="ZdsWordtZaak"
                 xpathExpression="/object/heeftBetrekkingOpAndere[@verwerkingssoort = 'V']">
                 <Forward name="then" path="AndereZaakIteratorDelete"/>
                 <Forward name="else" path="AndereZaakIterator"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <ForEachChildElementPipe name="AndereZaakIteratorDelete"
                 getInputFromSessionKey="ZdsWordtZaak"
@@ -448,12 +448,12 @@
                 <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
 
-            <XmlIfPipe name="CheckForHeeftBetrekkingOpAndereWithVerwerkingssoortNotV"
+            <IfPipe name="CheckForHeeftBetrekkingOpAndereWithVerwerkingssoortNotV"
                 getInputFromSessionKey="ZdsWordtZaak"
                 xpathExpression="/object/heeftBetrekkingOpAndere[@verwerkingssoort != 'V']">
                 <Forward name="then" path="AndereZaakIterator"/>
                 <Forward name="else" path="CheckForHeeftAlsDeelzaak"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <ForEachChildElementPipe name="AndereZaakIterator"
                 getInputFromSessionKey="ZdsWordtZaak"
@@ -470,12 +470,12 @@
                 <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
 
-            <XmlIfPipe name="CheckForHeeftAlsDeelzaak"
+            <IfPipe name="CheckForHeeftAlsDeelzaak"
                 getInputFromSessionKey="ZdsWordtZaak"
                 xpathExpression="/object/heeftAlsDeelzaak[1]/gerelateerde[string-length(identificatie) > 0]">
                 <Forward name="then" path="DeelzaakIterator"/>
                 <Forward name="else" path="EXIT"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <ForEachChildElementPipe 
                 name="DeelzaakIterator"

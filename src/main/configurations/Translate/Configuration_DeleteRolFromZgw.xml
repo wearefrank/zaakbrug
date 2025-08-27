@@ -61,12 +61,12 @@
                 <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
-            <XmlIfPipe name="CheckForGetRolTypeResult"
+            <IfPipe name="CheckForGetRolTypeResult"
                 xpathExpression="string-length(/ZgwRolType) > 0"
                 >
                 <Forward name="then" path="CallGetRolByZaakUrlAndRolTypeUrl"/>
                 <Forward name="else" path="EXCEPTION"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe
                 name="CallGetRolByZaakUrlAndRolTypeUrl"
@@ -90,21 +90,21 @@
                 </IbisLocalSender>
             </SenderPipe>
 
-            <XmlIfPipe 
+            <IfPipe 
                 name="CheckForGetRolResult1"
                 xpathExpression="count(/Rollen/Rol) = 0"
                 >
                 <Forward name="then" path="NOTFOUND"/>
                 <Forward name="else" path="CheckForGetRolResult2"/>
-            </XmlIfPipe>
+            </IfPipe>
 
-            <XmlIfPipe 
+            <IfPipe 
                 name="CheckForGetRolResult2"
                 xpathExpression="count(/Rollen/Rol) >= 2"
                 >
                 <Forward name="then" path="EXCEPTION"/>
                 <Forward name="else" path="DeleteRol"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe
                 name="DeleteRol">

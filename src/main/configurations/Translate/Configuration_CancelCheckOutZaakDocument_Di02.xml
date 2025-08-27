@@ -26,12 +26,12 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForGetZgwEnkelvoudigInformatieObjectResult"
+            <IfPipe name="CheckForGetZgwEnkelvoudigInformatieObjectResult"
                 xpathExpression="count(ZgwEnkelvoudigInformatieObject) = 0"
                 >
                 <Forward name="then" path="EXCEPTION"/>
                 <Forward name="else" path="CallGetZgwInformatieObjectUnlock"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe
                 name="CallGetZgwInformatieObjectUnlock"

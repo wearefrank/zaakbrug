@@ -13,20 +13,20 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <XmlIfPipe 
+            <IfPipe 
                 name="CheckIfZgwDeelzaakHasHoofdzaak"
                 xpathExpression="string-length(/ZgwZaak/hoofdzaak) gt 0">
                 <Forward name="then" path="CheckIfExistingHoofdzaakSameAsNewHoofdzaak" />
                 <Forward name="else" path="LogWarningDeelzaakHasNoHoofdzaak" />
-            </XmlIfPipe>
+            </IfPipe>
 
-            <XmlIfPipe 
+            <IfPipe 
                 name="CheckIfExistingHoofdzaakSameAsNewHoofdzaak"
                 xpathExpression="/ZgwZaak/hoofdzaak = $HoofdzaakUrl">
                 <Param name="HoofdzaakUrl" sessionKey="HoofdzaakUrl" />
                 <Forward name="then" path="EXIT" />
                 <Forward name="else" path="LogErrorHoofdzaakNotMatch" />
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe
                 name="LogWarningDeelzaakHasNoHoofdzaak"

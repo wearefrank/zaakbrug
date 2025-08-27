@@ -67,12 +67,12 @@
                 <Forward name="success" path="CheckForGetResultaatTypeResult"/>
             </XsltPipe>
 
-            <XmlIfPipe name="CheckForGetResultaatTypeResult"
+            <IfPipe name="CheckForGetResultaatTypeResult"
                 xpathExpression="string-length(resultaatType) > 0"
                 >
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="EXCEPTION"/>
-            </XmlIfPipe>
+            </IfPipe>
         </Pipeline>
     </Adapter>
 </Module>

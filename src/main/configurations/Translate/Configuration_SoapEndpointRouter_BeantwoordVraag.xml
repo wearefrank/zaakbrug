@@ -137,13 +137,13 @@
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>
 
-            <XmlIfPipe
+            <IfPipe
                 name="CheckGeefZaakDetailsResult" 
                 xpathExpression="string-length(/*:object) gt 0"
                 >
                 <Forward name="then" path="FilterZaakdetails" />
                 <Forward name="else" path="WrapZakLa01Response" />
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="FilterZaakdetails"

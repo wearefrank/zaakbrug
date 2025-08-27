@@ -34,12 +34,12 @@
                 <Forward name="success" path="CheckForSetZgwZaakTypeResult"/>
             </XsltPipe>
 
-            <XmlIfPipe name="CheckForSetZgwZaakTypeResult"
+            <IfPipe name="CheckForSetZgwZaakTypeResult"
                 xpathExpression="count(/ZgwZaakTypen/ZgwZaakType) = 1"
                 >
                 <Forward name="then" path="GetGlobalConfigFromLocalFS"/>
                 <Forward name="else" path="ZaakTypeNotFound_Exception"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe 
                 name="ZaakTypeNotFound_Exception"
@@ -159,14 +159,14 @@
                 <Forward name="success" path="CheckForRoles"/>
             </XsltPipe>
 
-            <XmlIfPipe name="CheckForRoles"
+            <IfPipe name="CheckForRoles"
                 xpathExpression="string-length(/roles) gt 0"
                 transactionAttribute="NotSupported"
                 >
                 <Forward name="then" path="RolMappingIterator"/>
                 <Forward name="else" path="StoreRolMappingResults"/>
                 <Forward name="exception" path="StoreRolMappingResults"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <PutInSessionPipe name="StoreRolMappingResults">
                 <Param name="RolMappingResults" value="&lt;dummy/&gt;"/>
@@ -304,12 +304,12 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForHeeftBetrekkingOpAndere"
+            <IfPipe name="CheckForHeeftBetrekkingOpAndere"
                 getInputFromSessionKey="originalMessage"
                 xpathExpression="/zakLk01/object/heeftBetrekkingOpAndere/gerelateerde[string-length(identificatie) > 0]">
                 <Forward name="then" path="AndereZaakIterator"/>
                 <Forward name="else" path="CheckForHeeftAlsDeelzaak"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <ForEachChildElementPipe 
                 name="AndereZaakIterator"
@@ -327,12 +327,12 @@
                 <Forward name="exception" path="DeleteZaakSender" />
             </ForEachChildElementPipe>
 
-            <XmlIfPipe name="CheckForHeeftAlsDeelzaak"
+            <IfPipe name="CheckForHeeftAlsDeelzaak"
                 getInputFromSessionKey="originalMessage"
                 xpathExpression="/zakLk01/object/heeftAlsDeelzaak[1]/gerelateerde[string-length(identificatie) > 0]">
                 <Forward name="then" path="DeelzaakIterator"/>
                 <Forward name="else" path="EXIT"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <ForEachChildElementPipe 
                 name="DeelzaakIterator"
