@@ -22,9 +22,16 @@
                     returnedSessionKeys="Error">
                     <Param name="ZaakType" sessionKey="ZaakType" xpathExpression="/ZgwZaakType/identificatie" />
                 </IbisLocalSender>
-                <Forward name="success" path="CheckVerwerkingssoortAttribute" />
+                <Forward name="success" path="CheckIfValidZaakObject" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
+
+            <IfPipe 
+                name="CheckIfValidZaakObject"
+                xpathExpression="boolean(/zgwZaakObject)">
+                <Forward name="then" path="CheckVerwerkingssoortAttribute"/>
+                <Forward name="else" path="EXIT"/>
+            </IfPipe>
 
             <XmlSwitchPipe 
                 name="CheckVerwerkingssoortAttribute"
