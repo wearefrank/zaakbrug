@@ -15,6 +15,7 @@ By default a value override is only applied if the property's value after the tr
 Currently this feature implemented for:
 - (zaken-api) zaak
 - (zaken-api) rol
+- (zaken-api) zaakobject
 
 ### Example: Override zaak.betalingsindicatie to use 'nvt' as default value.
 The effect of the value override in this example would be that the zaak property `betalingsindicatie` will be set to `nvt`, only if this value is not already provided in the incoming ZDS message.
