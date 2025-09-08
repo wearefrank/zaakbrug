@@ -79,44 +79,44 @@
                 <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC" />
                 <Param name="ZdsResultaat" sessionKey="ZdsResultaat" type="DOMDOC" />
                 <Param name="ExtraElementen" sessionKey="ExtraElementen" type="DOMDOC" />
-                <Forward name="success" path="GetZgwZaakObjectsByZaakUrl" />
+                <Forward name="success" path="GetZgwZaakobjectsByZaakUrl" />
             </XsltPipe>
 
             <SenderPipe
-                name="GetZgwZaakObjectsByZaakUrl"
+                name="GetZgwZaakobjectsByZaakUrl"
                 getInputFromFixedValue="&lt;dummy/&gt;">
                 <IbisLocalSender
-                    name="GetZgwZaakObjectsByZaakUrlSender"
-                    javaListener="GetZgwZaakObjectsByZaakUrl"
+                    name="GetZgwZaakobjectsByZaakUrlSender"
+                    javaListener="GetZgwZaakobjectsByZaakUrl"
                     returnedSessionKeys="Error">
                     <Param name="ZgwZaakUrl" xpathExpression="$ZgwZaak/ZgwZaak/url" type="STRING">
                         <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>
                     </Param>
                 </IbisLocalSender>
-                <Forward name="success" path="MapHeeftBetrekkingOpFromZgwZaakObjectIterator"/>
+                <Forward name="success" path="MapHeeftBetrekkingOpFromZgwZaakobjectIterator"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <ForEachChildElementPipe
-                name="MapHeeftBetrekkingOpFromZgwZaakObjectIterator"
-                elementXPathExpression="/ZgwZaakObjecten/zgwZaakObject"
-                storeResultInSessionKey="ZaakObjecten">
+                name="MapHeeftBetrekkingOpFromZgwZaakobjectIterator"
+                elementXPathExpression="/ZgwZaakobjecten/ZgwZaakobject"
+                storeResultInSessionKey="Zaakobjecten">
                 <IbisLocalSender
-                    name="CallMapHeeftBetrekkingOpFromZgwZaakObject"
-                    javaListener="MapHeeftBetrekkingOpFromZgwZaakObject"
+                    name="CallMapHeeftBetrekkingOpFromZgwZaakobject"
+                    javaListener="MapHeeftBetrekkingOpFromZgwZaakobject"
                     returnedSessionKeys="Error">
                     <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC" />
                 </IbisLocalSender>
-                <Forward name="success" path="EnrichZdsZaakWithZaakObject" />
+                <Forward name="success" path="EnrichZdsZaakWithZaakobject" />
                 <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
 
             <XsltPipe
-                name="EnrichZdsZaakWithZaakObject"
+                name="EnrichZdsZaakWithZaakobject"
                 getInputFromSessionKey="ZdsZaak"
                 storeResultInSessionKey="ZdsZaak"
                 styleSheetName="Common/xsl/EnrichEntity_ForEachPipeWrapped.xslt">
-                <Param name="With" sessionKey="ZaakObjecten" type="DOMDOC"/>
+                <Param name="With" sessionKey="Zaakobjecten" type="DOMDOC"/>
                 <Forward name="success" path="GetGlobalConfigFromLocalFS"/>
                 <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>

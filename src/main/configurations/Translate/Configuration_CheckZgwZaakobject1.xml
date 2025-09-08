@@ -1,10 +1,10 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="CheckZgwZaakObject"
-        active="${CheckZgwZaakObject.Active}"
+    <Adapter name="CheckZgwZaakobject"
+        active="${CheckZgwZaakobject.Active}"
         description="">
 
-        <Receiver name="CheckZgwZaakObject">
-            <JavaListener name="CheckZgwZaakObject"/>
+        <Receiver name="CheckZgwZaakobject">
+            <JavaListener name="CheckZgwZaakobject"/>
         </Receiver>
 
         <Pipeline>
@@ -15,17 +15,17 @@
             </Exits>
 
             <XsltPipe
-                name="SelectZgwZaakObjectsFromListWithMatchingIdentity"
-                styleSheetName="Common/xsl/SelectZgwZaakObjectsFromListWithMatchingIdentity.xslt">
-                <Param name="MatchWithZgwZaakObject" sessionKey="MatchWithZgwZaakObject" type="DOMDOC" />
+                name="SelectZgwZaakobjectsFromListWithMatchingIdentity"
+                styleSheetName="Common/xsl/SelectZgwZaakobjectsFromListWithMatchingIdentity.xslt">
+                <Param name="MatchWithZgwZaakobject" sessionKey="MatchWithZgwZaakobject" type="DOMDOC" />
                 <Param name="debug" value="true" />
-                <Forward name="success" path="ZgwZaakObjectMatchesExactlyOneZgwZaakObjectInList" />
+                <Forward name="success" path="ZgwZaakobjectMatchesExactlyOneZgwZaakobjectInList" />
                 <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>
 
             <IfPipe
-                name="ZgwZaakObjectMatchesExactlyOneZgwZaakObjectInList"
-                xpathExpression="count(/ZgwZaakObjecten/*) = 1">
+                name="ZgwZaakobjectMatchesExactlyOneZgwZaakobjectInList"
+                xpathExpression="count(/ZgwZaakobjecten/*) = 1">
                 <Forward name="then" path="exists" />
                 <Forward name="else" path="NOTFOUND" />
             </IfPipe>

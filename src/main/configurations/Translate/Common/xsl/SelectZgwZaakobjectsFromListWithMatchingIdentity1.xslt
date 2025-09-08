@@ -2,7 +2,7 @@
 
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="yes" />
 
-    <xsl:param name="MatchWithZgwZaakObject" as="node()"><xsl:document /></xsl:param>
+    <xsl:param name="MatchWithZgwZaakobject" as="node()"><xsl:document /></xsl:param>
 
     <xsl:param name="debug" as="xs:string" select="'false'" />
     <xsl:variable name="debugSerializeParams" as="map(xs:string, item()?)">
@@ -11,24 +11,24 @@
         </xsl:map>
     </xsl:variable>
 
-    <xsl:variable name="rootName" select="local-name($MatchWithZgwZaakObject/*)" />
+    <xsl:variable name="rootName" select="local-name($MatchWithZgwZaakobject/*)" />
 
     <xsl:template match="/">
-        <xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> MatchWithZgwZaakObject: [{serialize($MatchWithZgwZaakObject, $debugSerializeParams)}] </xsl:comment></xsl:if>
+        <xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> MatchWithZgwZaakobject: [{serialize($MatchWithZgwZaakobject, $debugSerializeParams)}] </xsl:comment></xsl:if>
         <xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> rootName: [{serialize($rootName, $debugSerializeParams)}] </xsl:comment></xsl:if>
 
-        <ZgwZaakObjecten>
-            <xsl:variable name="matchingZaakObject">
+        <ZgwZaakobjecten>
+            <xsl:variable name="matchingZaakobject">
                 <xsl:apply-templates select="//*[local-name() = $rootName]"/>
             </xsl:variable>
-            <xsl:copy-of select="$matchingZaakObject" copy-namespaces="false" />
-        </ZgwZaakObjecten>
+            <xsl:copy-of select="$matchingZaakobject" copy-namespaces="false" />
+        </ZgwZaakobjecten>
     </xsl:template>
 
-    <xsl:template match="*:zgwZaakObject">
+    <xsl:template match="*:ZgwZaakobject">
         <xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> zaakObjectTemplateInput: [{serialize(., $debugSerializeParams)}] </xsl:comment></xsl:if>
 
-        <xsl:variable name="matchIdentificatie" select="$MatchWithZgwZaakObject/*/*:objectIdentificatie/*:identificatie/text()" />
+        <xsl:variable name="matchIdentificatie" select="$MatchWithZgwZaakobject/*/*:objectIdentificatie/*:identificatie/text()" />
         <xsl:variable name="currentIdentificatie" select="*:objectIdentificatie/*:identificatie/text()" />
 
         <xsl:choose>

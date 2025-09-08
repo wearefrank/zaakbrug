@@ -106,11 +106,11 @@
                     <Param name="ZgwZaak" sessionKey="GetZgwWasZaakResult" type="DOMDOC"/>
                     <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                 </IbisLocalSender>
-                <Forward name="success" path="CheckForInputZaakObjectCount"/>
+                <Forward name="success" path="CheckForInputZaakobjectCount"/>
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
 
-            <IfPipe name="CheckForInputZaakObjectCount"
+            <IfPipe name="CheckForInputZaakobjectCount"
                 getInputFromSessionKey="originalMessage"
                 xpathExpression="count(/zakLk01/object) = 2 or count(/zakLk01/object) = 1"
                 >
@@ -228,59 +228,59 @@
                 xpathExpression="root()"
                 outputType="XML"
                 removeNamespaces="true">
-                <Forward name="success" path="CallAddZaakObjectToZgwForExistingZaakObjects" />
+                <Forward name="success" path="CallAddZaakobjectToZgwForExistingZaakobjects" />
             </XsltPipe>
 
             <ForEachChildElementPipe
-                name="CallAddZaakObjectToZgwForExistingZaakObjects"
+                name="CallAddZaakobjectToZgwForExistingZaakobjects"
                 elementXPathExpression="/object/heeftBetrekkingOp"
-                storeResultInSessionKey="ZgwWasZaakZaakObjecten">
+                storeResultInSessionKey="ZgwWasZaakZaakobjecten">
                 <IbisLocalSender
-                    name="CallAddZaakObjectToZgwSender"
-                    javaListener="AddZaakObjectToZgw"
+                    name="CallAddZaakobjectToZgwSender"
+                    javaListener="AddZaakobjectToZgw"
                     returnedSessionKeys="Error">
                     <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" xpathExpression="/ZgwZaakType/identificatie" />
                 </IbisLocalSender>
-                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToZgwZaakObjectenList" />
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToZgwZaakobjectenList" />
                 <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
 
             <XsltPipe
-                name="UnwrapOpenZaakApiEnvelopeToZgwZaakObjectenList"
+                name="UnwrapOpenZaakApiEnvelopeToZgwZaakobjectenList"
                 styleSheetName="Common/xsl/UnwrapForEachChildPipeEnvelopeToList.xslt"
-                storeResultInSessionKey="ZgwWasZaakZaakObjecten">
-                <Param name="List" value="ZgwZaakObjecten"/>
-                <Forward name="success" path="CallDetectZaakObjectChangesDelete"/>
+                storeResultInSessionKey="ZgwWasZaakZaakobjecten">
+                <Param name="List" value="ZgwZaakobjecten"/>
+                <Forward name="success" path="CallDetectZaakobjectChangesDelete"/>
                 <Forward name="exception" path="UncaughtException" />
             </XsltPipe>
 
             <ForEachChildElementPipe
-                name="CallDetectZaakObjectChangesDelete"
+                name="CallDetectZaakobjectChangesDelete"
                 getInputFromSessionKey="ZdsWordtZaak"
                 elementXPathExpression="/object/heeftBetrekkingOp[@verwerkingssoort = 'V']"
-                storeResultInSessionKey="DetectZaakObjectChangesResults">
+                storeResultInSessionKey="DetectZaakobjectChangesResults">
                 <IbisLocalSender
-                    name="CallDetectZaakObjectChangesDeleteSender"
-                    javaListener="DetectZaakObjectChanges"
+                    name="CallDetectZaakobjectChangesDeleteSender"
+                    javaListener="DetectZaakobjectChanges"
                     returnedSessionKeys="Error">
-                    <Param name="ZgwWasZaakZaakObjecten" sessionKey="ZgwWasZaakZaakObjecten" type="DOMDOC"/>
+                    <Param name="ZgwWasZaakZaakobjecten" sessionKey="ZgwWasZaakZaakobjecten" type="DOMDOC"/>
                     <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
                     <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC" />
                 </IbisLocalSender>
-                <Forward name="success" path="CallDetectZaakObjectChanges"/>
+                <Forward name="success" path="CallDetectZaakobjectChanges"/>
                 <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
 
             <ForEachChildElementPipe
-                name="CallDetectZaakObjectChanges"
+                name="CallDetectZaakobjectChanges"
                 getInputFromSessionKey="ZdsWordtZaak"
                 elementXPathExpression="/object/heeftBetrekkingOp[@verwerkingssoort != 'V']"
-                storeResultInSessionKey="DetectZaakObjectChangesResults">
+                storeResultInSessionKey="DetectZaakobjectChangesResults">
                 <IbisLocalSender
-                    name="CallDetectZaakObjectChangesSender"
-                    javaListener="DetectZaakObjectChanges"
+                    name="CallDetectZaakobjectChangesSender"
+                    javaListener="DetectZaakobjectChanges"
                     returnedSessionKeys="Error">
-                    <Param name="ZgwWasZaakZaakObjecten" sessionKey="ZgwWasZaakZaakObjecten" type="DOMDOC"/>
+                    <Param name="ZgwWasZaakZaakobjecten" sessionKey="ZgwWasZaakZaakobjecten" type="DOMDOC"/>
                     <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
                     <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC" />
                 </IbisLocalSender>

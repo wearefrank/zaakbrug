@@ -1,10 +1,10 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="AddZaakObjectToZgw"
-    active="${AddZaakObjectToZgw.Active}"
+    <Adapter name="AddZaakobjectToZgw"
+    active="${AddZaakobjectToZgw.Active}"
     description="">
     
-    <Receiver name="AddZaakObjectToZgw">
-        <JavaListener name="AddZaakObjectToZgw" returnedSessionKeys="Error"/>
+    <Receiver name="AddZaakobjectToZgw">
+        <JavaListener name="AddZaakobjectToZgw" returnedSessionKeys="Error"/>
     </Receiver>
     
     <Pipeline>
@@ -45,26 +45,26 @@
                 getInputFromSessionKey="originalMessage"
                 styleSheetName="Common/xsl/MapObjectTypeAdresIdentification.xslt"
                 storeResultInSessionKey="ObjectTypeAdresIdentificatie">
-                <Forward name="success" path="MapZaakObjectFromHeeftBetrekkingOp"/>
+                <Forward name="success" path="MapZaakobjectFromHeeftBetrekkingOp"/>
             </XsltPipe>
 
             <XsltPipe
-                name="MapZaakObjectFromHeeftBetrekkingOp"
+                name="MapZaakobjectFromHeeftBetrekkingOp"
                 getInputFromSessionKey="originalMessage"
-                styleSheetName="Common/xsl/MapZaakObjectFromHeeftBetrekkingOp.xslt">
-                <Param name="ZaakObjectIdentificatie" sessionKey="ObjectTypeAdresIdentificatie" type="DOMDOC"/>
-                <Forward name="success" path="ZaakObjectBodyApplyValueOverridesFromTranslationProfileSender"/>
+                styleSheetName="Common/xsl/MapZaakobjectFromHeeftBetrekkingOp.xslt">
+                <Param name="ZaakobjectIdentificatie" sessionKey="ObjectTypeAdresIdentificatie" type="DOMDOC"/>
+                <Forward name="success" path="ZaakobjectBodyApplyValueOverridesFromTranslationProfileSender"/>
             </XsltPipe>
 
             <SenderPipe
-                name="ZaakObjectBodyApplyValueOverridesFromTranslationProfileSender">
+                name="ZaakobjectBodyApplyValueOverridesFromTranslationProfileSender">
                 <IbisLocalSender
-                    name="ZaakObjectBodyApplyValueOverridesFromTranslationProfileLocalSender"
+                    name="ZaakobjectBodyApplyValueOverridesFromTranslationProfileLocalSender"
                     javaListener="ApplyTranslationProfileValueOverrides"
                     returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Param name="zaaktype" sessionKey="ZaakType" />
-                <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaakobjecten.zgwZaakObject" />
+                <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaakobjecten.ZgwZaakobject" />
                 <Param name="CurrentContext" sessionKey="originalMessage" type="DOMDOC" />
                 <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="UncaughtException" />

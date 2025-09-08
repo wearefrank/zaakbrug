@@ -1,10 +1,10 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="MapHeeftBetrekkingOpFromZgwZaakObject"
-        active="${MapHeeftBetrekkingOpFromZgwZaakObject.Active}"
+    <Adapter name="MapHeeftBetrekkingOpFromZgwZaakobject"
+        active="${MapHeeftBetrekkingOpFromZgwZaakobject.Active}"
         description="">
         
-        <Receiver name="MapHeeftBetrekkingOpFromZgwZaakObject">
-            <JavaListener name="MapHeeftBetrekkingOpFromZgwZaakObject" returnedSessionKeys="Error" />
+        <Receiver name="MapHeeftBetrekkingOpFromZgwZaakobject">
+            <JavaListener name="MapHeeftBetrekkingOpFromZgwZaakobject" returnedSessionKeys="Error" />
         </Receiver>
         
         <Pipeline>
@@ -14,22 +14,22 @@
             </Exits>
 
             <SenderPipe
-                name="ZgwZaakObjectsApplyValueOverridesZgwToZdsSender">
+                name="ZgwZaakobjectsApplyValueOverridesZgwToZdsSender">
                 <IbisLocalSender
-                    name="ZgwZaakObjectsApplyValueOverridesZgwToZdsLocalSender"
+                    name="ZgwZaakobjectsApplyValueOverridesZgwToZdsLocalSender"
                     javaListener="ApplyValueOverridesZgwToZds"
                     returnedSessionKeys="Error,ExtraElementen"
                     >
                     <Param name="zaaktype" sessionKey="ZgwZaakType" xpathExpression="/ZgwZaakType/identificatie" />
-                    <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaakobjecten.zgwZaakObject" />
+                    <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaakobjecten.ZgwZaakobject" />
                 </IbisLocalSender>
-                <Forward name="success" path="MapHeeftBetrekkingOpFromZgwZaakObject" />
+                <Forward name="success" path="MapHeeftBetrekkingOpFromZgwZaakobject" />
             </SenderPipe>
 
             <XsltPipe
-                name="MapHeeftBetrekkingOpFromZgwZaakObject"
+                name="MapHeeftBetrekkingOpFromZgwZaakobject"
                 storeResultInSessionKey="HeeftBetrekkingOp"
-                styleSheetName="geefZaakdetails_Lv01/xsl/MapHeeftBetrekkingOpFromZgwZaakObject.xslt">
+                styleSheetName="geefZaakdetails_Lv01/xsl/MapHeeftBetrekkingOpFromZgwZaakobject.xslt">
                 <Forward name="success" path="EXIT" />
             </XsltPipe>
 
