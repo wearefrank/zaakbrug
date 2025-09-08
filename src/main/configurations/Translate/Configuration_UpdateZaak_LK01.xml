@@ -227,6 +227,7 @@
                 getInputFromSessionKey="GetZdsZaakFromZgwResult"
                 xpathExpression="root()"
                 outputType="XML"
+                indentXml="true"
                 removeNamespaces="true">
                 <Forward name="success" path="CallAddZaakobjectToZgwForExistingZaakobjects" />
             </XsltPipe>

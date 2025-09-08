@@ -18,7 +18,7 @@
                 name="SelectZgwZaakobjectsFromListWithMatchingIdentity"
                 styleSheetName="Common/xsl/SelectZgwZaakobjectsFromListWithMatchingIdentity.xslt">
                 <Param name="MatchWithZgwZaakobject" sessionKey="MatchWithZgwZaakobject" type="DOMDOC" />
-                <Param name="debug" value="true" />
+                <Param name="debug" value="false" />
                 <Forward name="success" path="ZgwZaakobjectMatchesExactlyOneZgwZaakobjectInList" />
                 <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>

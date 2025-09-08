@@ -18,16 +18,24 @@
         <xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> rootName: [{serialize($rootName, $debugSerializeParams)}] </xsl:comment></xsl:if>
 
         <ZgwZaakobjecten>
-            <xsl:variable name="matchingZaakobject">
+            <xsl:variable name="matchingZaakobjects">
                 <xsl:apply-templates select="//*[local-name() = $rootName]"/>
             </xsl:variable>
-            <xsl:copy-of select="$matchingZaakobject" copy-namespaces="false" />
+            <xsl:copy-of select="$matchingZaakobjects//namespace-node()" />
+            <!-- Transfer any namespaces from children to zaakobject parent -->
+            <xsl:copy-of select="$matchingZaakobjects" copy-namespaces="false" />
         </ZgwZaakobjecten>
     </xsl:template>
 
     <xsl:template match="*:ZgwZaakobject">
         <xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> zaakObjectTemplateInput: [{serialize(., $debugSerializeParams)}] </xsl:comment></xsl:if>
+        <xsl:if test="$debug = 'true'"><xsl:comment expand-text="yes"> rootName: [{serialize(*[*:objectType = $MatchWithZgwZaakobject/*:objectType], $debugSerializeParams)}] </xsl:comment></xsl:if>
+        <xsl:apply-templates select="*[*:objectType = $MatchWithZgwZaakobject/*/*:objectType]" />
+    </xsl:template>
 
+
+        <!-- ZAKOBJ - AOA -->
+    <xsl:template match="*[*:objectType = 'adres']">
         <xsl:variable name="matchIdentificatie" select="$MatchWithZgwZaakobject/*/*:objectIdentificatie/*:identificatie/text()" />
         <xsl:variable name="currentIdentificatie" select="*:objectIdentificatie/*:identificatie/text()" />
 

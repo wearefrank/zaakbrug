@@ -15,9 +15,9 @@
 
             <XmlSwitchPipe
                 name="CheckZdsObjectTypeOfHeeftBetrekkingOp"
-                xpathExpression="/*:heeftBetrekkingOp/*:gerelateerde/*[1]/@entiteittype"
+                xpathExpression="/*:heeftBetrekkingOp/*:gerelateerde/*[1]/@*:entiteittype"
                 notFoundForwardName="unimplemented">
-                <Forward name="AOA" path="CheckZdsObjectTypeAdresIdentificationFields"/> <!-- objectType: adres -->
+                <Forward name="AOA" path="MapObjectTypeAdresIdentification"/> <!-- objectType: adres -->
                 <Forward name="MDW" path="LogWarningNotImplementedObjectType"/> <!-- objectType: medewerker -->
                 <Forward name="NPS" path="LogWarningNotImplementedObjectType"/> <!-- objectType: natuurlijkPersoon -->
                 <Forward name="NNP" path="LogWarningNotImplementedObjectType"/> <!-- objectType: nietNatuurlijkPersoon -->
@@ -25,28 +25,23 @@
                 <Forward name="OEH"  path="LogWarningNotImplementedObjectType"/> <!-- objectType: organisatorischeEenheid -->
                 <Forward name="unimplemented" path="ResultWithObjectTypeErrorMessage"/>
             </XmlSwitchPipe>
-        
-            <XsltPipe
-                name="CheckZdsObjectTypeAdresIdentificationFields"
-                getInputFromSessionKey="originalMessage"
-                styleSheetName="Common/xsl/ValidateZdsObjectTypeAdresIdentificationFields.xslt">
-                <Forward name="success" path="CheckZdsObjectTypeAdresValidationResult"/>
-            </XsltPipe>
-
-            <IfPipe 
-                name="CheckZdsObjectTypeAdresValidationResult"
-                xpathExpression="normalize-space(/IsObjectTypeAdresValidated)='true'">
-                <Forward name="then" path="MapObjectTypeAdresIdentification"/>
-                <Forward name="else" path="ResultWithMissingFieldsErrorMessage"/>
-            </IfPipe>
 
             <XsltPipe
                 name="MapObjectTypeAdresIdentification"
                 getInputFromSessionKey="originalMessage"
                 styleSheetName="Common/xsl/MapObjectTypeAdresIdentification.xslt"
                 storeResultInSessionKey="ObjectTypeAdresIdentificatie">
-                <Forward name="success" path="MapZaakobjectFromHeeftBetrekkingOp"/>
+                <Forward name="success" path="ValidateObjectTypeAdresIdentification"/>
             </XsltPipe>
+
+            <XmlValidatorPipe
+                name="ValidateObjectTypeAdresIdentification"
+                schema="CreeerZaak_LK01/xsd/ZgwZaakobjectAdresIdentification.xsd"
+                root="objectIdentificatie"
+                throwException="true">
+                <Forward name="success" path="MapZaakobjectFromHeeftBetrekkingOp"/>
+                <Forward name="exception" path="ResultWithMissingFieldsErrorMessage"/>
+            </XmlValidatorPipe>
 
             <XsltPipe
                 name="MapZaakobjectFromHeeftBetrekkingOp"
@@ -79,7 +74,7 @@
 
             <EchoPipe
                 name="EmptyResult"
-                getInputFromFixedValue="&lt;dummy/&gt;">
+                getInputFromFixedValue="">
                 <Forward name="success" path="EXIT"/>
             </EchoPipe>
 
@@ -89,7 +84,7 @@
                 styleSheetName="Common/xsl/BuildError.xsl"
                 storeResultInSessionKey="Error">
                 <Param name="cause" sessionKey="Error" type="DOMDOC" />
-                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason" pattern="Some mandatory fields in 'adres' objectType are missing. The fields:  identificatie, wpl.woonplaatsNaam, gor.openbareRuimteNaam, huisnummer must be provided." />
                 <Param name="detailsXml" sessionKey="originalMessage" type="DOMDOC" />
                 <Forward name="success" path="EXCEPTION" />
@@ -102,7 +97,7 @@
                 styleSheetName="Common/xsl/BuildError.xsl"
                 storeResultInSessionKey="Error">
                 <Param name="cause" sessionKey="Error" type="DOMDOC" />
-                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="ObjectType" sessionKey="originalMessage" xpathExpression="name(/*:heeftBetrekkingOp/*:gerelateerde/*[1])"/>
                 <Param name="reason" pattern="ObjectType: {ObjectType} has not been implemented yet." />
                 <Param name="detailsXml" sessionKey="originalMessage" type="DOMDOC" />

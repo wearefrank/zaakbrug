@@ -15,11 +15,24 @@
             </Exits>
 
             <SenderPipe
-                name="CallGetSingleZaakobjectForModificationFromZgw">
+                name="GetAuthorizationHeaderForZakenApi"
+                getInputFromFixedValue="&lt;dummy/&gt;">
                 <IbisLocalSender
-                    name="CallGetSingleZaakobjectForModificationFromZgwSender"
-                    javaListener="GetSingleZaakobjectForModificationFromZgw"
+                    name="GetAuthorizationHeaderForZakenApiSender"
+                    javaListener="GenerateAuthorizationHeaderForZakenApi"
                     returnedSessionKeys="Error,Authorization">
+                </IbisLocalSender>
+                <Forward name="success" path="CallGetSingleZaakobjectFromZgw" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallGetSingleZaakobjectFromZgw"
+                getInputFromSessionKey="originalMessage">
+                <IbisLocalSender
+                    name="CallGetSingleZaakobjectFromZgwSender"
+                    javaListener="GetSingleZaakobjectFromZgw"
+                    returnedSessionKeys="Error">
                     <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl" />
                 </IbisLocalSender>
                 <Forward name="success" path="StoreZgwZaakobjectUrlForUpdate" />

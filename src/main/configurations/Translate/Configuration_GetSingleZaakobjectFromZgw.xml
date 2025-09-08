@@ -1,10 +1,10 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="GetSingleZaakobjectForModificationFromZgw"
-        active="${GetSingleZaakobjectForModificationFromZgw.Active}"
+    <Adapter name="GetSingleZaakobjectFromZgw"
+        active="${GetSingleZaakobjectFromZgw.Active}"
         description="">
 
-        <Receiver name="GetSingleZaakobjectForModificationFromZgw">
-            <JavaListener name="GetSingleZaakobjectForModificationFromZgw" returnedSessionKeys="Error,Authorization" />
+        <Receiver name="GetSingleZaakobjectFromZgw">
+            <JavaListener name="GetSingleZaakobjectFromZgw" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -13,18 +13,6 @@
                 <Exit name="NOTFOUND" state="SUCCESS" code="404" />
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
-
-            <SenderPipe
-                name="GetAuthorizationHeaderForZakenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
-                    name="GetAuthorizationHeaderForZakenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
-                <Forward name="success" path="GetZgwZaakobjectsByZaakUrl" />
-                <Forward name="exception" path="EXCEPTION" />
-            </SenderPipe>
 
             <SenderPipe
                 name="GetZgwZaakobjectsByZaakUrl"

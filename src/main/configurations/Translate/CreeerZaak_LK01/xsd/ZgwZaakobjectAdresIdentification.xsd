@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="objectIdentificatie">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="identificatie" type="adresIdentificatie"/>
+                <xs:element name="wplWoonplaatsNaam" type="adresName"/>
+                <xs:element name="gorOpenbareRuimteNaam" type="adresName"/>
+                <xs:element name="huisnummer" type="adresHuisNummer"/> 
+                <xs:element name="huisletter" type="adresHuisLetter" minOccurs="0"/>
+                <xs:element name="huisnummertoevoeging" type="adresHuisNummerToevoeging" minOccurs="0"/>
+                <xs:element name="postcode" type="adresPostcode" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="adresIdentificatie">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="adresName">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="80"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="adresHuisNummer">
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="99999"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="adresHuisLetter">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="adresHuisNummerToevoeging">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="4"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="adresPostcode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="7"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema> 

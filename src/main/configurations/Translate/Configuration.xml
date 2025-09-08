@@ -35,7 +35,7 @@
   <!ENTITY GetRollenByBsn                                 SYSTEM "./Configuration_GetRollenByBsn.xml">
   <!ENTITY GetRolTypenByUrl                               SYSTEM "./Configuration_GetRolTypenByUrl.xml">
   <!ENTITY GetRsinByGemeenteCode                          SYSTEM "./Configuration_GetRsinByGemeenteCode.xml">
-  <!ENTITY GetSingleZaakobjectForModificationFromZgw      SYSTEM "./Configuration_GetSingleZaakobjectForModificationFromZgw.xml">
+  <!ENTITY GetSingleZaakobjectFromZgw                     SYSTEM "./Configuration_GetSingleZaakobjectFromZgw.xml">
   <!ENTITY Zaken_GetZgwStatusByZaakUrl                    SYSTEM "./Configuration_Zaken_GetZgwStatusByZaakUrl.xml">
   <!ENTITY GetStatusTypeByZaakTypeAndOmschrijving         SYSTEM "./Configuration_GetStatusTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetStatusTypes                                 SYSTEM "./Configuration_GetStatusTypes.xml">
@@ -132,7 +132,7 @@
   &GetRollenByBsn;
   &GetRolTypenByUrl;
   &GetRsinByGemeenteCode;
-  &GetSingleZaakobjectForModificationFromZgw;
+  &GetSingleZaakobjectFromZgw;
   &Zaken_GetZgwStatusByZaakUrl;
   &GetStatusTypeByZaakTypeAndOmschrijving;
   &GetStatusTypes;
