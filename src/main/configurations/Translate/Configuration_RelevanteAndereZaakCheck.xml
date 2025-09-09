@@ -13,7 +13,7 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <XmlIfPipe 
+            <IfPipe 
                 name="CheckIfMainZaakRelatedToAndereZaak"
                 getInputFromSessionKey="ZgwMainZaakResult"
                 xpathExpression="/ZgwZaak/relevanteAndereZaken/url = $AndereZaakUrl">
@@ -22,7 +22,7 @@
                 </Param>
                 <Forward name="then" path="EXIT" />
                 <Forward name="else" path="LogWarningMainZaakNotRelatedToAndereZaak" />
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe
                 name="LogWarningMainZaakNotRelatedToAndereZaak"

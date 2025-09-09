@@ -1,0 +1,55 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="GetSingleZaakobjectFromZgw"
+        active="${GetSingleZaakobjectFromZgw.Active}"
+        description="">
+
+        <Receiver name="GetSingleZaakobjectFromZgw">
+            <JavaListener name="GetSingleZaakobjectFromZgw" returnedSessionKeys="Error" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="NOTFOUND" state="SUCCESS" code="404" />
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                name="GetZgwZaakobjectsByZaakUrl"
+                getInputFromFixedValue="&lt;dummy/&gt;">
+                <IbisLocalSender
+                    name="GetZgwZaakobjectsByZaakUrlSender"
+                    javaListener="GetZgwZaakobjectsByZaakUrl"
+                    returnedSessionKeys="Error">
+                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
+                </IbisLocalSender>
+                <Forward name="success" path="SelectZgwZaakobjectsFromListWithMatchingIdentity"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="SelectZgwZaakobjectsFromListWithMatchingIdentity"
+                styleSheetName="Common/xsl/SelectZgwZaakobjectsFromListWithMatchingIdentity.xslt">
+                <Param name="MatchWithZgwZaakobject" sessionKey="originalMessage" type="DOMDOC" />
+                <Param name="debug" value="false" />
+                <Forward name="success" path="CheckSelectZgwZaakobjectsFromListResult1" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <IfPipe
+                name="CheckSelectZgwZaakobjectsFromListResult1"
+                xpathExpression="count(/ZgwZaakobjecten/*) = 0">
+                <Forward name="then" path="NOTFOUND" />
+                <Forward name="else" path="CheckSelectZgwZaakobjectsFromListResult2" />
+            </IfPipe>
+
+            <IfPipe
+                name="CheckSelectZgwZaakobjectsFromListResult2"
+                xpathExpression="count(/ZgwZaakobjecten/*) >= 2">
+                <Forward name="then" path="EXCEPTION" />
+                <Forward name="else" path="EXIT" />
+            </IfPipe>
+
+        </Pipeline>
+    </Adapter>
+</Module>

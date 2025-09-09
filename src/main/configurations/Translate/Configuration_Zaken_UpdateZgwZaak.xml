@@ -24,7 +24,7 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe 
+            <IfPipe 
                 name="CheckIfThereIsEmptyJsonToPatch"
                 getInputFromFixedValue="&lt;dummy/&gt;"
                 xpathExpression="$EmptyHoofdzaakJson or $EmptyRelevanteAndereZakenJson">
@@ -32,7 +32,7 @@
                 <Param name="EmptyRelevanteAndereZakenJson" sessionKey="EmptyRelevanteAndereZakenJson"/>
                 <Forward name="then" path="StoreIfEmptyJsonExistance"/>
                 <Forward name="else" path="UpdateZgwZaak"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <PutInSessionPipe 
                 name="StoreIfEmptyJsonExistance">

@@ -13,7 +13,7 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <XmlIfPipe 
+            <IfPipe 
                 name="CheckIfMainZaakRelatedToAndereZaak"
                 getInputFromSessionKey="ZgwMainZaakResult"
                 xpathExpression="/ZgwZaak/relevanteAndereZaken/url = $AndereZaakUrl">
@@ -22,7 +22,7 @@
                 </Param>
                 <Forward name="then" path="CreatePatchZaakBodyToDeleteMainZaakFromAndereZaak" />
                 <Forward name="else" path="LogWarningZaakNotRelated" />
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe
                 name="LogWarningZaakNotRelated"
@@ -41,11 +41,11 @@
                 <Forward name="success" path="CheckIfRelevanteAndereZakenListOfAndereZaakEmpty"/>
             </XsltPipe>
 
-            <XmlIfPipe name="CheckIfRelevanteAndereZakenListOfAndereZaakEmpty"
+            <IfPipe name="CheckIfRelevanteAndereZakenListOfAndereZaakEmpty"
                 xpathExpression="count(ZgwZaak/relevanteAndereZaken) gt 0">
                 <Forward name="then" path="DeleteRelevanteMainZaakFromAndereZaak"/>
                 <Forward name="else" path="CreateEmptyRelevanteAndereZakenForAndereZaakJson"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <DataSonnetPipe name="CreateEmptyRelevanteAndereZakenForAndereZaakJson"
                 styleSheetName="UpdateZaak_LK01/jsonnet/CreateEmptyRelevanteAndereZakenJson.jsonnet"
@@ -78,11 +78,11 @@
                 <Forward name="success" path="CheckIfRelevanteAndereZakenListOfMainZaakEmpty"/>
             </XsltPipe>
 
-            <XmlIfPipe name="CheckIfRelevanteAndereZakenListOfMainZaakEmpty"
+            <IfPipe name="CheckIfRelevanteAndereZakenListOfMainZaakEmpty"
                 xpathExpression="count(ZgwZaak/relevanteAndereZaken) gt 0">
                 <Forward name="then" path="DeleteRelevanteAndereZaakFromMainZaak"/>
                 <Forward name="else" path="CreateEmptyRelevanteAndereZakenForMainZaakJson"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <DataSonnetPipe name="CreateEmptyRelevanteAndereZakenForMainZaakJson"
                 styleSheetName="UpdateZaak_LK01/jsonnet/CreateEmptyRelevanteAndereZakenJson.jsonnet"

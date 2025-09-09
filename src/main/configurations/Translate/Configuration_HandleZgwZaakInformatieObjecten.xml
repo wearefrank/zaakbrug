@@ -26,12 +26,12 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForGetZaakDocumentResult"
+            <IfPipe name="CheckForGetZaakDocumentResult"
                 xpathExpression="string-length(/ZgwEnkelvoudigInformatieObject/informatieobjecttype) = 0"
                 >
                 <Forward name="then" path="EXCEPTION"/>
                 <Forward name="else" path="CallGetZgwInformatieObjectTypeByUrl"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe
                 name="CallGetZgwInformatieObjectTypeByUrl"
@@ -46,12 +46,12 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForGetZgwInformatieObjectTypeResult"
+            <IfPipe name="CheckForGetZgwInformatieObjectTypeResult"
                 xpathExpression="string-length(/ZgwInformatieObjectType) = 0"
                 >
                 <Forward name="then" path="EXCEPTION"/>
                 <Forward name="else" path="MapHeeftRelevant"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="MapHeeftRelevant"

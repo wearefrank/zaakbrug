@@ -68,12 +68,12 @@
                 <Forward name="success" path="CheckForGetZgwEnkelvoudigInformatieObjectResult"/>
             </JsonPipe>
 
-            <XmlIfPipe name="CheckForGetZgwEnkelvoudigInformatieObjectResult"
+            <IfPipe name="CheckForGetZgwEnkelvoudigInformatieObjectResult"
                 xpathExpression="string-length(/root/results[1]) > 0 and count(/root/results) = 1"
                 >
                 <Forward name="then" path="UnwrapZgwEnkelvoudigInformatieObjectToList"/>
                 <Forward name="else" path="EXIT"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="UnwrapZgwEnkelvoudigInformatieObjectToList"

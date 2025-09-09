@@ -1,0 +1,103 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="UpdateZgwZaakobject"
+             active="${UpdateZgwZaakobject.Active}"
+             description="">
+
+        <Receiver name="UpdateZgwZaakobject">
+            <JavaListener name="UpdateZgwZaakobject" returnedSessionKeys="Error" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="NOTFOUND" state="SUCCESS" code="404" />
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                name="GetAuthorizationHeaderForZakenApi"
+                getInputFromFixedValue="&lt;dummy/&gt;">
+                <IbisLocalSender
+                    name="GetAuthorizationHeaderForZakenApiSender"
+                    javaListener="GenerateAuthorizationHeaderForZakenApi"
+                    returnedSessionKeys="Error,Authorization">
+                </IbisLocalSender>
+                <Forward name="success" path="CallGetSingleZaakobjectFromZgw" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="CallGetSingleZaakobjectFromZgw"
+                getInputFromSessionKey="originalMessage">
+                <IbisLocalSender
+                    name="CallGetSingleZaakobjectFromZgwSender"
+                    javaListener="GetSingleZaakobjectFromZgw"
+                    returnedSessionKeys="Error">
+                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl" />
+                </IbisLocalSender>
+                <Forward name="success" path="StoreZgwZaakobjectUrlForUpdate" />
+                <Forward name="404" path="NOTFOUND" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <PutInSessionPipe
+                name="StoreZgwZaakobjectUrlForUpdate">
+                <Param name="ZgwZaakobjectUrlForUpdate" xpathExpression="/ZgwZaakobjecten/ZgwZaakobject/url"/>
+                <Forward name="success" path="AddZaakUrl"/>
+            </PutInSessionPipe>
+
+            <XsltPipe
+                name="AddZaakUrl"
+                getInputFromSessionKey="originalMessage"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="CreeerZaak_LK01/xsl/AddZaakUrl.xsl">
+                <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl" />
+                <Forward name="success" path="UpdateZgwZaakobject" />
+            </XsltPipe>
+
+            <SenderPipe
+                name="UpdateZgwZaakobject">
+                <Json2XmlInputValidator
+                    name="XmlToJson"
+                    schema="CreeerZaak_LK01/xsd/ZgwZaakobject.xsd"
+                    root="ZgwZaakobject"
+                    outputFormat="JSON"
+                    throwException="true">
+                </Json2XmlInputValidator>
+                <HttpSender
+                    name="UpdateZgwZaakobjectSender"
+                    methodType="PUT"
+                    headersParams="Authorization,Accept-Crs,Content-Crs"
+                    contentType="application/json"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    verifyHostname="${zaakbrug.zgw.zaken-api.verifyHostname}"
+                    allowSelfSignedCertificates="${zaakbrug.zgw.zaken-api.allowSelfSignedCertificates}"
+                    disableCookies="${zaakbrug.zgw.zaken-api.disableCookies}"
+                    ignoreCertificateExpiredException="${zaakbrug.zgw.zaken-api.ignoreCertificateExpiredException}"
+                    truststore="${zaakbrug.zgw.zaken-api.truststore.uri}"
+                    truststoreAuthAlias="${zaakbrug.zgw.zaken-api.truststore.authAlias}"
+                    truststoreType="${zaakbrug.zgw.zaken-api.truststore.type}"
+                    maxExecuteRetries="5"/>
+                <Param name="url" sessionKey="ZgwZaakobjectUrlForUpdate" />
+                <Param name="Accept-Crs" value="EPSG:4326" />
+                <Param name="Content-Crs"  value="EPSG:4326" />
+                <Param name="Authorization"  sessionKey="Authorization" />
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="ErrorJsonToXml" />
+            </SenderPipe>
+
+            <JsonPipe
+                name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+
+            <XsltPipe
+                name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="PostZgwZaakobject" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

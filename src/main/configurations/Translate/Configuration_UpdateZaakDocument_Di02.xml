@@ -28,12 +28,12 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForStatus"
+            <IfPipe name="CheckForStatus"
                 xpathExpression="/ZgwEnkelvoudigInformatieObject/status = 'definitief'"
                 >
                 <Forward name="then" path="DocumentAlreadyFinalizedException"/>
                 <Forward name="else" path="StoreTaal"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="DocumentAlreadyFinalizedException"
