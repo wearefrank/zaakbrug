@@ -24,8 +24,27 @@
                     <Param name="zaaktype" sessionKey="ZgwZaakType" xpathExpression="/ZgwZaakType/identificatie" />
                     <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.rollen.zgwRol" />
                 </IbisLocalSender>
-                <Forward name="success" path="MatchHeeftAlsBelanghebbendeOmschrijving" />
+                <Forward name="success" path="MatchHeeftBetrekkingOpOmschrijving" />
             </SenderPipe>
+
+            <IfPipe
+                name="MatchHeeftBetrekkingOpOmschrijving"
+                xpathExpression="lower-case($lh)=lower-case($rh)"
+                >
+                <Param name="lh" xpathExpression="$RolMapping/rolMapping/heeftBetrekkingOp">
+                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
+                </Param>
+                <Param name="rh" xpathExpression="/zgwRol/omschrijving" />
+                <Forward name="then" path="StoreHeeftBetrekkingOpKeys" />
+                <Forward name="else" path="MatchHeeftAlsBelanghebbendeOmschrijving" />
+            </IfPipe>
+
+            <PutInSessionPipe
+                name="StoreHeeftBetrekkingOpKeys"                >
+				<Param name="RolNaam" value="heeftBetrekkingOp" />
+				<Param name="RolEntiteitType" value="ZAKOBJ" />
+                <Forward name="success" path="MapZdsRolFromZgwRol" />
+			</PutInSessionPipe>
 
             <IfPipe
                 name="MatchHeeftAlsBelanghebbendeOmschrijving"

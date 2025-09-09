@@ -72,11 +72,13 @@
                 <Forward name="success" path="EmptyResult" />
             </SenderPipe>
 
-            <EchoPipe
+            <ReplacerPipe
                 name="EmptyResult"
-                getInputFromFixedValue="">
+                getInputFromFixedValue="emptyInput"
+                find="emptyInput"
+                replace="">
                 <Forward name="success" path="EXIT"/>
-            </EchoPipe>
+            </ReplacerPipe>
 
             <XsltPipe
                 name="ResultWithMissingFieldsErrorMessage"
@@ -85,7 +87,7 @@
                 storeResultInSessionKey="Error">
                 <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
-                <Param name="reason" pattern="Some mandatory fields in 'adres' objectType are missing. The fields:  identificatie, wpl.woonplaatsNaam, gor.openbareRuimteNaam, huisnummer must be provided." />
+                <Param name="reason" pattern="Some mandatory fields in 'adres' objectType are missing. The fields:  identificatie, wpl.woonplaatsNaam, gor.openbareRuimteNaam, huisnummer must be provided." ignoreUnresolvablePatternElements="true" />
                 <Param name="detailsXml" sessionKey="originalMessage" type="DOMDOC" />
                 <Forward name="success" path="EXCEPTION" />
                 <Forward name="exception" path="EXCEPTION" />
@@ -99,7 +101,7 @@
                 <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="ObjectType" sessionKey="originalMessage" xpathExpression="name(/*:heeftBetrekkingOp/*:gerelateerde/*[1])"/>
-                <Param name="reason" pattern="ObjectType: {ObjectType} has not been implemented yet." />
+                <Param name="reason" pattern="ObjectType: {ObjectType} has not been implemented yet." ignoreUnresolvablePatternElements="true"/>
                 <Param name="detailsXml" sessionKey="originalMessage" type="DOMDOC" />
                 <Forward name="success" path="EXCEPTION" />
                 <Forward name="exception" path="EXCEPTION" />
