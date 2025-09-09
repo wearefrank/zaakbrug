@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.25.0](https://github.com/wearefrank/zaakbrug/compare/v1.24.10...v1.25.0) (2025-09-09)
+
+### 🍕 Features
+
+* translate heeftBetrekkingOp with ObjectType 'adres' as ZaakObject ([#599](https://github.com/wearefrank/zaakbrug/issues/599)) ([0c95581](https://github.com/wearefrank/zaakbrug/commit/0c95581d056c4c16e4019230e852beb43bac8b6a))
+
 ## [1.24.10](https://github.com/wearefrank/zaakbrug/compare/v1.24.9...v1.24.10) (2025-07-14)
 
 ### 🧑‍💻 Code Refactoring
