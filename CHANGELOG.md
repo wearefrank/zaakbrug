@@ -1,5 +1,16 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.25.0](https://github.com/wearefrank/zaakbrug/compare/v1.24.10...v1.25.0) (2025-09-10)
+
+### 🍕 Features
+
+* translate heeftBetrekkingOp with ObjectType 'adres' as ZaakObject ([#599](https://github.com/wearefrank/zaakbrug/issues/599)) ([0c95581](https://github.com/wearefrank/zaakbrug/commit/0c95581d056c4c16e4019230e852beb43bac8b6a))
+
+### 🔁 Continuous Integration
+
+* bump docker-release-generic workflow to v2.0.8 ([32de300](https://github.com/wearefrank/zaakbrug/commit/32de300d4fec0ff8c01b1dc6d52fd3d1acae93cd))
+* fix registry prefix trailing slash ([e8c6a53](https://github.com/wearefrank/zaakbrug/commit/e8c6a5385740e9e657b96cf14d8bec7524e98f5e))
+
 ## [1.25.1](https://github.com/wearefrank/zaakbrug/compare/v1.25.0...v1.25.1) (2025-09-10)
 
 ### 🔁 Continuous Integration
