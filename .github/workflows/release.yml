@@ -130,7 +130,7 @@ jobs:
       registry-token: ${{ secrets.DOCKERHUB_TOKEN }}
     with:
       version: ${{ needs.analyze-commits.outputs.version-next }}
-      registry-prefix: 'docker.io/'
+      registry-prefix: 'docker.io'
 
   update-helm:
     uses: ./.github/workflows/update-helm-chart.yml
