@@ -1,0 +1,11 @@
+<!DOCTYPE configuration [
+        <!ENTITY SoapEndpointProxy_BeantwoordVraag    SYSTEM "./Configuration_SoapEndpointProxy_BeantwoordVraag.xml">
+        <!ENTITY SoapEndpointProxy_OntvangAsynchroon  SYSTEM "./Configuration_SoapEndpointProxy_OntvangAsynchroon.xml">
+        <!ENTITY SoapEndpointProxy_VrijeBerichten     SYSTEM "./Configuration_SoapEndpointProxy_VrijeBerichten.xml">
+]>
+
+<configuration name="Proxy">
+  &SoapEndpointProxy_BeantwoordVraag;
+  &SoapEndpointProxy_OntvangAsynchroon;
+  &SoapEndpointProxy_VrijeBerichten;
+</configuration>

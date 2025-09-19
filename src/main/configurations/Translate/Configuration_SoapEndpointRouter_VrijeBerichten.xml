@@ -10,7 +10,11 @@
         -->
 
         <Receiver name="SoapEndpointRouter_VrijeBerichten">
-            <WebServiceListener name="SoapEndpointRouter_VrijeBerichten" address="${zaakbrug.soap.vrije-berichten.endpoint}" soap="false"/>
+            <WebServiceListener name="SoapEndpointRouter_VrijeBerichten" address="${zaakbrug.soap.translate.vrije-berichten.endpoint}" soap="false"/>
+        </Receiver>
+
+        <Receiver name="SoapEndpointRouter_VrijeBerichten_Java">
+            <JavaListener name="SoapEndpointRouter_VrijeBerichten"/>
         </Receiver>
 
         <Pipeline>

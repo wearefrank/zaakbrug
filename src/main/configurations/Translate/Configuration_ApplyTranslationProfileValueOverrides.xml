@@ -14,14 +14,13 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <SenderPipe
-                name="ResolveProfileValuesSender"
-                >
+            <SenderPipe name="ResolveProfileValuesSender">
                 <IbisLocalSender
-                    name="ResolveProfileValuesLocalSender"
-                    javaListener="ResolveProfileValues"
-                    returnedSessionKeys="Error"
-                />
+                        name="ResolveProfileValuesLocalSender"
+                        javaListener="ResolveProfileValues"
+                        returnedSessionKeys="Error">
+                    <Param name="profilesFile" value="${configurations.directory}/Translate/Profiles.json"/>
+                </IbisLocalSender>
                 <Forward name="success" path="ExtractValueOverridesFromTranslationProfile" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
