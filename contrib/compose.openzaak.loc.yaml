@@ -6,7 +6,7 @@ services:
       - open-zaak-backend
 
   open-zaak-db:
-    image: mdillon/postgis
+    image: postgis/postgis:14-3.5
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
@@ -19,7 +19,7 @@ services:
       - 5432
 
   open-zaak:
-    image: openzaak/open-zaak:1.10.3
+    image: openzaak/open-zaak:latest
     container_name: open-zaak.dev
     environment: &open-zaak-env
       - DJANGO_SETTINGS_MODULE=openzaak.conf.docker
@@ -29,6 +29,7 @@ services:
       - DB_USER=openzaak
       - DB_HOST=open-zaak-db
       - IS_HTTPS=no
+      - DISABLE_2FA=true
       - ALLOWED_HOSTS=*
       - CACHE_DEFAULT=open-zaak-redis:6379/0
       - CACHE_AXES=open-zaak-redis:6379/0
@@ -61,7 +62,7 @@ services:
       - open-zaak-redis
 
   open-zaak-celery:
-    image: openzaak/open-zaak:1.10.3
+    image: openzaak/open-zaak:latest
     environment: *open-zaak-env
     command: /celery_worker.sh
     volumes: *open-zaak-volumes
@@ -72,7 +73,7 @@ services:
       - open-zaak-redis
 
   open-zaak-celery-flower:
-    image: openzaak/open-zaak:1.10.3
+    image: openzaak/open-zaak:latest
     environment: *open-zaak-env
     command: /celery_flower.sh
     networks:
