@@ -25,7 +25,7 @@
                         name="ResolveProfileValuesLocalSender"
                         javaListener="ResolveProfileValues"
                         returnedSessionKeys="Error">
-                    <Param name="profilesFile" value="/opt/frank/resources/SoapRouteMapping.json"/>
+                    <Param name="profilesFile" value="SoapRouteMapping.json"/>
                 </IbisLocalSender>
                 <Forward name="success" path="ExtractRouteFromProfiles" />
                 <Forward name="exception" path="EXCEPTION" />
