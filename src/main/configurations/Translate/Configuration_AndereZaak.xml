@@ -27,13 +27,13 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe
+            <IfPipe
                 name="ZaakNotFound_Condition"
                 xpathExpression="string-length(ZgwZaken) = 0"
                 >
                 <Forward name="then" path="ZaakNotFound_Exception" />
                 <Forward name="else" path="GetSingleZgwAndereZaakFromZgwZakenList" />
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="ZaakNotFound_Exception"
@@ -58,12 +58,12 @@
                 <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
 
-            <XmlIfPipe name="CheckForGetZgwAndereZaakResult"
+            <IfPipe name="CheckForGetZgwAndereZaakResult"
                 xpathExpression="string-length(ZgwZaak) > 0"
                 >
                 <Forward name="then" path="CallGetZgwMainZaak"/>
                 <Forward name="else" path="EXIT"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe
                 name="CallGetZgwMainZaak"
@@ -79,12 +79,12 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForZgwMainZaakResult"
+            <IfPipe name="CheckForZgwMainZaakResult"
                 xpathExpression="string-length(/ZgwZaak) gt 0"
                 >
                 <Forward name="then" path="CheckVerwerkingssoortAttribute"/>
                 <Forward name="else" path="EXCEPTION"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <XmlSwitchPipe
                 name="CheckVerwerkingssoortAttribute"

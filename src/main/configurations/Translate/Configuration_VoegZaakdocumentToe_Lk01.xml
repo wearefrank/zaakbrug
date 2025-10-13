@@ -42,13 +42,13 @@
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
 
-            <XmlIfPipe
+            <IfPipe
                 name="ZaakNotFound_Condition"
                 xpathExpression="string-length(ZgwZaken) = 0"
                 >
                 <Forward name="then" path="ZaakNotFound_Exception" />
                 <Forward name="else" path="GetSingleZgwZaakFromZgwZakenList" />
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="ZaakNotFound_Exception"
@@ -110,7 +110,7 @@
                 <Forward name="exception" path="UncaughtException"/>
             </XsltPipe>
 
-            <XmlIfPipe 
+            <IfPipe 
                 name="GetZgwInformatieObjectTypeByOmschrijvingSender_OmschrijvingNotFoundCondition"
                 emptyInputReplacement="&lt;ZgwInformatieObjectType/&gt;"
                 xpathExpression="string-length(/ZgwInformatieObjectType) = 0"
@@ -118,7 +118,7 @@
                 <Forward name="then" path="GetZgwInformatieObjectTypeByOmschrijvingSender_OmschrijvingNotFoundException"/>
                 <Forward name="else" path="GetGlobalConfigFromLocalFS"/>
                 <Forward name="exception" path="UncaughtException"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe 
                 name="GetZgwInformatieObjectTypeByOmschrijvingSender_OmschrijvingNotFoundException"
@@ -290,12 +290,12 @@
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForZgwStatusTypeResult"
+            <IfPipe name="CheckForZgwStatusTypeResult"
                 xpathExpression="count(*/ZgwStatusType) = 1"
                 >
                 <Forward name="then" path="GetSingleZgwStatusTypeFromList"/>
                 <Forward name="else" path="EXIT"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="GetSingleZgwStatusTypeFromList"

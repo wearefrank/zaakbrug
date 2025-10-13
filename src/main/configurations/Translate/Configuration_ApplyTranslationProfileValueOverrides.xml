@@ -62,7 +62,7 @@
                 <Forward name="success" path="NoValueOverrides_Condition" />
             </XsltPipe>
 
-            <XmlIfPipe
+            <IfPipe
                 name="NoValueOverrides_Condition"
                 getInputFromSessionKey="originalMessage"
                 xpathExpression="count($valueOverrides/root/valueOverrides) = 0"
@@ -70,7 +70,7 @@
                 <Param name="valueOverrides" sessionKey="valueOverrides" type="DOMDOC" />
                 <Forward name="then" path="EXIT" />
                 <Forward name="else" path="ValueOverridesDepthFirstUnflatten" />
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="ValueOverridesDepthFirstUnflatten"

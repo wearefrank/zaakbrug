@@ -24,13 +24,13 @@
                 <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>
 
-            <XmlIfPipe
+            <IfPipe
                 name="ZgwRolMatchesExactlyOneZgwRolInList"
                 xpathExpression="count(/ZgwRollen/*) = 1"
                 >
                 <Forward name="then" path="exists" />
                 <Forward name="else" path="NOTFOUND" />
-            </XmlIfPipe>
+            </IfPipe>
         </Pipeline>
     </Adapter>
 </Module>

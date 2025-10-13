@@ -22,7 +22,7 @@
                 <Forward name="exception" path="EXCEPTION" />
             </PutInSessionPipe>
 
-            <XmlIfPipe 
+            <IfPipe 
                 name="Rsin_NotEmpty"
                 getInputFromSessionKey="Rsin"
                 xpathExpression="string-length(/RSIN) &gt; 0"
@@ -30,7 +30,7 @@
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="Rsin_NotEmpty_Exception"/>
                 <Forward name="exception" path="EXCEPTION"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe 
                 name="Rsin_NotEmpty_Exception"

@@ -21,4 +21,10 @@
 		</xsl:element>
 	</xsl:template>
 
+	<xsl:template match="//valueOverrides/key[contains(self::key, 'zgw.zaken-api.zaakobjecten.zaakobject')]">
+		<xsl:element name="key">
+			<xsl:value-of select="replace(current(), 'zgw.zaken-api.zaakobjecten.zaakobject', 'zgw.zaken-api.zaakobjecten.ZgwZaakobject')" />
+		</xsl:element>
+	</xsl:template>
+
 </xsl:stylesheet>

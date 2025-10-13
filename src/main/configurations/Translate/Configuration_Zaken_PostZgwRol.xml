@@ -34,7 +34,7 @@
                 skipEmptyTags="true"
                 styleSheetName="CreeerZaak_LK01/xsl/AddZaakUrl.xsl"
                 >
-                <Param name="ZaakUrl" sessionKey="ZaakUrl" />
+                <Param name="ZgwZaakUrl" sessionKey="ZaakUrl" />
                 <Forward name="success" path="PostZgwRol" />
             </XsltPipe>
 

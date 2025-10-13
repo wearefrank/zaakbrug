@@ -31,12 +31,12 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForGetZgwEnkelvoudigInformatieObjectResult"
+            <IfPipe name="CheckForGetZgwEnkelvoudigInformatieObjectResult"
                 xpathExpression="string-length(/ZgwEnkelvoudigInformatieObject) > 0"
                 >
                 <Forward name="then" path="CallGetZgwInformatieObjectTypeByUrl"/>
                 <Forward name="else" path="EXCEPTION"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe
                 name="CallGetZgwInformatieObjectTypeByUrl"
@@ -51,12 +51,12 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForGetZgwInformatieObjectTypeResult"
+            <IfPipe name="CheckForGetZgwInformatieObjectTypeResult"
                 xpathExpression="string-length(/ZgwInformatieObjectType) > 0"
                 >
                 <Forward name="then" path="CallGetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl"/>
                 <Forward name="else" path="EXCEPTION"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe
                 name="CallGetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl"
@@ -73,12 +73,12 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForGetZgwZaakInformatieObjectResult"
+            <IfPipe name="CheckForGetZgwZaakInformatieObjectResult"
                 xpathExpression="string-length(/ZgwZaakInformatieObject) > 0"
                 >
                 <Forward name="then" path="CallGetZaakByUrl"/>
                 <Forward name="else" path="EXCEPTION"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe
                 name="CallGetZaakByUrl"
@@ -95,12 +95,12 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForGetGetZaakResult"
+            <IfPipe name="CheckForGetGetZaakResult"
                 xpathExpression="string-length(/ZgwZaak) > 0"
                 >
                 <Forward name="then" path="CallGetBas64Inhoud"/>
                 <Forward name="else" path="EXCEPTION"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe
                 name="CallGetBas64Inhoud"

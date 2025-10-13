@@ -13,13 +13,13 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <XmlIfPipe name="CheckInputObjectCount"
+            <IfPipe name="CheckInputObjectCount"
                 getInputFromSessionKey="originalMessage"
                 xpathExpression="count(/zakLk01/object) = 2"
                 >
                 <Forward name="then" path="StoreObject_1"/>
                 <Forward name="else" path="StoreObject_2"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <PutInSessionPipe 
                 name="StoreObject_1">
@@ -58,13 +58,13 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe
+            <IfPipe
                 name="ZaakNotFound_Condition"
                 xpathExpression="string-length(ZgwZaken) = 0"
                 >
                 <Forward name="then" path="ZaakNotFound_Exception" />
                 <Forward name="else" path="CallGetZaakTypeByZaak" />
-            </XmlIfPipe>
+            </IfPipe>
 
             <XsltPipe
                 name="ZaakNotFound_Exception"
@@ -102,12 +102,12 @@
                 <Forward name="success" path="CheckForSetZgwZaakTypeResult"/>
             </XsltPipe>
 
-            <XmlIfPipe name="CheckForSetZgwZaakTypeResult"
+            <IfPipe name="CheckForSetZgwZaakTypeResult"
                 xpathExpression="count(ZgwZaakTypen/ZgwZaakType) = 1"
                 >
                 <Forward name="then" path="CallSetResultaatAndStatus"/>
                 <Forward name="else" path="EXCEPTION"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe
                 name="CallSetResultaatAndStatus"

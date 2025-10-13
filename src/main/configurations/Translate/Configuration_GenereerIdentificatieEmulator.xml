@@ -57,12 +57,12 @@
                 <Forward name="success" path="CheckForDBResult" />
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForDBResult"
+            <IfPipe name="CheckForDBResult"
                 xpathExpression="string-length(result/rowset/row[@number='0']) > 0"
             >
                 <Forward name="then" path="CreateNewId" />
                 <Forward name="else" path="InsertIdentificatie" />
-            </XmlIfPipe>
+            </IfPipe>
 
 
             <XsltPipe name="CreateNewId" styleSheetName="Common/xsl/CreateIdentication.xslt"

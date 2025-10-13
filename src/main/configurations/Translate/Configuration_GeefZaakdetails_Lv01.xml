@@ -35,13 +35,13 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
             
-            <XmlIfPipe
+            <IfPipe
                 name="ZaakNotFound_Condition"
                 xpathExpression="string-length(ZgwZaken) = 0"
                 >
                 <Forward name="then" path="EXIT" />
                 <Forward name="else" path="GetSingleZgwZaakFromZgwZakenList" />
-            </XmlIfPipe>
+            </IfPipe>
         
             <XsltPipe
                 name="GetSingleZgwZaakFromZgwZakenList"
@@ -82,13 +82,13 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForGerelateerdeIdentificatie"
+            <IfPipe name="CheckForGerelateerdeIdentificatie"
                 getInputFromSessionKey="originalMessage"
                 xpathExpression="starts-with(/zakLv01/gelijk/heeftAlsInitiator/gerelateerde/identificatie, '11')"
                 >
                 <Forward name="then" path="CallGetRollenByBsn"/>
                 <Forward name="else" path="EXCEPTION"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <SenderPipe
                 name="CallGetRollenByBsn"

@@ -26,19 +26,19 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <XmlIfPipe name="CheckForGetZgwEnkelvoudigInformatieObjectResult"
+            <IfPipe name="CheckForGetZgwEnkelvoudigInformatieObjectResult"
                 xpathExpression="string-length(ZgwEnkelvoudigInformatieObject) = 0"
                 >
                 <Forward name="then" path="EXCEPTION"/>
                 <Forward name="else" path="CheckForLock"/>
-            </XmlIfPipe>
+            </IfPipe>
 
-            <XmlIfPipe name="CheckForLock"
+            <IfPipe name="CheckForLock"
                 xpathExpression="/ZgwEnkelvoudigInformatieObject/locked = 'true'"
                 >
                 <Forward name="then" path="EXCEPTION"/>
                 <Forward name="else" path="StoreZgwLockUrl"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <PutInSessionPipe 
                 name="StoreZgwLockUrl">

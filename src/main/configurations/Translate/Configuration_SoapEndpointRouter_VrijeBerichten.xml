@@ -42,13 +42,13 @@
                 Only in this scenario "ref_inhoud" will be the OLD base64 and "ref_inhoud2" will be the NEW base64. We are only interested in the NEW base64,
                 so we are overwriting the "ref_inhoud" sessionkey with the content of "ref_inhoud2" and replace "{sessionKey:ref_inhoud2} with "{sessionKey:ref_inhoud}".
             -->
-            <XmlIfPipe name="CheckInputDocumentObjectCount"
+            <IfPipe name="CheckInputDocumentObjectCount"
                 xpathExpression="count(//*:inhoud) = 2"
                 preserveInput="true"
                 >
                 <Forward name="then" path="OverwriteRefInhoudWithRefInhoud2"/>
                 <Forward name="else" path="ReplaceInhoudRefWithBase64EncodedRef"/>
-            </XmlIfPipe>
+            </IfPipe>
 
             <PutInSessionPipe
                 name="OverwriteRefInhoudWithRefInhoud2"
@@ -125,10 +125,10 @@
                 <Forward name="exception" path="BackEndError"/>
             </XsltPipe>
 
-            <XmlIfPipe name="checkObjectCount" xpathExpression="count(/*/edcLk02/object)=2">
+            <IfPipe name="checkObjectCount" xpathExpression="count(/*/edcLk02/object)=2">
                 <Forward name="then" path="StoreZdsWordtInformatieObject1" />
                 <Forward name="else" path="StoreZdsWordtInformatieObject2" />
-            </XmlIfPipe>
+            </IfPipe>
 
             <PutInSessionPipe name="StoreZdsWordtInformatieObject1">
                 <Param name="ZdsWordtInformatieObject" xpathExpression="/*/edcLk02/object[2]" defaultValue="&lt;object/&gt;" type="DOMDOC" />

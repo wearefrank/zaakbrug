@@ -71,7 +71,7 @@
             <XmlSwitchPipe 
                 name="DetectRolChanges" 
                 getInputFromSessionKey="originalMessage"
-                styleSheetName="UpdateZaak_LK01/xsl/DetectRolChanges.xslt"
+                styleSheetName="UpdateZaak_LK01/xsl/CheckVerwerkingssoortAttribute.xslt"
                 >
                 <Forward name="New" path="CheckZgwRolNew" />
                 <Forward name="Delete" path="CallDeleteRolFromZgw" />

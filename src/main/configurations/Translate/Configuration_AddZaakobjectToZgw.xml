@@ -1,0 +1,125 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="AddZaakobjectToZgw"
+    active="${AddZaakobjectToZgw.Active}"
+    description="">
+    
+    <Receiver name="AddZaakobjectToZgw">
+        <JavaListener name="AddZaakobjectToZgw" returnedSessionKeys="Error"/>
+    </Receiver>
+    
+    <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <XmlSwitchPipe
+                name="CheckZdsObjectTypeOfHeeftBetrekkingOp"
+                xpathExpression="/*:heeftBetrekkingOp/*:gerelateerde/*[1]/@*:entiteittype"
+                notFoundForwardName="unimplemented">
+                <Forward name="AOA" path="MapObjectTypeAdresIdentification"/> <!-- objectType: adres -->
+                <Forward name="MDW" path="LogWarningNotImplementedObjectType"/> <!-- objectType: medewerker -->
+                <Forward name="NPS" path="LogWarningNotImplementedObjectType"/> <!-- objectType: natuurlijkPersoon -->
+                <Forward name="NNP" path="LogWarningNotImplementedObjectType"/> <!-- objectType: nietNatuurlijkPersoon -->
+                <Forward name="VES" path="LogWarningNotImplementedObjectType"/> <!-- objectType: vestiging -->
+                <Forward name="OEH"  path="LogWarningNotImplementedObjectType"/> <!-- objectType: organisatorischeEenheid -->
+                <Forward name="unimplemented" path="ResultWithObjectTypeErrorMessage"/>
+            </XmlSwitchPipe>
+
+            <XsltPipe
+                name="MapObjectTypeAdresIdentification"
+                getInputFromSessionKey="originalMessage"
+                styleSheetName="Common/xsl/MapObjectTypeAdresIdentification.xslt"
+                storeResultInSessionKey="ObjectTypeAdresIdentificatie">
+                <Forward name="success" path="ValidateObjectTypeAdresIdentification"/>
+            </XsltPipe>
+
+            <XmlValidatorPipe
+                name="ValidateObjectTypeAdresIdentification"
+                schema="CreeerZaak_LK01/xsd/ZgwZaakobjectAdresIdentification.xsd"
+                root="objectIdentificatie"
+                throwException="true">
+                <Forward name="success" path="MapZaakobjectFromHeeftBetrekkingOp"/>
+                <Forward name="exception" path="ResultWithMissingFieldsErrorMessage"/>
+            </XmlValidatorPipe>
+
+            <XsltPipe
+                name="MapZaakobjectFromHeeftBetrekkingOp"
+                getInputFromSessionKey="originalMessage"
+                styleSheetName="Common/xsl/MapZaakobjectFromHeeftBetrekkingOp.xslt">
+                <Param name="ZaakobjectIdentificatie" sessionKey="ObjectTypeAdresIdentificatie" type="DOMDOC"/>
+                <Forward name="success" path="ZaakobjectBodyApplyValueOverridesFromTranslationProfileSender"/>
+            </XsltPipe>
+
+            <SenderPipe
+                name="ZaakobjectBodyApplyValueOverridesFromTranslationProfileSender">
+                <IbisLocalSender
+                    name="ZaakobjectBodyApplyValueOverridesFromTranslationProfileLocalSender"
+                    javaListener="ApplyTranslationProfileValueOverrides"
+                    returnedSessionKeys="Error">
+                </IbisLocalSender>
+                <Param name="zaaktype" sessionKey="ZaakType" />
+                <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaakobjecten.ZgwZaakobject" />
+                <Param name="CurrentContext" sessionKey="originalMessage" type="DOMDOC" />
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="UncaughtException" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="LogWarningNotImplementedObjectType">
+                <LogSender
+                    name="LogWarningNotImplementedObjectTypeSender"/>
+                <Forward name="success" path="EmptyResult" />
+            </SenderPipe>
+
+            <ReplacerPipe
+                name="EmptyResult"
+                getInputFromFixedValue="emptyInput"
+                find="emptyInput"
+                replace="">
+                <Forward name="success" path="EXIT"/>
+            </ReplacerPipe>
+
+            <XsltPipe
+                name="ResultWithMissingFieldsErrorMessage"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Some mandatory fields in 'adres' objectType are missing. The fields:  identificatie, wpl.woonplaatsNaam, gor.openbareRuimteNaam, huisnummer must be provided." ignoreUnresolvablePatternElements="true" />
+                <Param name="detailsXml" sessionKey="originalMessage" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <XsltPipe
+                name="ResultWithObjectTypeErrorMessage"
+                getInputFromSessionKey="originalMessage"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="ObjectType" sessionKey="originalMessage" xpathExpression="name(/*:heeftBetrekkingOp/*:gerelateerde/*[1])"/>
+                <Param name="reason" pattern="ObjectType: {ObjectType} has not been implemented yet." ignoreUnresolvablePatternElements="true"/>
+                <Param name="detailsXml" sessionKey="originalMessage" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <XsltPipe
+                name="UncaughtException"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Uncaught exception" />
+                <!-- <Param name="details" sessionKey="" /> -->
+                <Param name="detailsXml" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

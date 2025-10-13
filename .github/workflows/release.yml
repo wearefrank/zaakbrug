@@ -120,7 +120,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   docker-release:
-    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@692c637ef4f5519d986d69e443997ab80fed8deb #2.0.2
+    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@791982d73eea13b903eb3bac672915e1337d14a0 #2.0.8
     needs: 
     - analyze-commits
     - release
@@ -130,7 +130,7 @@ jobs:
       registry-token: ${{ secrets.DOCKERHUB_TOKEN }}
     with:
       version: ${{ needs.analyze-commits.outputs.version-next }}
-      registry-prefix: 'docker.io/'
+      registry-prefix: 'docker.io'
 
   update-helm:
     uses: ./.github/workflows/update-helm-chart.yml
