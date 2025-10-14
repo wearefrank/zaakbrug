@@ -6,7 +6,7 @@ services:
       - open-zaak-backend
 
   open-zaak-db:
-    image: postgis/postgis:14-3.5
+    image: postgis/postgis:17-3.5
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
