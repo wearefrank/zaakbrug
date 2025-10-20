@@ -1,0 +1,32 @@
+# IMPORTANT: When using any workflow trigger that is triggered in some way by another workflow, extra care must be taken with tokens.
+# The workflow **MUST** always use the token that is passed down from the triggering workflow. This is to prevent intentionally
+# permissionless workflow runs to gain permissions indirectly via the triggered workflow. 
+#
+# For example: When an external party creates a PR via a fork, the CI workflow would run with a permissionless token to prevent a
+# malicious party to execute any code they want via the PR changes. If the triggered workflow uses a token with permissions,
+# the malicious code would then have access to this token anyways once the triggered workflow runs. Not using the token passed down
+# from the triggering workflow is comparable to just handing a token with near full permission to a malicious party. **ALWAYS**
+# use `${{ github.token }}` and limit permissions to the bare minimum required with the `permissions` section of a job.
+#
+name: Post-run Cleanup 
+
+on:
+  workflow_run:
+    workflows: [Continuous Integration, Release]
+    types:
+      - completed
+
+jobs:
+  delete-artifacts:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Delete Artifacts
+        # https://github.com/wearefrank/ci-cd-templates/blob/main/delete-workflow-artifacts/README.md
+        uses: wearefrank/ci-cd-templates/delete-workflow-artifacts@837393940996acef9b2620b3815a1dcf2a1d09e0 # v2.1.0
+        with:
+          token: ${{ github.token }}
+          artifact-names: 'pre-build-*, build-*'
+          workflow-run-id: ${{ github.event.workflow_run.id }}
