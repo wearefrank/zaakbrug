@@ -17,7 +17,7 @@
             <SenderPipe name="ResolveProfileValuesSender">
                 <IbisLocalSender
                         name="ResolveProfileValuesLocalSender"
-                        javaListener="ResolveProfileValues"
+                        javaListener="ResolveProfileValuesSingleFile"
                         returnedSessionKeys="Error">
                     <Param name="profilesFile" value="${configurations.directory}/Translate/Profiles.json"/>
                 </IbisLocalSender>

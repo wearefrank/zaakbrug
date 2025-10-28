@@ -19,9 +19,10 @@
                 >
                 <IbisLocalSender
                     name="ResolveProfileValuesLocalSender"
-                    javaListener="ResolveProfileValues"
-                    returnedSessionKeys="Error"
-                />
+                    javaListener="ResolveProfileValuesSingleFile"
+                    returnedSessionKeys="Error">
+                    <Param name="profilesFile" value="${configurations.directory}/Translate/Profiles.json"/>
+                </IbisLocalSender>
                 <Forward name="success" path="ExtractValueOverridesFromTranslationProfile" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

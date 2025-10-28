@@ -23,9 +23,10 @@
             <SenderPipe name="ResolveProfileValuesSender">
                 <IbisLocalSender
                         name="ResolveProfileValuesLocalSender"
-                        javaListener="ResolveProfileValues"
+                        javaListener="ResolveProfileValuesSeparateFiles"
                         returnedSessionKeys="Error">
-                    <Param name="profilesFile" value="SoapRouteMapping.json"/>
+                    <Param name="profilesFile" value="SoapRouteProfiles.json"/>
+                    <Param name="profileDefaultsFile" value="SoapRouteProfileDefaults.json"/>
                 </IbisLocalSender>
                 <Forward name="success" path="ExtractRouteFromProfiles" />
                 <Forward name="exception" path="EXCEPTION" />
