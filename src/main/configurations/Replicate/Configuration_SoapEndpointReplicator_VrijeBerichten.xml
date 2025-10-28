@@ -7,6 +7,10 @@
             <WebServiceListener name="SoapEndpointReplicator_VrijeBerichten" address="${zaakbrug.soap.replicate.vrije-berichten.endpoint}" soap="false"/>
         </Receiver>
 
+        <Receiver name="SoapEndpointReplicator_VrijeBerichten_Java">
+            <JavaListener name="${zaakbrug.java.replicate.vrije-berichten.endpoint}"/>
+        </Receiver>
+
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -14,16 +18,16 @@
             </Exits>
 
             <SenderPipe
-                    name="SendToRouter"
+                    name="SendToTranslate"
                     preserveInput="true"
-                    storeResultInSessionKey="EndpointRouterResponse">
-<!--                <FrankSender-->
-<!--                        name="SendToRouterSender"-->
-<!--                        target="Translate/SoapEndpointRouter_VrijeBerichten"-->
-<!--                        returnedSessionKeys="SOAPAction, exitState"/>-->
+                    storeResultInSessionKey="TranslateResponse">
+                <!--                <FrankSender-->
+                <!--                        name="SendToRouterSender"-->
+                <!--                        target="Translate/SoapEndpointRouter_VrijeBerichten"-->
+                <!--                        returnedSessionKeys="SOAPAction, exitState"/>-->
                 <IbisLocalSender
-                        name="SendToRouterSender"
-                        javaListener="SoapEndpointRouter_VrijeBerichten"
+                        name="SendToTranslateSender"
+                        javaListener="${zaakbrug.java.translate.vrije-berichten.endpoint}"
                         returnedSessionKeys="exitState">
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
                 </IbisLocalSender>
@@ -37,17 +41,17 @@
             </IfPipe>
 
             <SenderPipe name="SendToProxy">
-<!--                <FrankSender name="SendToProxySender" target="Proxy/SoapEndpointProxy_VrijeBerichten" synchronous="false">-->
-<!--                    <Param name="SOAPAction" sessionKey="SOAPAction"/>-->
-<!--                </FrankSender>-->
-                <IbisLocalSender name="SendToProxySender" javaListener="SoapEndpointProxy_VrijeBerichten" synchronous="false">
+                <!--                <FrankSender name="SendToProxySender" target="Proxy/SoapEndpointProxy_VrijeBerichten" synchronous="false">-->
+                <!--                    <Param name="SOAPAction" sessionKey="SOAPAction"/>-->
+                <!--                </FrankSender>-->
+                <IbisLocalSender name="SendToProxySender" javaListener="${zaakbrug.java.proxy.vrije-berichten.endpoint}" synchronous="false">
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
                 </IbisLocalSender>
             </SenderPipe>
 
-            <EchoPipe name="EchoEndpointRouterResponse" getInputFromSessionKey="EndpointRouterResponse"/>
+            <EchoPipe name="EchoTranslateResponse" getInputFromSessionKey="TranslateResponse"/>
 
-            <IfPipe name="IfEndpointRouterSuccess" getInputFromSessionKey="exitState" expressionValue="SUCCESS" preserveInput="true">
+            <IfPipe name="IfTranslateSuccess" getInputFromSessionKey="exitState" expressionValue="SUCCESS">
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="EXCEPTION"/>
             </IfPipe>

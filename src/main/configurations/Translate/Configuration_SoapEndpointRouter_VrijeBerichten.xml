@@ -14,7 +14,7 @@
         </Receiver>
 
         <Receiver name="SoapEndpointRouter_VrijeBerichten_Java">
-            <JavaListener name="SoapEndpointRouter_VrijeBerichten"/>
+            <JavaListener name="${zaakbrug.java.translate.vrije-berichten.endpoint}"/>
         </Receiver>
 
         <Pipeline>

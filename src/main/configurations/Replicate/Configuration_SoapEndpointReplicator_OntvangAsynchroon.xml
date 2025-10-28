@@ -7,6 +7,10 @@
             <WebServiceListener name="SoapEndpointReplicator_OntvangAsynchroon" address="${zaakbrug.soap.replicate.ontvang-asynchroon.endpoint}" soap="false"/>
         </Receiver>
 
+        <Receiver name="SoapEndpointReplicator_OntvangAsynchroon_Java">
+            <JavaListener name="${zaakbrug.java.replicate.ontvang-asynchroon.endpoint}"/>
+        </Receiver>
+
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -14,16 +18,16 @@
             </Exits>
 
             <SenderPipe
-                    name="SendToRouter"
+                    name="SendToTranslate"
                     preserveInput="true"
-                    storeResultInSessionKey="EndpointRouterResponse">
-<!--                <FrankSender-->
-<!--                        name="SendToRouterSender"-->
-<!--                        target="Translate/SoapEndpointRouter_OntvangAsynchroon"-->
-<!--                        returnedSessionKeys="SOAPAction, exitState"/>-->
+                    storeResultInSessionKey="TranslateResponse">
+                <!--                <FrankSender-->
+                <!--                        name="SendToRouterSender"-->
+                <!--                        target="Translate/SoapEndpointRouter_OntvangAsynchroon"-->
+                <!--                        returnedSessionKeys="SOAPAction, exitState"/>-->
                 <IbisLocalSender
-                        name="SendToRouterSender"
-                        javaListener="SoapEndpointRouter_OntvangAsynchroon"
+                        name="SendToTranslateSender"
+                        javaListener="${zaakbrug.java.translate.ontvang-asynchroon.endpoint}"
                         returnedSessionKeys="exitState">
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
                 </IbisLocalSender>
@@ -37,17 +41,17 @@
             </IfPipe>
 
             <SenderPipe name="SendToProxy">
-<!--                <FrankSender name="SendToProxySender" target="Proxy/SoapEndpointProxy_OntvangAsynchroon" synchronous="false">-->
-<!--                    <Param name="SOAPAction" sessionKey="SOAPAction"/>-->
-<!--                </FrankSender>-->
-                <IbisLocalSender name="SendToProxySender" javaListener="SoapEndpointProxy_OntvangAsynchroon" synchronous="false">
+                <!--                <FrankSender name="SendToProxySender" target="Proxy/SoapEndpointProxy_OntvangAsynchroon" synchronous="false">-->
+                <!--                    <Param name="SOAPAction" sessionKey="SOAPAction"/>-->
+                <!--                </FrankSender>-->
+                <IbisLocalSender name="SendToProxySender" javaListener="${zaakbrug.java.proxy.ontvang-asynchroon.endpoint}" synchronous="false">
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
                 </IbisLocalSender>
             </SenderPipe>
 
-            <EchoPipe name="EchoEndpointRouterResponse" getInputFromSessionKey="EndpointRouterResponse"/>
+            <EchoPipe name="EchoTranslateResponse" getInputFromSessionKey="TranslateResponse"/>
 
-            <IfPipe name="IfEndpointRouterSuccess" getInputFromSessionKey="exitState" expressionValue="SUCCESS">
+            <IfPipe name="IfTranslateSuccess" getInputFromSessionKey="exitState" expressionValue="SUCCESS">
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="EXCEPTION"/>
             </IfPipe>

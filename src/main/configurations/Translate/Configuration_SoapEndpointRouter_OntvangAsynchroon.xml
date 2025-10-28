@@ -14,7 +14,7 @@
         </Receiver>
 
         <Receiver name="SoapEndpointRouter_OntvangAsynchroon_Java">
-            <JavaListener name="SoapEndpointRouter_OntvangAsynchroon"/>
+            <JavaListener name="${zaakbrug.java.translate.ontvang-asynchroon.endpoint}"/>
         </Receiver>
 
         <Pipeline>

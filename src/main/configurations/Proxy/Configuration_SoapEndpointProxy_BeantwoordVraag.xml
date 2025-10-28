@@ -8,7 +8,7 @@
         </Receiver>
 
         <Receiver name="SoapEndpointProxy_BeantwoordVraag_Java">
-            <JavaListener name="SoapEndpointProxy_BeantwoordVraag"/>
+            <JavaListener name="${zaakbrug.java.proxy.beantwoord-vraag.endpoint}"/>
         </Receiver>
 
         <Pipeline>

@@ -8,7 +8,7 @@
         </Receiver>
 
         <Receiver name="SoapEndpointProxy_OntvangAsynchroon_Java">
-            <JavaListener name="SoapEndpointProxy_OntvangAsynchroon"/>
+            <JavaListener name="${zaakbrug.java.proxy.ontvang-asynchroon.endpoint}"/>
         </Receiver>
 
         <Pipeline>

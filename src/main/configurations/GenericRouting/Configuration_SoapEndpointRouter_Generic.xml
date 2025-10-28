@@ -42,7 +42,7 @@
 
             <ReplacerPipe
                     name="GetUrl"
-                    getInputFromFixedValue="^{zaakbrug.soap.?{route}.endpoint}"
+                    getInputFromFixedValue="^{zaakbrug.java.?{route}.endpoint}"
                     find="^"
                     replace="$"
                     substituteVars="true"
@@ -51,17 +51,11 @@
             </ReplacerPipe>
 
             <SenderPipe name="SendToPipeline" getInputFromSessionKey="originalMessage">
-                <WebServiceSender
+                <IbisLocalSender
                         name="SendToPipelineSender"
-                        soap="false"
-                        soapActionParam="SOAPAction"
-                        urlParam="url"
-                        timeout="${zaakbrug.soap.router.generic.timeout}">
-                    <Param name="url" pattern="http://localhost:8080/services/{uri}">
-                        <Param name="uri" sessionKey="uri"/>
-                    </Param>
+                        javaListenerSessionKey="route">
                     <Param name="SOAPAction" sessionKey="SOAPAction" />
-                </WebServiceSender>
+                </IbisLocalSender>
                 <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

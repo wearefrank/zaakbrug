@@ -7,6 +7,10 @@
             <WebServiceListener name="SoapEndpointReplicator_BeantwoordVraag" address="${zaakbrug.soap.replicate.beantwoord-vraag.endpoint}" soap="false"/>
         </Receiver>
 
+        <Receiver name="SoapEndpointReplicator_BeantwoordVraag_Java">
+            <JavaListener name="${zaakbrug.java.replicate.beantwoord-vraag.endpoint}"/>
+        </Receiver>
+
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -14,16 +18,16 @@
             </Exits>
 
             <SenderPipe
-                    name="SendToRouter"
+                    name="SendToTranslate"
                     preserveInput="true"
-                    storeResultInSessionKey="EndpointRouterResponse">
+                    storeResultInSessionKey="TranslateResponse">
 <!--                <FrankSender-->
 <!--                        name="SendToRouterSender"-->
 <!--                        target="Translate/SoapEndpointRouter_BeantwoordVraag"-->
 <!--                        returnedSessionKeys="SOAPAction, exitState"/>-->
                 <IbisLocalSender
-                        name="SendToRouterSender"
-                        javaListener="SoapEndpointRouter_BeantwoordVraag"
+                        name="SendToTranslateSender"
+                        javaListener="${zaakbrug.java.translate.beantwoord-vraag.endpoint}"
                         returnedSessionKeys="exitState">
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
                 </IbisLocalSender>
@@ -40,14 +44,14 @@
 <!--                <FrankSender name="SendToProxySender" target="Proxy/SoapEndpointProxy_BeantwoordVraag" synchronous="false">-->
 <!--                    <Param name="SOAPAction" sessionKey="SOAPAction"/>-->
 <!--                </FrankSender>-->
-                <IbisLocalSender name="SendToProxySender" javaListener="SoapEndpointProxy_BeantwoordVraag" synchronous="false">
+                <IbisLocalSender name="SendToProxySender" javaListener="${zaakbrug.java.proxy.beantwoord-vraag.endpoint}" synchronous="false">
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
                 </IbisLocalSender>
             </SenderPipe>
 
-            <EchoPipe name="EchoEndpointRouterResponse" getInputFromSessionKey="EndpointRouterResponse"/>
+            <EchoPipe name="EchoTranslateResponse" getInputFromSessionKey="TranslateResponse"/>
 
-            <IfPipe name="IfEndpointRouterSuccess" getInputFromSessionKey="exitState" expressionValue="SUCCESS">
+            <IfPipe name="IfTranslateSuccess" getInputFromSessionKey="exitState" expressionValue="SUCCESS">
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="EXCEPTION"/>
             </IfPipe>
