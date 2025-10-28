@@ -143,11 +143,17 @@
         </Pipeline>
     </Adapter>
 
-    <Adapter name="MergeProfilesWithDefaults">
+    <Adapter name="MergeProfilesWithDefaults"
+             active="${MergeProfilesWithDefaults.Active}">
         <Receiver>
             <JavaListener name="MergeProfilesWithDefaults"/>
         </Receiver>
         <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="EXCEPTION" state="ERROR" />
+            </Exits>
+
             <!--    This is a workaround for https://github.com/frankframework/frankframework/issues/9023 because J2V8 engine having no arm64 support
                     and the GRAALJS engine has an issue with encoding of the input message. -->
             <PutInSessionPipe
