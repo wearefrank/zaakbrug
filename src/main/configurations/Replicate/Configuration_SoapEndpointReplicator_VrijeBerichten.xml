@@ -24,7 +24,9 @@
                 <IbisLocalSender
                         name="SendToRouterSender"
                         javaListener="SoapEndpointRouter_VrijeBerichten"
-                        returnedSessionKeys="SOAPAction, exitState"/>
+                        returnedSessionKeys="exitState">
+                    <Param name="SOAPAction" sessionKey="SOAPAction"/>
+                </IbisLocalSender>
                 <Forward name="success" path="SendToProxy" />
                 <Forward name="exception" path="CheckIfShouldSendToProxyAnyways" />
             </SenderPipe>
@@ -45,7 +47,7 @@
 
             <EchoPipe name="EchoEndpointRouterResponse" getInputFromSessionKey="EndpointRouterResponse"/>
 
-            <IfPipe name="IfEndpointRouterSuccess" getInputFromSessionKey="exitState" expressionValue="SUCCESS">
+            <IfPipe name="IfEndpointRouterSuccess" getInputFromSessionKey="exitState" expressionValue="SUCCESS" preserveInput="true">
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="EXCEPTION"/>
             </IfPipe>

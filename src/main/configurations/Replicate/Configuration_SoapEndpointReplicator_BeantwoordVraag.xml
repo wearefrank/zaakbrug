@@ -24,7 +24,9 @@
                 <IbisLocalSender
                         name="SendToRouterSender"
                         javaListener="SoapEndpointRouter_BeantwoordVraag"
-                        returnedSessionKeys="SOAPAction, exitState"/>
+                        returnedSessionKeys="exitState">
+                    <Param name="SOAPAction" sessionKey="SOAPAction"/>
+                </IbisLocalSender>
                 <Forward name="success" path="SendToProxy" />
                 <Forward name="exception" path="CheckIfShouldSendToProxyAnyways" />
             </SenderPipe>
