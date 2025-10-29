@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Public FrankDoc XSD, should be used within an IDE to validate a configuration. -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="9.4.0-20251024.042332">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="9.3.0">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>Container of Adapters that belong together.
@@ -218,7 +218,6 @@
       <xs:element name="Receiver" minOccurs="1" maxOccurs="unbounded" type="ReceiverType" />
       <xs:group ref="ErrorMessageFormatterElementGroup" minOccurs="0" maxOccurs="1" />
       <xs:element name="Pipeline" minOccurs="1" maxOccurs="1" type="PipelineType" />
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
     </xs:sequence>
     <xs:attribute name="name" type="xs:string" use="required">
       <xs:annotation>
@@ -330,7 +329,6 @@
       <xs:group ref="SenderElementGroup" minOccurs="0" maxOccurs="1" />
       <xs:group ref="ErrorStorageElementGroup" minOccurs="0" maxOccurs="1" />
       <xs:group ref="MessageLogElementGroup" minOccurs="0" maxOccurs="1" />
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
     </xs:sequence>
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
@@ -557,7 +555,6 @@
       <xs:element name="Locker" minOccurs="0" maxOccurs="1" type="LockerType" />
       <xs:group ref="CacheElementGroup" minOccurs="0" maxOccurs="1" />
       <xs:group ref="PipeElementGroup" minOccurs="1" maxOccurs="unbounded" />
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
     </xs:sequence>
     <xs:attribute name="firstPipe" type="xs:string">
       <xs:annotation>
@@ -658,9 +655,6 @@
 	COMMIT;
   &lt;/pre&gt;</xs:documentation>
     </xs:annotation>
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-    </xs:sequence>
     <xs:attribute name="objectId" type="xs:string" use="required">
       <xs:annotation>
         <xs:documentation>Identifier for this lock</xs:documentation>
@@ -1098,7 +1092,6 @@
     </xs:annotation>
     <xs:sequence>
       <xs:group ref="TriggerElementGroup" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
     </xs:sequence>
     <xs:attribute name="destinations" type="xs:string" />
     <xs:attribute name="name" type="xs:string" use="required">
@@ -1166,7 +1159,6 @@
       <xs:element name="Monitoring" minOccurs="0" maxOccurs="1" type="MonitoringType" />
       <xs:element name="SharedResources" minOccurs="0" maxOccurs="1" type="SharedResourcesType" />
       <xs:group ref="ErrorMessageFormatterElementGroup" minOccurs="0" maxOccurs="1" />
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
     </xs:sequence>
   </xs:group>
   <xs:group name="ListenerElementGroup">
@@ -1175,7 +1167,6 @@
         <xs:complexType>
           <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-              <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
               <xs:group ref="ParamElementGroup" />
             </xs:choice>
           </xs:sequence>
@@ -1308,7 +1299,6 @@
   <xs:group name="AbstractParameterDeclaredChildGroup">
     <xs:sequence>
       <xs:group ref="ParamElementGroup" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
     </xs:sequence>
   </xs:group>
   <xs:attributeGroup name="AbstractParameterDeclaredAttributeGroup">
@@ -1333,8 +1323,7 @@
     </xs:attribute>
     <xs:attribute name="contextKey" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Key of org.frankframework.stream.MessageContext variable to use as source, instead of the Message found from input message or sessionKey itself. Use a &lt;pre&gt;*&lt;/pre&gt;
- to get an XML or JSON document containing all values from the org.frankframework.stream.MessageContext.</xs:documentation>
+        <xs:documentation>key of message context variable to use as source, instead of the message found from input message or sessionKey itself</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="sessionKeyXPath" type="xs:string">
@@ -1407,7 +1396,6 @@
  &lt;li&gt;{hostname}: the name of the machine the application runs on&lt;/li&gt;
  &lt;li&gt;{username}: username from the credentials found using authAlias, or the username attribute&lt;/li&gt;
  &lt;li&gt;{password}: password from the credentials found using authAlias, or the password attribute&lt;/li&gt;
- &lt;li&gt;{principal}: Name of the current principal, similar to the org.frankframework.pipes.GetPrincipalPipe.&lt;/li&gt;
  &lt;li&gt;{fixeddate}: fake date, for testing only&lt;/li&gt;
  &lt;li&gt;{fixeduid}: fake uid, for testing only&lt;/li&gt;
  &lt;li&gt;{fixedhostname}: fake hostname, for testing only&lt;/li&gt;
@@ -2385,15 +2373,9 @@
     </xs:choice>
   </xs:group>
   <xs:complexType name="AmqpListenerType">
-    <xs:group ref="AmqpListenerDeclaredChildGroup" />
     <xs:attributeGroup ref="AmqpListenerDeclaredAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.messaging.amqp.AmqpListener" use="prohibited" />
   </xs:complexType>
-  <xs:group name="AmqpListenerDeclaredChildGroup">
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-    </xs:sequence>
-  </xs:group>
   <xs:attributeGroup name="AmqpListenerDeclaredAttributeGroup">
     <xs:attribute name="connectionName" type="xs:string" use="required">
       <xs:annotation>
@@ -2476,7 +2458,6 @@
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
   <xs:complexType name="ApiListenerType">
-    <xs:group ref="PushingListenerAdapterDeclaredChildGroup" />
     <xs:attributeGroup ref="ApiListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.http.rest.ApiListener" use="prohibited" />
   </xs:complexType>
@@ -2685,15 +2666,9 @@
     <xs:attributeGroup ref="PushingListenerAdapterDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="PushingListenerAdapterType">
-    <xs:group ref="PushingListenerAdapterDeclaredChildGroup" />
     <xs:attributeGroup ref="PushingListenerAdapterDeclaredAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.http.PushingListenerAdapter" use="prohibited" />
   </xs:complexType>
-  <xs:group name="PushingListenerAdapterDeclaredChildGroup">
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-    </xs:sequence>
-  </xs:group>
   <xs:attributeGroup name="PushingListenerAdapterDeclaredAttributeGroup">
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
@@ -2718,7 +2693,6 @@
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
   <xs:complexType name="CmisEventListenerType">
-    <xs:group ref="PushingListenerAdapterDeclaredChildGroup" />
     <xs:attributeGroup ref="CmisEventListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.cmis.CmisEventListener" use="prohibited" />
   </xs:complexType>
@@ -2730,7 +2704,6 @@
     <xs:attributeGroup ref="PushingListenerAdapterDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="DirectoryListenerType">
-    <xs:group ref="AbstractFileSystemListenerDeclaredChildGroup" />
     <xs:attributeGroup ref="DirectoryListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.receivers.DirectoryListener" use="prohibited" />
   </xs:complexType>
@@ -2753,11 +2726,6 @@
     <xs:attributeGroup ref="DirectoryListenerDeclaredAttributeGroup" />
     <xs:attributeGroup ref="AbstractFileSystemListenerDeclaredAttributeGroup" />
   </xs:attributeGroup>
-  <xs:group name="AbstractFileSystemListenerDeclaredChildGroup">
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-    </xs:sequence>
-  </xs:group>
   <xs:attributeGroup name="AbstractFileSystemListenerDeclaredAttributeGroup">
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
@@ -2863,7 +2831,7 @@
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
   <xs:complexType name="EsbJmsListenerType">
-    <xs:group ref="AbstractJmsListenerCumulativeChildGroup" />
+    <xs:group ref="AbstractJmsListenerDeclaredChildGroup" />
     <xs:attributeGroup ref="EsbJmsListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.esb.EsbJmsListener" use="prohibited" />
   </xs:complexType>
@@ -2955,12 +2923,6 @@
       <xs:group ref="ParamElementGroup" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:group>
-  <xs:group name="AbstractJmsListenerCumulativeChildGroup">
-    <xs:sequence>
-      <xs:group ref="AbstractJmsListenerDeclaredChildGroup" />
-      <xs:group ref="JMSFacadeDeclaredChildGroup" />
-    </xs:sequence>
-  </xs:group>
   <xs:attributeGroup name="AbstractJmsListenerDeclaredAttributeGroup">
     <xs:attribute name="forceMessageIdAsCorrelationId" type="frankBoolean">
       <xs:annotation>
@@ -2998,15 +2960,9 @@
     <xs:attributeGroup ref="JMSFacadeCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="JMSFacadeType">
-    <xs:group ref="JMSFacadeDeclaredChildGroup" />
     <xs:attributeGroup ref="JMSFacadeCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jms.JMSFacade" use="prohibited" />
   </xs:complexType>
-  <xs:group name="JMSFacadeDeclaredChildGroup">
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-    </xs:sequence>
-  </xs:group>
   <xs:attributeGroup name="JMSFacadeDeclaredAttributeGroup">
     <xs:attribute ref="messageClass" />
     <xs:attribute ref="jndiContextPrefix" />
@@ -3074,7 +3030,7 @@
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
   <xs:complexType name="PushingJmsListenerType">
-    <xs:group ref="AbstractJmsListenerCumulativeChildGroup" />
+    <xs:group ref="AbstractJmsListenerDeclaredChildGroup" />
     <xs:attributeGroup ref="PushingJmsListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jms.PushingJmsListener" use="prohibited" />
   </xs:complexType>
@@ -3135,7 +3091,6 @@
     <xs:attributeGroup ref="JndiBaseDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="ExchangeMailListenerType">
-    <xs:group ref="AbstractFileSystemListenerDeclaredChildGroup" />
     <xs:attributeGroup ref="ExchangeMailListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.receivers.ExchangeMailListener" use="prohibited" />
   </xs:complexType>
@@ -3299,15 +3254,9 @@
     <xs:attributeGroup ref="AbstractFileSystemListenerDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="FrankListenerType">
-    <xs:group ref="FrankListenerDeclaredChildGroup" />
     <xs:attributeGroup ref="FrankListenerDeclaredAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.receivers.FrankListener" use="prohibited" />
   </xs:complexType>
-  <xs:group name="FrankListenerDeclaredChildGroup">
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-    </xs:sequence>
-  </xs:group>
   <xs:attributeGroup name="FrankListenerDeclaredAttributeGroup">
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
@@ -3334,7 +3283,6 @@
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
   <xs:complexType name="FtpFileSystemListenerType">
-    <xs:group ref="AbstractFileSystemListenerDeclaredChildGroup" />
     <xs:attributeGroup ref="FtpFileSystemListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.receivers.FtpFileSystemListener" use="prohibited" />
   </xs:complexType>
@@ -3513,7 +3461,7 @@
     <xs:attributeGroup ref="AbstractFileSystemListenerDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="FxfListenerType">
-    <xs:group ref="AbstractJmsListenerCumulativeChildGroup" />
+    <xs:group ref="AbstractJmsListenerDeclaredChildGroup" />
     <xs:attributeGroup ref="FxfListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.fxf.FxfListener" use="prohibited" />
   </xs:complexType>
@@ -3544,7 +3492,6 @@
     <xs:attributeGroup ref="EsbJmsListenerCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="ImapListenerType">
-    <xs:group ref="AbstractFileSystemListenerDeclaredChildGroup" />
     <xs:attributeGroup ref="ImapListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.receivers.ImapListener" use="prohibited" />
   </xs:complexType>
@@ -3613,15 +3560,9 @@
     <xs:attributeGroup ref="AbstractFileSystemListenerDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="JavaListenerType">
-    <xs:group ref="JavaListenerDeclaredChildGroup" />
     <xs:attributeGroup ref="JavaListenerDeclaredAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.receivers.JavaListener" use="prohibited" />
   </xs:complexType>
-  <xs:group name="JavaListenerDeclaredChildGroup">
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-    </xs:sequence>
-  </xs:group>
   <xs:attributeGroup name="JavaListenerDeclaredAttributeGroup">
     <xs:attribute name="name" type="xs:string" use="required">
       <xs:annotation>
@@ -3662,7 +3603,6 @@
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
   <xs:complexType name="JdbcListenerType">
-    <xs:group ref="JdbcFacadeDeclaredChildGroup" />
     <xs:attributeGroup ref="JdbcListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jdbc.JdbcListener" use="prohibited" />
   </xs:complexType>
@@ -3723,15 +3663,9 @@
     <xs:attributeGroup ref="JdbcFacadeDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="JdbcFacadeType">
-    <xs:group ref="JdbcFacadeDeclaredChildGroup" />
     <xs:attributeGroup ref="JdbcFacadeDeclaredAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jdbc.JdbcFacade" use="prohibited" />
   </xs:complexType>
-  <xs:group name="JdbcFacadeDeclaredChildGroup">
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-    </xs:sequence>
-  </xs:group>
   <xs:attributeGroup name="JdbcFacadeDeclaredAttributeGroup">
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
@@ -3764,7 +3698,6 @@
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
   <xs:complexType name="JdbcTableListenerType">
-    <xs:group ref="JdbcFacadeDeclaredChildGroup" />
     <xs:attributeGroup ref="JdbcTableListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jdbc.JdbcTableListener" use="prohibited" />
   </xs:complexType>
@@ -3825,20 +3758,14 @@
     <xs:attributeGroup ref="JdbcListenerCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="JmsListenerType">
-    <xs:group ref="AbstractJmsListenerCumulativeChildGroup" />
+    <xs:group ref="AbstractJmsListenerDeclaredChildGroup" />
     <xs:attributeGroup ref="PushingJmsListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jms.JmsListener" use="prohibited" />
   </xs:complexType>
   <xs:complexType name="KafkaListenerType">
-    <xs:group ref="KafkaListenerDeclaredChildGroup" />
     <xs:attributeGroup ref="KafkaListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.kafka.KafkaListener" use="prohibited" />
   </xs:complexType>
-  <xs:group name="KafkaListenerDeclaredChildGroup">
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-    </xs:sequence>
-  </xs:group>
   <xs:attributeGroup name="KafkaListenerDeclaredAttributeGroup">
     <xs:attribute name="groupId" type="xs:string">
       <xs:annotation>
@@ -3885,7 +3812,6 @@
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
   <xs:complexType name="MessageStoreListenerType">
-    <xs:group ref="JdbcFacadeDeclaredChildGroup" />
     <xs:attributeGroup ref="MessageStoreListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jdbc.MessageStoreListener" use="prohibited" />
   </xs:complexType>
@@ -4003,15 +3929,9 @@
     <xs:attributeGroup ref="JdbcFacadeDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="MqttListenerType">
-    <xs:group ref="MqttFacadeDeclaredChildGroup" />
     <xs:attributeGroup ref="MqttFacadeDeclaredAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.mqtt.MqttListener" use="prohibited" />
   </xs:complexType>
-  <xs:group name="MqttFacadeDeclaredChildGroup">
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-    </xs:sequence>
-  </xs:group>
   <xs:attributeGroup name="MqttFacadeDeclaredAttributeGroup">
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
@@ -4034,12 +3954,11 @@
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
   <xs:complexType name="PullingJmsListenerType">
-    <xs:group ref="AbstractJmsListenerCumulativeChildGroup" />
+    <xs:group ref="AbstractJmsListenerDeclaredChildGroup" />
     <xs:attributeGroup ref="AbstractJmsListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jms.PullingJmsListener" use="prohibited" />
   </xs:complexType>
   <xs:complexType name="Samba2ListenerType">
-    <xs:group ref="AbstractFileSystemListenerDeclaredChildGroup" />
     <xs:attributeGroup ref="Samba2ListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.receivers.Samba2Listener" use="prohibited" />
   </xs:complexType>
@@ -4117,35 +4036,9 @@
     <xs:attributeGroup ref="AbstractFileSystemListenerDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="SapListenerType">
-    <xs:group ref="SapFunctionFacadeDeclaredChildGroup" />
     <xs:attributeGroup ref="SapListenerImplCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.sap.SapListener" use="prohibited" />
   </xs:complexType>
-  <xs:group name="SapFunctionFacadeDeclaredChildGroup">
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-    </xs:sequence>
-  </xs:group>
-  <xs:attributeGroup name="SapFunctionFacadeDeclaredAttributeGroup">
-    <xs:attribute name="name" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>Name of the Ibis-object</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="sapSystemName" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>Name of the SapSystem used by this object</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute ref="correlationIdFieldIndex" />
-    <xs:attribute ref="correlationIdFieldName" />
-    <xs:attribute ref="requestFieldIndex" />
-    <xs:attribute ref="requestFieldName" />
-    <xs:attribute ref="replyFieldIndex" />
-    <xs:attribute ref="replyFieldName" />
-    <xs:attribute ref="active" />
-    <xs:anyAttribute namespace="##other" processContents="skip" />
-  </xs:attributeGroup>
   <xs:attributeGroup name="SapListenerImplDeclaredAttributeGroup">
     <xs:attribute name="sapSystemName" type="xs:string" use="required">
       <xs:annotation>
@@ -4179,8 +4072,27 @@
     <xs:attribute ref="active" />
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
+  <xs:attributeGroup name="SapFunctionFacadeDeclaredAttributeGroup">
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Name of the Ibis-object</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="sapSystemName" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Name of the SapSystem used by this object</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute ref="correlationIdFieldIndex" />
+    <xs:attribute ref="correlationIdFieldName" />
+    <xs:attribute ref="requestFieldIndex" />
+    <xs:attribute ref="requestFieldName" />
+    <xs:attribute ref="replyFieldIndex" />
+    <xs:attribute ref="replyFieldName" />
+    <xs:attribute ref="active" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:attributeGroup>
   <xs:complexType name="SftpFileSystemListenerType">
-    <xs:group ref="AbstractFileSystemListenerDeclaredChildGroup" />
     <xs:attributeGroup ref="SftpFileSystemListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.receivers.SftpFileSystemListener" use="prohibited" />
   </xs:complexType>
@@ -4297,7 +4209,6 @@
     <xs:attributeGroup ref="AbstractFileSystemListenerDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="SimpleJdbcListenerType">
-    <xs:group ref="JdbcFacadeDeclaredChildGroup" />
     <xs:attributeGroup ref="SimpleJdbcListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jdbc.SimpleJdbcListener" use="prohibited" />
   </xs:complexType>
@@ -4314,12 +4225,11 @@
     <xs:attributeGroup ref="JdbcFacadeDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="TibcoLogJmsListenerType">
-    <xs:group ref="AbstractJmsListenerCumulativeChildGroup" />
+    <xs:group ref="AbstractJmsListenerDeclaredChildGroup" />
     <xs:attributeGroup ref="PushingJmsListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.tibco.TibcoLogJmsListener" use="prohibited" />
   </xs:complexType>
   <xs:complexType name="WebServiceListenerType">
-    <xs:group ref="PushingListenerAdapterDeclaredChildGroup" />
     <xs:attributeGroup ref="WebServiceListenerCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.http.WebServiceListener" use="prohibited" />
   </xs:complexType>
@@ -4375,7 +4285,6 @@
         <xs:complexType>
           <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-              <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
               <xs:group ref="ParamElementGroup" />
             </xs:choice>
           </xs:sequence>
@@ -4469,7 +4378,7 @@
     </xs:choice>
   </xs:group>
   <xs:complexType name="EsbJmsSenderType">
-    <xs:group ref="JmsSenderCumulativeChildGroup" />
+    <xs:group ref="JmsSenderDeclaredChildGroup" />
     <xs:attributeGroup ref="EsbJmsSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.esb.EsbJmsSender" use="prohibited" />
   </xs:complexType>
@@ -4531,19 +4440,13 @@
     <xs:attributeGroup ref="JMSFacadeCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="JmsSenderType">
-    <xs:group ref="JmsSenderCumulativeChildGroup" />
+    <xs:group ref="JmsSenderDeclaredChildGroup" />
     <xs:attributeGroup ref="JmsSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jms.JmsSender" use="prohibited" />
   </xs:complexType>
   <xs:group name="JmsSenderDeclaredChildGroup">
     <xs:sequence>
       <xs:group ref="ParamElementGroup" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
-  </xs:group>
-  <xs:group name="JmsSenderCumulativeChildGroup">
-    <xs:sequence>
-      <xs:group ref="JmsSenderDeclaredChildGroup" />
-      <xs:group ref="JMSFacadeDeclaredChildGroup" />
     </xs:sequence>
   </xs:group>
   <xs:attributeGroup name="JmsSenderDeclaredAttributeGroup">
@@ -4591,7 +4494,7 @@
     <xs:attributeGroup ref="JMSFacadeCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="IMSSenderType">
-    <xs:group ref="JmsSenderCumulativeChildGroup" />
+    <xs:group ref="JmsSenderDeclaredChildGroup" />
     <xs:attributeGroup ref="IMSSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.ibm.IMSSender" use="prohibited" />
   </xs:complexType>
@@ -4607,7 +4510,7 @@
     <xs:attributeGroup ref="JmsSenderCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="MQSenderType">
-    <xs:group ref="JmsSenderCumulativeChildGroup" />
+    <xs:group ref="JmsSenderDeclaredChildGroup" />
     <xs:attributeGroup ref="JmsSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.ibm.MQSender" use="prohibited" />
   </xs:complexType>
@@ -4615,11 +4518,6 @@
     <xs:choice>
       <xs:element name="ErrorStorage">
         <xs:complexType>
-          <xs:sequence>
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-              <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-            </xs:choice>
-          </xs:sequence>
           <xs:attribute ref="active" />
           <xs:attribute name="elementRole" type="xs:string" fixed="errorStorage" use="prohibited" />
           <xs:attribute name="className" type="xs:string" use="required" />
@@ -4763,12 +4661,10 @@
     </xs:choice>
   </xs:group>
   <xs:complexType name="EsbJmsTransactionalStorageType">
-    <xs:group ref="JMSFacadeDeclaredChildGroup" />
     <xs:attributeGroup ref="JmsTransactionalStorageCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.esb.EsbJmsTransactionalStorage" use="prohibited" />
   </xs:complexType>
   <xs:complexType name="JmsTransactionalStorageType">
-    <xs:group ref="JMSFacadeDeclaredChildGroup" />
     <xs:attributeGroup ref="JmsTransactionalStorageCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jms.JmsTransactionalStorage" use="prohibited" />
   </xs:complexType>
@@ -4822,7 +4718,6 @@
     <xs:attributeGroup ref="JMSFacadeCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="JdbcTransactionalStorageType">
-    <xs:group ref="JdbcFacadeDeclaredChildGroup" />
     <xs:attributeGroup ref="JdbcTransactionalStorageCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jdbc.JdbcTransactionalStorage" use="prohibited" />
   </xs:complexType>
@@ -4865,7 +4760,6 @@
     <xs:attributeGroup ref="JdbcTableMessageBrowserCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="JdbcTableMessageBrowserType">
-    <xs:group ref="JdbcFacadeDeclaredChildGroup" />
     <xs:attributeGroup ref="JdbcTableMessageBrowserCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jdbc.JdbcTableMessageBrowser" use="prohibited" />
   </xs:complexType>
@@ -4965,11 +4859,6 @@
     <xs:choice>
       <xs:element name="MessageLog">
         <xs:complexType>
-          <xs:sequence>
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-              <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-            </xs:choice>
-          </xs:sequence>
           <xs:attribute ref="active" />
           <xs:attribute name="elementRole" type="xs:string" fixed="messageLog" use="prohibited" />
           <xs:attribute name="className" type="xs:string" use="required" />
@@ -5163,8 +5052,8 @@
     &amp;lt;location class=&amp;quot;org.frankframework.pipes.SwitchPipe&amp;quot; name=&amp;quot;ServiceSwitch&amp;quot;/&amp;gt;
     &amp;lt;details&amp;gt;Exception and stacktrace&amp;lt;/details&amp;gt;
     &amp;lt;params&amp;gt;
-      &amp;lt;param name=&amp;quot;sampleParam&amp;quot;&amp;gt;paramValue&amp;lt;/param&amp;gt;
-      &amp;lt;param name=&amp;quot;errorCode&amp;quot;&amp;gt;535&amp;lt;/param&amp;gt;
+      &amp;lt;param name=&amp;quot;sampleParam&amp;gt;paramValue&amp;lt;/param&amp;gt;
+      &amp;lt;param name=&amp;quot;errorCode&amp;gt;535&amp;lt;/param&amp;gt;
     &amp;lt;/params&amp;gt;
     &amp;lt;originalMessage messageId=&amp;quot;...&amp;quot; receivedTime=&amp;quot;Mon Oct 27 12:10:18 CET 2003&amp;quot; &amp;gt;
         &amp;lt;![CDATA[contents of message for which the error occurred]]&amp;gt;
@@ -5381,7 +5270,6 @@
         <xs:complexType>
           <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-              <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
               <xs:element name="Forward" type="ForwardType" />
               <xs:element name="Locker" type="LockerType" />
               <xs:group ref="ParamElementGroup" />
@@ -5557,7 +5445,6 @@
       <xs:group ref="ParamElementGroup" minOccurs="0" maxOccurs="unbounded" />
       <xs:element name="Locker" minOccurs="0" maxOccurs="1" type="LockerType" />
       <xs:element name="Forward" minOccurs="0" maxOccurs="unbounded" type="ForwardType" />
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
     </xs:sequence>
   </xs:group>
   <xs:attributeGroup name="AbstractPipeDeclaredAttributeGroup">
@@ -6127,7 +6014,6 @@
         <xs:complexType>
           <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-              <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
               <xs:element name="Forward" type="ForwardType" />
               <xs:element name="Locker" type="LockerType" />
               <xs:group ref="ParamElementGroup" />
@@ -6288,7 +6174,6 @@
         <xs:complexType>
           <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-              <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
               <xs:element name="Forward" type="ForwardType" />
               <xs:element name="Locker" type="LockerType" />
               <xs:group ref="ParamElementGroup" />
@@ -6839,7 +6724,6 @@
         <xs:complexType>
           <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-              <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
               <xs:element name="Forward" type="ForwardType" />
               <xs:element name="Locker" type="LockerType" />
               <xs:group ref="ParamElementGroup" />
@@ -7141,11 +7025,6 @@
     <xs:choice>
       <xs:element name="Cache">
         <xs:complexType>
-          <xs:sequence>
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-              <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-            </xs:choice>
-          </xs:sequence>
           <xs:attribute ref="active" />
           <xs:attribute name="elementRole" type="xs:string" fixed="cache" use="prohibited" />
           <xs:attribute name="className" type="xs:string" default="org.frankframework.cache.EhCache" />
@@ -7174,7 +7053,6 @@
     </xs:choice>
   </xs:group>
   <xs:complexType name="EhCacheType">
-    <xs:group ref="AbstractCacheAdapterDeclaredChildGroup" />
     <xs:attributeGroup ref="EhCacheCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.cache.EhCache" use="prohibited" />
   </xs:complexType>
@@ -7229,11 +7107,6 @@
     <xs:attributeGroup ref="EhCacheDeclaredAttributeGroup" />
     <xs:attributeGroup ref="AbstractCacheAdapterDeclaredAttributeGroup" />
   </xs:attributeGroup>
-  <xs:group name="AbstractCacheAdapterDeclaredChildGroup">
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-    </xs:sequence>
-  </xs:group>
   <xs:attributeGroup name="AbstractCacheAdapterDeclaredAttributeGroup">
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
@@ -7313,7 +7186,6 @@
           <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
               <xs:group ref="CacheElementGroup" />
-              <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
               <xs:element name="Forward" type="ForwardType" />
               <xs:group ref="InputValidatorElementGroup" />
               <xs:group ref="InputWrapperElementGroup" />
@@ -7345,7 +7217,6 @@
         <xs:complexType>
           <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-              <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
               <xs:group ref="ParamElementGroup" />
             </xs:choice>
           </xs:sequence>
@@ -7569,7 +7440,6 @@
         <xs:complexType>
           <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-              <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
               <xs:element name="InputFields" type="InputFieldsType" />
               <xs:element name="OutputFields" type="OutputFieldsType" />
               <xs:group ref="ParamElementGroup" />
@@ -7592,7 +7462,6 @@
           <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
               <xs:group ref="CacheElementGroup" />
-              <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
               <xs:group ref="ParamElementGroup" />
               <xs:group ref="SenderElementGroup_2" />
             </xs:choice>
@@ -9088,15 +8957,9 @@
     </xs:choice>
   </xs:group>
   <xs:complexType name="Afm2EdiFactSenderType">
-    <xs:group ref="Afm2EdiFactSenderDeclaredChildGroup" />
     <xs:attributeGroup ref="Afm2EdiFactSenderDeclaredAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.afm.Afm2EdiFactSender" use="prohibited" />
   </xs:complexType>
-  <xs:group name="Afm2EdiFactSenderDeclaredChildGroup">
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-    </xs:sequence>
-  </xs:group>
   <xs:attributeGroup name="Afm2EdiFactSenderDeclaredAttributeGroup">
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
@@ -9110,7 +8973,7 @@
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
   <xs:complexType name="AmazonS3SenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="AmazonS3SenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.AmazonS3Sender" use="prohibited" />
   </xs:complexType>
@@ -9187,17 +9050,6 @@
   <xs:group name="AbstractSenderWithParametersDeclaredChildGroup">
     <xs:sequence>
       <xs:group ref="ParamElementGroup" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
-  </xs:group>
-  <xs:group name="AbstractSenderWithParametersCumulativeChildGroup">
-    <xs:sequence>
-      <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
-      <xs:group ref="AbstractSenderDeclaredChildGroup" />
-    </xs:sequence>
-  </xs:group>
-  <xs:group name="AbstractSenderDeclaredChildGroup">
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
     </xs:sequence>
   </xs:group>
   <xs:attributeGroup name="AbstractSenderDeclaredAttributeGroup">
@@ -9311,7 +9163,7 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="AmqpSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="AmqpSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.messaging.amqp.AmqpSender" use="prohibited" />
   </xs:complexType>
@@ -9382,7 +9234,7 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="CmisSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="CmisSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.cmis.CmisSender" use="prohibited" />
   </xs:complexType>
@@ -9596,7 +9448,7 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="CommandSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="CommandSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.CommandSender" use="prohibited" />
   </xs:complexType>
@@ -9622,7 +9474,6 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="DelaySenderType">
-    <xs:group ref="AbstractSenderDeclaredChildGroup" />
     <xs:attributeGroup ref="DelaySenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.DelaySender" use="prohibited" />
   </xs:complexType>
@@ -9638,19 +9489,13 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="DirectQuerySenderType">
-    <xs:group ref="AbstractJdbcSenderCumulativeChildGroup" />
+    <xs:group ref="AbstractJdbcSenderDeclaredChildGroup" />
     <xs:attributeGroup ref="AbstractJdbcQuerySenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jdbc.DirectQuerySender" use="prohibited" />
   </xs:complexType>
   <xs:group name="AbstractJdbcSenderDeclaredChildGroup">
     <xs:sequence>
       <xs:group ref="ParamElementGroup" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
-  </xs:group>
-  <xs:group name="AbstractJdbcSenderCumulativeChildGroup">
-    <xs:sequence>
-      <xs:group ref="AbstractJdbcSenderDeclaredChildGroup" />
-      <xs:group ref="JdbcFacadeDeclaredChildGroup" />
     </xs:sequence>
   </xs:group>
   <xs:attributeGroup name="AbstractJdbcSenderDeclaredAttributeGroup">
@@ -9774,7 +9619,7 @@
     <xs:attributeGroup ref="AbstractJdbcSenderCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="EchoSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="EchoSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.EchoSender" use="prohibited" />
   </xs:complexType>
@@ -9790,7 +9635,7 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="ExchangeFileSystemSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="ExchangeFileSystemSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.ExchangeFileSystemSender" use="prohibited" />
   </xs:complexType>
@@ -9954,7 +9799,7 @@
     <xs:attributeGroup ref="AbstractFileSystemSenderCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="FixedQuerySenderType">
-    <xs:group ref="AbstractJdbcSenderCumulativeChildGroup" />
+    <xs:group ref="AbstractJdbcSenderDeclaredChildGroup" />
     <xs:attributeGroup ref="FixedQuerySenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jdbc.FixedQuerySender" use="prohibited" />
   </xs:complexType>
@@ -9971,7 +9816,7 @@
     <xs:attributeGroup ref="AbstractJdbcQuerySenderCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="FixedResultSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="FixedResultSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.FixedResultSender" use="prohibited" />
   </xs:complexType>
@@ -10000,7 +9845,7 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="FrankSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="FrankSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.FrankSender" use="prohibited" />
   </xs:complexType>
@@ -10048,7 +9893,7 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="FtpFileSystemSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="FtpFileSystemSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.FtpFileSystemSender" use="prohibited" />
   </xs:complexType>
@@ -10219,7 +10064,7 @@
     <xs:attributeGroup ref="AbstractFileSystemSenderCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="HttpSenderType">
-    <xs:group ref="AbstractHttpSenderCumulativeChildGroup" />
+    <xs:group ref="AbstractHttpSenderDeclaredChildGroup" />
     <xs:attributeGroup ref="HttpSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.http.HttpSender" use="prohibited" />
   </xs:complexType>
@@ -10270,12 +10115,6 @@
   <xs:group name="AbstractHttpSenderDeclaredChildGroup">
     <xs:sequence>
       <xs:group ref="ParamElementGroup" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
-  </xs:group>
-  <xs:group name="AbstractHttpSenderCumulativeChildGroup">
-    <xs:sequence>
-      <xs:group ref="AbstractHttpSenderDeclaredChildGroup" />
-      <xs:group ref="AbstractHttpSessionDeclaredChildGroup" />
     </xs:sequence>
   </xs:group>
   <xs:attributeGroup name="AbstractHttpSenderDeclaredAttributeGroup">
@@ -10374,11 +10213,6 @@
     <xs:attribute ref="active" />
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
-  <xs:group name="AbstractHttpSessionDeclaredChildGroup">
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-    </xs:sequence>
-  </xs:group>
   <xs:attributeGroup name="AbstractHttpSessionDeclaredAttributeGroup">
     <xs:attribute name="timeout" type="frankInt">
       <xs:annotation>
@@ -10454,7 +10288,7 @@
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
   <xs:complexType name="IbisJavaSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="IbisJavaSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.IbisJavaSender" use="prohibited" />
   </xs:complexType>
@@ -10486,7 +10320,7 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="IbisLocalSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="IbisLocalSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.IbisLocalSender" use="prohibited" />
   </xs:complexType>
@@ -10538,7 +10372,7 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="IdinSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="IdinSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.idin.IdinSender" use="prohibited" />
   </xs:complexType>
@@ -10656,19 +10490,13 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="IdocSenderType">
-    <xs:group ref="SapSenderBaseCumulativeChildGroup" />
+    <xs:group ref="SapSenderBaseDeclaredChildGroup" />
     <xs:attributeGroup ref="SapSenderBaseCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.sap.IdocSender" use="prohibited" />
   </xs:complexType>
   <xs:group name="SapSenderBaseDeclaredChildGroup">
     <xs:sequence>
       <xs:group ref="ParamElementGroup" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
-  </xs:group>
-  <xs:group name="SapSenderBaseCumulativeChildGroup">
-    <xs:sequence>
-      <xs:group ref="SapSenderBaseDeclaredChildGroup" />
-      <xs:group ref="SapFunctionFacadeDeclaredChildGroup" />
     </xs:sequence>
   </xs:group>
   <xs:attributeGroup name="SapSenderBaseDeclaredAttributeGroup">
@@ -10688,7 +10516,7 @@
     <xs:attributeGroup ref="SapFunctionFacadeDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="ImapSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="ImapSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.ImapSender" use="prohibited" />
   </xs:complexType>
@@ -10806,7 +10634,7 @@
   <xs:group name="AbstractSenderWrapperCumulativeChildGroup">
     <xs:sequence>
       <xs:group ref="AbstractSenderWrapperDeclaredChildGroup" />
-      <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+      <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     </xs:sequence>
   </xs:group>
   <xs:attributeGroup name="AbstractSenderWrapperDeclaredAttributeGroup">
@@ -10841,7 +10669,7 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="JsonXsltSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="JsonXsltSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.JsonXsltSender" use="prohibited" />
   </xs:complexType>
@@ -10927,7 +10755,7 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="XsltSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="XsltSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.XsltSender" use="prohibited" />
   </xs:complexType>
@@ -11009,15 +10837,9 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="KafkaSenderType">
-    <xs:group ref="KafkaSenderDeclaredChildGroup" />
     <xs:attributeGroup ref="KafkaSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.kafka.KafkaSender" use="prohibited" />
   </xs:complexType>
-  <xs:group name="KafkaSenderDeclaredChildGroup">
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-    </xs:sequence>
-  </xs:group>
   <xs:attributeGroup name="KafkaSenderDeclaredAttributeGroup">
     <xs:attribute name="topic" type="xs:string">
       <xs:annotation>
@@ -11049,7 +10871,6 @@
   <xs:group name="LdapSenderDeclaredChildGroup">
     <xs:sequence>
       <xs:group ref="ParamElementGroup" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
     </xs:sequence>
   </xs:group>
   <xs:attributeGroup name="LdapSenderDeclaredAttributeGroup">
@@ -11129,7 +10950,7 @@
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
   <xs:complexType name="LocalFileSystemSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="LocalFileSystemSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.LocalFileSystemSender" use="prohibited" />
   </xs:complexType>
@@ -11151,7 +10972,7 @@
     <xs:attributeGroup ref="AbstractFileSystemSenderCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="LogSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="LogSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.LogSender" use="prohibited" />
   </xs:complexType>
@@ -11172,7 +10993,7 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="MailSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="MailSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.MailSender" use="prohibited" />
   </xs:complexType>
@@ -11227,19 +11048,13 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="MessageStoreSenderType">
-    <xs:group ref="MessageStoreSenderCumulativeChildGroup" />
+    <xs:group ref="MessageStoreSenderDeclaredChildGroup" />
     <xs:attributeGroup ref="MessageStoreSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jdbc.MessageStoreSender" use="prohibited" />
   </xs:complexType>
   <xs:group name="MessageStoreSenderDeclaredChildGroup">
     <xs:sequence>
       <xs:group ref="ParamElementGroup" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
-  </xs:group>
-  <xs:group name="MessageStoreSenderCumulativeChildGroup">
-    <xs:sequence>
-      <xs:group ref="MessageStoreSenderDeclaredChildGroup" />
-      <xs:group ref="JdbcFacadeDeclaredChildGroup" />
     </xs:sequence>
   </xs:group>
   <xs:attributeGroup name="MessageStoreSenderDeclaredAttributeGroup">
@@ -11285,7 +11100,7 @@
     <xs:attributeGroup ref="JdbcTableMessageBrowserCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="MongoDbSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="MongoDbSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.mongodb.MongoDbSender" use="prohibited" />
   </xs:complexType>
@@ -11347,19 +11162,13 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="MqttSenderType">
-    <xs:group ref="MqttSenderCumulativeChildGroup" />
+    <xs:group ref="MqttSenderDeclaredChildGroup" />
     <xs:attributeGroup ref="MqttSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.mqtt.MqttSender" use="prohibited" />
   </xs:complexType>
   <xs:group name="MqttSenderDeclaredChildGroup">
     <xs:sequence>
       <xs:group ref="ParamElementGroup" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
-  </xs:group>
-  <xs:group name="MqttSenderCumulativeChildGroup">
-    <xs:sequence>
-      <xs:group ref="MqttSenderDeclaredChildGroup" />
-      <xs:group ref="MqttFacadeDeclaredChildGroup" />
     </xs:sequence>
   </xs:group>
   <xs:attributeGroup name="MqttSenderDeclaredAttributeGroup">
@@ -11389,7 +11198,7 @@
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
   <xs:complexType name="NetStorageSenderType">
-    <xs:group ref="AbstractHttpSenderCumulativeChildGroup" />
+    <xs:group ref="AbstractHttpSenderDeclaredChildGroup" />
     <xs:attributeGroup ref="NetStorageSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.akamai.NetStorageSender" use="prohibited" />
   </xs:complexType>
@@ -11583,7 +11392,7 @@
     </xs:sequence>
   </xs:group>
   <xs:complexType name="ReloadSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="ReloadSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.ReloadSender" use="prohibited" />
   </xs:complexType>
@@ -11599,7 +11408,7 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="ResultSet2FileSenderType">
-    <xs:group ref="AbstractJdbcSenderCumulativeChildGroup" />
+    <xs:group ref="AbstractJdbcSenderDeclaredChildGroup" />
     <xs:attributeGroup ref="ResultSet2FileSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jdbc.ResultSet2FileSender" use="prohibited" />
   </xs:complexType>
@@ -11631,7 +11440,7 @@
     <xs:attributeGroup ref="FixedQuerySenderCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="Samba1SenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="Samba1SenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.Samba1Sender" use="prohibited" />
   </xs:complexType>
@@ -11677,7 +11486,7 @@
     <xs:attributeGroup ref="AbstractFileSystemSenderCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="Samba2SenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="Samba2SenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.Samba2Sender" use="prohibited" />
   </xs:complexType>
@@ -11747,7 +11556,7 @@
     <xs:attributeGroup ref="AbstractFileSystemSenderCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="SapSenderType">
-    <xs:group ref="SapSenderBaseCumulativeChildGroup" />
+    <xs:group ref="SapSenderBaseDeclaredChildGroup" />
     <xs:attributeGroup ref="SapSenderImplCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.sap.SapSender" use="prohibited" />
   </xs:complexType>
@@ -11773,7 +11582,7 @@
     <xs:attributeGroup ref="SapSenderBaseCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="SendGridSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="SendGridSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.SendGridSender" use="prohibited" />
   </xs:complexType>
@@ -11969,7 +11778,7 @@
     </xs:sequence>
   </xs:group>
   <xs:complexType name="SftpFileSystemSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="SftpFileSystemSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.SftpFileSystemSender" use="prohibited" />
   </xs:complexType>
@@ -12104,7 +11913,7 @@
     <xs:attributeGroup ref="ParallelSendersCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="StoredProcedureQuerySenderType">
-    <xs:group ref="AbstractJdbcSenderCumulativeChildGroup" />
+    <xs:group ref="AbstractJdbcSenderDeclaredChildGroup" />
     <xs:attributeGroup ref="StoredProcedureQuerySenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jdbc.StoredProcedureQuerySender" use="prohibited" />
   </xs:complexType>
@@ -12154,7 +11963,7 @@
     <xs:attributeGroup ref="AbstractJdbcSenderCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="WebServiceSenderType">
-    <xs:group ref="AbstractHttpSenderCumulativeChildGroup" />
+    <xs:group ref="AbstractHttpSenderDeclaredChildGroup" />
     <xs:attributeGroup ref="WebServiceSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.http.WebServiceSender" use="prohibited" />
   </xs:complexType>
@@ -12315,7 +12124,7 @@
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
   <xs:complexType name="XComSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="XComSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.xcom.XComSender" use="prohibited" />
   </xs:complexType>
@@ -12418,7 +12227,7 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="XfbSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="XfbSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.xfb.XfbSender" use="prohibited" />
   </xs:complexType>
@@ -12451,17 +12260,16 @@
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="XmlJmsBrowserSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jms.XmlJmsBrowserSender" use="prohibited" />
   </xs:complexType>
   <xs:complexType name="XmlQuerySenderType">
-    <xs:group ref="AbstractJdbcSenderCumulativeChildGroup" />
+    <xs:group ref="AbstractJdbcSenderDeclaredChildGroup" />
     <xs:attributeGroup ref="AbstractJdbcQuerySenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.jdbc.XmlQuerySender" use="prohibited" />
   </xs:complexType>
   <xs:complexType name="XmlValidatorSenderType">
-    <xs:group ref="AbstractXmlValidatorDeclaredChildGroup" />
     <xs:attributeGroup ref="XmlValidatorSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.senders.XmlValidatorSender" use="prohibited" />
   </xs:complexType>
@@ -12476,11 +12284,6 @@
     <xs:attributeGroup ref="XmlValidatorSenderDeclaredAttributeGroup" />
     <xs:attributeGroup ref="AbstractXmlValidatorDeclaredAttributeGroup" />
   </xs:attributeGroup>
-  <xs:group name="AbstractXmlValidatorDeclaredChildGroup">
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-    </xs:sequence>
-  </xs:group>
   <xs:attributeGroup name="AbstractXmlValidatorDeclaredAttributeGroup">
     <xs:attribute name="fullSchemaChecking" type="frankBoolean">
       <xs:annotation>
@@ -12544,7 +12347,7 @@
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
   <xs:complexType name="ZipWriterSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
+    <xs:group ref="AbstractSenderWithParametersDeclaredChildGroup" />
     <xs:attributeGroup ref="ZipWriterSenderCumulativeAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.compression.ZipWriterSender" use="prohibited" />
   </xs:complexType>
@@ -12656,7 +12459,6 @@
     <xs:sequence>
       <xs:element name="InputFields" minOccurs="0" maxOccurs="unbounded" type="InputFieldsType" />
       <xs:group ref="ParamElementGroup" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
     </xs:sequence>
   </xs:group>
   <xs:attributeGroup name="AbstractRecordHandlerDeclaredAttributeGroup">
@@ -12764,7 +12566,6 @@
         <xs:complexType>
           <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-              <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
               <xs:group ref="ParamElementGroup" />
               <xs:group ref="SenderElementGroup_2" />
             </xs:choice>
@@ -12872,7 +12673,6 @@
   <xs:group name="AbstractResultHandlerDeclaredChildGroup">
     <xs:sequence>
       <xs:group ref="ParamElementGroup" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
     </xs:sequence>
   </xs:group>
   <xs:attributeGroup name="AbstractResultHandlerDeclaredAttributeGroup">
@@ -16620,6 +16420,11 @@
         <xs:documentation>whether or not to write results to the logfile (testtool4&amp;lt;instance.name&amp;gt;) Default: false</xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="writeToSystemOut" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>whether or not to write results to system out Default: false</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="checkRoles" type="frankBoolean">
       <xs:annotation>
         <xs:documentation>Set this to &lt;code&gt;true&lt;/code&gt; if you wish to enforce the
@@ -16650,6 +16455,11 @@
   </xs:complexType>
   <xs:attributeGroup name="LarvaPipeDeclaredAttributeGroup">
     <xs:attribute name="writeToLog" type="frankBoolean">
+      <xs:annotation>
+        <xs:documentation>Default: false</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="writeToSystemOut" type="frankBoolean">
       <xs:annotation>
         <xs:documentation>Default: false</xs:documentation>
       </xs:annotation>
@@ -19346,7 +19156,6 @@
   <xs:group name="AbstractJobDefDeclaredChildGroup">
     <xs:sequence>
       <xs:element name="Locker" minOccurs="0" maxOccurs="1" type="LockerType" />
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
     </xs:sequence>
   </xs:group>
   <xs:attributeGroup name="AbstractJobDefDeclaredAttributeGroup">
@@ -19795,11 +19604,6 @@
     <xs:choice>
       <xs:element name="SharedResource">
         <xs:complexType>
-          <xs:sequence>
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-              <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-            </xs:choice>
-          </xs:sequence>
           <xs:attribute ref="active" />
           <xs:attribute name="elementRole" type="xs:string" fixed="sharedResource" use="prohibited" />
           <xs:attribute name="className" type="xs:string" use="required" />
@@ -19826,7 +19630,6 @@
     </xs:choice>
   </xs:group>
   <xs:complexType name="HttpSessionType">
-    <xs:group ref="AbstractHttpSessionDeclaredChildGroup" />
     <xs:attributeGroup ref="AbstractHttpSessionDeclaredAttributeGroup" />
     <xs:attribute name="className" type="xs:string" fixed="org.frankframework.http.HttpSession" use="prohibited" />
   </xs:complexType>
