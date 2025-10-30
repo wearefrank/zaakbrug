@@ -40,10 +40,7 @@
 <!--                <Forward name="exception" path="FileSplitException"/>-->
 <!--            </JsonPathPipe>-->
 
-            <JsonXsltPipe name="SplitSingleFile1" xpathExpression="root/profileDefaults" storeResultInSessionKey="profileDefaults" preserveInput="true">
-                <Forward name="success" path="CheckProfilesExistence"/>
-                <Forward name="exception" path="FileSplitException"/>
-            </JsonXsltPipe>
+            <DataSonnetPipe name="SplitSingleFile1" storeResultInSessionKey="profileDefaults" preserveInput="true" styleSheetName="ResolveProfileValues/jsonnet/getProfileDefaults.jsonnet"/>
 
             <IfPipe name="CheckProfilesExistence" jsonPathExpression="$.profile">
                 <Forward name="then" path="SplitSingleFile2"/>
@@ -55,10 +52,7 @@
 <!--                <Forward name="exception" path="FileSplitException"/>-->
 <!--            </JsonPathPipe>-->
 
-            <JsonXsltPipe name="SplitSingleFile2" xpathExpression="root/profile" storeResultInSessionKey="profileDefaults" preserveInput="true">
-                <Forward name="success" path="SendToMergeProfilesWithDefaults"/>
-                <Forward name="exception" path="FileSplitException"/>
-            </JsonXsltPipe>
+            <DataSonnetPipe name="SplitSingleFile2" storeResultInSessionKey="profiles" preserveInput="true" styleSheetName="ResolveProfileValues/jsonnet/getProfiles.jsonnet"/>
 
             <SenderPipe name="SendToMergeProfilesWithDefaults">
                 <IbisLocalSender javaListener="MergeProfilesWithDefaults">
