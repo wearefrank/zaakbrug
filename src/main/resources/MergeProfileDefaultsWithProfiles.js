@@ -8,13 +8,20 @@ function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function mergeProfileDefaultsWithProfiles(profileDefaults, profiles) {
-  var profileDefaults = JSON.parse(profileDefaults);
-  var profiles = JSON.parse(profiles);
+  profileDefaults = JSON.parse(profileDefaults || '{}');
+  profiles = JSON.parse(profiles || '[]');
   var result = {};
   result["profile"] = [];
   result["profileDefaults"] = profileDefaults;
-  if (profileDefaults == null || profiles == null || Object.keys(profileDefaults).length === 0) {
-    return profilesFile;
+  if (profiles.length === 0 || Object.keys(profileDefaults).length === 0) {
+    var returnData = {};
+    if (profiles.length > 0) {
+      returnData["profile"] = profiles;
+    }
+    if (Object.keys(profileDefaults).length > 0) {
+      returnData["profileDefaults"] = profileDefaults;
+    }
+    return JSON.stringify(returnData, null, 4);
   }
   var _iterator = _createForOfIteratorHelper(profiles),
     _step;

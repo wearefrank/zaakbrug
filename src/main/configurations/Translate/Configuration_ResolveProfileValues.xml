@@ -26,24 +26,39 @@
                     action="read"
                     storeResultInSessionKey="profilesFileContent">
                 <Param name="filename" sessionKey="profilesFile" />
-                <Forward name="success" path="SplitSingleFile1" />
+                <Forward name="success" path="CheckProfileDefaultsExistence" />
                 <Forward name="exception" path="ReadFileException" />
             </LocalFileSystemPipe>
 
-            <JsonXsltPipe name="SplitSingleFile1" storeResultInSessionKey="profileDefaults" preserveInput="true">
+            <IfPipe name="CheckProfileDefaultsExistence" jsonPathExpression="$.profileDefaults">
+                <Forward name="then" path="SplitSingleFile1"/>
+                <Forward name="else" path="CheckProfilesExistence"/>
+            </IfPipe>
+
+<!--            <JsonPathPipe name="SplitSingleFile1" jsonPathExpression="$.profileDefaults" storeResultInSessionKey="profileDefaults" preserveInput="true">-->
+<!--                <Forward name="success" path="SplitSingleFile2"/>-->
+<!--                <Forward name="exception" path="FileSplitException"/>-->
+<!--            </JsonPathPipe>-->
+
+            <JsonXsltPipe name="SplitSingleFile1" xpathExpression="root/profileDefaults" storeResultInSessionKey="profileDefaults" preserveInput="true">
                 <Forward name="success" path="SplitSingleFile2"/>
                 <Forward name="exception" path="FileSplitException"/>
             </JsonXsltPipe>
-            
-            <JsonPathPipe name="SplitSingleFile1" jsonPathExpression="$.profileDefaults" storeResultInSessionKey="profileDefaults" preserveInput="true">
+
+            <IfPipe name="CheckProfilesExistence" jsonPathExpression="$.profile">
+                <Forward name="then" path="SplitSingleFile2"/>
+                <Forward name="else" path="SendToMergeProfilesWithDefaults"/>
+            </IfPipe>
+
+<!--            <JsonPathPipe name="SplitSingleFile2" jsonPathExpression="$.profile" storeResultInSessionKey="profiles" preserveInput="true">-->
+<!--                <Forward name="success" path="SendToMergeProfilesWithDefaults"/>-->
+<!--                <Forward name="exception" path="FileSplitException"/>-->
+<!--            </JsonPathPipe>-->
+
+            <JsonXsltPipe name="SplitSingleFile1" xpathExpression="root/profile" storeResultInSessionKey="profileDefaults" preserveInput="true">
                 <Forward name="success" path="SplitSingleFile2"/>
                 <Forward name="exception" path="FileSplitException"/>
-            </JsonPathPipe>
-
-            <JsonPathPipe name="SplitSingleFile2" jsonPathExpression="$.profiles" storeResultInSessionKey="profiles" preserveInput="true">
-                <Forward name="success" path="SendToMergeProfilesWithDefaults"/>
-                <Forward name="exception" path="FileSplitException"/>
-            </JsonPathPipe>
+            </JsonXsltPipe>
 
             <SenderPipe name="SendToMergeProfilesWithDefaults">
                 <IbisLocalSender javaListener="MergeProfilesWithDefaults">
@@ -235,7 +250,7 @@ profiles:
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <JsonPipe name="JsonToXml">
+            <JsonPipe name="JsonToXml" prettyPrint="true">
                 <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="EXCEPTION" />
             </JsonPipe>
