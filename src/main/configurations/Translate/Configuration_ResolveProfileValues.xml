@@ -41,7 +41,7 @@
 <!--            </JsonPathPipe>-->
 
             <JsonXsltPipe name="SplitSingleFile1" xpathExpression="root/profileDefaults" storeResultInSessionKey="profileDefaults" preserveInput="true">
-                <Forward name="success" path="SplitSingleFile2"/>
+                <Forward name="success" path="CheckProfilesExistence"/>
                 <Forward name="exception" path="FileSplitException"/>
             </JsonXsltPipe>
 
@@ -55,8 +55,8 @@
 <!--                <Forward name="exception" path="FileSplitException"/>-->
 <!--            </JsonPathPipe>-->
 
-            <JsonXsltPipe name="SplitSingleFile1" xpathExpression="root/profile" storeResultInSessionKey="profileDefaults" preserveInput="true">
-                <Forward name="success" path="SplitSingleFile2"/>
+            <JsonXsltPipe name="SplitSingleFile2" xpathExpression="root/profile" storeResultInSessionKey="profileDefaults" preserveInput="true">
+                <Forward name="success" path="SendToMergeProfilesWithDefaults"/>
                 <Forward name="exception" path="FileSplitException"/>
             </JsonXsltPipe>
 
