@@ -26,11 +26,13 @@
                     action="read"
                     storeResultInSessionKey="profilesFileContent">
                 <Param name="filename" sessionKey="profilesFile" />
-                <Forward name="success" path="CheckProfileDefaultsExistence" />
+                <Forward name="success" path="ConvertJsonIntoXml" />
                 <Forward name="exception" path="ReadFileException" />
             </LocalFileSystemPipe>
 
-            <IfPipe name="CheckProfileDefaultsExistence" jsonPathExpression="$.profileDefaults">
+            <JsonPipe name="ConvertJsonIntoXml"/>
+
+            <IfPipe name="CheckProfileDefaultsExistence" xpathExpression="root/profileDefaults">
                 <Forward name="then" path="SplitSingleFile1"/>
                 <Forward name="else" path="CheckProfilesExistence"/>
             </IfPipe>
@@ -40,12 +42,12 @@
 <!--                <Forward name="exception" path="FileSplitException"/>-->
 <!--            </JsonPathPipe>-->
 
-            <DataSonnetPipe name="SplitSingleFile1" storeResultInSessionKey="profileDefaults" preserveInput="true" styleSheetName="ResolveProfileValues/jsonnet/getProfileDefaults.jsonnet">
+            <DataSonnetPipe name="SplitSingleFile1" storeResultInSessionKey="profileDefaults" getInputFromSessionKey="profilesFileContent" preserveInput="true" styleSheetName="ResolveProfileValues/jsonnet/getProfileDefaults.jsonnet">
                 <Forward name="success" path="CheckProfilesExistence"/>
                 <Forward name="exception" path="FileSplitException"/>
             </DataSonnetPipe>
 
-            <IfPipe name="CheckProfilesExistence" jsonPathExpression="$.profile">
+            <IfPipe name="CheckProfilesExistence" xpathExpression="root/profile">
                 <Forward name="then" path="SplitSingleFile2"/>
                 <Forward name="else" path="SendToMergeProfilesWithDefaults"/>
             </IfPipe>
@@ -55,12 +57,12 @@
 <!--                <Forward name="exception" path="FileSplitException"/>-->
 <!--            </JsonPathPipe>-->
 
-            <DataSonnetPipe name="SplitSingleFile2" storeResultInSessionKey="profiles" preserveInput="true" styleSheetName="ResolveProfileValues/jsonnet/getProfiles.jsonnet">
+            <DataSonnetPipe name="SplitSingleFile2" storeResultInSessionKey="profiles" getInputFromSessionKey="profilesFileContent" styleSheetName="ResolveProfileValues/jsonnet/getProfiles.jsonnet">
                 <Forward name="success" path="SendToMergeProfilesWithDefaults"/>
                 <Forward name="exception" path="FileSplitException"/>
             </DataSonnetPipe>
 
-            <SenderPipe name="SendToMergeProfilesWithDefaults">
+            <SenderPipe name="SendToMergeProfilesWithDefaults" getInputFromFixedValue="&lt;dummy/&gt;">
                 <IbisLocalSender javaListener="MergeProfilesWithDefaults">
                     <Param name="profileDefaults" sessionKey="profileDefaults"/>
                     <Param name="profiles" sessionKey="profiles"/>

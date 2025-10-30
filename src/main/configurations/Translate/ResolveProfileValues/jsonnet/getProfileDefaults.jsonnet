@@ -1,1 +1,1 @@
-payload.profileDefaults
+std.parseJson(payload).profileDefaults
