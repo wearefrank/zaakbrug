@@ -30,6 +30,11 @@
                 <Forward name="exception" path="ReadFileException" />
             </LocalFileSystemPipe>
 
+            <JsonXsltPipe name="SplitSingleFile1" storeResultInSessionKey="profileDefaults" preserveInput="true">
+                <Forward name="success" path="SplitSingleFile2"/>
+                <Forward name="exception" path="FileSplitException"/>
+            </JsonXsltPipe>
+            
             <JsonPathPipe name="SplitSingleFile1" jsonPathExpression="$.profileDefaults" storeResultInSessionKey="profileDefaults" preserveInput="true">
                 <Forward name="success" path="SplitSingleFile2"/>
                 <Forward name="exception" path="FileSplitException"/>
@@ -71,6 +76,20 @@
                 <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason" pattern="Splitting file content into profiles and profile defaults failed for [{profilesFile}]" />
+                <Param name="details" pattern="{profilesFileContent}" ignoreUnresolvablePatternElements="true" />
+                <!-- <Param name="detailsXml" sessionKey="" type="DOMDOC" /> -->
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <XsltPipe
+                    name="MergeException"
+                    getInputFromFixedValue="&lt;dummy/&gt;"
+                    styleSheetName="Common/xsl/BuildError.xsl"
+                    storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Profiles merging operation failed for [{profilesFile}]" />
                 <Param name="details" pattern="{profilesFileContent}" ignoreUnresolvablePatternElements="true" />
                 <!-- <Param name="detailsXml" sessionKey="" type="DOMDOC" /> -->
                 <Forward name="success" path="EXCEPTION" />
@@ -124,7 +143,7 @@
                     <Param name="profiles" sessionKey="profiles"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="exception" path="EXCEPTION"/>
+                <Forward name="exception" path="MergeException"/>
             </SenderPipe>
 
             <XsltPipe
@@ -136,6 +155,24 @@
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
                 <Param name="reason" pattern="Reading profiles file failed for [{profilesFile}] or [{profileDefaultsFile}]" />
                 <Param name="details" pattern="{profiles}{profileDefaults}" ignoreUnresolvablePatternElements="true" />
+                <!-- <Param name="detailsXml" sessionKey="" type="DOMDOC" /> -->
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <XsltPipe
+                    name="MergeException"
+                    getInputFromFixedValue="&lt;dummy/&gt;"
+                    styleSheetName="Common/xsl/BuildError.xsl"
+                    storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Profiles merging operation failed for [{profilesFile}] or [{profileDefaultsFile}]" />
+                <Param name="details" pattern="profileDefaults:
+{profileDefaults}
+
+profiles:
+{profiles}" ignoreUnresolvablePatternElements="true" />
                 <!-- <Param name="detailsXml" sessionKey="" type="DOMDOC" /> -->
                 <Forward name="success" path="EXCEPTION" />
                 <Forward name="exception" path="EXCEPTION" />
@@ -166,7 +203,7 @@
                 </Param>
                 <Param name="javascriptEngine" value="${zaakbrug.javascriptEngine}" />
                 <Forward name="success" path="EscapeProfilesJsonForGraalJS" />
-                <Forward name="exception" path="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException" />
+                <Forward name="exception" path="EXCEPTION" />
             </PutInSessionPipe>
 
             <PutInSessionPipe
@@ -179,7 +216,7 @@
                 </Param>
                 <Param name="javascriptEngine" value="${zaakbrug.javascriptEngine}" />
                 <Forward name="success" path="MergeProfileDefaultsWithProfilesSender" />
-                <Forward name="exception" path="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException" />
+                <Forward name="exception" path="EXCEPTION" />
             </PutInSessionPipe>
 
             <SenderPipe
@@ -195,27 +232,13 @@
                 <Param name="profileDefaults" sessionKey="profileDefaults" />
                 <Param name="profiles" sessionKey="profiles" />
                 <Forward name="success" path="JsonToXml" />
-                <Forward name="exception" path="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException" />
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <JsonPipe name="JsonToXml">
                 <Forward name="success" path="EXIT" />
-                <Forward name="exception" path="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException" />
-            </JsonPipe>
-
-            <XsltPipe
-                    name="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException"
-                    getInputFromFixedValue="&lt;dummy/&gt;"
-                    styleSheetName="Common/xsl/BuildError.xsl"
-                    storeResultInSessionKey="Error">
-                <Param name="cause" sessionKey="Error" type="DOMDOC" />
-                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
-                <Param name="reason" pattern="Profiles merging operation failed for [{profilesFile}]" />
-                <Param name="details" pattern="{mergedProfiles}" ignoreUnresolvablePatternElements="true" />
-                <!-- <Param name="detailsXml" sessionKey="" type="DOMDOC" /> -->
-                <Forward name="success" path="EXCEPTION" />
                 <Forward name="exception" path="EXCEPTION" />
-            </XsltPipe>
+            </JsonPipe>
         </Pipeline>
     </Adapter>
 </Module>
