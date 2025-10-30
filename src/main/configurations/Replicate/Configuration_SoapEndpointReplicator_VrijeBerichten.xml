@@ -51,7 +51,7 @@
 
             <EchoPipe name="EchoTranslateResponse" getInputFromSessionKey="TranslateResponse"/>
 
-            <IfPipe name="IfTranslateSuccess" getInputFromSessionKey="exitState" expressionValue="SUCCESS">
+            <IfPipe name="IfTranslateSuccess" getInputFromSessionKey="exitState" expressionValue="SUCCESS"  preserveInput="true">
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="EXCEPTION"/>
             </IfPipe>
