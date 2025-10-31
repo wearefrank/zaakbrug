@@ -18,8 +18,10 @@
             <XmlSwitchPipe name="switcher" forwardNameSessionKey="IdentificatieType">
 
             </XmlSwitchPipe>
+
             <SenderPipe name="ZaakIdentificatie"
-                storeResultInSessionKey="GetIdResult">
+                storeResultInSessionKey="GetIdResult"
+                active="!${reseveer_zaak.Active}">
                 <FixedQuerySender
                     query="UPDATE IDENTIFICATIE  SET IDENTIFICATIE=(IDENTIFICATIE + 1 ) WHERE TYPE=?{IdentificatieType}"
                     queryType="OTHER"
@@ -28,9 +30,67 @@
                 <Param name="IdentificatieType" sessionKey="IdentificatieType" />
                 <Locker objectId="LockIdZaak" numRetries="-1" retryDelay="200" />
                 <Forward name="success" path="CheckForDBResult" />
-
-
             </SenderPipe>
+
+            <SenderPipe 
+                name="ZaakIdentificatie"
+                storeResultInSessionKey="GlobalConfig"
+                active="${reseveer_zaak.Active}"
+                >
+                <IbisLocalSender
+                    name="CallImportFromLocalFS"
+                    javaListener="ImportFromLocalFS"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="FileName" value="${FilePath_1}" />                   
+                </IbisLocalSender>
+                <Forward name="success" path="CallGetRsin"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe 
+                name="CallGetRsin"
+                storeResultInSessionKey="Rsin"
+                active="${reseveer_zaak.Active}">
+                <IbisLocalSender
+                    name="CallGetRsinSender"
+                    javaListener="GetRsinByGemeenteCode"
+                    returnedSessionKeys="Error">
+                    <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
+                </IbisLocalSender>
+                <Forward name="success" path="createRequestBody"/>
+                <Forward name="exception" path="EXCEPTION"/>
+            </SenderPipe>
+            
+            <ReplacerPipe name="createRequestBody"
+                storeResultInSessionKey="requestBody"
+                getInputFromFixedValue="{&quot;bronorganisatie&quot;: &quot;?{Rsin}&quot;, &quot;aantal&quot;: 1}"
+                active="${reseveer_zaak.Active}">
+                <Param name="Rsin" sessionKey="Rsin" xpathExpression="//RSIN/text()"/>
+                <Forward name="success" path="PostZgwZaaknummer_reserveren" />
+            </ReplacerPipe>
+
+            <SenderPipe
+                name="PostZgwZaaknummer_reserveren" active="${reseveer_zaak.Active}"
+                >
+                <IbisLocalSender
+                    name="PostZgwZaaknummer_reserverenSender"
+                    javaListener="Zaken_PostZgwZaaknummer_reserveren"
+                    returnedSessionKeys="Error,Authorization"
+                    >
+                </IbisLocalSender>
+                <Param name="requestBody" sessionKey="requestBody"/>
+                <Forward name="success" path="extractZaaknummer" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+            
+            <JsonXsltPipe name="extractZaaknummer" 
+                xpathExpression="//*[@key='zaaknummer']/text()" 
+                storeResultInSessionKey="newId"
+                outputType="TEXT"
+                active="${reseveer_zaak.Active}">
+                <Forward name="success" path="SetExitMessage" />
+            </JsonXsltPipe>
 
             <SenderPipe name="DocumentIdentificatie"
                 storeResultInSessionKey="GetIdResult">
