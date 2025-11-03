@@ -25,8 +25,8 @@
                         name="ResolveProfileValuesLocalSender"
                         javaListener="ResolveProfileValuesSeparateFiles"
                         returnedSessionKeys="Error">
-                    <Param name="profilesFile" value="SoapRouteProfiles.json"/>
-                    <Param name="profileDefaultsFile" value="SoapRouteProfileDefaults.json"/>
+                    <Param name="profilesFile" value="/opt/frank/resources/SoapRouteProfiles.json"/>
+                    <Param name="profileDefaultsFile" value="/opt/frank/resources/SoapRouteProfileDefaults.json"/>
                 </IbisLocalSender>
                 <Forward name="success" path="ExtractRouteFromProfiles" />
                 <Forward name="exception" path="EXCEPTION" />
@@ -41,19 +41,19 @@
             </XsltPipe>
 
             <ReplacerPipe
-                    name="GetUrl"
+                    name="GetListenerName"
                     getInputFromFixedValue="^{zaakbrug.java.?{route}.endpoint}"
                     find="^"
                     replace="$"
                     substituteVars="true"
-                    storeResultInSessionKey="uri">
+                    storeResultInSessionKey="listenerName">
                 <Param name="route" sessionKey="route"/>
             </ReplacerPipe>
 
             <SenderPipe name="SendToPipeline" getInputFromSessionKey="originalMessage">
                 <IbisLocalSender
                         name="SendToPipelineSender"
-                        javaListenerSessionKey="route">
+                        javaListenerSessionKey="listenerName">
                     <Param name="SOAPAction" sessionKey="SOAPAction" />
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT" />
