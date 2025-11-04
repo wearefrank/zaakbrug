@@ -22,22 +22,56 @@ function mergeProfileDefaultsWithProfiles(profileDefaults, profiles) {
         let pfres = {};
         Object.keys(profileDefaults)
             .forEach(key => pfres[key] = profileDefaults[key]);
-        Object.keys(pf)
-            .forEach(key => pfres[key] = pf[key]);
+        let pfresNewReference = JSON.parse(JSON.stringify(pfres));
+        recursiveMerge(pfresNewReference, pf);
 
-        if(pf["valueOverrides"] == null || profileDefaults["valueOverrides"] == null){
-            result.profile.push(pfres);
-            continue;
-        }
+//        Object.entries(pf).filter(([key, value]) => typeof value === 'object' && !Array.isArray(value) && value !== null).forEach(([key, value]) =>
+//        {
+//            if (profileDefaults[key] && profileDefaults[key] == null) {
+//                pfres[key] = {
+//                    ...value,
+//                }
+//            }
+//        });
 
-        pfres["valueOverrides"] = [
-            ...pf.valueOverrides,
-            ...profileDefaults.valueOverrides.filter(({key}) => !pf.valueOverrides.some(obj => obj.key === key)
-            )
-        ];
+//        if(pf["valueOverrides"] == null || profileDefaults["valueOverrides"] == null){
+//            result.profile.push(pfres);
+//            continue;
+//        }
+//
+//        pfres["valueOverrides"] = [
+//            ...pf.valueOverrides,
+//            ...profileDefaults.valueOverrides.filter(({key}) => !pf.valueOverrides.some(obj => obj.key === key)
+//            )
+//        ];
 
-        result.profile.push(pfres);
+        result.profile.push(pfresNewReference);
     }
 
     return JSON.stringify(result, null, 4);
+}
+
+function recursiveMerge(currentObject, overwrite) {
+    Object.entries(overwrite).forEach(([key, value]) => {
+        if (currentObject.hasOwnProperty(key)) {
+            let currentProp = currentObject[key];
+            if(typeof value === 'object' && !Array.isArray(value) && value !== null &&
+                typeof currentProp == 'object' && !Array.isArray(currentProp) && currentProp !== null) {
+                recursiveOverwrite(currentProp, value);
+                return;
+            } else if(Array.isArray(value) && Array.isArray(currentProp)) {
+                value.forEach(obj => {
+                    let matchingItem = currentProp.find(curObj => curObj.key === obj.key);
+                    if (matchingItem) {
+                        recursiveOverwrite(matchingItem, obj);
+                    } else {
+                        currentProp.push(obj);
+                    }
+                });
+                return;
+            }
+        } else {
+        }
+        currentObject[key] = value;
+    });
 }
