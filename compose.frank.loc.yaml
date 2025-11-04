@@ -75,11 +75,11 @@ services:
     develop:
       watch:
         - action: sync+restart
-          path: ./src/main/resources/SoapRouteProfiles.json
-          target: /opt/frank/resources/SoapRouteProfiles.json
+          path: ./src/main/resources/RoutingProfiles.json
+          target: /opt/frank/resources/RoutingProfiles.json
         - action: sync+restart
-          path: ./src/main/resources/SoapRouteProfileDefaults.json
-          target: /opt/frank/resources/SoapRouteProfileDefaults.json
+          path: ./src/main/resources/RoutingProfileDefaults.json
+          target: /opt/frank/resources/RoutingProfileDefaults.json
         - action: sync+restart
           path: ./src/main/configurations/GenericRouting/DeploymentSpecifics.properties
           target: /opt/frank/configurations/GenericRouting/DeploymentSpecifics.properties

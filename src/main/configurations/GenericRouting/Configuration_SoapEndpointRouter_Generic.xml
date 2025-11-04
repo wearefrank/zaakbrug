@@ -25,8 +25,8 @@
                         name="ResolveProfileValuesLocalSender"
                         javaListener="ResolveProfileValuesSeparateFiles"
                         returnedSessionKeys="Error">
-                    <Param name="profilesFile" value="/opt/frank/resources/SoapRouteProfiles.json"/>
-                    <Param name="profileDefaultsFile" value="/opt/frank/resources/SoapRouteProfileDefaults.json"/>
+                    <Param name="profilesFile" value="/opt/frank/resources/RoutingProfiles.json"/>
+                    <Param name="profileDefaultsFile" value="/opt/frank/resources/RoutingProfileDefaults.json"/>
                 </IbisLocalSender>
                 <Forward name="success" path="ExtractRouteFromProfiles" />
                 <Forward name="exception" path="EXCEPTION" />
