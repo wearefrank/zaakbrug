@@ -52,26 +52,29 @@ function mergeProfileDefaultsWithProfiles(profileDefaults, profiles) {
 }
 
 function recursiveMerge(currentObject, overwrite) {
-    Object.entries(overwrite).forEach(([key, value]) => {
+
+    const keys = Object.keys(overwrite);
+
+    for (const key of keys) {
+        const value = overwrite[key];        
         if (currentObject.hasOwnProperty(key)) {
             let currentProp = currentObject[key];
             if(typeof value === 'object' && !Array.isArray(value) && value !== null &&
-                typeof currentProp == 'object' && !Array.isArray(currentProp) && currentProp !== null) {
-                recursiveOverwrite(currentProp, value);
-                return;
+               typeof currentProp == 'object' && !Array.isArray(currentProp) && currentProp !== null) {
+                recursiveMerge(currentProp, value);
+                continue; 
             } else if(Array.isArray(value) && Array.isArray(currentProp)) {
                 value.forEach(obj => {
                     let matchingItem = currentProp.find(curObj => curObj.key === obj.key);
                     if (matchingItem) {
-                        recursiveOverwrite(matchingItem, obj);
+                        recursiveMerge(matchingItem, obj);
                     } else {
                         currentProp.push(obj);
                     }
                 });
-                return;
+                continue;
             }
-        } else {
-        }
+        } 
         currentObject[key] = value;
-    });
+    }
 }
