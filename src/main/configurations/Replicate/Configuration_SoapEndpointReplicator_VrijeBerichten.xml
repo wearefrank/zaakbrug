@@ -40,13 +40,23 @@
                         returnedSessionKeys="exitState">
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
                 </IbisLocalSender>
-                <Forward name="success" path="SendToProxy" />
+                <Forward name="success" path="CheckIfReplicateAllowed" />
                 <Forward name="exception" path="CheckIfShouldSendToProxyAnyways" />
             </SenderPipe>
 
             <IfPipe name="CheckIfShouldSendToProxyAnyways" getInputFromSessionKey="stopOnError" preserveInput="true" expressionValue="false">
                 <Forward name="then" path="SendToProxy"/>
                 <Forward name="else" path="EXCEPTION"/>
+            </IfPipe>
+
+            <IfPipe name="CheckIfReplicateAllowed"
+                    preserveInput="true"
+                    xpathExpression="$stopOnError and $SOAPAction = ['genereerZaakIdentificatie_Di02', 'genereerDocumentIdentificatie_Di02']"
+                    expressionValue="false">
+                <Param name="SOAPAction" sessionKey="SOAPAction"/>
+                <Param name="stopOnError" sessionKey="stopOnError"/>
+                <Forward name="then" path="SendToProxy"/>
+                <Forward name="else" path="EchoTranslateResponse"/>
             </IfPipe>
 
             <SenderPipe name="SendToProxy">
