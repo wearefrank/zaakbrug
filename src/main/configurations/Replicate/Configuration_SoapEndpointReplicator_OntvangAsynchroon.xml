@@ -17,6 +17,15 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
+            <SenderPipe name="GetProfileProperties" unlessSessionKey="stopOnError">
+                <IbisLocalSender name="GetProfilePropertiesSender" returnedSessionKeys="stopOnError">
+                    <Param name="fromSoapAction" xpathExpression="tokenize($SOAPAction, '/')[last()]">
+                        <Param name="SOAPAction" sessionKey="SOAPAction"/>
+                    </Param>
+                    <Param name="zaaktype" xpathExpression="//object/isVan/gerelateerde/code" namespaceDefs="http://www.egem.nl/StUF/sector/zkn/0310"/>
+                </IbisLocalSender>
+            </SenderPipe>
+
             <SenderPipe
                     name="SendToTranslate"
                     preserveInput="true"
@@ -35,7 +44,7 @@
                 <Forward name="exception" path="CheckIfShouldSendToProxyAnyways" />
             </SenderPipe>
 
-            <IfPipe name="CheckIfShouldSendToProxyAnyways" getInputFromFixedValue="${zaakbrug.soap.replicator.ontvang-asynchroon.shadowMode}">
+            <IfPipe name="CheckIfShouldSendToProxyAnyways" getInputFromSessionKey="stopOnError" preserveInput="true" expressionValue="false">
                 <Forward name="then" path="SendToProxy"/>
                 <Forward name="else" path="EXCEPTION"/>
             </IfPipe>

@@ -1,7 +1,9 @@
 <!DOCTYPE configuration [
   <!ENTITY SoapEndpointRouter_Generic SYSTEM "./Configuration_SoapEndpointRouter_Generic.xml">
+  <!ENTITY GetProfileProperties SYSTEM "./Configuration_GetProfileProperties.xml">
 ]>
 
 <configuration name="GenericRouting">
   &SoapEndpointRouter_Generic;
+  &GetProfileProperties;
 </configuration>

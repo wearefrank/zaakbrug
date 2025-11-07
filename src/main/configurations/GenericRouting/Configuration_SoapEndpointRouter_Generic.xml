@@ -20,41 +20,19 @@
                 <Param name="zaaktype" xpathExpression="//object/isVan/gerelateerde/code" namespaceDefs="http://www.egem.nl/StUF/sector/zkn/0310"/>
             </PutInSessionPipe>
 
-            <SenderPipe name="ResolveProfileValuesSender">
-                <IbisLocalSender
-                        name="ResolveProfileValuesLocalSender"
-                        javaListener="ResolveProfileValuesSeparateFiles"
-                        returnedSessionKeys="Error">
-                    <Param name="profilesFile" value="/opt/frank/resources/RoutingProfiles.json"/>
-                    <Param name="profileDefaultsFile" value="/opt/frank/resources/RoutingProfileDefaults.json"/>
+            <SenderPipe name="GetProfileProperties">
+                <IbisLocalSender name="GetProfilePropertiesSender" returnedSessionKeys="listenerName, stopOnError">
+                    <Param name="SOAPAction" sessionKey="fromSoapAction"/>
+                    <Param name="zaaktype" sessionKey="zaaktype"/>
                 </IbisLocalSender>
-                <Forward name="success" path="ExtractRouteFromProfiles" />
-                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
-
-            <XsltPipe
-                    name="ExtractRouteFromProfiles"
-                    styleSheetName="xsl/ExtractRouteFromProfiles.xsl"
-                    storeResultInSessionKey="route">
-                <Param name="zaaktype" sessionKey="zaaktype" />
-                <Param name="SOAPAction" sessionKey="fromSoapAction" />
-            </XsltPipe>
-
-            <ReplacerPipe
-                    name="GetListenerName"
-                    getInputFromFixedValue="^{zaakbrug.java.?{route}.endpoint}"
-                    find="^"
-                    replace="$"
-                    substituteVars="true"
-                    storeResultInSessionKey="listenerName">
-                <Param name="route" sessionKey="route"/>
-            </ReplacerPipe>
 
             <SenderPipe name="SendToPipeline" getInputFromSessionKey="originalMessage">
                 <IbisLocalSender
                         name="SendToPipelineSender"
                         javaListenerSessionKey="listenerName">
                     <Param name="SOAPAction" sessionKey="SOAPAction" />
+                    <Param name="stopOnError" sessionKey="stopOnError" />
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="EXCEPTION" />

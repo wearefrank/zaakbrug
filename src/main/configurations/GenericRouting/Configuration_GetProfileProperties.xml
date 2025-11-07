@@ -1,0 +1,45 @@
+<Adapter>
+    <Receiver>
+        <JavaListener name="GetProfileProperties" returnedSessionKeys="listenerName, stopOnError"/>
+    </Receiver>
+    <Pipeline>
+        <Exits>
+            <Exit name="EXIT" state="SUCCESS"/>
+            <Exit name="EXCEPTION" state="ERROR"/>
+        </Exits>
+
+        <SenderPipe name="ResolveProfileValuesSender">
+            <IbisLocalSender
+                    name="ResolveProfileValuesLocalSender"
+                    javaListener="ResolveProfileValuesSeparateFiles"
+                    returnedSessionKeys="Error">
+                <Param name="profilesFile" value="/opt/frank/resources/RoutingProfiles.json"/>
+                <Param name="profileDefaultsFile" value="/opt/frank/resources/RoutingProfileDefaults.json"/>
+            </IbisLocalSender>
+            <Forward name="success" path="SelectProfile" />
+            <Forward name="exception" path="EXCEPTION" />
+        </SenderPipe>
+
+        <XsltPipe
+                name="SelectProfile"
+                styleSheetName="xsl/SelectProfile.xsl">
+            <Param name="zaaktype" sessionKey="zaaktype" />
+            <Param name="SOAPAction" sessionKey="fromSoapAction" />
+        </XsltPipe>
+
+        <PutInSessionPipe name="GetPropertiesFromProfile">
+            <Param name="route" xpathExpression="profile/route"/>
+            <Param name="stopOnError" xpathExpression="profile/stopOnError"/>
+        </PutInSessionPipe>
+
+        <ReplacerPipe
+                name="GetListenerName"
+                getInputFromFixedValue="^{zaakbrug.java.?{route}.endpoint}"
+                find="^"
+                replace="$"
+                substituteVars="true"
+                storeResultInSessionKey="listenerName">
+            <Param name="route" sessionKey="route"/>
+        </ReplacerPipe>
+    </Pipeline>
+</Adapter>
