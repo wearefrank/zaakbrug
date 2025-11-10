@@ -21,8 +21,8 @@
             </PutInSessionPipe>
 
             <SenderPipe name="GetProfileProperties">
-                <IbisLocalSender name="GetProfilePropertiesSender" returnedSessionKeys="listenerName, stopOnError">
-                    <Param name="SOAPAction" sessionKey="fromSoapAction"/>
+                <IbisLocalSender name="GetProfilePropertiesSender" javaListener="GetProfileProperties" returnedSessionKeys="listenerName,stopOnError">
+                    <Param name="fromSoapAction" sessionKey="fromSoapAction"/>
                     <Param name="zaaktype" sessionKey="zaaktype"/>
                 </IbisLocalSender>
             </SenderPipe>

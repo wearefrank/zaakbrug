@@ -17,8 +17,8 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <SenderPipe name="GetProfileProperties" unlessSessionKey="stopOnError">
-                <IbisLocalSender name="GetProfilePropertiesSender" returnedSessionKeys="stopOnError">
+            <SenderPipe name="GetProfileProperties" unlessSessionKey="stopOnError" preserveInput="true">
+                <IbisLocalSender name="GetProfilePropertiesSender" javaListener="GetProfileProperties" returnedSessionKeys="stopOnError">
                     <Param name="fromSoapAction" xpathExpression="tokenize($SOAPAction, '/')[last()]">
                         <Param name="SOAPAction" sessionKey="SOAPAction"/>
                     </Param>

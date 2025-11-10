@@ -1,6 +1,6 @@
-<Adapter>
-    <Receiver>
-        <JavaListener name="GetProfileProperties" returnedSessionKeys="listenerName, stopOnError"/>
+<Adapter name="GetProfileProperties" active="${GetProfileProperties.Active}">
+    <Receiver name="GetProfileProperties">
+        <JavaListener name="GetProfileProperties" returnedSessionKeys="listenerName,stopOnError"/>
     </Receiver>
     <Pipeline>
         <Exits>
@@ -28,8 +28,8 @@
         </XsltPipe>
 
         <PutInSessionPipe name="GetPropertiesFromProfile">
-            <Param name="route" xpathExpression="profile/route"/>
-            <Param name="stopOnError" xpathExpression="profile/stopOnError"/>
+            <Param name="route" xpathExpression="//route"/>
+            <Param name="stopOnError" xpathExpression="//stopOnError"/>
         </PutInSessionPipe>
 
         <ReplacerPipe
