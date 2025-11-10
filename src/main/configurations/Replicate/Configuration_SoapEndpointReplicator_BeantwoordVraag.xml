@@ -41,6 +41,7 @@
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
                 </IbisLocalSender>
                 <Forward name="success" path="SendToProxy" />
+                <Forward name="500" path="CheckIfShouldSendToProxyAnyways" />
                 <Forward name="exception" path="CheckIfShouldSendToProxyAnyways" />
             </SenderPipe>
 

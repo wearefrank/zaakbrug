@@ -20,6 +20,7 @@
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="Fo03ERROR" state="SUCCESS" code="500"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
@@ -337,7 +338,7 @@
                 <Param name="errorReason" sessionKey="errorReason" />
                 <Param name="errorDetailText" sessionKey="errorDetailText" />
                 <Param name="errorDetailXML" sessionKey="errorDetailXML" type="DOMDOC" />
-                <Forward name="success" path="EXIT"/>
+                <Forward name="success" path="Fo03ERROR"/>
             </SoapWrapperPipe>
         </Pipeline>
     </Adapter>
