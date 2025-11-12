@@ -20,7 +20,7 @@
                 <Param name="zaaktype" xpathExpression="//object/isVan/gerelateerde/code" namespaceDefs="http://www.egem.nl/StUF/sector/zkn/0310"/>
             </PutInSessionPipe>
 
-            <SenderPipe name="GetProfileProperties">
+            <SenderPipe name="GetProfileProperties" getInputFromFixedValue="&lt;dummy/&gt;">
                 <IbisLocalSender name="GetProfilePropertiesSender" javaListener="GetProfileProperties" returnedSessionKeys="listenerName,stopOnError">
                     <Param name="fromSoapAction" sessionKey="fromSoapAction"/>
                     <Param name="zaaktype" sessionKey="zaaktype"/>

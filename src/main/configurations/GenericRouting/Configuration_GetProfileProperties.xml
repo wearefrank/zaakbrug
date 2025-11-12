@@ -3,6 +3,7 @@
         <JavaListener name="GetProfileProperties" returnedSessionKeys="listenerName,stopOnError"/>
     </Receiver>
     <Pipeline>
+        <Cache/>
         <Exits>
             <Exit name="EXIT" state="SUCCESS"/>
             <Exit name="EXCEPTION" state="ERROR"/>
