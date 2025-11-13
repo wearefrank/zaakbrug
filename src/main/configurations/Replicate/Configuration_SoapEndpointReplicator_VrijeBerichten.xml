@@ -22,7 +22,7 @@
                     <Param name="fromSoapAction" xpathExpression="tokenize($SOAPAction, '/')[last()]">
                         <Param name="SOAPAction" sessionKey="SOAPAction"/>
                     </Param>
-                    <Param name="zaaktype" xpathExpression="//object/isVan/gerelateerde/code" namespaceDefs="http://www.egem.nl/StUF/sector/zkn/0310"/>
+                    <Param name="zaaktype" xpathExpression="//object/isVan/gerelateerde/code"/>
                 </IbisLocalSender>
             </SenderPipe>
 
@@ -47,7 +47,7 @@
 
             <IfPipe name="CheckIfShouldSendToProxyAnyways" getInputFromSessionKey="stopOnError" preserveInput="true" expressionValue="false">
                 <Forward name="then" path="SendToProxy"/>
-                <Forward name="else" path="EXCEPTION"/>
+                <Forward name="else" path="EchoTranslateResponse"/>
             </IfPipe>
 
             <IfPipe name="CheckIfReplicateAllowed"
