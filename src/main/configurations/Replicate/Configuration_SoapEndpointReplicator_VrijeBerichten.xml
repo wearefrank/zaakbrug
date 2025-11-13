@@ -52,7 +52,7 @@
 
             <IfPipe name="CheckIfReplicateAllowed"
                     preserveInput="true"
-                    xpathExpression="$stopOnError and $fromSoapAction = ['genereerZaakIdentificatie_Di02', 'genereerDocumentIdentificatie_Di02']"
+                    xpathExpression="$stopOnError = 'true' and $fromSoapAction = ['genereerZaakIdentificatie_Di02', 'genereerDocumentIdentificatie_Di02']"
                     expressionValue="false">
                 <Param name="fromSoapAction" xpathExpression="tokenize($SOAPAction, '/')[last()]">
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
