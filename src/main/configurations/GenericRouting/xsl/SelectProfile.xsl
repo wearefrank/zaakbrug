@@ -7,7 +7,7 @@
         <!-- Check for profile with matching zaakTypeIdentificatie, otherwise, take the default -->
         <xsl:choose>
             <xsl:when test="//profile[zaakTypeIdentificatie = $zaaktype]">
-                <xsl:copy-of select="//profile[zaakTypeIdentificatie = $zaaktype]/*[@name=$SOAPAction]"/>
+                <xsl:copy-of select="//profile[zaakTypeIdentificatie = $zaaktype]/*[name()=$SOAPAction]"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:copy-of select="//profileDefaults/*[name()=$SOAPAction]"/>
