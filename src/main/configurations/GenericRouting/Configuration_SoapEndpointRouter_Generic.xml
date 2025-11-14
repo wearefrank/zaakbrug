@@ -17,7 +17,7 @@
                 <Param name="fromSoapAction" xpathExpression="tokenize($SOAPAction, '/')[last()]">
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
                 </Param>
-                <Param name="zaaktype" xpathExpression="//object/isVan/gerelateerde/code" namespaceDefs="http://www.egem.nl/StUF/sector/zkn/0310"/>
+                <Param name="zaaktype" xpathExpression="//object/isVan/gerelateerde/code"/>
             </PutInSessionPipe>
 
             <SenderPipe name="GetProfileProperties" getInputFromFixedValue="&lt;dummy/&gt;">
