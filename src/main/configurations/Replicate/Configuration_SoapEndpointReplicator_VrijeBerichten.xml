@@ -33,7 +33,7 @@
                 <!--                <FrankSender-->
                 <!--                        name="SendToRouterSender"-->
                 <!--                        target="Translate/SoapEndpointRouter_VrijeBerichten"-->
-                <!--                        returnedSessionKeys="SOAPAction, exitState"/>-->
+                <!--                        returnedSessionKeys="SOAPAction,exitState"/>-->
                 <IbisLocalSender
                         name="SendToTranslateSender"
                         javaListener="${zaakbrug.java.translate.vrije-berichten.endpoint}"
