@@ -41,14 +41,57 @@ services:
       dtap.stage: LOC
       configurations.directory.classLoaderType: ScanningDirectoryClassLoader
       management.gateway.inbound.class: org.frankframework.management.gateway.HazelcastInboundGateway
+
+      #Routing uris
+      zaakbrug.soap.router.generic.endpoint:               routing/generic/zds
+
+      zaakbrug.soap.translate.beantwoord-vraag.endpoint:   translate/generic/zds/BeantwoordVraag
+      zaakbrug.soap.translate.ontvang-asynchroon.endpoint: translate/generic/zds/OntvangAsynchroon
+      zaakbrug.soap.translate.vrije-berichten.endpoint:    translate/generic/zds/VrijBericht
+
+      zaakbrug.soap.replicate.beantwoord-vraag.endpoint:   replicate/generic/zds/BeantwoordVraag
+      zaakbrug.soap.replicate.ontvang-asynchroon.endpoint: replicate/generic/zds/OntvangAsynchroon
+      zaakbrug.soap.replicate.vrije-berichten.endpoint:    replicate/generic/zds/VrijBericht
+
+      zaakbrug.soap.proxy.beantwoord-vraag.endpoint:       proxy/generic/zds/BeantwoordVraag
+      zaakbrug.soap.proxy.ontvang-asynchroon.endpoint:     proxy/generic/zds/OntvangAsynchroon
+      zaakbrug.soap.proxy.vrije-berichten.endpoint:        proxy/generic/zds/VrijBericht
+
+      #Routing listener names
+      zaakbrug.java.translate.beantwoord-vraag.endpoint: SoapEndpointRouter_BeantwoordVraag
+      zaakbrug.java.translate.ontvang-asynchroon.endpoint: SoapEndpointRouter_OntvangAsynchroon
+      zaakbrug.java.translate.vrije-berichten.endpoint: SoapEndpointRouter_VrijeBerichten
+
+      zaakbrug.java.replicate.beantwoord-vraag.endpoint: SoapEndpointReplicator_BeantwoordVraag
+      zaakbrug.java.replicate.ontvang-asynchroon.endpoint: SoapEndpointReplicator_OntvangAsynchroon
+      zaakbrug.java.replicate.vrije-berichten.endpoint: SoapEndpointReplicator_VrijeBerichten
+
+      zaakbrug.java.proxy.beantwoord-vraag.endpoint: proxy/generic/zds/BeantwoordVraag
+      zaakbrug.java.proxy.ontvang-asynchroon.endpoint: proxy/generic/zds/OntvangAsynchroon
+      zaakbrug.java.proxy.vrije-berichten.endpoint: SoapEndpointProxy_VrijeBerichten
     volumes:
       - h2-data:/opt/frank/h2:rw
       - logs:/usr/local/tomcat/logs:rw
     develop:
       watch:
         - action: sync+restart
+          path: ./src/main/resources/RoutingProfiles.json
+          target: /opt/frank/resources/RoutingProfiles.json
+        - action: sync+restart
+          path: ./src/main/resources/RoutingProfileDefaults.json
+          target: /opt/frank/resources/RoutingProfileDefaults.json
+        - action: sync+restart
+          path: ./src/main/configurations/GenericRouting/DeploymentSpecifics.properties
+          target: /opt/frank/configurations/GenericRouting/DeploymentSpecifics.properties
+        - action: sync+restart
           path: ./src/main/configurations/Translate/DeploymentSpecifics.properties
           target: /opt/frank/configurations/Translate/DeploymentSpecifics.properties
+        - action: sync+restart
+          path: ./src/main/configurations/Proxy/DeploymentSpecifics.properties
+          target: /opt/frank/configurations/Proxy/DeploymentSpecifics.properties
+        - action: sync+restart
+          path: ./src/main/configurations/Replicate/DeploymentSpecifics.properties
+          target: /opt/frank/configurations/Replicate/DeploymentSpecifics.properties
         - action: sync+restart
           path: ./src/main/configurations/Translate/Global.json
           target: /opt/frank/configurations/Translate/Global.json
