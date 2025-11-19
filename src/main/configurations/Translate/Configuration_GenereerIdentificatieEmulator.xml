@@ -15,27 +15,10 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <XmlSwitchPipe name="switcher" forwardNameSessionKey="IdentificatieType">
-
-            </XmlSwitchPipe>
-
-            <SenderPipe name="ZaakIdentificatie"
-                storeResultInSessionKey="GetIdResult"
-                active="!${reseveer_zaak.Active}">
-                <FixedQuerySender
-                    query="UPDATE IDENTIFICATIE  SET IDENTIFICATIE=(IDENTIFICATIE + 1 ) WHERE TYPE=?{IdentificatieType}"
-                    queryType="OTHER"
-                    resultQuery="SELECT IDENTIFICATIE FROM IDENTIFICATIE WHERE TYPE  = 'ZaakIdentificatie'"
-                />
-                <Param name="IdentificatieType" sessionKey="IdentificatieType" />
-                <Locker objectId="LockIdZaak" numRetries="-1" retryDelay="200" />
-                <Forward name="success" path="CheckForDBResult" />
-            </SenderPipe>
-
             <SenderPipe 
-                name="ZaakIdentificatie"
+                name="GetGlobalConfigFromLocalFS"
                 storeResultInSessionKey="GlobalConfig"
-                active="${reseveer_zaak.Active}"
+                active="${reseveer_identificatie.Active}"
                 >
                 <IbisLocalSender
                     name="CallImportFromLocalFS"
@@ -51,7 +34,7 @@
             <SenderPipe 
                 name="CallGetRsin"
                 storeResultInSessionKey="Rsin"
-                active="${reseveer_zaak.Active}">
+                active="${reseveer_identificatie.Active}">
                 <IbisLocalSender
                     name="CallGetRsinSender"
                     javaListener="GetRsinByGemeenteCode"
@@ -65,13 +48,29 @@
             <ReplacerPipe name="createRequestBody"
                 storeResultInSessionKey="requestBody"
                 getInputFromFixedValue="{&quot;bronorganisatie&quot;: &quot;?{Rsin}&quot;, &quot;aantal&quot;: 1}"
-                active="${reseveer_zaak.Active}">
+                active="${reseveer_identificatie.Active}">
                 <Param name="Rsin" sessionKey="Rsin" xpathExpression="//RSIN/text()"/>
-                <Forward name="success" path="PostZgwZaaknummer_reserveren" />
+                <Forward name="success" path="switcher" />
             </ReplacerPipe>
 
+            <XmlSwitchPipe name="switcher" forwardNameSessionKey="IdentificatieType">
+            </XmlSwitchPipe>
+
+            <SenderPipe name="ZaakIdentificatie"
+                storeResultInSessionKey="GetIdResult"
+                active="!${reseveer_identificatie.Active}">
+                <FixedQuerySender
+                    query="UPDATE IDENTIFICATIE  SET IDENTIFICATIE=(IDENTIFICATIE + 1 ) WHERE TYPE=?{IdentificatieType}"
+                    queryType="OTHER"
+                    resultQuery="SELECT IDENTIFICATIE FROM IDENTIFICATIE WHERE TYPE  = 'ZaakIdentificatie'"
+                />
+                <Param name="IdentificatieType" sessionKey="IdentificatieType" />
+                <Locker objectId="LockIdZaak" numRetries="-1" retryDelay="200" />
+                <Forward name="success" path="CheckForDBResult" />
+            </SenderPipe>
+
             <SenderPipe
-                name="PostZgwZaaknummer_reserveren" active="${reseveer_zaak.Active}"
+                name="ZaakIdentificatie" active="${reseveer_identificatie.Active}"
                 >
                 <IbisLocalSender
                     name="PostZgwZaaknummer_reserverenSender"
@@ -80,20 +79,12 @@
                     >
                 </IbisLocalSender>
                 <Param name="requestBody" sessionKey="requestBody"/>
-                <Forward name="success" path="extractZaaknummer" />
+                <Forward name="success" path="extractId" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
-            
-            <JsonXsltPipe name="extractZaaknummer" 
-                xpathExpression="//*[@key='zaaknummer']/text()" 
-                storeResultInSessionKey="newId"
-                outputType="TEXT"
-                active="${reseveer_zaak.Active}">
-                <Forward name="success" path="SetExitMessage" />
-            </JsonXsltPipe>
 
             <SenderPipe name="DocumentIdentificatie"
-                storeResultInSessionKey="GetIdResult">
+                storeResultInSessionKey="GetIdResult" active="!${reseveer_identificatie.Active}">
                 <FixedQuerySender
                     query="UPDATE IDENTIFICATIE  SET IDENTIFICATIE=( IDENTIFICATIE + 1) WHERE TYPE=?{IdentificatieType}"
                     queryType="OTHER"
@@ -102,7 +93,20 @@
                 <Param name="IdentificatieType" sessionKey="IdentificatieType" />
                 <Locker objectId="LockIdDoc" numRetries="-1" retryDelay="200" />
                 <Forward name="success" path="CheckForDBResult" />
+            </SenderPipe>
 
+            <SenderPipe
+                name="DocumentIdentificatie" active="${reseveer_identificatie.Active}"
+                >
+                <IbisLocalSender
+                    name="PostZgwDocumentnummer_reserverenSender"
+                    javaListener="Zaken_PostZgwDocumentnummer_reserveren"
+                    returnedSessionKeys="Error,Authorization"
+                    >
+                </IbisLocalSender>
+                <Param name="requestBody" sessionKey="requestBody"/>
+                <Forward name="success" path="extractId" />
+                <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe name="BesluitIdentificatie"
@@ -146,6 +150,14 @@
                 <Param name="IdentificatieType" sessionKey="IdentificatieType" />
                 <Forward name="success" path="switcher" />
             </SenderPipe>
+            
+            <JsonXsltPipe name="extractId" 
+                xpathExpression="//*[@key='zaaknummer']/text() | //*[@key='identificatie']/text()" 
+                storeResultInSessionKey="newId"
+                outputType="TEXT"
+                active="${reseveer_identificatie.Active}">
+                <Forward name="success" path="SetExitMessage" />
+            </JsonXsltPipe>
 
 
             <PutInSessionPipe
