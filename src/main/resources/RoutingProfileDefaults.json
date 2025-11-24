@@ -1,7 +1,7 @@
 {
     "geefZaakdocumentLezen_Lv01": {
-        "route": "replicate.beantwoord-vraag",
-        "stopOnError": "false"
+        "route": "translate.beantwoord-vraag",
+        "stopOnError": "true"
     },
     "geefZaakstatus_Lv01": {
         "route": "translate.beantwoord-vraag",
@@ -12,7 +12,7 @@
         "stopOnError": "true"
     },
     "geefLijstZaakdocumenten_Lv01": {
-        "route": "proxy.beantwoord-vraag",
+        "route": "translate.beantwoord-vraag",
         "stopOnError": "true"
     },
     "voegZaakdocumentToe_Lk01": {
@@ -36,8 +36,8 @@
         "stopOnError": "true"
     },
     "genereerDocumentIdentificatie_Di02": {
-        "route": "replicate.vrije-berichten",
-        "stopOnError": "false"
+        "route": "translate.vrije-berichten",
+        "stopOnError": "true"
     },
     "genereerZaakIdentificatie_Di02": {
         "route": "translate.vrije-berichten",
@@ -52,7 +52,7 @@
         "stopOnError": "true"
     },
     "cancelCheckout_Di02": {
-        "route": "proxy.vrije-berichten",
-        "stopOnError": "false"
+        "route": "translate.vrije-berichten",
+        "stopOnError": "true"
     }
 }
