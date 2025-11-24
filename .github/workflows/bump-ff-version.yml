@@ -12,7 +12,7 @@ on:
 
 jobs:
   bump-ff-version:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ff-version-auto-bumper.yml@692c637ef4f5519d986d69e443997ab80fed8deb # 2.0.2
+    uses: wearefrank/ci-cd-templates/.github/workflows/ff-version-auto-bumper.yml@5cc3ad4df08fbbf281fd330b440834815a69e568 # 2.1.1
     secrets:
       token: ${{ secrets.WEAREFRANK_BOT_PAT }}
       dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
