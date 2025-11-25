@@ -1,0 +1,5 @@
+services:
+  zaakbrug:
+    volumes:
+      - ./contrib/zaakbrug-soap-ui/RoutingProfileDefaults.json:/opt/frank/resources/RoutingProfileDefaults.json
+      - ./contrib/zaakbrug-soap-ui/RoutingProfiles.json:/opt/frank/resources/RoutingProfiles.json
