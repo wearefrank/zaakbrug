@@ -92,14 +92,16 @@
         </ZKN:anderZaakObject>
     </xsl:template> -->
 
-    <xsl:template match="kenmerk">
+    <!-- This template is never called. -->
+    <!-- <xsl:template match="kenmerk">
         <ZKN:kenmerk>
             <ZKN:kenmerk><xsl:value-of select="kenmerk"/></ZKN:kenmerk>
             <ZKN:bron><xsl:value-of select="bron"/></ZKN:bron>
         </ZKN:kenmerk>
-    </xsl:template>
+    </xsl:template> -->
 
-    <xsl:template match="natuurlijkPersoon">
+    <!-- This template is never called. -->
+    <!-- <xsl:template match="natuurlijkPersoon">
         <ZKN:gerelateerde>
             <ZKN:natuurlijkPersoon StUF:entiteittype="NPS">
                 <xsl:if test="inp.bsn">
@@ -127,11 +129,13 @@
                     <BG:geboortedatum><xsl:value-of select="geboortedatum"/></BG:geboortedatum>
                 </xsl:if>
                 <xsl:apply-templates select="verblijfsadres"/>
+                <xsl:apply-templates select="sub.verblijfBuitenland"/>
             </ZKN:natuurlijkPersoon>
         </ZKN:gerelateerde>
-    </xsl:template>
+    </xsl:template> -->
 
-    <xsl:template match="nietNatuurlijkPersoon">
+    <!-- This template is never called. -->
+    <!-- <xsl:template match="nietNatuurlijkPersoon">
         <ZKN:gerelateerde>
             <ZKN:nietNatuurlijkPersoon StUF:entiteittype="NNP">
                 <xsl:if test="inn.nnpId">
@@ -149,13 +153,14 @@
                 <xsl:if test="inn.rechtsvorm">
                     <BG:inn.rechtsvorm><xsl:value-of select="inn.rechtsvorm"/></BG:inn.rechtsvorm>
                 </xsl:if>
-                <!-- Missing bezoekadres -->
-                <!-- Missing subVerblijfBuitenland -->
+                <xsl:apply-templates select="bezoekadres"/>
+                <xsl:apply-templates select="sub.verblijfBuitenland"/>
             </ZKN:nietNatuurlijkPersoon>
         </ZKN:gerelateerde>
-    </xsl:template>
+    </xsl:template> -->
 
-    <xsl:template match="vestiging">
+    <!-- This template is never called. -->
+    <!-- <xsl:template match="vestiging">
         <ZKN:gerelateerde>
             <ZKN:vestiging StUF:entiteittype="VES">
                 <xsl:if test="vestigingsNummer">
@@ -165,12 +170,13 @@
                     <BG:handelsnaam><xsl:value-of select="handelsnaam"/></BG:handelsnaam>
                 </xsl:if>
                 <xsl:apply-templates select="verblijfsadres"/>
-                <!-- Missing subVerblijfBuitenland -->
+                <xsl:apply-templates select="sub.verblijfBuitenland"/>
             </ZKN:vestiging>
         </ZKN:gerelateerde>
-    </xsl:template>
+    </xsl:template> -->
 
-    <xsl:template match="medewerker">
+    <!-- This template is never called. -->
+    <!-- <xsl:template match="medewerker">
         <ZKN:gerelateerde>
             <ZKN:medewerker StUF:entiteittype="MDW">
                 <xsl:if test="identificatie">
@@ -184,9 +190,10 @@
                 </xsl:if>
             </ZKN:medewerker>
         </ZKN:gerelateerde>
-    </xsl:template>
+    </xsl:template> -->
     
-    <xsl:template match="organisatorischeEenheid">
+    <!-- This template is never called. -->
+    <!-- <xsl:template match="organisatorischeEenheid">
         <ZKN:gerelateerde>
             <ZKN:organisatorischeEenheid StUF:entiteittype="OEH">
                 <xsl:if test="identificatie">
@@ -200,9 +207,10 @@
                 </xsl:if>
             </ZKN:organisatorischeEenheid>
         </ZKN:gerelateerde>
-    </xsl:template>
+    </xsl:template> -->
 
-    <xsl:template match="verblijfsadres">
+    <!-- This template is never called. -->
+    <!-- <xsl:template match="verblijfsadres">
         <BG:verblijfsadres>
             <xsl:if test="aoa.identificatie">
                 <BG:aoa.identificatie><xsl:value-of select="aoa.identificatie"/></BG:aoa.identificatie>
@@ -235,7 +243,61 @@
                 <BG:inp.locatiebeschrijving><xsl:value-of select="inp.locatiebeschrijving"/></BG:inp.locatiebeschrijving>
             </xsl:if>
         </BG:verblijfsadres>
-    </xsl:template>
+    </xsl:template> -->
+
+    <!-- This template is never called. -->
+    <!-- <xsl:template match="bezoekadres">
+        <BG:bezoekadres>
+            <xsl:if test="aoa.identificatie">
+                <BG:aoa.identificatie><xsl:value-of select="aoa.identificatie"/></BG:aoa.identificatie>
+            </xsl:if>
+            <xsl:if test="authentiek">
+                <BG:authentiek StUF:metagegeven="true"><xsl:value-of select="authentiek"/></BG:authentiek>
+            </xsl:if>
+            <xsl:if test="wpl.woonplaatsNaam">
+                <BG:wpl.woonplaatsNaam><xsl:value-of select="wpl.woonplaatsNaam"/></BG:wpl.woonplaatsNaam>
+            </xsl:if>
+            <xsl:if test="gor.openbareRuimteNaam">
+                <BG:gor.openbareRuimteNaam><xsl:value-of select="gor.openbareRuimteNaam"/></BG:gor.openbareRuimteNaam>
+            </xsl:if>
+            <xsl:if test="gor.straatnaam">
+                <BG:gor.straatnaam><xsl:value-of select="gor.straatnaam"/></BG:gor.straatnaam>
+            </xsl:if>
+            <xsl:if test="aoa.postcode">
+                <BG:aoa.postcode><xsl:value-of select="aoa.postcode"/></BG:aoa.postcode>
+            </xsl:if>
+            <xsl:if test="aoa.huisnummer">
+                <BG:aoa.huisnummer><xsl:value-of select="aoa.huisnummer"/></BG:aoa.huisnummer>
+            </xsl:if>
+            <xsl:if test="aoa.huisletter">
+                <BG:aoa.huisletter><xsl:value-of select="aoa.huisletter"/></BG:aoa.huisletter>
+            </xsl:if>
+            <xsl:if test="aoa.huisnummertoevoeging">
+                <BG:aoa.huisnummertoevoeging><xsl:value-of select="aoa.huisnummertoevoeging"/></BG:aoa.huisnummertoevoeging>
+            </xsl:if>
+            <xsl:if test="inp.locatiebeschrijving">
+                <BG:inp.locatiebeschrijving><xsl:value-of select="inp.locatiebeschrijving"/></BG:inp.locatiebeschrijving>
+            </xsl:if>
+        </BG:bezoekadres>
+    </xsl:template> -->
+
+    <!-- This template is never called. -->
+    <!-- <xsl:template match="sub.verblijfBuitenland">
+        <BG:sub.verblijfBuitenland>
+            <xsl:if test="lnd.landnaam">
+                <BG:lnd.landnaam><xsl:value-of select="lnd.landnaam"/></BG:lnd.landnaam>
+            </xsl:if>
+            <xsl:if test="sub.adresBuitenland1">
+                <BG:sub.adresBuitenland1 StUF:metagegeven="true"><xsl:value-of select="sub.adresBuitenland1"/></BG:sub.adresBuitenland1>
+            </xsl:if>
+            <xsl:if test="sub.adresBuitenland2">
+                <BG:sub.adresBuitenland2 StUF:metagegeven="true"><xsl:value-of select="sub.adresBuitenland2"/></BG:sub.adresBuitenland2>
+            </xsl:if>
+            <xsl:if test="sub.adresBuitenland3">
+                <BG:sub.adresBuitenland3 StUF:metagegeven="true"><xsl:value-of select="sub.adresBuitenland3"/></BG:sub.adresBuitenland3>
+            </xsl:if>
+        </BG:sub.verblijfBuitenland>
+    </xsl:template> -->
 
     <xsl:template match="*:isVan/*:gerelateerde">
         <ZKN:isVan StUF:entiteittype="ZAKZKT">
