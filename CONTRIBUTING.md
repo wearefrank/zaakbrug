@@ -203,6 +203,17 @@ If you would like to run the test cases which are already prepared in the repo a
 This command will first have Zaakbrug and Openzaak up and running and afterwards it will automatically run the SoapUI test cases in 'soapui-testrunner' docker container.
 The test reports will be created under "./e2e/reports" folder.
 
+### Running test cases that are related to routing profiles
+To execute the RoutingProfiles test cases, you must use custom configuration files: `RoutingProfileDefaults.json` and `RoutingProfiles.json`.
+
+These custom files are located in the `contrib/zaakbrug-soap-ui` directory. They are necessary to test a comprehensive range of routing scenarios **without modifying the original files** located in the `Resources` directory. The original files must remain unchanged because they serve as the default configuration for clients.
+
+To ensure these two custom JSON files are mounted into the `zaakbrug` volume—both locally and on GitHub—you must include the `contrib/compose.frank.soap-ui.yaml` Docker Compose file when starting the system.
+
+The command to start the system, including these files as a volume for the zaakbrug service, is:
+
+`docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.soap-ui.yaml up --build --force-recreate --watch`
+
 ## Running test cases automatically on Github CI
 There is nothing to do explicitly to run the test cases on Github environment. When you create a PR to master branch, the test cases will be automatically run on Github CI to see if everything is still working on your own branch.
 In case you would like to do any change on Zaakbrug project you can create a PR and this PR will trigger the test automation on Github environment so you can see if anything is broken.
