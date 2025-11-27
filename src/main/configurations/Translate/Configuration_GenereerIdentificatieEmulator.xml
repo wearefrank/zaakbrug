@@ -18,7 +18,7 @@
             <SenderPipe 
                 name="GetGlobalConfigFromLocalFS"
                 storeResultInSessionKey="GlobalConfig"
-                active="${reseveer_identificatie.Active}"
+                active="${reseveer_identificatie_openzaak_switch.Active}"
                 >
                 <IbisLocalSender
                     name="CallImportFromLocalFS"
@@ -34,7 +34,7 @@
             <SenderPipe 
                 name="CallGetRsin"
                 storeResultInSessionKey="Rsin"
-                active="${reseveer_identificatie.Active}">
+                active="${reseveer_identificatie_openzaak_switch.Active}">
                 <IbisLocalSender
                     name="CallGetRsinSender"
                     javaListener="GetRsinByGemeenteCode"
@@ -48,7 +48,7 @@
             <ReplacerPipe name="createRequestBody"
                 storeResultInSessionKey="requestBody"
                 getInputFromFixedValue="{&quot;bronorganisatie&quot;: &quot;?{Rsin}&quot;, &quot;aantal&quot;: 1}"
-                active="${reseveer_identificatie.Active}">
+                active="${reseveer_identificatie_openzaak_switch.Active}">
                 <Param name="Rsin" sessionKey="Rsin" xpathExpression="//RSIN/text()"/>
                 <Forward name="success" path="switcher" />
             </ReplacerPipe>
@@ -58,7 +58,7 @@
 
             <SenderPipe name="ZaakIdentificatie"
                 storeResultInSessionKey="GetIdResult"
-                active="!${reseveer_identificatie.Active}">
+                active="!${reseveer_identificatie_openzaak_switch.Active}">
                 <FixedQuerySender
                     query="UPDATE IDENTIFICATIE  SET IDENTIFICATIE=(IDENTIFICATIE + 1 ) WHERE TYPE=?{IdentificatieType}"
                     queryType="OTHER"
@@ -70,7 +70,7 @@
             </SenderPipe>
 
             <SenderPipe
-                name="ZaakIdentificatie" active="${reseveer_identificatie.Active}"
+                name="ZaakIdentificatie" active="${reseveer_identificatie_openzaak_switch.Active}"
                 >
                 <IbisLocalSender
                     name="PostZgwZaaknummer_reserverenSender"
@@ -84,7 +84,7 @@
             </SenderPipe>
 
             <SenderPipe name="DocumentIdentificatie"
-                storeResultInSessionKey="GetIdResult" active="!${reseveer_identificatie.Active}">
+                storeResultInSessionKey="GetIdResult" active="!${reseveer_identificatie_openzaak_switch.Active}">
                 <FixedQuerySender
                     query="UPDATE IDENTIFICATIE  SET IDENTIFICATIE=( IDENTIFICATIE + 1) WHERE TYPE=?{IdentificatieType}"
                     queryType="OTHER"
@@ -96,7 +96,7 @@
             </SenderPipe>
 
             <SenderPipe
-                name="DocumentIdentificatie" active="${reseveer_identificatie.Active}"
+                name="DocumentIdentificatie" active="${reseveer_identificatie_openzaak_switch.Active}"
                 >
                 <IbisLocalSender
                     name="PostZgwDocumentnummer_reserverenSender"
@@ -110,6 +110,7 @@
             </SenderPipe>
 
             <SenderPipe name="BesluitIdentificatie"
+                active="!${reseveer_identificatie_openzaak_switch.Active}"
                 storeResultInSessionKey="GetIdResult">
                 <FixedQuerySender
                     query="UPDATE IDENTIFICATIE  SET IDENTIFICATIE=( IDENTIFICATIE + 1) WHERE TYPE=?{IdentificatieType}"
@@ -122,6 +123,7 @@
             </SenderPipe>
 
             <IfPipe name="CheckForDBResult"
+                active="!${reseveer_identificatie_openzaak_switch.Active}"
                 xpathExpression="string-length(result/rowset/row[@number='0']) > 0"
             >
                 <Forward name="then" path="CreateNewId" />
@@ -130,6 +132,7 @@
 
 
             <XsltPipe name="CreateNewId" styleSheetName="Common/xsl/CreateIdentication.xslt"
+                active="!${reseveer_identificatie_openzaak_switch.Active}"
                 storeResultInSessionKey="newId" omitXmlDeclaration="true">
                 <Param name="IdentificatieType" sessionKey="IdentificatieType" />
                 <Param name="zaak-identificatie-template"
@@ -142,7 +145,8 @@
             </XsltPipe>
 
 
-            <SenderPipe name="InsertIdentificatie">
+            <SenderPipe name="InsertIdentificatie"
+                active="!${reseveer_identificatie_openzaak_switch.Active}">
                 <FixedQuerySender
                     query="INSERT INTO IDENTIFICATIE (IDENTIFICATIE, TYPE) VALUES (0, ?{IdentificatieType})"
                     queryType="OTHER"
@@ -155,7 +159,7 @@
                 xpathExpression="//*[@key='zaaknummer']/text() | //*[@key='identificatie']/text()" 
                 storeResultInSessionKey="newId"
                 outputType="TEXT"
-                active="${reseveer_identificatie.Active}">
+                active="${reseveer_identificatie_openzaak_switch.Active}">
                 <Forward name="success" path="SetExitMessage" />
             </JsonXsltPipe>
 
