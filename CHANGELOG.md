@@ -1,5 +1,40 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.0](https://github.com/wearefrank/zaakbrug/compare/v1.25.0...v1.26.0) (2025-11-18)
+
+### 🍕 Features
+
+* prevent replicate when SOAPAction is genereerZaak/DocumentIdentificatie and stopOnError=true ([21016f6](https://github.com/wearefrank/zaakbrug/commit/21016f692e002469c86c77d4f335c5f9e304e03c))
+* split soapRouteProfiles into defaults and actual profiles ([a1c82e6](https://github.com/wearefrank/zaakbrug/commit/a1c82e6897e666e6434ad86b3e92dd82f21d9f35))
+* support deep merge in MergeProfileDefaultsWithProfiles ([32f67f7](https://github.com/wearefrank/zaakbrug/commit/32f67f7fc63deffc3b55dd5164135e52d55f06a3))
+
+### 🐛 Bug Fixes
+
+* change jsonpathpipe to datasonnetpipe ([9b3ae4a](https://github.com/wearefrank/zaakbrug/commit/9b3ae4a3f3cfadfbe7bb5e441f225f5ad117c323))
+* dynamic env var replacement to make chain function ([b432f05](https://github.com/wearefrank/zaakbrug/commit/b432f05010f8785200d0a1cedcef031234cb3a87))
+* error handling in ResolveProfileValues ([944fad9](https://github.com/wearefrank/zaakbrug/commit/944fad9b26856dcc20536250d68db4acc07b00b1))
+* invalid property names for webservicelistener adresses ([335e77f](https://github.com/wearefrank/zaakbrug/commit/335e77ff2862d5ff6afceb0ad1d394726be691d5))
+* make generic routing stuff use ibislocalsenders instead of soap ([f37eb12](https://github.com/wearefrank/zaakbrug/commit/f37eb12f1c53e7ca23e3ecd9801ce4d2fe6b0f7f))
+* more small changes ([cb5bed8](https://github.com/wearefrank/zaakbrug/commit/cb5bed85ee6787116400fee268af18084e125f69))
+* refactor replicators and add shadow-option switch propertie ([166035c](https://github.com/wearefrank/zaakbrug/commit/166035c4aa148d1d3989d8fc85ed4d55afee84ac))
+* remove k8s path from file ([532cbfa](https://github.com/wearefrank/zaakbrug/commit/532cbfaa0bfd6bb0a37cb0af0baa58ac28130208))
+* rename shadowMode to stopOnError and move it to routingProfiles ([f4fbb71](https://github.com/wearefrank/zaakbrug/commit/f4fbb71b340a9658581ffcb66b2ac58fe82bc1c6))
+* rename SoapRouteProfile to RoutingProfile ([a3fb04d](https://github.com/wearefrank/zaakbrug/commit/a3fb04d3334d0c51a8e3132b8f3ab73ced360f8e))
+* ResolveProfileValues error handling ([a3d2db0](https://github.com/wearefrank/zaakbrug/commit/a3d2db070385eec1f3dc1f48efa9b21e8f40a0c3))
+* resolveProfileValues exits and active properties ([fae7e43](https://github.com/wearefrank/zaakbrug/commit/fae7e43df40169ee33e3a9e6b1556f97aa62ae34))
+* send SOAPAction to translate from replicate ([d9c7cb6](https://github.com/wearefrank/zaakbrug/commit/d9c7cb64e1c7d640b55548f0e768818d3d7aeaad))
+* startup goes wrong when using franksenders ([3d7f291](https://github.com/wearefrank/zaakbrug/commit/3d7f2913282bb92f1717923bbdf0b5d703db6f32))
+* support routing json for specific routing per soapAction+zaaktype combination ([d554e34](https://github.com/wearefrank/zaakbrug/commit/d554e34b078c31b5833a4255ed1b539753b9996c))
+
+### 🤖 Build System
+
+* **dependencies:** bump the docusaurus group across 1 directory with 9 updates ([#607](https://github.com/wearefrank/zaakbrug/issues/607)) ([d58a57c](https://github.com/wearefrank/zaakbrug/commit/d58a57cc28bbddcaa707c274570117c7e6fb1acc))
+* **dependencies:** update node-version in workflow to v24 ([e03ae70](https://github.com/wearefrank/zaakbrug/commit/e03ae704e03133cf2728a5d9ef5cb6e6e4af1be4))
+
+### 🔁 Continuous Integration
+
+* workflow for cleaning up run artifact after workflow completion ([c62189e](https://github.com/wearefrank/zaakbrug/commit/c62189ee44abeb24bfb34308ea6dd725e8090b8a))
+
 ## [1.25.0](https://github.com/wearefrank/zaakbrug/compare/v1.24.10...v1.25.0) (2025-09-10)
 
 ### 🍕 Features
