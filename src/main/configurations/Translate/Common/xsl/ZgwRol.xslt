@@ -56,6 +56,9 @@
             <xsl:if test="verblijfsadres/aoa.identificatie != '' and verblijfsadres/wpl.woonplaatsNaam != '' and verblijfsadres/gor.openbareRuimteNaam != '' and verblijfsadres/aoa.huisnummer != ''">
                 <xsl:apply-templates select="verblijfsadres"/>
             </xsl:if>
+            <xsl:if test="sub.verblijfBuitenland/lnd.landnaam != '' and sub.verblijfBuitenland/sub.adresBuitenland1 != ''">
+                <xsl:apply-templates select="sub.verblijfBuitenland"/>
+            </xsl:if>
         </betrokkeneIdentificatie>
     </xsl:template>
 
@@ -131,8 +134,11 @@
                     </xsl:otherwise>
                 </xsl:choose>
             </innRechtsvorm></xsl:if>
-            <xsl:if test="verblijfsadres/aoa.identificatie != '' and verblijfsadres/wpl.woonplaatsNaam != '' and verblijfsadres/gor.openbareRuimteNaam != '' and verblijfsadres/aoa.huisnummer != ''">
-                <xsl:apply-templates select="verblijfsadres"/>
+            <xsl:if test="bezoekadres/aoa.identificatie != '' and bezoekadres/wpl.woonplaatsNaam != '' and bezoekadres/gor.openbareRuimteNaam != '' and bezoekadres/aoa.huisnummer != ''">
+                <xsl:apply-templates select="bezoekadres"/>
+            </xsl:if>
+            <xsl:if test="sub.verblijfBuitenland/lnd.landnaam != '' and sub.verblijfBuitenland/sub.adresBuitenland1 != ''">
+                <xsl:apply-templates select="sub.verblijfBuitenland"/>
             </xsl:if>
         </betrokkeneIdentificatie>
     </xsl:template>
@@ -146,6 +152,9 @@
             <xsl:if test="handelsnaam != ''"><handelsnaam><xsl:value-of select="handelsnaam"/></handelsnaam></xsl:if>
             <xsl:if test="verblijfsadres/aoa.identificatie != '' and verblijfsadres/wpl.woonplaatsNaam != '' and verblijfsadres/gor.openbareRuimteNaam != '' and verblijfsadres/aoa.huisnummer != ''">
                 <xsl:apply-templates select="verblijfsadres"/>
+            </xsl:if>
+            <xsl:if test="sub.verblijfBuitenland/lnd.landnaam != '' and sub.verblijfBuitenland/sub.adresBuitenland1 != ''">
+                <xsl:apply-templates select="sub.verblijfBuitenland"/>
             </xsl:if>
         </betrokkeneIdentificatie>
     </xsl:template>
@@ -180,6 +189,29 @@
             <xsl:if test="aoa.huisnummertoevoeging != ''"><aoaHuisnummertoevoeging><xsl:value-of select="aoa.huisnummertoevoeging"/></aoaHuisnummertoevoeging></xsl:if>
             <xsl:if test="inp.locatiebeschrijving != ''"><inpLocatiebeschrijving><xsl:value-of select="inp.locatiebeschrijving"/></inpLocatiebeschrijving></xsl:if>
         </verblijfsadres>
+    </xsl:template>
+
+    <xsl:template match="bezoekadres">
+        <verblijfsadres>
+            <xsl:if test="aoa.identificatie != ''"><aoaIdentificatie><xsl:value-of select="aoa.identificatie"/></aoaIdentificatie></xsl:if>
+            <xsl:if test="wpl.woonplaatsNaam != ''"><wplWoonplaatsNaam><xsl:value-of select="wpl.woonplaatsNaam"/></wplWoonplaatsNaam></xsl:if>
+            <xsl:if test="gor.openbareRuimteNaam != ''"><gorOpenbareRuimteNaam><xsl:value-of select="gor.openbareRuimteNaam"/></gorOpenbareRuimteNaam></xsl:if>
+            <xsl:if test="aoa.postcode != ''"><aoaPostcode><xsl:value-of select="aoa.postcode"/></aoaPostcode></xsl:if>
+            <xsl:if test="aoa.huisnummer != ''"><aoaHuisnummer><xsl:value-of select="aoa.huisnummer"/></aoaHuisnummer></xsl:if>
+            <xsl:if test="aoa.huisletter != ''"><aoaHuisletter><xsl:value-of select="aoa.huisletter"/></aoaHuisletter></xsl:if>
+            <xsl:if test="aoa.huisnummertoevoeging != ''"><aoaHuisnummertoevoeging><xsl:value-of select="aoa.huisnummertoevoeging"/></aoaHuisnummertoevoeging></xsl:if>
+            <xsl:if test="inp.locatiebeschrijving != ''"><inpLocatiebeschrijving><xsl:value-of select="inp.locatiebeschrijving"/></inpLocatiebeschrijving></xsl:if>
+        </verblijfsadres>
+    </xsl:template>
+
+    <xsl:template match="sub.verblijfBuitenland">
+        <subVerblijfBuitenland>
+            <lndLandcode>NL</lndLandcode>
+            <xsl:if test="lnd.landnaam != ''"><lndLandnaam><xsl:value-of select="lnd.landnaam"/></lndLandnaam></xsl:if>
+            <xsl:if test="sub.adresBuitenland1 != ''"><subAdresBuitenland_1><xsl:value-of select="sub.adresBuitenland1"/></subAdresBuitenland_1></xsl:if>
+            <xsl:if test="sub.adresBuitenland2 != ''"><subAdresBuitenland_2><xsl:value-of select="sub.adresBuitenland2"/></subAdresBuitenland_2></xsl:if>
+            <xsl:if test="sub.adresBuitenland3 != ''"><subAdresBuitenland_3><xsl:value-of select="sub.adresBuitenland3"/></subAdresBuitenland_3></xsl:if>
+        </subVerblijfBuitenland>
     </xsl:template>
 
     <xsl:function name="zgw:toZgwDate">

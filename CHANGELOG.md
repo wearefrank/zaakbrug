@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.1](https://github.com/wearefrank/zaakbrug/compare/v1.26.0...v1.26.1) (2025-11-27)
+
+### 🐛 Bug Fixes
+
+* Mapping sub.verblijfBuitenland for betrokkenetypes NNP,NPS and Vestiging has been added. Mapping verblijfAdres (for NPS and Vestiging) and bezoekadres (for NNP) has been updated. ([2781aa4](https://github.com/wearefrank/zaakbrug/commit/2781aa4e01267b6756b27bd019340c91acdc093f))
+
 ## [1.26.0](https://github.com/wearefrank/zaakbrug/compare/v1.25.0...v1.26.0) (2025-11-18)
 
 ### 🍕 Features

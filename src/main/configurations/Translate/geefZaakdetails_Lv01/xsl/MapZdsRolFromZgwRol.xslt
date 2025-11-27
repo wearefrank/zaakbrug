@@ -44,6 +44,7 @@
                         <BG:geboortedatum><xsl:value-of select="zgw:toZdsDate(betrokkeneIdentificatie/geboortedatum)"/></BG:geboortedatum>
                     </xsl:if>
                     <xsl:apply-templates select="betrokkeneIdentificatie/verblijfsadres"/>
+                    <xsl:apply-templates select="betrokkeneIdentificatie/subVerblijfBuitenland"/>
                 </ZKN:natuurlijkPersoon>
             </ZKN:gerelateerde>
             <xsl:if test="string-length($ExtraElementen) gt 0"><xsl:copy-of select="$ExtraElementen" /></xsl:if>
@@ -68,8 +69,8 @@
                     <xsl:if test="betrokkeneIdentificatie/innRechtsvorm != ''">
                         <BG:inn.rechtsvorm><xsl:value-of select="betrokkeneIdentificatie/innRechtsvorm"/></BG:inn.rechtsvorm>
                     </xsl:if>
-                    <!-- Missing bezoekadres -->
-                    <!-- Missing subVerblijfBuitenland -->
+                    <xsl:apply-templates select="betrokkeneIdentificatie/bezoekadres"/>
+                    <xsl:apply-templates select="betrokkeneIdentificatie/subVerblijfBuitenland"/>
                 </ZKN:nietNatuurlijkPersoon>
             </ZKN:gerelateerde>
             <xsl:if test="string-length($ExtraElementen) gt 0"><xsl:copy-of select="$ExtraElementen" /></xsl:if>
@@ -88,7 +89,7 @@
                         <BG:handelsnaam><xsl:value-of select="."/></BG:handelsnaam>
                     </xsl:for-each>
                     <xsl:apply-templates select="betrokkeneIdentificatie/verblijfsadres"/>
-                    <!-- Missing subVerblijfBuitenland -->
+                    <xsl:apply-templates select="betrokkeneIdentificatie/subVerblijfBuitenland"/>
                 </ZKN:vestiging>
             </ZKN:gerelateerde>
             <xsl:if test="string-length($ExtraElementen) gt 0"><xsl:copy-of select="$ExtraElementen" /></xsl:if>
@@ -137,8 +138,8 @@
             <BG:verblijfsadres>
                 <xsl:if test="aoaIdentificatie != ''">
                     <BG:aoa.identificatie><xsl:value-of select="aoaIdentificatie" /></BG:aoa.identificatie>
-                    <BG:authentiek StUF:metagegeven="true"><xsl:value-of select="if (authentiek != '') then authentiek else 'N'"/></BG:authentiek>
                 </xsl:if>
+                <BG:authentiek StUF:metagegeven="true"><xsl:value-of select="if (authentiek != '') then authentiek else 'N'"/></BG:authentiek>
                 <xsl:if test="wplWoonplaatsNaam != ''">
                     <BG:wpl.woonplaatsNaam><xsl:value-of select="wplWoonplaatsNaam"/></BG:wpl.woonplaatsNaam>
                 </xsl:if>
@@ -164,6 +165,60 @@
                     <BG:inp.locatiebeschrijving><xsl:value-of select="inpLocatiebeschrijving"/></BG:inp.locatiebeschrijving>
                 </xsl:if>
             </BG:verblijfsadres>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template match="bezoekadres">
+        <xsl:if test="string-length(.) gt 0">
+            <BG:bezoekadres>
+                <xsl:if test="aoaIdentificatie != ''">
+                    <BG:aoa.identificatie><xsl:value-of select="aoaIdentificatie" /></BG:aoa.identificatie>
+                </xsl:if>
+                <BG:authentiek StUF:metagegeven="true"><xsl:value-of select="if (authentiek != '') then authentiek else 'N'"/></BG:authentiek>
+                <xsl:if test="wplWoonplaatsNaam != ''">
+                    <BG:wpl.woonplaatsNaam><xsl:value-of select="wplWoonplaatsNaam"/></BG:wpl.woonplaatsNaam>
+                </xsl:if>
+                <xsl:if test="gorOpenbareRuimteNaam != ''">
+                    <BG:gor.openbareRuimteNaam><xsl:value-of select="gorOpenbareRuimteNaam"/></BG:gor.openbareRuimteNaam>
+                </xsl:if>
+                <xsl:if test="gorOpenbareRuimteNaam != ''">
+                    <BG:gor.straatnaam><xsl:value-of select="gorOpenbareRuimteNaam"/></BG:gor.straatnaam>
+                </xsl:if>
+                <xsl:if test="aoaPostcode != ''">
+                    <BG:aoa.postcode><xsl:value-of select="aoaPostcode"/></BG:aoa.postcode>
+                </xsl:if>
+                <xsl:if test="aoaHuisnummer != ''">
+                    <BG:aoa.huisnummer><xsl:value-of select="aoaHuisnummer"/></BG:aoa.huisnummer>
+                </xsl:if>
+                <xsl:if test="aoaHuisletter != ''">
+                    <BG:aoa.huisletter><xsl:value-of select="aoaHuisletter"/></BG:aoa.huisletter>
+                </xsl:if>
+                <xsl:if test="aoaHuisnummertoevoeging != ''">
+                    <BG:aoa.huisnummertoevoeging><xsl:value-of select="aoaHuisnummertoevoeging"/></BG:aoa.huisnummertoevoeging>
+                </xsl:if>
+                <xsl:if test="inpLocatiebeschrijving != ''">
+                    <BG:inp.locatiebeschrijving><xsl:value-of select="inpLocatiebeschrijving"/></BG:inp.locatiebeschrijving>
+                </xsl:if>
+            </BG:bezoekadres>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template match="subVerblijfBuitenland">
+        <xsl:if test="string-length(.) gt 0">
+            <BG:sub.verblijfBuitenland>
+                <xsl:if test="lndLandnaam != ''">
+                    <BG:lnd.landnaam><xsl:value-of select="lndLandnaam"/></BG:lnd.landnaam>
+                </xsl:if>
+                <xsl:if test="subAdresBuitenland_1 != ''">
+                    <BG:sub.adresBuitenland1><xsl:value-of select="subAdresBuitenland_1"/></BG:sub.adresBuitenland1>
+                </xsl:if>
+                <xsl:if test="subAdresBuitenland_2 != ''">
+                    <BG:sub.adresBuitenland2><xsl:value-of select="subAdresBuitenland_2"/></BG:sub.adresBuitenland2>
+                </xsl:if>
+                <xsl:if test="subAdresBuitenland_3 != ''">
+                    <BG:sub.adresBuitenland3><xsl:value-of select="subAdresBuitenland_3"/></BG:sub.adresBuitenland3>
+                </xsl:if>
+            </BG:sub.verblijfBuitenland>
         </xsl:if>
     </xsl:template>
 
