@@ -277,8 +277,9 @@
             <SenderPipe name="GetResolveProfileValuesSender_1">
                 <IbisLocalSender
                     name="CallResolveProfileValuesLocalSender_1"
-                    javaListener="ResolveProfileValues"
+                    javaListener="ResolveProfileValuesSingleFile"
                     returnedSessionKeys="Error">
+                    <Param name="profilesFile" value="${configurations.directory}/Translate/Profiles.json"/>
                 </IbisLocalSender>
                 <Forward name="success" path="GetCoalesceResultaat_1"/>
                 <Forward name="exception" path="EXCEPTION" />
@@ -340,8 +341,9 @@
             <SenderPipe name="GetResolveProfileValuesSender_2">
                 <IbisLocalSender
                     name="CallResolveProfileValuesLocalSender_2"
-                    javaListener="ResolveProfileValues"
+                    javaListener="ResolveProfileValuesSingleFile"
                     returnedSessionKeys="Error">
+                    <Param name="profilesFile" value="${configurations.directory}/Translate/Profiles.json"/>
                 </IbisLocalSender>
                 <Forward name="success" path="GetCoalesceResultaat_2"/>
                 <Forward name="exception" path="EXCEPTION" />

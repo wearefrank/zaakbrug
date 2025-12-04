@@ -1,0 +1,46 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="SoapEndpointProxy_OntvangAsynchroon"
+        active="${SoapEndpointProxy_OntvangAsynchroon.Active}"
+        description="This adapter will send the message to proxy">
+
+        <Receiver name="SoapEndpointProxy_OntvangAsynchroon">
+            <WebServiceListener name="SoapEndpointProxy_OntvangAsynchroon" address="${zaakbrug.soap.proxy.ontvang-asynchroon.endpoint}" soap="false"/>
+        </Receiver>
+
+        <Receiver name="SoapEndpointProxy_OntvangAsynchroon_Java">
+            <JavaListener name="${zaakbrug.java.proxy.ontvang-asynchroon.endpoint}"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                    name="SendToProxy">
+                <WebServiceSender
+                        name="SendToProxySender"
+                        soap="false"
+                        soapActionParam="SOAPAction"
+                        url="${zaakbrug.soap.proxy.ontvang-asynchroon.proxy.url}"
+                        timeout="${zaakbrug.soap.proxy.ontvang-asynchroon.proxy.timeout}"
+                        verifyHostname="${zaakbrug.soap.proxy.ontvang-asynchroon.proxy.verifyHostname}"
+                        allowSelfSignedCertificates="${zaakbrug.soap.proxy.ontvang-asynchroon.proxy.allowSelfSignedCertificates}"
+                        disableCookies="${zaakbrug.soap.proxy.ontvang-asynchroon.proxy.disableCookies}"
+                        ignoreCertificateExpiredException="${zaakbrug.soap.proxy.ontvang-asynchroon.proxy.ignoreCertificateExpiredException}"
+                        truststore="${zaakbrug.soap.proxy.ontvang-asynchroon.proxy.truststore.uri}"
+                        truststoreAuthAlias="${zaakbrug.soap.proxy.ontvang-asynchroon.proxy.truststore.authAlias}"
+                        truststoreType="${zaakbrug.soap.proxy.ontvang-asynchroon.proxy.truststore.type}"
+                        keystore="${zaakbrug.soap.proxy.ontvang-asynchroon.proxy.keystore.uri}"
+                        keystoreAlias="${zaakbrug.soap.proxy.ontvang-asynchroon.proxy.keystore.alias}"
+                        keystoreAuthAlias="${zaakbrug.soap.proxy.ontvang-asynchroon.proxy.keystore.authAlias}"
+                        keystoreType="${zaakbrug.soap.proxy.ontvang-asynchroon.proxy.keystore.type}">
+                    <Param name="SOAPAction" sessionKey="SOAPAction" />
+                </WebServiceSender>
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

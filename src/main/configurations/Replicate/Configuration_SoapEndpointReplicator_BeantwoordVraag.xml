@@ -1,0 +1,70 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="SoapEndpointReplicator_BeantwoordVraag"
+        active="${SoapEndpointReplicator_BeantwoordVraag.Active}"
+        description="This adapter will first send the message to the endpoint router, and (optionally only if the response is successful) it also sends the message the proxy">
+
+        <Receiver name="SoapEndpointReplicator_BeantwoordVraag">
+            <WebServiceListener name="SoapEndpointReplicator_BeantwoordVraag" address="${zaakbrug.soap.replicate.beantwoord-vraag.endpoint}" soap="false"/>
+        </Receiver>
+
+        <Receiver name="SoapEndpointReplicator_BeantwoordVraag_Java">
+            <JavaListener name="${zaakbrug.java.replicate.beantwoord-vraag.endpoint}"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe name="GetProfileProperties" unlessSessionKey="stopOnError" preserveInput="true">
+                <IbisLocalSender name="GetProfilePropertiesSender" javaListener="GetProfileProperties" returnedSessionKeys="stopOnError">
+                    <Param name="fromSoapAction" xpathExpression="tokenize($SOAPAction, '/')[last()]">
+                        <Param name="SOAPAction" sessionKey="SOAPAction"/>
+                    </Param>
+                    <Param name="zaaktype" xpathExpression="//object/isVan/gerelateerde/code"/>
+                </IbisLocalSender>
+            </SenderPipe>
+
+            <SenderPipe
+                    name="SendToTranslate"
+                    preserveInput="true"
+                    storeResultInSessionKey="TranslateResponse">
+<!--                <FrankSender-->
+<!--                        name="SendToRouterSender"-->
+<!--                        target="Translate/SoapEndpointRouter_BeantwoordVraag"-->
+<!--                        returnedSessionKeys="SOAPAction,exitState"/>-->
+                <IbisLocalSender
+                        name="SendToTranslateSender"
+                        javaListener="${zaakbrug.java.translate.beantwoord-vraag.endpoint}"
+                        returnedSessionKeys="exitState">
+                    <Param name="SOAPAction" sessionKey="SOAPAction"/>
+                </IbisLocalSender>
+                <Forward name="success" path="SendToProxy" />
+                <Forward name="500" path="CheckIfShouldSendToProxyAnyways" />
+                <Forward name="exception" path="CheckIfShouldSendToProxyAnyways" />
+            </SenderPipe>
+
+            <IfPipe name="CheckIfShouldSendToProxyAnyways" getInputFromSessionKey="stopOnError" preserveInput="true" expressionValue="false">
+                <Forward name="then" path="SendToProxy"/>
+                <Forward name="else" path="EchoTranslateResponse"/>
+            </IfPipe>
+
+            <SenderPipe name="SendToProxy">
+<!--                <FrankSender name="SendToProxySender" target="Proxy/SoapEndpointProxy_BeantwoordVraag" synchronous="false">-->
+<!--                    <Param name="SOAPAction" sessionKey="SOAPAction"/>-->
+<!--                </FrankSender>-->
+                <IbisLocalSender name="SendToProxySender" javaListener="${zaakbrug.java.proxy.beantwoord-vraag.endpoint}" synchronous="false">
+                    <Param name="SOAPAction" sessionKey="SOAPAction"/>
+                </IbisLocalSender>
+            </SenderPipe>
+
+            <EchoPipe name="EchoTranslateResponse" getInputFromSessionKey="TranslateResponse"/>
+
+            <IfPipe name="IfTranslateSuccess" getInputFromSessionKey="exitState" expressionValue="SUCCESS" preserveInput="true">
+                <Forward name="then" path="EXIT"/>
+                <Forward name="else" path="EXCEPTION"/>
+            </IfPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

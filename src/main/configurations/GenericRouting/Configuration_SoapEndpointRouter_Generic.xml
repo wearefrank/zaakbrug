@@ -1,0 +1,42 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="SoapEndpointRouter_Generic"
+        active="${SoapEndpointRouter_Generic.Active}"
+        description="This adapter will send the message to either the proxy, replicate, or translate pipeline based on their SOAPAction">
+
+        <Receiver name="SoapEndpointRouter_Generic">
+            <WebServiceListener name="SoapEndpointRouter_Generic" address="${zaakbrug.soap.router.generic.endpoint}" soap="false"/>
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <PutInSessionPipe name="PutInSession">
+                <Param name="fromSoapAction" xpathExpression="tokenize($SOAPAction, '/')[last()]">
+                    <Param name="SOAPAction" sessionKey="SOAPAction"/>
+                </Param>
+                <Param name="zaaktype" xpathExpression="//object/isVan/gerelateerde/code"/>
+            </PutInSessionPipe>
+
+            <SenderPipe name="GetProfileProperties" getInputFromFixedValue="&lt;dummy/&gt;">
+                <IbisLocalSender name="GetProfilePropertiesSender" javaListener="GetProfileProperties" returnedSessionKeys="listenerName,stopOnError">
+                    <Param name="fromSoapAction" sessionKey="fromSoapAction"/>
+                    <Param name="zaaktype" sessionKey="zaaktype"/>
+                </IbisLocalSender>
+            </SenderPipe>
+
+            <SenderPipe name="SendToPipeline" getInputFromSessionKey="originalMessage">
+                <IbisLocalSender
+                        name="SendToPipelineSender"
+                        javaListenerSessionKey="listenerName">
+                    <Param name="SOAPAction" sessionKey="SOAPAction" />
+                    <Param name="stopOnError" sessionKey="stopOnError" />
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

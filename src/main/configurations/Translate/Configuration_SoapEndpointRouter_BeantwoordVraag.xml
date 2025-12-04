@@ -10,12 +10,17 @@
         -->
 
         <Receiver name="SoapEndpointRouter_BeantwoordVraag">
-            <WebServiceListener name="SoapEndpointRouter_BeantwoordVraag" address="${zaakbrug.soap.beantwoord-vraag.endpoint}" soap="false"/>
+            <WebServiceListener name="SoapEndpointRouter_BeantwoordVraag" address="${zaakbrug.soap.translate.beantwoord-vraag.endpoint}" soap="false"/>
+        </Receiver>
+
+        <Receiver name="SoapEndpointRouter_BeantwoordVraag_Java">
+            <JavaListener name="${zaakbrug.java.translate.beantwoord-vraag.endpoint}"/>
         </Receiver>
 
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="Fo03ERROR" state="SUCCESS" code="500"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
@@ -247,7 +252,7 @@
                 <Param name="errorReason" sessionKey="errorReason"/>
                 <Param name="errorDetailText" sessionKey="errorDetailText"/>
                 <Param name="errorDetailXML" sessionKey="errorDetailXML" type="DOMDOC"/>
-                <Forward name="success" path="EXIT"/>
+                <Forward name="success" path="Fo03ERROR"/>
             </SoapWrapperPipe>
         </Pipeline>
     </Adapter>

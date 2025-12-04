@@ -1,0 +1,16 @@
+[
+  {
+    "zaakTypeIdentificatie": "RP-A",
+    "creeerZaak_Lk01": {
+      "route": "replicate.ontvang-asynchroon",
+      "stopOnError": "true"
+    }
+  },
+  {
+    "zaakTypeIdentificatie": "RP-B",
+    "creeerZaak_Lk01": {
+      "route": "proxy.ontvang-asynchroon",
+      "stopOnError": "false"
+    }
+  }
+]

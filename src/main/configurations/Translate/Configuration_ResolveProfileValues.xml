@@ -1,14 +1,14 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="ResolveProfileValues"
-        active="${ResolveProfileValues.Active}"
+    <Adapter name="ResolveProfileValuesSingleFile"
+        active="${ResolveProfileValuesSingleFile.Active}"
         description="">
 
         <Receiver
-            name="ResolveProfileValues"
+            name="ResolveProfileValuesSingleFile"
             >
             <JavaListener
-                name="ResolveProfileValues"
+                name="ResolveProfileValuesSingleFile"
                 returnedSessionKeys="Error"
                 />
         </Receiver>
@@ -22,67 +22,240 @@
             <Cache />
 
             <LocalFileSystemPipe
-                name="ReadFile"
-                action="read"
-                storeResultInSessionKey="profilesFile"
-                >
-                <Param name="filename" value="${configurations.directory}/Translate/Profiles.json" />
-                <Forward name="success" path="EscapeJsonForGraalJS" />
-                <Forward name="exception" path="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException" />
+                    name="ReadFile"
+                    action="read"
+                    storeResultInSessionKey="profilesFileContent">
+                <Param name="filename" sessionKey="profilesFile" />
+                <Forward name="success" path="ConvertJsonIntoXml" />
+                <Forward name="exception" path="ReadFileException" />
             </LocalFileSystemPipe>
 
-            <!--    This is a workaround for https://github.com/frankframework/frankframework/issues/9023 because J2V8 engine having no arm64 support
-                    and the GRAALJS engine has an issue with encoding of the input message. -->
-            <PutInSessionPipe
-                name="EscapeJsonForGraalJS"
-                getInputFromFixedValue="&lt;dummy/&gt;"
-                ifParam="javascriptEngine"
-                ifValue="GRAALJS">
-                <Param name="profilesFile" xpathExpression="normalize-space(replace(replace(replace(replace(replace($fileContent, '&amp;', '\\&amp;'), '\r', ''), '\t', ''), '\n', ''), '&quot;', '\\&quot;'))">
-                    <Param name="fileContent" sessionKey="profilesFile" type="STRING" />
-                </Param>
-                <Param name="javascriptEngine" value="${zaakbrug.javascriptEngine}" />
-                <Forward name="success" path="MergeProfileDefaultsWithProfilesSender" />
-                <Forward name="exception" path="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException" />
-            </PutInSessionPipe>
+            <JsonPipe name="ConvertJsonIntoXml"/>
 
-            <SenderPipe
-                name="MergeProfileDefaultsWithProfilesSender"
-                storeResultInSessionKey="mergedProfiles"
-                getInputFromFixedValue="&lt;dummy/&gt;"
-                >
-				<JavascriptSender
-                    name="MergeProfileDefaultsWithProfilesJavascriptSender"
-                    jsFileName="MergeProfileDefaultsWithProfiles.js"
-                    jsFunctionName="mergeProfileDefaultsWithProfiles"
-                    engineName="${zaakbrug.javascriptEngine}">
-				</JavascriptSender>
-                <Param name="profilesFile" sessionKey="profilesFile" />
-                <Forward name="success" path="JsonToXml" />
-                <Forward name="exception" path="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException" />
-			</SenderPipe>
+            <IfPipe name="CheckProfileDefaultsExistence" xpathExpression="root/profileDefaults">
+                <Forward name="then" path="SplitSingleFile1"/>
+                <Forward name="else" path="CheckProfilesExistence"/>
+            </IfPipe>
 
-            <JsonPipe
-                name="JsonToXml"
-                >
-                <Forward name="success" path="EXIT" />
-                <Forward name="exception" path="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException" />
-            </JsonPipe>
+<!--            <JsonPathPipe name="SplitSingleFile1" jsonPathExpression="$.profileDefaults" storeResultInSessionKey="profileDefaults" preserveInput="true">-->
+<!--                <Forward name="success" path="SplitSingleFile2"/>-->
+<!--                <Forward name="exception" path="FileSplitException"/>-->
+<!--            </JsonPathPipe>-->
+
+            <DataSonnetPipe name="SplitSingleFile1" storeResultInSessionKey="profileDefaults" getInputFromSessionKey="profilesFileContent" preserveInput="true" styleSheetName="ResolveProfileValues/jsonnet/getProfileDefaults.jsonnet">
+                <Forward name="success" path="CheckProfilesExistence"/>
+                <Forward name="exception" path="FileSplitException"/>
+            </DataSonnetPipe>
+
+            <IfPipe name="CheckProfilesExistence" xpathExpression="root/profile">
+                <Forward name="then" path="SplitSingleFile2"/>
+                <Forward name="else" path="SendToMergeProfilesWithDefaults"/>
+            </IfPipe>
+
+<!--            <JsonPathPipe name="SplitSingleFile2" jsonPathExpression="$.profile" storeResultInSessionKey="profiles" preserveInput="true">-->
+<!--                <Forward name="success" path="SendToMergeProfilesWithDefaults"/>-->
+<!--                <Forward name="exception" path="FileSplitException"/>-->
+<!--            </JsonPathPipe>-->
+
+            <DataSonnetPipe name="SplitSingleFile2" storeResultInSessionKey="profiles" getInputFromSessionKey="profilesFileContent" styleSheetName="ResolveProfileValues/jsonnet/getProfiles.jsonnet">
+                <Forward name="success" path="SendToMergeProfilesWithDefaults"/>
+                <Forward name="exception" path="FileSplitException"/>
+            </DataSonnetPipe>
+
+            <SenderPipe name="SendToMergeProfilesWithDefaults" getInputFromFixedValue="&lt;dummy/&gt;">
+                <IbisLocalSender javaListener="MergeProfilesWithDefaults">
+                    <Param name="profileDefaults" sessionKey="profileDefaults"/>
+                    <Param name="profiles" sessionKey="profiles"/>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="EXCEPTION"/>
+            </SenderPipe>
 
             <XsltPipe
-                name="MergeProfileDefaultsWithProfilesSender_TranslationProfilesMergeException"
-                getInputFromFixedValue="&lt;dummy/&gt;"
-                styleSheetName="Common/xsl/BuildError.xsl"
-                storeResultInSessionKey="Error"
-                >
+                    name="ReadFileException"
+                    getInputFromFixedValue="&lt;dummy/&gt;"
+                    styleSheetName="Common/xsl/BuildError.xsl"
+                    storeResultInSessionKey="Error">
                 <Param name="cause" sessionKey="Error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
-                <Param name="reason" value="Translation profiles merging operation failed" />
-                <Param name="details" pattern="{mergedProfiles}" ignoreUnresolvablePatternElements="true" />
+                <Param name="reason" pattern="Reading profiles file failed for [{profilesFile}]" />
+                <Param name="details" pattern="{profilesFileContent}" ignoreUnresolvablePatternElements="true" />
                 <!-- <Param name="detailsXml" sessionKey="" type="DOMDOC" /> -->
                 <Forward name="success" path="EXCEPTION" />
                 <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>
+
+            <XsltPipe
+                    name="FileSplitException"
+                    getInputFromFixedValue="&lt;dummy/&gt;"
+                    styleSheetName="Common/xsl/BuildError.xsl"
+                    storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Splitting file content into profiles and profile defaults failed for [{profilesFile}]" />
+                <Param name="details" pattern="{profilesFileContent}" ignoreUnresolvablePatternElements="true" />
+                <!-- <Param name="detailsXml" sessionKey="" type="DOMDOC" /> -->
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <XsltPipe
+                    name="MergeException"
+                    getInputFromFixedValue="&lt;dummy/&gt;"
+                    styleSheetName="Common/xsl/BuildError.xsl"
+                    storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Profiles merging operation failed for [{profilesFile}]" />
+                <Param name="details" pattern="{profilesFileContent}" ignoreUnresolvablePatternElements="true" />
+                <!-- <Param name="detailsXml" sessionKey="" type="DOMDOC" /> -->
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+
+    <Adapter name="ResolveProfileValuesSeparateFiles"
+             active="${ResolveProfileValuesSeparateFiles.Active}"
+             description="">
+
+        <Receiver
+                name="ResolveProfileValuesSeparateFiles"
+        >
+            <JavaListener
+                    name="ResolveProfileValuesSeparateFiles"
+                    returnedSessionKeys="Error"
+            />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="EXCEPTION" state="ERROR" />
+            </Exits>
+
+            <Cache />
+
+            <LocalFileSystemPipe
+                    name="ReadProfileDefaultsFile"
+                    action="read"
+                    storeResultInSessionKey="profileDefaults">
+                <Param name="filename" sessionKey="profileDefaultsFile" />
+                <Forward name="success" path="ReadProfilesFile" />
+                <Forward name="exception" path="ReadFileException" />
+            </LocalFileSystemPipe>
+
+            <LocalFileSystemPipe
+                    name="ReadProfilesFile"
+                    action="read"
+                    storeResultInSessionKey="profiles">
+                <Param name="filename" sessionKey="profilesFile" />
+                <Forward name="success" path="SendToMergeProfilesWithDefaults" />
+                <Forward name="exception" path="ReadFileException" />
+            </LocalFileSystemPipe>
+
+            <SenderPipe name="SendToMergeProfilesWithDefaults">
+                <IbisLocalSender javaListener="MergeProfilesWithDefaults">
+                    <Param name="profileDefaults" sessionKey="profileDefaults"/>
+                    <Param name="profiles" sessionKey="profiles"/>
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT"/>
+                <Forward name="exception" path="MergeException"/>
+            </SenderPipe>
+
+            <XsltPipe
+                    name="ReadFileException"
+                    getInputFromFixedValue="&lt;dummy/&gt;"
+                    styleSheetName="Common/xsl/BuildError.xsl"
+                    storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Reading profiles file failed for [{profilesFile}] or [{profileDefaultsFile}]" />
+                <Param name="details" pattern="{profiles}{profileDefaults}" ignoreUnresolvablePatternElements="true" />
+                <!-- <Param name="detailsXml" sessionKey="" type="DOMDOC" /> -->
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+
+            <XsltPipe
+                    name="MergeException"
+                    getInputFromFixedValue="&lt;dummy/&gt;"
+                    styleSheetName="Common/xsl/BuildError.xsl"
+                    storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Profiles merging operation failed for [{profilesFile}] or [{profileDefaultsFile}]" />
+                <Param name="details" pattern="profileDefaults:
+{profileDefaults}
+
+profiles:
+{profiles}" ignoreUnresolvablePatternElements="true" />
+                <!-- <Param name="detailsXml" sessionKey="" type="DOMDOC" /> -->
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+
+    <Adapter name="MergeProfilesWithDefaults"
+             active="${MergeProfilesWithDefaults.Active}">
+        <Receiver>
+            <JavaListener name="MergeProfilesWithDefaults"/>
+        </Receiver>
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS" />
+                <Exit name="EXCEPTION" state="ERROR" />
+            </Exits>
+
+            <!--    This is a workaround for https://github.com/frankframework/frankframework/issues/9023 because J2V8 engine having no arm64 support
+                    and the GRAALJS engine has an issue with encoding of the input message. -->
+            <PutInSessionPipe
+                    name="EscapeProfileDefaultsJsonForGraalJS"
+                    getInputFromFixedValue="&lt;dummy/&gt;"
+                    ifParam="javascriptEngine"
+                    ifValue="GRAALJS">
+                <Param name="profileDefaultsEscaped" xpathExpression="normalize-space(replace(replace(replace(replace(replace($profileDefaultsRaw, '&amp;', '\\&amp;'), '\r', ''), '\t', ''), '\n', ''), '&quot;', '\\&quot;'))">
+                    <Param name="profileDefaultsRaw" sessionKey="profileDefaults" type="STRING" />
+                </Param>
+                <Param name="javascriptEngine" value="${zaakbrug.javascriptEngine}" />
+                <Forward name="success" path="EscapeProfilesJsonForGraalJS" />
+                <Forward name="exception" path="EXCEPTION" />
+            </PutInSessionPipe>
+
+            <PutInSessionPipe
+                    name="EscapeProfilesJsonForGraalJS"
+                    getInputFromFixedValue="&lt;dummy/&gt;"
+                    ifParam="javascriptEngine"
+                    ifValue="GRAALJS">
+                <Param name="profilesEscaped" xpathExpression="normalize-space(replace(replace(replace(replace(replace($profilesRaw, '&amp;', '\\&amp;'), '\r', ''), '\t', ''), '\n', ''), '&quot;', '\\&quot;'))">
+                    <Param name="profilesRaw" sessionKey="profiles" type="STRING" />
+                </Param>
+                <Param name="javascriptEngine" value="${zaakbrug.javascriptEngine}" />
+                <Forward name="success" path="MergeProfileDefaultsWithProfilesSender" />
+                <Forward name="exception" path="EXCEPTION" />
+            </PutInSessionPipe>
+
+            <SenderPipe
+                    name="MergeProfileDefaultsWithProfilesSender"
+                    storeResultInSessionKey="mergedProfiles"
+                    getInputFromFixedValue="&lt;dummy/&gt;">
+                <JavascriptSender
+                        name="MergeProfileDefaultsWithProfilesJavascriptSender"
+                        jsFileName="MergeProfileDefaultsWithProfiles.js"
+                        jsFunctionName="mergeProfileDefaultsWithProfiles"
+                        engineName="${zaakbrug.javascriptEngine}">
+                </JavascriptSender>
+                <Param name="profileDefaults" sessionKey="profileDefaults" />
+                <Param name="profiles" sessionKey="profiles" />
+                <Forward name="success" path="JsonToXml" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <JsonPipe name="JsonToXml" prettyPrint="true">
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </JsonPipe>
         </Pipeline>
     </Adapter>
 </Module>

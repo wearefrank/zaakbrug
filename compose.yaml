@@ -37,7 +37,7 @@ services:
         aliases:
           - frank-flow.localtest.me
     ports:
-      - "${FRANK-FLOW_PORT:-8090}:8080"
+      - "${FRANK_FLOW_PORT:-8090}:8090"
 
 networks:
   frank: {}
