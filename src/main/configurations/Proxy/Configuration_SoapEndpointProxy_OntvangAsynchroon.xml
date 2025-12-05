@@ -17,8 +17,6 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <XsltPipe name="AddZaakType" styleSheetName="xsl/addZaakType.xsl"/>
-
             <SenderPipe
                     name="SendToProxy">
                 <WebServiceSender
