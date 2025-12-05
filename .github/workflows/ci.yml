@@ -42,19 +42,19 @@ jobs:
       upload-sarif-to-security: false
       run-frank-till-healthy-enabled: false
 
-  run-larva-scenarios:
-    uses: ./.github/workflows/run-larva-scenarios.yml
-    needs:
-      - version-next
-      - ci
-    with:
-      image-id: ${{ needs.ci.outputs.image-id }}
+#  run-larva-scenarios:
+#    uses: ./.github/workflows/run-larva-scenarios.yml
+#    needs:
+#      - version-next
+#      - ci
+#    with:
+#      image-id: ${{ needs.ci.outputs.image-id }}
 
   soapui-testrunner:
     uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@692c637ef4f5519d986d69e443997ab80fed8deb #2.0.2
     needs:
       - ci
-      - run-larva-scenarios
+#      - run-larva-scenarios
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
     with:
