@@ -146,7 +146,52 @@ services:
     ports:
       - "8090:8080"
 
+  mock-beantwoord-vraag:
+    profiles:
+      - soapui
+    image: vvidovic/soapui-mockservicerunner:latest
+    container_name: mock-beantwoord-vraag
+    command: -m "Proxy-BeantwoordVraag-MockService" -p 7770 /zaakbrug/e2e/SoapUI/zaakbrug-e2e-soapui-project.xml
+    volumes:
+      - ./src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02:/zaakbrug/src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02
+      - type: bind
+        source: ./e2e/SoapUI
+        target: /zaakbrug/e2e/SoapUI
+        read_only: false
+      # - ./e2e/SoapUI/zaakbrug-e2e-soapui-project.xml:/zaakbrug/e2e/SoapUI/zaakbrug-e2e-soapui-project.xml
+    networks:
+      - zaakbrug-stack
 
+  mock-ontvang-asynchroon:
+    profiles:
+      - soapui
+    image: vvidovic/soapui-mockservicerunner:latest
+    container_name: mock-ontvang-asynchroon
+    command: -m "Proxy-OntvangAsynchroon-MockService" -p 7771 /zaakbrug/e2e/SoapUI/zaakbrug-e2e-soapui-project.xml
+    volumes:
+      - ./src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02:/zaakbrug/src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02
+      - type: bind
+        source: ./e2e/SoapUI
+        target: /zaakbrug/e2e/SoapUI
+        read_only: false
+    networks:
+      - zaakbrug-stack
+
+  mock-vrije-berichten:
+    profiles:
+      - soapui
+    image: vvidovic/soapui-mockservicerunner:latest
+    container_name: mock-vrije-berichten
+    command: -m "Proxy-VrijeBerichten-MockService" -p 7772 /zaakbrug/e2e/SoapUI/zaakbrug-e2e-soapui-project.xml
+    volumes:
+      - ./src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02:/zaakbrug/src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02
+      - type: bind
+        source: ./e2e/SoapUI
+        target: /zaakbrug/e2e/SoapUI
+        read_only: false
+    networks:
+      - zaakbrug-stack
+    
   soapui-testrunner:
     profiles:
       - soapui
@@ -154,13 +199,22 @@ services:
     container_name: soapui-testrunner
     volumes:
       - ./src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02:/zaakbrug/src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02
-      - ./e2e/SoapUI/zaakbrug-e2e-soapui-project.xml:/zaakbrug/e2e/SoapUI/zaakbrug-e2e-soapui-project.xml
+      - type: bind
+        source: ./e2e/SoapUI
+        target: /zaakbrug/e2e/SoapUI
+        read_only: false
       - ./e2e/reports:/reports
     environment:
       - COMMAND_LINE=-f/%reports% '/zaakbrug/e2e/SoapUI/zaakbrug-e2e-soapui-project.xml' -a -A -j -r
     depends_on:
       zaakbrug:
         condition: service_healthy
+      mock-beantwoord-vraag:
+        condition: service_started
+      mock-ontvang-asynchroon:
+        condition: service_started
+      mock-vrije-berichten:
+        condition: service_started
     network_mode: host
 
 volumes:
