@@ -21,14 +21,14 @@
                     javaListener="GenerateAuthorizationHeaderForCatalogiApi"
                     returnedSessionKeys="Error,Authorization">
                 </IbisLocalSender>
-                <Forward name="success" path="GetZgwZaakTypeByIdentificatie" />
+                <Forward name="success" path="GetZgwZaakTypeByIdentificatiePipe" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <SenderPipe name="GetZgwZaakTypeByIdentificatie"
+            <SenderPipe name="GetZgwZaakTypeByIdentificatiePipe"
                 getInputFromFixedValue="&lt;dummy/&gt;">
 				<HttpSender 
-					name="GetZgwZaakTypeByIdentificatieSender" 
+					name="GetZgwZaakTypeByIdentificatiePipeSender"
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
                     timeout="${zaakbrug.zgw.catalogi-api.timeout}"
