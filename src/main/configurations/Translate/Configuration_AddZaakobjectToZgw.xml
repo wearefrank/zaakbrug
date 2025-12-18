@@ -86,7 +86,7 @@
                 styleSheetName="Common/xsl/BuildError.xsl"
                 storeResultInSessionKey="Error">
                 <Param name="cause" sessionKey="Error" type="DOMDOC" />
-                <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="code" value="TranslationError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError -->
                 <Param name="reason" pattern="Some mandatory fields in 'adres' objectType are missing. The fields:  identificatie, wpl.woonplaatsNaam, gor.openbareRuimteNaam, huisnummer must be provided." ignoreUnresolvablePatternElements="true" />
                 <Param name="detailsXml" sessionKey="originalMessage" type="DOMDOC" />
                 <Forward name="success" path="EXCEPTION" />
