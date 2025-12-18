@@ -127,9 +127,9 @@
             </IfPipe>
 
 
-            <IfPipe name="hasInitiator" getInputFromSessionKey="ZgwWasZaakRollen" xpathExpression="not(/ZgwRollen/zgwRol[omschrijvingGeneriek='initiator'])">
-                <Forward name="then" path="CallPostRol" />
-                <Forward name="else" path="CallDeleteRolInitiator" />
+            <IfPipe name="hasInitiator" getInputFromSessionKey="ZgwWasZaakRollen" xpathExpression="/ZgwRollen/zgwRol[omschrijvingGeneriek='initiator']">
+                <Forward name="then" path="CallDeleteRolInitiator" />
+                <Forward name="else" path="CallPostRol" />
             </IfPipe>
 
             <SenderPipe
