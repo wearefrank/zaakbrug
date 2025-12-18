@@ -1,1 +1,1 @@
-std.parseJson(payload).profile
+payload.profile

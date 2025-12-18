@@ -36,7 +36,7 @@
 
             <DataSonnetPipe name="CreateEmptyHoofdzaakJson"
                 styleSheetName="UpdateZaak_LK01/jsonnet/CreateEmptyHoofdzaakJson.jsonnet"
-                outputType="JSON"
+                outputFileFormat="JSON"
                 storeResultInSessionKey="EmptyHoofdzaakJson">
                 <Forward name="success" path="PatchHoofdzaak" />
             </DataSonnetPipe>

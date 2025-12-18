@@ -49,7 +49,7 @@
 
             <DataSonnetPipe name="CreateEmptyRelevanteAndereZakenForAndereZaakJson"
                 styleSheetName="UpdateZaak_LK01/jsonnet/CreateEmptyRelevanteAndereZakenJson.jsonnet"
-                outputType="JSON"
+                outputFileFormat="JSON"
                 storeResultInSessionKey="EmptyRelevanteAndereZakenForAndereZaakJson">
                 <Forward name="success" path="DeleteRelevanteMainZaakFromAndereZaak" />
             </DataSonnetPipe>
@@ -86,7 +86,7 @@
 
             <DataSonnetPipe name="CreateEmptyRelevanteAndereZakenForMainZaakJson"
                 styleSheetName="UpdateZaak_LK01/jsonnet/CreateEmptyRelevanteAndereZakenJson.jsonnet"
-                outputType="JSON"
+                outputFileFormat="JSON"
                 storeResultInSessionKey="EmptyRelevanteAndereZakenForMainZaakJson">
                 <Forward name="success" path="DeleteRelevanteAndereZaakFromMainZaak" />
             </DataSonnetPipe>
