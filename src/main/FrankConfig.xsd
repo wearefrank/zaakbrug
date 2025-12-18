@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Public FrankDoc XSD, should be used within an IDE to validate a configuration. -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="9.4.0-20251212.042330">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="9.4.0-20251218.042336">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>Container of Adapters that belong together.
@@ -1158,6 +1158,18 @@
     <xs:attribute name="elementRole" type="xs:string" fixed="sharedResources" use="prohibited" />
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:complexType>
+  <xs:element name="PipelinePart">
+    <xs:annotation>
+      <xs:documentation>Wrapper element to help create reusable parts of a pipeline</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="PipeElementGroup" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attribute ref="active" />
+      <xs:anyAttribute namespace="##other" processContents="skip" />
+    </xs:complexType>
+  </xs:element>
   <xs:complexType name="ConfigurationType">
     <xs:group ref="ConfigurationDeclaredChildGroup" />
     <xs:attributeGroup ref="ConfigurationDeclaredAttributeGroup" />
@@ -1448,14 +1460,10 @@
         <xs:documentation>If set &lt;code&gt;true&lt;/code&gt; pattern elements that cannot be resolved to a parameter or sessionKey are silently resolved to an empty string</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="minLength" type="frankInt">
-      <xs:annotation>
-        <xs:documentation>If set (&gt;=0) and the length of the value of the parameter falls short of this minimum length, the value is padded Default: -1</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
     <xs:attribute name="maxLength" type="frankInt">
       <xs:annotation>
-        <xs:documentation>If set (&gt;=0) and the length of the value of the parameter exceeds this maximum length, the length is trimmed to this maximum length Default: -1</xs:documentation>
+        <xs:documentation>If set (&gt;=0) and the length of the value of the parameter exceeds this maximum length, the length is trimmed to this maximum length.
+ This only works for character (input) data. Default: -1</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="hidden" type="frankBoolean">
@@ -1550,6 +1558,24 @@
       <xs:simpleType>
         <xs:union memberTypes="ParameterTypeAttributeValuesType variableRef" />
       </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="xpathResult">
+      <xs:annotation>
+        <xs:documentation>Only valid for xPathExpression.
+ If xpathResult is OutputType#XML then the resulting stylesheet will use the &lt;code&gt;copy-of&lt;/code&gt; method instead of &lt;code&gt;value-of&lt;/code&gt;.
+ This results in an xml-string including the XML tags, if you want the contents of the element (as scalar value), use TEXT.
+ &lt;/p&gt;
+ This field controls how to read the input and does not determine the output. Default: TEXT</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:union memberTypes="OutputTypeAttributeValuesType variableRef" />
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="minLength" type="frankInt">
+      <xs:annotation>
+        <xs:documentation>If set (&gt;=0) and the length of the value of the parameter falls short of this minimum length, the value is padded.
+ This only works for character (input) data. Default: -1</xs:documentation>
+      </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
   <xs:attributeGroup name="ParameterCumulativeAttributeGroup">
@@ -7339,6 +7365,7 @@
         </xs:complexType>
       </xs:element>
       <xs:group ref="PipeElementGroupBase" />
+      <xs:element name="Include" minOccurs="0" maxOccurs="unbounded" type="IncludeType" />
     </xs:choice>
   </xs:group>
   <xs:group name="ListenerElementGroup_2">
@@ -13518,7 +13545,7 @@
  }&lt;/code&gt;&lt;/pre&gt;
  &lt;/p&gt;
  &lt;p&gt;
- This pipe can also call senders using their names as functions in the jsonnet file. For example:
+ This pipe can also call senders using their names as functions in the JSonnet file. For example:
  &lt;pre&gt;&lt;code&gt;&amp;lt;DataSonnetPipe&amp;gt;
      &amp;lt;EchoSender name=&amp;quot;myFunction&amp;quot; /&amp;gt;
  &amp;lt;/DataSonnetPipe&amp;gt;&lt;/code&gt;&lt;/pre&gt;
@@ -13528,7 +13555,7 @@
    } for x in [ 1, 2, 3, 4 ]
  ]&lt;/code&gt;&lt;/pre&gt;
  results in &lt;code&gt;[{&amp;quot;number&amp;quot;:&amp;quot;1&amp;quot;},{&amp;quot;number&amp;quot;:&amp;quot;2&amp;quot;},{&amp;quot;number&amp;quot;:&amp;quot;3&amp;quot;},{&amp;quot;number&amp;quot;:&amp;quot;4&amp;quot;}]&lt;/code&gt;.
- 
+
  &lt;/p&gt;</xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -16828,6 +16855,16 @@
         <xs:documentation>when &lt;code&gt;true&lt;/code&gt;, the memberOf attribute is also searched in all the found members Default: true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="maxRecursion" type="frankInt">
+      <xs:annotation>
+        <xs:documentation>Max recursion search depth. Set to &lt;pre&gt;0&lt;/pre&gt; to have no limit on recursion-depth for recursive search. Default: 5</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="recursionFilter" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Recursion filter. If set, only search recursively into groups whose name equals or contains as substring the recursionFilter.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:attributeGroup>
   <xs:attributeGroup name="LdapFindGroupMembershipsPipeCumulativeAttributeGroup">
     <xs:attributeGroup ref="LdapFindGroupMembershipsPipeDeclaredAttributeGroup" />
@@ -19998,11 +20035,6 @@
  if there are child nodes, only the contents are returned, use &lt;code&gt;XML&lt;/code&gt; if the xml tags are required</xs:documentation>
         </xs:annotation>
       </xs:enumeration>
-      <xs:enumeration value="XML">
-        <xs:annotation>
-          <xs:documentation>Renders an xml-nodeset as an xml-string (in combination with xslt or xpath). This will include the xml tags</xs:documentation>
-        </xs:annotation>
-      </xs:enumeration>
       <xs:enumeration value="DOMDOC">
         <xs:annotation>
           <xs:documentation>Renders XML as a DOM document; similar to &lt;code&gt;node&lt;/code&gt;
@@ -20088,6 +20120,12 @@
  &lt;code&gt;{&amp;quot;paramName&amp;quot;:value}&lt;/code&gt;. (The value will be quoted if it was not a number or boolean value).</xs:documentation>
         </xs:annotation>
       </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="OutputTypeAttributeValuesType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TEXT" />
+      <xs:enumeration value="XML" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="XmlTypeAttributeValuesType">
@@ -20601,12 +20639,6 @@
       <xs:enumeration value="SUCCESS" />
       <xs:enumeration value="ERROR" />
       <xs:enumeration value="REJECTED" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="OutputTypeAttributeValuesType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="TEXT" />
-      <xs:enumeration value="XML" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="S3StorageClassAttributeValuesType">
