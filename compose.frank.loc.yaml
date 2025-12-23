@@ -38,6 +38,7 @@ services:
       TZ: Europe/Amsterdam
       GC_LOGGING_ENABLED: false
       JAVA_OPTS: $JAVA_OPTS -XX:InitialRAMPercentage=25.0 -XX:MaxRAMPercentage=75.0
+      CATALINA_OPTS: $CATALINA_OPTS -Xmx24g
       dtap.stage: LOC
       configurations.directory.classLoaderType: ScanningDirectoryClassLoader
       management.gateway.inbound.class: org.frankframework.management.gateway.HazelcastInboundGateway
