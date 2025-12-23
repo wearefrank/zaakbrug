@@ -34,7 +34,6 @@ services:
     image: ${IMAGE_ID:-${IMAGE_TAG:-wearefrank/zaakbrug}}
     container_name: zaakbrug.dev
     environment:
-      CATALINA_OPTS: $CATALINA_OPTS -Xmx3g
       zaakbrug.zds.timezone: UTC
       TZ: Europe/Amsterdam
       GC_LOGGING_ENABLED: false
@@ -159,21 +158,9 @@ services:
     environment:
       - COMMAND_LINE=-f/%reports% '/zaakbrug/e2e/SoapUI/zaakbrug-e2e-soapui-project.xml' -a -A -j -r
     depends_on:
-      time_sleep:
+      open-zaak:
         condition: service_healthy
     network_mode: host
-
-  time_sleep:
-    image: busybox
-    command: sh -c "sleep 120 && touch /done && sleep infinity"
-    healthcheck:
-      test: ["CMD", "test", "-f", "/done"]
-      interval: 1s
-      timeout: 1s
-      retries: 60
-    depends_on:
-      zaakbrug:
-        condition: service_healthy
         
 volumes:
   h2-data: {}

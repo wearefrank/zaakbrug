@@ -60,6 +60,12 @@ services:
     depends_on:
       - open-zaak-db
       - open-zaak-redis
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import socket; s=socket.socket(); s.settimeout(1); s.connect((\"localhost\", 8000))'"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
 
   open-zaak-celery:
     image: openzaak/open-zaak:1.26.0
