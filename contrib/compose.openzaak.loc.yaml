@@ -64,7 +64,7 @@ services:
       test: ["CMD-SHELL", "python -c 'import socket; s=socket.socket(); s.settimeout(1); s.connect((\"localhost\", 8000))'"]
       interval: 10s
       retries: 5
-      start_period: 10s
+      start_period: 90s
       timeout: 5s
 
   open-zaak-celery:

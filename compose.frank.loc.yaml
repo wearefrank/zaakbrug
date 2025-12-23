@@ -158,6 +158,8 @@ services:
     environment:
       - COMMAND_LINE=-f/%reports% '/zaakbrug/e2e/SoapUI/zaakbrug-e2e-soapui-project.xml' -a -A -j -r
     depends_on:
+      zaakbrug:
+        condition: service_healthy
       open-zaak:
         condition: service_healthy
     network_mode: host
