@@ -22,6 +22,7 @@ services:
     image: openzaak/open-zaak:1.26.0
     container_name: open-zaak.dev
     environment: &open-zaak-env
+      - CATALINA_OPTS=$CATALINA_OPTS -Xmx24g
       - DJANGO_SETTINGS_MODULE=openzaak.conf.docker
       - OPENZAAK_DOMAIN=open-zaak.dev:8000
       - SECRET_KEY=${SECRET_KEY:-7(h1r2hk)8z9+05edulo_3qzymwbo&c24=)qz7+_@3&2sp=u%i}
