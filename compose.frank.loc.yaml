@@ -34,6 +34,7 @@ services:
     image: ${IMAGE_ID:-${IMAGE_TAG:-wearefrank/zaakbrug}}
     container_name: zaakbrug.dev
     environment:
+      CATALINA_OPTS: $CATALINA_OPTS -Xmx3g
       zaakbrug.zds.timezone: UTC
       TZ: Europe/Amsterdam
       GC_LOGGING_ENABLED: false
