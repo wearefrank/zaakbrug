@@ -69,7 +69,7 @@
                     <xsl:if test="betrokkeneIdentificatie/innRechtsvorm != ''">
                         <BG:inn.rechtsvorm><xsl:value-of select="betrokkeneIdentificatie/innRechtsvorm"/></BG:inn.rechtsvorm>
                     </xsl:if>
-                    <xsl:apply-templates select="betrokkeneIdentificatie/bezoekadres"/>
+                    <xsl:apply-templates select="betrokkeneIdentificatie/verblijfsadres" mode="niet-natuurlijk"/>
                     <xsl:apply-templates select="betrokkeneIdentificatie/subVerblijfBuitenland"/>
                 </ZKN:nietNatuurlijkPersoon>
             </ZKN:gerelateerde>
@@ -168,7 +168,7 @@
         </xsl:if>
     </xsl:template>
 
-    <xsl:template match="bezoekadres">
+    <xsl:template match="verblijfsadres" mode="niet-natuurlijk">
         <xsl:if test="string-length(.) gt 0">
             <BG:bezoekadres>
                 <xsl:if test="aoaIdentificatie != ''">

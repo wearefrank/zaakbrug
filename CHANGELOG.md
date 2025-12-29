@@ -1,5 +1,15 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.3](https://github.com/wearefrank/zaakbrug/compare/v1.26.2...v1.26.3) (2025-12-04)
+
+### 🐛 Bug Fixes
+
+* map bezoekadres of NNP in ZDS from verblijfadres of NNP in Openzaak ([6ab806b](https://github.com/wearefrank/zaakbrug/commit/6ab806b8f7b9aedd0e947aff1544c4c0c587d3d8))
+
+### ✅ Tests
+
+* update larva tests ([431bfc3](https://github.com/wearefrank/zaakbrug/commit/431bfc3f0ff18f25fd9d13fa1c49370f904fadeb))
+
 ## [1.26.2](https://github.com/wearefrank/zaakbrug/compare/v1.26.1...v1.26.2) (2025-12-03)
 
 ### 🐛 Bug Fixes
