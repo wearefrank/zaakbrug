@@ -66,6 +66,6 @@ jobs:
         docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml up -d
         echo "Services started. Waiting for OpenZaak to be healthy..."
         timeout 300s bash -c 'until [ "$(docker inspect -f "{{.State.Health.Status}}" open-zaak.dev 2>/dev/null)" == "healthy" ]; do sleep 5; done'
-        echo "SUCCESS: OpenZaak is healthy. Starting tests now..."
+        echo "SUCCESS: OpenZaak is healthy. Proceeding to the next step..."
       teardown-script: |
         docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml down -v
