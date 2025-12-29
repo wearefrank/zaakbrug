@@ -64,5 +64,8 @@ jobs:
       image-tarball-file: 'image.tar'
       setup-script: |
         docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml up -d
+        echo "Services started. Waiting for OpenZaak to be healthy..."
+        docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml wait open-zaak
+        echo "SUCCESS: OpenZaak is healthy. Starting tests now..."
       teardown-script: |
         docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml down -v
