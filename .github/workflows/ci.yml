@@ -64,8 +64,21 @@ jobs:
       image-tarball-file: 'image.tar'
       setup-script: |
         docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml up -d
-        echo "Services started. Waiting for OpenZaak to be healthy..."
-        docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml wait open-zaak
-        echo "SUCCESS: OpenZaak is healthy. Starting tests now..."
+        
+        echo "Services started. Waiting up to 5 minutes for OpenZaak..."
+        
+        if timeout 300 docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml wait open-zaak; then
+            echo "SUCCESS: OpenZaak is healthy."
+        else
+            echo "ERROR: Timed out waiting for OpenZaak!"
+            
+            echo "=== CONTAINER STATUS ==="
+            docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml ps
+            
+            echo "=== OPENZAAK LOGS ==="
+            docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml logs open-zaak
+            
+            exit 1
+        fi
       teardown-script: |
         docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml down -v
