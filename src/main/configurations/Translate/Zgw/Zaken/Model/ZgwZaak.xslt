@@ -96,7 +96,7 @@
                 $ZgwZaak//startdatum, 
                 zgw:toZgwDate($ZdsZaak//startdatum), 
                 //startdatum))"/>
-            <!-- Even though einddatum exists in ZdsZaak, it does not have the same meaning. ZGW einddatum should be sourced from the statusGezet field in ZgwStatus where eindstatus=true -->
+            <!-- Even though einddatum exists in ZdsZaak, it does not have the same meaning. ZGW einddatum should be sourced from the statusGezet field in ZgwStatus where eindstatus=true  -->
             <xsl:copy-of select="zgw:WrapNullOrSkip('einddatum', 'null', zgw:FromOrderedSource(
                 $Einddatum, 
                 $ZgwZaak//einddatum, 
