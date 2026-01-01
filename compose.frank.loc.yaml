@@ -146,7 +146,6 @@ services:
     ports:
       - "8090:8080"
 
-
   soapui-testrunner:
     profiles:
       - soapui
@@ -161,8 +160,10 @@ services:
     depends_on:
       zaakbrug:
         condition: service_healthy
+      open-zaak:
+        condition: service_healthy
     network_mode: host
-
+        
 volumes:
   h2-data: {}
   logs: {}
