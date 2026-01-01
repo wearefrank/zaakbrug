@@ -1,5 +1,17 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.4](https://github.com/wearefrank/zaakbrug/compare/v1.26.3...v1.26.4) (2026-01-01)
+
+### 🍕 Features
+
+* update openzaak:latest ([83f52da](https://github.com/wearefrank/zaakbrug/commit/83f52da8c94a95e01e02e45e691711111a0ae977))
+
+### ✅ Tests
+
+* larva identification tests ([adeb54c](https://github.com/wearefrank/zaakbrug/commit/adeb54c0826a78f332b3a044b902f844bdd69282))
+* other replace 5 digits ([747c819](https://github.com/wearefrank/zaakbrug/commit/747c819b5ed779bf63e8f774abd4324f99f0d0a0))
+* uiterlijkeEinddatum in regression tests, geefZaakDetails ([95633b5](https://github.com/wearefrank/zaakbrug/commit/95633b5f492e75138b5b2fe82f864a26d2939ec9))
+
 ## [1.26.3](https://github.com/wearefrank/zaakbrug/compare/v1.26.2...v1.26.3) (2025-12-04)
 
 ### 🐛 Bug Fixes
