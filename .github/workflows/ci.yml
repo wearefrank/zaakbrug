@@ -51,7 +51,7 @@ jobs:
       image-id: ${{ needs.ci.outputs.image-id }}
 
   soapui-testrunner:
-    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@692c637ef4f5519d986d69e443997ab80fed8deb #2.0.2
+    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@50a6bc0338691d1bb0112fb532d99ccee6e4ce30 #2.1.3
     needs:
       - ci
       - run-larva-scenarios
@@ -64,5 +64,8 @@ jobs:
       image-tarball-file: 'image.tar'
       setup-script: |
         docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml up -d
+        echo "Services started. Waiting for OpenZaak to be healthy..."
+        timeout 300s bash -c 'until [ "$(docker inspect -f "{{.State.Health.Status}}" open-zaak.dev 2>/dev/null)" == "healthy" ]; do sleep 5; done'
+        echo "SUCCESS: OpenZaak is healthy. Proceeding to the next step..."
       teardown-script: |
         docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml down -v
