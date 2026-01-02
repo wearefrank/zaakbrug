@@ -1,5 +1,17 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.5](https://github.com/wearefrank/zaakbrug/compare/v1.26.4...v1.26.5) (2026-01-02)
+
+### 🐛 Bug Fixes
+
+* DataSonnetPipe is smarter now and understand the input is json (in our case) so we needed to update jsonnet file since it used to expect a string that we were parsing it into json by doing "std.parseJson(payload)" but now because it is known that the input is json, we no longer need to parse it but just get the need value. ([ba27394](https://github.com/wearefrank/zaakbrug/commit/ba27394e001b9e76fbdd58044e624bd4088d204f))
+* update the package name in custom ladybug file ([ec54afb](https://github.com/wearefrank/zaakbrug/commit/ec54afb09f25877d053f23ba5533394ccffd2750))
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 9.4.0-20251212.042330 ([938614d](https://github.com/wearefrank/zaakbrug/commit/938614d1b248c36e424e4f409063409d8773a061))
+* **dependencies:** bump f!f version to 9.4.0-20251218.042336 ([7aabe67](https://github.com/wearefrank/zaakbrug/commit/7aabe6762aff53d027566ecfd08fe48f4e780f75))
+
 ## [1.26.4](https://github.com/wearefrank/zaakbrug/compare/v1.26.3...v1.26.4) (2026-01-01)
 
 ### 🍕 Features
