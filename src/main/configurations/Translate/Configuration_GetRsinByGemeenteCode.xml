@@ -15,7 +15,7 @@
 
             <PutInSessionPipe
                 name="GetRsin">
-                <Param name="Rsin" xpathExpression="/root/organizations[gemeenteCode = $GemeenteCode]/RSIN" defaultValue="&lt;RSIN/&gt;" type="XML">
+                <Param name="Rsin" xpathExpression="/root/organizations[gemeenteCode = $GemeenteCode]/RSIN" defaultValue="&lt;RSIN/&gt;" xpathResult="XML">
                     <Param name="GemeenteCode" sessionKey="GemeenteCode"/>
                 </Param>
                 <Forward name="success" path="Rsin_NotEmpty"/>
