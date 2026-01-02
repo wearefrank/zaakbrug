@@ -73,7 +73,8 @@
 
             <EchoPipe name="EchoTranslateResponse" getInputFromSessionKey="TranslateResponse"/>
 
-            <IfPipe name="IfTranslateSuccess" getInputFromSessionKey="exitState" expressionValue="SUCCESS"  preserveInput="true">
+            <IfPipe name="IfTranslateSuccess" xpathExpression="$status = 'SUCCESS'"  preserveInput="true">
+                <Param name="status" sessionKey="exitState" type="STRING" />
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="EXCEPTION"/>
             </IfPipe>
