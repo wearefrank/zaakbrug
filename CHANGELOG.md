@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.6](https://github.com/wearefrank/zaakbrug/compare/v1.26.5...v1.26.6) (2026-01-05)
+
+### 🤖 Build System
+
+* **dependencies:** bump the docusaurus group ([f0baa99](https://github.com/wearefrank/zaakbrug/commit/f0baa99be57e755ff5ff4698b51dd7f8f58ac7b0))
+
 ## [1.26.5](https://github.com/wearefrank/zaakbrug/compare/v1.26.4...v1.26.5) (2026-01-02)
 
 ### 🐛 Bug Fixes
