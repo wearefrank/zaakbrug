@@ -1,0 +1,62 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="Zaken_PostZgwDocumentnummer_reserveren"
+        active="${Zaken_PostZgwDocumentnummer_reserveren.Active}"
+        description="">
+
+        <Receiver name="Zaken_PostZgwDocumentnummer_reserveren">
+            <JavaListener name="Zaken_PostZgwDocumentnummer_reserveren" returnedSessionKeys="Error" />
+        </Receiver>
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe name="GetAuthorizationHeaderForDocumentenApi"
+                getInputFromFixedValue="&lt;dummy/&gt;">
+                <IbisLocalSender
+                    name="GetAuthorizationHeaderForDocumentenApiSender"
+                    javaListener="GenerateAuthorizationHeaderForDocumentenApi"
+                    returnedSessionKeys="Error,Authorization">
+                </IbisLocalSender>
+                <Forward name="success" path="PostZgwDocumentnummer_reserveren" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe name="PostZgwDocumentnummer_reserveren" 
+                getInputFromSessionKey="requestBody"
+                storeResultInSessionKey="PostZgwDocumentnummer_reserverenResult">
+				<HttpSender 
+					name="PostZgwDocumentnummer_reserverenSender" 
+					methodType="POST"
+					headersParams="Authorization,Accept-Crs,Content-Crs"
+                    contentType="application/json"
+                    timeout="${zaakbrug.zgw.documenten-api.timeout}"
+                    verifyHostname="${zaakbrug.zgw.documenten-api.verifyHostname}"
+                    allowSelfSignedCertificates="${zaakbrug.zgw.documenten-api.allowSelfSignedCertificates}"
+                    disableCookies="${zaakbrug.zgw.documenten-api.disableCookies}"
+                    ignoreCertificateExpiredException="${zaakbrug.zgw.documenten-api.ignoreCertificateExpiredException}"
+                    truststore="${zaakbrug.zgw.documenten-api.truststore.uri}"
+                    truststoreAuthAlias="${zaakbrug.zgw.documenten-api.truststore.authAlias}"
+                    truststoreType="${zaakbrug.zgw.documenten-api.truststore.type}"
+                    maxExecuteRetries="5"
+				/>
+                <Param name="url" value="${zaakbrug.zgw.documenten-api.root-url}documentnummer_reserveren"/>
+                <Param name="Accept-Crs" value="EPSG:4326"/>
+                <Param name="Content-Crs"  value="EPSG:4326"/>
+                <Param name="Authorization"  sessionKey="Authorization" />
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="ErrorJsonToXml" />
+			</SenderPipe>
+            <JsonPipe name="ErrorJsonToXml">
+                <Forward name="success" path="buildErrorMsg" />
+            </JsonPipe>
+            <XsltPipe name="buildErrorMsg"
+                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Param name="senderPipeName" value="PostZgwStatus" />
+                <Forward name="success" path="EXCEPTION" />
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>

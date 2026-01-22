@@ -209,6 +209,8 @@ services:
     depends_on:
       zaakbrug:
         condition: service_healthy
+      open-zaak:
+        condition: service_healthy
       mock-beantwoord-vraag:
         condition: service_started
       mock-ontvang-asynchroon:
@@ -216,7 +218,7 @@ services:
       mock-vrije-berichten:
         condition: service_started
     network_mode: host
-
+        
 volumes:
   h2-data: {}
   logs: {}
