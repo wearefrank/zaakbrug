@@ -1,0 +1,65 @@
+name: Sync From Template Repo
+
+on:
+  workflow_call:
+    secrets:
+      token:
+        required: true
+
+jobs:
+  sync-from-template-repo:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{secrets.token}}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+  
+      - name: Install Cruft
+        run: pip3 install cruft
+
+      - name: Check if update is available
+        continue-on-error: false
+        id: check
+        run: |
+          CHANGES=0
+          if [ -f .cruft.json ]; then
+            if ! cruft check; then
+              CHANGES=1
+            fi
+          else
+            echo "Missing .cruft.json"
+          fi
+
+          echo "has_changes=$CHANGES" >> "$GITHUB_OUTPUT"
+
+      - name: Run update if available
+        if: steps.check.outputs.has_changes == '1'
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+          cruft update --skip-apply-ask --refresh-private-variables
+          git restore --staged .
+
+      - name: Create pull request
+        if: steps.check.outputs.has_changes == '1'
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{secrets.token}}
+          commit-message: 'build(dependencies): project template sync'
+          # base: ${{github.event.repository.default_branch}}
+          base: skeleton-sync
+          branch: template-sync
+          delete-branch: true
+          branch-suffix: timestamp
+          title: 'build(dependencies): project template sync'
