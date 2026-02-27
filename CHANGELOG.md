@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.7](https://github.com/wearefrank/zaakbrug/compare/v1.26.6...v1.26.7) (2026-02-27)
+
+### 🤖 Build System
+
+* **dependencies:** bump FF! to 9.4.1  ([#646](https://github.com/wearefrank/zaakbrug/issues/646)) ([82d459b](https://github.com/wearefrank/zaakbrug/commit/82d459bb9bb1e0236a31c3d1c56eca46dee64dfc))
+
 ## [1.26.6](https://github.com/wearefrank/zaakbrug/compare/v1.26.5...v1.26.6) (2026-01-05)
 
 ### 🤖 Build System
