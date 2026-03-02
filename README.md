@@ -153,9 +153,9 @@ Will result in:
 
 ### Routing:<br/>
 Zaakbrug supports multiple ways of routing messages:
-1. Default behavior: Zaakbrug behaves normally and communicates with Openzaak
-2. Orchestration: Zaakbrug communicates with Openzaak as normal, but also sends certain messages to a secondary system, like Suite Sociaal Domein. Messages are first processed like normal and sent to Openzaak, and when that results in success, the message is also sent to the secondary system. In case of error, the message will not be orchestrated, and the error will be returned. In all cases, the response from Openzaak is returned and the response from the secondary system is ignored.
-3. Migration: Similar to Orchestration, with the difference that messages are still sent to the secondary system regardless of the result of the normal processing and sending to Openzaak. This is useful if you want 2 systems to run parallel during a migration project to see the differences between them.
+1. Default behavior: Zaakbrug behaves normally and communicates with ZGW API's
+2. Orchestration: Zaakbrug communicates with ZGW API's as normal, but also sends certain messages to a secondary system, like Suite Sociaal Domein. Messages are first processed like normal and sent to ZGW API's, and when that results in success, the message is also sent to the secondary system. In case of error, the message will not be orchestrated, and the error will be returned. In all cases, the response from ZGW API's is returned and the response from the secondary system is ignored.
+3. Migration: Similar to Orchestration, with the difference that messages are still sent to the secondary system regardless of the result of the normal processing and sending to ZGW API's. This is useful if you want 2 systems to run parallel during a migration project to see the differences between them.
 
 ## ZaakBrug Development
 Refer to `CONTRIBUTING.md`.
