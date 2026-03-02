@@ -21,7 +21,8 @@ Configuration fields:
 - stopOnError: this is applicable only if the first part of `route` is `replicate`. This describes whether the message should be sent to the secondary system in case of error during normal translating and sending message to ZGW API's.<br/>
   Options: `[true|false]`
 
-This can all be configured in values.yaml under the zaakbrug service, and can look something like this:
+When using Kubernetes this can all be configured in values.yaml under the zaakbrug service, for other deployment options such as Tomcat-as-a-service and Docker, it can be configured in /opt/frank/configurations/Translate/profiles.json in JSON format.<br/>
+The configuration can look something like this:
 
 ```yaml
 routing:
