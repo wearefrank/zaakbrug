@@ -30,38 +30,41 @@ jobs:
         uses: wearefrank/ci-cd-templates/next-reference@f497e160d12e5b4c5e7685038aaf6e89ff87628d #2.4.5
 
   ci:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@f497e160d12e5b4c5e7685038aaf6e89ff87628d #2.4.5
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@9e9b2aff3421a24892e4d93138b5d02730624aa2 #2.4.7
     needs:
       - version-next
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
     with:
       version: ${{ needs.version-next.outputs.version-next }}
-      docker-image-repo: ${{ vars.DOCKER_IMAGE_REPOSITORY }}
-      docker-image-name: ${{ vars.DOCKER_IMAGE_NAME }}
-      upload-sarif-to-security: false
       run-frank-till-healthy-enabled: false
 
-  run-larva-scenarios:
-    uses: ./.github/workflows/run-larva-scenarios.yml
+  larva:
+    uses: wearefrank/ci-cd-templates/.github/workflows/larva-testrunner.yml@f497e160d12e5b4c5e7685038aaf6e89ff87628d #2.4.5
     needs:
       - version-next
       - ci
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
     with:
-      image-id: ${{ needs.ci.outputs.image-id }}
+      image-ref: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}-staging@${{ needs.ci.outputs.image-digest }}
+      setup-script: |
+        set -x
+        docker run -p 8080:8080 -e dtap.stage=LOC -d ${IMAGE_ID:-${IMAGE_REF}}
+      teardown-script: |
+        set -x
+        docker stop ${CONTAINER_ID}
+        docker rm --volumes ${CONTAINER_ID}
 
-  soapui-testrunner:
-    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@f497e160d12e5b4c5e7685038aaf6e89ff87628d #2.4.5
+  soapui:
+    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@c5e8d21f01cf6dacd9b7ccbca6c675b90f951750 #2.4.8
     needs:
       - ci
-      - run-larva-scenarios
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
     with:
       soapui-project: 'e2e/SoapUI/zaakbrug-e2e-soapui-project.xml'
-      image-id: ${{needs.ci.outputs.image-id}}
-      image-build-artifact-name: 'build-docker-image'
-      image-tarball-file: 'image.tar'
+      image-ref: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}-staging@${{ needs.ci.outputs.image-digest }}
       setup-script: |
         docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml up -d
         echo "Services started. Waiting for OpenZaak to be healthy..."
