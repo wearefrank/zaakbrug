@@ -1,5 +1,15 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.8](https://github.com/wearefrank/zaakbrug/compare/v1.26.7...v1.26.8) (2026-03-09)
+
+### 🤖 Build System
+
+* **dependencies:** bump the github-actions group with 13 updates ([#649](https://github.com/wearefrank/zaakbrug/issues/649)) ([f565598](https://github.com/wearefrank/zaakbrug/commit/f5655981fc846637c753ec875752b4b18bfb6e24))
+
+### 🔁 Continuous Integration
+
+* replace custom larva workflow with reusable ci-cd-templates larva-testrunner workflow ([#650](https://github.com/wearefrank/zaakbrug/issues/650)) ([482a358](https://github.com/wearefrank/zaakbrug/commit/482a358201d5cdbf682e61d3b345770179be2acb))
+
 ## [1.26.7](https://github.com/wearefrank/zaakbrug/compare/v1.26.6...v1.26.7) (2026-02-27)
 
 ### 🤖 Build System
