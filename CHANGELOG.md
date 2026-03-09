@@ -1,5 +1,15 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.9](https://github.com/wearefrank/zaakbrug/compare/v1.26.8...v1.26.9) (2026-03-09)
+
+### 📝 Documentation
+
+* add documentation for "routing profiles" for orchestration and migration scenario's ([#631](https://github.com/wearefrank/zaakbrug/issues/631)) ([f1a40b2](https://github.com/wearefrank/zaakbrug/commit/f1a40b272448a762cf753809568b11a40a168d25))
+
+### 🔁 Continuous Integration
+
+* add merge_group trigger in 'ci' workflow to support merge queue ([3ad2afd](https://github.com/wearefrank/zaakbrug/commit/3ad2afd9ef029a867e3c79ca9c9196c8bdae5d6d))
+
 ## [1.26.8](https://github.com/wearefrank/zaakbrug/compare/v1.26.7...v1.26.8) (2026-03-09)
 
 ### 🤖 Build System
