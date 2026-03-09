@@ -15,7 +15,7 @@ jobs:
       version-next: ${{ steps.reference.outputs.next-reference }}
       version-next-strict: ${{ steps.reference.outputs.next-reference }}
     steps:
-      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49 # v2.12.2
+      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc # v2.15.1
         with:
           disable-sudo: true
           egress-policy: block
@@ -23,46 +23,52 @@ jobs:
             github.com:443
 
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #4.2.2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #6.0.2
 
       - name: Next Reference
         id: reference
-        uses: wearefrank/ci-cd-templates/next-reference@692c637ef4f5519d986d69e443997ab80fed8deb #2.0.2
+        uses: wearefrank/ci-cd-templates/next-reference@f497e160d12e5b4c5e7685038aaf6e89ff87628d #2.4.5
 
   ci:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@692c637ef4f5519d986d69e443997ab80fed8deb #2.0.2
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@c5e8d21f01cf6dacd9b7ccbca6c675b90f951750 #2.4.8
     needs:
       - version-next
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
     with:
       version: ${{ needs.version-next.outputs.version-next }}
-      docker-image-repo: ${{ vars.DOCKER_IMAGE_REPOSITORY }}
-      docker-image-name: ${{ vars.DOCKER_IMAGE_NAME }}
-      upload-sarif-to-security: false
       run-frank-till-healthy-enabled: false
 
-  run-larva-scenarios:
-    uses: ./.github/workflows/run-larva-scenarios.yml
+  larva:
+    uses: wearefrank/ci-cd-templates/.github/workflows/larva-testrunner.yml@c5e8d21f01cf6dacd9b7ccbca6c675b90f951750 #2.4.8
     needs:
       - version-next
       - ci
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
     with:
-      image-id: ${{ needs.ci.outputs.image-id }}
+      image-ref: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}-staging@${{ needs.ci.outputs.image-digest }}
+      setup-script: |
+        set -x
+        docker run -p 8080:8080 -e dtap.stage=LOC -d ${IMAGE_ID:-${IMAGE_REF}}
+      teardown-script: |
+        set -x
+        docker stop ${CONTAINER_ID}
+        docker rm --volumes ${CONTAINER_ID}
 
-  soapui-testrunner:
-    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@692c637ef4f5519d986d69e443997ab80fed8deb #2.0.2
+  soapui:
+    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@c5e8d21f01cf6dacd9b7ccbca6c675b90f951750 #2.4.8
     needs:
       - ci
-      - run-larva-scenarios
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
     with:
       soapui-project: 'e2e/SoapUI/zaakbrug-e2e-soapui-project.xml'
-      image-id: ${{needs.ci.outputs.image-id}}
-      image-build-artifact-name: 'build-docker-image'
-      image-tarball-file: 'image.tar'
+      image-ref: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}-staging@${{ needs.ci.outputs.image-digest }}
       setup-script: |
         docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml up -d
+        echo "Services started. Waiting for OpenZaak to be healthy..."
+        timeout 300s bash -c 'until [ "$(docker inspect -f "{{.State.Health.Status}}" open-zaak.dev 2>/dev/null)" == "healthy" ]; do sleep 5; done'
+        echo "SUCCESS: OpenZaak is healthy. Proceeding to the next step..."
       teardown-script: |
         docker compose -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml down -v

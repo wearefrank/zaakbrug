@@ -26,7 +26,7 @@
 
             <!--
                 Dont touch the input message before this pipe. Especially no xslt/xpath. 
-                It can potentially contain very large document base64 still. 
+                It can potentially contain very large document base64 still.  
                 This pipe stores it to disk and removes it from the message.
             -->
             <EchoPipe 
