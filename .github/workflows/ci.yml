@@ -19,7 +19,7 @@ jobs:
       version-next: ${{ steps.reference.outputs.next-reference }}
       version-next-strict: ${{ steps.reference.outputs.next-reference }}
     steps:
-      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc # v2.15.1
+      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
         with:
           disable-sudo: true
           egress-policy: block
@@ -31,10 +31,10 @@ jobs:
 
       - name: Next Reference
         id: reference
-        uses: wearefrank/ci-cd-templates/next-reference@f497e160d12e5b4c5e7685038aaf6e89ff87628d #2.4.5
+        uses: wearefrank/ci-cd-templates/next-reference@d7447a21c0c753a1e0869cfa87aff768454a667b #2.4.9
 
   ci:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@c5e8d21f01cf6dacd9b7ccbca6c675b90f951750 #2.4.8
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@d7447a21c0c753a1e0869cfa87aff768454a667b #2.4.9
     needs:
       - version-next
     secrets:
@@ -44,7 +44,7 @@ jobs:
       run-frank-till-healthy-enabled: false
 
   larva:
-    uses: wearefrank/ci-cd-templates/.github/workflows/larva-testrunner.yml@c5e8d21f01cf6dacd9b7ccbca6c675b90f951750 #2.4.8
+    uses: wearefrank/ci-cd-templates/.github/workflows/larva-testrunner.yml@d7447a21c0c753a1e0869cfa87aff768454a667b #2.4.9
     needs:
       - version-next
       - ci
@@ -61,7 +61,7 @@ jobs:
         docker rm --volumes ${CONTAINER_ID}
 
   soapui:
-    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@c5e8d21f01cf6dacd9b7ccbca6c675b90f951750 #2.4.8
+    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@d7447a21c0c753a1e0869cfa87aff768454a667b #2.4.9
     needs:
       - ci
     secrets:

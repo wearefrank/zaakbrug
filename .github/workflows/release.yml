@@ -14,7 +14,7 @@ jobs:
       version-next-tag: ${{ steps.next-version.outputs.release-tag }}
       version-next-type: ${{ steps.next-version.outputs.release-type }}
     steps:
-      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc # v2.15.1
+      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
         with:
           disable-sudo: true
           egress-policy: audit
@@ -40,7 +40,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   ci:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@c5e8d21f01cf6dacd9b7ccbca6c675b90f951750 #2.4.8
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@d7447a21c0c753a1e0869cfa87aff768454a667b #2.4.9
     needs: analyze-commits
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
@@ -50,7 +50,7 @@ jobs:
       run-frank-till-healthy-enabled: false
 
   larva:
-    uses: wearefrank/ci-cd-templates/.github/workflows/larva-testrunner.yml@c5e8d21f01cf6dacd9b7ccbca6c675b90f951750 #2.4.8
+    uses: wearefrank/ci-cd-templates/.github/workflows/larva-testrunner.yml@d7447a21c0c753a1e0869cfa87aff768454a667b #2.4.9
     needs:
       - analyze-commits
       - ci
@@ -67,7 +67,7 @@ jobs:
         docker rm --volumes ${CONTAINER_ID}
 
   soapui:
-    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@c5e8d21f01cf6dacd9b7ccbca6c675b90f951750 #2.4.8
+    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@d7447a21c0c753a1e0869cfa87aff768454a667b #2.4.9
     needs:
       - ci
     secrets:
@@ -91,7 +91,7 @@ jobs:
       - larva
       - soapui
     steps:
-      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc # v2.15.1
+      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
         with:
           egress-policy: audit
 
@@ -101,13 +101,13 @@ jobs:
           token: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
       - name: Download Pre-build Artifacts
-        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 #8.0.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c #8.0.1
         with:
           pattern: pre-build-*
           merge-multiple: true
   
       - name: Download Build Artifacts
-        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 #8.0.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c #8.0.1
         with:
           pattern: build-*
           merge-multiple: true
@@ -127,7 +127,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
 
   docker-release:
-    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@c5e8d21f01cf6dacd9b7ccbca6c675b90f951750 #2.4.8
+    uses: wearefrank/ci-cd-templates/.github/workflows/docker-release-generic.yml@d7447a21c0c753a1e0869cfa87aff768454a667b #2.4.9
     needs: 
     - analyze-commits
     - release
@@ -158,4 +158,4 @@ jobs:
       - release
     # Set to true to enable Docusaurus publishing to GitHub Pages
     if: true
-    uses: wearefrank/ci-cd-templates/.github/workflows/docusaurus-release.yml@c5e8d21f01cf6dacd9b7ccbca6c675b90f951750 #2.4.8
+    uses: wearefrank/ci-cd-templates/.github/workflows/docusaurus-release.yml@d7447a21c0c753a1e0869cfa87aff768454a667b #2.4.9
