@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.11](https://github.com/wearefrank/zaakbrug/compare/v1.26.10...v1.26.11) (2026-04-01)
+
+### 🐛 Bug Fixes
+
+* docusaurus 'configuring zaakbrug' index broken link ([f70a98a](https://github.com/wearefrank/zaakbrug/commit/f70a98a94e123d9b11177c16ece8b19119bb22d0))
+
 ## [1.26.10](https://github.com/wearefrank/zaakbrug/compare/v1.26.9...v1.26.10) (2026-04-01)
 
 ### 📝 Documentation
