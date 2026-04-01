@@ -1,5 +1,18 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.10](https://github.com/wearefrank/zaakbrug/compare/v1.26.9...v1.26.10) (2026-04-01)
+
+### 📝 Documentation
+
+* methods for providing jdbc drivers other than for H2 and Postgresql ([d78fa9b](https://github.com/wearefrank/zaakbrug/commit/d78fa9b71cd201d47c70b1fe1a1fd71adb2af178))
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 10.1.0-20260323.042326 ([86e678f](https://github.com/wearefrank/zaakbrug/commit/86e678f935e0802eebbf7bc1dc0bb42c3ce9afd8))
+* **dependencies:** bump the docusaurus group across 1 directory with 3 updates ([d32cbf9](https://github.com/wearefrank/zaakbrug/commit/d32cbf964f26d8f41e2781331044c6bf5edcf886))
+* **dependencies:** bump the github-actions group across 1 directory with 10 updates ([fc66402](https://github.com/wearefrank/zaakbrug/commit/fc664029c8c8324a684c7edea2b9c64ac1c2301f))
+* include postgresql driver in docker image ([85f224f](https://github.com/wearefrank/zaakbrug/commit/85f224f82f94280287e7be8eabb11651f1825bf7))
+
 ## [1.26.9](https://github.com/wearefrank/zaakbrug/compare/v1.26.8...v1.26.9) (2026-03-09)
 
 ### 📝 Documentation
