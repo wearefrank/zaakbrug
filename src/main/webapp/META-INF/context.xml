@@ -2,10 +2,10 @@
 <Context>
 	<JarScanner scanClassPath="false" scanAllFiles="false" scanAllDirectories="false"/>
 	<Resource
-			name="jdbc/zaakbrug"
-			type="org.h2.jdbcx.JdbcDataSource"
-			factory="org.apache.naming.factory.BeanFactory"
-			URL="jdbc:h2:./data/zaakbrug"
+		name="jdbc/${instance.name.lc}"
+		type="org.h2.jdbcx.JdbcDataSource"
+		factory="org.apache.naming.factory.BeanFactory"
+		URL="jdbc:h2:mem:${instance.name.lc};NON_KEYWORDS=VALUE;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;TRACE_LEVEL_FILE=0;"
 	/>
 
 	<!-- <Resource name="jdbc/zaakbrug" auth="Container"
