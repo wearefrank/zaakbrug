@@ -39,15 +39,15 @@ services:
       - OPENZAAK_SUPERUSER_EMAIL=admin@localhost
       - CELERY_BROKER_URL=redis://open-zaak-redis:6379/1
       - CELERY_RESULT_BACKEND=redis://open-zaak-redis:6379/1
-      - CELERY_LOGLEVEL=DEBUG
+      - CELERY_LOGLEVEL=INFO
       - CELERY_WORKER_CONCURRENCY=${CELERY_WORKER_CONCURRENCY:-4}
       # - SENDFILE_BACKEND=django_sendfile.backends.simple
       - SENDFILE_BACKEND=django_sendfile.backends.nginx
       - SENDFILE_ROOT=/app/private_media
       - SENDFILE_URL=/private-media/
       - NOTIFICATIONS_DISABLED=yes
-      - DEBUG=1
-      - LOG_LEVEL=DEBUG
+      - DEBUG=0
+      - LOG_LEVEL=INFO
       - LOG_QUERIES=false
     networks:
       - open-zaak-backend

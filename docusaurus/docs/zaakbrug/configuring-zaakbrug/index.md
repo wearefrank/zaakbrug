@@ -21,4 +21,3 @@ The [Translation Profiles](translation-profiles) section contains the following 
 
 - [Configure Value Overrides](translation-profiles/configure-value-overrides): Override translated values with static or dynamic values.
 - [Set Defaults For All Profiles](translation-profiles/set-defaults-all-profiles): Define shared defaults that apply across all translation profiles.
-- [Configure Case Closing Behavior For Edge-Case Scenarios](translation-profiles/_configure-case-closing-behavior-for-edge-case-scenarios): Fine-tune how zaak closing behaves in specific edge cases.
