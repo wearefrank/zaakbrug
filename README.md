@@ -50,6 +50,9 @@ It is recommended to run ZaakBrug with Docker. Ensure that Docker is installed o
 Refer to [ZaakBrug Helm Chart](https://wearefrank.github.io/charts/zaakbrug).
 
 # Configuration
+## Drivers
+Refer to [ZaakBrug Docs - JDBC Drivers](https://docs.zaakbrug.nl/docs/zaakbrug/configuring-zaakbrug/jdbc-drivers)
+
 ## Zaak- and Documentidentificatie
 The properties `zaakbrug.zgw.zaak-identificatie-template` and `zaakbrug.zgw.document-identificatie-template` can be configured to specify how the zaak- and documentidentificatie should be generated and formatted.
 The syntax for variable substitution is as follows {[variable-name][:formatting-string]} 
