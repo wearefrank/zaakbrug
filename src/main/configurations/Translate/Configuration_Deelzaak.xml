@@ -66,12 +66,11 @@
             <XmlSwitchPipe
                 name="CheckVerwerkingssoortAttribute"
                 getInputFromSessionKey="originalMessage"
-                xpathExpression="*/@*:verwerkingssoort"
-                notFoundForwardName="unimplemented">
+                xpathExpression="*/@*:verwerkingssoort">
                 <Forward name="I" path="CallCheckHoofdzaak" />
                 <Forward name="T" path="CallAddHoofdzaak" />
                 <Forward name="V" path="CallDeleteHoofdzaak" />
-                <Forward name="unimplemented" path="UnrecognizedVerwerkingssoort_Error" />
+                <Forward name="notFound" path="UnrecognizedVerwerkingssoort_Error" />
             </XmlSwitchPipe>
 
             <XsltPipe

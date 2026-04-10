@@ -60,9 +60,9 @@
 
             <XmlSwitchPipe 
                 name="ForwardBySoapActionSwitch"
-				forwardNameSessionKey="LegalizedSoapAction"
-                notFoundForwardName="UnsupportedSoapActionError"
-                />
+				forwardNameSessionKey="LegalizedSoapAction">
+                <Forward name="notFound" path="UnsupportedSoapActionError" />
+            </XmlSwitchPipe>
             
             <SenderPipe
                 name="http:__www.stufstandaarden.nl_koppelvlak_zds0120_genereerBesluitIdentificatie_Di02"

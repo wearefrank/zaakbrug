@@ -202,7 +202,7 @@
             </XsltPipe>
 
             <IfPipe name="CheckForStatusExists"
-                emptyInputReplacement="&lt;statusExists&gt;false&lt;/statusExists&gt;"
+                defaultValue="&lt;statusExists&gt;false&lt;/statusExists&gt;"
                 xpathExpression="//statusExists = 'true'"
                 >
                 <Forward name="then" path="EXIT"/>
