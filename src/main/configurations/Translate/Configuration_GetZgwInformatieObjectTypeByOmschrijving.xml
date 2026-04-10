@@ -14,12 +14,13 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-			<ForEachChildElementPipe 
+            <ForEachChildElementPipe
                 name="ZaakTypeInformatieObjectTypeUrlIterator"
                 getInputFromSessionKey="ZgwZaakType"
                 storeResultInSessionKey="ZgwInformatieObjectTypen"
                 elementXPathExpression="/ZgwZaakType/informatieobjecttypen"
-                parallel="true">
+                parallel="true"
+                maxChildThreads="20">
                 <IbisLocalSender
                     name="GetZgwInformatieObjectTypeByUrlLocalSender"
                     javaListener="GetZgwInformatieObjectTypeByUrl"
