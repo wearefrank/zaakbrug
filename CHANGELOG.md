@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.12](https://github.com/wearefrank/zaakbrug/compare/v1.26.11...v1.26.12) (2026-04-10)
+
+### 🤖 Build System
+
+* make postgresql driver accessible in docker image to users other than the owner to support running under a different user ([fffb9c1](https://github.com/wearefrank/zaakbrug/commit/fffb9c18d9d044513e7a59396fff0d3404d35a2d))
+
 ## [1.26.11](https://github.com/wearefrank/zaakbrug/compare/v1.26.10...v1.26.11) (2026-04-01)
 
 ### 🐛 Bug Fixes
