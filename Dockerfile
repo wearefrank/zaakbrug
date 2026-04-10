@@ -38,7 +38,7 @@ COPY --chown=2000:2000 src/main/webapp/META-INF/context.xml /usr/local/tomcat/co
 # Copy Frank!
 COPY --link --chown=2000:2000 src/main/ /opt/frank/
 COPY --link --chown=2000:2000 src/test/testtool/ /opt/frank/testtool/
-ADD --link --chown=2000:2000 --checksum=sha256:cab1cd67cfa25c25de4348e532298028288a877ba01c77d1619fe45416193387 https://github.com/pgjdbc/pgjdbc/releases/download/REL42.7.10/postgresql-42.7.10.jar /opt/frank/drivers/
+ADD --link --chown=2000:2000 --chmod=644 --checksum=sha256:cab1cd67cfa25c25de4348e532298028288a877ba01c77d1619fe45416193387 https://github.com/pgjdbc/pgjdbc/releases/download/REL42.7.10/postgresql-42.7.10.jar /opt/frank/drivers/
 
 # Copy custom entrypoint script with added options
 COPY --chown=2000:2000 --chmod=+x docker/entrypoint.sh /scripts/entrypoint.sh
