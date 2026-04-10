@@ -66,9 +66,48 @@ jobs:
         docker stop ${CONTAINER_ID}
         docker rm --volumes ${CONTAINER_ID}
 
+  check-configuration-warnings:
+    runs-on: ubuntu-latest
+    needs:
+      - analyze-commits
+      - ci
+    steps:
+      - name: Check For Configuration Warnings
+        uses: wearefrank/ci-cd-templates/frank-run-till-healthy@d7447a21c0c753a1e0869cfa87aff768454a667b #2.4.9
+        with:
+          image-ref: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}-staging@${{ needs.ci.outputs.image-digest }}
+          setup-script: |
+            set -x
+            docker run -p 8080:8080 -e dtap.stage=LOC -d ${IMAGE_ID:-${IMAGE_REF}}
+          teardown-script: |
+            set -x
+
+            WARNINGS=$(docker exec "${CONTAINER_ID}" \
+              curl -X GET 'http://localhost:8080/iaf/api/server/warnings' \
+              --header 'Content-Type: application/json')
+
+            docker stop ${CONTAINER_ID}
+            docker rm --volumes ${CONTAINER_ID}
+
+            WARNING_COUNT=$(echo "${WARNINGS}" | jq '[.[] | objects | (.warnings // []) | length] | add // 0')
+
+            if [ "${WARNING_COUNT}" -gt 0 ]; then
+              echo "## :warning: Configuration Warnings" >> "${GITHUB_STEP_SUMMARY}"
+              echo "" >> "${GITHUB_STEP_SUMMARY}"
+              while IFS= read -r warning; do
+                echo "- ${warning}" >> "${GITHUB_STEP_SUMMARY}"
+              done < <(echo "${WARNINGS}" | jq -r '[.[] | objects | (.warnings // [])] | flatten | .[]')
+            fi
+
+            if [ "${WARNING_COUNT}" -gt 0 ]; then
+              echo "Error: ${WARNING_COUNT} warning(s) found across configurations" >&2
+              exit 1
+            fi
+
   soapui:
     uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@d7447a21c0c753a1e0869cfa87aff768454a667b #2.4.9
     needs:
+      - analyze-commits
       - ci
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}

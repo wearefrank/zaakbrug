@@ -83,11 +83,15 @@ jobs:
             docker stop ${CONTAINER_ID}
             docker rm --volumes ${CONTAINER_ID}
 
-            while IFS= read -r warning; do
-              echo "::warning::${warning}"
-            done < <(echo "${WARNINGS}" | jq -r '[.[] | objects | (.warnings // [])] | flatten | .[]')
-
             WARNING_COUNT=$(echo "${WARNINGS}" | jq '[.[] | objects | (.warnings // []) | length] | add // 0')
+
+            if [ "${WARNING_COUNT}" -gt 0 ]; then
+              echo "## :warning: Configuration Warnings" >> "${GITHUB_STEP_SUMMARY}"
+              echo "" >> "${GITHUB_STEP_SUMMARY}"
+              while IFS= read -r warning; do
+                echo "- ${warning}" >> "${GITHUB_STEP_SUMMARY}"
+              done < <(echo "${WARNINGS}" | jq -r '[.[] | objects | (.warnings // [])] | flatten | .[]')
+            fi
 
             if [ "${WARNING_COUNT}" -gt 0 ]; then
               echo "Error: ${WARNING_COUNT} warning(s) found across configurations" >&2

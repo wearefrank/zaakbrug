@@ -95,9 +95,9 @@
 
             <XmlSwitchPipe 
                 name="ForwardBySoapActionSwitch"
-                forwardNameSessionKey="LegalizedSoapAction"
-                notFoundForwardName="UnsupportedSoapActionError"
-                />
+                forwardNameSessionKey="LegalizedSoapAction">
+                <Forward name="notFound" path="UnsupportedSoapActionError" />
+            </XmlSwitchPipe>
 
             <!-- UpdateZaak_Lk01 -->
             <SenderPipe 
@@ -202,7 +202,7 @@
 
             <SoapWrapperPipe
                 name="WrapFo03Response"
-                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                defaultValue="&lt;EmptyInput/&gt;"
                 soapBodyStyleSheet="Common/xsl/CreateFo03Response.xslt"
                 >
                 <Param name="Stuurgegevens" sessionKey="Stuurgegevens" type="DOMDOC"/>

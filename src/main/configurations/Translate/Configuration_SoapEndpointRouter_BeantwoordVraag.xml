@@ -96,9 +96,9 @@
 
             <XmlSwitchPipe 
                 name="ForwardBySoapActionSwitch"
-                forwardNameSessionKey="LegalizedSoapAction"
-                notFoundForwardName="UnsupportedSoapActionError"
-                />
+                forwardNameSessionKey="LegalizedSoapAction">
+                <Forward name="notFound" path="UnsupportedSoapActionError"/>
+            </XmlSwitchPipe>
 
             <!-- GeefLijstZaakdocumenten -->
             <SenderPipe
@@ -170,7 +170,7 @@
 
             <SoapWrapperPipe
                 name="WrapZakLa01Response"
-                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                defaultValue="&lt;EmptyInput/&gt;"
                 soapBodyStyleSheet="Common/xsl/CreateZakLa01Response.xslt"
                 >
                 <Param name="Stuurgegevens" sessionKey="Stuurgegevens" type="DOMDOC" />

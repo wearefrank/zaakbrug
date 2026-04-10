@@ -60,11 +60,9 @@
 
             <XmlSwitchPipe 
                 name="ForwardBySoapActionSwitch"
-                forwardNameSessionKey="LegalizedSoapAction"
-                notFoundForwardName="UnsupportedSoapActionError"
-                />
-            
-            <!-- SenderPipes -->
+                forwardNameSessionKey="LegalizedSoapAction">
+                <Forward name="notFound" path="UnsupportedSoapActionError" />
+            </XmlSwitchPipe>
 
             <!-- SoapWrapperPipes -->
 

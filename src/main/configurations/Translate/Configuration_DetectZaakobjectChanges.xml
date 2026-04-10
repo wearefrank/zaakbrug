@@ -29,7 +29,7 @@
             <IfPipe 
                 name="CheckIfValidZaakobject"
                 xpathExpression="boolean(/ZgwZaakobject)"
-                emptyInputReplacement="&lt;dummy/&gt;"
+                defaultValue="&lt;dummy/&gt;"
                 preserveInput="true">
                 <Forward name="then" path="CheckVerwerkingssoortAttribute"/>
                 <Forward name="else" path="EXIT"/>

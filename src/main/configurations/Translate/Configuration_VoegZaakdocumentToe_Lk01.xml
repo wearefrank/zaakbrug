@@ -112,7 +112,7 @@
 
             <IfPipe 
                 name="GetZgwInformatieObjectTypeByOmschrijvingSender_OmschrijvingNotFoundCondition"
-                emptyInputReplacement="&lt;ZgwInformatieObjectType/&gt;"
+                defaultValue="&lt;ZgwInformatieObjectType/&gt;"
                 xpathExpression="string-length(/ZgwInformatieObjectType) = 0"
                 >
                 <Forward name="then" path="GetZgwInformatieObjectTypeByOmschrijvingSender_OmschrijvingNotFoundException"/>
@@ -332,7 +332,7 @@
 
             <XsltPipe 
                 name="UncaughtException"
-                emptyInputReplacement="&lt;EmptyInput/&gt;"
+                defaultValue="&lt;EmptyInput/&gt;"
                 styleSheetName="Common/xsl/BuildError.xsl">
                 <Param name="cause" xpathExpression="/error" type="DOMDOC" />
                 <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->

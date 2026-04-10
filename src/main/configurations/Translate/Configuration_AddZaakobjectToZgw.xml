@@ -15,15 +15,14 @@
 
             <XmlSwitchPipe
                 name="CheckZdsObjectTypeOfHeeftBetrekkingOp"
-                xpathExpression="/*:heeftBetrekkingOp/*:gerelateerde/*[1]/@*:entiteittype"
-                notFoundForwardName="unimplemented">
+                xpathExpression="/*:heeftBetrekkingOp/*:gerelateerde/*[1]/@*:entiteittype">
                 <Forward name="AOA" path="MapObjectTypeAdresIdentification"/> <!-- objectType: adres -->
                 <Forward name="MDW" path="LogWarningNotImplementedObjectType"/> <!-- objectType: medewerker -->
                 <Forward name="NPS" path="LogWarningNotImplementedObjectType"/> <!-- objectType: natuurlijkPersoon -->
                 <Forward name="NNP" path="LogWarningNotImplementedObjectType"/> <!-- objectType: nietNatuurlijkPersoon -->
                 <Forward name="VES" path="LogWarningNotImplementedObjectType"/> <!-- objectType: vestiging -->
                 <Forward name="OEH"  path="LogWarningNotImplementedObjectType"/> <!-- objectType: organisatorischeEenheid -->
-                <Forward name="unimplemented" path="ResultWithObjectTypeErrorMessage"/>
+                <Forward name="notFound" path="ResultWithObjectTypeErrorMessage"/>
             </XmlSwitchPipe>
 
             <XsltPipe
