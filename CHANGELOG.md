@@ -1,5 +1,16 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.13](https://github.com/wearefrank/zaakbrug/compare/v1.26.12...v1.26.13) (2026-04-13)
+
+### 🧑‍💻 Code Refactoring
+
+* fix warnings in Frank!console ([fb3e07d](https://github.com/wearefrank/zaakbrug/commit/fb3e07d3bbc4d83eeeb9c281cc1db0980219bf04))
+
+### 🔁 Continuous Integration
+
+* add job that fails when there are console warnings present ([671ae20](https://github.com/wearefrank/zaakbrug/commit/671ae203f91370a982f0b1d8ebdc31113e6ea749))
+* add job that fails when there are console warnings present ([9c96d66](https://github.com/wearefrank/zaakbrug/commit/9c96d6655d9dd2c31c48700e2c2cd9264d441205))
+
 ## [1.26.12](https://github.com/wearefrank/zaakbrug/compare/v1.26.11...v1.26.12) (2026-04-10)
 
 ### 🤖 Build System
