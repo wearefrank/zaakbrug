@@ -19,7 +19,7 @@ jobs:
       version-next: ${{ steps.reference.outputs.next-reference }}
       version-next-strict: ${{ steps.reference.outputs.next-reference }}
     steps:
-      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
+      - uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
         with:
           disable-sudo: true
           egress-policy: block
@@ -31,10 +31,10 @@ jobs:
 
       - name: Next Reference
         id: reference
-        uses: wearefrank/ci-cd-templates/next-reference@d7447a21c0c753a1e0869cfa87aff768454a667b #2.4.9
+        uses: wearefrank/ci-cd-templates/next-reference@00b8c33dd29ef328ad7aa1a2732dc6f41f2e03f3 #2.4.10
 
   ci:
-    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@d7447a21c0c753a1e0869cfa87aff768454a667b #2.4.9
+    uses: wearefrank/ci-cd-templates/.github/workflows/ci-generic.yml@00b8c33dd29ef328ad7aa1a2732dc6f41f2e03f3 #2.4.10
     needs:
       - version-next
     secrets:
@@ -44,7 +44,7 @@ jobs:
       run-frank-till-healthy-enabled: false
 
   larva:
-    uses: wearefrank/ci-cd-templates/.github/workflows/larva-testrunner.yml@d7447a21c0c753a1e0869cfa87aff768454a667b #2.4.9
+    uses: wearefrank/ci-cd-templates/.github/workflows/larva-testrunner.yml@00b8c33dd29ef328ad7aa1a2732dc6f41f2e03f3 #2.4.10
     needs:
       - version-next
       - ci
@@ -67,7 +67,7 @@ jobs:
       - ci
     steps:
       - name: Check For Configuration Warnings
-        uses: wearefrank/ci-cd-templates/frank-run-till-healthy@d7447a21c0c753a1e0869cfa87aff768454a667b #2.4.9
+        uses: wearefrank/ci-cd-templates/frank-run-till-healthy@00b8c33dd29ef328ad7aa1a2732dc6f41f2e03f3 #2.4.10
         with:
           image-ref: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}-staging@${{ needs.ci.outputs.image-digest }}
           setup-script: |
@@ -99,7 +99,7 @@ jobs:
             fi
 
   soapui:
-    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@d7447a21c0c753a1e0869cfa87aff768454a667b #2.4.9
+    uses: wearefrank/ci-cd-templates/.github/workflows/soapui-testrunner.yml@00b8c33dd29ef328ad7aa1a2732dc6f41f2e03f3 #2.4.10
     needs:
       - ci
     secrets:
