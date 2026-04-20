@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Delete Artifacts
         # https://github.com/wearefrank/ci-cd-templates/blob/main/delete-workflow-artifacts/README.md
-        uses: wearefrank/ci-cd-templates/delete-workflow-artifacts@d7447a21c0c753a1e0869cfa87aff768454a667b # v2.4.9
+        uses: wearefrank/ci-cd-templates/delete-workflow-artifacts@00b8c33dd29ef328ad7aa1a2732dc6f41f2e03f3 # v2.4.10
         with:
           token: ${{ github.token }}
           artifact-names: 'pre-build-*, build-*'
