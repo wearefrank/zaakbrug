@@ -79,14 +79,14 @@
                     <Param name="RolTypeUrl" xpathExpression="$ZgwRolType/ZgwRolType/url">
                         <Param name="ZgwRolType" sessionKey="ZgwRolType" type="DOMDOC"/>
                     </Param>
-                    <Param name="inpBsn" xpathExpression="*/*:gerelateerde/*:natuurlijkPersoon/*:inp.bsn"/>
-                    <Param name="anpIdentificatie" xpathExpression="*/*:gerelateerde/*:natuurlijkPersoon/*:anp.identificatie"/>
-                    <Param name="inpA_nummer" xpathExpression="*/*:gerelateerde/*:natuurlijkPersoon/*:inp.a-nummer"/>
-                    <Param name="innNnpId" xpathExpression="*/*:gerelateerde/*:nietNatuurlijkPersoon/*:inn.nnpId"/>
-                    <Param name="annIdentificatie" xpathExpression="*/*:gerelateerde/*:nietNatuurlijkPersoon/*:ann.identificatie"/>
-                    <Param name="vestigingsNummer" xpathExpression="*/*:gerelateerde/*:vestiging/*:vestigingsNummer"/>
-                    <Param name="OEHidentificatie" xpathExpression="*/*:gerelateerde/*:organisatorischeEenheid/*:identificatie"/>
-                    <Param name="MDWidentificatie" xpathExpression="*/*:gerelateerde/*:medewerker/*:identificatie"/>
+                    <Param name="inpBsn" xpathExpression="*/*:gerelateerde/*:natuurlijkPersoon/*:inp.bsn[not(ancestor::*:heeftAlsInitiator)]"/>
+                    <Param name="anpIdentificatie" xpathExpression="*/*:gerelateerde/*:natuurlijkPersoon/*:anp.identificatie[not(ancestor::*:heeftAlsInitiator)]"/>
+                    <Param name="inpA_nummer" xpathExpression="*/*:gerelateerde/*:natuurlijkPersoon/*:inp.a-nummer[not(ancestor::*:heeftAlsInitiator)]"/>
+                    <Param name="innNnpId" xpathExpression="*/*:gerelateerde/*:nietNatuurlijkPersoon/*:inn.nnpId[not(ancestor::*:heeftAlsInitiator)]"/>
+                    <Param name="annIdentificatie" xpathExpression="*/*:gerelateerde/*:nietNatuurlijkPersoon/*:ann.identificatie[not(ancestor::*:heeftAlsInitiator)]"/>
+                    <Param name="vestigingsNummer" xpathExpression="*/*:gerelateerde/*:vestiging/*:vestigingsNummer[not(ancestor::*:heeftAlsInitiator)]"/>
+                    <Param name="OEHidentificatie" xpathExpression="*/*:gerelateerde/*:organisatorischeEenheid/*:identificatie[not(ancestor::*:heeftAlsInitiator)]"/>
+                    <Param name="MDWidentificatie" xpathExpression="*/*:gerelateerde/*:medewerker/*:identificatie[not(ancestor::*:heeftAlsInitiator)]"/>
                 </IbisLocalSender>
             </SenderPipe>
 

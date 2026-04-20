@@ -117,7 +117,37 @@
                     <Param name="MatchWithZgwRol" sessionKey="AddRolResult" type="DOMDOC" />
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT" /> <!-- Rol should be found -->
-                <Forward name="404" path="LogWarningCheck" /> 
+                <Forward name="404" path="isInitiator" /> 
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <IfPipe name="isInitiator" getInputFromSessionKey="originalMessage" xpathExpression="boolean(//heeftAlsInitiator)">
+                <Forward name="then" path="hasInitiator" />
+                <Forward name="else" path="LogWarningCheck" />
+            </IfPipe>
+
+
+            <IfPipe name="hasInitiator" getInputFromSessionKey="ZgwWasZaakRollen" xpathExpression="/ZgwRollen/zgwRol[omschrijvingGeneriek='initiator']">
+                <Forward name="then" path="CallDeleteRolInitiator" />
+                <Forward name="else" path="CallPostRol" />
+            </IfPipe>
+
+            <SenderPipe
+                name="CallDeleteRolInitiator"
+                getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="DeleteRolInitiatorResult"
+                >
+                <IbisLocalSender
+                    name="CallDeleteRolSender"
+                    javaListener="DeleteRolFromZgw"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl" />
+                    <Param name="ZaakTypeUrl"  sessionKey="ZaakTypeUrl"/>
+                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
+                </IbisLocalSender>
+                <Forward name="success" path="CallPostRol" />
+                <Forward name="404" path="LogWarningDelete" /> 
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
