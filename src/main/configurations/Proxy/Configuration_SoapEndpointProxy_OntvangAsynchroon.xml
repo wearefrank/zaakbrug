@@ -11,6 +11,11 @@
             <JavaListener name="${zaakbrug.java.proxy.ontvang-asynchroon.endpoint}"/>
         </Receiver>
 
+        <Receiver name="SoapEndpointProxy_OntvangAsynchroon_Java_withErrorStore">
+            <JavaListener name="${zaakbrug.java.proxy.ontvang-asynchroon.endpoint}_withErrorStore"/>
+            <JdbcErrorStorage name="SoapEndpointProxy_OntvangAsynchroon_ErrorStore" slotId="${instance.name}/SoapEndpointProxy_OntvangAsynchroon_ErrorStore" tableName="IBISSTORE"/>
+        </Receiver>
+
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
