@@ -37,6 +37,7 @@
   <!ENTITY GetRsinByGemeenteCode                          SYSTEM "./Configuration_GetRsinByGemeenteCode.xml">
   <!ENTITY GetSingleZaakobjectFromZgw                     SYSTEM "./Configuration_GetSingleZaakobjectFromZgw.xml">
   <!ENTITY Zaken_GetZgwStatusByZaakUrl                    SYSTEM "./Configuration_Zaken_GetZgwStatusByZaakUrl.xml">
+  <!ENTITY Zaken_GetZgwStatusByZaakUrlLaatste             SYSTEM "./Configuration_Zaken_GetZgwStatusByZaakUrlLaatste.xml">
   <!ENTITY GetStatusTypeByZaakTypeAndOmschrijving         SYSTEM "./Configuration_GetStatusTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetStatusTypes                                 SYSTEM "./Configuration_GetStatusTypes.xml">
   <!ENTITY GetZaakDetailsByRol                            SYSTEM "./Configuration_GetZaakDetailsByRol.xml">
@@ -73,6 +74,7 @@
   <!ENTITY PostResultaat                                  SYSTEM "./Configuration_PostResultaat.xml">
   <!ENTITY Zaken_PostZgwRol                               SYSTEM "./Configuration_Zaken_PostZgwRol.xml">
   <!ENTITY Zaken_PostZgwStatus                            SYSTEM "./Configuration_Zaken_PostZgwStatus.xml">
+  <!ENTITY Zaken_PostZgwzaak_bijwerken                    SYSTEM "./Configuration_Zaken_PostZgwzaak_bijwerken.xml">
   <!ENTITY Zaken_PostZgwDocumentnummer_reserveren         SYSTEM "./Configuration_Zaken_PostZgwDocumentnummer_reserveren.xml">
   <!ENTITY PostZaak                                       SYSTEM "./Configuration_PostZaak.xml">
   <!ENTITY PostZgwLock                                    SYSTEM "./Configuration_PostZgwLock.xml">
@@ -136,6 +138,7 @@
   &GetRsinByGemeenteCode;
   &GetSingleZaakobjectFromZgw;
   &Zaken_GetZgwStatusByZaakUrl;
+  &Zaken_GetZgwStatusByZaakUrlLaatste;
   &GetStatusTypeByZaakTypeAndOmschrijving;
   &GetStatusTypes;
   &GetZaakDetailsByRol;
@@ -172,6 +175,7 @@
   &PostResultaat;
   &Zaken_PostZgwRol;
   &Zaken_PostZgwStatus;
+  &Zaken_PostZgwzaak_bijwerken;
   &Zaken_PostZgwDocumentnummer_reserveren;
   &PostZaak;
   &PostZgwLock;

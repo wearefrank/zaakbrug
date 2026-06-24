@@ -4,7 +4,7 @@
         description="">
     
         <Receiver name="GetZdsZaakFromZgw">
-            <JavaListener name="GetZdsZaakFromZgw" returnedSessionKeys="Error" />
+            <JavaListener name="GetZdsZaakFromZgw" returnedSessionKeys="Error,status" />
         </Receiver>
     
         <Pipeline>   
@@ -304,10 +304,11 @@
             </XsltPipe>
 
             <SenderPipe 
-                name="GetZgwStatusByZaakUrlSender">
+                name="GetZgwStatusByZaakUrlSender"
+                storeResultInSessionKey="status">
                 <IbisLocalSender
                     name="GetZgwStatusByZaakUrlLocalSender"
-                    javaListener="Zaken_GetZgwStatusByZaakUrl"
+                    javaListener="Zaken_GetZgwStatusByZaakUrlLaatste"
                     returnedSessionKeys="Error">
                     <Param name="ZaakUrl" xpathExpression="$ZgwZaak/ZgwZaak/url">
                         <Param name="ZgwZaak" sessionKey="ZgwZaak" type="DOMDOC"/>

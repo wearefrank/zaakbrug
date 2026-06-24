@@ -1,0 +1,87 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="CreateZgwRolFromZdsRol"
+        active="${CreateZgwRolFromZdsRol.Active}"
+        description="">
+
+        <Receiver name="CreateZgwRolFromZdsRol">
+            <JavaListener name="CreateZgwRolFromZdsRol" returnedSessionKeys="Error" />
+        </Receiver>
+        
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <SenderPipe
+                name="CallAddRolToZgw"
+                storeResultInSessionKey="AddRolResult"
+                >
+                <IbisLocalSender
+                    name="CallAddRolToZgwSender"
+                    javaListener="AddRolToZgw"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC" />
+                    <Param name="ZaakType" sessionKey="ZaakType" xpathExpression="/ZgwZaakType/identificatie" />
+                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
+                </IbisLocalSender>
+                <Forward name="success" path="GetGlobalConfigFromLocalFS" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="GetGlobalConfigFromLocalFS"
+                >
+                <IbisLocalSender
+                    name="CallImportFromLocalFS"
+                    javaListener="ImportFromLocalFS"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="FileName" value="${FilePath_1}" />
+                </IbisLocalSender>
+                <Forward name="success" path="StoreRolMappingFromConfig" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <PutInSessionPipe
+                name="StoreRolMappingFromConfig"
+                >
+				<Param name="RolMapping" xpathExpression="/root/rolMapping" type="DOMDOC" />
+                <Forward name="success" path="CallMapZdsRolFromZgwRolSender" />
+			</PutInSessionPipe>
+
+            <SenderPipe
+                name="CallMapZdsRolFromZgwRolSender"
+                getInputFromSessionKey="AddRolResult"
+                storeResultInSessionKey="ZdsRol"
+                >
+                <IbisLocalSender
+                    name="CallMapZdsRolFromZgwRolLocalSender"
+                    javaListener="MapZdsRolFromZgwRol"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
+                    <Param name="ZgwZaakType" sessionKey="ZaakType" type="DOMDOC" />
+                </IbisLocalSender>
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <Json2XmlValidatorPipe
+                name="XmlToJson"
+                schema="CreeerZaak_LK01/xsd/ZgwRol.xsd"
+                root="zgwRol"
+                outputFormat="JSON"
+                throwException="true"
+                >
+            </Json2XmlValidatorPipe>
+            
+            <DataSonnetPipe getInputFromSessionKey="JsonUpdateZaakBody" styleSheetName="UpdateZaak_LK01/jsonnet/CreateJsonPatch.jsonnet" name="CreateJsonPatch" storeResultInSessionKey="JsonPatch">
+                <Param name="verwerkingssoort" sessionKey="OriginalMessage" xpathExpression="(//@verwerkingssoort)[1]" type="DOMDOC" />
+            </DataSonnetPipe>
+
+
+        </Pipeline>
+    </Adapter>
+</Module>

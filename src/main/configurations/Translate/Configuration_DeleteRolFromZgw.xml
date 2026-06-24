@@ -103,7 +103,7 @@
                 xpathExpression="count(/Rollen/Rol) >= 2"
                 >
                 <Forward name="then" path="EXCEPTION"/>
-                <Forward name="else" path="DeleteRol"/>
+                <Forward name="else" path="EXIT"/>
             </IfPipe>
 
             <SenderPipe

@@ -1,10 +1,10 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="Zaken_PostZgwRol"
-        active="${Zaken_PostZgwRol.Active}"
+    <Adapter name="Zaken_PostZgwzaak_bijwerken"
+        active="${Zaken_PostZgwzaak_bijwerken.Active}"
         description="">
 
-        <Receiver name="Zaken_PostZgwRol">
-            <JavaListener name="Zaken_PostZgwRol" returnedSessionKeys="Error" />
+        <Receiver name="Zaken_PostZgwzaak_bijwerken">
+            <JavaListener name="Zaken_PostZgwzaak_bijwerken" returnedSessionKeys="Error" />
         </Receiver>
 
         <Pipeline>
@@ -23,39 +23,41 @@
                     returnedSessionKeys="Error,Authorization"
                     >
                 </IbisLocalSender>
-                <Forward name="success" path="AddZaakUrl" />
+                <Forward name="success" path="DeleteRol" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
-
-            <XsltPipe
-                name="AddZaakUrl"
-                getInputFromSessionKey="originalMessage"
-                removeNamespaces="true"
-                skipEmptyTags="true"
-                styleSheetName="CreeerZaak_LK01/xsl/AddZaakUrl.xsl"
-                >
-                <Param name="ZgwZaakUrl" sessionKey="ZaakUrl" />
-                <Forward name="success" path="XmlToJson" />
-            </XsltPipe>
-
-            <Json2XmlValidatorPipe
-                name="XmlToJson"
-                schema="CreeerZaak_LK01/xsd/ZgwRol.xsd"
-                root="zgwRol"
-                outputFormat="JSON"
-                throwException="true"
-                >
-                <Forward name="success" path="PostZgwRol" />
-            </Json2XmlValidatorPipe>
+            <!-- InitiatorUUID -->
 
             <SenderPipe
-                name="PostZgwRol"
-                storeResultInSessionKey="PostZgwRolResult"
-                unlessSessionKey="sender"
-                unlessValue="UpdateZaak"
+                name="DeleteRol">
+                <HttpSender
+                    name="DeleteRolSender" 
+                    methodType="DELETE"
+                    headersParams="Authorization,Accept-Crs"
+                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
+                    verifyHostname="${zaakbrug.zgw.zaken-api.verifyHostname}"
+                    allowSelfSignedCertificates="${zaakbrug.zgw.zaken-api.allowSelfSignedCertificates}"
+                    disableCookies="${zaakbrug.zgw.zaken-api.disableCookies}"
+                    ignoreCertificateExpiredException="${zaakbrug.zgw.zaken-api.ignoreCertificateExpiredException}"
+                    truststore="${zaakbrug.zgw.zaken-api.truststore.uri}"
+                    truststoreAuthAlias="${zaakbrug.zgw.zaken-api.truststore.authAlias}"
+                    truststoreType="${zaakbrug.zgw.zaken-api.truststore.type}">
+                    <Param name="url" sessionKey="InitiatorUUID"/>
+                    <Param name="Accept-Crs" value="EPSG:4326"/>
+                    <Param name="Authorization"  sessionKey="Authorization" />
+                </HttpSender>
+                <Forward name="success" path="PostZgwzaak_bijwerken"/>
+                <Forward name="exception" path="ErrorJsonToXml" />
+            </SenderPipe>
+
+            <SenderPipe
+                name="PostZgwzaak_bijwerken"
+                storeResultInSessionKey="PostZgwzaak_bijwerkenResult"
+                getInputFromSessionKey="originalMessage"
                 >
+
 				<HttpSender
-					name="PostZgwRolSender"
+					name="PostZgwzaak_bijwerkenSender"
 					methodType="POST"
 					headersParams="Authorization,Accept-Crs,Content-Crs"
                     contentType="application/json"
@@ -69,7 +71,9 @@
                     truststoreType="${zaakbrug.zgw.zaken-api.truststore.type}"
                     maxExecuteRetries="5"
 				    />
-                <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}rollen" />
+                <Param name="url" sessionKey="uuid" xpathExpression="concat('${zaakbrug.zgw.zaken-api.root-url}', 'zaak_bijwerken/', /uuid/text())">
+                    <Param name="uuid" sessionKey="uuid"/>
+                </Param>
                 <Param name="Accept-Crs" value="EPSG:4326" />
                 <Param name="Content-Crs"  value="EPSG:4326" />
                 <Param name="Authorization"  sessionKey="Authorization" />

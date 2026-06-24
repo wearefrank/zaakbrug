@@ -102,7 +102,7 @@
                 <IbisLocalSender
                     name="CallGetZdsZaakFromZgwSender"
                     javaListener="GetZdsZaakFromZgw"
-                    returnedSessionKeys="Error">
+                    returnedSessionKeys="Error,status">
                     <Param name="ZgwZaak" sessionKey="GetZgwWasZaakResult" type="DOMDOC"/>
                     <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                 </IbisLocalSender>
@@ -186,16 +186,29 @@
                 getInputFromSessionKey="ZdsWordtZaak"
                 storeResultInSessionKey="ZgwWordtZaak"
                 removeNamespaces="true"
-                styleSheetName="UpdateZaak_LK01/xsl/CreateUpdateZaakBody.xslt"
+                styleSheetName="UpdateZaak_LK01/xsl/CreateUpdateZaakBodyPatch.xslt"
                 >
                 <Param name="ZgwZaak" sessionKey="GetZgwWasZaakResult" type="DOMDOC" />
                 <Param name="Bronorganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
                 <Param name="VerantwoordelijkeOrganisatie" sessionKey="Rsin" xpathExpression="/RSIN" />
-                <Forward name="success" path="ZgwWordtZaakApplyValueOverridesFromTranslationProfileSender" />
+                <Forward name="success" path="ValidatePatch" />
             </XsltPipe>
+
+            <Json2XmlValidatorPipe
+                name="ValidatePatch"
+                schema="Zgw/Zaken/Model/PostZgwZaak.xsd"
+                unlessSessionKey="EmptyJsonExistance"
+                root="ZgwZaak"
+                storeResultInSessionKey="JsonUpdateZaakBody"
+                outputFormat="JSON"
+                throwException="true"
+            />
+            
+            <DataSonnetPipe getInputFromSessionKey="JsonUpdateZaakBody" styleSheetName="UpdateZaak_LK01/jsonnet/CreateJsonPatch.jsonnet" name="CreateJsonPatch" storeResultInSessionKey="JsonPatch"></DataSonnetPipe>
 
             <SenderPipe
                 name="ZgwWordtZaakApplyValueOverridesFromTranslationProfileSender"
+                getInputFromSessionKey="ZgwWordtZaak"
                 >
                 <IbisLocalSender
                     name="ZgwWordtZaakApplyValueOverridesFromTranslationProfileLocalSender"
@@ -393,9 +406,43 @@
                     <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC" />
                     <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC" />
                 </IbisLocalSender>
-                <Forward name="success" path="WrapZdsWordtZaak"/>
+                <Forward name="success" path="MergeRolPatch"/>
                 <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
+            
+            <XsltPipe
+                name="MergeRolPatch"
+                getInputFromSessionKey="DetectRolChangesResults"
+                removeNamespaces="true"
+                skipEmptyTags="true"
+                styleSheetName="UpdateZaak_LK01/xsl/mergeJsonRolPatch.xslt"
+                storeResultInSessionKey="mergedRollenPatch"
+                >
+                <Forward name="success" path="mergeZaakRollenPatch"/>
+            </XsltPipe>
+
+            <PutInSessionPipe 
+                name="mergeZaakRollenPatch"
+                >
+                <Param name="mergeZaakRolPatch" xpathExpression="replace(concat($zaak,$rollen/result),'\]\[', ',')">
+                    <Param name="zaak" sessionKey="JsonPatch" />
+                    <Param name="rollen" sessionKey="mergedRollenPatch" type="DOMDOC"/>
+                </Param>
+                <Forward name="success" path="GetZgwRolesByZaakUrl" />
+            </PutInSessionPipe>
+
+            <SenderPipe name="GetZgwRolesByZaakUrl"
+                    storeResultInSessionKey="ZgwRolesByZaakUrlResult">
+                <IbisLocalSender
+                    name="GetZgwRolesByZaakUrlSender"
+                    javaListener="GetZgwRolesByZaakUrl"
+                    returnedSessionKeys="Error">          
+                    <Param name="ZaakUrl" sessionKey="ZgwZaakUrl"/>
+                    <Param name="OutputType" value="JSON"/>
+                </IbisLocalSender>
+                <Forward name="success" path="WrapZdsWordtZaak"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
 
             <XsltPipe
                 name="WrapZdsWordtZaak"
@@ -404,8 +451,20 @@
                 skipEmptyTags="true"
                 styleSheetName="UpdateZaak_LK01/xsl/WrapZdsWordtZaak.xslt"
                 >
-                <Forward name="success" path="CallSetResultaatAndStatus"/>
+                <Forward name="success" path="CreateStatusJsonBody"/>
             </XsltPipe>
+
+            <DataSonnetPipe getInputFromSessionKey="JsonUpdateZaakBody" styleSheetName="UpdateZaak_LK01/jsonnet/CreateStatusJsonBody.jsonnet" name="CreateStatusJsonBody" storeResultInSessionKey="ZgwStatusJson">
+                <Param name="zaakUrl" sessionKey="ZgwZaakUrl"/>
+                <Param name="statusType" sessionKey="status" xpathExpression="ZgwStatussen/ZgwStatus/statustype"/>
+                <Param name="time" value="&lt;dummy/&gt;" 
+                xpathExpression="format-dateTime(adjust-dateTime-to-timezone(
+                                                    current-dateTime(),
+                                                    xs:dayTimeDuration('PT0H')
+                                                    ), '[Y0001]-[M01]-[D01]T[H01]:[m01]:[s01]Z')"
+                namespaceDefs="xs=http://www.w3.org/2001/XMLSchema"/>
+                <Forward name="success" path="JavascriptSenderPipe"/>
+            </DataSonnetPipe>
 
             <SenderPipe
                 name="CallSetResultaatAndStatus"
@@ -413,13 +472,56 @@
                 <IbisLocalSender
                     name="CallSetResultaatAndStatusSender"
                     javaListener="SetResultaatAndStatus"
-                    returnedSessionKeys="Error">
+                    returnedSessionKeys="Error,ZgwStatusJson">
                     <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>                   
                     <Param name="ZaakUrl" sessionKey="ZgwZaakUrl"/>
                 </IbisLocalSender>
+                <Forward name="success" path="JavascriptSenderPipe"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+            
+            <SenderPipe name="JavascriptSenderPipe" >
+                
+                <JavascriptSender jsFileName="createBijWerkBody.js" jsFunctionName="applyRolePatches" >
+                    <Param name="rolesData" sessionKey="ZgwRolesByZaakUrlResult" />
+                    <Param name="patches" sessionKey="mergeZaakRolPatch" />
+                    <Param name="ZgwStatusJson" sessionKey="ZgwStatusJson" />
+                </JavascriptSender>
+                <Forward name="success" path="InitiatorUUID"/>
+            </SenderPipe>
+
+            <PutInSessionPipe name="InitiatorUUID"
+                      sessionKey="intermediateResult">
+                    <Param name="InitiatorUUID" sessionKey="ZgwRolesByZaakUrlResult" jsonPathExpression="$.results[?(@.omschrijvingGeneriek=='initiator')].url"/>
+                <Forward name="success" path="PostZgwZaak_bijwerken" />
+            </PutInSessionPipe>
+
+            <SenderPipe
+                name="PostZgwZaak_bijwerken">
+                <IbisLocalSender
+                    name="CallPostZgwZaak_bijwerken"
+                    javaListener="Zaken_PostZgwzaak_bijwerken"
+                    returnedSessionKeys="Error">
+                    
+                </IbisLocalSender>
+                <Param name="uuid" sessionKey="GetZgwWasZaakResult" xpathExpression="copy-of(ZgwZaak/uuid)" type="DOMDOC" />
+                <Param name="InitiatorUUID" sessionKey="InitiatorUUID" jsonPathExpression="$[0]"/>
                 <Forward name="success" path="CheckForHeeftBetrekkingOpAndere"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
+            <!-- 
+            url
+            zaak
+            rolytype
+            omschrijving
+            omschrijvinggeneriek
+            registratiedatum
+            statussen
+
+            -->
+            <!-- <DataSonnetPipe getInputFromSessionKey="JsonUpdateZaakBody" styleSheetName="UpdateZaak_LK01/jsonnet/MergeZaakRolPatch.jsonnet" name="mergeZaakRollenPatch" storeResultInSessionKey="JsonPatch">
+
+            </DataSonnetPipe> -->
 
             <IfPipe name="CheckForHeeftBetrekkingOpAndere"
                 getInputFromSessionKey="ZdsWordtZaak"

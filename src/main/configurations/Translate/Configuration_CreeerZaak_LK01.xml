@@ -264,6 +264,7 @@
                     <Param name="ZaakUrl" xpathExpression="$PostZgwZaakResult/ZgwZaak/url">
                         <Param name="PostZgwZaakResult" sessionKey="PostZgwZaakResult" type="DOMDOC"/>
                     </Param>
+                    <Param name="sender" value="CreeerZaak"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallSetResultaatAndStatus"/>
                 <Forward name="exception" path="DeleteZaakSender" />

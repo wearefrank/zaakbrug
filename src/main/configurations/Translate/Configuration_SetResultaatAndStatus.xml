@@ -4,7 +4,7 @@
         description="">
 
         <Receiver name="SetResultaatAndStatus">
-            <JavaListener name="SetResultaatAndStatus" returnedSessionKeys="Error" />
+            <JavaListener name="SetResultaatAndStatus" returnedSessionKeys="Error,ZgwStatusJson" />
         </Receiver>
 
         <Pipeline>
@@ -222,8 +222,19 @@
                 <Param name="Zaak" sessionKey="ZaakUrl" />
                 <Param name="ZgwStatusType" sessionKey="SetEndStatusTypeResult" type="DOMDOC" />
                 <Param name="ZdsEinddatum" xpathExpression="/*/object/einddatum" />
-                <Forward name="success" path="AddNewEndStatusFromEinddatumToNewStatusses" />
+                <Forward name="success" path="ValidatePostBody" />
             </XsltPipe>
+
+            <Json2XmlValidatorPipe
+                name="ValidatePostBody"
+                schema="Zgw/Zaken/Model/ZgwStatus.xsd"
+                root="ZgwStatus"
+                outputFormat="JSON"
+                deepSearch="true"
+                throwException="true"
+                storeResultInSessionKey="ZgwStatusJson">
+                <Forward name="success" path="EXIT"/>
+            </Json2XmlValidatorPipe>
 
             <XsltPipe
                 name="AddNewEndStatusFromEinddatumToNewStatusses"

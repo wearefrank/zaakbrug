@@ -48,10 +48,10 @@
                 name="StoreRolMappingFromConfig"
                 >
 				<Param name="RolMapping" xpathExpression="/root/rolMapping" type="DOMDOC" />
-                <Forward name="success" path="CallMapZdsRolFromZgwRolSender" />
+                <Forward name="success" path="validateRol" />
 			</PutInSessionPipe>
 
-            <SenderPipe
+            <!-- <SenderPipe
                 name="CallMapZdsRolFromZgwRolSender"
                 getInputFromSessionKey="AddRolResult"
                 storeResultInSessionKey="ZdsRol"
@@ -66,7 +66,36 @@
                 </IbisLocalSender>
                 <Forward name="success" path="DetectRolChanges" />
                 <Forward name="exception" path="EXCEPTION" />
-            </SenderPipe>
+            </SenderPipe> -->
+
+            <Json2XmlValidatorPipe
+                name="validateRol"
+                schema="CreeerZaak_LK01/xsd/ZgwRol.xsd"
+                root="zgwRol"
+                getInputFromSessionKey="AddRolResult"
+                storeResultInSessionKey="ZgwRolJson"
+                outputFormat="JSON"
+                throwException="true"
+                />
+
+
+            <!-- <XmlSwitchPipe 
+                name="SwitchJsonPatch" 
+                getInputFromSessionKey="originalMessage"
+                styleSheetName="UpdateZaak_LK01/xsl/CheckVerwerkingssoortAttribute.xslt"
+                >
+                <Forward name="New" path="addPatch" />
+                <Forward name="Delete" path="removePatch" />
+                <Forward name="Changed" path="replacePatch" />
+                <Forward name="Check" path="testPatch" />
+                <Forward name="Exit" path="EXCEPTION" />
+            </XmlSwitchPipe>
+             -->
+            <!-- <DataSonnetPipe getInputFromSessionKey="ZgwRolJson" styleSheetName="UpdateZaak_LK01/jsonnet/CreateJsonPatchRol.jsonnet" name="addPatch" storeResultInSessionKey="JsonPatch">
+                <Param name="verwerkingssoort" sessionKey="originalMessage" xpathExpression="/*/@verwerkingssoort"/>
+                <Forward name="success" path="EXIT" />
+            </DataSonnetPipe> -->
+
 
             <XmlSwitchPipe 
                 name="DetectRolChanges" 
@@ -116,7 +145,7 @@
                     >
                     <Param name="MatchWithZgwRol" sessionKey="AddRolResult" type="DOMDOC" />
                 </IbisLocalSender>
-                <Forward name="success" path="EXIT" /> <!-- Rol should be found -->
+                <Forward name="success" path="addPatch" /> <!-- Rol should be found -->
                 <Forward name="404" path="LogWarningCheck" /> 
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -168,8 +197,9 @@
                     returnedSessionKeys="Error"
                     >
                     <Param name="ZaakUrl" sessionKey="ZgwZaakUrl" />
+                    <Param name="sender" value="UpdateZaak"/>
                 </IbisLocalSender>
-                <Forward name="success" path="EXIT" />
+                <Forward name="success" path="addPatch" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
@@ -187,7 +217,7 @@
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl" />
                     <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
                 </IbisLocalSender>
-                <Forward name="success" path="EXIT" />  <!-- Rol should be found -->
+                <Forward name="success" path="addPatch" />  <!-- Rol should be found -->
                 <Forward name="404" path="LogWarningDelete" /> 
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -200,6 +230,11 @@
                 <Forward name="success" path="EXIT" />
             </SenderPipe>
 
+            <DataSonnetPipe styleSheetName="UpdateZaak_LK01/jsonnet/CreateJsonPatchRole2.jsonnet" name="addPatch" storeResultInSessionKey="JsonPatch">
+                <Param name="verwerkingssoort" sessionKey="originalMessage" xpathExpression="/*/@verwerkingssoort"/>
+                <Param name="uuid_id" defaultValue="" sessionKey="DeleteRolResult" xpathExpression="Rollen/Rol/uuid"/>
+                <Forward name="success" path="EXIT" />
+            </DataSonnetPipe>
         </Pipeline>
     </Adapter>
 </Module>
