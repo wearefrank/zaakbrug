@@ -14,7 +14,7 @@ export JAVA_OPTS="\
 	--add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED \
 	$JAVA_OPTS"
 
-# By default, GC debugging is disabled. Enable it when GC_LOGGING_ENABLED is LOC.
+# By default, GC debugging is disabled. Enable it when GC_LOGGING_ENABLED is true.
 if [ ${GC_LOGGING_ENABLED:-false} == true ]
 	then
 		export JAVA_OPTS="-Xlog:gc*,gc+age=trace:file=/usr/local/tomcat/logs/gc-log.log:time,uptime:filesize=104857600,filecount=5 $JAVA_OPTS"
