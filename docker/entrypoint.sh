@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-# Kan verwijderd worden bij nieuwe change op docker image van het framework 
+# Temporary workaround until the framework Docker image provides the desired JVM defaults.
 export JAVA_OPTS="\
 	-XX:HeapDumpPath=/usr/local/tomcat/logs \
 	-XX:+HeapDumpOnOutOfMemoryError \
