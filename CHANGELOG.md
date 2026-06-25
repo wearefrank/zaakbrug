@@ -1,5 +1,17 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.14](https://github.com/wearefrank/zaakbrug/compare/v1.26.13...v1.26.14) (2026-06-25)
+
+### ✅ Tests
+
+* **e2e:** run testsuites sequential instead of parallel ([31c1a3a](https://github.com/wearefrank/zaakbrug/commit/31c1a3ae68177b5c72634a85a18dfe8f68d5e7e2))
+
+### 🤖 Build System
+
+* **dependencies:** bump the docusaurus group across 1 directory with 8 updates ([#667](https://github.com/wearefrank/zaakbrug/issues/667)) ([83632be](https://github.com/wearefrank/zaakbrug/commit/83632bee4f8fa4d8b8ad0fd531274422356c3286))
+* **dependencies:** bump the github-actions group across 1 directory with 10 updates ([7090ad7](https://github.com/wearefrank/zaakbrug/commit/7090ad70bea3644d07cd73681e4b7b1574e566d6))
+* remove outdated custom JVM memory configuration so that a modern garbage collector is used instead ([#678](https://github.com/wearefrank/zaakbrug/issues/678)) ([94e0aee](https://github.com/wearefrank/zaakbrug/commit/94e0aee79644e320125e84f020ca6833bb112f83))
+
 ## [1.26.13](https://github.com/wearefrank/zaakbrug/compare/v1.26.12...v1.26.13) (2026-04-13)
 
 ### 🧑‍💻 Code Refactoring
