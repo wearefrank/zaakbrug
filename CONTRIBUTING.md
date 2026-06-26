@@ -31,7 +31,7 @@ Execute the following steps when bumping the Frank!Framework version:
 ### Docker Compose
 The docker compose development environment is designed to be flexible and composable. This prevents the need for developers to run the entire stack eventhough their work requires only a small part of the stack. For this we make use of a docker compose feature that merges a given array of docker compose files together. Simply provide a `-f ./contrib/compose.<application>.yaml` argument for each docker compose file you wish to include in the `docker compose up`command.
 
-To run the stack needed for e2e testing the command would be `docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml up --build --force-recreate --watch`
+To run the stack needed for e2e testing the command would be `docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml up --build --force-recreate --watch`
 
 > INFO: We recommend to always include `--build --force-recreate --watch` in the **compose up** command.
 `--build` Builds the Docker image from local source.
@@ -199,7 +199,7 @@ To run the TestCase itself **right-click the TestCase -> Show TestCase Editor ->
 
 ### Running test cases automatically in Docker container on your local
 If you would like to run the test cases which are already prepared in the repo automatically in the docker container on your local then the command would be as follows:
-`docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml --profile soapui up --build`
+`docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml --profile soapui up --build`
 This command will first have Zaakbrug and Openzaak up and running and afterwards it will automatically run the SoapUI test cases in 'soapui-testrunner' docker container.
 The test reports will be created under "./e2e/reports" folder.
 
