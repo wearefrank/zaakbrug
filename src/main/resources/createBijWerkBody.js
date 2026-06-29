@@ -7,13 +7,13 @@ function applyRolePatches(rolesData, patches,ZgwStatusJson) {
   // Apply patches (your existing logic)
   patchesParsed.forEach(patch => {
     const pathParts = patch.path.split('/').slice(1);
-
-    if (pathParts[0] === "rollen") {
+    if (patch.path.startsWith("/rollen")) {
       // Your existing rollen patch logic...
-      const { roltype, omschrijving, betrokkeneIdentificatie } = patch.value;
+      const { roltype, omschrijving, betrokkeneIdentificatie } = patch.value || {};
       const identifications = betrokkeneIdentificatie || {};
+      const uuid = patch.path.match(/uuid\s*==\s*'([^']+)'/)?.[1];
 
-      const matchingRoles = findMatchingRoles(rolesDataParsed, roltype, omschrijving, identifications);
+      const matchingRoles = findMatchingRoles(rolesDataParsed, roltype, omschrijving, identifications, uuid);
 
       switch (patch.op) {
         case "add":
@@ -55,7 +55,6 @@ function applyRolePatches(rolesData, patches,ZgwStatusJson) {
       }
     }
   });
-
   // Your existing cleaning logic for rollen
   const removeAttrs = [
     "url",
@@ -81,7 +80,10 @@ function applyRolePatches(rolesData, patches,ZgwStatusJson) {
     })
     .map(role => {
       const newRole = { ...role };
-      removeAttrs.forEach(attr => delete newRole[attr]);
+      removeAttrs.forEach(attr =>  {
+        if (Object.hasOwn(newRole, attr)) {
+          delete newRole[attr];
+        }});
       return newRole;
     });
   // Build the flat zaak object (only patched top-level fields)
@@ -114,8 +116,12 @@ const idKeys = [
 ];
 
 // Find matching roles by roltype + omschrijving + any identification field
-function findMatchingRoles(roles, roltype, omschrijving, identifications = {}) {
+function findMatchingRoles(roles, roltype, omschrijving, identifications = {}, uuid) {
+
   return roles.filter(role => {
+    if (uuid) {
+      return role.uuid === uuid;
+    }
     if (roltype && role.roltype !== roltype) return false;
     if (omschrijving && role.omschrijving !== omschrijving) return false;
     return idKeys.some(key => identifications[key] && role.betrokkeneIdentificatie?.[key] === identifications[key]);

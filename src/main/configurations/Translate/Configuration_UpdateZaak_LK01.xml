@@ -370,7 +370,7 @@
             <ForEachChildElementPipe
                 name="CallDetectRolChangesDelete"
                 elementXPathExpression="/roles/*[@verwerkingssoort = 'V']"
-                storeResultInSessionKey="DetectRolChangesResults">
+                storeResultInSessionKey="DetectRolChangesResultsDelete">
                 <IbisLocalSender
                     name="CallDetectRolChangesDeleteSender"
                     javaListener="DetectRolChanges"
@@ -418,6 +418,7 @@
                 styleSheetName="UpdateZaak_LK01/xsl/mergeJsonRolPatch.xslt"
                 storeResultInSessionKey="mergedRollenPatch"
                 >
+                <Param name="DetectRolChangesResultsDelete" sessionKey="DetectRolChangesResultsDelete"  type="DOMDOC"/>
                 <Forward name="success" path="mergeZaakRollenPatch"/>
             </XsltPipe>
 
@@ -451,8 +452,57 @@
                 skipEmptyTags="true"
                 styleSheetName="UpdateZaak_LK01/xsl/WrapZdsWordtZaak.xslt"
                 >
-                <Forward name="success" path="CreateStatusJsonBody"/>
+                <Forward name="success" path="hasStatus"/>
             </XsltPipe>
+            
+            <IfPipe name="hasStatus" getInputFromSessionKey="status"  xpathExpression="boolean(/ZgwStatussen/ZgwStatus/statustype)">
+                <Forward name="then" path="CreateStatusJsonBody" />
+                <Forward name="else" path="GetZgwStatusTypes" />
+            </IfPipe>
+
+            <SenderPipe
+                name="GetZgwStatusTypes"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="StatusTypes">
+                <IbisLocalSender
+                    name="CallGetStatusTypeByZaakTypeSender"
+                    javaListener="GetZgwStatusTypes"
+                    returnedSessionKeys="Error">
+                    <Param name="ZaakTypeUrl" xpathExpression="$GetZgwZaaktypeByUrlResult/ZgwZaakType/url">
+			            <Param name="GetZgwZaaktypeByUrlResult" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
+                    </Param>
+                </IbisLocalSender>
+                <Forward name="success" path="getStatusType"/>
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <PutInSessionPipe name="getStatusType"
+                      sessionKey="intermediateResult">
+                    <Param name="statustype" sessionKey="StatusTypes" xpathExpression="/ZgwStatusTypes/ZgwStatusType[
+                                isEindstatus = 'false' and
+                                (eindeGeldigheid/@nil='true'
+                                or (
+                                    normalize-space(eindeGeldigheid) != ''
+                                    and xs:date(eindeGeldigheid) gt current-date()
+                                ))
+                            ][1]/url/string()"
+                namespaceDefs="xs=http://www.w3.org/2001/XMLSchema"/>
+                <Forward name="success" path="CreateStatusJsonBody2" />
+            </PutInSessionPipe>
+
+
+            <DataSonnetPipe getInputFromSessionKey="JsonUpdateZaakBody" styleSheetName="UpdateZaak_LK01/jsonnet/CreateStatusJsonBody.jsonnet" name="CreateStatusJsonBody2" storeResultInSessionKey="ZgwStatusJson">
+                <Param name="zaakUrl" sessionKey="ZgwZaakUrl"/>
+                <Param name="statusType" sessionKey="statustype"/>
+                <Param name="time" value="&lt;dummy/&gt;" 
+                xpathExpression="format-dateTime(adjust-dateTime-to-timezone(
+                                                    current-dateTime(),
+                                                    xs:dayTimeDuration('PT0H')
+                                                    ), '[Y0001]-[M01]-[D01]T[H01]:[m01]:[s01]Z')"
+                namespaceDefs="xs=http://www.w3.org/2001/XMLSchema"/>
+                <Forward name="success" path="JavascriptSenderPipe"/>
+            </DataSonnetPipe>
+
 
             <DataSonnetPipe getInputFromSessionKey="JsonUpdateZaakBody" styleSheetName="UpdateZaak_LK01/jsonnet/CreateStatusJsonBody.jsonnet" name="CreateStatusJsonBody" storeResultInSessionKey="ZgwStatusJson">
                 <Param name="zaakUrl" sessionKey="ZgwZaakUrl"/>

@@ -1,15 +1,17 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
 
+<xsl:param name="DetectRolChangesResultsDelete" as="node()?" />
+
   <xsl:template match="/results">
         <result>
             <xsl:text>[</xsl:text>
 
-            <xsl:for-each select="result">
+            <xsl:for-each select="result | $DetectRolChangesResultsDelete/results/result">
                 <!-- <xsl:text>{</xsl:text> -->
 
                 <!-- <xsl:variable name="idx" select="position() - 1"/> -->
-                <xsl:variable name="content"
-                    select="substring(., 3, string-length(.) - 4)"/>
+                <xsl:variable name="content" 
+                    select="substring(., 3, string-length(.) - 4)"/>    
 
                 <!-- Replace ALL path occurrences -->
                 <xsl:value-of select="$content"/>
