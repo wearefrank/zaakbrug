@@ -44,29 +44,32 @@
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization"  sessionKey="Authorization" />
                 <Forward name="success" path="JsonToXml" />
-                <Forward name="exception" path="ErrorJsonToXml" />
+                <Forward name="exception" path="transformErrorMessage" />
 			</SenderPipe>
-            <JsonPipe name="ErrorJsonToXml">
-                <Forward name="success" path="buildErrorMsg" />
-            </JsonPipe>
-            <XsltPipe name="buildErrorMsg"
-                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
-                <Param name="senderPipeName" value="GetZgwInformatieObjectTypeByUrl" />
-                <Forward name="success" path="EXCEPTION" />
-            </XsltPipe>
 
-            <JsonPipe name="JsonToXml">
+            <DataSonnetPipe styleSheetName="Common/jsonnet/transformErrorMessage.jsonnet" name="transformErrorMessage" storeResultInSessionKey="Error">
+                <Forward name="success" path="ErrorJsonToXml" />
+            </DataSonnetPipe>
+            
+            <JsonPipe name="ErrorJsonToXml" rootElementName="error" storeResultInSessionKey="Error" >
+                <Forward name="success" path="EXCEPTION" />
+            </JsonPipe>
+
+
+            <JsonPipe name="JsonToXml" unlessSessionKey="responseType" unlessValue="application/json">
                 <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToSingle"/>
             </JsonPipe>
 
             <XsltPipe
                 name="UnwrapOpenZaakApiEnvelopeToSingle"
                 styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToSingle.xslt"
+                unlessSessionKey="responseType" unlessValue="application/json"
                 >
                 <Param name="Type" value="ZgwInformatieObjectType"/>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION"/>
             </XsltPipe>
+
         </Pipeline>
     </Adapter>
 </Module>
