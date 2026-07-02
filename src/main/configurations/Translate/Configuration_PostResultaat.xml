@@ -69,16 +69,17 @@
                 <Param name="Content-Crs"  value="EPSG:4326"/>
                 <Param name="Authorization"  sessionKey="Authorization" />
                 <Forward name="success" path="EXIT" />
-                <Forward name="exception" path="ErrorJsonToXml" />
-            </SenderPipe>
-            <JsonPipe name="ErrorJsonToXml">
-                <Forward name="success" path="buildErrorMsg" />
-            </JsonPipe>
-            <XsltPipe name="buildErrorMsg"
-                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Forward name="exception" path="ParseNegativeHttpResult" />
+			</SenderPipe>
+
+            <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" storeResultInSessionKey="Error">
                 <Param name="senderPipeName" value="PostZgwResultaat" />
+                <Forward name="success" path="ErrorJsonToXml" />
+            </DataSonnetPipe>
+            
+            <JsonPipe name="ErrorJsonToXml" rootElementName="error" storeResultInSessionKey="Error" >
                 <Forward name="success" path="EXCEPTION" />
-            </XsltPipe>
+            </JsonPipe>
         </Pipeline>
     </Adapter>
 </Module>

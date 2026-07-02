@@ -40,21 +40,21 @@
                     truststoreAuthAlias="${zaakbrug.zgw.catalogi-api.truststore.authAlias}"
                     truststoreType="${zaakbrug.zgw.catalogi-api.truststore.type}"
 				/>
-                <Param name="url" sessionKey="Url"/>
+                <Param name="url" value="http://open-zaak.nginx:9001/catalogi/api/v1/informatieobjecttypen/badc8476-14b9-484b-93d4-f8726e0f080c"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization"  sessionKey="Authorization" />
                 <Forward name="success" path="JsonToXml" />
-                <Forward name="exception" path="transformErrorMessage" />
+                <Forward name="exception" path="ParseNegativeHttpResult" />
 			</SenderPipe>
 
-            <DataSonnetPipe styleSheetName="Common/jsonnet/transformErrorMessage.jsonnet" name="transformErrorMessage" storeResultInSessionKey="Error">
+            <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" storeResultInSessionKey="Error">
+                <Param name="senderPipeName" value="GetZgwInformatieObjectTypeByUrl" />
                 <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>
             
             <JsonPipe name="ErrorJsonToXml" rootElementName="error" storeResultInSessionKey="Error" >
                 <Forward name="success" path="EXCEPTION" />
             </JsonPipe>
-
 
             <JsonPipe name="JsonToXml" unlessSessionKey="responseType" unlessValue="application/json">
                 <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToSingle"/>

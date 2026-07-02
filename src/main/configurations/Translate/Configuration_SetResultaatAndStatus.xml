@@ -164,16 +164,21 @@
                     <Param name="Authorization"  sessionKey="Authorization" />
                 </HttpSender>
                 <Forward name="success" path="CallPostResultaat_1"/>
-                <Forward name="exception" path="ErrorJsonToXml" />
-            </ForEachChildElementPipe>
-            <JsonPipe name="ErrorJsonToXml">
-                <Forward name="success" path="buildErrorMsg" />
-            </JsonPipe>
-            <XsltPipe name="buildErrorMsg"
-                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+                <Forward name="exception" path="ParseNegativeHttpResult_1" />
+			</ForEachChildElementPipe>
+
+            <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult_1" storeResultInSessionKey="Error">
                 <Param name="senderPipeName" value="ZgwResultatenIterator" />
+                <Forward name="success" path="ErrorJsonToXml_1" />
+            </DataSonnetPipe>
+            
+            <JsonPipe name="ErrorJsonToXml_1" rootElementName="error" storeResultInSessionKey="Error" >
                 <Forward name="success" path="EXCEPTION" />
-            </XsltPipe>
+            </JsonPipe>
+            
+            <JsonPipe name="ErrorJsonToXml" rootElementName="error" storeResultInSessionKey="Error" >
+                <Forward name="success" path="EXCEPTION" />
+            </JsonPipe>
 
             <SenderPipe
                 name="CallPostResultaat_1"
