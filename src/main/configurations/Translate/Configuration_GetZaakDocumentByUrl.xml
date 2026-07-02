@@ -55,18 +55,15 @@
                 <Forward name="success" path="EXCEPTION" />
             </JsonPipe>
 
-            <JsonPipe name="JsonToXml">
-                <Forward name="success" path="UnwrapZgwEnkelvoudigInformatieObjectToSingle"/>
+            <JsonPipe
+                name="JsonToXml"
+                rootElementName="ZgwEnkelvoudigInformatieObject"
+                unlessSessionKey="responseType"
+                unlessValue="application/json"
+            >
+                <Forward name="success" path="CheckForGetZaakDocumentResult" />
+                <Forward name="exception" path="EXCEPTION" />
             </JsonPipe>
-
-            <XsltPipe
-                name="UnwrapZgwEnkelvoudigInformatieObjectToSingle"
-                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToSingle.xslt"
-                >
-                <Param name="Type" value="ZgwEnkelvoudigInformatieObject"/>
-                <Forward name="success" path="CheckForGetZaakDocumentResult"/>
-                <Forward name="exception" path="EXCEPTION"/>
-            </XsltPipe>
 
             <IfPipe name="CheckForGetZaakDocumentResult"
                 xpathExpression="string-length(/ZgwEnkelvoudigInformatieObject) > 0"

@@ -57,19 +57,15 @@
                 <Forward name="success" path="EXCEPTION" />
             </JsonPipe>
 
-            <JsonPipe 
-                name="JsonToXml">
-                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToSingle"/>
+            <JsonPipe
+                name="JsonToXml"
+                rootElementName="ZgwResultaatType"
+                unlessSessionKey="responseType"
+                unlessValue="application/json"
+            >
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
             </JsonPipe>
-
-            <XsltPipe
-                name="UnwrapOpenZaakApiEnvelopeToSingle"
-                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToSingle.xslt"
-                >
-                <Param name="Type" value="ZgwResultaatType"/>
-                <Forward name="success" path="EXIT"/>
-                <Forward name="exception" path="EXCEPTION"/>
-            </XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>
