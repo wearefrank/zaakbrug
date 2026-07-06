@@ -46,7 +46,7 @@
                 <Param name="zaak" sessionKey="ZgwZaakUrl" />
                 <Param name="Accept-Crs" value="EPSG:4326" />
                 <Param name="Authorization"  sessionKey="Authorization" />
-                <Forward name="success" path="JsonToXml" />
+                <Forward name="success" path="unwrapJsonEnvelope" />
                 <Forward name="exception" path="ParseNegativeHttpResult" />
 			</SenderPipe>
 
@@ -59,20 +59,16 @@
                 <Forward name="success" path="EXCEPTION" />
             </JsonPipe>
 
-            <JsonPipe
-                name="JsonToXml">
-                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList" />
-            </JsonPipe>
-
-            <XsltPipe
-                name="UnwrapOpenZaakApiEnvelopeToList"
-                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
-                >
-                <Param name="Type" value="ZgwZaakobject" />
-                <Param name="List" value="ZgwZaakobjecten" />
-                <Forward name="success" path="EXIT" />
+            <DataSonnetPipe styleSheetName="Common/jsonnet/unwrapJsonEnvelope.jsonnet" name="unwrapJsonEnvelope">
+                <Param name="Type" value="ZgwZaakobject"/>
+                <Forward name="success" path="JsonToXml" />
                 <Forward name="exception" path="EXCEPTION" />
-            </XsltPipe>
+            </DataSonnetPipe>
+
+            <JsonPipe name="JsonToXml" unlessSessionKey="responseType" unlessValue="application/json" rootElementName="ZgwZaakobjecten">
+                <Forward name="success" path="EXIT"/>
+            </JsonPipe>
+            
         </Pipeline>
     </Adapter>
 </Module>

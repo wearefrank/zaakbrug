@@ -45,7 +45,7 @@
                 <Param name="status" value="definitief"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization"  sessionKey="Authorization" />
-                <Forward name="success" path="JsonToXml" />
+                <Forward name="success" path="unwrapJsonEnvelope" />
                 <Forward name="exception" path="ParseNegativeHttpResult" />
 			</SenderPipe>
 
@@ -57,19 +57,17 @@
             <JsonPipe name="ErrorJsonToXml" rootElementName="error" storeResultInSessionKey="Error" >
                 <Forward name="success" path="EXCEPTION" />
             </JsonPipe>
-            <JsonPipe name="JsonToXml">
-                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList" />
-            </JsonPipe>
 
-            <XsltPipe
-                name="UnwrapOpenZaakApiEnvelopeToList"
-                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
-            >
+            <DataSonnetPipe styleSheetName="Common/jsonnet/unwrapJsonEnvelope.jsonnet" name="unwrapJsonEnvelope">
                 <Param name="Type" value="ZgwZaakType"/>
-                <Param name="List" value="ZgwZaakTypen"/>
+                <Forward name="success" path="JsonToXml" />
+                <Forward name="exception" path="EXCEPTION" />
+            </DataSonnetPipe>
+
+            <JsonPipe name="JsonToXml" unlessSessionKey="responseType" unlessValue="application/json" rootElementName="ZgwZaakTypen">
                 <Forward name="success" path="EXIT"/>
-                <Forward name="exception" path="EXCEPTION"/>
-            </XsltPipe>
+            </JsonPipe>
+            
         </Pipeline>
     </Adapter>
 </Module>

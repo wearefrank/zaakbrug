@@ -43,7 +43,7 @@
                 <Param name="betrokkeneIdentificatie__natuurlijkPersoon__inpBsn" sessionKey="Bsn" />
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization"  sessionKey="Authorization" />
-                <Forward name="success" path="JsonToXml" />
+                <Forward name="success" path="unwrapJsonEnvelope" />
                 <Forward name="exception" path="ParseNegativeHttpResult" />
 			</SenderPipe>
 
@@ -56,19 +56,16 @@
                 <Forward name="success" path="EXCEPTION" />
             </JsonPipe>
 
+            <DataSonnetPipe styleSheetName="Common/jsonnet/unwrapJsonEnvelope.jsonnet" name="unwrapJsonEnvelope">
+                <Param name="Type" value="ZgwRollen"/>
+                <Forward name="success" path="JsonToXml" />
+                <Forward name="exception" path="EXCEPTION" />
+            </DataSonnetPipe>
 
-            <JsonPipe name="JsonToXml">
-                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList"/>
+            <JsonPipe name="JsonToXml" unlessSessionKey="responseType" unlessValue="application/json" rootElementName="ZgwRol">
+                <Forward name="success" path="EXIT"/>
             </JsonPipe>
 
-            <XsltPipe name="UnwrapOpenZaakApiEnvelopeToList"
-                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
-                >
-                <Param name="Type" value="ZgwRollen"/>
-                <Param name="List" value="ZgwRol"/>
-                <Forward name="success" path="EXIT"/>
-                <Forward name="exception" path="EXCEPTION"/>
-            </XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>

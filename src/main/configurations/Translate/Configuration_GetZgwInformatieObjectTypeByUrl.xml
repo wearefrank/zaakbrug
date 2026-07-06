@@ -40,7 +40,7 @@
                     truststoreAuthAlias="${zaakbrug.zgw.catalogi-api.truststore.authAlias}"
                     truststoreType="${zaakbrug.zgw.catalogi-api.truststore.type}"
 				/>
-                <Param name="url" value="http://open-zaak.nginx:9001/catalogi/api/v1/informatieobjecttypen/badc8476-14b9-484b-93d4-f8726e0f080c"/>
+                <Param name="url" sessionKey="Url"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization"  sessionKey="Authorization" />
                 <Forward name="success" path="JsonToXml" />

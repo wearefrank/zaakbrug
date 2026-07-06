@@ -6,9 +6,6 @@
     </xsl:template>
     <xsl:template match="error">
         <xsl:choose>
-            <xsl:when test="normalize-space(code)">
-                <xsl:value-of select="code"/>
-            </xsl:when>
             <xsl:when test="code='TechnicalError'">500</xsl:when>
             <xsl:when test="code='TranslationError'">400</xsl:when>
             <xsl:when test="code='ConfigurationError'">500</xsl:when>
