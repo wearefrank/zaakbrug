@@ -16,11 +16,11 @@
             <SenderPipe
                 name="GetAuthorizationHeaderForZakenApi"
                 getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="Authorization"
                 >
                 <IbisLocalSender
                     name="GetAuthorizationHeaderForZakenApiSender"
                     javaListener="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization"
                     >
                 </IbisLocalSender>
                 <Forward name="success" path="AddZaakUrl" />
