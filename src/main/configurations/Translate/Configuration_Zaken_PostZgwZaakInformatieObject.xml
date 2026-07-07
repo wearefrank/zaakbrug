@@ -77,6 +77,7 @@
 			</SenderPipe>
 
             <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" storeResultInSessionKey="Error">
+                <Param name="url" value="${zaakbrug.zgw.documenten-api.root-url}enkelvoudiginformatieobjecten"/>
                 <Param name="senderPipeName" value="PostZgwEnkelvoudigInformatieObjectSender" />
                 <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>

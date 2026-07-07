@@ -51,6 +51,7 @@
 			</SenderPipe>
 
             <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" storeResultInSessionKey="Error">
+                <Param name="url" sessionKey="url" />
                 <Param name="senderPipeName" value="GetZgwRolTypeByUrlSender" />
                 <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>

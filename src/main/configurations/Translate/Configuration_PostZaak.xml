@@ -72,6 +72,7 @@
 			</SenderPipe>
 
             <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" storeResultInSessionKey="Error">
+                <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}zaken"/>
                 <Param name="senderPipeName" value="PostZgwZaak" />
                 <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>

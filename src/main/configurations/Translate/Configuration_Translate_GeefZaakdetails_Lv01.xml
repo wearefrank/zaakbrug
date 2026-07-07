@@ -31,15 +31,20 @@
 						<Param name="token" sessionKey="token" />
 					</Param>
 				</HttpSender>
-                <Forward name="exception" path="ParseNegativeHttpResult_1" />
+                <Forward name="exception" path="ParseNegativeHttpResult" />
 			</SenderPipe>
 
-            <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult_1" storeResultInSessionKey="Error">
+            <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" storeResultInSessionKey="Error">
+                <Param name="url" xpathExpression="concat('${zaakbrug.zgw.zaken-api.root-url}',
+                            'zaken?identificatie=',
+                            $identificatie)">
+					<Param name="identificatie" xpathExpression="root/zakLv01/gelijk/identificatie"/>
+                </Param>
                 <Param name="senderPipeName" value="getZgwZaakByIdentificatie" />
                 <Forward name="success" path="getZgwZaakByIdentificatie" />
             </DataSonnetPipe>
             
-            <JsonPipe name="ErrorJsonToXml_1" rootElementName="error" storeResultInSessionKey="Error" >
+            <JsonPipe name="ErrorJsonToXml" rootElementName="error" storeResultInSessionKey="Error" >
                 <Forward name="success" path="EXCEPTION" />
             </JsonPipe>
 
@@ -65,6 +70,7 @@
 			</SenderPipe>
 
             <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult_2" storeResultInSessionKey="Error">
+				<Param name="url" sessionKey="zaakXml" xpathExpression="results/zaaktype"/>
                 <Param name="senderPipeName" value="getZaakTypeByUrl" />
                 <Forward name="success" path="getZgwZaakByIdentificatie" />
             </DataSonnetPipe>
@@ -100,6 +106,11 @@
 			</SenderPipe>
 
             <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult_3" storeResultInSessionKey="Error">
+                <Param name="url" xpathExpression="concat('${zaakbrug.zgw.zaken-api.root-url}',
+                            'rollen?zaak=',
+                            $zaak)">
+					<Param name="zaak" sessionKey="zaakXml" xpathExpression="results/url"/>
+                </Param>
                 <Param name="senderPipeName" value="getRollenByUrl" />
                 <Forward name="success" path="getZgwZaakByIdentificatie" />
             </DataSonnetPipe>
