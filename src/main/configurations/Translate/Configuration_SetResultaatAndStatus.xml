@@ -145,7 +145,8 @@
 
             <ForEachChildElementPipe name="ZgwResultatenIterator"
                 getInputFromSessionKey="GetResultatenByZaakUrlResult"
-                elementXPathExpression="/root/results">
+                elementXPathExpression="/root/results"
+                storeResultInSessionKey="response">
                 <HttpSender
                     name="DeleteZaakResultaatSender" 
 					methodType="DELETE"
@@ -170,6 +171,9 @@
             <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult_1" storeResultInSessionKey="Error">
                     <Param name="url" xpathExpression="results/url"/>
                 <Param name="senderPipeName" value="ZgwResultatenIterator" />
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >
+                    <Param name="response" sessionKey="response" />
+                </Param>
                 <Forward name="success" path="ErrorJsonToXml_1" />
             </DataSonnetPipe>
             

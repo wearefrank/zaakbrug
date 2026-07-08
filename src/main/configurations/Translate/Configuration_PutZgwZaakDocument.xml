@@ -45,7 +45,8 @@
                 <Forward name="success" path="PutZaakDocument" />
             </ReplacerPipe>
 
-            <SenderPipe name="PutZaakDocument">
+            <SenderPipe name="PutZaakDocument"
+                storeResultInSessionKey="response">
 				<HttpSender 
 					name="PutZaakDocumentSender" 
 					methodType="PUT"
@@ -70,6 +71,9 @@
             <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" storeResultInSessionKey="Error">
                 <Param name="url" sessionKey="Url"/>
                 <Param name="senderPipeName" value="PutZaakDocument" />
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >
+                    <Param name="response" sessionKey="response" />
+                </Param>
                 <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>
             

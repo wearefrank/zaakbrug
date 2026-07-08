@@ -26,7 +26,8 @@
             </SenderPipe>
 
 			<SenderPipe name="GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl"
-                getInputFromFixedValue="&lt;dummy/&gt;">
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="response">
 				<HttpSender 
 					name="GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrlSender" 
 					methodType="GET"
@@ -55,6 +56,9 @@
                     <Param name="informatieobject" sessionKey="Url"/>
                 </Param>
                 <Param name="senderPipeName" value="GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl" />
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >
+                    <Param name="response" sessionKey="response" />
+                </Param>
                 <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>
             

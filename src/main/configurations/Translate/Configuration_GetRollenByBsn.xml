@@ -25,7 +25,8 @@
             </SenderPipe>
 
 			<SenderPipe name="GetRollenByBsn"
-                getInputFromFixedValue="&lt;dummy/&gt;">
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="response">
 				<HttpSender 
 					name="GetRollenByBsnSender" 
 					methodType="GET"
@@ -54,6 +55,9 @@
                     <Param name="betrokkeneIdentificatie__natuurlijkPersoon__inpBsn" sessionKey="Bsn" />
                 </Param>
                 <Param name="senderPipeName" value="GetRollenByBsn" />
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >
+                    <Param name="response" sessionKey="response" />
+                </Param>
                 <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>
             

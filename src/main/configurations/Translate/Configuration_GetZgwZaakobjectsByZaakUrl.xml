@@ -28,7 +28,7 @@
 			<SenderPipe
                 name="GetZgwZaakobjectsByZaakUrl"
                 getInputFromFixedValue="&lt;dummy/&gt;"
-                >
+                storeResultInSessionKey="response">
 				<HttpSender
 					name="GetZgwZaakobjectsByZaakUrlSender"
 					methodType="GET"
@@ -55,6 +55,9 @@
                             'zaakobjecten?zaak=',
                             $zaak)">
                     <Param name="zaak" sessionKey="ZgwZaakUrl" />
+                </Param>
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >
+                    <Param name="response" sessionKey="response" />
                 </Param>
                 <Param name="senderPipeName" value="GetZgwZaakobjectsByZaakUrl" />
                 <Forward name="success" path="ErrorJsonToXml" />

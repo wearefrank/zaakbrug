@@ -41,7 +41,8 @@
                 <Forward name="success" path="PostUnlock"/>
             </JsonPipe>
 
-			<SenderPipe name="PostUnlock">
+			<SenderPipe name="PostUnlock"
+                storeResultInSessionKey="response">
 				<HttpSender 
 					name="PostUnlockSender" 
 					methodType="POST"
@@ -66,6 +67,9 @@
             <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" storeResultInSessionKey="Error">
                 <Param name="url" sessionKey="ZgwUnlockUrl"/>
                 <Param name="senderPipeName" value="PostUnlock" />
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >
+                    <Param name="response" sessionKey="response" />
+                </Param>
                 <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>
             

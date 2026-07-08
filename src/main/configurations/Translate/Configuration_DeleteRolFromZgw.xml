@@ -107,7 +107,8 @@
             </IfPipe>
 
             <SenderPipe
-                name="DeleteRol">
+                name="DeleteRol"
+                storeResultInSessionKey="response">
                 <HttpSender
                     name="DeleteRolSender" 
                     methodType="DELETE"
@@ -131,6 +132,9 @@
             <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" storeResultInSessionKey="Error">
                 <Param name="url" xpathExpression="Rollen/Rol/url"/>
                 <Param name="senderPipeName" value="DeleteRol" />
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >
+                    <Param name="response" sessionKey="response" />
+                </Param>
                 <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>
             

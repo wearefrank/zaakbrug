@@ -40,6 +40,9 @@
                             $identificatie)">
 					<Param name="identificatie" xpathExpression="root/zakLv01/gelijk/identificatie"/>
                 </Param>
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$zaakTypeJson" >
+                    <Param name="zaakTypeJson" sessionKey="zaakTypeJson" />
+                </Param>
                 <Param name="senderPipeName" value="getZgwZaakByIdentificatie" />
                 <Forward name="success" path="getZgwZaakByIdentificatie" />
             </DataSonnetPipe>
@@ -72,6 +75,9 @@
             <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult_2" storeResultInSessionKey="Error">
 				<Param name="url" sessionKey="zaakXml" xpathExpression="results/zaaktype"/>
                 <Param name="senderPipeName" value="getZaakTypeByUrl" />
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$zaakTypeJson" >
+                    <Param name="zaakTypeJson" sessionKey="zaakTypeJson" />
+                </Param>
                 <Forward name="success" path="getZgwZaakByIdentificatie" />
             </DataSonnetPipe>
             
@@ -110,6 +116,9 @@
                             'rollen?zaak=',
                             $zaak)">
 					<Param name="zaak" sessionKey="zaakXml" xpathExpression="results/url"/>
+                </Param>
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$rollenJson" >
+                    <Param name="rollenJson" sessionKey="rollenJson" />
                 </Param>
                 <Param name="senderPipeName" value="getRollenByUrl" />
                 <Forward name="success" path="getZgwZaakByIdentificatie" />

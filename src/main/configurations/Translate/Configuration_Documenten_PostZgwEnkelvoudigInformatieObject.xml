@@ -25,7 +25,8 @@
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <SenderPipe name="PostZgwZaakInformatieObjectSender" getInputFromSessionKey="originalMessage">
+            <SenderPipe name="PostZgwZaakInformatieObjectSender" getInputFromSessionKey="originalMessage"
+                storeResultInSessionKey="response">
                 <Json2XmlInputValidator name="ValidatePost"
                     schema="Zgw/Zaken/Model/PostZgwZaakInformatieObject.xsd"
                     root="ZgwZaakInformatieObject"
@@ -61,6 +62,9 @@
             <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" storeResultInSessionKey="Error">
                 <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}zaakinformatieobjecten"/>
                 <Param name="senderPipeName" value="PostZgwZaakInformatieObjectSender" />
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >
+                    <Param name="response" sessionKey="response" />
+                </Param>
                 <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>
             

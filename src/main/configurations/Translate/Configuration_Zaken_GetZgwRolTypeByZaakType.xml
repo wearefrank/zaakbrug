@@ -27,7 +27,7 @@
 			<SenderPipe 
                 name="GetZgwRolTypeByZaakTypeSender" 
                 getInputFromFixedValue="&lt;dummy/&gt;"
-                >
+                storeResultInSessionKey="response">
 				<HttpSender 
 					name="GetZgwRolTypeByZaakTypeHttpSender" 
 					methodType="GET"
@@ -57,6 +57,9 @@
                     <Param name="zaaktype" sessionKey="ZaakTypeUrl" />
                 </Param>
                 <Param name="senderPipeName" value="GetZgwRolTypeByZaakTypeSender" />
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >
+                    <Param name="response" sessionKey="response" />
+                </Param>
                 <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>
             

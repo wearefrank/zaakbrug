@@ -25,7 +25,8 @@
             </SenderPipe>
 
 			<SenderPipe name="GetRolByZaakUrlAndRolTypeUrl" 
-                getInputFromFixedValue="&lt;dummy/&gt;">
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="response">
 				<HttpSender 
 					name="GetRolByZaakUrlAndRolTypeUrlSender" 
 					methodType="GET"
@@ -82,6 +83,9 @@
                     <Param name="betrokkeneIdentificatie__medewerker__identificatie" sessionKey="MDWidentificatie"/>
                 </Param>
                 <Param name="senderPipeName" value="GetRolByZaakUrlAndRolTypeUrl" />
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >
+                    <Param name="response" sessionKey="response" />
+                </Param>
                 <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>
             

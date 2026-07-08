@@ -34,7 +34,8 @@
             </SenderPipe>
 
 			<SenderPipe name="GetZgwEnkelvoudigInformatieObjectByIdentificatie"
-                getInputFromFixedValue="&lt;dummy/&gt;">
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="response">
 				<HttpSender 
 					name="GetZgwEnkelvoudigInformatieObjectByIdentificatieSender" 
 					methodType="GET"
@@ -63,6 +64,9 @@
                     <Param name="identificatie" sessionKey="Identificatie"/>
                 </Param>
                 <Param name="senderPipeName" value="GetZgwEnkelvoudigInformatieObjectByIdentificatie" />
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >
+                    <Param name="response" sessionKey="response" />
+                </Param>
                 <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>
             

@@ -76,6 +76,9 @@
             <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" storeResultInSessionKey="Error">
                 <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}rollen" />
                 <Param name="senderPipeName" value="PostZgwRol" />
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$PostZgwRolResult" >
+                    <Param name="PostZgwRolResult" sessionKey="PostZgwRolResult" />
+                </Param>
                 <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>
             

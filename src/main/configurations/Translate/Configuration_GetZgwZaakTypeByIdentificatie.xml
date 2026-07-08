@@ -26,7 +26,8 @@
             </SenderPipe>
 
             <SenderPipe name="GetZgwZaakTypeByIdentificatie"
-                getInputFromFixedValue="&lt;dummy/&gt;">
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="response">
 				<HttpSender 
 					name="GetZgwZaakTypeByIdentificatieSender" 
 					methodType="GET"
@@ -56,6 +57,9 @@
                             '&amp;status=', $status)">
                     <Param name="identificatie" sessionKey="ZaakTypeCode"/>
                     <Param name="status" value="definitief"/>
+                </Param>
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >
+                    <Param name="response" sessionKey="response" />
                 </Param>
                 <Param name="senderPipeName" value="GetZgwZaakTypeByIdentificatie" />
                 <Forward name="success" path="ErrorJsonToXml" />

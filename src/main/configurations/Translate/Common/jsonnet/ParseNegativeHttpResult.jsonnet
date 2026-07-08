@@ -34,6 +34,6 @@ local requestUrl = if std.type(url) == "string" then url else "";
       get(payload, "detail"),
     ]),
 
-  detailsXml:
-    if std.type(payload) == "object" then payload else {},
+
+  detailsXml: [CDATA]
 }
