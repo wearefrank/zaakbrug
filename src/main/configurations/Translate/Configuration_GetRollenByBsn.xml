@@ -48,8 +48,8 @@
                 <Forward name="exception" path="ParseNegativeHttpResult" />
 			</SenderPipe>
 
-            <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" storeResultInSessionKey="Error">
-                <Param name="url" xpathExpression="concat('${zaakbrug.zgw.zaken-api.root-url}',
+            <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" getInputFromFixedValue="{}" storeResultInSessionKey="Error">
+                <Param name="url" value="&lt;dummy/&gt;" xpathExpression="concat('${zaakbrug.zgw.zaken-api.root-url}',
                             'rollen?betrokkeneIdentificatie__natuurlijkPersoon__inpBsn=',
                             $betrokkeneIdentificatie__natuurlijkPersoon__inpBsn)">
                     <Param name="betrokkeneIdentificatie__natuurlijkPersoon__inpBsn" sessionKey="Bsn" />

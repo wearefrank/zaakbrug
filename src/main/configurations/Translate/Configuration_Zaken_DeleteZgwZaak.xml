@@ -53,7 +53,7 @@
                 <Forward name="exception" path="ParseNegativeHttpResult" />
 			</SenderPipe>
 
-            <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" storeResultInSessionKey="Error">
+            <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" getInputFromFixedValue="{}" storeResultInSessionKey="Error">
                 <Param name="url" sessionKey="url" />
                 <Param name="senderPipeName" value="DeleteZgwZaakSender" />
                 <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >

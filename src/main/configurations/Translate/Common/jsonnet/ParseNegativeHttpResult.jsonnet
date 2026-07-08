@@ -1,7 +1,16 @@
 local get(obj, field) =
   if std.type(obj) == "object" && std.objectHas(obj, field) then obj[field] else "";
 
-local status = get(payload, "status");
+local statusMatch = std.findSubstr("\"status\"", CDATA);
+
+local statusIndex =
+  if std.length(statusMatch) > 0 then statusMatch[0] else -1;
+
+local status =
+  if statusIndex >= 0 then
+    std.parseInt(std.substr(CDATA, statusIndex + 9, 3))
+  else
+    0;
 local sender = if std.type(senderPipeName) == "string" then senderPipeName else "";
 local requestUrl = if std.type(url) == "string" then url else "";
 
@@ -26,14 +35,5 @@ local requestUrl = if std.type(url) == "string" then url else "";
 
   request: requestUrl,
 
-  details:
-    std.join(" ", [
-      get(payload, "code"),
-      get(payload, "title"),
-      if status == "" then "" else std.toString(status),
-      get(payload, "detail"),
-    ]),
-
-
-  detailsXml: [CDATA]
+  detailsXml: CDATA
 }
