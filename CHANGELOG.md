@@ -1,5 +1,7 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.15](https://github.com/wearefrank/zaakbrug/compare/v1.26.14...v1.26.15) (2026-07-13)
+
 ## [1.26.14](https://github.com/wearefrank/zaakbrug/compare/v1.26.13...v1.26.14) (2026-06-25)
 
 ### ✅ Tests
