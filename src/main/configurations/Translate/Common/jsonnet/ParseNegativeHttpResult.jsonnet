@@ -20,18 +20,21 @@ local requestUrl = if std.type(url) == "string" then url else "";
     else "TechnicalError",
 
   reason:
-    if status == 400 then
-      "400 Bad Request from ZGW API received by " + sender
-    else if status == 401 then
-      "401 Unauthorized from ZGW API received by " + sender
-    else if status == 403 then
-      "403 Forbidden from ZGW API received by " + sender
-    else if status == 404 then
-      "404 Not Found from ZGW API received by " + sender
-    else if status == 500 then
-      "500 Internal Server Error from ZGW API received by " + sender
+    if std.length(statusMatch) > 0 then
+      if status == 400 then
+        "400 Bad Request from ZGW API received by " + sender
+      else if status == 401 then
+        "401 Unauthorized from ZGW API received by " + sender
+      else if status == 403 then
+        "403 Forbidden from ZGW API received by " + sender
+      else if status == 404 then
+        "404 Not Found from ZGW API received by " + sender
+      else if status == 500 then
+        "500 Internal Server Error from ZGW API received by " + sender
+      else
+        "some negative response from ZGW API received by " + sender
     else
-      "some negative response from ZGW API received by " + sender,
+      "some negative NON ZGW API response received by " + sender,
 
   request: requestUrl,
 
