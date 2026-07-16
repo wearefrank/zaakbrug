@@ -5,16 +5,15 @@
         description="">
 
         <Receiver name="GenerateAuthorizationHeaderForZakenApi">
-            <JavaListener name="GenerateAuthorizationHeaderForZakenApi"  returnedSessionKeys="Error,Authorization" />
+            <JavaListener name="GenerateAuthorizationHeaderForZakenApi" />
         </Receiver>
 
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS" />
-                <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <Cache maxElementsInMemory="1" keyXPath="string('GenerateAuthorizationHeaderForZakenApi')" timeToLiveSeconds="550" />
+            <Cache name="GenerateAuthorizationHeaderForZakenApi" keyXPath="string('GenerateAuthorizationHeaderForZakenApi')" timeToLiveSeconds="550" />
 
             <XmlSwitchPipe 
                 name="CheckForAuthType"
@@ -38,13 +37,11 @@
                 <Forward name="exception" path="EXCEPTION" />
             </JwtPipe>
 
-            <PutInSessionPipe name="CreateJwtAuthorizationHeader">
-                <Param name="Authorization" sessionKey="originalMessage" xpathExpression="concat('Bearer ', $myToken)">
-                    <Param name="myToken" sessionKey="myToken"/>
-                </Param>
+            <ReplacerPipe name="CreateJwtAuthorizationHeader" getInputFromFixedValue="Bearer ?{myToken}">
+                <Param name="myToken" sessionKey="myToken"/>
                 <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="EXCEPTION" />
-            </PutInSessionPipe>
+            </ReplacerPipe>
 
             <PutInSessionPipe name="GetUserCredentialForBasicAuth">
                 <Param name="user_credential" xpathExpression="concat($username,':',$password)" hidden="true">
@@ -55,26 +52,28 @@
             </PutInSessionPipe>
 
             <!-- basicTokenGeneratorPipe -->
-            <Base64Pipe name="CreateBasicAuthToken"
-                storeResultInSessionKey="myToken"
-                getInputFromSessionKey="user_credential">
+            <Base64Pipe name="CreateBasicAuthToken" getInputFromSessionKey="user_credential">
                 <Forward name="success" path="CreateBasicAuthorizationHeader" />
                 <Forward name="exception" path="EXCEPTION" />
             </Base64Pipe>
 
-            <PutInSessionPipe name="CreateBasicAuthorizationHeader">
-                <Param name="Authorization" sessionKey="originalMessage" xpathExpression="concat('Basic ', $myToken)">
-                    <Param name="myToken" sessionKey="myToken"/>
-                </Param>
+            <ReplacerPipe name="CreateBasicAuthorizationHeader" getInputFromFixedValue="Basic ?{myToken}">
+                <Param name="myToken" sessionKey="myToken"/>
                 <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="EXCEPTION" />
-            </PutInSessionPipe>
+            </ReplacerPipe>
 
             <!-- valueTokenGeneratorPipe -->
-            <PutInSessionPipe name="CreateValueAuthorizationHeader">
+            <ReplacerPipe name="CreateValueAuthorizationHeader" getInputFromFixedValue="?{Authorization}">
                 <Param name="Authorization" pattern="{password}" authAlias="${zaakbrug.zgw.zaken-api.auth-alias}" hidden="true"/>
                 <Forward name="success" path="EXIT" />
-            </PutInSessionPipe>
+            </ReplacerPipe>
+
+            <ExceptionPipe name="EXCEPTION">
+                <NumberParam name="exitCode" value="42"/>
+                <NumberParam name="errorCode" value="-1"/>
+                <Param name="Error" value="No clue, but there is supposed to be a sessionKey"/>
+            </ExceptionPipe>
         </Pipeline>
     </Adapter>
 </Module>

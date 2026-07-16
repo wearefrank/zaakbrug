@@ -14,11 +14,11 @@
             </Exits>
             
             <SenderPipe name="GetAuthorizationHeaderForZakenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="Authorization">
                 <IbisLocalSender
                     name="GetAuthorizationHeaderForZakenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization">
+                    javaListener="GenerateAuthorizationHeaderForZakenApi">
                 </IbisLocalSender>
                 <Forward name="success" path="GetRollenByBsn" />
                 <Forward name="exception" path="EXCEPTION" />
