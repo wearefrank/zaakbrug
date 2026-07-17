@@ -3,10 +3,6 @@
         active="${HandleRol.Active}"
         description="">
 
-        <Receiver name="HandleRol">
-            <JavaListener name="HandleRol" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -38,12 +34,12 @@
             <ForEachChildElementPipe name="CallDetectRolChangesDelete"
                 elementXPathExpression="/roles/role[gerelateerde/@*:verwerkingssoort = 'V']"
                 storeResultInSessionKey="RolChangesResults">
-                <IbisLocalSender
+                <FrankSender
                     name="CallDetectRolChangesSender"
-                    javaListener="DetectRolChanges"
+                    target="DetectRolChanges"
                     returnedSessionKeys="Error">
                     <Param sessionKey="RolBody_1" type="DOMDOC"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CallDetectRolChanges"/>
                 <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
@@ -53,12 +49,12 @@
                 getInputFromSessionKey="zdsWordtZaak"
                 elementXPathExpression="/roles/role[gerelateerde/@*:verwerkingssoort != 'V']"
                 storeResultInSessionKey="RolChangesResults">
-                <IbisLocalSender
+                <FrankSender
                     name="CallDetectRolChangesSender"
-                    javaListener="DetectRolChanges"
+                    target="DetectRolChanges"
                     returnedSessionKeys="Error">
                     <Param sessionKey="RolBody_1" type="DOMDOC"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>

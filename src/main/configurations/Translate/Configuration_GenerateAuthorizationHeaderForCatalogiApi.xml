@@ -4,17 +4,15 @@
         active="${GenerateAuthorizationHeaderForCatalogiApi.Active}"
         description="">
 
-        <Receiver name="GenerateAuthorizationHeaderForCatalogiApi">
-            <JavaListener name="GenerateAuthorizationHeaderForCatalogiApi"  returnedSessionKeys="Error,Authorization" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS" />
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <Cache maxElementsInMemory="1" keyXPath="string('GenerateAuthorizationHeaderForCatalogiApi')" timeToLiveSeconds="550" />
+            <EhCache maxElementsInMemory="1" timeToLiveSeconds="550">
+                <Param name="key" value="GenerateAuthorizationHeaderForCatalogiApi"/>
+            </EhCache>
 
             <XmlSwitchPipe 
                 name="CheckForAuthType"

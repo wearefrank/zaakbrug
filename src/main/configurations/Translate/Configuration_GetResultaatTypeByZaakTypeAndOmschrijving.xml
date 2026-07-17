@@ -3,23 +3,20 @@
         active="${GetZgwResultaatTypeByZaakTypeAndOmschrijving.Active}"
         description="">
 
-        <Receiver name="GetZgwResultaatTypeByZaakTypeAndOmschrijving">
-            <JavaListener name="GetZgwResultaatTypeByZaakTypeAndOmschrijving" returnedSessionKeys="Error" />
-        </Receiver>
-
-        <Pipeline>   
+        <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
             <SenderPipe name="GetAuthorizationHeaderForCatalogiApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="Authorization">
+                <FrankSender
                     name="GetAuthorizationHeaderForCatalogiApiSender"
-                    javaListener="GenerateAuthorizationHeaderForCatalogiApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                    target="GenerateAuthorizationHeaderForCatalogiApi"
+                >
+                </FrankSender>
                 <Forward name="success" path="GetResultaatTypesByZaakType" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

@@ -3,10 +3,6 @@
         active="${GetStatusTypeByZaakTypeAndOmschrijving.Active}"
         description="">
 
-        <Receiver name="GetStatusTypeByZaakTypeAndOmschrijving">
-            <JavaListener name="GetStatusTypeByZaakTypeAndOmschrijving" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -16,12 +12,12 @@
             <SenderPipe
                 name="CallGetStatusTypeByZaakType"
                 getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetStatusTypeByZaakTypeSender"
-                    javaListener="GetZgwStatusTypes"
+                    target="GetZgwStatusTypes"
                     returnedSessionKeys="Error">
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="GetZgwStatusTypeMatchingOmschrijvingFromList"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

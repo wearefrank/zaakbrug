@@ -3,10 +3,6 @@
         active="${GetZaakDetailsByRol.Active}"
         description="">
 
-        <Receiver name="GetZaakDetailsByRol">
-            <JavaListener name="GetZaakDetailsByRol" returnedSessionKeys="Error"/>
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -16,23 +12,23 @@
 			<SenderPipe
                 name="CallGetZgwRolTypeByUrl"
                 storeResultInSessionKey="GetZgwRolTypeByUrlResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwRolTypeByUrlSender"
-                    javaListener="Zaken_GetZgwRolTypeByUrl"
+                    target="Zaken_GetZgwRolTypeByUrl"
                     returnedSessionKeys="Error">
                     <Param name="RolTypeUrl" xpathExpression="/ZgwRol/roltype"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="GetGlobalConfigFromLocalFS"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <SenderPipe name="GetGlobalConfigFromLocalFS">
-                <IbisLocalSender
+                <FrankSender
                     name="CallImportFromLocalFS"
-                    javaListener="ImportFromLocalFS"
+                    target="ImportFromLocalFS"
                     returnedSessionKeys="Error">
                     <Param name="FileName" value="${FilePath_1}"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CompareZgwRolOmschrijving"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -48,14 +44,14 @@
 
             <SenderPipe
                 name="CallGetZaakByUrl">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZaakByUrlSender"
-                    javaListener="GetZgwZaakByUrl"
+                    target="GetZgwZaakByUrl"
                     returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="$ZgwRol/ZgwRol/zaak">
                         <Param name="ZgwRol" sessionKey="originalMessage" type="DOMDOC"/>
                     </Param>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="StoreZaakIdentificatie" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -70,12 +66,12 @@
             <SenderPipe
                 name="CallGetZgwZaak"
                 storeResultInSessionKey="GetZgwZaakResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwZaakSender"
-                    javaListener="GetZgwZaak"
+                    target="GetZgwZaak"
                     returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="Identificatie" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="ZaakNotFound_Condition" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -115,12 +111,12 @@
                 name="CallGetZgwZaaktypeByUrl"
                 getInputFromSessionKey="GetZgwZaakResult"
                 storeResultInSessionKey="GetZgwZaaktypeByUrlResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwZaaktypeByUrlSender"
-                    javaListener="GetZaakTypeByUrl"
+                    target="GetZaakTypeByUrl"
                     returnedSessionKeys="Error">
                     <Param name="ZaakUrl" xpathExpression="/ZgwZaak/zaaktype" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CallGetZdsZaakFromZgw"/>
                 <Forward name="exception" path="EXCEPTION"/>
             </SenderPipe>
@@ -128,13 +124,13 @@
             <SenderPipe
                 name="CallGetZdsZaakFromZgw"
                 storeResultInSessionKey="GetZdsZaakFromZgwResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZdsZaakFromZgwSender"
-                    javaListener="GetZdsZaakFromZgw"
+                    target="GetZdsZaakFromZgw"
                     returnedSessionKeys="Error">
                     <Param name="ZgwZaak" sessionKey="GetZgwZaakResult" type="DOMDOC"/>
                     <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

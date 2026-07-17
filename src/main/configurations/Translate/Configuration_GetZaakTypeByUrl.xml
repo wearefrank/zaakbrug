@@ -3,10 +3,6 @@
         active="${GetZaakTypeByUrl.Active}"
         description="">
 
-        <Receiver name="GetZaakTypeByUrl">
-            <JavaListener name="GetZaakTypeByUrl" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -14,12 +10,13 @@
             </Exits>
 
             <SenderPipe name="GetAuthorizationHeaderForCatalogiApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="Authorization">
+                <FrankSender
                     name="GetAuthorizationHeaderForCatalogiApiSender"
-                    javaListener="GenerateAuthorizationHeaderForCatalogiApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                    target="GenerateAuthorizationHeaderForCatalogiApi"
+                >
+                </FrankSender>
                 <Forward name="success" path="GetZgwZaakTypeByUrlSender" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

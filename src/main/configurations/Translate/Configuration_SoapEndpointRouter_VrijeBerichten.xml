@@ -1,5 +1,5 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="SoapEndpointRouter_VrijeBerichten"
+    <Adapter name="${zaakbrug.frank.translate.vrije-berichten.adapterName}"
         active="${SoapEndpointRouter_VrijeBerichten.Active}"
         description="">
 
@@ -11,10 +11,6 @@
 
         <Receiver name="SoapEndpointRouter_VrijeBerichten">
             <WebServiceListener name="SoapEndpointRouter_VrijeBerichten" address="${zaakbrug.soap.translate.vrije-berichten.endpoint}" soap="false"/>
-        </Receiver>
-
-        <Receiver name="SoapEndpointRouter_VrijeBerichten_Java">
-            <JavaListener name="${zaakbrug.java.translate.vrije-berichten.endpoint}"/>
         </Receiver>
 
         <Pipeline>
@@ -152,12 +148,12 @@
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_genereerZaakIdentificatie_Di02"
                 storeResultInSessionKey="Identificatie"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="GenereerZaakIdentificatie_Di02LocalSender"
-                    javaListener="GenereerIdentificatieEmulator"
+                    target="GenereerIdentificatieEmulator"
                     returnedSessionKeys="Error">
                     <Param name="IdentificatieType" value="ZaakIdentificatie"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="WrapGenereerZaakIdentificatie_Du02Response" />
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>
@@ -167,12 +163,12 @@
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_genereerDocumentIdentificatie_Di02"
                 storeResultInSessionKey="Identificatie"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="GenereerDocumentIdentificatie_Di02LocalSender"
-                    javaListener="GenereerIdentificatieEmulator"
+                    target="GenereerIdentificatieEmulator"
                     returnedSessionKeys="Error">
                     <Param name="IdentificatieType" value="DocumentIdentificatie"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="WrapGenereerDocumentIdentificatie_Di02Response" />
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>
@@ -182,13 +178,13 @@
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_geefZaakdocumentbewerken_Di02"
                 storeResultInSessionKey="ZdsZaakDocumentInhoud"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="GeefZaakdocumentbewerken_Di02LocalSender"
                     returnedSessionKeys="ZgwLock,ref_inhoud,Error"
-                    javaListener="GeefZaakdocumentbewerken_Di02"
+                    target="GeefZaakdocumentbewerken_Di02"
                     >
                     <Param name="DocumentIdentificatie" xpathExpression="/*/edcLv01/gelijk/identificatie" type="STRING" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="WrapGeefZaakdocumentbewerken_Di02Response"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -197,13 +193,13 @@
             <SenderPipe
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_cancelCheckout_Di02"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="CancelCheckout_Di02LocalSender"
-                    javaListener="CancelCheckOutZaakDocument_Di02"
+                    target="CancelCheckOutZaakDocument_Di02"
                     returnedSessionKeys="Error">
                     <Param name="DocumentIdentificatie" xpathExpression="/*/document/identificatie" type="STRING" />
                     <Param name="Lock" xpathExpression="/*/parameters/checkedOutId" type="STRING" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="WrapCheckOutZaakDocument_Di02Response"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -212,14 +208,14 @@
             <SenderPipe
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_updateZaakdocument_Di02"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="UpdateZaakdocument_Di02LocalSender"
-                    javaListener="UpdateZaakDocument_Di02"
+                    target="UpdateZaakDocument_Di02"
                     returnedSessionKeys="Error">
                     <Param name="ZdsWordtInformatieObject" sessionKey="ZdsWordtInformatieObject" />
                     <Param name="Lock" xpathExpression="/*/parameters/checkedOutId" type="STRING" />
                     <Param name="ref_inhoud" sessionKey="ref_inhoud" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="WrapUpdateZaakDocument_Di02Response"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

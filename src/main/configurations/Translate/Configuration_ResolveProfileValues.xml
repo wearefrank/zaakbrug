@@ -4,22 +4,15 @@
         active="${ResolveProfileValuesSingleFile.Active}"
         description="">
 
-        <Receiver
-            name="ResolveProfileValuesSingleFile"
-            >
-            <JavaListener
-                name="ResolveProfileValuesSingleFile"
-                returnedSessionKeys="Error"
-                />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS" />
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <Cache />
+            <EhCache name="CacheByPath" eternal="true">
+                <Param name="key" sessionKey="profilesFile" />
+            </EhCache>
 
             <LocalFileSystemPipe
                     name="ReadFile"
@@ -63,10 +56,10 @@
             </DataSonnetPipe>
 
             <SenderPipe name="SendToMergeProfilesWithDefaults" getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender javaListener="MergeProfilesWithDefaults">
+                <FrankSender target="MergeProfilesWithDefaults">
                     <Param name="profileDefaults" sessionKey="profileDefaults"/>
                     <Param name="profiles" sessionKey="profiles"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION"/>
             </SenderPipe>
@@ -119,22 +112,15 @@
              active="${ResolveProfileValuesSeparateFiles.Active}"
              description="">
 
-        <Receiver
-                name="ResolveProfileValuesSeparateFiles"
-        >
-            <JavaListener
-                    name="ResolveProfileValuesSeparateFiles"
-                    returnedSessionKeys="Error"
-            />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS" />
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <Cache />
+            <EhCache name="CacheByPathCombination" eternal="true">
+                <Param name="key" pattern="{profilesFile}&amp;{profileDefaultsFile}" />
+            </EhCache>
 
             <LocalFileSystemPipe
                     name="ReadProfileDefaultsFile"
@@ -155,10 +141,10 @@
             </LocalFileSystemPipe>
 
             <SenderPipe name="SendToMergeProfilesWithDefaults">
-                <IbisLocalSender javaListener="MergeProfilesWithDefaults">
+                <FrankSender target="MergeProfilesWithDefaults">
                     <Param name="profileDefaults" sessionKey="profileDefaults"/>
                     <Param name="profiles" sessionKey="profiles"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="MergeException"/>
             </SenderPipe>
@@ -199,9 +185,7 @@ profiles:
 
     <Adapter name="MergeProfilesWithDefaults"
              active="${MergeProfilesWithDefaults.Active}">
-        <Receiver>
-            <JavaListener name="MergeProfilesWithDefaults"/>
-        </Receiver>
+
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS" />

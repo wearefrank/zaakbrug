@@ -3,10 +3,6 @@
         active="${PutZgwZaakDocument.Active}"
         description="">
 
-        <Receiver name="PutZgwZaakDocument">
-            <JavaListener name="PutZgwZaakDocument" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -14,12 +10,13 @@
             </Exits>
 
             <SenderPipe name="GetAuthorizationHeaderForDocumentenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="Authorization">
+                <FrankSender
                     name="GetAuthorizationHeaderForDocumentenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForDocumentenApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                    target="GenerateAuthorizationHeaderForDocumentenApi"
+                >
+                </FrankSender>
                 <Forward name="success" path="XmlToJson" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

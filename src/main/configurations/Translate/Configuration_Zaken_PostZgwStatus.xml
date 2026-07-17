@@ -3,10 +3,6 @@
         active="${Zaken_PostZgwStatus.Active}"
         description="">
 
-        <Receiver name="Zaken_PostZgwStatus">
-            <JavaListener name="Zaken_PostZgwStatus" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Json2XmlInputValidator
                 name="ValidatePostBody"
@@ -25,12 +21,13 @@
             </Exits>
 
             <SenderPipe name="GetAuthorizationHeaderForZakenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="Authorization">
+                <FrankSender
                     name="GetAuthorizationHeaderForZakenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                    target="GenerateAuthorizationHeaderForZakenApi"
+                >
+                </FrankSender>
                 <Forward name="success" path="PostZgwStatus" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

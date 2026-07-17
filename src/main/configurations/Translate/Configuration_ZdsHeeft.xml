@@ -3,10 +3,6 @@
         active="${ZdsHeeftAdapter.Active}"
         description="Handle each ZdsHeeft">
 
-        <Receiver name="ZdsHeeftAdapter">
-            <JavaListener name="ZdsHeeftAdapter" returnedSessionKeys="NewStatuses,Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -29,14 +25,14 @@
             <SenderPipe
                 name="CallGetStatusTypeByZaakTypeAndOmschrijving"
                 storeResultInSessionKey="GetStatusTypeByZaakTypeAndOmschrijvingResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetStatusTypeByZaakTypeAndOmschrijvingSender"
-                    javaListener="GetStatusTypeByZaakTypeAndOmschrijving"
+                    target="GetStatusTypeByZaakTypeAndOmschrijving"
                     returnedSessionKeys="Error">
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
                     <Param name="Omschrijving" xpathExpression="heeft/gerelateerde/omschrijving"/>
                     <Param name="Volgnummer" xpathExpression="heeft/gerelateerde/volgnummer"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CheckForZgwStatusTypeResult"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -102,12 +98,12 @@
 
             <SenderPipe 
                 name="ResolveProfileValuesSender">
-                <IbisLocalSender
+                <FrankSender
                     name="ResolveProfileValuesLocalSender"
-                    javaListener="ResolveProfileValuesSingleFile"
+                    target="ResolveProfileValuesSingleFile"
                     returnedSessionKeys="Error">
                     <Param name="profilesFile" value="${configurations.directory}/Translate/Profiles.json"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="GetIgnoreEindStatusInActualiseerZaakStatusFromTranslationProfile" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

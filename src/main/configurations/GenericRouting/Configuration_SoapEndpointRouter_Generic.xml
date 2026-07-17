@@ -21,19 +21,18 @@
             </PutInSessionPipe>
 
             <SenderPipe name="GetProfileProperties" getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender name="GetProfilePropertiesSender" javaListener="GetProfileProperties" returnedSessionKeys="listenerName,stopOnError">
+                <FrankSender name="GetProfilePropertiesSender" target="GetProfileProperties" returnedSessionKeys="adapterName,stopOnError">
                     <Param name="fromSoapAction" sessionKey="fromSoapAction"/>
                     <Param name="zaaktype" sessionKey="zaaktype"/>
-                </IbisLocalSender>
+                </FrankSender>
             </SenderPipe>
 
             <SenderPipe name="SendToPipeline" getInputFromSessionKey="originalMessage">
-                <IbisLocalSender
-                        name="SendToPipelineSender"
-                        javaListenerSessionKey="listenerName">
+                <FrankSender name="SendToPipelineSender">
+                    <Param name="target" sessionKey="adapterName" />
                     <Param name="SOAPAction" sessionKey="SOAPAction" />
                     <Param name="stopOnError" sessionKey="stopOnError" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

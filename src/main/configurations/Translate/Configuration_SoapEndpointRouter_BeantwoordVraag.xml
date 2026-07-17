@@ -1,5 +1,5 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="SoapEndpointRouter_BeantwoordVraag"
+    <Adapter name="${zaakbrug.frank.translate.beantwoord-vraag.adapterName}"
         active="${SoapEndpointRouter_BeantwoordVraag.Active}"
         description="">
 
@@ -11,10 +11,6 @@
 
         <Receiver name="SoapEndpointRouter_BeantwoordVraag">
             <WebServiceListener name="SoapEndpointRouter_BeantwoordVraag" address="${zaakbrug.soap.translate.beantwoord-vraag.endpoint}" soap="false"/>
-        </Receiver>
-
-        <Receiver name="SoapEndpointRouter_BeantwoordVraag_Java">
-            <JavaListener name="${zaakbrug.java.translate.beantwoord-vraag.endpoint}"/>
         </Receiver>
 
         <Pipeline>
@@ -103,12 +99,12 @@
             <!-- GeefLijstZaakdocumenten -->
             <SenderPipe
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_geefLijstZaakdocumenten_Lv01">
-                <IbisLocalSender
+                <FrankSender
                     name="GeefLijstZaakdocumenten_Lv01LocalSender"
-                    javaListener="GeefLijstZaakdocumenten_Lv01"
+                    target="GeefLijstZaakdocumenten_Lv01"
                     returnedSessionKeys="Error">
                     <Param name="ZaakIdentificatie" xpathExpression="/*/gelijk/identificatie" type="STRING" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="WrapZakLa01Response" />
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>
@@ -118,13 +114,13 @@
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_geefZaakdocumentLezen_Lv01"
                 storeResultInSessionKey="ZdsZaakDocumentInhoud"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="GeefZaakdocumentLezen_Lv01LocalSender"
-                    javaListener="GeefZaakdocumentLezen_Lv01"
+                    target="GeefZaakdocumentLezen_Lv01"
                     returnedSessionKeys="ref_inhoud,Error"
                     >
                     <Param name="DocumentIdentificatie" xpathExpression="/*/gelijk/identificatie" type="STRING" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="WrapEdcLa01Response" />
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>
@@ -133,11 +129,11 @@
             <SenderPipe
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_geefZaakdetails_Lv01"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="GeefZaakdetails_Lv01LocalSender"
-                    javaListener="GeefZaakdetails_Lv01"
+                    target="GeefZaakdetails_Lv01"
                     returnedSessionKeys="Error">
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CheckGeefZaakDetailsResult" />
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>

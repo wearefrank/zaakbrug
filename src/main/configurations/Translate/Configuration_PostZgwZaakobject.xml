@@ -3,10 +3,6 @@
         active="${PostZgwZaakobject.Active}"
         description="">
 
-        <Receiver name="PostZgwZaakobject">
-            <JavaListener name="PostZgwZaakobject" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -16,11 +12,11 @@
             <SenderPipe
                 name="GetAuthorizationHeaderForZakenApi"
                 getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                <FrankSender
                     name="GetAuthorizationHeaderForZakenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForZakenApi"
+                    target="GenerateAuthorizationHeaderForZakenApi"
                     returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="AddZaakUrl" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

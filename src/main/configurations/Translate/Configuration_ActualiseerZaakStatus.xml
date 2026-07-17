@@ -2,11 +2,7 @@
     <Adapter name="ActualiseerZaakStatus"
         active="${ActualiseerZaakStatus.Active}"
         description="">
-        
-        <Receiver name="ActualiseerZaakStatus">
-            <JavaListener name="ActualiseerZaakStatus" returnedSessionKeys="Error" />
-        </Receiver>
-    
+
         <Pipeline>   
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -48,12 +44,12 @@
                 name="CallGetZgwZaak"
                 getInputFromSessionKey="originalMessage"
                 storeResultInSessionKey="GetZaakResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwZaakSender"
-                    javaListener="GetZgwZaak"
+                    target="GetZgwZaak"
                     returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="Identificatie"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="ZaakNotFound_Condition"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -84,12 +80,12 @@
                 name="CallGetZaakTypeByZaak"
                 getInputFromSessionKey="originalMessage"
                 storeResultInSessionKey="GetZaakTypeResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwZaakTypeSender"
-                    javaListener="GetZgwZaakTypeByIdentificatie"
+                    target="GetZgwZaakTypeByIdentificatie"
                     returnedSessionKeys="Error">
                     <Param name="ZaakTypeCode" sessionKey="object" xpathExpression="object/isVan/gerelateerde/code"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="SetZgwZaakType"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -113,9 +109,9 @@
                 name="CallSetResultaatAndStatus"
                 getInputFromSessionKey="originalMessage"
                 storeResultInSessionKey="SetResultaatAndStatusResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallSetResultaatAndStatusSender"
-                    javaListener="SetResultaatAndStatus"
+                    target="SetResultaatAndStatus"
                     returnedSessionKeys="Error">
                     <Param name="ZgwZaakType" xpathExpression="$GetZaakTypeResult/ZgwZaakTypen/ZgwZaakType" type="DOMDOC">
                         <Param name="GetZaakTypeResult" sessionKey="GetZaakTypeResult" type="DOMDOC"/>
@@ -124,7 +120,7 @@
                         <Param name="GetZaakResult" sessionKey="GetZaakResult" type="DOMDOC"/>
                     </Param>
                     <Param name="isActualiseerZaakStatusMessage" sessionKey="isActualiseerZaakStatusMessage"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

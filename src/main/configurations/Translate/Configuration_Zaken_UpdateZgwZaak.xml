@@ -3,10 +3,6 @@
         active="${Zaken_UpdateZgwZaak.Active}"
         description="">
 
-        <Receiver name="Zaken_UpdateZgwZaak">
-            <JavaListener name="Zaken_UpdateZgwZaak" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -14,12 +10,13 @@
             </Exits>
 
             <SenderPipe name="GetAuthorizationHeaderForZakenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="Authorization">
+                <FrankSender
                     name="GetAuthorizationHeaderForZakenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                    target="GenerateAuthorizationHeaderForZakenApi"
+                >
+                </FrankSender>
                 <Forward name="success" path="CheckIfThereIsEmptyJsonToPatch" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

@@ -3,24 +3,20 @@
         active="${GetZgwInformatieObjectUnlock.Active}"
         description="">
 
-        <Receiver name="GetZgwInformatieObjectUnlock">
-            <JavaListener name="GetZgwInformatieObjectUnlock" 
-                returnedSessionKeys="Error" />
-        </Receiver>
-
-        <Pipeline>   
+        <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
             <SenderPipe name="GetAuthorizationHeaderForDocumentenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="Authorization">
+                <FrankSender
                     name="GetAuthorizationHeaderForDocumentenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForDocumentenApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                    target="GenerateAuthorizationHeaderForDocumentenApi"
+                >
+                </FrankSender>
                 <Forward name="success" path="CreatePostUnlockBody" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

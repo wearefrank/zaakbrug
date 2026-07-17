@@ -3,10 +3,6 @@
         active="${GetZaakDetailsByBsn.Active}"
         description="">
 
-        <Receiver name="GetZaakDetailsByBsn">
-            <JavaListener name="GetZaakDetailsByBsn" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -16,12 +12,12 @@
 			<SenderPipe
                 name="CallGetRollenByBsn"
                 storeResultInSessionKey="GetRollenByBsnResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetRollenByBsnSender"
-                    javaListener="GetRollenByBsn"
+                    target="GetRollenByBsn"
                     returnedSessionKeys="Error">
                     <Param name="Bsn" sessionKey="Bsn"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="RolIterator"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -29,11 +25,11 @@
             <ForEachChildElementPipe name="RolIterator"
                 storeResultInSessionKey="GetZaakDetailsByRolResults"
                 elementXPathExpression="/ZgwRollen/ZgwRol">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZaakDetailsByRol"
-                    javaListener="GetZaakDetailsByRol"
+                    target="GetZaakDetailsByRol"
                     returnedSessionKeys="Error">
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>

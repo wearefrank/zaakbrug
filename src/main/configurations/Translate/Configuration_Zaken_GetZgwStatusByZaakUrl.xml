@@ -3,23 +3,20 @@
         active="${Zaken_GetZgwStatusByZaakUrl.Active}"
         description="">
 
-        <Receiver name="Zaken_GetZgwStatusByZaakUrl">
-            <JavaListener name="Zaken_GetZgwStatusByZaakUrl" returnedSessionKeys="Error" />
-        </Receiver>
-
-        <Pipeline>  
+        <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
             <SenderPipe name="GetAuthorizationHeaderForZakenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="Authorization">
+                <FrankSender
                     name="GetAuthorizationHeaderForZakenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                    target="GenerateAuthorizationHeaderForZakenApi"
+                >
+                </FrankSender>
                 <Forward name="success" path="GetZgwStatusByZaakUrlSender" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

@@ -4,17 +4,15 @@
         active="${GenerateAuthorizationHeaderForZakenApi.Active}"
         description="">
 
-        <Receiver name="GenerateAuthorizationHeaderForZakenApi">
-            <JavaListener name="GenerateAuthorizationHeaderForZakenApi"  returnedSessionKeys="Error,Authorization" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS" />
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <Cache maxElementsInMemory="1" keyXPath="string('GenerateAuthorizationHeaderForZakenApi')" timeToLiveSeconds="550" />
+            <EhCache timeToLiveSeconds="550">
+                <Param name="key" value="GenerateAuthorizationHeaderForZakenApi"/>
+            </EhCache>
 
             <XmlSwitchPipe 
                 name="CheckForAuthType"

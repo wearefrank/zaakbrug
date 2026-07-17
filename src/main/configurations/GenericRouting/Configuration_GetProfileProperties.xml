@@ -1,21 +1,23 @@
 <Adapter name="GetProfileProperties" active="${GetProfileProperties.Active}">
-    <Receiver name="GetProfileProperties">
-        <JavaListener name="GetProfileProperties" returnedSessionKeys="listenerName,stopOnError"/>
-    </Receiver>
+
     <Pipeline>
         <Exits>
             <Exit name="EXIT" state="SUCCESS"/>
             <Exit name="EXCEPTION" state="ERROR"/>
         </Exits>
 
+        <EhCache name="CachePerZaaktypeAndSOAPAction" eternal="true">
+            <Param name="key" pattern="{zaaktype}&amp;{fromSoapAction}" />
+        </EhCache>
+
         <SenderPipe name="ResolveProfileValuesSender">
-            <IbisLocalSender
+            <FrankSender
                     name="ResolveProfileValuesLocalSender"
-                    javaListener="ResolveProfileValuesSeparateFiles"
+                    target="Translate/ResolveProfileValuesSeparateFiles"
                     returnedSessionKeys="Error">
                 <Param name="profilesFile" value="/opt/frank/resources/RoutingProfiles.json"/>
                 <Param name="profileDefaultsFile" value="/opt/frank/resources/RoutingProfileDefaults.json"/>
-            </IbisLocalSender>
+            </FrankSender>
             <Forward name="success" path="SelectProfile" />
             <Forward name="exception" path="EXCEPTION" />
         </SenderPipe>
@@ -33,12 +35,12 @@
         </PutInSessionPipe>
 
         <ReplacerPipe
-                name="GetListenerName"
-                getInputFromFixedValue="^{zaakbrug.java.?{route}.endpoint}"
+                name="GetAdapterName"
+                getInputFromFixedValue="^{zaakbrug.frank.?{route}.endpoint}"
                 find="^"
                 replace="$"
                 substituteVars="true"
-                storeResultInSessionKey="listenerName">
+                storeResultInSessionKey="adapterName">
             <Param name="route" sessionKey="route"/>
         </ReplacerPipe>
     </Pipeline>

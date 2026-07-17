@@ -6,15 +6,6 @@
         description=""
         >
 
-        <Receiver
-            name="PostZaakAdapter"
-            >
-            <JavaListener
-                name="PostZaakAdapter"
-                returnedSessionKeys="Error"
-                />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS" />
@@ -24,13 +15,12 @@
             <SenderPipe
                 name="GetAuthorizationHeaderForZakenApi"
                 getInputFromFixedValue="&lt;dummy/&gt;"
-                >
-                <IbisLocalSender
+                storeResultInSessionKey="Authorization">
+                <FrankSender
                     name="GetAuthorizationHeaderForZakenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization"
-                    >
-                </IbisLocalSender>
+                    target="GenerateAuthorizationHeaderForZakenApi"
+                >
+                </FrankSender>
                 <Forward name="success" path="PostZgwZaak" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
