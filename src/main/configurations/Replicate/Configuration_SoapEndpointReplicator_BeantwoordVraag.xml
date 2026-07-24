@@ -1,5 +1,5 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="${zaakbrug.soap.replicate.beantwoord-vraag.adapterName}"
+    <Adapter name="${zaakbrug.frank.replicate.beantwoord-vraag.adapterName}"
         active="${SoapEndpointReplicator_BeantwoordVraag.Active}"
         description="This adapter will first send the message to the endpoint router, and (optionally only if the response is successful) it also sends the message the proxy">
 
