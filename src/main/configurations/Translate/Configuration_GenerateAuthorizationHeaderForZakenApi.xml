@@ -14,7 +14,9 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <Cache maxElementsInMemory="1" keyXPath="string('GenerateAuthorizationHeaderForZakenApi')" timeToLiveSeconds="550" />
+            <Cache maxElementsInMemory="1" timeToLiveSeconds="550">
+                <Param name="key" value="GenerateAuthorizationHeaderForZakenApi" />
+            </Cache>
 
             <XmlSwitchPipe 
                 name="CheckForAuthType"
