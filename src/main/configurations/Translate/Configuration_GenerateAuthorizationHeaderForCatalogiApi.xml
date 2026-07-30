@@ -10,9 +10,9 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <EhCache maxElementsInMemory="1" timeToLiveSeconds="550">
-                <Param name="key" value="GenerateAuthorizationHeaderForCatalogiApi"/>
-            </EhCache>
+            <Cache maxElementsInMemory="1" timeToLiveSeconds="550">
+                <Param name="key" value="GenerateAuthorizationHeaderForCatalogiApi" />
+            </Cache>
 
             <XmlSwitchPipe 
                 name="CheckForAuthType"

@@ -186,7 +186,7 @@
                     <Param name="DocumentIdentificatie" xpathExpression="/*/edcLv01/gelijk/identificatie" type="STRING" />
                 </FrankSender>
                 <Forward name="success" path="WrapGeefZaakdocumentbewerken_Di02Response"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="BackEndError" />
             </SenderPipe>
 
             <!-- CancelCheckout_Di02 -->
@@ -201,7 +201,7 @@
                     <Param name="Lock" xpathExpression="/*/parameters/checkedOutId" type="STRING" />
                 </FrankSender>
                 <Forward name="success" path="WrapCheckOutZaakDocument_Di02Response"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="BackEndError" />
             </SenderPipe>
 
             <!-- UpdateZaakdocument_Di02 -->
@@ -217,7 +217,7 @@
                     <Param name="ref_inhoud" sessionKey="ref_inhoud" />
                 </FrankSender>
                 <Forward name="success" path="WrapUpdateZaakDocument_Di02Response"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="BackEndError" />
             </SenderPipe>
 
             <SoapWrapperPipe
