@@ -8,7 +8,7 @@
 
         <Cache name="CachePerZaaktypeAndSOAPAction" eternal="true">
             <Param name="key" pattern="{zaaktype}&amp;{fromSoapAction}" />
-        </EhCache>
+        </Cache>
 
         <SenderPipe name="ResolveProfileValuesSender">
             <FrankSender

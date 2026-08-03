@@ -12,7 +12,7 @@
 
             <Cache name="CacheByPath" eternal="true">
                 <Param name="key" sessionKey="profilesFile" />
-            </EhCache>
+            </Cache>
 
             <LocalFileSystemPipe
                     name="ReadFile"
@@ -120,7 +120,7 @@
 
             <Cache name="CacheByPathCombination" eternal="true">
                 <Param name="key" pattern="{profilesFile}&amp;{profileDefaultsFile}" />
-            </EhCache>
+            </Cache>
 
             <LocalFileSystemPipe
                     name="ReadProfileDefaultsFile"
