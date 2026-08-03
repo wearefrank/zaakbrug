@@ -5,7 +5,7 @@ ARG FF_VERSION=8.3.0-20240910.042339
 FROM docker.io/frankframework/frankframework:${FF_VERSION}
 
 # TempFix TODO: Move this to the credentialprovider.properties
-ENV credentialFactory.class=nl.nn.credentialprovider.PropertyFileCredentialFactory
+ENV credentialFactory.class=org.frankframework.credentialprovider.PropertyFileCredentialFactory
 ENV credentialFactory.map.properties=/opt/frank/resources/credentials.properties
 ENV zaakbrug.zds.timezone=UTC
 
