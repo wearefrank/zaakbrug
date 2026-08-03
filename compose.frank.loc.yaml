@@ -142,7 +142,7 @@ services:
           - zaakbrug.localtest.me
       zaakbrug-backend: {}
     ports:
-      - "${PORT:-8060}:8080"
+      - "${PORT:-8080}:8080"
       - "9010:9010"
 
   frank-flow:
