@@ -6,7 +6,7 @@
             <Exit name="EXCEPTION" state="ERROR"/>
         </Exits>
 
-        <EhCache name="CachePerZaaktypeAndSOAPAction" eternal="true">
+        <Cache name="CachePerZaaktypeAndSOAPAction" eternal="true">
             <Param name="key" pattern="{zaaktype}&amp;{fromSoapAction}" />
         </EhCache>
 

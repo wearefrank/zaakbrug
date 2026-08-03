@@ -10,7 +10,7 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <EhCache name="CacheByPath" eternal="true">
+            <Cache name="CacheByPath" eternal="true">
                 <Param name="key" sessionKey="profilesFile" />
             </EhCache>
 
@@ -118,7 +118,7 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <EhCache name="CacheByPathCombination" eternal="true">
+            <Cache name="CacheByPathCombination" eternal="true">
                 <Param name="key" pattern="{profilesFile}&amp;{profileDefaultsFile}" />
             </EhCache>
 
