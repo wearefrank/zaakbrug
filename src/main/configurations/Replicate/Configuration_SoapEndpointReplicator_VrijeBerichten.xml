@@ -46,10 +46,12 @@
             </SenderPipe>
 
             <IfPipe name="CheckIfShouldSendToProxyAnyways" getInputFromSessionKey="stopOnError" preserveInput="true" expressionValue="false">
-                <Forward name="then" path="SendToProxy"/>
+                <Forward name="then" path="CheckIfShouldUseErrorStore"/>
                 <Forward name="else" path="EchoTranslateResponse"/>
             </IfPipe>
 
+            <!--If this is an orchestration scenario (stopOnError=true), then we should not send genereerZaak- and document-Identificatie messages to proxy,
+            because it will result in multiple ids for the same message. In all other cases, send to proxy, because this pipe is only reached if translate was succesful-->
             <IfPipe name="CheckIfReplicateAllowed"
                     preserveInput="true"
                     xpathExpression="$stopOnError = 'true' and $fromSoapAction = ['genereerZaakIdentificatie_Di02', 'genereerDocumentIdentificatie_Di02']"
@@ -58,9 +60,20 @@
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
                 </Param>
                 <Param name="stopOnError" sessionKey="stopOnError"/>
-                <Forward name="then" path="SendToProxy"/>
+                <Forward name="then" path="CheckIfShouldUseErrorStore"/>
                 <Forward name="else" path="EchoTranslateResponse"/>
             </IfPipe>
+
+            <IfPipe name="CheckIfShouldUseErrorStore" getInputFromSessionKey="stopOnError" preserveInput="true" expressionValue="true">
+                <Forward name="then" path="SendToProxyWithErrorStore"/>
+                <Forward name="else" path="SendToProxy"/>
+            </IfPipe>
+
+            <SenderPipe name="SendToProxyWithErrorStore">
+                <IbisLocalSender name="SendToProxySender" javaListener="${zaakbrug.java.proxy.vrije-berichten.endpoint}_withErrorStore" synchronous="false">
+                    <Param name="SOAPAction" sessionKey="SOAPAction"/>
+                </IbisLocalSender>
+            </SenderPipe>
 
             <SenderPipe name="SendToProxy">
                 <!--                <FrankSender name="SendToProxySender" target="Proxy/SoapEndpointProxy_VrijeBerichten" synchronous="false">-->

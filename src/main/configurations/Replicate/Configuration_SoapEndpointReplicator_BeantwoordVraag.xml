@@ -40,15 +40,26 @@
                         returnedSessionKeys="exitState">
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
                 </IbisLocalSender>
-                <Forward name="success" path="SendToProxy" />
+                <Forward name="success" path="CheckIfShouldUseErrorStore" />
                 <Forward name="500" path="CheckIfShouldSendToProxyAnyways" />
                 <Forward name="exception" path="CheckIfShouldSendToProxyAnyways" />
             </SenderPipe>
 
             <IfPipe name="CheckIfShouldSendToProxyAnyways" getInputFromSessionKey="stopOnError" preserveInput="true" expressionValue="false">
-                <Forward name="then" path="SendToProxy"/>
+                <Forward name="then" path="CheckIfShouldUseErrorStore"/>
                 <Forward name="else" path="EchoTranslateResponse"/>
             </IfPipe>
+
+            <IfPipe name="CheckIfShouldUseErrorStore" getInputFromSessionKey="stopOnError" preserveInput="true" expressionValue="true">
+                <Forward name="then" path="SendToProxyWithErrorStore"/>
+                <Forward name="else" path="SendToProxy"/>
+            </IfPipe>
+
+            <SenderPipe name="SendToProxyWithErrorStore">
+                <IbisLocalSender name="SendToProxySender" javaListener="${zaakbrug.java.proxy.beantwoord-vraag.endpoint}_withErrorStore" synchronous="false">
+                    <Param name="SOAPAction" sessionKey="SOAPAction"/>
+                </IbisLocalSender>
+            </SenderPipe>
 
             <SenderPipe name="SendToProxy">
 <!--                <FrankSender name="SendToProxySender" target="Proxy/SoapEndpointProxy_BeantwoordVraag" synchronous="false">-->
