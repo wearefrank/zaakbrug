@@ -58,8 +58,9 @@
             <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" getInputFromFixedValue="{}" storeResultInSessionKey="Error">
                 <Param name="url" sessionKey="Url"/>
                 <Param name="senderPipeName" value="CallGetBas64Inhoud" />
-                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$ref_inhoud" >
-                    <Param name="ref_inhoud" sessionKey="ref_inhoud" />
+                <!-- We dont want big document base64 to end up in logging -->
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >
+                    <Param name="response" value="" />
                 </Param>
                 <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>
