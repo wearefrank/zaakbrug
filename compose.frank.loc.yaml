@@ -41,47 +41,6 @@ services:
       dtap.stage: LOC
       configurations.directory.classLoaderType: ScanningDirectoryClassLoader
       management.gateway.inbound.class: org.frankframework.management.gateway.HazelcastInboundGateway
-
-      #Routing uris
-      zaakbrug.soap.router.generic.endpoint:               routing/generic/zds
-
-      zaakbrug.soap.translate.beantwoord-vraag.endpoint:   translate/generic/zds/BeantwoordVraag
-      zaakbrug.soap.translate.ontvang-asynchroon.endpoint: translate/generic/zds/OntvangAsynchroon
-      zaakbrug.soap.translate.vrije-berichten.endpoint:    translate/generic/zds/VrijBericht
-
-      zaakbrug.soap.replicate.beantwoord-vraag.endpoint:   replicate/generic/zds/BeantwoordVraag
-      zaakbrug.soap.replicate.ontvang-asynchroon.endpoint: replicate/generic/zds/OntvangAsynchroon
-      zaakbrug.soap.replicate.vrije-berichten.endpoint:    replicate/generic/zds/VrijBericht
-
-      zaakbrug.soap.proxy.beantwoord-vraag.endpoint:       proxy/generic/zds/BeantwoordVraag
-      zaakbrug.soap.proxy.ontvang-asynchroon.endpoint:     proxy/generic/zds/OntvangAsynchroon
-      zaakbrug.soap.proxy.vrije-berichten.endpoint:        proxy/generic/zds/VrijBericht
-
-      #Routing adapter names
-      zaakbrug.frank.translate.beantwoord-vraag.adapterName: SoapEndpointRouter_BeantwoordVraag
-      zaakbrug.frank.translate.ontvang-asynchroon.adapterName: SoapEndpointRouter_OntvangAsynchroon
-      zaakbrug.frank.translate.vrije-berichten.adapterName: SoapEndpointRouter_VrijeBerichten
-
-      zaakbrug.frank.replicate.beantwoord-vraag.adapterName: SoapEndpointReplicator_BeantwoordVraag
-      zaakbrug.frank.replicate.ontvang-asynchroon.adapterName: SoapEndpointReplicator_OntvangAsynchroon
-      zaakbrug.frank.replicate.vrije-berichten.adapterName: SoapEndpointReplicator_VrijeBerichten
-
-      zaakbrug.frank.proxy.beantwoord-vraag.adapterName: SoapEndpointProxy_BeantwoordVraag
-      zaakbrug.frank.proxy.ontvang-asynchroon.adapterName: SoapEndpointProxy_OntvangAsynchroon
-      zaakbrug.frank.proxy.vrije-berichten.adapterName: SoapEndpointProxy_VrijeBerichten
-
-      #Routing listener endpoints
-      zaakbrug.frank.translate.beantwoord-vraag.endpoint: Translate/SoapEndpointRouter_BeantwoordVraag
-      zaakbrug.frank.translate.ontvang-asynchroon.endpoint: Translate/SoapEndpointRouter_OntvangAsynchroon
-      zaakbrug.frank.translate.vrije-berichten.endpoint: Translate/SoapEndpointRouter_VrijeBerichten
-
-      zaakbrug.frank.replicate.beantwoord-vraag.endpoint: Replicate/SoapEndpointReplicator_BeantwoordVraag
-      zaakbrug.frank.replicate.ontvang-asynchroon.endpoint: Replicate/SoapEndpointReplicator_OntvangAsynchroon
-      zaakbrug.frank.replicate.vrije-berichten.endpoint: Replicate/SoapEndpointReplicator_VrijeBerichten
-
-      zaakbrug.frank.proxy.beantwoord-vraag.endpoint: Proxy/SoapEndpointProxy_BeantwoordVraag
-      zaakbrug.frank.proxy.ontvang-asynchroon.endpoint: Proxy/SoapEndpointProxy_OntvangAsynchroon
-      zaakbrug.frank.proxy.vrije-berichten.endpoint: Proxy/SoapEndpointProxy_VrijeBerichten
     volumes:
       - h2-data:/opt/frank/h2:rw
       - logs:/usr/local/tomcat/logs:rw
