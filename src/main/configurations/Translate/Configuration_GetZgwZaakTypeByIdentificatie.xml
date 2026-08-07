@@ -26,7 +26,8 @@
             </SenderPipe>
 
             <SenderPipe name="GetZgwZaakTypeByIdentificatie"
-                getInputFromFixedValue="&lt;dummy/&gt;">
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="response">
 				<HttpSender 
 					name="GetZgwZaakTypeByIdentificatieSender" 
 					methodType="GET"
@@ -45,30 +46,69 @@
                 <Param name="status" value="definitief"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization"  sessionKey="Authorization" />
-                <Forward name="success" path="JsonToXml" />
-                <Forward name="exception" path="ErrorJsonToXml" />
-            </SenderPipe>
-            <JsonPipe name="ErrorJsonToXml">
-                <Forward name="success" path="buildErrorMsg" />
-            </JsonPipe>
-            <XsltPipe name="buildErrorMsg"
-                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
-                <Param name="senderPipeName" value="GetZgwZaakTypeByIdentificatie" />
-                <Forward name="success" path="EXCEPTION" />
-            </XsltPipe>
-            <JsonPipe name="JsonToXml">
-                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList" />
+                <Forward name="success" path="ResponseTypeSwitch" />
+                <Forward name="exception" path="ParseNegativeHttpResult" />
+			</SenderPipe>
+            
+            <SwitchPipe
+                name="ResponseTypeSwitch"
+                forwardNameSessionKey="responseType">
+                <Forward name="application/json" path="UnwrapOpenZaakApiEnvelope_Json" />
+                <Forward name="application/xml" path="JsonResponseToXml" />
+                <Forward name="notFound" path="JsonResponseToXml" />
+            </SwitchPipe>
+            
+            <!-- JSON response -->
+            <DataSonnetPipe
+                name="UnwrapOpenZaakApiEnvelope_Json"
+                styleSheetName="Common/jsonnet/unwrapJsonEnvelope.jsonnet">
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </DataSonnetPipe>
+
+            <!-- XML response -->
+            <JsonPipe
+                name="JsonResponseToXml">
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList_Xml" />
             </JsonPipe>
 
             <XsltPipe
-                name="UnwrapOpenZaakApiEnvelopeToList"
-                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
-            >
-                <Param name="Type" value="ZgwZaakType"/>
-                <Param name="List" value="ZgwZaakTypen"/>
-                <Forward name="success" path="EXIT"/>
-                <Forward name="exception" path="EXCEPTION"/>
+                name="UnwrapOpenZaakApiEnvelopeToList_Xml"
+                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt">
+                <Param name="Type" value="ZgwZaakType" />
+                <Param name="List" value="ZgwZaakTypen" />
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>
+            
+            <!-- Error response -->
+            <DataSonnetPipe
+                name="ParseNegativeHttpResult"
+                styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet"
+                getInputFromFixedValue="{}"
+                storeResultInSessionKey="Error">
+                <Param name="url" value="&lt;dummy/&gt;" xpathExpression="concat('${zaakbrug.zgw.catalogi-api.root-url}',
+                            'zaaktypen?',
+                            'identificatie=', $identificatie,
+                            '&amp;status=', $status)">
+                    <Param name="identificatie" sessionKey="ZaakTypeCode" />
+                    <Param name="status" value="definitief" />
+                </Param>
+                <Param name="responsePlainText" value="&lt;dummy/&gt;" xpathExpression="$response">
+                    <Param name="response" sessionKey="response" />
+                </Param>
+                <Param name="senderPipeName" sessionKey="response" contextKey="Pipeline.PreviousPipe" />
+                <Param name="httpStatus" sessionKey="response" contextKey="Http.StatusCode" defaultValue="0" />
+                <Param name="httpReasonPhrase" sessionKey="response" contextKey="Http.ReasonPhrase" />
+                <Forward name="success" path="ErrorJsonToXml" />
+            </DataSonnetPipe>
+
+            <JsonPipe
+                name="ErrorJsonToXml"
+                rootElementName="error"
+                storeResultInSessionKey="Error">
+                <Forward name="success" path="EXCEPTION" />
+            </JsonPipe>
         </Pipeline>
     </Adapter>
 </Module>

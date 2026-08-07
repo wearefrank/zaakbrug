@@ -28,7 +28,7 @@
 			<SenderPipe
                 name="GetZgwZaakobjectsByZaakUrl"
                 getInputFromFixedValue="&lt;dummy/&gt;"
-                >
+                storeResultInSessionKey="response">
 				<HttpSender
 					name="GetZgwZaakobjectsByZaakUrlSender"
 					methodType="GET"
@@ -46,38 +46,37 @@
                 <Param name="zaak" sessionKey="ZgwZaakUrl" />
                 <Param name="Accept-Crs" value="EPSG:4326" />
                 <Param name="Authorization"  sessionKey="Authorization" />
-                <Forward name="success" path="JsonToXml" />
-                <Forward name="exception" path="ErrorJsonToXml" />
+                <Forward name="success" path="unwrapJsonEnvelope" />
+                <Forward name="exception" path="ParseNegativeHttpResult" />
 			</SenderPipe>
 
-            <JsonPipe
-                name="ErrorJsonToXml"
-                >
-                <Forward name="success" path="buildErrorMsg" />
-            </JsonPipe>
-
-            <XsltPipe
-                name="buildErrorMsg"
-                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl"
-                >
+            <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" getInputFromFixedValue="{}" storeResultInSessionKey="Error">
+                <Param name="url" value="&lt;dummy/&gt;" xpathExpression="concat('${zaakbrug.zgw.zaken-api.root-url}',
+                            'zaakobjecten?zaak=',
+                            $zaak)">
+                    <Param name="zaak" sessionKey="ZgwZaakUrl" />
+                </Param>
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >
+                    <Param name="response" sessionKey="response" />
+                </Param>
                 <Param name="senderPipeName" value="GetZgwZaakobjectsByZaakUrl" />
+                <Forward name="success" path="ErrorJsonToXml" />
+            </DataSonnetPipe>
+            
+            <JsonPipe name="ErrorJsonToXml" rootElementName="error" storeResultInSessionKey="Error" >
                 <Forward name="success" path="EXCEPTION" />
-            </XsltPipe>
-
-            <JsonPipe
-                name="JsonToXml">
-                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList" />
             </JsonPipe>
 
-            <XsltPipe
-                name="UnwrapOpenZaakApiEnvelopeToList"
-                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
-                >
-                <Param name="Type" value="ZgwZaakobject" />
-                <Param name="List" value="ZgwZaakobjecten" />
-                <Forward name="success" path="EXIT" />
+            <DataSonnetPipe styleSheetName="Common/jsonnet/unwrapJsonEnvelope.jsonnet" name="unwrapJsonEnvelope">
+                <Param name="Type" value="ZgwZaakobject"/>
+                <Forward name="success" path="JsonToXml" />
                 <Forward name="exception" path="EXCEPTION" />
-            </XsltPipe>
+            </DataSonnetPipe>
+
+            <JsonPipe name="JsonToXml" unlessSessionKey="responseType" unlessValue="application/json" rootElementName="ZgwZaakobjecten">
+                <Forward name="success" path="EXIT"/>
+            </JsonPipe>
+            
         </Pipeline>
     </Adapter>
 </Module>

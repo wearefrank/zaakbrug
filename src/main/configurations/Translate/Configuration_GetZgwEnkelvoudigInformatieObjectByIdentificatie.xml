@@ -34,7 +34,8 @@
             </SenderPipe>
 
 			<SenderPipe name="GetZgwEnkelvoudigInformatieObjectByIdentificatie"
-                getInputFromFixedValue="&lt;dummy/&gt;">
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="response">
 				<HttpSender 
 					name="GetZgwEnkelvoudigInformatieObjectByIdentificatieSender" 
 					methodType="GET"
@@ -52,38 +53,43 @@
                 <Param name="identificatie" sessionKey="Identificatie"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization"  sessionKey="Authorization" />
-                <Forward name="success" path="JsonToXml" />
-                <Forward name="exception" path="ErrorJsonToXml" />
+                <Forward name="success" path="unwrapJsonEnvelope" />
+                <Forward name="exception" path="ParseNegativeHttpResult" />
 			</SenderPipe>
-            <JsonPipe name="ErrorJsonToXml">
-                <Forward name="success" path="buildErrorMsg" />
-            </JsonPipe>
-            <XsltPipe name="buildErrorMsg"
-                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
-                <Param name="senderPipeName" value="GetZgwEnkelvoudigInformatieObjectByIdentificatie" />
-                <Forward name="success" path="EXCEPTION" />
-            </XsltPipe>
 
-            <JsonPipe name="JsonToXml">
+            <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" getInputFromFixedValue="{}" storeResultInSessionKey="Error">
+                <Param name="url" value="&lt;dummy/&gt;" xpathExpression="concat('${zaakbrug.zgw.documenten-api.root-url}',
+                            'enkelvoudiginformatieobjecten?identificatie=',
+                            $identificatie)">
+                    <Param name="identificatie" sessionKey="Identificatie"/>
+                </Param>
+                <Param name="senderPipeName" value="GetZgwEnkelvoudigInformatieObjectByIdentificatie" />
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >
+                    <Param name="response" sessionKey="response" />
+                </Param>
+                <Forward name="success" path="ErrorJsonToXml" />
+            </DataSonnetPipe>
+            
+            <JsonPipe name="ErrorJsonToXml" rootElementName="error" storeResultInSessionKey="Error" >
+                <Forward name="success" path="EXCEPTION" />
+            </JsonPipe>
+
+            <DataSonnetPipe styleSheetName="Common/jsonnet/unwrapJsonEnvelope.jsonnet" name="unwrapJsonEnvelope">
+                <Param name="Type" value="ZgwEnkelvoudigInformatieObject"/>
+                <Forward name="success" path="JsonToXml" />
+                <Forward name="exception" path="EXCEPTION" />
+            </DataSonnetPipe>
+
+            <JsonPipe name="JsonToXml" unlessSessionKey="responseType" unlessValue="application/json" rootElementName="ZgwEnkelvoudigInformatieObjecten">
                 <Forward name="success" path="CheckForGetZgwEnkelvoudigInformatieObjectResult"/>
             </JsonPipe>
 
             <IfPipe name="CheckForGetZgwEnkelvoudigInformatieObjectResult"
-                xpathExpression="string-length(/root/results[1]) > 0 and count(/root/results) = 1"
+                xpathExpression="string-length(/ZgwEnkelvoudigInformatieObjecten/ZgwEnkelvoudigInformatieObject[1]) > 0 and count(/ZgwEnkelvoudigInformatieObjecten/ZgwEnkelvoudigInformatieObject) = 1"
                 >
-                <Forward name="then" path="UnwrapZgwEnkelvoudigInformatieObjectToList"/>
+                <Forward name="then" path="GetSingleZgwEnkelvoudigInformatieObjectFromList"/>
                 <Forward name="else" path="EXIT"/>
             </IfPipe>
-
-            <XsltPipe
-                name="UnwrapZgwEnkelvoudigInformatieObjectToList"
-                styleSheetName="Common/xsl/UnwrapOpenZaakApiEnvelopeToList.xslt"
-                >
-                <Param name="List" value="ZgwEnkelvoudigInformatieObjecten"/>
-                <Param name="Type" value="ZgwEnkelvoudigInformatieObject"/>
-                <Forward name="success" path="GetSingleZgwEnkelvoudigInformatieObjectFromList"/>
-                <Forward name="exception" path="EXCEPTION"/>
-            </XsltPipe>
 
             <XsltPipe
                 name="GetSingleZgwEnkelvoudigInformatieObjectFromList"

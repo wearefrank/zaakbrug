@@ -45,7 +45,8 @@
                 <Forward name="success" path="PutZaakDocument" />
             </ReplacerPipe>
 
-            <SenderPipe name="PutZaakDocument">
+            <SenderPipe name="PutZaakDocument"
+                storeResultInSessionKey="response">
 				<HttpSender 
 					name="PutZaakDocumentSender" 
 					methodType="PUT"
@@ -64,16 +65,22 @@
                 <Param name="Accept-Crs" value="EPSG:4326"/>
                 <Param name="Authorization"  sessionKey="Authorization" />
                 <Forward name="success" path="EXIT" />
-                <Forward name="exception" path="ErrorJsonToXml" />
+                <Forward name="exception" path="ParseNegativeHttpResult" />
 			</SenderPipe>
-            <JsonPipe name="ErrorJsonToXml">
-                <Forward name="success" path="buildErrorMsg" />
-            </JsonPipe>
-            <XsltPipe name="buildErrorMsg"
-                styleSheetName="Common/xsl/ParseNegativeHttpResult.xsl">
+
+            <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" getInputFromFixedValue="{}" storeResultInSessionKey="Error">
+                <Param name="url" sessionKey="Url"/>
                 <Param name="senderPipeName" value="PutZaakDocument" />
+                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >
+                    <Param name="response" sessionKey="response" />
+                </Param>
+                <Forward name="success" path="ErrorJsonToXml" />
+            </DataSonnetPipe>
+            
+            <JsonPipe name="ErrorJsonToXml" rootElementName="error" storeResultInSessionKey="Error" >
                 <Forward name="success" path="EXCEPTION" />
-            </XsltPipe>
+            </JsonPipe>
+
         </Pipeline>
     </Adapter>
 </Module>
