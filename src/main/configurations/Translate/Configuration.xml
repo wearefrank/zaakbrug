@@ -1,199 +1,99 @@
-<!DOCTYPE configuration [
-  <!ENTITY ActualiseerZaakStatus                          SYSTEM "./Configuration_ActualiseerZaakStatus.xml">
-  <!ENTITY AddHoofdzaak                                   SYSTEM "./Configuration_AddHoofdzaak.xml">
-  <!ENTITY AddRolToZgw                                    SYSTEM "./Configuration_AddRolToZgw.xml">
-  <!ENTITY AddZaakobjectToZgw                             SYSTEM "./Configuration_AddZaakobjectToZgw.xml">
-  <!ENTITY AndereZaak                                     SYSTEM "./Configuration_AndereZaak.xml">
-  <!ENTITY ApplyValueOverridesZgwToZds                    SYSTEM "./Configuration_ApplyValueOverridesZgwToZds.xml">
-  <!ENTITY CancelCheckOutZaakDocument_Di02                SYSTEM "./Configuration_CancelCheckOutZaakDocument_Di02.xml">
-  <!ENTITY CheckHoofdzaak                                 SYSTEM "./Configuration_CheckHoofdzaak.xml">
-  <!ENTITY CheckOutZaakDocument                           SYSTEM "./Configuration_CheckOutZaakDocument.xml">
-  <!ENTITY CheckZgwRol                                    SYSTEM "./Configuration_CheckZgwRol.xml">
-  <!ENTITY CheckZgwZaakobject                             SYSTEM "./Configuration_CheckZgwZaakobject.xml">
-  <!ENTITY ConvertISO639Taal                              SYSTEM "./Configuration_ConvertISO639Taal.xml">
-  <!ENTITY CreeerZaak_Lk01                                SYSTEM "./Configuration_CreeerZaak_LK01.xml">
-  <!ENTITY Deelzaak                                       SYSTEM "./Configuration_Deelzaak.xml">
-  <!ENTITY DeleteHoofdzaak                                SYSTEM "./Configuration_DeleteHoofdzaak.xml">
-  <!ENTITY DeleteRolFromZgw                               SYSTEM "./Configuration_DeleteRolFromZgw.xml">
-  <!ENTITY DeleteZgwZaak                                  SYSTEM "./Configuration_Zaken_DeleteZgwZaak.xml">
-  <!ENTITY DeleteZaakobjectFromZgw                        SYSTEM "./Configuration_DeleteZaakobjectFromZgw.xml">
-  <!ENTITY DetectRolChanges                               SYSTEM "./Configuration_DetectRolChanges.xml">
-  <!ENTITY DetectZaakobjectChanges                        SYSTEM "./Configuration_DetectZaakobjectChanges.xml">
-  <!ENTITY Documenten_PostZgwEnkelvoudigInformatieObject  SYSTEM "./Configuration_Documenten_PostZgwEnkelvoudigInformatieObject.xml">
-  <!ENTITY GeefLijstZaakdocumenten_Lv01                   SYSTEM "./Configuration_GeefLijstZaakdocumenten_Lv01.xml">
-  <!ENTITY GeefZaakdetails_Lv01                           SYSTEM "./Configuration_GeefZaakdetails_Lv01.xml">
-  <!ENTITY GeefZaakdocumentbewerken_Di02                  SYSTEM "./Configuration_GeefZaakdocumentbewerken_Di02.xml">
-  <!ENTITY GeefZaakdocumentLezen_Lv01                     SYSTEM "./Configuration_GeefZaakdocumentLezen_Lv01.xml">
-  <!ENTITY GenerateAuthorizationHeaderForCatalogiApi      SYSTEM "./Configuration_GenerateAuthorizationHeaderForCatalogiApi.xml">
-  <!ENTITY GenerateAuthorizationHeaderForDocumentenApi    SYSTEM "./Configuration_GenerateAuthorizationHeaderForDocumentenApi.xml">
-  <!ENTITY GenerateAuthorizationHeaderForZakenApi         SYSTEM "./Configuration_GenerateAuthorizationHeaderForZakenApi.xml">
-  <!ENTITY GenereerIdentificatieEmulator                  SYSTEM "./Configuration_GenereerIdentificatieEmulator.xml">
-  <!ENTITY GetBas64Inhoud                                 SYSTEM "./Configuration_GetBas64Inhoud.xml">
-  <!ENTITY GetResultaatTypeByZaakTypeAndOmschrijving      SYSTEM "./Configuration_GetResultaatTypeByZaakTypeAndOmschrijving.xml">
-  <!ENTITY GetResultatenByZaakUrl                         SYSTEM "./Configuration_GetResultatenByZaakUrl.xml">
-  <!ENTITY GetRolByZaakUrlAndRolTypeUrl                   SYSTEM "./Configuration_GetRolByZaakUrlAndRolTypeUrl.xml">
-  <!ENTITY GetRollenByBsn                                 SYSTEM "./Configuration_GetRollenByBsn.xml">
-  <!ENTITY GetRolTypenByUrl                               SYSTEM "./Configuration_GetRolTypenByUrl.xml">
-  <!ENTITY GetRsinByGemeenteCode                          SYSTEM "./Configuration_GetRsinByGemeenteCode.xml">
-  <!ENTITY GetSingleZaakobjectFromZgw                     SYSTEM "./Configuration_GetSingleZaakobjectFromZgw.xml">
-  <!ENTITY Zaken_GetZgwStatusByZaakUrl                    SYSTEM "./Configuration_Zaken_GetZgwStatusByZaakUrl.xml">
-  <!ENTITY GetStatusTypeByZaakTypeAndOmschrijving         SYSTEM "./Configuration_GetStatusTypeByZaakTypeAndOmschrijving.xml">
-  <!ENTITY GetStatusTypes                                 SYSTEM "./Configuration_GetStatusTypes.xml">
-  <!ENTITY GetZaakDetailsByRol                            SYSTEM "./Configuration_GetZaakDetailsByRol.xml">
-  <!ENTITY GetZaakDocumentByUrl                           SYSTEM "./Configuration_GetZaakDocumentByUrl.xml">
-  <!ENTITY GetZaakInformatieObjectenByZaak                SYSTEM "./Configuration_GetZaakInformatieObjectenByZaak.xml">
-  <!ENTITY GetZaakTypeByUrl                               SYSTEM "./Configuration_GetZaakTypeByUrl.xml">
-  <!ENTITY GetZgwEnkelvoudigInformatieObjectByIdentificatie       SYSTEM "./Configuration_GetZgwEnkelvoudigInformatieObjectByIdentificatie.xml">
-  <!ENTITY GetZgwInformatieObjectTypeByOmschrijving       SYSTEM "./Configuration_GetZgwInformatieObjectTypeByOmschrijving.xml">
-  <!ENTITY GetZgwInformatieObjectTypeByUrl                SYSTEM "./Configuration_GetZgwInformatieObjectTypeByUrl.xml">
-  <!ENTITY GetZgwInformatieObjectUnlock                   SYSTEM "./Configuration_GetZgwInformatieObjectUnlock.xml">
-  <!ENTITY GetZdsZaakFromZgw                              SYSTEM "./Configuration_GetZdsZaakFromZgw.xml">
-  <!ENTITY GetZgwRolesByZaakUrl                           SYSTEM "./Configuration_GetZgwRolesByZaakUrl.xml">
-  <!ENTITY Zaken_GetZgwRolTypeByUrl                       SYSTEM "./Configuration_Zaken_GetZgwRolTypeByUrl.xml">
-  <!ENTITY Zaken_GetZgwRolTypeByZaakType                  SYSTEM "./Configuration_Zaken_GetZgwRolTypeByZaakType.xml">
-  <!ENTITY GetZgwStatusTypeByUrl                          SYSTEM "./Configuration_GetZgwStatusTypeByUrl.xml">
-  <!ENTITY GetZgwZaak                                     SYSTEM "./Configuration_GetZgwZaak.xml">
-  <!ENTITY GetZgwZaakByUrl                                SYSTEM "./Configuration_GetZgwZaakByUrl.xml">
-  <!ENTITY GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl      SYSTEM "./Configuration_GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl.xml">
-  <!ENTITY GetZgwZaakobjectsByZaakUrl                     SYSTEM "./Configuration_GetZgwZaakobjectsByZaakUrl.xml">
-  <!ENTITY GetZgwZaakTypeByIdentificatie                  SYSTEM "./Configuration_GetZgwZaakTypeByIdentificatie.xml">
-  <!ENTITY GetZgwResultaatByUrl                           SYSTEM "./Configuration_Zaken_GetZgwResultaatByUrl.xml">
-  <!ENTITY GetZgwResultaatTypeByUrl                       SYSTEM "./Configuration_Zaken_GetZgwResultaatTypeByUrl.xml">
-  <!ENTITY HandleZgwZaakInformatieObjecten                SYSTEM "./Configuration_HandleZgwZaakInformatieObjecten.xml">
-  <!ENTITY ImportFromLocalFS                              SYSTEM "./Configuration_ImportFromLocalFS.xml"> 
-  <!ENTITY ApplyTranslationProfileValueOverrides     SYSTEM "./Configuration_ApplyTranslationProfileValueOverrides.xml">
-  <!ENTITY MapHeeftBetrekkingOpFromZgwZaakobject          SYSTEM "./Configuration_MapHeeftBetrekkingOpFromZgwZaakobject.xml">
-  <!ENTITY MapZdsDeelzakenFromZgwDeelzaken                SYSTEM "./Configuration_MapZdsDeelzakenFromZgwDeelzaken.xml">
-  <!ENTITY MapZdsHeeftFromZgwStatus                       SYSTEM "./Configuration_MapZdsHeeftFromZgwStatus.xml">
-  <!ENTITY MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken   SYSTEM "./Configuration_MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken.xml">
-  <!ENTITY MapZdsRolFromZgwRol                            SYSTEM "./Configuration_MapZdsRolFromZgwRol.xml">
-  <!ENTITY RelevanteAndereZaakAdd                         SYSTEM "./Configuration_RelevanteAndereZaakAdd.xml">
-  <!ENTITY RelevanteAndereZaakCheck                       SYSTEM "./Configuration_RelevanteAndereZaakCheck.xml">
-  <!ENTITY RelevanteAndereZaakDelete                      SYSTEM "./Configuration_RelevanteAndereZaakDelete.xml">
-  <!ENTITY PostResultaat                                  SYSTEM "./Configuration_PostResultaat.xml">
-  <!ENTITY Zaken_PostZgwRol                               SYSTEM "./Configuration_Zaken_PostZgwRol.xml">
-  <!ENTITY Zaken_PostZgwStatus                            SYSTEM "./Configuration_Zaken_PostZgwStatus.xml">
-  <!ENTITY Zaken_PostZgwDocumentnummer_reserveren         SYSTEM "./Configuration_Zaken_PostZgwDocumentnummer_reserveren.xml">
-  <!ENTITY PostZaak                                       SYSTEM "./Configuration_PostZaak.xml">
-  <!ENTITY PostZgwLock                                    SYSTEM "./Configuration_PostZgwLock.xml">
-  <!ENTITY PostZgwZaakobject                              SYSTEM "./Configuration_PostZgwZaakobject.xml">
-  <!ENTITY PutZgwZaakDocument                             SYSTEM "./Configuration_PutZgwZaakDocument.xml">
-  <!ENTITY ResolveProfileValues                           SYSTEM "./Configuration_ResolveProfileValues.xml">
-  <!ENTITY SetResultaatAndStatus                          SYSTEM "./Configuration_SetResultaatAndStatus.xml">
-  <!ENTITY SharedResources                                SYSTEM "./Configuration_SharedResources.xml">
-  <!ENTITY SoapEndpointRouter_BeantwoordVraag             SYSTEM "./Configuration_SoapEndpointRouter_BeantwoordVraag.xml">
-  <!ENTITY SoapEndpointRouter_BeantwoordVraag_v2          SYSTEM "./Configuration_SoapEndpointRouter_BeantwoordVraag_v2.xml">
-  <!ENTITY SoapEndpointRouter_OntvangAsynchroon           SYSTEM "./Configuration_SoapEndpointRouter_OntvangAsynchroon.xml">
-  <!ENTITY SoapEndpointRouter_OntvangAsynchroon_Mutatie_v2   SYSTEM "./Configuration_SoapEndpointRouter_OntvangAsynchroon_Mutatie_v2.xml">
-  <!ENTITY SoapEndpointRouter_OntvangAsynchroon_Overdragen_v2  SYSTEM "./Configuration_SoapEndpointRouter_OntvangAsynchroon_Overdragen_v2.xml">
-  <!ENTITY SoapEndpointRouter_VrijeBerichten              SYSTEM "./Configuration_SoapEndpointRouter_VrijeBerichten.xml">
-  <!ENTITY SoapEndpointRouter_VrijeBerichten_v2           SYSTEM "./Configuration_SoapEndpointRouter_VrijeBerichten_v2.xml">
-  <!ENTITY UpdateZaak_Lk01                                SYSTEM "./Configuration_UpdateZaak_LK01.xml">
-  <!ENTITY UpdateZaakDocument_Di02                        SYSTEM "./Configuration_UpdateZaakDocument_Di02.xml">
-  <!ENTITY UpdateZgwZaakobject                            SYSTEM "./Configuration_UpdateZgwZaakobject.xml">
-  <!ENTITY VoegZaakdocumentToe_Lk01                       SYSTEM "./Configuration_VoegZaakdocumentToe_Lk01.xml">
-  <!ENTITY Zaken_PostZgwZaakInformatieObject              SYSTEM "./Configuration_Zaken_PostZgwZaakInformatieObject.xml">
-  <!ENTITY Zaken_PostZgwZaaknummer_reserveren              SYSTEM "./Configuration_Zaken_PostZgwZaaknummer_reserveren.xml">
-  <!ENTITY Zaken_UpdateZgwZaak                            SYSTEM "./Configuration_Zaken_UpdateZgwZaak.xml">
-  <!ENTITY ZdsHeeft                                       SYSTEM "./Configuration_ZdsHeeft.xml">
-  ]>
-
-<configuration name="Translate">
-  &ActualiseerZaakStatus;
-  &AddHoofdzaak;
-  &AddRolToZgw;
-  &AddZaakobjectToZgw;
-  &AndereZaak;
-  &ApplyValueOverridesZgwToZds;
-  &CancelCheckOutZaakDocument_Di02;
-  &CheckHoofdzaak;
-  &CheckOutZaakDocument;
-  &CheckZgwRol;
-  &CheckZgwZaakobject;
-  &ConvertISO639Taal;
-  &CreeerZaak_Lk01;
-  &Deelzaak;
-  &DeleteHoofdzaak;
-  &DeleteRolFromZgw;
-  &DeleteZgwZaak;
-  &DeleteZaakobjectFromZgw;
-  &DetectRolChanges;
-  &DetectZaakobjectChanges;
-  &Documenten_PostZgwEnkelvoudigInformatieObject;
-  &GeefLijstZaakdocumenten_Lv01;
-  &GeefZaakdetails_Lv01;
-  &GeefZaakdocumentbewerken_Di02;
-  &GeefZaakdocumentLezen_Lv01;
-  &GenerateAuthorizationHeaderForCatalogiApi;
-  &GenerateAuthorizationHeaderForDocumentenApi;
-  &GenerateAuthorizationHeaderForZakenApi;
-  &GenereerIdentificatieEmulator;
-  &GetBas64Inhoud;
-  &GetResultaatTypeByZaakTypeAndOmschrijving;
-  &GetResultatenByZaakUrl;
-  &GetRolByZaakUrlAndRolTypeUrl;
-  &GetRollenByBsn;
-  &GetRolTypenByUrl;
-  &GetRsinByGemeenteCode;
-  &GetSingleZaakobjectFromZgw;
-  &Zaken_GetZgwStatusByZaakUrl;
-  &GetStatusTypeByZaakTypeAndOmschrijving;
-  &GetStatusTypes;
-  &GetZaakDetailsByRol;
-  &GetZaakDocumentByUrl;
-  &GetZaakInformatieObjectenByZaak;
-  &GetZaakTypeByUrl;
-  &GetZgwEnkelvoudigInformatieObjectByIdentificatie;
-  &GetZdsZaakFromZgw;
-  &GetZgwInformatieObjectTypeByOmschrijving;
-  &GetZgwInformatieObjectTypeByUrl;
-  &GetZgwInformatieObjectUnlock;
-  &GetZgwRolesByZaakUrl;
-  &Zaken_GetZgwRolTypeByUrl;
-  &Zaken_GetZgwRolTypeByZaakType;
-  &GetZgwStatusTypeByUrl;
-  &GetZgwZaak;
-  &GetZgwZaakByUrl;
-  &GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl;
-  &GetZgwZaakobjectsByZaakUrl;
-  &GetZgwZaakTypeByIdentificatie;
-  &GetZgwResultaatByUrl;
-  &GetZgwResultaatTypeByUrl;
-  &HandleZgwZaakInformatieObjecten;
-  &ImportFromLocalFS;
-  &ApplyTranslationProfileValueOverrides;
-  &MapHeeftBetrekkingOpFromZgwZaakobject;
-  &MapZdsDeelzakenFromZgwDeelzaken;
-  &MapZdsHeeftFromZgwStatus;
-  &MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken;
-  &MapZdsRolFromZgwRol;
-  &RelevanteAndereZaakAdd;
-  &RelevanteAndereZaakCheck;
-  &RelevanteAndereZaakDelete;
-  &PostResultaat;
-  &Zaken_PostZgwRol;
-  &Zaken_PostZgwStatus;
-  &Zaken_PostZgwDocumentnummer_reserveren;
-  &PostZaak;
-  &PostZgwLock;
-  &PostZgwZaakobject;
-  &PutZgwZaakDocument;
-  &ResolveProfileValues;
-  &SetResultaatAndStatus;
-  &SharedResources;
-  &SoapEndpointRouter_BeantwoordVraag;
-  &SoapEndpointRouter_BeantwoordVraag_v2;
-  &SoapEndpointRouter_OntvangAsynchroon;
-  &SoapEndpointRouter_OntvangAsynchroon_Mutatie_v2;
-  &SoapEndpointRouter_OntvangAsynchroon_Overdragen_v2;
-  &SoapEndpointRouter_VrijeBerichten;
-  &SoapEndpointRouter_VrijeBerichten_v2;
-  &UpdateZaak_Lk01;
-  &UpdateZaakDocument_Di02;
-  &UpdateZgwZaakobject;
-  &VoegZaakdocumentToe_Lk01;
-  &Zaken_PostZgwZaakInformatieObject;
-  &Zaken_PostZgwZaaknummer_reserveren;
-  &Zaken_UpdateZgwZaak;
-  &ZdsHeeft;
-</configuration>
+<Configuration name="Translate">
+  <Include ref="Configuration_ActualiseerZaakStatus.xml" />
+  <Include ref="Configuration_AddHoofdzaak.xml" />
+  <Include ref="Configuration_AddRolToZgw.xml" />
+  <Include ref="Configuration_AddZaakobjectToZgw.xml" />
+  <Include ref="Configuration_AndereZaak.xml" />
+  <Include ref="Configuration_ApplyValueOverridesZgwToZds.xml" />
+  <Include ref="Configuration_CancelCheckOutZaakDocument_Di02.xml" />
+  <Include ref="Configuration_CheckHoofdzaak.xml" />
+  <Include ref="Configuration_CheckOutZaakDocument.xml" />
+  <Include ref="Configuration_CheckZgwRol.xml" />
+  <Include ref="Configuration_CheckZgwZaakobject.xml" />
+  <Include ref="Configuration_ConvertISO639Taal.xml" />
+  <Include ref="Configuration_CreeerZaak_LK01.xml" />
+  <Include ref="Configuration_Deelzaak.xml" />
+  <Include ref="Configuration_DeleteHoofdzaak.xml" />
+  <Include ref="Configuration_DeleteRolFromZgw.xml" />
+  <Include ref="Configuration_Zaken_DeleteZgwZaak.xml" />
+  <Include ref="Configuration_DeleteZaakobjectFromZgw.xml" />
+  <Include ref="Configuration_DetectRolChanges.xml" />
+  <Include ref="Configuration_DetectZaakobjectChanges.xml" />
+  <Include ref="Configuration_Documenten_PostZgwEnkelvoudigInformatieObject.xml" />
+  <Include ref="Configuration_GeefLijstZaakdocumenten_Lv01.xml" />
+  <Include ref="Configuration_GeefZaakdetails_Lv01.xml" />
+  <Include ref="Configuration_GeefZaakdocumentbewerken_Di02.xml" />
+  <Include ref="Configuration_GeefZaakdocumentLezen_Lv01.xml" />
+  <Include ref="Configuration_GenerateAuthorizationHeaderForCatalogiApi.xml" />
+  <Include ref="Configuration_GenerateAuthorizationHeaderForDocumentenApi.xml" />
+  <Include ref="Configuration_GenerateAuthorizationHeaderForZakenApi.xml" />
+  <Include ref="Configuration_GenereerIdentificatieEmulator.xml" />
+  <Include ref="Configuration_GetBas64Inhoud.xml" />
+  <Include ref="Configuration_GetResultaatTypeByZaakTypeAndOmschrijving.xml" />
+  <Include ref="Configuration_GetResultatenByZaakUrl.xml" />
+  <Include ref="Configuration_GetRolByZaakUrlAndRolTypeUrl.xml" />
+  <Include ref="Configuration_GetRollenByBsn.xml" />
+  <Include ref="Configuration_GetRolTypenByUrl.xml" />
+  <Include ref="Configuration_GetRsinByGemeenteCode.xml" />
+  <Include ref="Configuration_GetSingleZaakobjectFromZgw.xml" />
+  <Include ref="Configuration_Zaken_GetZgwStatusByZaakUrl.xml" />
+  <Include ref="Configuration_GetStatusTypeByZaakTypeAndOmschrijving.xml" />
+  <Include ref="Configuration_GetStatusTypes.xml" />
+  <Include ref="Configuration_GetZaakDetailsByRol.xml" />
+  <Include ref="Configuration_GetZaakDocumentByUrl.xml" />
+  <Include ref="Configuration_GetZaakInformatieObjectenByZaak.xml" />
+  <Include ref="Configuration_GetZaakTypeByUrl.xml" />
+  <Include ref="Configuration_GetZgwEnkelvoudigInformatieObjectByIdentificatie.xml" />
+  <Include ref="Configuration_GetZdsZaakFromZgw.xml" />
+  <Include ref="Configuration_GetZgwInformatieObjectTypeByOmschrijving.xml" />
+  <Include ref="Configuration_GetZgwInformatieObjectTypeByUrl.xml" />
+  <Include ref="Configuration_GetZgwInformatieObjectUnlock.xml" />
+  <Include ref="Configuration_GetZgwRolesByZaakUrl.xml" />
+  <Include ref="Configuration_Zaken_GetZgwRolTypeByUrl.xml" />
+  <Include ref="Configuration_Zaken_GetZgwRolTypeByZaakType.xml" />
+  <Include ref="Configuration_GetZgwStatusTypeByUrl.xml" />
+  <Include ref="Configuration_GetZgwZaak.xml" />
+  <Include ref="Configuration_GetZgwZaakByUrl.xml" />
+  <Include ref="Configuration_GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl.xml" />
+  <Include ref="Configuration_GetZgwZaakobjectsByZaakUrl.xml" />
+  <Include ref="Configuration_GetZgwZaakTypeByIdentificatie.xml" />
+  <Include ref="Configuration_Zaken_GetZgwResultaatByUrl.xml" />
+  <Include ref="Configuration_Zaken_GetZgwResultaatTypeByUrl.xml" />
+  <Include ref="Configuration_HandleZgwZaakInformatieObjecten.xml" />
+  <Include ref="Configuration_ImportFromLocalFS.xml" />
+  <Include ref="Configuration_ApplyTranslationProfileValueOverrides.xml" />
+  <Include ref="Configuration_MapHeeftBetrekkingOpFromZgwZaakobject.xml" />
+  <Include ref="Configuration_MapZdsDeelzakenFromZgwDeelzaken.xml" />
+  <Include ref="Configuration_MapZdsHeeftFromZgwStatus.xml" />
+  <Include ref="Configuration_MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken.xml" />
+  <Include ref="Configuration_MapZdsRolFromZgwRol.xml" />
+  <Include ref="Configuration_RelevanteAndereZaakAdd.xml" />
+  <Include ref="Configuration_RelevanteAndereZaakCheck.xml" />
+  <Include ref="Configuration_RelevanteAndereZaakDelete.xml" />
+  <Include ref="Configuration_PostResultaat.xml" />
+  <Include ref="Configuration_Zaken_PostZgwRol.xml" />
+  <Include ref="Configuration_Zaken_PostZgwStatus.xml" />
+  <Include ref="Configuration_Zaken_PostZgwDocumentnummer_reserveren.xml" />
+  <Include ref="Configuration_PostZaak.xml" />
+  <Include ref="Configuration_PostZgwLock.xml" />
+  <Include ref="Configuration_PostZgwZaakobject.xml" />
+  <Include ref="Configuration_PutZgwZaakDocument.xml" />
+  <Include ref="Configuration_ResolveProfileValues.xml" />
+  <Include ref="Configuration_SetResultaatAndStatus.xml" />
+  <Include ref="Configuration_SharedResources.xml" />
+  <Include ref="Configuration_SoapEndpointRouter_BeantwoordVraag.xml" />
+  <Include ref="Configuration_SoapEndpointRouter_BeantwoordVraag_v2.xml" />
+  <Include ref="Configuration_SoapEndpointRouter_OntvangAsynchroon.xml" />
+  <Include ref="Configuration_SoapEndpointRouter_OntvangAsynchroon_Mutatie_v2.xml" />
+  <Include ref="Configuration_SoapEndpointRouter_OntvangAsynchroon_Overdragen_v2.xml" />
+  <Include ref="Configuration_SoapEndpointRouter_VrijeBerichten.xml" />
+  <Include ref="Configuration_SoapEndpointRouter_VrijeBerichten_v2.xml" />
+  <Include ref="Configuration_UpdateZaak_LK01.xml" />
+  <Include ref="Configuration_UpdateZaakDocument_Di02.xml" />
+  <Include ref="Configuration_UpdateZgwZaakobject.xml" />
+  <Include ref="Configuration_VoegZaakdocumentToe_Lk01.xml" />
+  <Include ref="Configuration_Zaken_PostZgwZaakInformatieObject.xml" />
+  <Include ref="Configuration_Zaken_PostZgwZaaknummer_reserveren.xml" />
+  <Include ref="Configuration_Zaken_UpdateZgwZaak.xml" />
+  <Include ref="Configuration_ZdsHeeft.xml" />
+</Configuration>
