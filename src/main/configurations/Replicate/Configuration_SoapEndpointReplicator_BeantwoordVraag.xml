@@ -13,8 +13,8 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <SenderPipe name="GetProfileProperties" unlessSessionKey="stopOnError" preserveInput="true">
-                <FrankSender name="GetProfilePropertiesSender" target="GenericRouting/GetProfileProperties" returnedSessionKeys="stopOnError">
+            <SenderPipe name="GetProfileProperties" unlessSessionKey="stopOnError">
+                <FrankSender name="GetProfilePropertiesSender" target="GenericRouting/GetProfileProperties">
                     <Param name="fromSoapAction" xpathExpression="tokenize($SOAPAction, '/')[last()]">
                         <Param name="SOAPAction" sessionKey="SOAPAction"/>
                     </Param>
@@ -22,8 +22,14 @@
                 </FrankSender>
             </SenderPipe>
 
+            <!--TODO: remove this when cache also returns sessionKeys-->
+            <PutInSessionPipe name="PutProfilePropertiesInSession" unlessSessionKey="stopOnError">
+                <Param name="stopOnError" xpathExpression="result/stopOnError"/>
+            </PutInSessionPipe>
+
             <SenderPipe
                     name="SendToTranslate"
+                    getInputFromSessionKey="originalMessage"
                     preserveInput="true"
                     storeResultInSessionKey="TranslateResponse">
                 <FrankSender
@@ -32,17 +38,25 @@
                         returnedSessionKeys="exitState">
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
                 </FrankSender>
-                <Forward name="success" path="SendToProxy" />
-                <Forward name="500" path="CheckIfShouldSendToProxyAnyways" />
-                <Forward name="exception" path="CheckIfShouldSendToProxyAnyways" />
+                <Forward name="success" path="StoreSuccess" />
+                <Forward name="500" path="StoreError" />
+                <Forward name="exception" path="StoreError" />
             </SenderPipe>
 
-            <IfPipe name="CheckIfShouldSendToProxyAnyways" getInputFromSessionKey="stopOnError" preserveInput="true" expressionValue="false">
+            <PutInSessionPipe name="StoreSuccess" sessionKey="exitState" value="SUCCESS">
+                <Forward name="success" path="SendToProxy"/>
+            </PutInSessionPipe>
+
+            <PutInSessionPipe name="StoreError" sessionKey="exitState" value="ERROR">
+                <Forward name="success" path="CheckIfShouldSendToProxyAnyways"/>
+            </PutInSessionPipe>
+
+            <IfPipe name="CheckIfShouldSendToProxyAnyways" getInputFromSessionKey="stopOnError" expressionValue="false">
                 <Forward name="then" path="SendToProxy"/>
                 <Forward name="else" path="EchoTranslateResponse"/>
             </IfPipe>
 
-            <SenderPipe name="SendToProxy">
+            <SenderPipe name="SendToProxy" getInputFromSessionKey="originalMessage">
                 <FrankSender name="SendToProxySender" target="${zaakbrug.frank.proxy.beantwoord-vraag.endpoint}" synchronous="false">
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
                 </FrankSender>
@@ -50,8 +64,8 @@
 
             <EchoPipe name="EchoTranslateResponse" getInputFromSessionKey="TranslateResponse"/>
 
-            <IfPipe name="IfTranslateSuccess" xpathExpression="$status = 'SUCCESS'"  preserveInput="true">
-                <Param name="status" sessionKey="exitState" type="STRING" />
+            <IfPipe name="IfTranslateSuccess" getInputFromFixedValue="&lt;dummy/>" xpathExpression="$exitState = 'SUCCESS'" preserveInput="true">
+                <Param name="exitState" sessionKey="exitState" type="STRING" />
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="EXCEPTION"/>
             </IfPipe>

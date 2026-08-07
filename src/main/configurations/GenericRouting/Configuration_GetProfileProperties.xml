@@ -43,5 +43,10 @@
                 storeResultInSessionKey="adapterName">
             <Param name="route" sessionKey="route"/>
         </ReplacerPipe>
+
+        <XsltPipe name="CreateResultXml" styleSheetName="xsl/CreateResultXml.xsl" getInputFromFixedValue="&lt;dummy/>">
+            <Param name="adapterName" sessionKey="adapterName"/>
+            <Param name="stopOnError" sessionKey="stopOnError"/>
+        </XsltPipe>
     </Pipeline>
 </Adapter>
