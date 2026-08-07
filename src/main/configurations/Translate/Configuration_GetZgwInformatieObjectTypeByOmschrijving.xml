@@ -3,12 +3,7 @@
         active="${GetZgwInformatieObjectTypeByOmschrijving.Active}"
         description="">
 
-        <Receiver name="GetZgwInformatieObjectTypeByOmschrijving">
-            <JavaListener name="GetZgwInformatieObjectTypeByOmschrijving" 
-                returnedSessionKeys="Error" />
-        </Receiver>
-
-        <Pipeline>   
+        <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
@@ -21,12 +16,12 @@
                 elementXPathExpression="/ZgwZaakType/informatieobjecttypen"
                 parallel="true"
                 maxChildThreads="20">
-                <IbisLocalSender
+                <FrankSender
                     name="GetZgwInformatieObjectTypeByUrlLocalSender"
-                    javaListener="GetZgwInformatieObjectTypeByUrl"
+                    target="GetZgwInformatieObjectTypeByUrl"
                     returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/informatieobjecttypen"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="UnwrapZgwInformatieObjectTypenToList"/>
                 <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>

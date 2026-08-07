@@ -3,10 +3,6 @@
         active="${RelevanteAndereZaakDelete.Active}"
         description="">
 
-        <Receiver name="RelevanteAndereZaakDelete">
-            <JavaListener name="RelevanteAndereZaakDelete" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -57,14 +53,14 @@
             <SenderPipe
                 name="DeleteRelevanteMainZaakFromAndereZaak"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="CallUpdateZgwZaakSender"
-                    javaListener="Zaken_UpdateZgwZaak"
+                    target="Zaken_UpdateZgwZaak"
                     returnedSessionKeys="Error"
                     >
                     <Param name="Url" sessionKey="ZgwAndereZaakResult" xpathExpression="/ZgwZaak/url" />
                     <Param name="EmptyRelevanteAndereZakenJson" sessionKey="EmptyRelevanteAndereZakenForAndereZaakJson" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CreatePatchZaakBodyToDeleteAndereZaakFromMainZaak" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -94,14 +90,14 @@
             <SenderPipe
                 name="DeleteRelevanteAndereZaakFromMainZaak"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="CallUpdateZgwZaakSender"
-                    javaListener="Zaken_UpdateZgwZaak"
+                    target="Zaken_UpdateZgwZaak"
                     returnedSessionKeys="Error"
                     >
                     <Param name="Url" sessionKey="ZgwMainZaakResult" xpathExpression="/ZgwZaak/url" />
                     <Param name="EmptyRelevanteAndereZakenJson" sessionKey="EmptyRelevanteAndereZakenForMainZaakJson" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

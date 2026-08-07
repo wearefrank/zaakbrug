@@ -2,11 +2,7 @@
     <Adapter name="MapZdsHeeftFromZgwStatus"
     active="${MapZdsHeeftFromZgwStatus.Active}"
     description="">
-    
-    <Receiver name="MapZdsHeeftFromZgwStatus">
-        <JavaListener name="MapZdsHeeftFromZgwStatus" returnedSessionKeys="Error" />
-    </Receiver>
-    
+
     <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -16,12 +12,12 @@
             <SenderPipe
                 name="GetZgwStatusTypeSender"
                 storeResultInSessionKey="ZgwStatusType">
-                <IbisLocalSender
+                <FrankSender
                     name="GetZgwStatusTypeLocalSender"
-                    javaListener="GetZgwStatusTypeByUrl"
+                    target="GetZgwStatusTypeByUrl"
                     returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/ZgwStatus/statustype"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CreateZdsHeeft"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

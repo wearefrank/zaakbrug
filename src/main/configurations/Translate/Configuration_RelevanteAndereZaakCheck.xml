@@ -3,10 +3,6 @@
         active="${RelevanteAndereZaakCheck.Active}"
         description="">
 
-        <Receiver name="RelevanteAndereZaakCheck">
-            <JavaListener name="RelevanteAndereZaakCheck" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -37,13 +33,13 @@
             <SenderPipe
                 name="CallRelevanteAndereZaakAdd" 
                 getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                <FrankSender
                     name="CallRelevanteAndereZaakAddSender"
-                    javaListener="RelevanteAndereZaakAdd"
+                    target="RelevanteAndereZaakAdd"
                     returnedSessionKeys="Error">
                     <Param name="ZgwMainZaakResult" sessionKey="ZgwMainZaakResult"/>
                     <Param name="ZgwAndereZaakResult" sessionKey="ZgwAndereZaakResult"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

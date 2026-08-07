@@ -1,0 +1,44 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <SharedResources>
+        <HttpSession
+            name="zaken-api-connector"
+            timeout="${zaakbrug.zgw.zaken-api.timeout}"
+            verifyHostname="${zaakbrug.zgw.zaken-api.verifyHostname}"
+            allowSelfSignedCertificates="${zaakbrug.zgw.zaken-api.allowSelfSignedCertificates}"
+            disableCookies="${zaakbrug.zgw.zaken-api.disableCookies}"
+            ignoreCertificateExpiredException="${zaakbrug.zgw.zaken-api.ignoreCertificateExpiredException}"
+            truststore="${zaakbrug.zgw.zaken-api.truststore.uri}"
+            truststoreAuthAlias="${zaakbrug.zgw.zaken-api.truststore.authAlias}"
+            truststoreType="${zaakbrug.zgw.zaken-api.truststore.type}" />
+        <HttpSession
+            name="catalogi-api-connector"
+            timeout="${zaakbrug.zgw.catalogi-api.timeout}"
+            verifyHostname="${zaakbrug.zgw.catalogi-api.verifyHostname}"
+            allowSelfSignedCertificates="${zaakbrug.zgw.catalogi-api.allowSelfSignedCertificates}"
+            disableCookies="${zaakbrug.zgw.catalogi-api.disableCookies}"
+            ignoreCertificateExpiredException="${zaakbrug.zgw.catalogi-api.ignoreCertificateExpiredException}"
+            truststore="${zaakbrug.zgw.catalogi-api.truststore.uri}"
+            truststoreAuthAlias="${zaakbrug.zgw.catalogi-api.truststore.authAlias}"
+            truststoreType="${zaakbrug.zgw.catalogi-api.truststore.type}" />
+        <HttpSession
+            name="documenten-api-connector"
+            timeout="${zaakbrug.zgw.documenten-api.timeout}"
+            verifyHostname="${zaakbrug.zgw.documenten-api.verifyHostname}"
+            allowSelfSignedCertificates="${zaakbrug.zgw.documenten-api.allowSelfSignedCertificates}"
+            disableCookies="${zaakbrug.zgw.documenten-api.disableCookies}"
+            ignoreCertificateExpiredException="${zaakbrug.zgw.documenten-api.ignoreCertificateExpiredException}"
+            truststore="${zaakbrug.zgw.documenten-api.truststore.uri}"
+            truststoreAuthAlias="${zaakbrug.zgw.documenten-api.truststore.authAlias}"
+            truststoreType="${zaakbrug.zgw.documenten-api.truststore.type}" />
+        <HttpSession
+            name="besluiten-api-connector"
+            timeout="${zaakbrug.zgw.besluiten-api.timeout}"
+            verifyHostname="${zaakbrug.zgw.besluiten-api.verifyHostname}"
+            allowSelfSignedCertificates="${zaakbrug.zgw.besluiten-api.allowSelfSignedCertificates}"
+            disableCookies="${zaakbrug.zgw.besluiten-api.disableCookies}"
+            ignoreCertificateExpiredException="${zaakbrug.zgw.besluiten-api.ignoreCertificateExpiredException}"
+            truststore="${zaakbrug.zgw.besluiten-api.truststore.uri}"
+            truststoreAuthAlias="${zaakbrug.zgw.besluiten-api.truststore.authAlias}"
+            truststoreType="${zaakbrug.zgw.catalogi-api.truststore.type}" />
+    </SharedResources>
+</Module>

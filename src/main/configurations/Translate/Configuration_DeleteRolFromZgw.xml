@@ -3,10 +3,6 @@
         active="${DeleteRolFromZgw.Active}"
         description="">
 
-        <Receiver name="DeleteRolFromZgw">
-            <JavaListener name="DeleteRolFromZgw" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS" />
@@ -15,12 +11,13 @@
             </Exits>
 
             <SenderPipe name="GetAuthorizationHeaderForZakenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="Authorization">
+                <FrankSender
                     name="GetAuthorizationHeaderForZakenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                    target="GenerateAuthorizationHeaderForZakenApi"
+                >
+                </FrankSender>
                 <Forward name="success" path="CallGetZgwRolType" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -29,12 +26,12 @@
                 name="CallGetZgwRolType"
                 getInputFromSessionKey="originalMessage"
                 storeResultInSessionKey="ZgwRolTypen">
-                <IbisLocalSender
+                <FrankSender
                     name="GetZgwRolTypeLocalSender"
-                    javaListener="Zaken_GetZgwRolTypeByZaakType"
+                    target="Zaken_GetZgwRolTypeByZaakType"
                     returnedSessionKeys="Error">
                     <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="GetZgwRolTypeWithMatchingOmschrijving"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -71,9 +68,9 @@
             <SenderPipe
                 name="CallGetRolByZaakUrlAndRolTypeUrl"
                 getInputFromSessionKey="originalMessage">
-                <IbisLocalSender
+                <FrankSender
                     name="GetRolByZaakUrlAndRolTypeUrlSender"
-                    javaListener="GetRolByZaakUrlAndRolTypeUrl"
+                    target="GetRolByZaakUrlAndRolTypeUrl"
                     returnedSessionKeys="Error">
                     <Param name="ZaakUrl" sessionKey="ZgwZaakUrl"/>
                     <Param name="RolTypeUrl" xpathExpression="$ZgwRolType/ZgwRolType/url">
@@ -87,7 +84,7 @@
                     <Param name="vestigingsNummer" xpathExpression="*/*:gerelateerde/*:vestiging/*:vestigingsNummer"/>
                     <Param name="OEHidentificatie" xpathExpression="*/*:gerelateerde/*:organisatorischeEenheid/*:identificatie"/>
                     <Param name="MDWidentificatie" xpathExpression="*/*:gerelateerde/*:medewerker/*:identificatie"/>
-                </IbisLocalSender>
+                </FrankSender>
             </SenderPipe>
 
             <IfPipe 
@@ -106,20 +103,12 @@
                 <Forward name="else" path="DeleteRol"/>
             </IfPipe>
 
-            <SenderPipe
-                name="DeleteRol">
+            <SenderPipe name="DeleteRol">
                 <HttpSender
-                    name="DeleteRolSender" 
+                    name="DeleteRolSender"
                     methodType="DELETE"
                     headersParams="Authorization,Accept-Crs"
-                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
-                    verifyHostname="${zaakbrug.zgw.zaken-api.verifyHostname}"
-                    allowSelfSignedCertificates="${zaakbrug.zgw.zaken-api.allowSelfSignedCertificates}"
-                    disableCookies="${zaakbrug.zgw.zaken-api.disableCookies}"
-                    ignoreCertificateExpiredException="${zaakbrug.zgw.zaken-api.ignoreCertificateExpiredException}"
-                    truststore="${zaakbrug.zgw.zaken-api.truststore.uri}"
-                    truststoreAuthAlias="${zaakbrug.zgw.zaken-api.truststore.authAlias}"
-                    truststoreType="${zaakbrug.zgw.zaken-api.truststore.type}">
+                    sharedResourceRef="zaken-api-connector">
                     <Param name="url" xpathExpression="Rollen/Rol/url"/>
                     <Param name="Accept-Crs" value="EPSG:4326"/>
                     <Param name="Authorization"  sessionKey="Authorization" />

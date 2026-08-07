@@ -3,10 +3,6 @@
              active="${UpdateZgwZaakobject.Active}"
              description="">
 
-        <Receiver name="UpdateZgwZaakobject">
-            <JavaListener name="UpdateZgwZaakobject" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -16,12 +12,12 @@
 
             <SenderPipe
                 name="GetAuthorizationHeaderForZakenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="Authorization">
+                <FrankSender
                     name="GetAuthorizationHeaderForZakenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                    target="GenerateAuthorizationHeaderForZakenApi">
+                </FrankSender>
                 <Forward name="success" path="CallGetSingleZaakobjectFromZgw" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -29,12 +25,12 @@
             <SenderPipe
                 name="CallGetSingleZaakobjectFromZgw"
                 getInputFromSessionKey="originalMessage">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetSingleZaakobjectFromZgwSender"
-                    javaListener="GetSingleZaakobjectFromZgw"
+                    target="GetSingleZaakobjectFromZgw"
                     returnedSessionKeys="Error">
                     <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="StoreZgwZaakobjectUrlForUpdate" />
                 <Forward name="404" path="NOTFOUND" />
                 <Forward name="exception" path="EXCEPTION" />

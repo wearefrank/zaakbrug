@@ -1,14 +1,10 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="SoapEndpointReplicator_VrijeBerichten"
+    <Adapter name="${zaakbrug.frank.replicate.vrije-berichten.adapterName}"
         active="${SoapEndpointReplicator_VrijeBerichten.Active}"
         description="This adapter will first send the message to the endpoint router, and (optionally only if the response is successful) it also sends the message the proxy">
 
         <Receiver name="SoapEndpointReplicator_VrijeBerichten">
             <WebServiceListener name="SoapEndpointReplicator_VrijeBerichten" address="${zaakbrug.soap.replicate.vrije-berichten.endpoint}" soap="false"/>
-        </Receiver>
-
-        <Receiver name="SoapEndpointReplicator_VrijeBerichten_Java">
-            <JavaListener name="${zaakbrug.java.replicate.vrije-berichten.endpoint}"/>
         </Receiver>
 
         <Pipeline>
@@ -17,41 +13,49 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <SenderPipe name="GetProfileProperties" unlessSessionKey="stopOnError" preserveInput="true">
-                <IbisLocalSender name="GetProfilePropertiesSender" javaListener="GetProfileProperties" returnedSessionKeys="stopOnError">
+            <SenderPipe name="GetProfileProperties" unlessSessionKey="stopOnError">
+                <FrankSender name="GetProfilePropertiesSender" target="GenericRouting/GetProfileProperties">
                     <Param name="fromSoapAction" xpathExpression="tokenize($SOAPAction, '/')[last()]">
                         <Param name="SOAPAction" sessionKey="SOAPAction"/>
                     </Param>
                     <Param name="zaaktype" xpathExpression="//object/isVan/gerelateerde/code"/>
-                </IbisLocalSender>
+                </FrankSender>
             </SenderPipe>
+
+            <!--TODO: remove this when cache also returns sessionKeys-->
+            <PutInSessionPipe name="PutProfilePropertiesInSession" unlessSessionKey="stopOnError">
+                <Param name="stopOnError" xpathExpression="result/stopOnError"/>
+            </PutInSessionPipe>
 
             <SenderPipe
                     name="SendToTranslate"
-                    preserveInput="true"
+                    getInputFromSessionKey="originalMessage"
                     storeResultInSessionKey="TranslateResponse">
-                <!--                <FrankSender-->
-                <!--                        name="SendToRouterSender"-->
-                <!--                        target="Translate/SoapEndpointRouter_VrijeBerichten"-->
-                <!--                        returnedSessionKeys="SOAPAction,exitState"/> -->
-                <IbisLocalSender
+                <FrankSender
                         name="SendToTranslateSender"
-                        javaListener="${zaakbrug.java.translate.vrije-berichten.endpoint}"
-                        returnedSessionKeys="exitState">
+                        target="${zaakbrug.frank.translate.vrije-berichten.endpoint}">
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
-                </IbisLocalSender>
-                <Forward name="success" path="CheckIfReplicateAllowed" />
-                <Forward name="500" path="CheckIfShouldSendToProxyAnyways" />
-                <Forward name="exception" path="CheckIfShouldSendToProxyAnyways" />
+                </FrankSender>
+                <Forward name="success" path="StoreSuccess" />
+                <Forward name="500" path="StoreError" />
+                <Forward name="exception" path="StoreError" />
             </SenderPipe>
 
-            <IfPipe name="CheckIfShouldSendToProxyAnyways" getInputFromSessionKey="stopOnError" preserveInput="true" expressionValue="false">
+            <PutInSessionPipe name="StoreSuccess" sessionKey="exitState" value="SUCCESS">
+                <Forward name="success" path="CheckIfReplicateAllowed"/>
+            </PutInSessionPipe>
+
+            <PutInSessionPipe name="StoreError" sessionKey="exitState" value="ERROR">
+                <Forward name="success" path="CheckIfShouldSendToProxyAnyways"/>
+            </PutInSessionPipe>
+
+            <IfPipe name="CheckIfShouldSendToProxyAnyways" getInputFromSessionKey="stopOnError" expressionValue="false">
                 <Forward name="then" path="SendToProxy"/>
                 <Forward name="else" path="EchoTranslateResponse"/>
             </IfPipe>
 
             <IfPipe name="CheckIfReplicateAllowed"
-                    preserveInput="true"
+                    getInputFromFixedValue="&lt;dummy/>"
                     xpathExpression="$stopOnError = 'true' and $fromSoapAction = ['genereerZaakIdentificatie_Di02', 'genereerDocumentIdentificatie_Di02']"
                     expressionValue="false">
                 <Param name="fromSoapAction" xpathExpression="tokenize($SOAPAction, '/')[last()]">
@@ -62,19 +66,16 @@
                 <Forward name="else" path="EchoTranslateResponse"/>
             </IfPipe>
 
-            <SenderPipe name="SendToProxy">
-                <!--                <FrankSender name="SendToProxySender" target="Proxy/SoapEndpointProxy_VrijeBerichten" synchronous="false">-->
-                <!--                    <Param name="SOAPAction" sessionKey="SOAPAction"/>-->
-                <!--                </FrankSender>-->
-                <IbisLocalSender name="SendToProxySender" javaListener="${zaakbrug.java.proxy.vrije-berichten.endpoint}" synchronous="false">
+            <SenderPipe name="SendToProxy" getInputFromSessionKey="originalMessage">
+                <FrankSender name="SendToProxySender" target="${zaakbrug.frank.proxy.vrije-berichten.endpoint}" synchronous="false">
                     <Param name="SOAPAction" sessionKey="SOAPAction"/>
-                </IbisLocalSender>
+                </FrankSender>
             </SenderPipe>
 
             <EchoPipe name="EchoTranslateResponse" getInputFromSessionKey="TranslateResponse"/>
 
-            <IfPipe name="IfTranslateSuccess" xpathExpression="$status = 'SUCCESS'"  preserveInput="true">
-                <Param name="status" sessionKey="exitState" type="STRING" />
+            <IfPipe name="IfTranslateSuccess" getInputFromFixedValue="&lt;dummy/>" xpathExpression="$exitState = 'SUCCESS'" preserveInput="true">
+                <Param name="exitState" sessionKey="exitState" type="STRING" />
                 <Forward name="then" path="EXIT"/>
                 <Forward name="else" path="EXCEPTION"/>
             </IfPipe>

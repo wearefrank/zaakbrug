@@ -3,15 +3,6 @@
         active="${GetBas64Inhoud.Active}"
         description="">
 
-        <Receiver
-            name="GetBas64Inhoud"
-            >
-            <JavaListener
-                name="GetBas64Inhoud"
-                returnedSessionKeys="ref_inhoud,Error"
-                />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -19,12 +10,13 @@
             </Exits>
 
             <SenderPipe name="GetAuthorizationHeaderForDocumentenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="Authorization">
+                <FrankSender
                     name="GetAuthorizationHeaderForDocumentenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForDocumentenApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                    target="GenerateAuthorizationHeaderForDocumentenApi"
+                >
+                </FrankSender>
                 <Forward name="success" path="CallGetBas64Inhoud" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -39,14 +31,7 @@
 					methodType="GET"
                     encodeMessages="true"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${zaakbrug.zgw.documenten-api.timeout}"
-                    verifyHostname="${zaakbrug.zgw.documenten-api.verifyHostname}"
-                    allowSelfSignedCertificates="${zaakbrug.zgw.documenten-api.allowSelfSignedCertificates}"
-                    disableCookies="${zaakbrug.zgw.documenten-api.disableCookies}"
-                    ignoreCertificateExpiredException="${zaakbrug.zgw.documenten-api.ignoreCertificateExpiredException}"
-                    truststore="${zaakbrug.zgw.documenten-api.truststore.uri}"
-                    truststoreAuthAlias="${zaakbrug.zgw.documenten-api.truststore.authAlias}"
-                    truststoreType="${zaakbrug.zgw.documenten-api.truststore.type}"
+                    sharedResourceRef="documenten-api-connector"
 				/>
                 <Param name="url" sessionKey="Url"/>
                 <Param name="Accept-Crs" value="EPSG:4326"/>

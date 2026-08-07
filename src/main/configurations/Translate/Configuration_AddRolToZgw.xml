@@ -2,11 +2,7 @@
     <Adapter name="AddRolToZgw"
     active="${AddRolToZgw.Active}"
     description="">
-    
-    <Receiver name="AddRolToZgw">
-        <JavaListener name="AddRolToZgw" returnedSessionKeys="Error"/>
-    </Receiver>
-    
+
     <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -57,12 +53,12 @@
             <SenderPipe
                 name="RolBodyApplyValueOverridesFromTranslationProfileSender"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="RolBodyApplyValueOverridesFromTranslationProfileLocalSender"
-                    javaListener="ApplyTranslationProfileValueOverrides"
+                    target="ApplyTranslationProfileValueOverrides"
                     returnedSessionKeys="Error"
                     >
-                </IbisLocalSender>
+                </FrankSender>
                 <Param name="zaaktype" sessionKey="ZaakType" />
                 <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.rollen.zgwRol" />
                 <Param name="CurrentContext" sessionKey="originalMessage" type="DOMDOC" />

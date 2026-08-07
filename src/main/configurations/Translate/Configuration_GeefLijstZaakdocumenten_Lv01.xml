@@ -3,10 +3,6 @@
         active="${GeefLijstZaakdocumenten_Lv01.Active}"
         description="">
 
-        <Receiver name="GeefLijstZaakdocumenten_Lv01">
-            <JavaListener name="GeefLijstZaakdocumenten_Lv01" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>  
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -16,12 +12,12 @@
 			<SenderPipe
                 name="CallGetZgwZaak"
                 storeResultInSessionKey="GetZaakResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwZaakSender"
-                    javaListener="GetZgwZaak"
+                    target="GetZgwZaak"
                     returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="ZaakIdentificatie"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="ZaakNotFound_Condition" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -37,12 +33,12 @@
             <SenderPipe
                 name="CallGetZaakInformatieObjectenByZaak"
                 storeResultInSessionKey="GetZaakInformatieObjectenResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZaakInformatieObjectenByZaakSender"
-                    javaListener="GetZaakInformatieObjectenByZaak"
+                    target="GetZaakInformatieObjectenByZaak"
                     returnedSessionKeys="Error">
                     <Param name="ZaakUrl" xpathExpression="ZgwZaken/ZgwZaak/url"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="ZgwZaakInformatieObjectenIterator"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -51,11 +47,11 @@
                 elementXPathExpression="/ZgwZaakInformatieObjecten/ZgwZaakInformatieObject"
                 parallel="true"
                 maxChildThreads="20">
-                <IbisLocalSender
+                <FrankSender
                     name="CallHandleZgwZaakInformatieObjecten"
-                    javaListener="HandleZgwZaakInformatieObjecten"
+                    target="HandleZgwZaakInformatieObjecten"
                     returnedSessionKeys="Error">
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>

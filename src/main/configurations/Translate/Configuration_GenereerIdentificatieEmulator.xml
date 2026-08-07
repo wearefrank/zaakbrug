@@ -4,10 +4,6 @@
         active="${GenereerIdentificatieEmulator.Active}"
         description="functioining as id generator for zaak or document identifiers">
 
-        <Receiver name="GenereerIdentificatieEmulator">
-            <JavaListener name="GenereerIdentificatieEmulator" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
 
             <Exits>
@@ -20,13 +16,13 @@
                 storeResultInSessionKey="GlobalConfig"
                 active="${reserveer_identificatie_openzaak_switch.Active}"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="CallImportFromLocalFS"
-                    javaListener="ImportFromLocalFS"
+                    target="ImportFromLocalFS"
                     returnedSessionKeys="Error"
                     >
-                    <Param name="FileName" value="${FilePath_1}" />                   
-                </IbisLocalSender>
+                    <Param name="FileName" value="${FilePath_1}" />
+                </FrankSender>
                 <Forward name="success" path="CallGetRsin"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -35,12 +31,12 @@
                 name="CallGetRsin"
                 storeResultInSessionKey="Rsin"
                 active="${reserveer_identificatie_openzaak_switch.Active}">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetRsinSender"
-                    javaListener="GetRsinByGemeenteCode"
+                    target="GetRsinByGemeenteCode"
                     returnedSessionKeys="Error">
                     <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="createRequestBody"/>
                 <Forward name="exception" path="EXCEPTION"/>
             </SenderPipe>
@@ -73,12 +69,12 @@
                 name="ZaakIdentificatie" 
                 active="${reserveer_identificatie_openzaak_switch.Active}"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="PostZgwZaaknummer_reserverenSender"
-                    javaListener="Zaken_PostZgwZaaknummer_reserveren"
-                    returnedSessionKeys="Error,Authorization"
+                    target="Zaken_PostZgwZaaknummer_reserveren"
+                    returnedSessionKeys="Error"
                     >
-                </IbisLocalSender>
+                </FrankSender>
                 <Param name="requestBody" sessionKey="requestBody"/>
                 <Forward name="success" path="extractId" />
                 <Forward name="exception" path="EXCEPTION" />
@@ -101,12 +97,12 @@
                 name="DocumentIdentificatie" 
                 active="${reserveer_identificatie_openzaak_switch.Active}"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="PostZgwDocumentnummer_reserverenSender"
-                    javaListener="Zaken_PostZgwDocumentnummer_reserveren"
-                    returnedSessionKeys="Error,Authorization"
+                    target="Zaken_PostZgwDocumentnummer_reserveren"
+                    returnedSessionKeys="Error"
                     >
-                </IbisLocalSender>
+                </FrankSender>
                 <Param name="requestBody" sessionKey="requestBody"/>
                 <Forward name="success" path="extractId" />
                 <Forward name="exception" path="EXCEPTION" />

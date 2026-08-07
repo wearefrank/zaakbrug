@@ -25,7 +25,7 @@ COPY --chown=2000:2000 lib/webapp/* /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/
 # FROM ff-base
 
 # TempFix TODO: Move this to the credentialprovider.properties
-ENV credentialFactory.class=nl.nn.credentialprovider.PropertyFileCredentialFactory
+ENV credentialFactory.class=org.frankframework.credentialprovider.PropertyFileCredentialFactory
 ENV credentialFactory.map.properties=/opt/frank/secrets/credentials.properties
 
 # Set sensable defaults
