@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Public FrankDoc XSD, should be used within an IDE to validate a configuration. -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="10.2.1-20260804.125921">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="10.3.0-20260807.042335">
   <xs:element name="Configuration">
     <xs:annotation>
       <xs:documentation>Container of Adapters that belong together.
@@ -1775,7 +1775,7 @@ The following properties will need to be set:
 &lt;li&gt;&lt;code&gt;etag.cache.server=ip or hostname:port&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;etag.cache.type=memcached&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
-In case authentication, is required the following application properties can be used:
+In case authentication is required the following application properties can be used:
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;etag.cache.username&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;etag.cache.password&lt;/code&gt;&lt;/li&gt;
@@ -7830,18 +7830,6 @@ The manager decides which handlers to be used for a specific record.</xs:documen
   </xs:group>
   <xs:group name="SenderElementGroupBase_2">
     <xs:choice>
-      <xs:element name="Afm2EdiFactSender">
-        <xs:annotation>
-          <xs:documentation>Domparser om AFM-XML berichten om te zetten in edifactberichten (voor de backoffice).</xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-          <xs:complexContent>
-            <xs:extension base="Afm2EdiFactSenderType">
-              <xs:attribute name="elementRole" type="xs:string" fixed="sender" use="prohibited" />
-            </xs:extension>
-          </xs:complexContent>
-        </xs:complexType>
-      </xs:element>
       <xs:element name="AmazonS3Sender">
         <xs:annotation>
           <xs:documentation>Sender to work with the Amazon S3 Filesystem.
@@ -9164,62 +9152,6 @@ The StoredProcedureQuerySender class has the following features:
           </xs:complexContent>
         </xs:complexType>
       </xs:element>
-      <xs:element name="XComSender">
-        <xs:annotation>
-          <xs:documentation>XCom client voor het versturen van files via XCom.</xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-          <xs:complexContent>
-            <xs:extension base="XComSenderType">
-              <xs:attribute name="elementRole" type="xs:string" fixed="sender" use="prohibited" />
-            </xs:extension>
-          </xs:complexContent>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="XfbSender">
-        <xs:annotation>
-          <xs:documentation>Sender for transferring files using the XFB protocol. Assumes sender input is local filename.
-&lt;br/&gt;
-Some comments from Richard Maddox (FTO) about UNIX File permissions:
-&lt;br/&gt;
-&lt;br/&gt;
-In case of AIX or SUN systems we advise the following user and directory permissions:
-&lt;br/&gt;
-&lt;br/&gt;
-SENDING CFT:
-&lt;br/&gt;
-- App_user must have secondary group: xfbgw
-&lt;br/&gt;
-- Folder should have ownership: app_user:xfbgw   (owner:group)
-&lt;br/&gt;
-- Folder should have access rights: 770  (rwx.rwx.---)  so nobody other then app_user and group xfbgw can do something in this folder
-&lt;br/&gt;
-- Folder should have SGID bit set so that all files what is copied to this folder get group ownership xfbgw
-&lt;br/&gt;
-- send file must have rights 660 after putting the file in the send directory.
-&lt;br/&gt;
-&lt;br/&gt;
-RECEIVING CFT:
-&lt;br/&gt;
-- App_user (the application user of customer) should have secondary group: xfbgw
-&lt;br/&gt;
-- Folder should have ownership:  app_user:xfbgw   (owner:group)
-&lt;br/&gt;
-- Folder should have access rights: 770  (rwx.rwx.---)  so nobody other then app_user and group xfbgw can do something in this folder
-&lt;br/&gt;
-- Folder should have SGID bit set, so that all files what is copied to this folder get group ownership xfbgw
-&lt;br/&gt;
-&lt;br/&gt;
-There are of course more solutions to get the job done, but this is the solution we can guarantee.</xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-          <xs:complexContent>
-            <xs:extension base="XfbSenderType">
-              <xs:attribute name="elementRole" type="xs:string" fixed="sender" use="prohibited" />
-            </xs:extension>
-          </xs:complexContent>
-        </xs:complexType>
-      </xs:element>
       <xs:element name="XmlJmsBrowserSender">
         <xs:annotation>
           <xs:documentation>Sender for browsing and removing queue messages (with input and output in a XML message).
@@ -9346,28 +9278,6 @@ is used for either filename or contents.</xs:documentation>
       </xs:element>
     </xs:choice>
   </xs:group>
-  <xs:complexType name="Afm2EdiFactSenderType">
-    <xs:group ref="Afm2EdiFactSenderDeclaredChildGroup" />
-    <xs:attributeGroup ref="Afm2EdiFactSenderDeclaredAttributeGroup" />
-    <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.afm.Afm2EdiFactSender" use="prohibited" />
-  </xs:complexType>
-  <xs:group name="Afm2EdiFactSenderDeclaredChildGroup">
-    <xs:sequence>
-      <xs:element name="ConfigWarning" minOccurs="0" maxOccurs="unbounded" type="WarningType" />
-    </xs:sequence>
-  </xs:group>
-  <xs:attributeGroup name="Afm2EdiFactSenderDeclaredAttributeGroup">
-    <xs:attribute name="name" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>The functional name of the object.</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="destination" type="xs:string" />
-    <xs:attribute name="postbus" type="xs:string" />
-    <xs:attribute name="tpnummer" type="xs:string" />
-    <xs:attribute ref="active" />
-    <xs:anyAttribute namespace="##other" processContents="skip" />
-  </xs:attributeGroup>
   <xs:complexType name="AmazonS3SenderType">
     <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
     <xs:attributeGroup ref="AmazonS3SenderCumulativeAttributeGroup" />
@@ -12718,142 +12628,6 @@ Using any other value will be rejected.
     <xs:attribute ref="active" />
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:attributeGroup>
-  <xs:complexType name="XComSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
-    <xs:attributeGroup ref="XComSenderCumulativeAttributeGroup" />
-    <xs:attribute name="className" type="xs:string" fixed="org.frankframework.xcom.XComSender" use="prohibited" />
-  </xs:complexType>
-  <xs:attributeGroup name="XComSenderDeclaredAttributeGroup">
-    <xs:attribute name="fileOption">
-      <xs:annotation>
-        <xs:documentation>one of create, append or replace</xs:documentation>
-      </xs:annotation>
-      <xs:simpleType>
-        <xs:union memberTypes="FileOptionTypeAttributeValuesType variableRef" />
-      </xs:simpleType>
-    </xs:attribute>
-    <xs:attribute name="remoteDirectory" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>remote directory is prefixed witht the remote file</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="carriageflag">
-      <xs:simpleType>
-        <xs:union memberTypes="CarriageFlagTypeAttributeValuesType variableRef" />
-      </xs:simpleType>
-    </xs:attribute>
-    <xs:attribute name="codeflag">
-      <xs:annotation>
-        <xs:documentation>characterset conversion</xs:documentation>
-      </xs:annotation>
-      <xs:simpleType>
-        <xs:union memberTypes="CodeTypeAttributeValuesType variableRef" />
-      </xs:simpleType>
-    </xs:attribute>
-    <xs:attribute name="compress">
-      <xs:simpleType>
-        <xs:union memberTypes="CompressTypeAttributeValuesType variableRef" />
-      </xs:simpleType>
-    </xs:attribute>
-    <xs:attribute name="logfile" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>name of logfile for xcomtcp to be used</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="password" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>password of user on remote system</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="port" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>port of remote host</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="queue" type="frankBoolean">
-      <xs:annotation>
-        <xs:documentation>set queue off or on</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="remoteSystem" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>hostname or tcpip adres of remote host</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="tracelevel" type="frankInt">
-      <xs:annotation>
-        <xs:documentation>set between 0 (no trace) and 10</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="truncation" type="frankBoolean">
-      <xs:annotation>
-        <xs:documentation>set truncation off or on</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="userid" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>loginname of user on remote system</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="remoteFilePattern" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>remote file to create. if empty, the name is equal to the local file</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="workingDirName" type="xs:string" use="required">
-      <xs:annotation>
-        <xs:documentation>directory in which to run the xcomtcp command</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="xcomtcp" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>path to xcomtcp command</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="configFile" type="xs:string" />
-    <xs:attribute name="authAlias" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>name of the alias to obtain credentials to authenticatie on remote server</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-  </xs:attributeGroup>
-  <xs:attributeGroup name="XComSenderCumulativeAttributeGroup">
-    <xs:attributeGroup ref="XComSenderDeclaredAttributeGroup" />
-    <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
-  </xs:attributeGroup>
-  <xs:complexType name="XfbSenderType">
-    <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
-    <xs:attributeGroup ref="XfbSenderCumulativeAttributeGroup" />
-    <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.xfb.XfbSender" use="prohibited" />
-  </xs:complexType>
-  <xs:attributeGroup name="XfbSenderDeclaredAttributeGroup">
-    <xs:attribute name="script" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>Full pathname to the XFB script to be executed to transfer the file</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="ft" type="xs:string" />
-    <xs:attribute name="flow" type="xs:string" />
-    <xs:attribute name="appli" type="xs:string" />
-    <xs:attribute name="noname" type="xs:string" />
-    <xs:attribute name="copy" type="frankBoolean">
-      <xs:annotation>
-        <xs:documentation>When set to &lt;code&gt;true&lt;/code&gt;, the file is copied before calling the XFB script.
-Reasons to copy the file:
-- XFB will rename the file (prefix it with FXB_) and delete it.
-- On Linux the sticky bit (drwxrws--- wasadmin xfbgw) isn't honoured with a move (only with a copy) (on AIX the sticky bit works for both move and copy).</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="copyPrefix" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>Prefix for the name of the copied or original filename. When the name of the original file starts with this prefix, it is removed. Otherwise this prefix is added to the filename of the copied file.</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-  </xs:attributeGroup>
-  <xs:attributeGroup name="XfbSenderCumulativeAttributeGroup">
-    <xs:attributeGroup ref="XfbSenderDeclaredAttributeGroup" />
-    <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
-  </xs:attributeGroup>
   <xs:complexType name="XmlJmsBrowserSenderType">
     <xs:group ref="AbstractSenderWithParametersCumulativeChildGroup" />
     <xs:attributeGroup ref="AbstractSenderDeclaredAttributeGroup" />
@@ -15169,18 +14943,6 @@ the action-attribute set apropriately.</xs:documentation>
         <xs:complexType>
           <xs:complexContent>
             <xs:extension base="SapLUWManagerPipeType">
-              <xs:attribute name="elementRole" type="xs:string" fixed="pipe" use="prohibited" />
-            </xs:extension>
-          </xs:complexContent>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="ScanTibcoSolutionPipe">
-        <xs:annotation>
-          <xs:documentation>Pipe which scans TIBCO sources in Subversion and creates a report in xml.</xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-          <xs:complexContent>
-            <xs:extension base="ScanTibcoSolutionPipeType">
               <xs:attribute name="elementRole" type="xs:string" fixed="pipe" use="prohibited" />
             </xs:extension>
           </xs:complexContent>
@@ -18268,19 +18030,6 @@ Stored in &lt;code&gt;java.security.krb5.realm&lt;/code&gt;</xs:documentation>
   </xs:attributeGroup>
   <xs:attributeGroup name="SapLUWManagerPipeCumulativeAttributeGroup">
     <xs:attributeGroup ref="SapLUWManagerPipeDeclaredAttributeGroup" />
-    <xs:attributeGroup ref="AbstractPipeCumulativeAttributeGroup" />
-  </xs:attributeGroup>
-  <xs:complexType name="ScanTibcoSolutionPipeType">
-    <xs:group ref="AbstractPipeDeclaredChildGroup" />
-    <xs:attributeGroup ref="ScanTibcoSolutionPipeCumulativeAttributeGroup" />
-    <xs:attribute name="className" type="xs:string" fixed="org.frankframework.extensions.svn.ScanTibcoSolutionPipe" use="prohibited" />
-  </xs:complexType>
-  <xs:attributeGroup name="ScanTibcoSolutionPipeDeclaredAttributeGroup">
-    <xs:attribute name="url" type="xs:string" />
-    <xs:attribute name="level" type="frankInt" />
-  </xs:attributeGroup>
-  <xs:attributeGroup name="ScanTibcoSolutionPipeCumulativeAttributeGroup">
-    <xs:attributeGroup ref="ScanTibcoSolutionPipeDeclaredAttributeGroup" />
     <xs:attributeGroup ref="AbstractPipeCumulativeAttributeGroup" />
   </xs:attributeGroup>
   <xs:complexType name="SendTibcoMessageType">
@@ -21722,40 +21471,6 @@ The &lt;pre&gt;accessToken&lt;/pre&gt; is then used in the Authorization header 
       <xs:enumeration value="RENAME" />
       <xs:enumeration value="MTIME" />
       <xs:enumeration value="DOWNLOAD" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="FileOptionTypeAttributeValuesType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="CREATE" />
-      <xs:enumeration value="APPEND" />
-      <xs:enumeration value="REPLACE" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="CarriageFlagTypeAttributeValuesType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="YES" />
-      <xs:enumeration value="VLR" />
-      <xs:enumeration value="VLR2" />
-      <xs:enumeration value="MPACK" />
-      <xs:enumeration value="XPACK" />
-      <xs:enumeration value="NO" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="CodeTypeAttributeValuesType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="EBCDIC" />
-      <xs:enumeration value="ASCII" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="CompressTypeAttributeValuesType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="YES" />
-      <xs:enumeration value="COMPACT" />
-      <xs:enumeration value="LZLARGE" />
-      <xs:enumeration value="LZMEDIUM" />
-      <xs:enumeration value="LZSMALL" />
-      <xs:enumeration value="RLE" />
-      <xs:enumeration value="NO" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="DirectionAttributeValuesType_4">
