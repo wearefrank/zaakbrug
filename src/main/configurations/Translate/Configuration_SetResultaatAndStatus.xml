@@ -168,12 +168,15 @@
                 <Forward name="exception" path="ParseNegativeHttpResult_1" />
 			</ForEachChildElementPipe>
 
+            <!-- Error response -->
             <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult_1" getInputFromFixedValue="{}" storeResultInSessionKey="Error">
                 <Param name="url" sessionKey="GetResultatenByZaakUrlResult" xpathExpression="results/url"/>
-                <Param name="senderPipeName" value="ZgwResultatenIterator" />
-                <Param name="CDATA" value="&lt;dummy/&gt;" xpathExpression="$response" >
+                <Param name="responsePlainText" value="&lt;dummy/&gt;" xpathExpression="$response">
                     <Param name="response" sessionKey="response" />
                 </Param>
+                <Param name="senderPipeName" sessionKey="response" contextKey="Pipeline.PreviousPipe" />
+                <Param name="httpStatus" sessionKey="response" contextKey="Http.StatusCode" defaultValue="0" />
+                <Param name="httpReasonPhrase" sessionKey="response" contextKey="Http.ReasonPhrase" />
                 <Forward name="success" path="ErrorJsonToXml_1" />
             </DataSonnetPipe>
             
