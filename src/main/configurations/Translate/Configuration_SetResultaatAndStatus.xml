@@ -177,12 +177,8 @@
                 <Param name="senderPipeName" sessionKey="response" contextKey="Pipeline.PreviousPipe" />
                 <Param name="httpStatus" sessionKey="response" contextKey="Http.StatusCode" defaultValue="0" />
                 <Param name="httpReasonPhrase" sessionKey="response" contextKey="Http.ReasonPhrase" />
-                <Forward name="success" path="ErrorJsonToXml_1" />
+                <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>
-            
-            <JsonPipe name="ErrorJsonToXml_1" rootElementName="error" storeResultInSessionKey="Error" >
-                <Forward name="success" path="EXCEPTION" />
-            </JsonPipe>
             
             <JsonPipe name="ErrorJsonToXml" rootElementName="error" storeResultInSessionKey="Error" >
                 <Forward name="success" path="EXCEPTION" />

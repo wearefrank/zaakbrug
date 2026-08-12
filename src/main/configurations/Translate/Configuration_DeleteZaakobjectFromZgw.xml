@@ -65,9 +65,26 @@
                     <Param name="Accept-Crs" value="EPSG:4326"/>
                     <Param name="Authorization"  sessionKey="Authorization" />
                 </HttpSender>
-                <Forward name="success" path="EXIT"/>
+                <Forward name="success" path="ResponseTypeSwitch"/>
                 <Forward name="exception" path="ParseNegativeHttpResult" />
             </SenderPipe>
+            
+            <SwitchPipe
+                name="ResponseTypeSwitch"
+                forwardNameSessionKey="responseType">
+                <Forward name="application/json" path="EXIT" />
+                <Forward name="application/xml" path="JsonResponseToXml" />
+                <Forward name="notFound" path="EXIT" />
+                <Forward name="empty" path="EXIT" />
+            </SwitchPipe>
+            
+            <!-- JSON response -->
+
+            <!-- XML response -->
+            <JsonPipe
+                name="JsonResponseToXml">
+                <Forward name="success" path="EXIT" />
+            </JsonPipe>
 
             <!-- Error response -->
             <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" getInputFromFixedValue="{}" storeResultInSessionKey="Error">

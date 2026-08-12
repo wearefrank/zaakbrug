@@ -56,6 +56,7 @@
                 <Forward name="application/json" path="UnwrapOpenZaakApiEnvelope_Json" />
                 <Forward name="application/xml" path="JsonResponseToXml" />
                 <Forward name="notFound" path="JsonResponseToXml" />
+                <Forward name="empty" path="JsonResponseToXml" />
             </SwitchPipe>
             
             <!-- JSON response -->
