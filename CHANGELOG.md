@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.18](https://github.com/wearefrank/zaakbrug/compare/v1.26.17...v1.26.18) (2026-08-14)
+
+### 🔁 Continuous Integration
+
+* refactor semantic-release dependency management to fix empty changelogs and future proofing ([c0641ea](https://github.com/wearefrank/zaakbrug/commit/c0641ea7f9e924cc01d31074eb38847f8083f9f6))
+
 ## [1.26.17](https://github.com/wearefrank/zaakbrug/compare/v1.26.16...v1.26.17) (2026-08-06)
 
 ## [1.26.16](https://github.com/wearefrank/zaakbrug/compare/v1.26.15...v1.26.16) (2026-07-28)
