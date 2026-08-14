@@ -32,7 +32,7 @@
 
 ### 🐛 Bug Fixes
 
-* add empty routingProfiles file to make stuff work by default ([4ac91a8](https://github.com/wearefrank/zaakbrug/commit/4ac91a8f20f077255bccdea0e9a8385d8cc54f3f))
+* add empty routingProfiles file to make stuff work by default ([#683](https://github.com/wearefrank/zaakbrug/issues/683)) ([4ac91a8](https://github.com/wearefrank/zaakbrug/commit/4ac91a8f20f077255bccdea0e9a8385d8cc54f3f))
 
 ## [1.26.14](https://github.com/wearefrank/zaakbrug/compare/v1.26.13...v1.26.14) (2026-06-25)
 
