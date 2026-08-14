@@ -8,9 +8,31 @@
 
 ## [1.26.17](https://github.com/wearefrank/zaakbrug/compare/v1.26.16...v1.26.17) (2026-08-06)
 
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 10.2.1-20260804.125921 ([8e34b49](https://github.com/wearefrank/zaakbrug/commit/8e34b491c6574fb64ec9def75617d0b690ffa3d0))
+
 ## [1.26.16](https://github.com/wearefrank/zaakbrug/compare/v1.26.15...v1.26.16) (2026-07-28)
 
+### 🐛 Bug Fixes
+
+* missing catch for exceptions thrown in some document related soap actions leading to missing StUF Fo03 content in the soap error response ([649f37d](https://github.com/wearefrank/zaakbrug/commit/649f37d8862f6265b5ca95c8fca6fa1507125fc9))
+* use cache key params to fix JWT-token caching ([769a418](https://github.com/wearefrank/zaakbrug/commit/769a4185a7d30270424c54ebba5b0fb85541f3a2))
+
+### ✅ Tests
+
+* **e2e:** run testsuites in parallel ([fe8189d](https://github.com/wearefrank/zaakbrug/commit/fe8189d58c2a7af498985a5d802a754502d903b5))
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 10.2.0 ([0e72c7e](https://github.com/wearefrank/zaakbrug/commit/0e72c7e4a064339a64d3018fc1cd0c7b4f9b6eeb))
+* **dependencies:** bump f!f version to 10.2.1-20260728.085909 ([9ade31d](https://github.com/wearefrank/zaakbrug/commit/9ade31d883279ea355e0bafb1d6750fe06101865))
+
 ## [1.26.15](https://github.com/wearefrank/zaakbrug/compare/v1.26.14...v1.26.15) (2026-07-13)
+
+### 🐛 Bug Fixes
+
+* add empty routingProfiles file to make stuff work by default ([4ac91a8](https://github.com/wearefrank/zaakbrug/commit/4ac91a8f20f077255bccdea0e9a8385d8cc54f3f))
 
 ## [1.26.14](https://github.com/wearefrank/zaakbrug/compare/v1.26.13...v1.26.14) (2026-06-25)
 
