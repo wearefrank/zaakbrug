@@ -27,14 +27,14 @@ jobs:
       - name: "Setup Node"
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e #6.4.0
         with:
-          node-version: 24
+          node-version: lts/*
 
       - name: Install dependencies
-        run: yarn global add semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/exec @semantic-release/release-notes-generator @semantic-release/commit-analyzer conventional-changelog-conventionalcommits
+        run: npm install --prefix .github/semantic-release
       
       - name: Get next version
         id: next-version
-        run: semantic-release --dryRun
+        run: npx --prefix .github/semantic-release semantic-release --dryRun
         env:
           GITHUB_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
@@ -154,13 +154,13 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e #6.4.0
         with:
-          node-version: 24
+          node-version: lts/*
       
       - name: Install dependencies
-        run: yarn global add semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/exec @semantic-release/release-notes-generator @semantic-release/commit-analyzer conventional-changelog-conventionalcommits
+        run: npm install --prefix .github/semantic-release
       
       - name: Semantic Release
-        run: semantic-release
+        run: npx --prefix .github/semantic-release semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
           GH_TOKEN: ${{ secrets.WEAREFRANK_BOT_PAT }}
