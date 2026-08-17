@@ -71,11 +71,11 @@
             <DataSonnetPipe styleSheetName="Common/jsonnet/ParseNegativeHttpResult.jsonnet" name="ParseNegativeHttpResult" getInputFromFixedValue="{}" storeResultInSessionKey="Error">
                 <Param name="url" value="${zaakbrug.zgw.documenten-api.root-url}documentnummer_reserveren"/>
                 <Param name="responsePlainText" value="&lt;dummy/&gt;" xpathExpression="$response">
-                    <Param name="response" sessionKey="response" />
+                    <Param name="response" sessionKey="PostZgwDocumentnummer_reserverenResult" />
                 </Param>
-                <Param name="senderPipeName" sessionKey="response" contextKey="Pipeline.PreviousPipe" />
-                <Param name="httpStatus" sessionKey="response" contextKey="Http.StatusCode" defaultValue="0" />
-                <Param name="httpReasonPhrase" sessionKey="response" contextKey="Http.ReasonPhrase" />
+                <Param name="senderPipeName" sessionKey="PostZgwDocumentnummer_reserverenResult" contextKey="Pipeline.PreviousPipe" />
+                <Param name="httpStatus" sessionKey="PostZgwDocumentnummer_reserverenResult" contextKey="Http.StatusCode" defaultValue="0" />
+                <Param name="httpReasonPhrase" sessionKey="PostZgwDocumentnummer_reserverenResult" contextKey="Http.ReasonPhrase" />
                 <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>
             

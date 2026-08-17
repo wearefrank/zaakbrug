@@ -108,7 +108,7 @@
                     <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC" />
                 </IbisLocalSender>
                 <Forward name="success" path="EnrichZdsZaakWithZaakobject" />
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
 
             <XsltPipe
@@ -165,7 +165,7 @@
                     <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC" />
                 </IbisLocalSender>
                 <Forward name="success" path="EnrichZdsZaakWithRol" />
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
 
             <XsltPipe name="EnrichZdsZaakWithRol"
@@ -258,7 +258,7 @@
                     returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Forward name="success" path="EnrichZdsZaakWithZgwDeelzaken"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
 
             <XsltPipe name="EnrichZdsZaakWithZgwDeelzaken"
@@ -290,7 +290,7 @@
                     returnedSessionKeys="Error">
                 </IbisLocalSender>
                 <Forward name="success" path="EnrichZdsRelevanteAndereZaken"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
 
             <XsltPipe name="EnrichZdsRelevanteAndereZaken"
@@ -327,7 +327,7 @@
                 </IbisLocalSender>
                 <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
                 <Forward name="success" path="EnrichZdsZaakWithZdsHeeft"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
 
             <XsltPipe name="EnrichZdsZaakWithZdsHeeft"
@@ -338,6 +338,20 @@
                 <Param name="With" sessionKey="ZdsHeeft" type="DOMDOC"/>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION"/>
+            </XsltPipe>
+            
+            <XsltPipe 
+                name="UncaughtException"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Uncaught exception" /> 
+                <!-- <Param name="details" sessionKey="" /> -->
+                <Param name="detailsXml" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>
         </Pipeline>
     </Adapter>

@@ -61,9 +61,9 @@
                 <Param name="responsePlainText" value="&lt;dummy/&gt;" xpathExpression="$response">
                     <Param name="response" value="" />
                 </Param>
-                <Param name="senderPipeName" sessionKey="response" contextKey="Pipeline.PreviousPipe" />
-                <Param name="httpStatus" sessionKey="response" contextKey="Http.StatusCode" defaultValue="0" />
-                <Param name="httpReasonPhrase" sessionKey="response" contextKey="Http.ReasonPhrase" />
+                <Param name="senderPipeName" sessionKey="ref_inhoud" contextKey="Pipeline.PreviousPipe" />
+                <Param name="httpStatus" sessionKey="ref_inhoud" contextKey="Http.StatusCode" defaultValue="0" />
+                <Param name="httpReasonPhrase" sessionKey="ref_inhoud" contextKey="Http.ReasonPhrase" />
                 <Forward name="success" path="ErrorJsonToXml" />
             </DataSonnetPipe>
             
