@@ -11,6 +11,11 @@
             <JavaListener name="${zaakbrug.java.proxy.vrije-berichten.endpoint}"/>
         </Receiver>
 
+        <Receiver name="SoapEndpointProxy_VrijeBerichten_Java_withErrorStore">
+            <JavaListener name="${zaakbrug.java.proxy.vrije-berichten.endpoint}_withErrorStore"/>
+            <JdbcErrorStorage name="SoapEndpointProxy_VrijeBerichten_ErrorStore" slotId="${instance.name}/SoapEndpointProxy_VrijeBerichten_ErrorStore" tableName="IBISSTORE"/>
+        </Receiver>
+
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
