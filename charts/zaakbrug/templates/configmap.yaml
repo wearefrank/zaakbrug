@@ -31,8 +31,8 @@ data:
   {{- end }}
   {{- end }}
   {{- if .Values.frank.credentials.secret }}
-{{/*  credentialFactory.class: nl.nn.credentialprovider.FileSystemCredentialFactory*/}}
-  credentialFactory.class: nl.nn.credentialprovider.PropertyFileCredentialFactory
+{{/*  credentialFactory.class: org.frankframework.credentialprovider.FileSystemCredentialFactory*/}}
+  credentialFactory.class: org.frankframework.credentialprovider.PropertyFileCredentialFactory
   credentialFactory.map.properties: /opt/frank/secrets/{{.Values.frank.credentials.key}}
   {{- end }}
   {{- if .Values.frank.properties }}

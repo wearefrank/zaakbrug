@@ -2,11 +2,7 @@
     <Adapter name="AddZaakobjectToZgw"
     active="${AddZaakobjectToZgw.Active}"
     description="">
-    
-    <Receiver name="AddZaakobjectToZgw">
-        <JavaListener name="AddZaakobjectToZgw" returnedSessionKeys="Error"/>
-    </Receiver>
-    
+
     <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -52,11 +48,11 @@
 
             <SenderPipe
                 name="ZaakobjectBodyApplyValueOverridesFromTranslationProfileSender">
-                <IbisLocalSender
+                <FrankSender
                     name="ZaakobjectBodyApplyValueOverridesFromTranslationProfileLocalSender"
-                    javaListener="ApplyTranslationProfileValueOverrides"
+                    target="ApplyTranslationProfileValueOverrides"
                     returnedSessionKeys="Error">
-                </IbisLocalSender>
+                </FrankSender>
                 <Param name="zaaktype" sessionKey="ZaakType" />
                 <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaakobjecten.ZgwZaakobject" />
                 <Param name="CurrentContext" sessionKey="originalMessage" type="DOMDOC" />

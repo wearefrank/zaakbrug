@@ -2,12 +2,7 @@
     <Adapter name="MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken"
     active="${MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken.Active}"
     description="">
-    
-    <Receiver name="MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken">
-        <JavaListener name="MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken"
-            returnedSessionKeys="Error" />
-    </Receiver>
-    
+
     <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -17,12 +12,12 @@
             <SenderPipe
                 name="GetZgwRelevanteAndereZaakSender"
                 storeResultInSessionKey="ZgwRelevanteAndereZaak">
-                <IbisLocalSender
+                <FrankSender
                     name="GetZgwRelevanteAndereZaakLocalSender"
-                    javaListener="GetZgwZaakByUrl"
+                    target="GetZgwZaakByUrl"
                     returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/relevanteAndereZaken/url" type="STRING"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CreateZdsHeeftBetrekkingOpAndere"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

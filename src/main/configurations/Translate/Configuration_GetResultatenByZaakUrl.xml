@@ -3,23 +3,20 @@
         active="${GetZgwResultatenByZaakUrl.Active}"
         description="">
 
-        <Receiver name="GetZgwResultatenByZaakUrl">
-            <JavaListener name="GetZgwResultatenByZaakUrl" returnedSessionKeys="Error" />
-        </Receiver>
-
-        <Pipeline> 
+        <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
             
             <SenderPipe name="GetAuthorizationHeaderForZakenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="Authorization">
+                <FrankSender
                     name="GetAuthorizationHeaderForZakenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                    target="GenerateAuthorizationHeaderForZakenApi"
+                >
+                </FrankSender>
                 <Forward name="success" path="GetZgwResultatenByZaakUrl" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -30,15 +27,7 @@
 					name="GetZgwResultatenByZaakUrlSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
-                    verifyHostname="${zaakbrug.zgw.zaken-api.verifyHostname}"
-                    allowSelfSignedCertificates="${zaakbrug.zgw.zaken-api.allowSelfSignedCertificates}"
-                    disableCookies="${zaakbrug.zgw.zaken-api.disableCookies}"
-                    ignoreCertificateExpiredException="${zaakbrug.zgw.zaken-api.ignoreCertificateExpiredException}"
-                    truststore="${zaakbrug.zgw.zaken-api.truststore.uri}"
-                    truststoreAuthAlias="${zaakbrug.zgw.zaken-api.truststore.authAlias}"
-                    truststoreType="${zaakbrug.zgw.zaken-api.truststore.type}"
-				/>
+                    sharedResourceRef="zaken-api-connector"/>
                 <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}resultaten" />
                 <Param name="zaak" sessionKey="ZaakUrl" />
                 <Param name="Accept-Crs" value="EPSG:4326"/>

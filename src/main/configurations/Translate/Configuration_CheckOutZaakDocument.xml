@@ -3,10 +3,6 @@
         active="${CheckOutZaakDocument.Active}"
         description="">
 
-        <Receiver name="CheckOutZaakDocument">
-            <JavaListener name="CheckOutZaakDocument" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -16,12 +12,12 @@
             <SenderPipe
                 name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatie"
                 storeResultInSessionKey="ZgwEnkelvoudigInformatieObject">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatieSender"
-                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie"
+                    target="GetZgwEnkelvoudigInformatieObjectByIdentificatie"
                     returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="DocumentIdentificatie"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CheckForGetZgwEnkelvoudigInformatieObjectResult"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -55,12 +51,12 @@
 
             <SenderPipe
                 name="CallPostZgwLock">
-                <IbisLocalSender
+                <FrankSender
                     name="CallPostZgwLockSender"
-                    javaListener="PostZgwLock"
+                    target="PostZgwLock"
                     returnedSessionKeys="Error">
                     <Param name="ZgwLockUrl" sessionKey="ZgwLockUrl"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

@@ -2,11 +2,7 @@
     <Adapter name="Deelzaak"
         active="${Deelzaak.Active}">
 
-        <Receiver name="Deelzaak">
-            <JavaListener name="Deelzaak" returnedSessionKeys="Error" />
-        </Receiver>
-
-        <Pipeline> 
+        <Pipeline>
             <Exits> 
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
@@ -15,12 +11,12 @@
             <SenderPipe
                 name="CallGetZgwDeelzaak"
                 storeResultInSessionKey="ZgwDeelzaakResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwZaakSender"
-                    javaListener="GetZgwZaak"
+                    target="GetZgwZaak"
                     returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="DeelzaakIdentificatie"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="ZaakNotFound_Condition"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -90,12 +86,12 @@
             <SenderPipe
                 name="CallCheckHoofdzaak" 
                 getInputFromSessionKey="ZgwDeelzaakResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallCheckHoofdzaakSender"
-                    javaListener="CheckHoofdzaak"
+                    target="CheckHoofdzaak"
                     returnedSessionKeys="Error">
                     <Param name="HoofdzaakUrl" sessionKey="Url" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="JsonToXml"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -103,12 +99,12 @@
             <SenderPipe
                 name="CallAddHoofdzaak"
                 getInputFromSessionKey="ZgwDeelzaakResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallAddHoofdzaakSender"
-                    javaListener="AddHoofdzaak"
+                    target="AddHoofdzaak"
                     returnedSessionKeys="Error">
                     <Param name="HoofdzaakUrl" sessionKey="Url" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="JsonToXml"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -116,12 +112,12 @@
             <SenderPipe
                 name="CallDeleteHoofdzaak" 
                 getInputFromSessionKey="ZgwDeelzaakResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallDeleteHoofdzaakSender"
-                    javaListener="DeleteHoofdzaak" 
+                    target="DeleteHoofdzaak"
                     returnedSessionKeys="Error">
                     <Param name="HoofdzaakUrl" sessionKey="Url" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="JsonToXml"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

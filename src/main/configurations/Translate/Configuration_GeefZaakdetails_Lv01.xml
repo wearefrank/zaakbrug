@@ -3,10 +3,6 @@
         active="${GeefZaakdetails_Lv01.Active}"
         description="">
 
-        <Receiver name="GeefZaakdetails_Lv01">
-            <JavaListener name="GeefZaakdetails_Lv01" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -25,12 +21,12 @@
             <SenderPipe
                 name="CallGetZgwZaak"
                 storeResultInSessionKey="GetZgwZaakResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwZaakSender"
-                    javaListener="GetZgwZaak"
+                    target="GetZgwZaak"
                     returnedSessionKeys="Error">
                     <Param name="Identificatie" xpathExpression="zakLv01/gelijk/identificatie"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="ZaakNotFound_Condition" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -56,12 +52,12 @@
                 name="CallGetZgwZaaktypeByUrl"
                 getInputFromSessionKey="GetZgwZaakResult"
                 storeResultInSessionKey="GetZgwZaaktypeByUrlResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwZaaktypeByUrlSender"
-                    javaListener="GetZaakTypeByUrl"
+                    target="GetZaakTypeByUrl"
                     returnedSessionKeys="Error">
                     <Param name="ZaakUrl" xpathExpression="/ZgwZaak/zaaktype" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CallGetZdsZaakFromZgw"/>
                 <Forward name="exception" path="EXCEPTION"/>
             </SenderPipe>
@@ -71,13 +67,13 @@
                 storeResultInSessionKey="GetZdsZaakFromZgwResult"
                 getInputFromSessionKey="GetZgwZaakResult"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZdsZaakFromZgwSender"
-                    javaListener="GetZdsZaakFromZgw"
+                    target="GetZdsZaakFromZgw"
                     returnedSessionKeys="Error">
                     <Param name="ZgwZaak" sessionKey="GetZgwZaakResult" type="DOMDOC"/>
                     <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -94,12 +90,12 @@
                 name="CallGetRollenByBsn"
                 getInputFromSessionKey="originalMessage"
                 storeResultInSessionKey="GetRollenByBsnResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetRollenByBsnSender"
-                    javaListener="GetRollenByBsn"
+                    target="GetRollenByBsn"
                     returnedSessionKeys="Error">
                     <Param name="Bsn" xpathExpression="substring(/zakLv01/gelijk/heeftAlsInitiator/gerelateerde/identificatie, 2)"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="RolIterator"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -107,11 +103,11 @@
             <ForEachChildElementPipe name="RolIterator"
                 storeResultInSessionKey="GetZaakDetailsByRolResults"
                 elementXPathExpression="/ZgwRollen/ZgwRol">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZaakDetailsByRol"
-                    javaListener="GetZaakDetailsByRol"
+                    target="GetZaakDetailsByRol"
                     returnedSessionKeys="Error">
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>

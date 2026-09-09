@@ -1,14 +1,10 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="SoapEndpointProxy_VrijeBerichten"
+    <Adapter name="${zaakbrug.frank.proxy.vrije-berichten.adapterName}"
         active="${SoapEndpointProxy_VrijeBerichten.Active}"
         description="This adapter will send the message to proxy">
 
         <Receiver name="SoapEndpointProxy_VrijeBerichten">
             <WebServiceListener name="SoapEndpointProxy_VrijeBerichten" address="${zaakbrug.soap.proxy.vrije-berichten.endpoint}" soap="false"/>
-        </Receiver>
-
-        <Receiver name="SoapEndpointProxy_VrijeBerichten_Java">
-            <JavaListener name="${zaakbrug.java.proxy.vrije-berichten.endpoint}"/>
         </Receiver>
 
         <Pipeline>

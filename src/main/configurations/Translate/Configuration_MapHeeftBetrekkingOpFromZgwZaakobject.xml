@@ -2,11 +2,7 @@
     <Adapter name="MapHeeftBetrekkingOpFromZgwZaakobject"
         active="${MapHeeftBetrekkingOpFromZgwZaakobject.Active}"
         description="">
-        
-        <Receiver name="MapHeeftBetrekkingOpFromZgwZaakobject">
-            <JavaListener name="MapHeeftBetrekkingOpFromZgwZaakobject" returnedSessionKeys="Error" />
-        </Receiver>
-        
+
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -15,14 +11,14 @@
 
             <SenderPipe
                 name="ZgwZaakobjectsApplyValueOverridesZgwToZdsSender">
-                <IbisLocalSender
+                <FrankSender
                     name="ZgwZaakobjectsApplyValueOverridesZgwToZdsLocalSender"
-                    javaListener="ApplyValueOverridesZgwToZds"
+                    target="ApplyValueOverridesZgwToZds"
                     returnedSessionKeys="Error,ExtraElementen"
                     >
                     <Param name="zaaktype" sessionKey="ZgwZaakType" xpathExpression="/ZgwZaakType/identificatie" />
                     <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.zaakobjecten.ZgwZaakobject" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="MapHeeftBetrekkingOpFromZgwZaakobject" />
             </SenderPipe>
 

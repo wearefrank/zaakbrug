@@ -3,11 +3,7 @@
         active="${UpdateZaakDocument_Di02.Active}"
         description="">
 
-        <Receiver name="UpdateZaakDocument_Di02">
-            <JavaListener name="UpdateZaakDocument_Di02" returnedSessionKeys="Error" />
-        </Receiver>
-
-        <Pipeline>  
+        <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
@@ -16,14 +12,14 @@
 			<SenderPipe
                 name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatie"
                 storeResultInSessionKey="GetZgwEnkelvoudigInformatieObjectResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwEnkelvoudigInformatieObjectSender"
-                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie"
+                    target="GetZgwEnkelvoudigInformatieObjectByIdentificatie"
                     returnedSessionKeys="Error">
                     <Param name="Identificatie" xpathExpression="$ZdsWordtInformatieObject/object/identificatie">
                         <Param name="ZdsWordtInformatieObject" sessionKey="ZdsWordtInformatieObject" type="DOMDOC"/>
                     </Param>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CheckForStatus"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -70,12 +66,12 @@
                 name="ConvertISO639TaalSender"
                 storeResultInSessionKey="Taal"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="ConvertISO639TaalLocalSender"
-                    javaListener="ConvertISO639Taal"
+                    target="ConvertISO639Taal"
                     returnedSessionKeys="Error">
-                    <Param name="Alpha2" sessionKey="Taal"/>                   
-                </IbisLocalSender>
+                    <Param name="Alpha2" sessionKey="Taal"/>
+                </FrankSender>
                 <Forward name="success" path="DecodeInhoud"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -115,13 +111,13 @@
                 name="CallPutZaakDocument"
                 getInputFromSessionKey="ZgwEnkelvoudigInformatieObject"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="CallPutZaakDocumentSender"
-                    javaListener="PutZgwZaakDocument"
+                    target="PutZgwZaakDocument"
                     returnedSessionKeys="Error">
                     <Param name="Url" sessionKey="Url" />
-                    <Param name="ref_inhoud" sessionKey="ref_inhoud" />                
-                </IbisLocalSender>
+                    <Param name="ref_inhoud" sessionKey="ref_inhoud" />
+                </FrankSender>
                 <Forward name="success" path="CallGetZgwInformatieObjectUnlock" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -130,15 +126,15 @@
                 name="CallGetZgwInformatieObjectUnlock"
                 getInputFromFixedValue="&lt;dummy/&gt;"
                 storeResultInSessionKey="ZgwInformatieObjectUnlockResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwInformatieObjectUnlockSender"
-                    javaListener="GetZgwInformatieObjectUnlock"
+                    target="GetZgwInformatieObjectUnlock"
                     returnedSessionKeys="Error">
                     <Param name="ZgwUnlockUrl" xpathExpression="concat($Url, '/unlock')">
                         <Param name="Url" sessionKey="Url"/>
                     </Param>
                     <Param name="ZgwLock" sessionKey="Lock"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

@@ -1,14 +1,10 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="SoapEndpointProxy_OntvangAsynchroon"
+    <Adapter name="${zaakbrug.frank.proxy.ontvang-asynchroon.adapterName}"
         active="${SoapEndpointProxy_OntvangAsynchroon.Active}"
         description="This adapter will send the message to proxy">
 
         <Receiver name="SoapEndpointProxy_OntvangAsynchroon">
             <WebServiceListener name="SoapEndpointProxy_OntvangAsynchroon" address="${zaakbrug.soap.proxy.ontvang-asynchroon.endpoint}" soap="false"/>
-        </Receiver>
-
-        <Receiver name="SoapEndpointProxy_OntvangAsynchroon_Java">
-            <JavaListener name="${zaakbrug.java.proxy.ontvang-asynchroon.endpoint}"/>
         </Receiver>
 
         <Pipeline>

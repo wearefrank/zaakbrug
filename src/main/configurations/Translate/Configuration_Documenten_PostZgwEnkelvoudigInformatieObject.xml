@@ -4,10 +4,6 @@
         active="${Zaken_PostZgwZaakInformatieObject.Active}"
         description="">
 
-        <Receiver name="Zaken_PostZgwZaakInformatieObject">
-            <JavaListener name="Zaken_PostZgwZaakInformatieObject" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS" />
@@ -15,12 +11,13 @@
             </Exits>
 
             <SenderPipe name="GetAuthorizationHeaderForZakenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="Authorization">
+                <FrankSender
                     name="GetAuthorizationHeaderForZakenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                    target="GenerateAuthorizationHeaderForZakenApi"
+                >
+                </FrankSender>
                 <Forward name="success" path="PostZgwZaakInformatieObjectSender" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -37,14 +34,7 @@
                 <HttpSender name="PostZgwZaakInformatieObjectHttpSender"
                     methodType="POST"
                     headersParams="Authorization,Accept-Crs,Content-Crs,Accept"
-                    timeout="${zaakbrug.zgw.zaken-api.timeout}"
-                    verifyHostname="${zaakbrug.zgw.zaken-api.verifyHostname}"
-                    allowSelfSignedCertificates="${zaakbrug.zgw.zaken-api.allowSelfSignedCertificates}"
-                    disableCookies="${zaakbrug.zgw.zaken-api.disableCookies}"
-                    ignoreCertificateExpiredException="${zaakbrug.zgw.zaken-api.ignoreCertificateExpiredException}"
-                    truststore="${zaakbrug.zgw.zaken-api.truststore.uri}"
-                    truststoreAuthAlias="${zaakbrug.zgw.zaken-api.truststore.authAlias}"
-                    truststoreType="${zaakbrug.zgw.zaken-api.truststore.type}"
+                    sharedResourceRef="zaken-api-connector"
                     maxExecuteRetries="5"
                     contentType="application/json">
                     <Param name="url" value="${zaakbrug.zgw.zaken-api.root-url}zaakinformatieobjecten"/>

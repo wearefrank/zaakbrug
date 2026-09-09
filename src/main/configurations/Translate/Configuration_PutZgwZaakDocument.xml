@@ -3,10 +3,6 @@
         active="${PutZgwZaakDocument.Active}"
         description="">
 
-        <Receiver name="PutZgwZaakDocument">
-            <JavaListener name="PutZgwZaakDocument" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -14,12 +10,13 @@
             </Exits>
 
             <SenderPipe name="GetAuthorizationHeaderForDocumentenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="Authorization">
+                <FrankSender
                     name="GetAuthorizationHeaderForDocumentenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForDocumentenApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                    target="GenerateAuthorizationHeaderForDocumentenApi"
+                >
+                </FrankSender>
                 <Forward name="success" path="XmlToJson" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -50,14 +47,7 @@
 					name="PutZaakDocumentSender" 
 					methodType="PUT"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${zaakbrug.zgw.documenten-api.timeout}"
-                    verifyHostname="${zaakbrug.zgw.documenten-api.verifyHostname}"
-                    allowSelfSignedCertificates="${zaakbrug.zgw.documenten-api.allowSelfSignedCertificates}"
-                    disableCookies="${zaakbrug.zgw.documenten-api.disableCookies}"
-                    ignoreCertificateExpiredException="${zaakbrug.zgw.documenten-api.ignoreCertificateExpiredException}"
-                    truststore="${zaakbrug.zgw.documenten-api.truststore.uri}"
-                    truststoreAuthAlias="${zaakbrug.zgw.documenten-api.truststore.authAlias}"
-                    truststoreType="${zaakbrug.zgw.documenten-api.truststore.type}"
+                    sharedResourceRef="documenten-api-connector"
                     contentType="application/json"
 				/>
                 <Param name="url" sessionKey="Url"/>

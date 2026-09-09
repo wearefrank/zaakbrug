@@ -3,10 +3,6 @@
         active="${CheckZgwRol.Active}"
         description="">
 
-        <Receiver name="CheckZgwRol">
-            <JavaListener name="CheckZgwRol"/>
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="exists" state="SUCCESS" />

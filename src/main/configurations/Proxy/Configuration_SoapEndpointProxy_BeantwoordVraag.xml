@@ -1,14 +1,10 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
-    <Adapter name="SoapEndpointProxy_BeantwoordVraag"
+    <Adapter name="${zaakbrug.frank.proxy.beantwoord-vraag.adapterName}"
         active="${SoapEndpointProxy_BeantwoordVraag.Active}"
         description="This adapter will send the message to SSD">
 
         <Receiver name="SoapEndpointProxy_BeantwoordVraag">
             <WebServiceListener name="SoapEndpointProxy_BeantwoordVraag" address="${zaakbrug.soap.proxy.beantwoord-vraag.endpoint}" soap="false"/>
-        </Receiver>
-
-        <Receiver name="SoapEndpointProxy_BeantwoordVraag_Java">
-            <JavaListener name="${zaakbrug.java.proxy.beantwoord-vraag.endpoint}"/>
         </Receiver>
 
         <Pipeline>

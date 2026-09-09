@@ -3,10 +3,6 @@
         active="${GetRsinByGemeenteCode.Active}"
         description="">
 
-        <Receiver name="GetRsinByGemeenteCode">
-            <JavaListener name="GetRsinByGemeenteCode" returnedSessionKeys="Error" />
-        </Receiver>
-        
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>

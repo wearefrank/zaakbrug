@@ -2,11 +2,7 @@
     <Adapter name="MapZdsRolFromZgwRol"
         active="${MapZdsRolFromZgwRol.Active}"
         description="">
-        
-        <Receiver name="MapZdsRolFromZgwRol">
-            <JavaListener name="MapZdsRolFromZgwRol" returnedSessionKeys="Error" />
-        </Receiver>
-        
+
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -16,14 +12,14 @@
             <SenderPipe
                 name="ZgwRolesApplyValueOverridesZgwToZdsSender"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="ZgwRolesApplyValueOverridesZgwToZdsLocalSender"
-                    javaListener="ApplyValueOverridesZgwToZds"
+                    target="ApplyValueOverridesZgwToZds"
                     returnedSessionKeys="Error,ExtraElementen"
                     >
                     <Param name="zaaktype" sessionKey="ZgwZaakType" xpathExpression="/ZgwZaakType/identificatie" />
                     <Param name="valueOverrideKeyRoot" value="zgw.zaken-api.rollen.zgwRol" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="MatchHeeftBetrekkingOpOmschrijving" />
             </SenderPipe>
 

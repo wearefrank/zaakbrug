@@ -20,20 +20,20 @@
                 <Param name="zaaktype" xpathExpression="//object/isVan/gerelateerde/code"/>
             </PutInSessionPipe>
 
-            <SenderPipe name="GetProfileProperties" getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender name="GetProfilePropertiesSender" javaListener="GetProfileProperties" returnedSessionKeys="listenerName,stopOnError">
+            <SenderPipe name="GetProfileProperties" getInputFromFixedValue="&lt;dummy/&gt;" storeResultInSessionKey="profileProperties">
+                <FrankSender name="GetProfilePropertiesSender" target="GetProfileProperties">
                     <Param name="fromSoapAction" sessionKey="fromSoapAction"/>
                     <Param name="zaaktype" sessionKey="zaaktype"/>
-                </IbisLocalSender>
+                </FrankSender>
             </SenderPipe>
 
             <SenderPipe name="SendToPipeline" getInputFromSessionKey="originalMessage">
-                <IbisLocalSender
-                        name="SendToPipelineSender"
-                        javaListenerSessionKey="listenerName">
+                <FrankSender name="SendToPipelineSender">
+                    <!--TODO: change these params to no longer use xpaths when cached pipeline runs also return sessionKeys-->
+                    <Param name="target" sessionKey="profileProperties" xpathExpression="result/adapterName" />
                     <Param name="SOAPAction" sessionKey="SOAPAction" />
-                    <Param name="stopOnError" sessionKey="stopOnError" />
-                </IbisLocalSender>
+                    <Param name="stopOnError" sessionKey="profileProperties" xpathExpression="result/stopOnError" />
+                </FrankSender>
                 <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

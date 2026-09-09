@@ -3,23 +3,20 @@
         active="${GetZgwResultaatTypeByZaakTypeAndOmschrijving.Active}"
         description="">
 
-        <Receiver name="GetZgwResultaatTypeByZaakTypeAndOmschrijving">
-            <JavaListener name="GetZgwResultaatTypeByZaakTypeAndOmschrijving" returnedSessionKeys="Error" />
-        </Receiver>
-
-        <Pipeline>   
+        <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
             <SenderPipe name="GetAuthorizationHeaderForCatalogiApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="Authorization">
+                <FrankSender
                     name="GetAuthorizationHeaderForCatalogiApiSender"
-                    javaListener="GenerateAuthorizationHeaderForCatalogiApi"
-                    returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                    target="GenerateAuthorizationHeaderForCatalogiApi"
+                >
+                </FrankSender>
                 <Forward name="success" path="GetResultaatTypesByZaakType" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -30,14 +27,7 @@
 					name="GetResultaatTypesByZaakTypeSender" 
 					methodType="GET"
 					headersParams="Authorization,Accept-Crs"
-                    timeout="${zaakbrug.zgw.catalogi-api.timeout}"
-                    verifyHostname="${zaakbrug.zgw.catalogi-api.verifyHostname}"
-                    allowSelfSignedCertificates="${zaakbrug.zgw.catalogi-api.allowSelfSignedCertificates}"
-                    disableCookies="${zaakbrug.zgw.catalogi-api.disableCookies}"
-                    ignoreCertificateExpiredException="${zaakbrug.zgw.catalogi-api.ignoreCertificateExpiredException}"
-                    truststore="${zaakbrug.zgw.catalogi-api.truststore.uri}"
-                    truststoreAuthAlias="${zaakbrug.zgw.catalogi-api.truststore.authAlias}"
-                    truststoreType="${zaakbrug.zgw.catalogi-api.truststore.type}"
+                    sharedResourceRef="catalogi-api-connector"
 				/>
                 <Param name="url" value="${zaakbrug.zgw.catalogi-api.root-url}resultaattypen" />
                 <Param name="zaaktype" sessionKey="ZaakTypeUrl" />

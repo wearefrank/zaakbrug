@@ -3,10 +3,6 @@
         active="${VoegZaakdocumentToe_Lk01.Active}"
         description="">
 
-        <Receiver name="VoegZaakdocumentToe_Lk01">
-            <JavaListener name="VoegZaakdocumentToe_Lk01" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -32,12 +28,12 @@
 
             <SenderPipe
                 name="CallGetZgwZaak">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwZaakSender"
-                    javaListener="GetZgwZaak"
+                    target="GetZgwZaak"
                     returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="Identificatie" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="ZaakNotFound_Condition" />
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
@@ -77,12 +73,12 @@
                 name="CallGetZgwZaaktypeByUrl"
                 getInputFromSessionKey="ZgwZaak"
                 storeResultInSessionKey="ZgwZaakType">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwZaaktypeByUrlSender"
-                    javaListener="GetZaakTypeByUrl"
+                    target="GetZaakTypeByUrl"
                     returnedSessionKeys="Error">
                     <Param name="ZaakUrl" xpathExpression="ZgwZaak/zaaktype" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="GetZgwInformatieObjectTypeByOmschrijvingSender"/>
                 <Forward name="exception" path="UncaughtException"/>
             </SenderPipe>
@@ -90,13 +86,13 @@
             <SenderPipe
                 name="GetZgwInformatieObjectTypeByOmschrijvingSender"
                 getInputFromSessionKey="ZdsZaakDocumentInhoud">
-                <IbisLocalSender
+                <FrankSender
                     name="GetZgwInformatieObjectTypeByOmschrijvingLocalSender"
-                    javaListener="GetZgwInformatieObjectTypeByOmschrijving"
+                    target="GetZgwInformatieObjectTypeByOmschrijving"
                     returnedSessionKeys="Error">
                     <Param name="ZgwZaakType" sessionKey="ZgwZaakType" />
                     <Param name="Omschrijving" xpathExpression="object/dct.omschrijving" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="GetSingleZgwInformatieObjectTypeFromList"/>
                 <Forward name="exception" path="UncaughtException"/>
             </SenderPipe>
@@ -139,12 +135,12 @@
                 name="GetGlobalConfigFromLocalFS"
                 storeResultInSessionKey="GlobalConfig"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="CallImportFromLocalFS"
-                    javaListener="ImportFromLocalFS"
+                    target="ImportFromLocalFS"
                     returnedSessionKeys="Error">
-                    <Param name="FileName" value="${FilePath_1}" />                   
-                </IbisLocalSender>
+                    <Param name="FileName" value="${FilePath_1}" />
+                </FrankSender>
                 <Forward name="success" path="CallGetRsin"/>
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
@@ -152,12 +148,12 @@
             <SenderPipe 
                 name="CallGetRsin"
                 storeResultInSessionKey="Rsin">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetRsinSender"
-                    javaListener="GetRsinByGemeenteCode"
+                    target="GetRsinByGemeenteCode"
                     returnedSessionKeys="Error">
                     <Param name="GemeenteCode" sessionKey="originalMessage" xpathExpression="/*/stuurgegevens/zender/organisatie" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="StoreTaal"/>
                 <Forward name="exception" path="UncaughtException"/>
             </SenderPipe>
@@ -184,12 +180,12 @@
                 name="ConvertISO639TaalSender"
                 storeResultInSessionKey="Taal"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="ConvertISO639TaalLocalSender"
-                    javaListener="ConvertISO639Taal"
+                    target="ConvertISO639Taal"
                     returnedSessionKeys="Error">
-                    <Param name="Alpha2" sessionKey="Taal" />                   
-                </IbisLocalSender>
+                    <Param name="Alpha2" sessionKey="Taal" />
+                </FrankSender>
                 <Forward name="success" path="MapZgwEnkelvoudigInformatieObject"/>
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
@@ -213,12 +209,12 @@
                 name="PostZgwEnkelvoudigInformatieObjectSender"
                 storeResultInSessionKey="PostZgwEnkelvoudigInformatieObject"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="PostZgwEnkelvoudigInformatieObjectLocalSender"
-                    javaListener="Documenten_PostZgwEnkelvoudigInformatieObject"
+                    target="Documenten_PostZgwEnkelvoudigInformatieObject"
                     returnedSessionKeys="Error">
                     <Param name="ref_inhoud" sessionKey="ref_inhoud" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EnrichZgwEnkelvoudigInformatieObject"/>
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
@@ -252,11 +248,11 @@
                 name="PostZgwZaakInformatieObjectSender"
                 storeResultInSessionKey="PostZgwZaakInformatieObject"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="PostZgwZaakInformatieObjectLocalSender"
-                    javaListener="Zaken_PostZgwZaakInformatieObject"
-                    returnedSessionKeys="Error">                
-                </IbisLocalSender>
+                    target="Zaken_PostZgwZaakInformatieObject"
+                    returnedSessionKeys="Error">
+                </FrankSender>
                 <Forward name="success" path="EnrichZgwZaakInformatieObject"/>
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
@@ -276,16 +272,16 @@
                 name="GetZgwStatusTypeByZaakTypeAndOmschrijvingSender"
                 getInputFromSessionKey="ZdsZaakDocumentInhoud"
                 storeResultInSessionKey="ZgwStatusType">
-                <IbisLocalSender
+                <FrankSender
                     name="GetZgwStatusTypeByZaakTypeAndOmschrijvingLocalSender"
-                    javaListener="GetStatusTypeByZaakTypeAndOmschrijving"
+                    target="GetStatusTypeByZaakTypeAndOmschrijving"
                     returnedSessionKeys="Error">
                     <Param name="ZaakTypeUrl" xpathExpression="$ZgwZaakType/ZgwZaakType/url">
                         <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC"/>
                     </Param>
                     <Param name="Omschrijving" xpathExpression="object/isRelevantVoor/stt.omschrijving"/>
                     <Param name="Volgnummer" xpathExpression="object/isRelevantVoor/stt.volgnummer"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CheckForZgwStatusTypeResult"/>
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
@@ -321,11 +317,11 @@
                 name="PostZgwStatusSender"
                 storeResultInSessionKey="ZgwStatus"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="PostZgwStatusLocalSender"
-                    javaListener="Zaken_PostZgwStatus"
+                    target="Zaken_PostZgwStatus"
                     returnedSessionKeys="Error">
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
