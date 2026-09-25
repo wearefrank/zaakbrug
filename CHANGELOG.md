@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.19](https://github.com/wearefrank/zaakbrug/compare/v1.26.18...v1.26.19) (2026-09-25)
+
+### 🐛 Bug Fixes
+
+* fix credentialFactory.class in Dockerfile, Dockerfile.java8 and configmap.yaml ([#706](https://github.com/wearefrank/zaakbrug/issues/706)) ([f48fdf1](https://github.com/wearefrank/zaakbrug/commit/f48fdf124b4f315939d9ad888d96418845bb9fe8))
+
 ## [1.26.18](https://github.com/wearefrank/zaakbrug/compare/v1.26.17...v1.26.18) (2026-08-14)
 
 ### 🔁 Continuous Integration
