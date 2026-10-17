@@ -118,6 +118,8 @@
                     returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/roltypen" />
                 </IbisLocalSender>
+                <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToList" />
+                <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
 
             <XsltPipe
@@ -295,8 +297,8 @@
                     javaListener="Zaken_DeleteZgwZaak">
                     <Param name="url" sessionKey="PostZgwZaakResult" xpathExpression="ZgwZaak/url" />
                 </IbisLocalSender>
-                <Forward name="success" path="EXCEPTION" />
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="success" path="UncaughtException" />
+                <Forward name="exception" path="UncaughtException" />
             </SenderPipe>
 
             <IfPipe name="CheckForHeeftBetrekkingOpAndere"
@@ -340,7 +342,7 @@
                     <Param name="DeelzaakIdentificatie" xpathExpression="heeftAlsDeelzaak/gerelateerde/identificatie" />
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
             
             <XsltPipe 

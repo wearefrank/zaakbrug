@@ -45,7 +45,7 @@
                     <Param sessionKey="RolBody_1" type="DOMDOC"/>
                 </IbisLocalSender>
                 <Forward name="success" path="CallDetectRolChanges"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
 
             <ForEachChildElementPipe
@@ -60,8 +60,22 @@
                     <Param sessionKey="RolBody_1" type="DOMDOC"/>
                 </IbisLocalSender>
                 <Forward name="success" path="EXIT"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
+            
+            <XsltPipe 
+                name="UncaughtException"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Uncaught exception" /> 
+                <!-- <Param name="details" sessionKey="" /> -->
+                <Param name="detailsXml" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>

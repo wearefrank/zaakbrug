@@ -49,6 +49,7 @@
 
             <ForEachChildElementPipe name="ZgwZaakInformatieObjectenIterator"
                 elementXPathExpression="/ZgwZaakInformatieObjecten/ZgwZaakInformatieObject"
+                ignoreExceptions="true"
                 parallel="true"
                 maxChildThreads="20">
                 <IbisLocalSender
@@ -56,9 +57,37 @@
                     javaListener="HandleZgwZaakInformatieObjecten"
                     returnedSessionKeys="Error">
                 </IbisLocalSender>
-                <Forward name="success" path="EXIT"/>
-                <Forward name="exception" path="EXCEPTION" />
+                <Forward name="success" path="CheckForExceptions"/>
+                <Forward name="exception" path="UncaughtException" />
             </ForEachChildElementPipe>
+
+            <!-- only needed when parallel is set to true -->
+            <IfPipe name="CheckForExceptions"
+                xpathExpression="exists(*/result/exception)"
+                >
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Forward name="then" path="getError"/>
+                <Forward name="else" path="EXIT"/>
+            </IfPipe>
+            
+            <PutInSessionPipe name="getError">
+                <Param name="Error" xpathExpression="string((//exception)[1])"/>
+                <Forward name="success" path="UncaughtException" />
+            </PutInSessionPipe>
+            
+            <XsltPipe 
+                name="UncaughtException"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                styleSheetName="Common/xsl/BuildError.xsl"
+                storeResultInSessionKey="Error">
+                <Param name="cause" sessionKey="Error" type="DOMDOC" />
+                <Param name="code" value="TechnicalError" /> <!-- codes: TechnicalError, TranslationError, ConfigurationError-->
+                <Param name="reason" pattern="Uncaught exception" /> 
+                <!-- <Param name="details" sessionKey="" /> -->
+                <Param name="detailsXml" type="DOMDOC" />
+                <Forward name="success" path="EXCEPTION" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
         </Pipeline>
     </Adapter>
 </Module>
