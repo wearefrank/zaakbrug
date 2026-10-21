@@ -20,7 +20,7 @@
     </xsl:template>
 
     <xsl:function name="zgw:convertZdsDatetimeToZgwDatetime" as="xs:dateTime">
-    	<xsl:param name="dateTimeStr" as="xs:string"/>
-		<xsl:value-of select="substring($dateTimeStr,1,19)"/>
-	</xsl:function>
+        <xsl:param name="dateTimeStr" as="xs:string"/>
+        <xsl:sequence select="xs:dateTime(substring($dateTimeStr,1,19))"/>
+    </xsl:function>
 </xsl:stylesheet>

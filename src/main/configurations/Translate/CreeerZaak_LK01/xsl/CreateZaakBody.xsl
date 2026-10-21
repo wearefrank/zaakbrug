@@ -123,13 +123,13 @@
 
     <xsl:function name="zgw:convertZdsDateToZgwDate" as="xs:date">
         <xsl:param name="dateStr" as="xs:string"/>
-        <xsl:value-of select="concat(substring($dateStr,1,4), '-', substring($dateStr,5,2), '-', substring($dateStr,7,2))"/>
-	</xsl:function>
+        <xsl:sequence select="xs:date(concat(substring($dateStr,1,4), '-', substring($dateStr,5,2), '-', substring($dateStr,7,2)))"/>
+    </xsl:function>
 
     <xsl:function name="zgw:convertZdsDatetimeToZgwDatetime" as="xs:dateTime">
-    	<xsl:param name="dateTimeStr" as="xs:string"/>
-		<xsl:value-of select="concat(substring($dateTimeStr,1,4), '-', substring($dateTimeStr,5,2), '-', substring($dateTimeStr,7,2), 'T', substring($dateTimeStr,9,2), ':', substring($dateTimeStr,11,2), ':', substring($dateTimeStr,13,2), 'Z')"/>
-	</xsl:function>
+        <xsl:param name="dateTimeStr" as="xs:string"/>
+        <xsl:sequence select="xs:dateTime(concat(substring($dateTimeStr,1,4), '-', substring($dateTimeStr,5,2), '-', substring($dateTimeStr,7,2), 'T', substring($dateTimeStr,9,2), ':', substring($dateTimeStr,11,2), ':', substring($dateTimeStr,13,2), 'Z'))"/>
+    </xsl:function>
 
     <xsl:function name="zgw:convertZdsBooleanToZgwBoolean" as="xs:string">
     	<xsl:param name="zdsBoolean" as="xs:string"/>
