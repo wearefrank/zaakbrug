@@ -77410,6 +77410,1342 @@ for (testCase in testSuite.getTestCaseList()) {
     }
 }</con:tearDownScript>
   </con:testSuite>
+  <con:testSuite id="c2a1b81f-6730-4380-93f1-92cf35dea50c" name="10-TestSuite-ZaakTypeVersions">
+    <con:settings/>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="d05babaa-10d1-4f78-9baf-2fc994fb7eeb" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="SetUp-Create ZaakType ZTVERSIE V1 (expired) And V2 (current)" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
+      <con:settings/>
+      <con:testStep type="properties" name="Properties" id="b07a1f2c-7cb0-47ec-9ffc-535000d1eca5">
+        <con:settings/>
+        <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:properties>
+            <con:property>
+              <con:name>JwtToken</con:name>
+              <con:value/>
+            </con:property>
+          </con:properties>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="groovy" name="00-zgw-generateJwt" id="da1b8e6d-0df3-4886-a898-6e68e15eb79c">
+        <con:settings/>
+        <con:config>
+          <script>import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import javax.crypto.spec.SecretKeySpec
+import javax.crypto.Mac
+import java.time.Duration
+
+def jwtClientId = context.expand( '${#Project#jwtClientId}' )
+def jwtSecret = context.expand( '${#Project#jwtSecret}' )
+
+def createJwt(Integer validSeconds, String clientId, String secret) {
+    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
+    def rightNowMilli = System.currentTimeMillis()
+    def rightNowSec = Math.round(rightNowMilli / 1000)
+    def expirationSec = rightNowSec + validSeconds
+    def jtiValue = UUID.randomUUID().toString()
+
+    Map header = [alg: "HS256", typ: "JWT"]
+    def headerJson = JsonOutput.toJson(header)
+    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+    
+    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
+    def payloadJson = JsonOutput.toJson(payload)
+    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+
+    def toBeSigned = headerBase64 + "." + payloadBase64
+    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
+    
+    Mac mac = Mac.getInstance("HmacSHA256")
+    mac.init(secretKeySpec)
+    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
+    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+
+    headerBase64 + "." + payloadBase64 + "." + signature
+}
+
+// Create the JWT.
+def token = createJwt(600, jwtClientId, jwtSecret)
+testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="01a-zgw-postCatalogus" id="0d7e4a11-6839-48fd-8d06-2568079d3329">
+        <con:settings/>
+        <con:config service="Catalogi API" methodName="catalogus_create" resourcePath="/catalogussen" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="01a-zgw-postCatalogus" id="85bf293b-a55c-413c-8cdf-5e29c8473b98" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${Properties#JwtToken}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
+            <con:request>{
+	"domein": "ETESD",
+	"rsin": "548746485",
+	"contactpersoonBeheerNaam": "Marcel Lenterman",
+	"contactpersoonBeheerTelefoonnummer": "0636392161",
+	"contactpersoonBeheerEmailadres": "marcel@wearefrank.nl"
+}</con:request>
+            <con:originalUri>http://localhost/catalogi/api/v1/catalogussen/catalogussen</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="63709161-ad0a-409e-a877-1ede795f6182" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>201, 400, 500</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:username>1</con:username>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="Content-Type" value="application/json" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="01b-zgw-getCatalogus" id="6598b0d0-4dac-41af-a519-dbd8629398e5">
+        <con:settings/>
+        <con:config service="Catalogi API" methodName="catalogus_list" resourcePath="/catalogussen" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="01b-zgw-getCatalogus" id="7e99c9f0-a838-4319-80ba-8c0a24fb765d" mediaType="application/json">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${Properties#JwtToken}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
+            <con:request/>
+            <con:originalUri>http://localhost/catalogi/api/v1/catalogussen</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="16b8091e-830f-4b9e-8510-6bef848bfefe" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="domein" value="ETESD" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="transfer" name="01c-TransferCatalogusUrl" id="b2b67be9-d20f-4980-96a7-2b452c70508d">
+        <con:settings/>
+        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:transfers setNullOnMissingSource="false" transferTextContent="true" failOnError="false" ignoreEmpty="true" transferToAll="false" entitize="false" transferChildNodes="false">
+            <con:name>TransferZaakTypeUrl</con:name>
+            <con:sourceType>Response</con:sourceType>
+            <con:sourceStep>01b-zgw-getCatalogus</con:sourceStep>
+            <con:sourcePath>$.results[0].url</con:sourcePath>
+            <con:targetType>CatalogusUrl</con:targetType>
+            <con:targetStep>#TestSuite#</con:targetStep>
+            <con:type>JSONPATH</con:type>
+            <con:targetTransferType>JSONPATH</con:targetTransferType>
+            <con:upgraded>true</con:upgraded>
+          </con:transfers>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="02-zgw-postZaakTypeV1" id="e7ec8aec-ea5d-46e2-be8f-4d519732173b">
+        <con:settings/>
+        <con:config service="Catalogi API" methodName="zaaktype_create" resourcePath="/zaaktypen" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="02-zgw-postZaakTypeV1" id="4d91279b-68ec-40bc-953f-bba3ae3af45c" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${Properties#JwtToken}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
+            <con:request>{
+  "identificatie": "ZTVERSIE",
+  "omschrijving": "ZTVERSIE V1",
+  "omschrijvingGeneriek": "Rijbewijs",
+  "vertrouwelijkheidaanduiding": "vertrouwelijk",
+  "doel": "Het behandelen van een aanvraag voor een rijbewijs",
+  "aanleiding": "Dit werkproces wordt extern getriggerd door een inkomende aanvraag.",
+  "toelichting": "NVVB-benaming 'Rijbewijzen'. Dit werkproces betreft het behandelen van een aanvraag voor een rijbewijs. 'NRD' staat voor Nieuw Rijbewijs Document en dit rijbewijs heeft een creditcardformaat.",
+  "indicatieInternOfExtern": "extern",
+  "handelingInitiator": "Aanvragen",
+  "onderwerp": "Rijbewijs",
+  "handelingBehandelaar": "Behandelen",
+  "doorlooptijd": "P28D",
+  "servicenorm": null,
+  "opschortingEnAanhoudingMogelijk": true,
+  "verlengingMogelijk": false,
+  "verlengingstermijn": null,
+  "trefwoorden": ["Rijbewijs"],
+  "publicatieIndicatie": false,
+  "publicatietekst": "",
+  "verantwoordingsrelatie": [],
+  "productenOfDiensten": [
+    "https://referentielijsten-api.vng.cloud/api/v1/procestypen/3b29996b-bc3a-4493-ae35-e0de2926f007"
+    ],
+  "selectielijstProcestype": "https://selectielijst.openzaak.nl/api/v1/procestypen/0f86ece3-f863-4c67-928e-cc71ad0e2318",
+  "referentieproces": {
+    "naam": "Behandelen aanvraag product",
+    "link": "https://www.gemmaonline.nl/index.php/GEMMA2/0.9/id-49fe8555-b001-4c86-9a81-20491e16af75"
+  },
+  "verantwoordelijke": "Projectleider",
+  "catalogus": "${#TestSuite#CatalogusUrl}",
+  "besluittypen": [],
+  "deelzaaktypen": [],
+  "gerelateerdeZaaktypen": [],
+  "beginGeldigheid": "2020-01-01",
+  "eindeGeldigheid": "2020-12-31",
+  "versiedatum": "2020-01-01"
+}</con:request>
+            <con:originalUri>http://localhost/catalogi/api/v1/zaaktypen</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="daa54c85-34ae-4855-abdc-3b3e94e2bd71" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200,201</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="Content-Type" value="application/json" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="transfer" name="02a-TransferZaakTypeV1Url" id="65edcee8-4d11-4992-a2a8-6f3615c18029">
+        <con:settings/>
+        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+            <con:name>TransferZaakTypeUrl</con:name>
+            <con:sourceType>Response</con:sourceType>
+            <con:sourceStep>02-zgw-postZaakTypeV1</con:sourceStep>
+            <con:sourcePath>$.url</con:sourcePath>
+            <con:targetType>ZTV-V1Url</con:targetType>
+            <con:targetStep>#TestSuite#</con:targetStep>
+            <con:type>JSONPATH</con:type>
+            <con:targetTransferType>JSONPATH</con:targetTransferType>
+            <con:upgraded>true</con:upgraded>
+          </con:transfers>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="03-zgw-postResultaatTypeV1" id="47277169-29f8-4440-a036-92d620a26919">
+        <con:settings/>
+        <con:config service="Catalogi API" methodName="resultaattype_create" resourcePath="/resultaattypen" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="03-zgw-postResultaatTypeV1" id="eee5b654-5440-4015-a9b4-cf264165bc4b" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${Properties#JwtToken}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
+            <con:request>{
+"zaaktype": "${#TestSuite#ZTV-V1Url}",
+"omschrijving": "Gave a thing",
+"resultaattypeomschrijving": "https://selectielijst.openzaak.nl/api/v1/resultaattypeomschrijvingen/ce8cf476-0b59-496f-8eee-957a7c6e2506",
+"selectielijstklasse": "https://selectielijst.openzaak.nl/api/v1/resultaten/733f7553-fb30-4e68-8aa6-2d211de84fb7",
+"toelichting": "",
+"archiefnominatie": "vernietigen",
+"archiefactietermijn": "P365D",
+"brondatumArchiefprocedure": {
+"afleidingswijze": "afgehandeld",
+"datumkenmerk": "",
+"einddatumBekend": false,
+"objecttype": "",
+"registratie": "",
+"procestermijn": null
+}
+}</con:request>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="66530c58-a4fb-417b-93e2-699ec3f9bb9b" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200,201</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="Content-Type" value="application/json" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="04-zgw-postRolType1V1" id="46fbc63d-9af7-49cd-b3e3-76d071c01a4d">
+        <con:settings/>
+        <con:config service="Catalogi API" methodName="roltype_create" resourcePath="/roltypen" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="04-zgw-postRolType1V1" id="3db5adbf-f771-409c-aae8-a1626eaba85f" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${Properties#JwtToken}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
+            <con:request>{
+"zaaktype": "${#TestSuite#ZTV-V1Url}",
+"omschrijving": "Uitvoerende",
+"omschrijvingGeneriek": "behandelaar"
+}</con:request>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="d7a6287a-c6b9-4803-88c2-9f0c43f49d0a" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200,201</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="Content-Type" value="application/json" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="05-zgw-postRolType2V1" id="3a96f2b0-b4cf-4e91-843b-74aa98024756">
+        <con:settings/>
+        <con:config service="Catalogi API" methodName="roltype_create" resourcePath="/roltypen" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="05-zgw-postRolType2V1" id="bf43496e-2e1f-427b-9dc4-65acebcc07d3" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${Properties#JwtToken}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
+            <con:request>{
+"zaaktype": "${#TestSuite#ZTV-V1Url}",
+"omschrijving": "Initiator",
+"omschrijvingGeneriek": "initiator"
+}</con:request>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="8155dc1c-cd23-44fc-a963-cf324f973ab0" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200,201</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="Content-Type" value="application/json" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="06-zgw-postStatusType1V1" id="7bc95d97-ebd1-4ee3-840e-9f3f80ef4f9d">
+        <con:settings/>
+        <con:config service="Catalogi API" methodName="statustype_create" resourcePath="/statustypen" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="06-zgw-postStatusType1V1" id="61c00843-e30f-40d7-b421-f2004091c63e" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${Properties#JwtToken}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
+            <con:request>{
+"omschrijving": "Ontvangen",
+"omschrijvingGeneriek": "Ontvangen",
+"statustekst": "",
+"zaaktype": "${#TestSuite#ZTV-V1Url}",
+"volgnummer": 1,
+"informeren": false
+}</con:request>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="7d2c3372-4cbb-4ac6-9724-538066cf946e" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200,201</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="Content-Type" value="application/json" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="transfer" name="06a-TransferStatusType1V1Url" id="8ae4ade8-d413-4f6f-8d06-cecc1cc21af8">
+        <con:settings/>
+        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+            <con:name>TransferZaakTypeUrl</con:name>
+            <con:sourceType>Response</con:sourceType>
+            <con:sourceStep>06-zgw-postStatusType1V1</con:sourceStep>
+            <con:sourcePath>$.url</con:sourcePath>
+            <con:targetType>ZTV-V1StatusType1Url</con:targetType>
+            <con:targetStep>#TestSuite#</con:targetStep>
+            <con:type>JSONPATH</con:type>
+            <con:targetTransferType>JSONPATH</con:targetTransferType>
+            <con:upgraded>true</con:upgraded>
+          </con:transfers>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="07-zgw-postStatusType2V1" id="2e6c0b6f-1782-46ac-8a36-06673ed141ae">
+        <con:settings/>
+        <con:config service="Catalogi API" methodName="statustype_create" resourcePath="/statustypen" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="07-zgw-postStatusType2V1" id="5c23f5f3-4770-4c01-a2a0-8baa16aa4385" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${Properties#JwtToken}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
+            <con:request>{
+"omschrijving": "Afgehandeld",
+"omschrijvingGeneriek": "Afgehandeld",
+"statustekst": "",
+"zaaktype": "${#TestSuite#ZTV-V1Url}",
+"volgnummer": 2,
+"informeren": false
+}</con:request>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="7616e895-efdb-4c5a-9f32-27f8bee62962" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200,201</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="Content-Type" value="application/json" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="08-zgw-publiceerZaakTypeV1" id="d215d9b9-2789-4984-88b7-4ca55d29a15a">
+        <con:settings/>
+        <con:config method="POST" xsi:type="con:HttpRequest" id="a21a9ac0-4077-4170-ad5b-a5a2dedd4563" name="08-zgw-publiceerZaakTypeV1" postQueryString="false" mediaType="application/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${#TestSuite#ZTV-V1Url}/publish</con:endpoint>
+          <con:request/>
+          <con:assertion type="Valid HTTP Status Codes" id="d486374c-74f3-43b2-a4db-7afe48d83d1d" name="Valid HTTP Status Codes">
+            <con:configuration>
+              <codes>200,201</codes>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Content-Type</con:name>
+              <con:value>application/json</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>application/json</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${#Project#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="12-zgw-postZaakTypeV2" id="51f30882-66d6-449f-afb6-32d762f5bd9d">
+        <con:settings/>
+        <con:config service="Catalogi API" methodName="zaaktype_create" resourcePath="/zaaktypen" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="12-zgw-postZaakTypeV2" id="33be59d9-0c45-4ba8-a282-8f2f480e72a7" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${Properties#JwtToken}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
+            <con:request>{
+  "identificatie": "ZTVERSIE",
+  "omschrijving": "ZTVERSIE V2",
+  "omschrijvingGeneriek": "Rijbewijs",
+  "vertrouwelijkheidaanduiding": "vertrouwelijk",
+  "doel": "Het behandelen van een aanvraag voor een rijbewijs",
+  "aanleiding": "Dit werkproces wordt extern getriggerd door een inkomende aanvraag.",
+  "toelichting": "NVVB-benaming 'Rijbewijzen'. Dit werkproces betreft het behandelen van een aanvraag voor een rijbewijs. 'NRD' staat voor Nieuw Rijbewijs Document en dit rijbewijs heeft een creditcardformaat.",
+  "indicatieInternOfExtern": "extern",
+  "handelingInitiator": "Aanvragen",
+  "onderwerp": "Rijbewijs",
+  "handelingBehandelaar": "Behandelen",
+  "doorlooptijd": "P28D",
+  "servicenorm": null,
+  "opschortingEnAanhoudingMogelijk": true,
+  "verlengingMogelijk": false,
+  "verlengingstermijn": null,
+  "trefwoorden": ["Rijbewijs"],
+  "publicatieIndicatie": false,
+  "publicatietekst": "",
+  "verantwoordingsrelatie": [],
+  "productenOfDiensten": [
+    "https://referentielijsten-api.vng.cloud/api/v1/procestypen/3b29996b-bc3a-4493-ae35-e0de2926f007"
+    ],
+  "selectielijstProcestype": "https://selectielijst.openzaak.nl/api/v1/procestypen/0f86ece3-f863-4c67-928e-cc71ad0e2318",
+  "referentieproces": {
+    "naam": "Behandelen aanvraag product",
+    "link": "https://www.gemmaonline.nl/index.php/GEMMA2/0.9/id-49fe8555-b001-4c86-9a81-20491e16af75"
+  },
+  "verantwoordelijke": "Projectleider",
+  "catalogus": "${#TestSuite#CatalogusUrl}",
+  "besluittypen": [],
+  "deelzaaktypen": [],
+  "gerelateerdeZaaktypen": [],
+  "beginGeldigheid": "2021-01-01",
+  "eindeGeldigheid": null,
+  "versiedatum": "2021-01-01"
+}</con:request>
+            <con:originalUri>http://localhost/catalogi/api/v1/zaaktypen</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="b7c634e1-4222-4409-85a7-ed151a0d9a11" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200,201</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="Content-Type" value="application/json" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="transfer" name="12a-TransferZaakTypeV2Url" id="550ba8f0-04ff-4fe8-a050-0164b09cb50e">
+        <con:settings/>
+        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+            <con:name>TransferZaakTypeUrl</con:name>
+            <con:sourceType>Response</con:sourceType>
+            <con:sourceStep>12-zgw-postZaakTypeV2</con:sourceStep>
+            <con:sourcePath>$.url</con:sourcePath>
+            <con:targetType>ZTV-V2Url</con:targetType>
+            <con:targetStep>#TestSuite#</con:targetStep>
+            <con:type>JSONPATH</con:type>
+            <con:targetTransferType>JSONPATH</con:targetTransferType>
+            <con:upgraded>true</con:upgraded>
+          </con:transfers>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="13-zgw-postResultaatTypeV2" id="90063586-100b-4307-bb07-a1e5d4d15ac3">
+        <con:settings/>
+        <con:config service="Catalogi API" methodName="resultaattype_create" resourcePath="/resultaattypen" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="13-zgw-postResultaatTypeV2" id="05fc7b94-3706-4afc-9840-6eca00952050" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${Properties#JwtToken}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
+            <con:request>{
+"zaaktype": "${#TestSuite#ZTV-V2Url}",
+"omschrijving": "Gave a thing",
+"resultaattypeomschrijving": "https://selectielijst.openzaak.nl/api/v1/resultaattypeomschrijvingen/ce8cf476-0b59-496f-8eee-957a7c6e2506",
+"selectielijstklasse": "https://selectielijst.openzaak.nl/api/v1/resultaten/733f7553-fb30-4e68-8aa6-2d211de84fb7",
+"toelichting": "",
+"archiefnominatie": "vernietigen",
+"archiefactietermijn": "P365D",
+"brondatumArchiefprocedure": {
+"afleidingswijze": "afgehandeld",
+"datumkenmerk": "",
+"einddatumBekend": false,
+"objecttype": "",
+"registratie": "",
+"procestermijn": null
+}
+}</con:request>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="6527a824-6d01-4de6-9e1f-ce27d1c6dea5" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200,201</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="Content-Type" value="application/json" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="14-zgw-postRolType1V2" id="f2d2e404-253d-4dd4-ad78-839e0beb8eea">
+        <con:settings/>
+        <con:config service="Catalogi API" methodName="roltype_create" resourcePath="/roltypen" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="14-zgw-postRolType1V2" id="0ca1af69-4aec-4756-b108-e941269c3e19" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${Properties#JwtToken}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
+            <con:request>{
+"zaaktype": "${#TestSuite#ZTV-V2Url}",
+"omschrijving": "Uitvoerende",
+"omschrijvingGeneriek": "behandelaar"
+}</con:request>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="1f2f9cfa-df75-40ab-b30a-28ca093ec19c" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200,201</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="Content-Type" value="application/json" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="15-zgw-postRolType2V2" id="193921ac-fd19-4556-b49f-2e99523c647c">
+        <con:settings/>
+        <con:config service="Catalogi API" methodName="roltype_create" resourcePath="/roltypen" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="15-zgw-postRolType2V2" id="de88f584-5aa5-4138-b890-a2a09752aee2" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${Properties#JwtToken}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
+            <con:request>{
+"zaaktype": "${#TestSuite#ZTV-V2Url}",
+"omschrijving": "Initiator",
+"omschrijvingGeneriek": "initiator"
+}</con:request>
+            <con:originalUri>http://localhost/catalogi/api/v1/resultaattypen</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="381a8808-ae7f-41a2-b468-fb3a74f18987" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200,201</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="Content-Type" value="application/json" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="16-zgw-postStatusType1V2" id="50dbd881-360f-4801-9a83-a1aaf0d46878">
+        <con:settings/>
+        <con:config service="Catalogi API" methodName="statustype_create" resourcePath="/statustypen" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="16-zgw-postStatusType1V2" id="58b8f050-437e-45d9-933e-c345fd64e57f" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${Properties#JwtToken}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
+            <con:request>{
+"omschrijving": "Ontvangen",
+"omschrijvingGeneriek": "Ontvangen",
+"statustekst": "",
+"zaaktype": "${#TestSuite#ZTV-V2Url}",
+"volgnummer": 1,
+"informeren": false
+}</con:request>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="8b216ef1-fe7d-4779-b27b-f8b8a1fbbe3d" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200,201</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="Content-Type" value="application/json" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="transfer" name="16a-TransferStatusType1V2Url" id="5c43cbae-280a-4447-b909-077356e980db">
+        <con:settings/>
+        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+            <con:name>TransferZaakTypeUrl</con:name>
+            <con:sourceType>Response</con:sourceType>
+            <con:sourceStep>16-zgw-postStatusType1V2</con:sourceStep>
+            <con:sourcePath>$.url</con:sourcePath>
+            <con:targetType>ZTV-V2StatusType1Url</con:targetType>
+            <con:targetStep>#TestSuite#</con:targetStep>
+            <con:type>JSONPATH</con:type>
+            <con:targetTransferType>JSONPATH</con:targetTransferType>
+            <con:upgraded>true</con:upgraded>
+          </con:transfers>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="17-zgw-postStatusType2V2" id="d0cc4ee5-ea62-46d0-9600-e5e1f518ed75">
+        <con:settings/>
+        <con:config service="Catalogi API" methodName="statustype_create" resourcePath="/statustypen" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="17-zgw-postStatusType2V2" id="6830cd2a-0c99-4d60-b178-2e705d02a296" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${Properties#JwtToken}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#OpenZaakCatalogiApiRootUrl}</con:endpoint>
+            <con:request>{
+"omschrijving": "Afgehandeld",
+"omschrijvingGeneriek": "Afgehandeld",
+"statustekst": "",
+"zaaktype": "${#TestSuite#ZTV-V2Url}",
+"volgnummer": 2,
+"informeren": false
+}</con:request>
+            <con:originalUri>http://localhost/catalogi/api/v1/statustypen</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="45e8bf13-93c9-44ba-b814-93d008ef5752" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200,201</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="Content-Type" value="application/json" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="18-zgw-publiceerZaakTypeV2" id="70197596-8397-44a2-a2f7-a2e19edf2db0">
+        <con:settings/>
+        <con:config method="POST" xsi:type="con:HttpRequest" id="f77dd404-0546-4794-8c6c-797589a956f0" name="18-zgw-publiceerZaakTypeV2" postQueryString="false" mediaType="application/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${#TestSuite#ZTV-V2Url}/publish</con:endpoint>
+          <con:request/>
+          <con:assertion type="Valid HTTP Status Codes" id="9470aa43-0a92-4de6-9794-694647fa0657" name="Valid HTTP Status Codes">
+            <con:configuration>
+              <codes>200,201</codes>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Content-Type</con:name>
+              <con:value>application/json</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>application/json</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${#Project#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+    </con:testCase>
+    <con:testCase id="1e5b49a0-6418-4211-9a33-77fc0347c51d" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="1-TestCase-ActualiseerZaakstatusOnZaakWithExpiredZaakTypeVersionShouldUseStatusTypeOfThatVersion" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="">
+      <con:settings/>
+      <con:testStep type="properties" name="Properties" id="322fae5e-2fb2-4128-828b-2e0a0d8460f5">
+        <con:settings/>
+        <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:properties>
+            <con:property>
+              <con:name>ZaakIdentificatie</con:name>
+              <con:value/>
+            </con:property>
+            <con:property>
+              <con:name>ZaakUrl</con:name>
+              <con:value/>
+            </con:property>
+            <con:property>
+              <con:name>JwtToken</con:name>
+              <con:value/>
+            </con:property>
+          </con:properties>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="request" id="849177f3-2d4d-49c7-81b4-44756e8c6efe" name="01-zds-genereerZaakIdentificatie_Di02">
+        <con:settings/>
+        <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:interface>ZdsVrijeBerichten</con:interface>
+          <con:operation>genereerZaakIdentificatie_Di02</con:operation>
+          <con:request name="01-zds-genereerZaakIdentificatie_Di02" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="eac67d4b-3fcc-4b58-a5aa-002875ad1e61">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+              <con:setting id="com.eviware.soapui.impl.support.AbstractHttpRequest@dump-file"/>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#ZaakbrugEndpoint}translate/generic/zds/VrijBericht</con:endpoint>
+            <con:request><![CDATA[<SOAP-ENV:Envelope xsi:schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 zkn0310-p28\zs-dms\zkn0310_msg_zs-dms_resolved.xsd" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <SOAP-ENV:Header/>
+   <SOAP-ENV:Body>
+      <ZKN:genereerZaakIdentificatie_Di02>
+         <ZKN:stuurgegevens>
+            <StUF:berichtcode>Di02</StUF:berichtcode>
+            <StUF:zender>
+               <StUF:organisatie>1900</StUF:organisatie>
+               <StUF:applicatie>GWS4all</StUF:applicatie>
+               <StUF:gebruiker>Gebruiker</StUF:gebruiker>
+            </StUF:zender>
+            <StUF:ontvanger>
+               <StUF:organisatie>1900</StUF:organisatie>
+               <StUF:applicatie>CDR</StUF:applicatie>
+            </StUF:ontvanger>
+            <StUF:referentienummer>${=java.util.UUID.randomUUID().toString() }</StUF:referentienummer>
+            <StUF:tijdstipBericht>${=import java.text.SimpleDateFormat; SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS"); sdf.setTimeZone(TimeZone.getTimeZone("${#Project#ZdsTimezone}")); sdf.format(new Date());}</StUF:tijdstipBericht>
+            <StUF:functie>genereerZaakidentificatie</StUF:functie>
+         </ZKN:stuurgegevens>
+      </ZKN:genereerZaakIdentificatie_Di02>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>]]></con:request>
+            <con:assertion type="SOAP Response" id="b495b4f2-5c5a-4e2c-8554-3f75428fb753" name="SOAP Response"/>
+            <con:assertion type="Schema Compliance" id="720ed1a1-2965-40ee-8b6b-f106f890f48c" name="Schema Compliance">
+              <con:configuration/>
+            </con:assertion>
+            <con:assertion type="SOAP Fault Assertion" id="df77cf29-b11e-4836-9849-6e1f83cb39a3" name="Not SOAP Fault"/>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.egem.nl/StUF/sector/zkn/0310/genereerZaakIdentificatie_Di02"/>
+            <con:wsrmConfig version="1.2"/>
+          </con:request>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="transfer" name="01a-TransferZaakIdentificatie" id="566cc6bc-b380-492c-a148-11b4c66a4a72">
+        <con:settings/>
+        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false" disabled="false">
+            <con:name>TransferZaakIdentificatie</con:name>
+            <con:sourceType>Response</con:sourceType>
+            <con:sourceStep>01-zds-genereerZaakIdentificatie_Di02</con:sourceStep>
+            <con:sourcePath>declare namespace ZKN="http://www.egem.nl/StUF/sector/zkn/0310";
+//ZKN:identificatie[1]</con:sourcePath>
+            <con:targetType>ZaakIdentificatie</con:targetType>
+            <con:targetStep>Properties</con:targetStep>
+            <con:targetPath/>
+            <con:type>XPATH</con:type>
+            <con:upgraded>true</con:upgraded>
+          </con:transfers>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="groovy" name="02-zgw-generateJwt" id="d177cefa-9879-4f95-b706-67e995907ed4">
+        <con:settings/>
+        <con:config>
+          <script>import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import javax.crypto.spec.SecretKeySpec
+import javax.crypto.Mac
+import java.time.Duration
+
+def jwtClientId = context.expand( '${#Project#jwtClientId}' )
+def jwtSecret = context.expand( '${#Project#jwtSecret}' )
+
+def createJwt(Integer validSeconds, String clientId, String secret) {
+    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
+    def rightNowMilli = System.currentTimeMillis()
+    def rightNowSec = Math.round(rightNowMilli / 1000)
+    def expirationSec = rightNowSec + validSeconds
+    def jtiValue = UUID.randomUUID().toString()
+
+    Map header = [alg: "HS256", typ: "JWT"]
+    def headerJson = JsonOutput.toJson(header)
+    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+    
+    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
+    def payloadJson = JsonOutput.toJson(payload)
+    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+
+    def toBeSigned = headerBase64 + "." + payloadBase64
+    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
+    
+    Mac mac = Mac.getInstance("HmacSHA256")
+    mac.init(secretKeySpec)
+    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
+    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+
+    headerBase64 + "." + payloadBase64 + "." + signature
+}
+
+// Create the JWT.
+def token = createJwt(600, jwtClientId, jwtSecret)
+testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="03-zgw-postZaakOnZaakTypeV1" id="9a203560-df3d-44b9-967c-89009977995f">
+        <con:settings/>
+        <con:config method="POST" xsi:type="con:HttpRequest" id="1a86945c-8d76-488b-844d-5fde2e5d66c2" name="03-zgw-postZaakOnZaakTypeV1" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/zaken</con:endpoint>
+          <con:request>{
+  "identificatie": "${Properties#ZaakIdentificatie}",
+  "bronorganisatie": "548746485",
+  "verantwoordelijkeOrganisatie": "548746485",
+  "omschrijving": "Zaak op verlopen zaaktypeversie",
+  "zaaktype": "${#TestSuite#ZTV-V1Url}",
+  "startdatum": "2020-06-01",
+  "registratiedatum": "2020-06-01"
+}</con:request>
+          <con:assertion type="Valid HTTP Status Codes" id="6e2de9b2-6de8-450d-bfef-b0fbc210d36e" name="Valid HTTP Status Codes">
+            <con:configuration>
+              <codes>201</codes>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="f2b41ab2-f534-4dff-887a-7f34f8a8997a" name="ZaakIsOnZaakTypeV1">
+            <con:configuration>
+              <path>$.zaaktype</path>
+              <content>${#TestSuite#ZTV-V1Url}</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Accept-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Content-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${Properties#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="transfer" name="03a-TransferZaakUrl" id="762cbf9a-0466-444b-a723-b73aa7a09e10">
+        <con:settings/>
+        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+            <con:name>TransferZaakTypeUrl</con:name>
+            <con:sourceType>Response</con:sourceType>
+            <con:sourceStep>03-zgw-postZaakOnZaakTypeV1</con:sourceStep>
+            <con:sourcePath>$.url</con:sourcePath>
+            <con:targetType>ZaakUrl</con:targetType>
+            <con:targetStep>Properties</con:targetStep>
+            <con:type>JSONPATH</con:type>
+            <con:targetTransferType>JSONPATH</con:targetTransferType>
+            <con:upgraded>true</con:upgraded>
+          </con:transfers>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="request" id="e3af4c3e-72fe-42b2-b6eb-55690a553253" name="04-zds-actualiseerZaakstatus_Lk01-firstStatus">
+        <con:settings/>
+        <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:interface>ZdsOntvangAsynchroon</con:interface>
+          <con:operation>actualiseerZaakstatus_Lk01</con:operation>
+          <con:request name="04-zds-actualiseerZaakstatus_Lk01-firstStatus" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="4c481ced-2052-4da1-a242-003f51635f1b">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+              <con:setting id="com.eviware.soapui.impl.support.AbstractHttpRequest@dump-file"/>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#ZaakbrugEndpoint}translate/generic/zds/OntvangAsynchroon</con:endpoint>
+            <con:request><![CDATA[<SOAP-ENV:Envelope xsi:schemaLocation="http://www.egem.nl/StUF/sector/zkn/0310 zkn0310-p28\mutatie\zkn0310_msg_mutatie_resolved.xsd" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:BG="http://www.egem.nl/StUF/sector/bg/0310" xmlns:StUF="http://www.egem.nl/StUF/StUF0301" xmlns:ZKN="http://www.egem.nl/StUF/sector/zkn/0310" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\r
+   <SOAP-ENV:Header/>\r
+   <SOAP-ENV:Body>\r
+      <ZKN:zakLk01>\r
+         <ZKN:stuurgegevens>\r
+            <StUF:berichtcode>Lk01</StUF:berichtcode>\r
+            <StUF:zender>\r
+               <StUF:organisatie>1900</StUF:organisatie>\r
+               <StUF:applicatie>GWS4all</StUF:applicatie>\r
+               <StUF:gebruiker>Gebruiker</StUF:gebruiker>\r
+            </StUF:zender>\r
+            <StUF:ontvanger>\r
+               <StUF:organisatie>1900</StUF:organisatie>\r
+               <StUF:applicatie>CDR</StUF:applicatie>\r
+            </StUF:ontvanger>\r
+            <StUF:referentienummer>${=java.util.UUID.randomUUID().toString() }</StUF:referentienummer>\r
+            <StUF:tijdstipBericht>${=import java.text.SimpleDateFormat; SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS"); sdf.setTimeZone(TimeZone.getTimeZone("${#Project#ZdsTimezone}")); sdf.format(new Date());}</StUF:tijdstipBericht>\r
+            <StUF:entiteittype>ZAK</StUF:entiteittype>\r
+         </ZKN:stuurgegevens>\r
+         <ZKN:parameters>\r
+            <StUF:mutatiesoort>W</StUF:mutatiesoort>\r
+            <StUF:indicatorOvername>V</StUF:indicatorOvername>\r
+         </ZKN:parameters>\r
+         <ZKN:object StUF:sleutelVerzendend="${Properties#ZaakIdentificatie}" StUF:entiteittype="ZAK" StUF:verwerkingssoort="W">\r
+            <ZKN:identificatie>${Properties#ZaakIdentificatie}</ZKN:identificatie>\r
+            <ZKN:omschrijving>ZTVERSIE</ZKN:omschrijving>\r
+            <ZKN:startdatum>20200601</ZKN:startdatum>\r
+            <ZKN:registratiedatum>20200601</ZKN:registratiedatum>\r
+            <ZKN:isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="I">\r
+               <ZKN:gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="I">\r
+                  <ZKN:omschrijving>ZTVERSIE</ZKN:omschrijving>\r
+                  <ZKN:code>ZTVERSIE</ZKN:code>\r
+                  <ZKN:ingangsdatumObject xsi:nil="true" StUF:noValue="geenWaarde"/>\r
+               </ZKN:gerelateerde>\r
+            </ZKN:isVan>\r
+            <ZKN:heeft StUF:entiteittype="ZAKSTT" StUF:verwerkingssoort="T" xsi:nil="true" StUF:noValue="geenWaarde"/>\r
+         </ZKN:object>\r
+         <ZKN:object StUF:sleutelVerzendend="${Properties#ZaakIdentificatie}" StUF:entiteittype="ZAK" StUF:verwerkingssoort="W">\r
+            <ZKN:identificatie>${Properties#ZaakIdentificatie}</ZKN:identificatie>\r
+            <ZKN:omschrijving>ZTVERSIE</ZKN:omschrijving>\r
+            <ZKN:startdatum>20200601</ZKN:startdatum>\r
+            <ZKN:registratiedatum>20200601</ZKN:registratiedatum>\r
+            <ZKN:isVan StUF:entiteittype="ZAKZKT" StUF:verwerkingssoort="I">\r
+               <ZKN:gerelateerde StUF:entiteittype="ZKT" StUF:verwerkingssoort="I">\r
+                  <ZKN:omschrijving>ZTVERSIE</ZKN:omschrijving>\r
+                  <ZKN:code>ZTVERSIE</ZKN:code>\r
+                  <ZKN:ingangsdatumObject xsi:nil="true" StUF:noValue="geenWaarde"/>\r
+               </ZKN:gerelateerde>\r
+            </ZKN:isVan>\r
+            <ZKN:heeft StUF:entiteittype="ZAKSTT" StUF:verwerkingssoort="T">
+               <ZKN:gerelateerde StUF:entiteittype="STT" StUF:verwerkingssoort="T">
+                  <ZKN:zkt.code>ZTVERSIE</ZKN:zkt.code>
+                  <ZKN:zkt.omschrijving>ZTVERSIE</ZKN:zkt.omschrijving>
+                  <ZKN:volgnummer>0001</ZKN:volgnummer>
+                  <ZKN:omschrijving>Ontvangen</ZKN:omschrijving>
+                  <ZKN:ingangsdatumObject xsi:nil="true" StUF:noValue="geenWaarde"/>
+               </ZKN:gerelateerde>
+               <ZKN:datumStatusGezet>${=import java.text.SimpleDateFormat; SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS"); sdf.setTimeZone(TimeZone.getTimeZone("${#Project#ZdsTimezone}")); sdf.format(new Date());}</ZKN:datumStatusGezet>
+            </ZKN:heeft>
+         </ZKN:object>\r
+      </ZKN:zakLk01>\r
+   </SOAP-ENV:Body>\r
+</SOAP-ENV:Envelope>]]></con:request>
+            <con:assertion type="SOAP Response" id="19472996-ddac-40f4-9287-9ebbd1001430" name="SOAP Response"/>
+            <con:assertion type="Schema Compliance" id="88d4e53d-9769-4153-a645-3188d74ce8ea" name="Schema Compliance">
+              <con:configuration/>
+            </con:assertion>
+            <con:assertion type="SOAP Fault Assertion" id="54765a0f-205e-4848-b02c-90805f12d714" name="Not SOAP Fault"/>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.egem.nl/StUF/sector/zkn/0310/actualiseerZaakstatus_Lk01"/>
+            <con:wsrmConfig version="1.2"/>
+          </con:request>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="05-zgw-getStatussenOfZaak" id="ceb7b526-f95e-4ee8-9855-9ea84cfd0cfc">
+        <con:settings/>
+        <con:config method="GET" xsi:type="con:HttpRequest" id="9cc1c298-5640-4998-a4ac-b2ecdc05d014" name="05-zgw-getStatussenOfZaak" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${#Project#OpenZaakZakenApiRootUrl}/statussen</con:endpoint>
+          <con:request/>
+          <con:assertion type="Valid HTTP Status Codes" id="c0211ccb-8b1a-44cd-a699-37f0bc506635" name="Valid HTTP Status Codes">
+            <con:configuration>
+              <codes>200</codes>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="d3d85c78-6a02-4fa6-a3cb-ac604660e4ff" name="ExactlyOneStatus">
+            <con:configuration>
+              <path>$.count</path>
+              <content>1</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:assertion type="JsonPath Match" id="25d570f2-5e20-4c00-ac35-054623f70b6a" name="StatusTypeIsFromZaakTypeV1">
+            <con:configuration>
+              <path>$.results[0].statustype</path>
+              <content>${#TestSuite#ZTV-V1StatusType1Url}</content>
+              <allowWildcards>false</allowWildcards>
+              <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+              <ignoreComments>false</ignoreComments>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Accept-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Content-Crs</con:name>
+              <con:value>EPSG:4326</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>EPSG:4326</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${Properties#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+            <con:parameter>
+              <con:name>zaak</con:name>
+              <con:value>${Properties#ZaakUrl}</con:value>
+              <con:style>QUERY</con:style>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="99-zgw-deleteZaak" id="56123bb9-597f-4cf4-92ca-11f26f06f450">
+        <con:settings/>
+        <con:config method="DELETE" xsi:type="con:HttpRequest" id="c11f918c-3cfe-40f9-881d-10c88655a6da" name="99-zgw-deleteZaak" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${Properties#ZaakUrl}</con:endpoint>
+          <con:request/>
+          <con:assertion type="Valid HTTP Status Codes" id="c1013017-6209-44d5-b928-62c424f20576" name="Valid HTTP Status Codes">
+            <con:configuration>
+              <codes>204</codes>
+            </con:configuration>
+          </con:assertion>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${Properties#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+    </con:testCase>
+    <con:testCase id="d33b9838-0edf-480d-b303-b28dbb45af36" failOnError="false" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TearDown-Delete ZaakType ZTVERSIE V1 And V2" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" disabled="true">
+      <con:settings/>
+      <con:testStep type="properties" name="Properties" id="06da2561-5aac-4f94-803d-99dad7129aac">
+        <con:settings/>
+        <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:properties>
+            <con:property>
+              <con:name>JwtToken</con:name>
+              <con:value/>
+            </con:property>
+          </con:properties>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="groovy" name="00-zgw-generateJwt" id="f3fd26e8-a95b-476a-8396-91b7bf3ec353">
+        <con:settings/>
+        <con:config>
+          <script>import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import javax.crypto.spec.SecretKeySpec
+import javax.crypto.Mac
+import java.time.Duration
+
+def jwtClientId = context.expand( '${#Project#jwtClientId}' )
+def jwtSecret = context.expand( '${#Project#jwtSecret}' )
+
+def createJwt(Integer validSeconds, String clientId, String secret) {
+    TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
+    def rightNowMilli = System.currentTimeMillis()
+    def rightNowSec = Math.round(rightNowMilli / 1000)
+    def expirationSec = rightNowSec + validSeconds
+    def jtiValue = UUID.randomUUID().toString()
+
+    Map header = [alg: "HS256", typ: "JWT"]
+    def headerJson = JsonOutput.toJson(header)
+    def headerBase64 = headerJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+    
+    Map payload = [exp: expirationSec, iat: rightNowSec, iss: clientId, client_id: clientId, user_id: clientId, user_reresentation: clientId, jti: jtiValue]
+    def payloadJson = JsonOutput.toJson(payload)
+    def payloadBase64 = payloadJson.getBytes("UTF-8").encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+
+    def toBeSigned = headerBase64 + "." + payloadBase64
+    SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256")
+    
+    Mac mac = Mac.getInstance("HmacSHA256")
+    mac.init(secretKeySpec)
+    byte[] digest = mac.doFinal(toBeSigned.getBytes("UTF-8"))
+    def signature = digest.encodeBase64().toString().split("=")[0].replaceAll("\\+", "-").replaceAll("/", "_")
+
+    headerBase64 + "." + payloadBase64 + "." + signature
+}
+
+// Create the JWT.
+def token = createJwt(600, jwtClientId, jwtSecret)
+testRunner.testCase.getTestStepByName("Properties").setPropertyValue( 'JwtToken', "Bearer " + token)</script>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="01-zgw-deleteZaakTypeV1" id="632ecbfc-9b54-463e-97b1-7986500b204d">
+        <con:settings/>
+        <con:config method="DELETE" xsi:type="con:HttpRequest" id="a3cf4347-246f-4ef4-be4c-e97d60fb473c" name="01-zgw-deleteZaakTypeV1" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${#TestSuite#ZTV-V1Url}</con:endpoint>
+          <con:request/>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${Properties#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="httprequest" name="02-zgw-deleteZaakTypeV2" id="213f1691-0622-4d1a-af44-0357e32ce99b">
+        <con:settings/>
+        <con:config method="DELETE" xsi:type="con:HttpRequest" id="a8d2cd71-36e4-485b-b76d-3150f2be2e80" name="02-zgw-deleteZaakTypeV2" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>${#TestSuite#ZTV-V2Url}</con:endpoint>
+          <con:request/>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:parameter>
+              <con:name>Authorization</con:name>
+              <con:value>${Properties#JwtToken}</con:value>
+              <con:style>HEADER</con:style>
+              <con:default>${Properties#JwtToken}</con:default>
+              <con:path xsi:nil="true"/>
+              <con:description xsi:nil="true"/>
+            </con:parameter>
+          </con:parameters>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+    </con:testCase>
+    <con:properties>
+      <con:property>
+        <con:name>CatalogusUrl</con:name>
+        <con:value/>
+      </con:property>
+      <con:property>
+        <con:name>ZTV-V1Url</con:name>
+        <con:value/>
+      </con:property>
+      <con:property>
+        <con:name>ZTV-V2Url</con:name>
+        <con:value/>
+      </con:property>
+      <con:property>
+        <con:name>ZTV-V1StatusType1Url</con:name>
+        <con:value/>
+      </con:property>
+      <con:property>
+        <con:name>ZTV-V2StatusType1Url</con:name>
+        <con:value/>
+      </con:property>
+    </con:properties>
+    <con:setupScript>import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCaseRunner
+
+for (testCase in testSuite.getTestCaseList()) {
+    if(testCase.name.startsWith("SetUp")) {
+        new WsdlTestCaseRunner(testCase, null).run();
+    }
+}</con:setupScript>
+    <con:tearDownScript>import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCaseRunner
+
+for (testCase in testSuite.getTestCaseList()) {
+    if(testCase.name.startsWith("TearDown")) {
+        new WsdlTestCaseRunner(testCase, null).run();
+    }
+}</con:tearDownScript>
+  </con:testSuite>
   <con:testSuite id="d3444b56-3158-4f53-b6c6-d4c84057488d" name="9-TestSuite-RoutingProfiles" disabled="true">
     <con:settings/>
     <con:runType>SEQUENTIAL</con:runType>
