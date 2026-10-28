@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.26.20](https://github.com/wearefrank/zaakbrug/compare/v1.26.19...v1.26.20) (2026-10-28)
+
+### 🐛 Bug Fixes
+
+* lock whole genereerIdentificatieEmulator adapter to remedy concurrency issue during initial creation in the database ([2e425d8](https://github.com/wearefrank/zaakbrug/commit/2e425d849c511fdd5c19bdcc2115dd49da7affac))
+
 ## [1.26.19](https://github.com/wearefrank/zaakbrug/compare/v1.26.18...v1.26.19) (2026-09-25)
 
 ### 🐛 Bug Fixes
