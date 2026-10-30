@@ -1,5 +1,15 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.27.0](https://github.com/wearefrank/zaakbrug/compare/v1.26.20...v1.27.0) (2026-10-30)
+
+### 🍕 Features
+
+* added e2e test for actualiseerZaakstatus to test a zaak on expired zaaktype version ([0735b6a](https://github.com/wearefrank/zaakbrug/commit/0735b6ae9a18ff7f22adeac4d74540bc748a3a24))
+
+### 🐛 Bug Fixes
+
+* use zaaktype version of existing zaak in actualiseerZaakstatus ([360968f](https://github.com/wearefrank/zaakbrug/commit/360968f7027a3e0267f5cca8a8896935a4842af0))
+
 ## [1.26.20](https://github.com/wearefrank/zaakbrug/compare/v1.26.19...v1.26.20) (2026-10-28)
 
 ### 🐛 Bug Fixes
