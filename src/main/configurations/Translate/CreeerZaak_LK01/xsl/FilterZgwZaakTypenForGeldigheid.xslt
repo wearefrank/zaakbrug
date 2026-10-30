@@ -17,7 +17,7 @@
     
     <xsl:template match="/">
         <ZgwZaakTypen>
-            <xsl:variable name="kandidaten" as="element(ZgwZaakType)*">
+            <xsl:variable name="matchingZaakTypen" as="element(ZgwZaakType)*">
                 <xsl:choose>
                     <xsl:when test="exists($ingangsdatum)">
                         <xsl:sequence select="ZgwZaakTypen/ZgwZaakType[
@@ -29,7 +29,7 @@
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:variable>
-            <xsl:for-each select="$kandidaten">
+            <xsl:for-each select="$matchingZaakTypen">
                 <xsl:sort select="xs:date(beginGeldigheid)" order="descending"/>
                 <xsl:if test="position() = 1">
                     <ZgwZaakType>
