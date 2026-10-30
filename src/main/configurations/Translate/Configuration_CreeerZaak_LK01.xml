@@ -31,6 +31,7 @@
                 styleSheetName="CreeerZaak_LK01/xsl/FilterZgwZaakTypenForGeldigheid.xslt"
                 storeResultInSessionKey="GetZaakTypeResult"
                 >
+                <Param name="IngangsdatumObject" sessionKey="originalMessage" xpathExpression="/zakLk01/object/isVan/gerelateerde/ingangsdatumObject" />
                 <Forward name="success" path="CheckForSetZgwZaakTypeResult"/>
             </XsltPipe>
 
