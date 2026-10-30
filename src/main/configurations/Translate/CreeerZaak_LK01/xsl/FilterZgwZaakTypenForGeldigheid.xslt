@@ -1,6 +1,14 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs" version="2.0">
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
-    
+
+    <!-- ZDS isVan/gerelateerde/ingangsdatumObject (yyyyMMdd). Empty or invalid selects the most recent started version. -->
+    <xsl:param name="IngangsdatumObject" select="''"/>
+
+    <xsl:variable name="ingangsdatumString" select="normalize-space($IngangsdatumObject)"/>
+    <xsl:variable name="ingangsdatumIso" select="concat(substring($ingangsdatumString, 1, 4), '-', substring($ingangsdatumString, 5, 2), '-', substring($ingangsdatumString, 7, 2))"/>
+    <xsl:variable name="ingangsdatum" as="xs:date?"
+        select="if (matches($ingangsdatumString, '^\d{8}$') and $ingangsdatumIso castable as xs:date) then xs:date($ingangsdatumIso) else ()"/>
+
     <xsl:template match="@*|node()">
         <xsl:copy>
             <xsl:apply-templates select="@*|node()"/>            
@@ -9,13 +17,24 @@
     
     <xsl:template match="/">
         <ZgwZaakTypen>
-            <xsl:for-each select="ZgwZaakTypen/ZgwZaakType">
-                <xsl:if test="xs:date(beginGeldigheid) &lt;= current-date()">
-                    <xsl:if test="eindeGeldigheid/@nil = 'true' or (xs:date(eindeGeldigheid) &gt; current-date())">
-                        <ZgwZaakType>
-                            <xsl:apply-templates select="@*|node()"/>
-                        </ZgwZaakType>
-                    </xsl:if>
+            <xsl:variable name="kandidaten" as="element(ZgwZaakType)*">
+                <xsl:choose>
+                    <xsl:when test="exists($ingangsdatum)">
+                        <xsl:sequence select="ZgwZaakTypen/ZgwZaakType[
+                            xs:date(beginGeldigheid) le $ingangsdatum
+                            and (not(normalize-space(eindeGeldigheid)) or xs:date(eindeGeldigheid) gt $ingangsdatum)]"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:sequence select="ZgwZaakTypen/ZgwZaakType[xs:date(beginGeldigheid) le current-date()]"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+            <xsl:for-each select="$kandidaten">
+                <xsl:sort select="xs:date(beginGeldigheid)" order="descending"/>
+                <xsl:if test="position() = 1">
+                    <ZgwZaakType>
+                        <xsl:apply-templates select="@*|node()"/>
+                    </ZgwZaakType>
                 </xsl:if>
             </xsl:for-each>
         </ZgwZaakTypen>
