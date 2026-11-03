@@ -10,12 +10,11 @@
             </Exits>
 
             <SenderPipe
-                name="GetAuthorizationHeaderForZakenApi"                >
+                name="GetAuthorizationHeaderForZakenApi"
+                storeResultInSessionKey="Authorization">
                 <FrankSender
                     name="GetAuthorizationHeaderForZakenApiSender"
-                    target="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization"
-                    >
+                    target="GenerateAuthorizationHeaderForZakenApi">
                 </FrankSender>
                 <Forward name="success" path="GetZgwZaakobjectsByZaakUrl" />
                 <Forward name="exception" path="EXCEPTION" />
