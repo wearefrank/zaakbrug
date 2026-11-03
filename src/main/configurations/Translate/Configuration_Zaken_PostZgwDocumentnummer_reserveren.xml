@@ -10,11 +10,12 @@
             </Exits>
 
             <SenderPipe name="GetAuthorizationHeaderForDocumentenApi"
-                getInputFromFixedValue="&lt;dummy/&gt;">
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                storeResultInSessionKey="Authorization">
                 <FrankSender
                     name="GetAuthorizationHeaderForDocumentenApiSender"
                     target="GenerateAuthorizationHeaderForDocumentenApi"
-                    returnedSessionKeys="Error,Authorization">
+                >
                 </FrankSender>
                 <Forward name="success" path="PostZgwDocumentnummer_reserveren" />
                 <Forward name="exception" path="EXCEPTION" />

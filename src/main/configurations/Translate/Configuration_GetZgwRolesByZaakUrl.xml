@@ -12,11 +12,10 @@
             <SenderPipe
                 name="GetAuthorizationHeaderForZakenApi"
                 getInputFromFixedValue="&lt;dummy/&gt;"
-                >
+                storeResultInSessionKey="Authorization">
                 <FrankSender
                     name="GetAuthorizationHeaderForZakenApiSender"
                     target="GenerateAuthorizationHeaderForZakenApi"
-                    returnedSessionKeys="Error,Authorization"
                     >
                 </FrankSender>
                 <Forward name="success" path="GetZgwRolesByZaakUrl" />
