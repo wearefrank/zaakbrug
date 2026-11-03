@@ -110,6 +110,7 @@
                         name="DeleteRolSender" 
                         methodType="DELETE"
                         headersParams="Authorization,Accept-Crs"
+                        timeout="${zaakbrug.zgw.zaken-api.timeout}"
                         sharedResourceRef="zaken-api-connector"
                     >
                         <Param name="url" xpathExpression="Rollen/Rol/url"/>

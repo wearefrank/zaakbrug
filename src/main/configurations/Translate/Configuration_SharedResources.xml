@@ -1,5 +1,7 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <SharedResources>
+        <!-- Also set timeout on each HttpSender using the same property until
+             https://github.com/frankframework/frankframework/issues/11630 is fixed. -->
         <HttpSession
             name="zaken-api-connector"
             timeout="${zaakbrug.zgw.zaken-api.timeout}"

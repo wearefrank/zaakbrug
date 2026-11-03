@@ -43,6 +43,7 @@
 					methodType="POST"
 					headersParams="Authorization,Accept-Crs"
                     contentType="application/json"
+                    timeout="${zaakbrug.zgw.documenten-api.timeout}"
                     sharedResourceRef="documenten-api-connector"
 				/>
                 <Param name="url" sessionKey="ZgwUnlockUrl"/>
