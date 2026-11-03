@@ -1,5 +1,25 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.27.1](https://github.com/wearefrank/zaakbrug/compare/v1.27.0...v1.27.1) (2026-11-03)
+
+### 🐛 Bug Fixes
+
+* set sender and shared-resource timeouts to work around FF bug ([65045ff](https://github.com/wearefrank/zaakbrug/commit/65045ff78855015be22baa2f3f375bfded7b268d))
+
+### 🔥 Performance Improvements
+
+* **profiles:** key merged-profile caches by source file paths ([73d3714](https://github.com/wearefrank/zaakbrug/commit/73d371409f294a048f04c68ef78b5b50ae54eff3))
+* **routing:** migrate internal adapter calls to FrankSender ([0b57f34](https://github.com/wearefrank/zaakbrug/commit/0b57f34ce7cbf4fb917d544ba3448ed9444c39ee))
+* **auth:** return authorization headers in cached adapter responses and cache them ([816b3db](https://github.com/wearefrank/zaakbrug/commit/816b3dbc3932bdfa650bf3b813cc38cdadb454db))
+
+### 🧑‍💻 Code Refactoring
+
+* **zgw:** centralize HTTP connection settings in shared resources ([d7e0d9e](https://github.com/wearefrank/zaakbrug/commit/d7e0d9e8a5042cfb0a9c1e58ca7775fc15097b20))
+
+### 🤖 Build System
+
+* remove obsolete Java 8 Dockerfile ([2c5317d](https://github.com/wearefrank/zaakbrug/commit/2c5317d41f8078fc76a1fa22e592f49dd2cc2f24))
+
 ## [1.27.0](https://github.com/wearefrank/zaakbrug/compare/v1.26.20...v1.27.0) (2026-10-30)
 
 ### 🍕 Features
