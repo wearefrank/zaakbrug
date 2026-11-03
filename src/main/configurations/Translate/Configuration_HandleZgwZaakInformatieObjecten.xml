@@ -3,10 +3,6 @@
         active="${HandleZgwZaakInformatieObjecten.Active}"
         description="">
 
-        <Receiver name="HandleZgwZaakInformatieObjecten">
-            <JavaListener name="HandleZgwZaakInformatieObjecten" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS" />
@@ -16,12 +12,12 @@
 			<SenderPipe
                 name="CallGetZaakDocumentByUrl"
                 storeResultInSessionKey="GetZaakDocumentResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZaakDocumentSender"
-                    javaListener="GetZaakDocumentByUrl"
+                    target="GetZaakDocumentByUrl"
                     returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/ZgwZaakInformatieObject/informatieobject"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CheckForGetZaakDocumentResult"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -36,12 +32,12 @@
             <SenderPipe
                 name="CallGetZgwInformatieObjectTypeByUrl"
                 storeResultInSessionKey="GetZgwInformatieObjectTypeResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwInformatieObjectTypeSender"
-                    javaListener="GetZgwInformatieObjectTypeByUrl" 
+                    target="GetZgwInformatieObjectTypeByUrl"
                     returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/ZgwEnkelvoudigInformatieObject/informatieobjecttype"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CheckForGetZgwInformatieObjectTypeResult"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

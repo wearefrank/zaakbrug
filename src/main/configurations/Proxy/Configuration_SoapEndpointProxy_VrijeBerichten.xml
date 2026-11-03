@@ -7,10 +7,6 @@
             <WebServiceListener name="SoapEndpointProxy_VrijeBerichten" address="${zaakbrug.soap.proxy.vrije-berichten.endpoint}" soap="false"/>
         </Receiver>
 
-        <Receiver name="SoapEndpointProxy_VrijeBerichten_Java">
-            <JavaListener name="${zaakbrug.java.proxy.vrije-berichten.endpoint}"/>
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>

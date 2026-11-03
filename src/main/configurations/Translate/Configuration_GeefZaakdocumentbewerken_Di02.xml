@@ -3,13 +3,6 @@
         active="${GeefZaakdocumentbewerken_Di02.Active}"
         description="">
 
-        <Receiver name="GeefZaakdocumentbewerken_Di02">
-            <JavaListener 
-                name="GeefZaakdocumentbewerken_Di02"
-                returnedSessionKeys="ZgwLock,ref_inhoud,Error"
-                />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -19,12 +12,12 @@
 			<SenderPipe
                 name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatie"
                 storeResultInSessionKey="ZgwEnkelvoudigInformatieObject">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatieSender"
-                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie"
+                    target="GetZgwEnkelvoudigInformatieObjectByIdentificatie"
                     returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="DocumentIdentificatie" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CheckForGetZgwEnkelvoudigInformatieObjectResult"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -39,12 +32,12 @@
             <SenderPipe
                 name="CallGetZgwInformatieObjectTypeByUrl"
                 storeResultInSessionKey="ZgwInformatieObjectType">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwInformatieObjectTypeByUrlSender"
-                    javaListener="GetZgwInformatieObjectTypeByUrl"
+                    target="GetZgwInformatieObjectTypeByUrl"
                     returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/ZgwEnkelvoudigInformatieObject/informatieobjecttype"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CheckForGetZgwInformatieObjectTypeResult"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -59,14 +52,14 @@
             <SenderPipe
                 name="CallGetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl"
                 storeResultInSessionKey="ZgwZaakInformatieObject">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrlSender"
-                    javaListener="GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl"
+                    target="GetZgwZaakInformatieObjectByEnkelvoudigInformatieObjectUrl"
                     returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/url">
                         <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
                     </Param>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CheckForGetZgwZaakInformatieObjectResult"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -81,14 +74,14 @@
             <SenderPipe
                 name="CallGetZaakByUrl"
                 storeResultInSessionKey="GetZgwZaakResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZaakByUrlSender"
-                    javaListener="GetZgwZaakByUrl"
+                    target="GetZgwZaakByUrl"
                     returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="$ZgwZaakInformatieObject/ZgwZaakInformatieObject/zaak">
                         <Param name="ZgwZaakInformatieObject" sessionKey="ZgwZaakInformatieObject" type="DOMDOC"/>
                     </Param>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CheckForGetGetZaakResult"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -104,15 +97,15 @@
                 name="CallGetBas64Inhoud"
                 storeResultInSessionKey="Bas64Inhoud"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetBas64InhoudSender"
-                    javaListener="GetBas64Inhoud"
+                    target="GetBas64Inhoud"
                     returnedSessionKeys="ref_inhoud,Error"
                     >
                     <Param name="Url" xpathExpression="$ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/inhoud">
                         <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
                     </Param>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CheckForGetBas64InhoudResult"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -196,12 +189,12 @@
                 name="CallPostZgwLock"
                 storeResultInSessionKey="ZgwLock"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="CallPostZgwLockSender"
-                    javaListener="PostZgwLock"
+                    target="PostZgwLock"
                     returnedSessionKeys="Error">
                     <Param name="ZgwLockUrl" sessionKey="ZgwEnkelvoudigInformatieObject" xpathExpression="concat(/ZgwEnkelvoudigInformatieObject/url, '/lock')" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="RestoreZdsZaakDocumentInhoudForReturn"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

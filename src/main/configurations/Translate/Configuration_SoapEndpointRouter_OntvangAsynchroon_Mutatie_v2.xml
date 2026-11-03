@@ -5,6 +5,7 @@
         <Receiver name="SoapEndpointRouter_OntvangAsynchroon_Mutatie_v2">
             <WebServiceListener name="SoapEndpointRouter_OntvangAsynchroon_Mutatie_v2" address="${zaakbrug.soap.ontvang-asynchroon-mutatie.v2.endpoint}" soap="false"/>
         </Receiver>
+
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>

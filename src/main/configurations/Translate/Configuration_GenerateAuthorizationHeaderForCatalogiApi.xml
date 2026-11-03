@@ -4,10 +4,6 @@
         active="${GenerateAuthorizationHeaderForCatalogiApi.Active}"
         description="">
 
-        <Receiver name="GenerateAuthorizationHeaderForCatalogiApi">
-            <JavaListener name="GenerateAuthorizationHeaderForCatalogiApi"  returnedSessionKeys="Error,Authorization" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS" />

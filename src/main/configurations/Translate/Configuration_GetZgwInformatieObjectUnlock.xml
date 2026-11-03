@@ -3,12 +3,7 @@
         active="${GetZgwInformatieObjectUnlock.Active}"
         description="">
 
-        <Receiver name="GetZgwInformatieObjectUnlock">
-            <JavaListener name="GetZgwInformatieObjectUnlock" 
-                returnedSessionKeys="Error" />
-        </Receiver>
-
-        <Pipeline>   
+        <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
@@ -16,11 +11,11 @@
 
             <SenderPipe name="GetAuthorizationHeaderForDocumentenApi"
                 getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                <FrankSender
                     name="GetAuthorizationHeaderForDocumentenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForDocumentenApi"
+                    target="GenerateAuthorizationHeaderForDocumentenApi"
                     returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CreatePostUnlockBody" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

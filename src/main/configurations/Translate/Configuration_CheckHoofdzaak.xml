@@ -3,10 +3,6 @@
         active="${CheckHoofdzaak.Active}"
         description="">
 
-        <Receiver name="CheckHoofdzaak">
-            <JavaListener name="CheckHoofdzaak" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -63,13 +59,13 @@
             <SenderPipe
                 name="PatchHoofdzaak"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="CallUpdateZgwZaakSender"
-                    javaListener="Zaken_UpdateZgwZaak"
+                    target="Zaken_UpdateZgwZaak"
                     returnedSessionKeys="Error"
                     >
                     <Param name="Url" sessionKey="originalMessage" xpathExpression="/ZgwZaak/url"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

@@ -4,11 +4,6 @@
         active="${Documenten_PostZgwEnkelvoudigInformatieObject.Active}"
         description="">
 
-        <Receiver name="Documenten_PostZgwEnkelvoudigInformatieObject">
-            <JavaListener name="Documenten_PostZgwEnkelvoudigInformatieObject" 
-                returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS" />
@@ -17,11 +12,11 @@
 
             <SenderPipe name="GetAuthorizationHeaderForDocumentenApi"
                 getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                <FrankSender
                     name="GetAuthorizationHeaderForDocumentenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForDocumentenApi"
+                    target="GenerateAuthorizationHeaderForDocumentenApi"
                     returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="ValidatePost" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

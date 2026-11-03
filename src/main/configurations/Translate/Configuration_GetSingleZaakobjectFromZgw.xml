@@ -3,10 +3,6 @@
         active="${GetSingleZaakobjectFromZgw.Active}"
         description="">
 
-        <Receiver name="GetSingleZaakobjectFromZgw">
-            <JavaListener name="GetSingleZaakobjectFromZgw" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS" />
@@ -17,12 +13,12 @@
             <SenderPipe
                 name="GetZgwZaakobjectsByZaakUrl"
                 getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                <FrankSender
                     name="GetZgwZaakobjectsByZaakUrlSender"
-                    javaListener="GetZgwZaakobjectsByZaakUrl"
+                    target="GetZgwZaakobjectsByZaakUrl"
                     returnedSessionKeys="Error">
                     <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="SelectZgwZaakobjectsFromListWithMatchingIdentity"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

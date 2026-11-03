@@ -5,6 +5,7 @@
         <Receiver name="SoapEndpointRouter_VrijeBerichten_v2">
             <WebServiceListener name="SoapEndpointRouter_VrijeBerichten_v2" address="${zaakbrug.soap.vrije-berichten.v2.endpoint}" soap="false"/>
         </Receiver>
+
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -67,12 +68,12 @@
             <SenderPipe
                 name="http:__www.stufstandaarden.nl_koppelvlak_zds0120_genereerBesluitIdentificatie_Di02"
                 storeResultInSessionKey="Identificatie">
-                <IbisLocalSender
+                <FrankSender
                     name="GenereerBesluitIdentificatie_Di02LocalSender"
-                    javaListener="GenereerIdentificatieEmulator"
+                    target="GenereerIdentificatieEmulator"
                     returnedSessionKeys="Error">
                     <Param name="IdentificatieType" value="BesluitIdentificatie"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="WrapGenereerBesluitIdentificatie_Du02Response" />
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>

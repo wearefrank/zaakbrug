@@ -4,10 +4,6 @@
         active="${ApplyValueOverridesZgwToZds.Active}"
         description="">
 
-        <Receiver name="ApplyValueOverridesZgwToZds">
-            <JavaListener name="ApplyValueOverridesZgwToZds" returnedSessionKeys="Error,ExtraElementen" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS" />
@@ -17,12 +13,12 @@
             <SenderPipe
                 name="ResolveProfileValuesSender"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="ResolveProfileValuesLocalSender"
-                    javaListener="ResolveProfileValuesSingleFile"
+                    target="ResolveProfileValuesSingleFile"
                     returnedSessionKeys="Error">
                     <Param name="profilesFile" value="${configurations.directory}/Translate/Profiles.json"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="ExtractValueOverridesFromTranslationProfile" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

@@ -3,12 +3,7 @@
         active="${GetZgwInformatieObjectTypeByUrl.Active}"
         description="">
 
-        <Receiver name="GetZgwInformatieObjectTypeByUrl">
-            <JavaListener name="GetZgwInformatieObjectTypeByUrl" 
-                returnedSessionKeys="Error" />
-        </Receiver>
-
-        <Pipeline>  
+        <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
@@ -16,11 +11,11 @@
 
             <SenderPipe name="GetAuthorizationHeaderForCatalogiApi"
                 getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                <FrankSender
                     name="GetAuthorizationHeaderForCatalogiApiSender"
-                    javaListener="GenerateAuthorizationHeaderForCatalogiApi"
+                    target="GenerateAuthorizationHeaderForCatalogiApi"
                     returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="GetZgwInformatieObjectTypeByUrl" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
