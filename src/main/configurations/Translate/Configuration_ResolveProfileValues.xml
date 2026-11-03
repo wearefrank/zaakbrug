@@ -10,7 +10,9 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <Cache />
+            <Cache name="CacheByPath" eternal="true">
+                <Param name="key" sessionKey="profilesFile" />
+            </Cache>
 
             <LocalFileSystemPipe
                     name="ReadFile"
@@ -116,7 +118,9 @@
                 <Exit name="EXCEPTION" state="ERROR" />
             </Exits>
 
-            <Cache />
+            <Cache name="CacheByPathCombination" eternal="true">
+                <Param name="key" pattern="{profilesFile}&amp;{profileDefaultsFile}" />
+            </Cache>
 
             <LocalFileSystemPipe
                     name="ReadProfileDefaultsFile"
