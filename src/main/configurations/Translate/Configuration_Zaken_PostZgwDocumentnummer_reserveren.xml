@@ -3,10 +3,6 @@
         active="${Zaken_PostZgwDocumentnummer_reserveren.Active}"
         description="">
 
-        <Receiver name="Zaken_PostZgwDocumentnummer_reserveren">
-            <JavaListener name="Zaken_PostZgwDocumentnummer_reserveren" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -15,11 +11,11 @@
 
             <SenderPipe name="GetAuthorizationHeaderForDocumentenApi"
                 getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                <FrankSender
                     name="GetAuthorizationHeaderForDocumentenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForDocumentenApi"
+                    target="GenerateAuthorizationHeaderForDocumentenApi"
                     returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="PostZgwDocumentnummer_reserveren" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

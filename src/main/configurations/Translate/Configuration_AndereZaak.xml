@@ -3,11 +3,7 @@
         active="${AndereZaakAdapter.Active}"
         description="Handle each AndereZaak">
 
-        <Receiver name="AndereZaakAdapter">
-            <JavaListener name="AndereZaakAdapter" returnedSessionKeys="Error" />
-        </Receiver>
-
-        <Pipeline> 
+        <Pipeline>
             <Exits> 
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
@@ -17,12 +13,12 @@
                 name="CallGetZgwAndereZaak"
                 getInputFromSessionKey="originalMessage"
                 storeResultInSessionKey="ZgwAndereZaakResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwZaakSender"
-                    javaListener="GetZgwZaak"
+                    target="GetZgwZaak"
                     returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="AndereZaakIdentificatie"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="ZaakNotFound_Condition"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -69,12 +65,12 @@
                 name="CallGetZgwMainZaak"
                 getInputFromFixedValue="&lt;dummy/&gt;"
                 storeResultInSessionKey="ZgwMainZaakResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwZaakByUrlSender"
-                    javaListener="GetZgwZaakByUrl"
+                    target="GetZgwZaakByUrl"
                     returnedSessionKeys="Error">
                     <Param name="Url" sessionKey="MainZaakUrl" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CheckForZgwMainZaakResult"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -113,13 +109,13 @@
             <SenderPipe
                 name="CallRelevanteAndereZaakDelete" 
                 getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                <FrankSender
                     name="CallRelevanteAndereZaakDeleteSender"
-                    javaListener="RelevanteAndereZaakDelete"
+                    target="RelevanteAndereZaakDelete"
                     returnedSessionKeys="Error">
                     <Param name="ZgwMainZaakResult" sessionKey="ZgwMainZaakResult"/>
                     <Param name="ZgwAndereZaakResult" sessionKey="ZgwAndereZaakResult"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -127,13 +123,13 @@
             <SenderPipe
                 name="CallRelevanteAndereZaakCheck" 
                 getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                <FrankSender
                     name="CallRelevanteAndereZaakCheckSender"
-                    javaListener="RelevanteAndereZaakCheck"
+                    target="RelevanteAndereZaakCheck"
                     returnedSessionKeys="Error">
                     <Param name="ZgwMainZaakResult" sessionKey="ZgwMainZaakResult"/>
                     <Param name="ZgwAndereZaakResult" sessionKey="ZgwAndereZaakResult"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -141,13 +137,13 @@
             <SenderPipe
                 name="CallRelevanteAndereZaakAdd" 
                 getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                <FrankSender
                     name="CallRelevanteAndereZaakAddSender"
-                    javaListener="RelevanteAndereZaakAdd"
+                    target="RelevanteAndereZaakAdd"
                     returnedSessionKeys="Error">
                     <Param name="ZgwMainZaakResult" sessionKey="ZgwMainZaakResult"/>
                     <Param name="ZgwAndereZaakResult" sessionKey="ZgwAndereZaakResult"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

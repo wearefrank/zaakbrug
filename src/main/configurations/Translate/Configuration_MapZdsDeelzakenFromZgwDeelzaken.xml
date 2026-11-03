@@ -2,12 +2,7 @@
     <Adapter name="MapZdsDeelzakenFromZgwDeelzaken"
     active="${MapZdsDeelzakenFromZgwDeelzaken.Active}"
     description="">
-    
-    <Receiver name="MapZdsDeelzakenFromZgwDeelzaken">
-        <JavaListener name="MapZdsDeelzakenFromZgwDeelzaken" 
-            returnedSessionKeys="Error" />
-    </Receiver>
-    
+
     <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -17,12 +12,12 @@
             <SenderPipe
                 name="GetZgwDeelzaakSender"
                 storeResultInSessionKey="ZgwDeelzaak">
-                <IbisLocalSender
+                <FrankSender
                     name="GetZgwDeelzaakLocalSender"
-                    javaListener="GetZgwZaakByUrl"
+                    target="GetZgwZaakByUrl"
                     returnedSessionKeys="Error">
                     <Param name="Url" xpathExpression="/deelzaken"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CreateZdsHeeftAlsDeelzaak"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

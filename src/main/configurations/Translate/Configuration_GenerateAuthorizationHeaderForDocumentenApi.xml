@@ -4,10 +4,6 @@
         active="${GenerateAuthorizationHeaderForDocumentenApi.Active}"
         description="">
 
-        <Receiver name="GenerateAuthorizationHeaderForDocumentenApi">
-            <JavaListener name="GenerateAuthorizationHeaderForDocumentenApi"  returnedSessionKeys="Error,Authorization" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS" />

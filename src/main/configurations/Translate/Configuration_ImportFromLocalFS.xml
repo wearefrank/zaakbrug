@@ -3,10 +3,6 @@
         active="${ImportFromLocalFS.Active}"
         description="">
 
-        <Receiver name="ImportFromLocalFS">
-            <JavaListener name="ImportFromLocalFS" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>

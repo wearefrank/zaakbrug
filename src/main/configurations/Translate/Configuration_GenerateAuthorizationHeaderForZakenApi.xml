@@ -4,10 +4,6 @@
         active="${GenerateAuthorizationHeaderForZakenApi.Active}"
         description="">
 
-        <Receiver name="GenerateAuthorizationHeaderForZakenApi">
-            <JavaListener name="GenerateAuthorizationHeaderForZakenApi"  returnedSessionKeys="Error,Authorization" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS" />

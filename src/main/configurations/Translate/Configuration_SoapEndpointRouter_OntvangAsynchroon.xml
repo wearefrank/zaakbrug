@@ -13,10 +13,6 @@
             <WebServiceListener name="SoapEndpointRouter_OntvangAsynchroon" address="${zaakbrug.soap.translate.ontvang-asynchroon.endpoint}" soap="false"/>
         </Receiver>
 
-        <Receiver name="SoapEndpointRouter_OntvangAsynchroon_Java">
-            <JavaListener name="${zaakbrug.java.translate.ontvang-asynchroon.endpoint}"/>
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -103,11 +99,11 @@
             <SenderPipe 
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_updateZaak_Lk01"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="UpdateZaak_Lk01LocalSender"
-                    javaListener="UpdateZaak_Lk01"
+                    target="UpdateZaak_Lk01"
                     returnedSessionKeys="Error">
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="WrapBv03Response" />
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>
@@ -116,11 +112,11 @@
             <SenderPipe
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_creeerZaak_Lk01"
                 >
-                 <IbisLocalSender
+                 <FrankSender
                     name="CreeerZaak_Lk01LocalSender"
-                    javaListener="CreeerZaak_Lk01"
+                    target="CreeerZaak_Lk01"
                     returnedSessionKeys="Error">
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="WrapBv03Response" />
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>
@@ -129,12 +125,12 @@
             <SenderPipe
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_actualiseerZaakstatus_Lk01"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="ActualiseerZaakstatus_Lk01LocalSender"
-                    javaListener="ActualiseerZaakStatus"
+                    target="ActualiseerZaakStatus"
                     returnedSessionKeys="Error">
                     <Param name="isActualiseerZaakStatusMessage" value="true"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="WrapBv03Response" />
                 <Forward name="exception" path="BackEndError" />
             </SenderPipe>
@@ -143,11 +139,11 @@
             <SenderPipe
                 name="http:__www.egem.nl_StUF_sector_zkn_0310_voegZaakdocumentToe_Lk01"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="VoegZaakdocumentToe_Lk01LocalSender"
-                    javaListener="VoegZaakdocumentToe_Lk01"
+                    target="VoegZaakdocumentToe_Lk01"
                     returnedSessionKeys="Error">
-                </IbisLocalSender>
+                </FrankSender>
                 <Param name="ref_inhoud" sessionKey="ref_inhoud" />
                 <Forward name="success" path="WrapBv03Response" />
                 <Forward name="exception" path="BackEndError" />

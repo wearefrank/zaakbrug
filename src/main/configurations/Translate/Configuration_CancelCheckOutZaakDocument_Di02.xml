@@ -3,10 +3,6 @@
         active="${CancelCheckOutZaakDocument_Di02.Active}"
         description="">
 
-        <Receiver name="CancelCheckOutZaakDocument_Di02">
-            <JavaListener name="CancelCheckOutZaakDocument_Di02" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -16,12 +12,12 @@
             <SenderPipe
                 name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatie"
                 storeResultInSessionKey="ZgwEnkelvoudigInformatieObject">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwEnkelvoudigInformatieObjectByIdentificatieSender"
-                    javaListener="GetZgwEnkelvoudigInformatieObjectByIdentificatie"
+                    target="GetZgwEnkelvoudigInformatieObjectByIdentificatie"
                     returnedSessionKeys="Error">
                     <Param name="Identificatie" sessionKey="DocumentIdentificatie"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CheckForGetZgwEnkelvoudigInformatieObjectResult"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -36,15 +32,15 @@
             <SenderPipe
                 name="CallGetZgwInformatieObjectUnlock"
                 storeResultInSessionKey="ZgwInformatieObjectUnlockResult">
-                <IbisLocalSender
+                <FrankSender
                     name="CallGetZgwInformatieObjectUnlockSender"
-                    javaListener="GetZgwInformatieObjectUnlock"
+                    target="GetZgwInformatieObjectUnlock"
                     returnedSessionKeys="Error">
                     <Param name="ZgwUnlockUrl" xpathExpression="concat($ZgwEnkelvoudigInformatieObject/ZgwEnkelvoudigInformatieObject/url, '/unlock')">
                         <Param name="ZgwEnkelvoudigInformatieObject" sessionKey="ZgwEnkelvoudigInformatieObject" type="DOMDOC"/>
                     </Param>
                     <Param name="ZgwLock" sessionKey="Lock"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT"/>
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

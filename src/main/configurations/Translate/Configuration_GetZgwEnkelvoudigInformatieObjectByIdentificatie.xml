@@ -3,12 +3,7 @@
         active="${GetZgwEnkelvoudigInformatieObjectByIdentificatie.Active}"
         description="">
 
-        <Receiver name="GetZgwEnkelvoudigInformatieObjectByIdentificatie">
-            <JavaListener name="GetZgwEnkelvoudigInformatieObjectByIdentificatie" 
-                returnedSessionKeys="Error" />
-        </Receiver>
-
-        <Pipeline>   
+        <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
                 <Exit name="EXCEPTION" state="ERROR"/>
@@ -24,11 +19,11 @@
 
             <SenderPipe name="GetAuthorizationHeaderForDocumentenApi"
                 getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                <FrankSender
                     name="GetAuthorizationHeaderForDocumentenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForDocumentenApi"
+                    target="GenerateAuthorizationHeaderForDocumentenApi"
                     returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="GetZgwEnkelvoudigInformatieObjectByIdentificatie" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

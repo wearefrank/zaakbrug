@@ -3,10 +3,6 @@
         active="${DeleteHoofdzaak.Active}"
         description="">
 
-        <Receiver name="DeleteHoofdzaak">
-            <JavaListener name="DeleteHoofdzaak" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -44,14 +40,14 @@
             <SenderPipe
                 name="PatchHoofdzaak"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="CallUpdateZgwZaakSender"
-                    javaListener="Zaken_UpdateZgwZaak"
+                    target="Zaken_UpdateZgwZaak"
                     returnedSessionKeys="Error"
                     >
                     <Param name="Url" sessionKey="originalMessage" xpathExpression="/ZgwZaak/url"/>
                     <Param name="EmptyHoofdzaakJson" sessionKey="EmptyHoofdzaakJson" />
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

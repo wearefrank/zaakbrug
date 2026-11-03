@@ -3,10 +3,6 @@
         active="${RelevanteAndereZaakAdd.Active}"
         description="">
 
-        <Receiver name="RelevanteAndereZaakAdd">
-            <JavaListener name="RelevanteAndereZaakAdd" returnedSessionKeys="Error" />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -26,13 +22,13 @@
             <SenderPipe
                 name="PatchRelevanteMainZaakIntoAndereZaak"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="CallUpdateZgwZaakSender"
-                    javaListener="Zaken_UpdateZgwZaak"
+                    target="Zaken_UpdateZgwZaak"
                     returnedSessionKeys="Error"
                     >
                     <Param name="Url" sessionKey="ZgwAndereZaakResult" xpathExpression="/ZgwZaak/url"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CreatePatchZaakBodyForMainZaak" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
@@ -50,13 +46,13 @@
             <SenderPipe
                 name="PatchRelevantAndereZaakIntoMainZaak"
                 >
-                <IbisLocalSender
+                <FrankSender
                     name="CallUpdateZgwZaakSender"
-                    javaListener="Zaken_UpdateZgwZaak"
+                    target="Zaken_UpdateZgwZaak"
                     returnedSessionKeys="Error"
                     >
                     <Param name="Url" sessionKey="ZgwMainZaakResult" xpathExpression="/ZgwZaak/url"/>
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>

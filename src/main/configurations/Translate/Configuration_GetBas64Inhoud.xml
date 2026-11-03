@@ -3,15 +3,6 @@
         active="${GetBas64Inhoud.Active}"
         description="">
 
-        <Receiver
-            name="GetBas64Inhoud"
-            >
-            <JavaListener
-                name="GetBas64Inhoud"
-                returnedSessionKeys="ref_inhoud,Error"
-                />
-        </Receiver>
-
         <Pipeline>
             <Exits>
                 <Exit name="EXIT" state="SUCCESS"/>
@@ -20,11 +11,11 @@
 
             <SenderPipe name="GetAuthorizationHeaderForDocumentenApi"
                 getInputFromFixedValue="&lt;dummy/&gt;">
-                <IbisLocalSender
+                <FrankSender
                     name="GetAuthorizationHeaderForDocumentenApiSender"
-                    javaListener="GenerateAuthorizationHeaderForDocumentenApi"
+                    target="GenerateAuthorizationHeaderForDocumentenApi"
                     returnedSessionKeys="Error,Authorization">
-                </IbisLocalSender>
+                </FrankSender>
                 <Forward name="success" path="CallGetBas64Inhoud" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
