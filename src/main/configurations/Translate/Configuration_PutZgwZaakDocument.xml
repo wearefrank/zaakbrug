@@ -47,6 +47,7 @@
 					name="PutZaakDocumentSender" 
 					methodType="PUT"
 					headersParams="Authorization,Accept-Crs"
+                    timeout="${zaakbrug.zgw.documenten-api.timeout}"
                     sharedResourceRef="documenten-api-connector"
                     contentType="application/json"
 				/>
