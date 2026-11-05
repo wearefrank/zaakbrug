@@ -1,5 +1,11 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.27.2](https://github.com/wearefrank/zaakbrug/compare/v1.27.1...v1.27.2) (2026-11-05)
+
+### 🤖 Build System
+
+* **dependencies:** bump wearefrank/ci-cd-templates from 2.4.11 to 2.5.1 in the github-actions group ([f47f05e](https://github.com/wearefrank/zaakbrug/commit/f47f05eadc5386b9978b4d334c341f13426f8ddc))
+
 ## [1.27.1](https://github.com/wearefrank/zaakbrug/compare/v1.27.0...v1.27.1) (2026-11-03)
 
 ### 🐛 Bug Fixes
