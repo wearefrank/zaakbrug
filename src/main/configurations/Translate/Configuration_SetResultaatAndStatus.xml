@@ -52,15 +52,18 @@
                 styleSheetName="CreeerZaak_LK01/xsl/SetBeeindigd.xsl"
                 >
                 <Param name="EndStatusType" sessionKey="SetEndStatusTypeResult" type="DOMDOC"/>
-                <Forward name="success" path="PutBeeindigdInSession"/>
+                <Forward name="success" path="CheckBeeindigdIsEmpty"/>
             </XsltPipe>
 
+            <IfPipe name="CheckBeeindigdIsEmpty"
+                getInputFromSessionKey="Beeindigd">
+                <Forward name="then" path="PutEmptyNewStatussenInSession"/>
+                <Forward name="else" path="PutBeeindigdInSession"/>
+            </IfPipe>
+
             <PutInSessionPipe name="PutBeeindigdInSession"
-                sessionKey="Beeindigd" 
-                value="&lt;beeindigd&gt;false&lt;/beeindigd&gt;"
-                ifParam="Beeindigd"
-                ifValue="">
-                <Param name="Beeindigd" sessionKey="Beeindigd"/>
+                sessionKey="Beeindigd"
+                value="&lt;beeindigd&gt;false&lt;/beeindigd&gt;">
                 <Forward name="success" path="PutEmptyNewStatussenInSession" />
             </PutInSessionPipe>
 
