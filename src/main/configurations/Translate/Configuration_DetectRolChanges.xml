@@ -137,10 +137,7 @@
                     target="DeleteRolFromZgw"
                     returnedSessionKeys="Error"
                     >
-                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl" />
-                    <Param name="ZaakType" sessionKey="ZaakType" type="DOMDOC" />
-                    <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC" />
-                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
+                    <Param name="ZgwWasZaakRollen" sessionKey="ZgwWasZaakRollen" type="DOMDOC" />
                 </FrankSender>
                 <Forward name="success" path="CallPostRol" /> <!-- Rol should be found -->
                 <Forward name="404" path="LogWarningDeleteBeforeUpdate" /> 
@@ -180,10 +177,7 @@
                     target="DeleteRolFromZgw"
                     returnedSessionKeys="Error"
                     >
-                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl" />
-                    <Param name="ZaakType" sessionKey="ZaakType" type="DOMDOC" />
-                    <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC" />
-                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
+                    <Param name="ZgwWasZaakRollen" sessionKey="ZgwWasZaakRollen" type="DOMDOC" />
                 </FrankSender>
                 <Forward name="success" path="EXIT" />  <!-- Rol should be found -->
                 <Forward name="404" path="LogWarningDelete" /> 

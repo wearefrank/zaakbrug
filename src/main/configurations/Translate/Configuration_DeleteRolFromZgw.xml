@@ -23,57 +23,20 @@
             </SenderPipe>
 
             <!-- The input message is the ZGW role (with valueOverrides applied) that is translated from the ZDS role to delete.
-                Roles are matched on the ZGW side, see the matching in CheckZgwRol. -->
+                It is matched against ZgwWasZaakRollen, the existing roles after a ZGW -> ZDS -> ZGW round trip, which still contain
+                the url of the OpenZaak role. This is the same matching as in CheckZgwRol. -->
             <IfPipe
                 name="CheckForZgwBetrokkeneIdentificatie"
                 getInputFromSessionKey="originalMessage"
                 xpathExpression="string-length(/zgwRol/betrokkeneIdentificatie) > 0"
                 >
-                <Forward name="then" path="CallGetZgwRolesByZaakUrl"/>
+                <Forward name="then" path="SelectZgwRolesFromListWithMatchingIdentity"/>
                 <Forward name="else" path="NOTFOUND"/>
             </IfPipe>
 
-            <SenderPipe
-                name="CallGetZgwRolesByZaakUrl"
-                getInputFromFixedValue="&lt;dummy/&gt;">
-                <FrankSender
-                    name="GetZgwRolesByZaakUrlSender"
-                    target="GetZgwRolesByZaakUrl"
-                    returnedSessionKeys="Error">
-                    <Param name="ZaakUrl" sessionKey="ZgwZaakUrl"/>
-                </FrankSender>
-                <Forward name="success" path="CallNormalizeZgwRollen"/>
-                <Forward name="exception" path="EXCEPTION" />
-            </SenderPipe>
-
-            <!-- Existing roles are translated ZGW -> ZDS -> ZGW, so they are comparable with the role translated from the ZDS message. -->
-            <ForEachChildElementPipe
-                name="CallNormalizeZgwRollen"
-                elementXPathExpression="/ZgwRollen/zgwRol">
-                <FrankSender
-                    name="CallNormalizeZgwRolSender"
-                    target="NormalizeZgwRolViaZds"
-                    returnedSessionKeys="Error">
-                    <Param name="ZgwZaakType" sessionKey="ZaakType" type="DOMDOC"/>
-                    <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC"/>
-                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC"/>
-                    <Param name="MatchOmschrijving" sessionKey="originalMessage" xpathExpression="/zgwRol/omschrijving"/>
-                </FrankSender>
-                <Forward name="success" path="UnwrapNormalizedZgwRollen"/>
-                <Forward name="exception" path="EXCEPTION" />
-            </ForEachChildElementPipe>
-
-            <XsltPipe
-                name="UnwrapNormalizedZgwRollen"
-                styleSheetName="Common/xsl/UnwrapForEachChildPipeEnvelopeToList.xslt"
-                >
-                <Param name="List" value="ZgwRollen"/>
-                <Forward name="success" path="SelectZgwRolesFromListWithMatchingIdentity"/>
-                <Forward name="exception" path="EXCEPTION"/>
-            </XsltPipe>
-
             <XsltPipe
                 name="SelectZgwRolesFromListWithMatchingIdentity"
+                getInputFromSessionKey="ZgwWasZaakRollen"
                 styleSheetName="Common/xsl/SelectZgwRolesFromListWithMatchingIdentity.xslt"
                 >
                 <Param name="MatchWithZgwRol" sessionKey="originalMessage" type="DOMDOC"/>

@@ -1,7 +1,7 @@
 <Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
     <Adapter name="NormalizeZgwRolViaZds"
         active="${NormalizeZgwRolViaZds.Active}"
-        description="Translates a role that exists in OpenZaak ZGW -> ZDS -> ZGW, so it is comparable with a role translated from a ZDS message. The url of the OpenZaak role is kept.">
+        description="Translates a role that exists in OpenZaak ZGW -> ZDS -> ZGW, so it is comparable with a role translated from a ZDS message. The url and uuid of the OpenZaak role do not survive the round trip and are merged back.">
 
         <Pipeline>
             <Exits>
@@ -9,28 +9,11 @@
                 <Exit name="EXCEPTION" state="ERROR"/>
             </Exits>
 
-            <!-- Only roles with the same roltype can match, so the translations are skipped for the other roles. -->
-            <IfPipe
-                name="CheckForMatchingRolOmschrijving"
-                xpathExpression="lower-case($rolOmschrijving) = lower-case($matchOmschrijving)"
-                >
-                <Param name="rolOmschrijving" xpathExpression="/zgwRol/omschrijving" />
-                <Param name="matchOmschrijving" sessionKey="MatchOmschrijving" />
-                <Forward name="then" path="StoreZgwRolUrl" />
-                <Forward name="else" path="SkipRol" />
-            </IfPipe>
-
-            <EchoPipe
-                name="SkipRol"
-                getInputFromFixedValue="&lt;dummy/&gt;"
-                >
-                <Forward name="success" path="EXIT" />
-            </EchoPipe>
-
             <PutInSessionPipe
-                name="StoreZgwRolUrl"
+                name="StoreZgwRolMetadata"
                 >
                 <Param name="ZgwRolUrl" xpathExpression="/zgwRol/url" />
+                <Param name="ZgwRolUuid" xpathExpression="/zgwRol/uuid" />
                 <Forward name="success" path="CallMapZdsRolFromZgwRol" />
             </PutInSessionPipe>
 
@@ -70,15 +53,17 @@
                     <Param name="ZaakType" sessionKey="ZgwZaakType" xpathExpression="/ZgwZaakType/identificatie" />
                     <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
                 </FrankSender>
-                <Forward name="success" path="AddUrlToZgwRol" />
+                <Forward name="success" path="MergeZgwMetadata" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
             <XsltPipe
-                name="AddUrlToZgwRol"
-                styleSheetName="Common/xsl/AddUrlToZgwRol.xslt"
+                name="MergeZgwMetadata"
+                styleSheetName="Common/xsl/MergeZgwMetadata.xslt"
                 >
                 <Param name="Url" sessionKey="ZgwRolUrl" />
+                <Param name="Uuid" sessionKey="ZgwRolUuid" />
+                <Param name="ExpectedRootName" value="zgwRol" />
                 <Forward name="success" path="EXIT" />
                 <Forward name="exception" path="EXCEPTION" />
             </XsltPipe>
