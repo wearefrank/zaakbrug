@@ -129,7 +129,7 @@
 
             <SenderPipe
                 name="DeleteRolBeforeUpdate"
-                getInputFromSessionKey="originalMessage"
+                getInputFromSessionKey="AddRolResult"
                 storeResultInSessionKey="DeleteRolResult"
                 >
                 <FrankSender
@@ -137,9 +137,7 @@
                     target="DeleteRolFromZgw"
                     returnedSessionKeys="Error"
                     >
-                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl" />
-                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl" />
-                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
+                    <Param name="ZgwWasZaakRollen" sessionKey="ZgwWasZaakRollen" type="DOMDOC" />
                 </FrankSender>
                 <Forward name="success" path="CallPostRol" /> <!-- Rol should be found -->
                 <Forward name="404" path="LogWarningDeleteBeforeUpdate" /> 
@@ -171,7 +169,7 @@
 
             <SenderPipe
                 name="CallDeleteRolFromZgw"
-                getInputFromSessionKey="originalMessage"
+                getInputFromSessionKey="AddRolResult"
                 storeResultInSessionKey="DeleteRolResult"
                 >
                 <FrankSender
@@ -179,9 +177,7 @@
                     target="DeleteRolFromZgw"
                     returnedSessionKeys="Error"
                     >
-                    <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl" />
-                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl" />
-                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
+                    <Param name="ZgwWasZaakRollen" sessionKey="ZgwWasZaakRollen" type="DOMDOC" />
                 </FrankSender>
                 <Forward name="success" path="EXIT" />  <!-- Rol should be found -->
                 <Forward name="404" path="LogWarningDelete" /> 

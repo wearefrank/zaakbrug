@@ -31,7 +31,6 @@
   <!ENTITY GetBas64Inhoud                                 SYSTEM "./Configuration_GetBas64Inhoud.xml">
   <!ENTITY GetResultaatTypeByZaakTypeAndOmschrijving      SYSTEM "./Configuration_GetResultaatTypeByZaakTypeAndOmschrijving.xml">
   <!ENTITY GetResultatenByZaakUrl                         SYSTEM "./Configuration_GetResultatenByZaakUrl.xml">
-  <!ENTITY GetRolByZaakUrlAndRolTypeUrl                   SYSTEM "./Configuration_GetRolByZaakUrlAndRolTypeUrl.xml">
   <!ENTITY GetRollenByBsn                                 SYSTEM "./Configuration_GetRollenByBsn.xml">
   <!ENTITY GetRolTypenByUrl                               SYSTEM "./Configuration_GetRolTypenByUrl.xml">
   <!ENTITY GetRsinByGemeenteCode                          SYSTEM "./Configuration_GetRsinByGemeenteCode.xml">
@@ -67,6 +66,7 @@
   <!ENTITY MapZdsHeeftFromZgwStatus                       SYSTEM "./Configuration_MapZdsHeeftFromZgwStatus.xml">
   <!ENTITY MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken   SYSTEM "./Configuration_MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken.xml">
   <!ENTITY MapZdsRolFromZgwRol                            SYSTEM "./Configuration_MapZdsRolFromZgwRol.xml">
+  <!ENTITY NormalizeZgwRolViaZds                          SYSTEM "./Configuration_NormalizeZgwRolViaZds.xml">
   <!ENTITY RelevanteAndereZaakAdd                         SYSTEM "./Configuration_RelevanteAndereZaakAdd.xml">
   <!ENTITY RelevanteAndereZaakCheck                       SYSTEM "./Configuration_RelevanteAndereZaakCheck.xml">
   <!ENTITY RelevanteAndereZaakDelete                      SYSTEM "./Configuration_RelevanteAndereZaakDelete.xml">
@@ -131,7 +131,6 @@
   &GetBas64Inhoud;
   &GetResultaatTypeByZaakTypeAndOmschrijving;
   &GetResultatenByZaakUrl;
-  &GetRolByZaakUrlAndRolTypeUrl;
   &GetRollenByBsn;
   &GetRolTypenByUrl;
   &GetRsinByGemeenteCode;
@@ -167,6 +166,7 @@
   &MapZdsHeeftFromZgwStatus;
   &MapZdsRelevanteAndereZaakFromZgwRelevanteAndereZaken;
   &MapZdsRolFromZgwRol;
+  &NormalizeZgwRolViaZds;
   &RelevanteAndereZaakAdd;
   &RelevanteAndereZaakCheck;
   &RelevanteAndereZaakDelete;
