@@ -1,0 +1,87 @@
+<Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../FrankConfig.xsd">
+    <Adapter name="NormalizeZgwRolViaZds"
+        active="${NormalizeZgwRolViaZds.Active}"
+        description="Translates a role that exists in OpenZaak ZGW -> ZDS -> ZGW, so it is comparable with a role translated from a ZDS message. The url of the OpenZaak role is kept.">
+
+        <Pipeline>
+            <Exits>
+                <Exit name="EXIT" state="SUCCESS"/>
+                <Exit name="EXCEPTION" state="ERROR"/>
+            </Exits>
+
+            <!-- Only roles with the same roltype can match, so the translations are skipped for the other roles. -->
+            <IfPipe
+                name="CheckForMatchingRolOmschrijving"
+                xpathExpression="lower-case($rolOmschrijving) = lower-case($matchOmschrijving)"
+                >
+                <Param name="rolOmschrijving" xpathExpression="/zgwRol/omschrijving" />
+                <Param name="matchOmschrijving" sessionKey="MatchOmschrijving" />
+                <Forward name="then" path="StoreZgwRolUrl" />
+                <Forward name="else" path="SkipRol" />
+            </IfPipe>
+
+            <EchoPipe
+                name="SkipRol"
+                getInputFromFixedValue="&lt;dummy/&gt;"
+                >
+                <Forward name="success" path="EXIT" />
+            </EchoPipe>
+
+            <PutInSessionPipe
+                name="StoreZgwRolUrl"
+                >
+                <Param name="ZgwRolUrl" xpathExpression="/zgwRol/url" />
+                <Forward name="success" path="CallMapZdsRolFromZgwRol" />
+            </PutInSessionPipe>
+
+            <SenderPipe
+                name="CallMapZdsRolFromZgwRol"
+                >
+                <FrankSender
+                    name="CallMapZdsRolFromZgwRolSender"
+                    target="MapZdsRolFromZgwRol"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
+                    <Param name="ZgwZaakType" sessionKey="ZgwZaakType" type="DOMDOC" />
+                </FrankSender>
+                <Forward name="success" path="RemoveNamespacesFromZdsRol" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="RemoveNamespacesFromZdsRol"
+                xpathExpression="root()"
+                outputType="XML"
+                removeNamespaces="true"
+                >
+                <Forward name="success" path="CallAddRolToZgw" />
+            </XsltPipe>
+
+            <SenderPipe
+                name="CallAddRolToZgw"
+                >
+                <FrankSender
+                    name="CallAddRolToZgwSender"
+                    target="AddRolToZgw"
+                    returnedSessionKeys="Error"
+                    >
+                    <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC" />
+                    <Param name="ZaakType" sessionKey="ZgwZaakType" xpathExpression="/ZgwZaakType/identificatie" />
+                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
+                </FrankSender>
+                <Forward name="success" path="AddUrlToZgwRol" />
+                <Forward name="exception" path="EXCEPTION" />
+            </SenderPipe>
+
+            <XsltPipe
+                name="AddUrlToZgwRol"
+                styleSheetName="Common/xsl/AddUrlToZgwRol.xslt"
+                >
+                <Param name="Url" sessionKey="ZgwRolUrl" />
+                <Forward name="success" path="EXIT" />
+                <Forward name="exception" path="EXCEPTION" />
+            </XsltPipe>
+        </Pipeline>
+    </Adapter>
+</Module>
