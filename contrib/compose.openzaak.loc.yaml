@@ -2,6 +2,11 @@
 services:
   open-zaak-redis:
     image: redis:8
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
     networks:
       - open-zaak-backend
 
@@ -12,6 +17,11 @@ services:
     volumes:
       - ./contrib/open-zaak-db/postgres.entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
       - open-zaak-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - open-zaak-backend
       - zaakbrug-stack
@@ -40,6 +50,7 @@ services:
       - CELERY_BROKER_URL=redis://open-zaak-redis:6379/1
       - CELERY_RESULT_BACKEND=redis://open-zaak-redis:6379/1
       - CELERY_LOGLEVEL=INFO
+      - CELERY_WORKER_NAME=celery@docker
       - CELERY_WORKER_CONCURRENCY=${CELERY_WORKER_CONCURRENCY:-4}
       # - SENDFILE_BACKEND=django_sendfile.backends.simple
       - SENDFILE_BACKEND=django_sendfile.backends.nginx
@@ -59,37 +70,77 @@ services:
       - open-zaak-private-media:/app/private-media
       - ./contrib/open-zaak:/app/fixtures
     depends_on:
-      - open-zaak-db
-      - open-zaak-redis
+      open-zaak-db:
+        condition: service_healthy
+      open-zaak-redis:
+        condition: service_healthy
+      open-zaak-init:
+        condition: service_completed_successfully
     healthcheck:
-      test: ["CMD-SHELL", "python -c 'import socket; s=socket.socket(); s.settimeout(1); s.connect((\"localhost\", 8000))'"]
+      test: ["CMD", "maykin-common", "health-check"]
       interval: 10s
       retries: 5
-      start_period: 90s
+      start_period: 60s
       timeout: 5s
+
+  # Runs the database migrations once, so the other OpenZaak containers only start when the schema is ready.
+  open-zaak-init:
+    image: openzaak/open-zaak:1.31.2
+    environment: *open-zaak-env
+    command: ["/bin/sh", "-c", "/wait_for_db.sh && OTEL_SDK_DISABLED=True python src/manage.py migrate"]
+    networks:
+      - open-zaak-backend
+    depends_on:
+      open-zaak-db:
+        condition: service_healthy
+      open-zaak-redis:
+        condition: service_healthy
 
   open-zaak-celery:
     image: openzaak/open-zaak:1.31.2
     environment: *open-zaak-env
     command: /celery_worker.sh
     volumes: *open-zaak-volumes
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "maykin-common",
+          "worker-health-check",
+          "--liveness-file=/app/tmp/celery_worker_event_loop.live",
+          "--max-age=70",
+          "--broker=redis://open-zaak-redis:6379/1",
+          "--worker-name=celery@docker",
+        ]
+      interval: 60s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
     networks:
       - open-zaak-backend
     depends_on:
-      - open-zaak-db
-      - open-zaak-redis
+      open-zaak:
+        condition: service_healthy
 
   open-zaak-celery-flower:
     image: openzaak/open-zaak:1.31.2
     environment: *open-zaak-env
     command: /celery_flower.sh
+    healthcheck:
+      test: ["CMD", "maykin-common", "health-check", "--endpoint=http://localhost:5555/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
     networks:
       - open-zaak-backend
     ports:
       - 5555
     depends_on:
-      - open-zaak-redis
-      - open-zaak-celery
+      open-zaak-redis:
+        condition: service_healthy
+      open-zaak-celery:
+        condition: service_healthy
 
   open-zaak-nginx:
     image: nginx
