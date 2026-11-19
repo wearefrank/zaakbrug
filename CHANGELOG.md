@@ -1,5 +1,23 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.27.3](https://github.com/wearefrank/zaakbrug/compare/v1.27.2...v1.27.3) (2026-11-19)
+
+### 🐛 Bug Fixes
+
+* select zaaktype version in creeerZaak by isVan ingangsdatumObject and fall back to the most recent started version ([2bc1558](https://github.com/wearefrank/zaakbrug/commit/2bc15584f84d9f0aed6084f8a1680e1110ba6a88)), closes [#720](https://github.com/wearefrank/zaakbrug/issues/720)
+
+### 📝 Documentation
+
+* organizations and role mapping configuration for Helm/Docker - [#731](https://github.com/wearefrank/zaakbrug/issues/731)⁠ ([1da9684](https://github.com/wearefrank/zaakbrug/commit/1da96840c221020f512ecc16aa5e9b09a2bb645d))
+
+### 🧑‍💻 Code Refactoring
+
+* rename zaaktype selection variable in FilterZgwZaakTypenForGeldigheid to English ([5ef5567](https://github.com/wearefrank/zaakbrug/commit/5ef5567aed44b81745218c07b337276fcad1ef1e))
+
+### ✅ Tests
+
+* verify zaaktype version selection by ingangsdatumObject, begin boundary, missing date and date before all versions ([4af03c4](https://github.com/wearefrank/zaakbrug/commit/4af03c492297586af16c0ab7906d39abf843f4f6))
+
 ## [1.27.2](https://github.com/wearefrank/zaakbrug/compare/v1.27.1...v1.27.2) (2026-11-05)
 
 ### 🤖 Build System
