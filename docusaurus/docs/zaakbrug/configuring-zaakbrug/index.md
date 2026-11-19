@@ -12,6 +12,7 @@ This section describes the main configuration options for ZaakBrug. Use the over
 | --- | --- |
 | [JDBC Drivers](jdbc-drivers) | Describes how to add extra JDBC drivers by building a custom image or by mounting a shared volume. |
 | [Customize Zaak- and Documentidentificatie Formatting](customize-case-and-document-identification-formatting) | Shows how to configure the format of generated zaak- and documentidentificaties. |
+| [Organizations And Role Mapping](organizations-and-role-mapping) | Explains how to configure the gemeentecode to RSIN mapping and the ZDS to ZGW role mapping, for both Helm and Docker deployments. |
 | [Routing Profiles](routing-profiles) | Explains how to route messages to ZGW APIs and, if needed, to a secondary system for orchestration or migration scenarios. |
 | [Translation Profiles](translation-profiles) | Groups the settings that control how ZDS/StUF messages are translated to ZGW. |
 
