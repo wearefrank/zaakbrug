@@ -1,7 +1,7 @@
 
 services:
   open-zaak-redis:
-    image: redis
+    image: redis:8
     networks:
       - open-zaak-backend
 
@@ -19,11 +19,11 @@ services:
       - 5432
 
   open-zaak:
-    image: openzaak/open-zaak:1.26.0
+    image: openzaak/open-zaak:1.31.2
     container_name: open-zaak.dev
     environment: &open-zaak-env
       - DJANGO_SETTINGS_MODULE=openzaak.conf.docker
-      - OPENZAAK_DOMAIN=open-zaak.dev:8000
+      - SITE_DOMAIN=open-zaak.dev:8000
       - SECRET_KEY=${SECRET_KEY:-7(h1r2hk)8z9+05edulo_3qzymwbo&c24=)qz7+_@3&2sp=u%i}
       - DB_NAME=openzaak
       - DB_USER=openzaak
@@ -49,6 +49,7 @@ services:
       - DEBUG=0
       - LOG_LEVEL=INFO
       - LOG_QUERIES=false
+      - OTEL_SDK_DISABLED=true
     networks:
       - open-zaak-backend
     ports:
@@ -68,7 +69,7 @@ services:
       timeout: 5s
 
   open-zaak-celery:
-    image: openzaak/open-zaak:1.26.0
+    image: openzaak/open-zaak:1.31.2
     environment: *open-zaak-env
     command: /celery_worker.sh
     volumes: *open-zaak-volumes
@@ -79,7 +80,7 @@ services:
       - open-zaak-redis
 
   open-zaak-celery-flower:
-    image: openzaak/open-zaak:1.26.0
+    image: openzaak/open-zaak:1.31.2
     environment: *open-zaak-env
     command: /celery_flower.sh
     networks:
