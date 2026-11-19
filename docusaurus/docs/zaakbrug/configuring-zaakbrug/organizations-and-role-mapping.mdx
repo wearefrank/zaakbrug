@@ -1,0 +1,134 @@
+---
+sidebar_position: 100
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Organizations And Role Mapping
+
+Some deployment specific information is not part of the translation profiles, but of the ZaakBrug _globals_. The globals contain:
+
+- `organizations`: the mapping between the _gemeentecode_ (as used in ZDS/StUF) and the _RSIN_ (as used in ZGW) per municipality.
+- `rolMapping`: the mapping between the ZDS role relations and the ZGW roltypen.
+
+## Organizations
+
+ZDS messages identify the sending municipality by its gemeentecode (`stuurgegevens/zender/organisatie`), while ZGW APIs require an RSIN as `bronorganisatie` and `verantwoordelijkeOrganisatie`. ZaakBrug looks up the gemeentecode of the sender in `organizations` and uses the matching RSIN for the case or identification that is created in ZGW.
+
+| Field | Description |
+| --- | --- |
+| `gemeenteNaam` | Name of the municipality. For readability only. |
+| `gemeenteCode` | The gemeentecode as it is sent by the ZDS application in `stuurgegevens/zender/organisatie`. |
+| `RSIN` | The RSIN to use as `bronorganisatie` and `verantwoordelijkeOrganisatie` in ZGW. |
+
+:::warning
+When a message is received from a gemeentecode that is not configured in `organizations`, ZaakBrug returns a `ConfigurationError`: `No organization configured for gemeente code: [<gemeentecode>]`.
+:::
+
+## Role mapping
+
+`rolMapping` maps the ZDS role relations to the `omschrijving` of the roltype in the ZGW catalogus that should be used for that role. The keys are fixed (see [Rollen](../behaviours/rollen)). Change the values when the roltypen in your catalogus are named differently.
+
+| ZDS role relation (key) | Default ZGW roltype omschrijving |
+| --- | --- |
+| `heeftBetrekkingOp` | `BetrekkingOp` |
+| `heeftAlsBelanghebbende` | `Belanghebbende` |
+| `heeftAlsInitiator` | `Initiator` |
+| `heeftAlsUitvoerende` | `Uitvoerende` |
+| `heeftAlsVerantwoordelijke` | `Verantwoordelijke` |
+| `heeftAlsGemachtigde` | `Gemachtigde` |
+| `heeftAlsOverigBetrokkene` | `OverigeBetrokkene` |
+
+## Configuring the globals
+
+How the globals are configured depends on how ZaakBrug is deployed.
+
+<Tabs defaultValue="helm" groupId="deployment-method" queryString>
+    <TabItem value="helm" label="Helm (Kubernetes)">
+
+        Set the globals in your `values.yaml` under `zaakbrug.globals`. The Helm chart renders them to a `Globals.json` in a ConfigMap and mounts that at `/opt/frank/configurations/Translate/Globals.json`. See the [globals section of the Helm chart documentation](https://github.com/wearefrank/charts/blob/main/charts/zaakbrug/README.md#globals) for all details.
+
+        ```yaml title="myvalues.yaml"
+        zaakbrug:
+          globals:
+            # highlight-start
+            organizations:
+              - gemeenteNaam: "Haarlem"
+                gemeenteCode: "0392"
+                RSIN: "001005650"
+              - gemeenteNaam: "Zeevang"
+                gemeenteCode: "0478"
+                RSIN: "001509962"
+            # highlight-end
+            rolMapping:
+              heeftBetrekkingOp: "BetrekkingOp"
+              heeftAlsBelanghebbende: "Belanghebbende"
+              heeftAlsInitiator: "Initiator"
+              heeftAlsUitvoerende: "Uitvoerende"
+              heeftAlsVerantwoordelijke: "Verantwoordelijke"
+              heeftAlsGemachtigde: "Gemachtigde"
+              heeftAlsOverigBetrokkene: "OverigeBetrokkene"
+        ```
+
+        Apply the values when installing or upgrading the chart:
+        ```bash
+        helm upgrade --install -f myvalues.yaml zaakbrug wearefrank/zaakbrug
+        ```
+
+        :::info
+        The `rolMapping` defaults of the chart are kept unless you override them.
+        :::
+    </TabItem>
+    <TabItem value="docker" label="Docker">
+
+        ZaakBrug reads the globals from `/opt/frank/configurations/Translate/Globals.json` inside the container. Create your own `Globals.json` and mount it over that path.
+
+        ```json title="Globals.json"
+        {
+            // highlight-start
+            "organizations": [
+                {
+                    "gemeenteNaam": "Haarlem",
+                    "gemeenteCode": "0392",
+                    "RSIN": "001005650"
+                },
+                {
+                    "gemeenteNaam": "Zeevang",
+                    "gemeenteCode": "0478",
+                    "RSIN": "001509962"
+                }
+            ],
+            // highlight-end
+            "rolMapping": {
+                "heeftBetrekkingOp": "BetrekkingOp",
+                "heeftAlsBelanghebbende": "Belanghebbende",
+                "heeftAlsInitiator": "Initiator",
+                "heeftAlsUitvoerende": "Uitvoerende",
+                "heeftAlsVerantwoordelijke": "Verantwoordelijke",
+                "heeftAlsGemachtigde": "Gemachtigde",
+                "heeftAlsOverigBetrokkene": "OverigeBetrokkene"
+            }
+        }
+        ```
+
+        Mount the file when running the container:
+        ```bash
+        docker run --name zaakbrug -p 8080:8080 -it \
+          -e dtap.stage=LOC \
+          -v "$(pwd)/Globals.json:/opt/frank/configurations/Translate/Globals.json:ro" \
+          wearefrank/zaakbrug:latest
+        ```
+
+        Or, when using Docker Compose:
+        ```yaml title="docker-compose.yml"
+        services:
+          zaakbrug:
+            image: wearefrank/zaakbrug:latest
+            environment:
+              - dtap.stage=LOC
+            volumes:
+              - ./Globals.json:/opt/frank/configurations/Translate/Globals.json:ro
+        ```
+    </TabItem>
+</Tabs>
