@@ -114,7 +114,7 @@ How the globals are configured depends on how ZaakBrug is deployed.
 
         Mount the file when running the container:
         ```bash
-        docker run --name zaakbrug -p 8080:8080 -it \
+        docker run --name zaakbrug -p 8080:8080 \
           -e dtap.stage=LOC \
           -v "$(pwd)/Globals.json:/opt/frank/configurations/Translate/Globals.json:ro" \
           wearefrank/zaakbrug:latest

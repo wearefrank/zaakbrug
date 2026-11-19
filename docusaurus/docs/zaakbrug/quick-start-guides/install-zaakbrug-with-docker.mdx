@@ -26,7 +26,7 @@ A list of all published Docker images and tags is available at [DockerHub WeAreF
 
 1. Run a ZaakBrug Docker container.
    ```bash
-   docker run --name zaakbrug --restart=unless-stopped --net zaakbrug -p 8080:8080 -it -e dtap.stage=LOC wearefrank/zaakbrug:latest
+   docker run --name zaakbrug --restart=unless-stopped --net zaakbrug -p 8080:8080 -e dtap.stage=LOC wearefrank/zaakbrug:latest
    ```
    
    Use the -e flag to set environment variables. The `dtap.stage` variable should be set for the appropriate environment. The options are: LOC, DEV, TST, ACC and PRD.
