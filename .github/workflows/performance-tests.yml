@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 env:
-  COMPOSE_FILES: -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.loc.perf-tests.yaml
+  COMPOSE_FILES: -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.metrics.yaml -f ./contrib/compose.frank.loc.perf-tests.yaml
 
 jobs:
   performance-tests:
@@ -19,7 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 #7.0.0
 
-      - name: Start ZaakBrug and OpenZaak
+      - name: Start ZaakBrug, OpenZaak, Prometheus and Grafana
         run: |
           docker compose ${COMPOSE_FILES} up -d --build
           for container in open-zaak.dev zaakbrug.dev; do
@@ -27,22 +27,29 @@ jobs:
             timeout 300s bash -c "until [ \"\$(docker inspect -f '{{.State.Health.Status}}' ${container} 2>/dev/null)\" == \"healthy\" ]; do sleep 5; done"
           done
 
-      - name: Run the performance tests while sampling the resource usage of ZaakBrug
+      - name: Run the k6 performance tests
         run: |
           mkdir -p e2e/reports
-          contrib/performance/sample-container-stats.sh zaakbrug.dev e2e/reports/resource-samples.csv 5 &
-          sampler_pid=$!
+          echo "PERFORMANCE_TESTS_START=$(date +%s)" >> "${GITHUB_ENV}"
 
           set +e
-          docker compose ${COMPOSE_FILES} --profile soapui-performance run --rm --no-deps soapui-performance-testrunner 2>&1 | tee e2e/reports/performance-tests.log
+          docker compose ${COMPOSE_FILES} --profile k6-performance run --rm --no-deps k6-performance-testrunner 2>&1 | tee e2e/reports/performance-tests.log
           tests_exit_code=${PIPESTATUS[0]}
           set -e
 
-          kill "${sampler_pid}"
+          echo "PERFORMANCE_TESTS_END=$(date +%s)" >> "${GITHUB_ENV}"
           exit "${tests_exit_code}"
 
-      - name: Compare the resource usage of ZaakBrug with the baseline
-        run: python3 contrib/performance/check-resource-usage.py e2e/reports/resource-samples.csv e2e/performance-baseline.json
+      - name: Report the metrics of ZaakBrug during the tests and compare them with the baseline
+        if: always() && env.PERFORMANCE_TESTS_END != ''
+        run: |
+          # Wait for the last scrape of Prometheus
+          sleep 10
+          python3 contrib/performance/report-metrics.py \
+            --prometheus-url http://localhost:9090 \
+            --start "${PERFORMANCE_TESTS_START}" \
+            --end "$(date +%s)" \
+            --baseline e2e/performance-baseline.json | tee e2e/reports/metrics-report.md
 
       - name: Upload the reports
         if: always()
@@ -51,6 +58,6 @@ jobs:
           name: performance-test-reports
           path: e2e/reports
 
-      - name: Stop ZaakBrug and OpenZaak
+      - name: Stop the containers
         if: always()
         run: docker compose ${COMPOSE_FILES} down -v

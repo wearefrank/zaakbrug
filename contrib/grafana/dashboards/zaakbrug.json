@@ -1,0 +1,107 @@
+{
+  "uid": "zaakbrug",
+  "title": "ZaakBrug",
+  "tags": ["zaakbrug"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "5s",
+  "time": { "from": "now-15m", "to": "now" },
+  "templating": { "list": [] },
+  "annotations": { "list": [] },
+  "panels": [
+    {
+      "id": 1, "type": "row", "title": "JVM", "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 }
+    },
+    {
+      "id": 2, "type": "timeseries", "title": "Heap memory",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 1 },
+      "fieldConfig": { "defaults": { "unit": "bytes", "min": 0 }, "overrides": [] },
+      "targets": [
+        { "refId": "A", "legendFormat": "used", "expr": "sum(jvm_memory_used_bytes{area=\"heap\"})" },
+        { "refId": "B", "legendFormat": "committed", "expr": "sum(jvm_memory_committed_bytes{area=\"heap\"})" }
+      ]
+    },
+    {
+      "id": 3, "type": "timeseries", "title": "CPU usage",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 1 },
+      "fieldConfig": { "defaults": { "unit": "percentunit", "min": 0 }, "overrides": [] },
+      "targets": [
+        { "refId": "A", "legendFormat": "process", "expr": "process_cpu_usage" },
+        { "refId": "B", "legendFormat": "system", "expr": "system_cpu_usage" }
+      ]
+    },
+    {
+      "id": 4, "type": "timeseries", "title": "GC pause time (share of time) and live threads",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 1 },
+      "fieldConfig": {
+        "defaults": { "min": 0 },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "GC pause" }, "properties": [ { "id": "unit", "value": "percentunit" } ] },
+          { "matcher": { "id": "byName", "options": "live threads" }, "properties": [ { "id": "custom.axisPlacement", "value": "right" } ] }
+        ]
+      },
+      "targets": [
+        { "refId": "A", "legendFormat": "GC pause", "expr": "sum(rate(jvm_gc_pause_seconds_sum[1m]))" },
+        { "refId": "B", "legendFormat": "live threads", "expr": "jvm_threads_live_threads" }
+      ]
+    },
+    {
+      "id": 5, "type": "row", "title": "Adapters", "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 9 }
+    },
+    {
+      "id": 6, "type": "timeseries", "title": "Messages processed per second",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 10 },
+      "fieldConfig": { "defaults": { "unit": "ops", "min": 0 }, "overrides": [] },
+      "targets": [
+        { "refId": "A", "legendFormat": "{{adapter}}", "expr": "sum by (adapter) (rate(frank_pipeline_messagesProcessed_total[1m])) > 0" }
+      ]
+    },
+    {
+      "id": 7, "type": "timeseries", "title": "Messages in error",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 10 },
+      "fieldConfig": { "defaults": { "min": 0 }, "overrides": [] },
+      "targets": [
+        { "refId": "A", "legendFormat": "{{adapter}}", "expr": "sum by (adapter) (increase(frank_pipeline_messagesInError_total[1m])) > 0" }
+      ]
+    },
+    {
+      "id": 8, "type": "timeseries", "title": "Average adapter duration",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 18 },
+      "fieldConfig": { "defaults": { "unit": "ms", "min": 0 }, "overrides": [] },
+      "targets": [
+        { "refId": "A", "legendFormat": "{{adapter}}", "expr": "sum by (adapter) (rate(frank_pipeline_duration_ms_sum[1m])) / sum by (adapter) (rate(frank_pipeline_duration_ms_count[1m]))" }
+      ]
+    },
+    {
+      "id": 9, "type": "timeseries", "title": "Maximum adapter duration",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 18 },
+      "fieldConfig": { "defaults": { "unit": "ms", "min": 0 }, "overrides": [] },
+      "targets": [
+        { "refId": "A", "legendFormat": "{{adapter}}", "expr": "max by (adapter) (frank_pipeline_duration_ms_max) > 0" }
+      ]
+    },
+    {
+      "id": 10, "type": "row", "title": "Pipes", "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 26 }
+    },
+    {
+      "id": 11, "type": "timeseries", "title": "Slowest pipes (average duration, top 10)",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 27 },
+      "fieldConfig": { "defaults": { "unit": "ms", "min": 0 }, "overrides": [] },
+      "targets": [
+        { "refId": "A", "legendFormat": "{{adapter}} / {{name}}", "expr": "topk(10, sum by (adapter, name) (rate(frank_pipe_duration_ms_sum[1m])) / sum by (adapter, name) (rate(frank_pipe_duration_ms_count[1m])))" }
+      ]
+    }
+  ]
+}

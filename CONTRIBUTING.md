@@ -215,16 +215,29 @@ The command to start the system, including these files as a volume for the zaakb
 
 `docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.soap-ui.yaml up --build --force-recreate --watch`
 
+### Viewing the metrics of ZaakBrug with Prometheus and Grafana
+To look at the metrics of ZaakBrug (JVM memory and CPU, and the duration, throughput and errors of every adapter and pipe), add the metrics override file to your local setup. It enables the Prometheus endpoint of the Frank!Framework (`/metrics/prometheus`) and starts a Prometheus and a Grafana:
+
+`docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.metrics.yaml up --build`
+
+Prometheus runs on http://localhost:9090 and Grafana on http://localhost:3000 (no login required), with the provisioned **ZaakBrug** dashboard (`contrib/grafana/dashboards/zaakbrug.json`). The Prometheus scrape configuration is in `contrib/prometheus/prometheus.yml`.
+
 ### Running the performance tests
-The performance tests are in the disabled `PerformanceTests` TestSuite, so they do not run with the regular test cases. They use the same SetUp/TearDown TestCases as the other TestSuites to create and remove the required catalog (a zaaktype with a unique code and an informatieobjecttype). The load tests in the TestSuite additionally create and remove a zaak (`LoadTest-SetUp-CreateSimpleZaak` and `LoadTest-TearDown-CreateSimpleZaak`) and the documents added to it. Because SoapUI's test runner only runs the functional steps, the `RunLoadTests` TestCase runs all load tests of the TestSuite and reports the statistics of each of them in the log.
+The performance tests are [k6](https://grafana.com/docs/k6/latest/) scripts in `e2e/k6`:
+- `genereer-document-identificatie.js` ramps up from 1 to 10 users generating document identificaties.
+- `documents.js` generates a document identificatie, adds a document to a zaak, reads the document and lists the documents of the zaak. It runs with one user for documents of 0.25, 1, 4 and 16 MB and with up to 10 users for 180 seconds with documents of 0.25 MB.
 
-To run the performance tests, use the dedicated override file together with the `soapui-performance` profile:
+Every script creates what it needs in `setup()` and removes it again in `teardown()`: the minimal catalog (a zaaktype with a unique code and an informatieobjecttype with a unique omschrijving) and a zaak with its documents. The scripts also assert on the metrics of ZaakBrug in Prometheus for the period of the test: no adapter had messages in error, the adapters used by the test processed messages and did so within an average duration. These assertions are skipped when `PROMETHEUS_URL` is not set.
 
-`docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.loc.perf-tests.yaml --profile soapui-performance run --build --rm soapui-performance-testrunner`
+To run all performance tests, use the dedicated override files together with the `k6-performance` profile:
 
-The test reports will be created under "./e2e/reports/performance". To run the performance tests manually in SoapUI, right-click the `PerformanceTests` TestSuite -> Show TestSuite Editor and run the `SetUp Script`, run the load tests and finally run the `TearDown Script`.
+`docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.metrics.yaml -f ./contrib/compose.frank.loc.perf-tests.yaml --profile k6-performance run --build --rm k6-performance-testrunner`
 
-The **Performance Tests** GitHub workflow runs the performance tests weekly and on demand. During the run it samples the CPU and memory usage of the ZaakBrug container (`contrib/performance/sample-container-stats.sh`) and compares it with the baseline in `e2e/performance-baseline.json` (`contrib/performance/check-resource-usage.py`). The result is added to the summary of the workflow run. The baseline only fails the workflow when `enforce` is set to `true`, which should only be done after the baseline is calibrated with the numbers measured by the workflow itself.
+The k6 summaries will be created under "./e2e/reports". Set the `PORT` environment variable when ZaakBrug is published on another port than 8080. A single script can also be run with a locally installed k6 against a running setup, e.g. `k6 run -e SCENARIO=single -e DOCUMENT_SIZE_MB=4 -e PROMETHEUS_URL=http://localhost:9090 e2e/k6/documents.js` (see `e2e/k6/lib/config.js` for all settings).
+
+The **Performance Tests** GitHub workflow runs the performance tests weekly and on demand. Afterwards `contrib/performance/report-metrics.py` queries Prometheus for the period of the run and reports the minimum, mean and maximum of the JVM memory and CPU and the number of messages, mean and maximum duration of every adapter in the summary of the workflow run. It also compares the peak heap usage and mean CPU usage with the baseline in `e2e/performance-baseline.json`. The baseline only fails the workflow when `enforce` is set to `true`, which should only be done after the baseline is calibrated with the numbers measured by the workflow itself. Micrometer timers have no minimum, so the minimum duration of an adapter is not reported.
+
+> Note: the SoapUI project still contains a disabled `PerformanceTests` TestSuite, which is replaced by the k6 tests.
 
 ## Running test cases automatically on Github CI
 There is nothing to do explicitly to run the test cases on Github environment. When you create a PR to master branch, the test cases will be automatically run on Github CI to see if everything is still working on your own branch.
