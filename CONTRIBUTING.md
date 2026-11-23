@@ -40,8 +40,6 @@ The compose files follow the conventions of the [wearefrank/skeleton](https://gi
 - **Keep overrides independent:** an override should only depend on services of the file it overrides (usually `frank`). Dependencies on project specific services, like OpenZaak, belong in the compose file of that project specific service.
 - Pin the image versions of third-party images.
 
-These conventions are also captured in a personal `skeleton` skill (not part of this repository) that can be used with GitHub Copilot to follow the skeleton way of working.
-
 To run the stack needed for e2e testing the command would be `docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml up --build --force-recreate --watch`
 
 > INFO: We recommend to always include `--build --force-recreate --watch` in the **compose up** command.
