@@ -84,10 +84,24 @@ services:
       timeout: 5s
 
   # Runs the database migrations once, so the other OpenZaak containers only start when the schema is ready.
+  # Afterwards it loads all fixtures (*.json) of the compose overrides, which mount a folder with their fixtures as a subfolder of
+  # /app/fixtures.d, e.g. './contrib/open-zaak-perf-tests:/app/fixtures.d/perf-tests:ro'. A folder per override makes it possible
+  # to combine any number of overrides. The fixtures are loaded sorted by their path, so they can depend on each other by name.
+  # (The always present fixtures in /app/fixtures are loaded by OpenZaak itself when it starts.)
   open-zaak-init:
     image: openzaak/open-zaak:1.31.2
     environment: *open-zaak-env
-    command: ["/bin/sh", "-c", "/wait_for_db.sh && OTEL_SDK_DISABLED=True python src/manage.py migrate"]
+    command:
+      - /bin/sh
+      - -c
+      - |
+        set -e
+        /wait_for_db.sh
+        OTEL_SDK_DISABLED=True python src/manage.py migrate
+        fixtures=$$(find /app/fixtures.d -name '*.json' 2>/dev/null | sort)
+        if [ -n "$$fixtures" ]; then
+          OTEL_SDK_DISABLED=True python src/manage.py loaddata $$fixtures
+        fi
     networks:
       - open-zaak-backend
     depends_on:

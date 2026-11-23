@@ -1,8 +1,9 @@
 # Override that loads the OpenZaak fixtures needed by the performance tests (contrib/open-zaak-perf-tests/*.json) into OpenZaak.
 # The fixtures are only loaded when this file is included, so the regular e2e tests are not impacted by them.
 #
-# The fixtures are Django fixtures, loaded with 'loaddata' after the database migrations and before OpenZaak starts.
-# To use this docker-compose file, include it together with compose.openzaak.yaml, e.g. as in compose.frank.perf-tests.yaml:
+# The fixtures are Django fixtures, loaded by the 'open-zaak-init' service with 'loaddata' after the database migrations and
+# before OpenZaak starts. To use this docker-compose file, include it together with compose.openzaak.yaml, e.g. as in
+# compose.frank.perf-tests.yaml:
 #    docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.openzaak.yaml -f ./contrib/compose.openzaak.perf-tests.yaml up --build
 #
 # Add a fixture by adding a .json file to contrib/open-zaak-perf-tests, for example one that is created in a running OpenZaak
@@ -10,18 +11,6 @@
 #    docker compose exec open-zaak python src/manage.py dumpdata catalogi --indent 2
 #
 services:
-  open-zaak-perf-fixtures:
-    extends:
-      file: ./contrib/compose.openzaak.yaml
-      service: open-zaak-init
-    command: ["/bin/sh", "-c", "OTEL_SDK_DISABLED=True python src/manage.py loaddata /app/perf-tests-fixtures/*.json"]
+  open-zaak-init:
     volumes:
-      - ./contrib/open-zaak-perf-tests:/app/perf-tests-fixtures:ro
-    depends_on:
-      open-zaak-init:
-        condition: service_completed_successfully
-
-  open-zaak:
-    depends_on:
-      open-zaak-perf-fixtures:
-        condition: service_completed_successfully
+      - ./contrib/open-zaak-perf-tests:/app/fixtures.d/perf-tests:ro
