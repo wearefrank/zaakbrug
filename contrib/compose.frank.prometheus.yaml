@@ -5,7 +5,7 @@
 # The override only depends on the 'frank' service, so it can be combined with any compose file that has one.
 #
 # To use this docker-compose file, together with the local development file:
-#    docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.metrics.yaml up --build
+#    docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.prometheus.yaml up --build
 #
 # Prometheus: http://localhost:9090
 # Grafana:    http://localhost:3000 (no login required, the dashboard is 'Frank!Framework')
@@ -37,8 +37,8 @@ services:
       GF_AUTH_DISABLE_LOGIN_FORM: true
       GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /etc/grafana/dashboards/frank.json
     volumes:
-      - ./contrib/grafana/provisioning:/etc/grafana/provisioning:ro
-      - ./contrib/grafana/dashboards:/etc/grafana/dashboards:ro
+      - ./contrib/grafana/provisioning:/etc/grafana/provisioning:rw
+      - ./contrib/grafana/dashboards:/etc/grafana/dashboards:rw
       - grafana-data:/var/lib/grafana
     networks:
       - metrics

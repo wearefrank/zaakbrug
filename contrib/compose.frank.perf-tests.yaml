@@ -1,12 +1,12 @@
 # Override for running the k6 performance tests (e2e/k6) against the 'frank' service.
-# It requires the metrics override (compose.frank.metrics.yaml), which adds the Prometheus the tests assert on.
+# It requires the Prometheus override (compose.frank.prometheus.yaml), which adds the Prometheus the tests assert on, and the OpenZaak\n# fixtures override (compose.openzaak.perf-tests.yaml), which loads the zaaktype the tests use into OpenZaak.
 #
 # To use this docker-compose file, together with the local development files:
-#    docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.metrics.yaml -f ./contrib/compose.frank.perf-tests.yaml --profile k6-performance run --build --rm k6-performance-testrunner
+#    docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.yaml -f ./contrib/compose.openzaak.perf-tests.yaml -f ./contrib/compose.frank.prometheus.yaml -f ./contrib/compose.frank.perf-tests.yaml --profile k6-performance run --build --rm k6-performance-testrunner
 #
 # This starts the instance, Prometheus and Grafana, waits until they are healthy and runs the performance tests.
 # While the tests run, the metrics can be viewed in Grafana (http://localhost:3000). Stop the stack afterwards with:
-#    docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.metrics.yaml -f ./contrib/compose.frank.perf-tests.yaml --profile k6-performance down -v
+#    docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.yaml -f ./contrib/compose.openzaak.perf-tests.yaml -f ./contrib/compose.frank.prometheus.yaml -f ./contrib/compose.frank.perf-tests.yaml --profile k6-performance down -v
 #
 # The k6 summaries will be created under "./e2e/reports". Set PORT when the instance is published on another port than 8080.
 #

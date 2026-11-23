@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 env:
-  COMPOSE_FILES: -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.metrics.yaml -f ./contrib/compose.frank.perf-tests.yaml
+  COMPOSE_FILES: -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.yaml -f ./contrib/compose.openzaak.perf-tests.yaml -f ./contrib/compose.frank.prometheus.yaml -f ./contrib/compose.frank.perf-tests.yaml
 
 jobs:
   performance-tests:

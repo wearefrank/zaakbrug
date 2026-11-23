@@ -1,7 +1,8 @@
 // Load test of adding, reading and listing documents of a zaak through ZaakBrug.
 //
 // Every iteration generates a documentIdentificatie, adds a document of DOCUMENT_SIZE_MB to a zaak, reads the document and lists
-// the documents of the zaak. The zaak and the catalog (with unique codes) are created in setup() and removed in teardown().
+// the documents of the zaak. The zaak is created in setup() and removed in teardown(). The zaaktype and informatieobjecttype
+// are loaded into OpenZaak as fixtures (contrib/open-zaak-perf-tests, see contrib/compose.openzaak.perf-tests.yaml).
 //
 // Environment variables:
 //  - SCENARIO:         'single' (1 user, 5 iterations, default) or 'multi' (ramping up from 1 to 10 users for 180 seconds)
@@ -16,7 +17,8 @@ import {
   geefZaakdocumentLezen,
   voegZaakdocumentToe,
 } from './lib/zds.js';
-import { createCatalog, createZaak, deleteCatalog, deleteZaakWithDocuments } from './lib/openzaak.js';
+import { createZaak, deleteZaakWithDocuments } from './lib/openzaak.js';
+import { PERFORMANCE_INFORMATIEOBJECTTYPE_OMSCHRIJVING } from './lib/config.js';
 import { assertAdapterMetrics, prometheusThresholds } from './lib/prometheus.js';
 
 const multi = (__ENV.SCENARIO || 'single') === 'multi';
@@ -56,9 +58,8 @@ const documentBase64 = generateDocumentBase64();
 
 export function setup() {
   const startedAt = Date.now();
-  const catalog = createCatalog();
-  const zaakIdentificatie = createZaak(catalog);
-  return { startedAt, catalog, zaakIdentificatie };
+  const zaakIdentificatie = createZaak();
+  return { startedAt, zaakIdentificatie };
 }
 
 export default function (data) {
@@ -68,7 +69,7 @@ export default function (data) {
   voegZaakdocumentToe(
     documentIdentificatie,
     data.zaakIdentificatie,
-    data.catalog.informatieobjecttypeOmschrijving,
+    PERFORMANCE_INFORMATIEOBJECTTYPE_OMSCHRIJVING,
     documentBase64,
   );
   geefZaakdocumentLezen(documentIdentificatie);
@@ -88,5 +89,4 @@ export function teardown(data) {
   ]);
 
   deleteZaakWithDocuments(data.zaakIdentificatie);
-  deleteCatalog(data.catalog);
 }
