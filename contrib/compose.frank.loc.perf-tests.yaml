@@ -1,3 +1,13 @@
+# Override for running the SoapUI performance tests (the 'PerformanceTests' TestSuite).
+#
+# To use this docker-compose file, together with the local development files:
+#    docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.loc.perf-tests.yaml --profile soapui-performance run --build --rm soapui-performance-testrunner
+#
+# This starts ZaakBrug and OpenZaak, waits until they are healthy and runs the performance tests. Stop the stack afterwards with:
+#    docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.loc.perf-tests.yaml --profile soapui-performance down -v
+#
+# The test reports will be created under "./e2e/reports/performance".
+#
 services:
   zaakbrug:
     build: .
@@ -7,4 +17,24 @@ services:
       - zaakbrug.zgw.documenten-api.timeout=120000
       - zaakbrug.zgw.besluiten-api.timeout=120000
       - soap.bus.org.apache.cxf.stax.maxTextLength=1000000000
-      - CATALINA_OPTS=$CATALINA_OPTS -Xmx24g
+
+  soapui-performance-testrunner:
+    profiles:
+      - soapui-performance
+    image: smartbear/soapuios-testrunner:latest
+    container_name: soapui-performance-testrunner
+    volumes:
+      - ./src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02:/zaakbrug/src/main/configurations/Translate/Common/xsd/Zaak_DocumentServices_1_1_02
+      - ./e2e/SoapUI/zaakbrug-e2e-soapui-project.xml:/zaakbrug/e2e/SoapUI/zaakbrug-e2e-soapui-project.xml
+      - ./e2e/reports:/reports
+    environment:
+      - COMMAND_LINE=-f/%reports%/performance '/zaakbrug/e2e/SoapUI/zaakbrug-e2e-soapui-project.xml' -s'PerformanceTests' -r -j
+    depends_on:
+      zaakbrug:
+        condition: service_healthy
+      open-zaak:
+        condition: service_healthy
+      open-zaak-nginx:
+        condition: service_started
+    network_mode: host
+

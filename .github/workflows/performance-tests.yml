@@ -1,0 +1,56 @@
+name: Performance Tests
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * 1'
+
+permissions:
+  contents: read
+
+env:
+  COMPOSE_FILES: -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.loc.perf-tests.yaml
+
+jobs:
+  performance-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 #7.0.0
+
+      - name: Start ZaakBrug and OpenZaak
+        run: |
+          docker compose ${COMPOSE_FILES} up -d --build
+          for container in open-zaak.dev zaakbrug.dev; do
+            echo "Waiting for ${container} to be healthy..."
+            timeout 300s bash -c "until [ \"\$(docker inspect -f '{{.State.Health.Status}}' ${container} 2>/dev/null)\" == \"healthy\" ]; do sleep 5; done"
+          done
+
+      - name: Run the performance tests while sampling the resource usage of ZaakBrug
+        run: |
+          mkdir -p e2e/reports
+          contrib/performance/sample-container-stats.sh zaakbrug.dev e2e/reports/resource-samples.csv 5 &
+          sampler_pid=$!
+
+          set +e
+          docker compose ${COMPOSE_FILES} --profile soapui-performance run --rm --no-deps soapui-performance-testrunner 2>&1 | tee e2e/reports/performance-tests.log
+          tests_exit_code=${PIPESTATUS[0]}
+          set -e
+
+          kill "${sampler_pid}"
+          exit "${tests_exit_code}"
+
+      - name: Compare the resource usage of ZaakBrug with the baseline
+        run: python3 contrib/performance/check-resource-usage.py e2e/reports/resource-samples.csv e2e/performance-baseline.json
+
+      - name: Upload the reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 #7.0.2
+        with:
+          name: performance-test-reports
+          path: e2e/reports
+
+      - name: Stop ZaakBrug and OpenZaak
+        if: always()
+        run: docker compose ${COMPOSE_FILES} down -v

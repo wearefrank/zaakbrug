@@ -170,6 +170,7 @@ Additionally, to help out diff tools, also enable the option **Pretty Print Proj
 - Try to keep to one change at a time and keep them small.
 - Whenever possible, avoid combining changes that both add and remove lots of things.
 - When importing/referencing WSDL's, OAS or any other resources in the repository, make sure to change the absolute path's to relative paths. These paths should be relative to the **folder containing the SoapUI project file**.
+- Give every root type created in the Catalogi API (zaaktype, informatieobjecttype, etc.) a unique `identificatie`/code (generate it in the SetUp TestCase), so TestSuites can never collide with each other, even when they run in parallel. Only create the types a TestSuite actually needs.
 
 ## Manual testing with own test cases
 If you would like to create and run your own test cases in SoapUI then you should complete the configuration under "docker-compose.openzaak.dev" section below to be able to have the catalog imported. Afterwards, you could create your own test cases in SoapUI.
@@ -213,6 +214,17 @@ To ensure these two custom JSON files are mounted into the `zaakbrug` volume—b
 The command to start the system, including these files as a volume for the zaakbrug service, is:
 
 `docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.soap-ui.yaml up --build --force-recreate --watch`
+
+### Running the performance tests
+The performance tests are in the disabled `PerformanceTests` TestSuite, so they do not run with the regular test cases. They use the same SetUp/TearDown TestCases as the other TestSuites to create and remove the required catalog (a zaaktype with a unique code and an informatieobjecttype). The load tests in the TestSuite additionally create and remove a zaak (`LoadTest-SetUp-CreateSimpleZaak` and `LoadTest-TearDown-CreateSimpleZaak`) and the documents added to it. Because SoapUI's test runner only runs the functional steps, the `RunLoadTests` TestCase runs all load tests of the TestSuite and reports the statistics of each of them in the log.
+
+To run the performance tests, use the dedicated override file together with the `soapui-performance` profile:
+
+`docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.loc.perf-tests.yaml --profile soapui-performance run --build --rm soapui-performance-testrunner`
+
+The test reports will be created under "./e2e/reports/performance". To run the performance tests manually in SoapUI, right-click the `PerformanceTests` TestSuite -> Show TestSuite Editor and run the `SetUp Script`, run the load tests and finally run the `TearDown Script`.
+
+The **Performance Tests** GitHub workflow runs the performance tests weekly and on demand. During the run it samples the CPU and memory usage of the ZaakBrug container (`contrib/performance/sample-container-stats.sh`) and compares it with the baseline in `e2e/performance-baseline.json` (`contrib/performance/check-resource-usage.py`). The result is added to the summary of the workflow run. The baseline only fails the workflow when `enforce` is set to `true`, which should only be done after the baseline is calibrated with the numbers measured by the workflow itself.
 
 ## Running test cases automatically on Github CI
 There is nothing to do explicitly to run the test cases on Github environment. When you create a PR to master branch, the test cases will be automatically run on Github CI to see if everything is still working on your own branch.
