@@ -8,7 +8,7 @@ Execute the following steps when bumping the Frank!Framework version:
 1. Look up the latest framework snapshot build on [DockerHub - Frank!Framework](https://hub.docker.com/r/frankframework/frankframework/tags). The format of the tag should be: `<major>.<minor>-<date>.<build>`. For example: 7.9-20230907.223421.
 2. Replace the value of `FF_VERSION` in the `Dockerfile` with the new tag.
 3. Replace the value of `FF_VERSION` in the `Dockerfile.java8` with the new tag.
-4. Replace the default value for `FF_VERSION` under `services.zaakbrug.build.args` in `compose.frank.loc.yaml` with the new tag. NOTE: Watch out to not replace the '-' in front of the tag: ${FF_VERSION:-<new tag>}
+4. Replace the default value for `FF_VERSION` under `services.frank.build.args` in `compose.frank.loc.yaml` with the new tag. NOTE: Watch out to not replace the '-' in front of the tag: ${FF_VERSION:-<new tag>}
 5. Replace the value of `ff.version` in `frank-runner.properties` with the new tag.
 6. Start ZaakBrug with the `Frank!Runner` to automatically replace the `./src/main/configuration/<configuration-name>/FrankConfig.xsd` and `./src/main/configuration/FrankConfig.xsd` with the newer version. You can stop the Frank!Runner once the files are replaced. Note that currently the Frank!Runner will also add `FrankConfig.xsd` to the `.gitignore` file. Make sure to revert the change to `.gitignore`.
 7. Run the e2e testsuite by using the below Docker-Compose and configuration to validate the changes. You should only need `docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.openzaak.loc.yaml up --build --force-recreate` for this. (TODO: Automate running of e2e tests in ci/cd).
@@ -30,6 +30,17 @@ Execute the following steps when bumping the Frank!Framework version:
 
 ### Docker Compose
 The docker compose development environment is designed to be flexible and composable. This prevents the need for developers to run the entire stack eventhough their work requires only a small part of the stack. For this we make use of a docker compose feature that merges a given array of docker compose files together. Simply provide a `-f ./contrib/compose.<application>.yaml` argument for each docker compose file you wish to include in the `docker compose up`command.
+
+#### Conventions for Docker Compose files
+The compose files follow the conventions of the [wearefrank/skeleton](https://github.com/wearefrank/skeleton) project template, so they are recognisable across projects and can be reused in other projects. Check the skeleton's `compose.yaml` and `compose.frank.loc.yaml` first when you add or change a compose file.
+- **Naming:** a compose file is named `compose.<application/function>.yaml`, for example `compose.frank.loc.yaml` (the Frank!Framework instance for local development) or `compose.openzaak.loc.yaml`.
+- **Overrides:** a compose file that overrides or adds to another compose file gets a `.<override application/function>` suffix after the name of the file it builds on, for example `compose.frank.metrics.yaml` (adds metrics to the Frank!Framework instance) or `compose.frank.postgres.yaml`. An override only declares the parts it changes or adds and mentions in a header comment how it is used. Overrides live in the `contrib` folder.
+- **Service name:** the Frank!Framework application service is always called `frank`, so overrides can be reused in other projects. The hostname `zaakbrug` is kept as a network alias of the `frank` service.
+- **No `container_name`:** let Docker Compose name the containers, so several copies of the stack (for example in different Git worktrees) can run side by side. Address containers by service name (`docker compose exec frank ...`) and use `docker compose up --wait` to wait until the services are healthy.
+- **Keep overrides independent:** an override should only depend on services of the file it overrides (usually `frank`). Dependencies on project specific services, like OpenZaak, belong in the compose file of that project specific service.
+- Pin the image versions of third-party images.
+
+The `skeleton` skill for GitHub Copilot and Claude Code (`.github/skills/skeleton`) describes this way of working and how to merge changes of the skeleton.
 
 To run the stack needed for e2e testing the command would be `docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml up --build --force-recreate --watch`
 
@@ -209,9 +220,9 @@ To execute the RoutingProfiles test cases, you must use custom configuration fil
 
 These custom files are located in the `contrib/zaakbrug-soap-ui` directory. They are necessary to test a comprehensive range of routing scenarios **without modifying the original files** located in the `Resources` directory. The original files must remain unchanged because they serve as the default configuration for clients.
 
-To ensure these two custom JSON files are mounted into the `zaakbrug` volume—both locally and on GitHub—you must include the `contrib/compose.frank.soap-ui.yaml` Docker Compose file when starting the system.
+To ensure these two custom JSON files are mounted into the `frank` service—both locally and on GitHub—you must include the `contrib/compose.frank.soap-ui.yaml` Docker Compose file when starting the system.
 
-The command to start the system, including these files as a volume for the zaakbrug service, is:
+The command to start the system, including these files as a volume for the frank service, is:
 
 `docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.soap-ui.yaml up --build --force-recreate --watch`
 
@@ -220,7 +231,7 @@ To look at the metrics of ZaakBrug (JVM memory and CPU, and the duration, throug
 
 `docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.metrics.yaml up --build`
 
-Prometheus runs on http://localhost:9090 and Grafana on http://localhost:3000 (no login required), with the provisioned **ZaakBrug** dashboard (`contrib/grafana/dashboards/zaakbrug.json`). The Prometheus scrape configuration is in `contrib/prometheus/prometheus.yml`.
+Prometheus runs on http://localhost:9090 and Grafana on http://localhost:3000 (no login required), with the provisioned **Frank!Framework** dashboard (`contrib/grafana/dashboards/frank.json`). The Prometheus scrape configuration is in `contrib/prometheus/prometheus.yml`.
 
 ### Running the performance tests
 The performance tests are [k6](https://grafana.com/docs/k6/latest/) scripts in `e2e/k6`:
@@ -231,7 +242,7 @@ Every script creates what it needs in `setup()` and removes it again in `teardow
 
 To run all performance tests, use the dedicated override files together with the `k6-performance` profile:
 
-`docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.metrics.yaml -f ./contrib/compose.frank.loc.perf-tests.yaml --profile k6-performance run --build --rm k6-performance-testrunner`
+`docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.metrics.yaml -f ./contrib/compose.frank.perf-tests.yaml --profile k6-performance run --build --rm k6-performance-testrunner`
 
 The k6 summaries will be created under "./e2e/reports". Set the `PORT` environment variable when ZaakBrug is published on another port than 8080. A single script can also be run with a locally installed k6 against a running setup, e.g. `k6 run -e SCENARIO=single -e DOCUMENT_SIZE_MB=4 -e PROMETHEUS_URL=http://localhost:9090 e2e/k6/documents.js` (see `e2e/k6/lib/config.js` for all settings).
 

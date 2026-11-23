@@ -167,12 +167,17 @@ services:
     depends_on:
       - open-zaak
 
-  zaakbrug:
+  frank:
     environment:
       - zaakbrug.zgw.zaken-api.root-url=http://open-zaak.nginx:9001/zaken/api/v1/
       - zaakbrug.zgw.documenten-api.root-url=http://open-zaak.nginx:9001/documenten/api/v1/
       - zaakbrug.zgw.catalogi-api.root-url=http://open-zaak.nginx:9001/catalogi/api/v1/
       - zaakbrug.zgw.besluiten-api.root-url=http://open-zaak.nginx:9001/besluiten/api/v1/
+    depends_on:
+      open-zaak:
+        condition: service_healthy
+      open-zaak-nginx:
+        condition: service_started
 
 volumes:
   open-zaak-db:

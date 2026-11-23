@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 env:
-  COMPOSE_FILES: -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.metrics.yaml -f ./contrib/compose.frank.loc.perf-tests.yaml
+  COMPOSE_FILES: -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.metrics.yaml -f ./contrib/compose.frank.perf-tests.yaml
 
 jobs:
   performance-tests:
@@ -20,12 +20,7 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 #7.0.0
 
       - name: Start ZaakBrug, OpenZaak, Prometheus and Grafana
-        run: |
-          docker compose ${COMPOSE_FILES} up -d --build
-          for container in open-zaak.dev zaakbrug.dev; do
-            echo "Waiting for ${container} to be healthy..."
-            timeout 300s bash -c "until [ \"\$(docker inspect -f '{{.State.Health.Status}}' ${container} 2>/dev/null)\" == \"healthy\" ]; do sleep 5; done"
-          done
+        run: docker compose ${COMPOSE_FILES} up -d --build --wait --wait-timeout 600
 
       - name: Run the k6 performance tests
         run: |

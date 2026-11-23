@@ -1,0 +1,40 @@
+# Override for running the k6 performance tests (e2e/k6) against the 'frank' service.
+# It requires the metrics override (compose.frank.metrics.yaml), which adds the Prometheus the tests assert on.
+#
+# To use this docker-compose file, together with the local development files:
+#    docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.metrics.yaml -f ./contrib/compose.frank.perf-tests.yaml --profile k6-performance run --build --rm k6-performance-testrunner
+#
+# This starts the instance, Prometheus and Grafana, waits until they are healthy and runs the performance tests.
+# While the tests run, the metrics can be viewed in Grafana (http://localhost:3000). Stop the stack afterwards with:
+#    docker compose -f ./compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.loc.yaml -f ./contrib/compose.frank.metrics.yaml -f ./contrib/compose.frank.perf-tests.yaml --profile k6-performance down -v
+#
+# The k6 summaries will be created under "./e2e/reports". Set PORT when the instance is published on another port than 8080.
+#
+services:
+  frank:
+    environment:
+      - zaakbrug.zgw.zaken-api.timeout=120000
+      - zaakbrug.zgw.catalogi-api.timeout=120000
+      - zaakbrug.zgw.documenten-api.timeout=120000
+      - zaakbrug.zgw.besluiten-api.timeout=120000
+      - soap.bus.org.apache.cxf.stax.maxTextLength=1000000000
+
+  k6-performance-testrunner:
+    profiles:
+      - k6-performance
+    image: grafana/k6:2.4.0
+    user: root
+    entrypoint: ["/bin/sh", "/k6/run-performance-tests.sh"]
+    volumes:
+      - ./e2e/k6:/k6:ro
+      - ./e2e/reports:/reports
+    environment:
+      ZAAKBRUG_URL: http://localhost:${PORT:-8080}
+      OPENZAAK_URL: http://localhost:9001
+      PROMETHEUS_URL: http://localhost:9090
+    depends_on:
+      frank:
+        condition: service_healthy
+      prometheus:
+        condition: service_started
+    network_mode: host

@@ -3,9 +3,9 @@ global:
   scrape_timeout: 4s
 
 scrape_configs:
-  - job_name: zaakbrug
+  - job_name: frank
     metrics_path: /metrics/prometheus
     # The Frank!Framework adds its own 'instance' label to every metric, keep that one.
     honor_labels: true
     static_configs:
-      - targets: ['zaakbrug:8080']
+      - targets: ['frank:8080']

@@ -34,7 +34,7 @@ services:
     depends_on:
       - zaakbrug-postgres
 
-  zaakbrug:
+  frank:
     environment: 
       <<: *zaakbrug-postgres-env
       DB_HOSTNAME: zaakbrug-postgres
