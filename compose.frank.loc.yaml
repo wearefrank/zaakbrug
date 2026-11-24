@@ -25,9 +25,9 @@ services:
     ports:
       - "9000:9000"
     depends_on:
-      - zaakbrug
+      - frank
 
-  zaakbrug:
+  frank:
     build:
       context: .
       pull: true # makes sure that the base image is forcefully pulled when using 'latest' tag.
@@ -98,8 +98,11 @@ services:
     networks:
       zaakbrug-stack:
         aliases:
+          - zaakbrug
           - zaakbrug.localtest.me
-      zaakbrug-backend: {}
+      zaakbrug-backend:
+        aliases:
+          - zaakbrug
     ports:
       - "${PORT:-8080}:8080"
       - "9010:9010"
@@ -130,7 +133,7 @@ services:
     environment:
       - COMMAND_LINE=-f/%reports% '/zaakbrug/e2e/SoapUI/zaakbrug-e2e-soapui-project.xml' -a -A -j -r
     depends_on:
-      zaakbrug:
+      frank:
         condition: service_healthy
       open-zaak:
         condition: service_healthy

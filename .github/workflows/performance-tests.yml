@@ -1,0 +1,58 @@
+name: Performance Tests
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * 1'
+
+permissions:
+  contents: read
+
+env:
+  COMPOSE_FILES: -f compose.frank.loc.yaml -f ./contrib/compose.frank.postgres.yaml -f ./contrib/compose.openzaak.yaml -f ./contrib/compose.openzaak.perf-tests.yaml -f ./contrib/compose.frank.prometheus.yaml -f ./contrib/compose.frank.perf-tests.yaml
+
+jobs:
+  performance-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 #7.0.0
+
+      - name: Start ZaakBrug, OpenZaak, Prometheus and Grafana
+        run: docker compose ${COMPOSE_FILES} up -d --build --wait --wait-timeout 600
+
+      - name: Run the k6 performance tests
+        run: |
+          mkdir -p e2e/reports
+          echo "PERFORMANCE_TESTS_START=$(date +%s)" >> "${GITHUB_ENV}"
+
+          set +e
+          docker compose ${COMPOSE_FILES} --profile k6-performance run --rm --no-deps k6-performance-testrunner 2>&1 | tee e2e/reports/performance-tests.log
+          tests_exit_code=${PIPESTATUS[0]}
+          set -e
+
+          echo "PERFORMANCE_TESTS_END=$(date +%s)" >> "${GITHUB_ENV}"
+          exit "${tests_exit_code}"
+
+      - name: Report the metrics of ZaakBrug during the tests and compare them with the baseline
+        if: always() && env.PERFORMANCE_TESTS_END != ''
+        run: |
+          # Wait for the last scrape of Prometheus
+          sleep 10
+          python3 contrib/performance/report-metrics.py \
+            --prometheus-url http://localhost:9090 \
+            --start "${PERFORMANCE_TESTS_START}" \
+            --end "$(date +%s)" \
+            --baseline e2e/performance-baseline.json | tee e2e/reports/metrics-report.md
+
+      - name: Upload the reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 #7.0.2
+        with:
+          name: performance-test-reports
+          path: e2e/reports
+
+      - name: Stop the containers
+        if: always()
+        run: docker compose ${COMPOSE_FILES} down -v
