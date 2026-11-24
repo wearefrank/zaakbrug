@@ -10,6 +10,7 @@
 //
 // Run: k6 run -e SCENARIO=single -e DOCUMENT_SIZE_MB=4 e2e/k6/documents.js
 import { check, sleep } from 'k6';
+import { randomBytes } from 'k6/crypto';
 import encoding from 'k6/encoding';
 import {
   genereerDocumentIdentificatie,
@@ -43,18 +44,8 @@ export const options = {
   },
 };
 
-// A document of the requested size once per user, instead of generating one every iteration
-function generateDocumentBase64() {
-  const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let chunk = '';
-  for (let i = 0; i < 1024; i++) {
-    chunk += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  // base64 makes the content a third larger
-  const bytes = Math.floor(documentSizeMb * 1024 * 1024 * 0.75);
-  return encoding.b64encode(chunk.repeat(Math.ceil(bytes / chunk.length)).substring(0, bytes));
-}
-const documentBase64 = generateDocumentBase64();
+// A document of the requested size (as base64 in the ZDS message) once per user, instead of generating one every iteration
+const documentBase64 = encoding.b64encode(randomBytes(Math.floor(documentSizeMb * 1024 * 1024 * 0.75)));
 
 export function setup() {
   const startedAt = Date.now();
