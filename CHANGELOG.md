@@ -1,5 +1,20 @@
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
 
+## [1.27.4](https://github.com/wearefrank/zaakbrug/compare/v1.27.3...v1.27.4) (2026-11-25)
+
+### 🐛 Bug Fixes
+
+* replace deprecated ifParam/ifValue on PutBeeindigdInSession with IfPipe ([c0eaa42](https://github.com/wearefrank/zaakbrug/commit/c0eaa420a7db81ee6e9fb6d329dd3ec60d575a47))
+* suppress soap=true deprecation warning of IAF_Util ManageDatabase ([1883f90](https://github.com/wearefrank/zaakbrug/commit/1883f90769a3ec416dc98a77f00fe0ddfc149906))
+
+### 🧑‍💻 Code Refactoring
+
+* use default GraalJS engine and remove J2V8/GraalJS encoding workaround ([b850846](https://github.com/wearefrank/zaakbrug/commit/b8508462cec6b75a3efd15cf0fb42e4412bf1a8c))
+
+### 🤖 Build System
+
+* **dependencies:** bump f!f version to 10.3.0 ([1e9cd02](https://github.com/wearefrank/zaakbrug/commit/1e9cd023ed5d0eeefc7c2ecf902872407677c25b))
+
 ## [1.27.3](https://github.com/wearefrank/zaakbrug/compare/v1.27.2...v1.27.3) (2026-11-19)
 
 ### 🐛 Bug Fixes
