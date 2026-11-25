@@ -136,7 +136,9 @@
                 <Forward name="success" path="GetZgwRolesByZaakUrl"/>
 			</PutInSessionPipe>
 
-            <SenderPipe name="GetZgwRolesByZaakUrl">
+            <!-- The roles are returned, because their url and uuid do not survive the translation to ZDS and back. -->
+            <SenderPipe name="GetZgwRolesByZaakUrl"
+                storeResultInSessionKey="ZgwRollen">
                 <FrankSender
                     name="GetZgwRolesByZaakUrlSender"
                     target="GetZgwRolesByZaakUrl"

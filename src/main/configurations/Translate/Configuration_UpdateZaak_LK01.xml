@@ -98,7 +98,7 @@
                 <FrankSender
                     name="CallGetZdsZaakFromZgwSender"
                     target="GetZdsZaakFromZgw"
-                    returnedSessionKeys="Error">
+                    returnedSessionKeys="Error,ZgwRollen">
                     <Param name="ZgwZaak" sessionKey="GetZgwWasZaakResult" type="DOMDOC"/>
                     <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                 </FrankSender>
@@ -138,7 +138,7 @@
             <IfPipe name="CheckForDetectZdsZaakChangesResult"
                 xpathExpression="count(/*:object/*) = 25"
                 >
-                <Forward name="then" path="SelectZdsRolesFromZdsWasZaak" />
+                <Forward name="then" path="CallGetZgwRolTypeByZaakType" />
                 <Forward name="else" path="GetGlobalConfigFromLocalFS" />
             </IfPipe>
 
@@ -281,18 +281,9 @@
                     <Param name="ZgwZaakUrl" sessionKey="ZgwZaakUrl"/>
                     <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC" />
                 </FrankSender>
-                <Forward name="success" path="SelectZdsRolesFromZdsWasZaak"/>
+                <Forward name="success" path="CallGetZgwRolTypeByZaakType"/>
                 <Forward name="exception" path="EXCEPTION" />
             </ForEachChildElementPipe>
-
-            <XsltPipe
-                name="SelectZdsRolesFromZdsWasZaak"
-                getInputFromSessionKey="GetZdsZaakFromZgwResult"
-                storeResultInSessionKey="ZdsWasZaakRol"
-                styleSheetName="Common/xsl/SelectZdsRoles.xslt"
-                >  
-                <Forward name="success" path="CallGetZgwRolTypeByZaakType" />
-            </XsltPipe>
 
             <SenderPipe
                 name="CallGetZgwRolTypeByZaakType"
@@ -308,24 +299,26 @@
                         <Param name="GetZgwZaaktypeByUrlResult" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC"/>
                     </Param>
                 </FrankSender>
-                <Forward name="success" path="CallAddRolToZgwForExistingRoles" />
+                <Forward name="success" path="CallNormalizeZgwRolForExistingRoles" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
+            <!-- The existing roles are translated ZGW -> ZDS -> ZGW, so they are comparable with the roles translated from the ZDS message.
+                The url and uuid of the OpenZaak roles are merged back, because they do not survive the translation. -->
             <ForEachChildElementPipe
-                name="CallAddRolToZgwForExistingRoles"
-                getInputFromSessionKey="ZdsWasZaakRol"
-                elementXPathExpression="/roles/*"
+                name="CallNormalizeZgwRolForExistingRoles"
+                getInputFromSessionKey="ZgwRollen"
+                elementXPathExpression="/ZgwRollen/zgwRol"
                 storeResultInSessionKey="ZgwWasZaakRollen"
                 >
                 <FrankSender
-                    name="CallAddRolToZgwSender"
-                    target="AddRolToZgw"
+                    name="CallNormalizeZgwRolSender"
+                    target="NormalizeZgwRolViaZds"
                     returnedSessionKeys="Error"
                     >
+                    <Param name="ZgwZaakType" sessionKey="GetZgwZaaktypeByUrlResult" type="DOMDOC" />
                     <Param name="ZgwRolTypen" sessionKey="ZgwRolTypen" type="DOMDOC" />
-                    <Param name="ZaakType" sessionKey="GetZgwZaaktypeByUrlResult" xpathExpression="/ZgwZaakType/identificatie" />
-                    <Param name="RolMapping" sessionKey="GlobalConfig" type="DOMDOC" />
+                    <Param name="RolMapping" sessionKey="GlobalConfig" xpathExpression="/root/rolMapping" type="DOMDOC" />
                 </FrankSender>
                 <Forward name="success" path="UnwrapOpenZaakApiEnvelopeToZgwRollenList" />
                 <Forward name="exception" path="EXCEPTION" />

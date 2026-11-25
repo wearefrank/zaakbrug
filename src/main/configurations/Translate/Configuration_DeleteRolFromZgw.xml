@@ -18,78 +18,35 @@
                     target="GenerateAuthorizationHeaderForZakenApi"
                 >
                 </FrankSender>
-                <Forward name="success" path="CallGetZgwRolType" />
+                <Forward name="success" path="CheckForZgwBetrokkeneIdentificatie" />
                 <Forward name="exception" path="EXCEPTION" />
             </SenderPipe>
 
-            <SenderPipe
-                name="CallGetZgwRolType"
+            <!-- The input message is the ZGW role (with valueOverrides applied) that is translated from the ZDS role to delete.
+                It is matched against ZgwWasZaakRollen, the existing roles after a ZGW -> ZDS -> ZGW round trip, which still contain
+                the url of the OpenZaak role. This is the same matching as in CheckZgwRol. -->
+            <IfPipe
+                name="CheckForZgwBetrokkeneIdentificatie"
                 getInputFromSessionKey="originalMessage"
-                storeResultInSessionKey="ZgwRolTypen">
-                <FrankSender
-                    name="GetZgwRolTypeLocalSender"
-                    target="Zaken_GetZgwRolTypeByZaakType"
-                    returnedSessionKeys="Error">
-                    <Param name="ZaakTypeUrl" sessionKey="ZaakTypeUrl"/>
-                </FrankSender>
-                <Forward name="success" path="GetZgwRolTypeWithMatchingOmschrijving"/>
-                <Forward name="exception" path="EXCEPTION" />
-            </SenderPipe>
-
-            <XsltPipe
-                name="GetZgwRolTypeWithMatchingOmschrijving"
-                styleSheetName="Common/xsl/GetElementsFromList.xslt"
+                xpathExpression="string-length(/zgwRol/betrokkeneIdentificatie) > 0"
                 >
-                <Param name="Where" value="omschrijving"/>
-                <Param name="Equals" xpathExpression="$RolMapping//rolMapping/*[local-name() = local-name($originalMessage/*)]/text()">
-                    <Param name="originalMessage" sessionKey="originalMessage" type="DOMDOC" />
-                    <Param name="RolMapping" sessionKey="RolMapping" type="DOMDOC" />
-                </Param>
-                <Forward name="success" path="GetSingleZgwRolTypeFromList"/>
-                <Forward name="exception" path="EXCEPTION"/>
-            </XsltPipe>
-
-            <XsltPipe
-                name="GetSingleZgwRolTypeFromList"
-                styleSheetName="Common/xsl/GetSingleElementFromList.xslt"
-                storeResultInSessionKey="ZgwRolType"
-                >
-                <Forward name="success" path="CheckForGetRolTypeResult"/>
-                <Forward name="exception" path="EXCEPTION"/>
-            </XsltPipe>
-
-            <IfPipe name="CheckForGetRolTypeResult"
-                xpathExpression="string-length(/ZgwRolType) > 0"
-                >
-                <Forward name="then" path="CallGetRolByZaakUrlAndRolTypeUrl"/>
-                <Forward name="else" path="EXCEPTION"/>
+                <Forward name="then" path="SelectZgwRolesFromListWithMatchingIdentity"/>
+                <Forward name="else" path="NOTFOUND"/>
             </IfPipe>
 
-            <SenderPipe
-                name="CallGetRolByZaakUrlAndRolTypeUrl"
-                getInputFromSessionKey="originalMessage">
-                <FrankSender
-                    name="GetRolByZaakUrlAndRolTypeUrlSender"
-                    target="GetRolByZaakUrlAndRolTypeUrl"
-                    returnedSessionKeys="Error">
-                    <Param name="ZaakUrl" sessionKey="ZgwZaakUrl"/>
-                    <Param name="RolTypeUrl" xpathExpression="$ZgwRolType/ZgwRolType/url">
-                        <Param name="ZgwRolType" sessionKey="ZgwRolType" type="DOMDOC"/>
-                    </Param>
-                    <Param name="inpBsn" xpathExpression="*/*:gerelateerde/*:natuurlijkPersoon/*:inp.bsn"/>
-                    <Param name="anpIdentificatie" xpathExpression="*/*:gerelateerde/*:natuurlijkPersoon/*:anp.identificatie"/>
-                    <Param name="inpA_nummer" xpathExpression="*/*:gerelateerde/*:natuurlijkPersoon/*:inp.a-nummer"/>
-                    <Param name="innNnpId" xpathExpression="*/*:gerelateerde/*:nietNatuurlijkPersoon/*:inn.nnpId"/>
-                    <Param name="annIdentificatie" xpathExpression="*/*:gerelateerde/*:nietNatuurlijkPersoon/*:ann.identificatie"/>
-                    <Param name="vestigingsNummer" xpathExpression="*/*:gerelateerde/*:vestiging/*:vestigingsNummer"/>
-                    <Param name="OEHidentificatie" xpathExpression="*/*:gerelateerde/*:organisatorischeEenheid/*:identificatie"/>
-                    <Param name="MDWidentificatie" xpathExpression="*/*:gerelateerde/*:medewerker/*:identificatie"/>
-                </FrankSender>
-            </SenderPipe>
+            <XsltPipe
+                name="SelectZgwRolesFromListWithMatchingIdentity"
+                getInputFromSessionKey="ZgwWasZaakRollen"
+                styleSheetName="Common/xsl/SelectZgwRolesFromListWithMatchingIdentity.xslt"
+                >
+                <Param name="MatchWithZgwRol" sessionKey="originalMessage" type="DOMDOC"/>
+                <Forward name="success" path="CheckForGetRolResult1"/>
+                <Forward name="exception" path="EXCEPTION"/>
+            </XsltPipe>
 
             <IfPipe 
                 name="CheckForGetRolResult1"
-                xpathExpression="count(/Rollen/Rol) = 0"
+                xpathExpression="count(/ZgwRollen/zgwRol) = 0"
                 >
                 <Forward name="then" path="NOTFOUND"/>
                 <Forward name="else" path="CheckForGetRolResult2"/>
@@ -97,7 +54,7 @@
 
             <IfPipe 
                 name="CheckForGetRolResult2"
-                xpathExpression="count(/Rollen/Rol) >= 2"
+                xpathExpression="count(/ZgwRollen/zgwRol) >= 2"
                 >
                 <Forward name="then" path="EXCEPTION"/>
                 <Forward name="else" path="DeleteRol"/>
@@ -113,7 +70,7 @@
                         timeout="${zaakbrug.zgw.zaken-api.timeout}"
                         sharedResourceRef="zaken-api-connector"
                     >
-                        <Param name="url" xpathExpression="Rollen/Rol/url"/>
+                        <Param name="url" xpathExpression="ZgwRollen/zgwRol/url"/>
                         <Param name="Accept-Crs" value="EPSG:4326"/>
                         <Param name="Authorization"  sessionKey="Authorization" />
                     </HttpSender>
